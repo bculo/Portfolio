@@ -11,7 +11,7 @@ namespace HttpUtility.Extensions
 {
     public static class IHttpClientBuilderExtensions
     {
-        public static IHttpClientBuilder AddPortfolioRetryPolicy(this IHttpClientBuilder builder)
+        public static IHttpClientBuilder ConfigureRetryPolicy(this IHttpClientBuilder builder)
         {
             return builder.AddPolicyHandler(HttpPolicyExtensions
                 .HandleTransientHttpError()
