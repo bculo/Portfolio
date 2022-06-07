@@ -5,5 +5,8 @@ services:
   trend.mongo:
     image: mongo:latest
 
+  mongo.express:
+    image: mongo-express
+ 
 volumes:
   mongodbstore:

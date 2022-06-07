@@ -1,10 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Trend.API.Entities;
-using Trend.API.Interfaces;
-using Trend.API.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Trend.Application.Options;
+using Trend.Domain.Interfaces;
 
-namespace Trend.API.Infrastructure.Repositories
+namespace Trend.Application.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : IDocument
     {
@@ -17,7 +21,12 @@ namespace Trend.API.Infrastructure.Repositories
 
             var client = new MongoClient(_options.ConnectionString);
             var database = client.GetDatabase(_options.DatabaseName);
-            _collection = database.GetCollection<T>(nameof(T));
+            _collection = database.GetCollection<T>(typeof(T).Name);
+        }
+
+        public void Add(T entity)
+        {
+            _collection.InsertOne(entity);
         }
     }
 }

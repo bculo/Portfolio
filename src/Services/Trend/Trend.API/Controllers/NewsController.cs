@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Trend.API.Entities;
-using Trend.API.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using Trend.Domain.Entities;
+using Trend.Domain.Interfaces;
 
 namespace Trend.API.Controllers
 {
@@ -9,16 +8,21 @@ namespace Trend.API.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly IRepository<Info> _repository;
+        private readonly ILogger<NewsController> _logger;
+        private readonly IRepository<Info> _repositry;
 
-        public NewsController(IRepository<Info> repository)
+        public NewsController(ILogger<NewsController> logger, IRepository<Info> repository)
         {
-            _repository = repository;
+            _logger = logger;
+            _repositry = repository;
+
+            _repositry.Add(new Info { });
         }
 
         [HttpGet("GetLatestCryptoNews")]
         public async Task<IActionResult> GetLastCryptoNews()
         {
+            _logger.LogInformation("CRYPTO NEWS");
             return Ok("CRYPTO NEWS");
         }
 
@@ -31,7 +35,6 @@ namespace Trend.API.Controllers
         [HttpGet("GetLatestEtfNews")]
         public async Task<IActionResult> GetLastEtfNews()
         {
-            throw new Exception("TEST");
             return Ok("ETF NEWS");
         }
     }

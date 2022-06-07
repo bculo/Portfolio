@@ -1,12 +1,45 @@
 using HttpUtility.Extensions;
+using MongoDB.Driver;
+using Serilog;
+using System.Diagnostics;
 using Trend.API.Filters;
-using Trend.API.Infrastructure.Clients;
-using Trend.API.Infrastructure.Repositories;
-using Trend.API.Interfaces;
-using Trend.API.Options;
+using Trend.Application.Clients;
+using Trend.Application.Interfaces;
+using Trend.Application.Options;
+using Trend.Application.Repositories;
+using Trend.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog((ctx, cl) =>
+{
+    cl.ReadFrom.Configuration(ctx.Configuration);
+
+    cl.Enrich.FromLogContext();
+    cl.Enrich.WithProperty("Environment", ctx.HostingEnvironment.EnvironmentName);
+    cl.Enrich.WithProperty("Application", ctx.HostingEnvironment.ApplicationName);
+
+    cl.WriteTo.MongoDBBson(cfg =>
+    {
+        var identity = new MongoInternalIdentity(ctx.Configuration["SerilogMongo:AuthDatabase"], ctx.Configuration["SerilogMongo:UserName"]);
+        var evidence = new PasswordEvidence(ctx.Configuration["SerilogMongo:Password"]);
+        
+        var mongoDbSettings = new MongoClientSettings
+        {
+            UseTls = false,
+            Credential = new MongoCredential(ctx.Configuration["SerilogMongo:AuthMechanisam"], identity, evidence),
+            Server = new MongoServerAddress(ctx.Configuration["SerilogMongo:Host"], ctx.Configuration.GetValue<int>("SerilogMongo:Port")),
+        };
+
+        var mongoDbInstance = new MongoClient(mongoDbSettings).GetDatabase(ctx.Configuration["SerilogMongo:Database"]);
+
+        cfg.SetMongoDatabase(mongoDbInstance);
+    });
+});
+
+Serilog.Debugging.SelfLog.Enable(msg => {
+    Debug.WriteLine(msg);
+});
 
 builder.Services.AddControllers(opt =>
 {
@@ -31,6 +64,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
 

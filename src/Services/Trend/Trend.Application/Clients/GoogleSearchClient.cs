@@ -1,9 +1,14 @@
 ﻿using HttpUtility.Abstract;
 using Microsoft.Extensions.Options;
-using Trend.API.Interfaces;
-using Trend.API.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Trend.Application.Interfaces;
+using Trend.Application.Options;
 
-namespace Trend.API.Infrastructure.Clients
+namespace Trend.Application.Clients
 {
     /// <summary>
     /// HTTP Client for Programmable Search Engine (JSON API) https://developers.google.com/custom-search/docs/overview
@@ -35,6 +40,7 @@ namespace Trend.API.Infrastructure.Clients
             var response = await result.Content.ReadAsStringAsync();
 
             return response;
+
         }
     }
 }
