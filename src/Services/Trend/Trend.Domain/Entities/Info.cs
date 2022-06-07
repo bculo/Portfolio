@@ -11,5 +11,6 @@ namespace Trend.Domain.Entities
     public class Info : IDocument
     {
         public ObjectId Id { get; set; }
+        public DateTime Created { get; set; }
     }
 }

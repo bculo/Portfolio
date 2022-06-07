@@ -10,5 +10,6 @@ namespace Trend.Domain.Interfaces
     public interface IDocument
     {
         ObjectId Id { get; set; }
+        public DateTime Created { get; set; }
     }
 }

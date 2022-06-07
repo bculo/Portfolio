@@ -15,8 +15,6 @@ namespace Trend.API.Controllers
         {
             _logger = logger;
             _repositry = repository;
-
-            _repositry.Add(new Info { });
         }
 
         [HttpGet("GetLatestCryptoNews")]

@@ -14,5 +14,6 @@ namespace Trend.Domain.Entities
         public DateTime Started { get; set; }
         public DateTime? Finished { get; set; }
         public bool Success { get; set; }
+        public DateTime Created { get; set; }
     }
 }
