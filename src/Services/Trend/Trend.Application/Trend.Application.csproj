@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Background\" />
-    <Folder Include="Services\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Http.Common\Http.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
     <ProjectReference Include="..\Trend.Domain\Trend.Domain.csproj" />

@@ -7,6 +7,7 @@ using Trend.Application.Clients;
 using Trend.Application.Interfaces;
 using Trend.Application.Options;
 using Trend.Application.Repositories;
+using Trend.Application.Services;
 using Trend.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +35,7 @@ builder.Host.UseSerilog((ctx, cl) =>
         var mongoDbInstance = new MongoClient(mongoDbSettings).GetDatabase(ctx.Configuration["SerilogMongo:Database"]);
 
         cfg.SetMongoDatabase(mongoDbInstance);
-    });
+    }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information);
 });
 
 Serilog.Debugging.SelfLog.Enable(msg => {
@@ -53,6 +54,7 @@ builder.Services.Configure<GoogleSearchOptions>(builder.Configuration.GetSection
 builder.Services.Configure<MongoOptions>(builder.Configuration.GetSection("MongoOptions"));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+builder.Services.AddScoped<IArticleService, ArticleService>();
 
 builder.Services.AddHttpClient<IGoogleSearchService, GoogleSearchClient>().ConfigureRetryPolicy();
 
