@@ -13,7 +13,9 @@ namespace Trend.Domain.Entities
         public ObjectId Id { get; set; }
         public DateTime Started { get; set; }
         public DateTime? Finished { get; set; }
-        public bool Success { get; set; }
+        public int TotalRequests { get; set; }
+        public int SucceddedRequests { get; set; }
+        public int BadRequests => TotalRequests - SucceddedRequests;
         public DateTime Created { get; set; }
     }
 }

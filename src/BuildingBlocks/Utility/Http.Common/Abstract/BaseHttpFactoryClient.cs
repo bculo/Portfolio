@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,28 +8,43 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpUtility.Abstract
+namespace Http.Common.Abstract
 {
     /// <summary>
-    /// Abstract class for typed clients
+    /// For HTTP client that use HttpClientFactory
     /// </summary>
-    public abstract class BaseHttpClient
+    public abstract class BaseHttpFactoryClient
     {
-        protected HttpClient Client { get; set; }
-
+        private readonly IHttpClientFactory _clientFactory;
         private IDictionary<string, string> _queryParameters;
+        private readonly ILogger? _logger;
 
-        public BaseHttpClient(HttpClient client)
+        public BaseHttpFactoryClient(IHttpClientFactory clientFactory)
         {
-            Client = client;
+            _clientFactory = clientFactory;
 
             _queryParameters = new Dictionary<string, string>();
+        }
+
+        public BaseHttpFactoryClient(IHttpClientFactory clientFactory, ILogger logger)
+        {
+            _clientFactory = clientFactory;
+            _logger = logger;
+
+            _queryParameters = new Dictionary<string, string>();
+        }
+
+        protected virtual HttpClient CreateNewClient()
+        {
+            ClearQueryParameters();
+
+            return _clientFactory.CreateClient();
         }
 
         protected void AddQueryParameter(string key, string value)
         {
             var urlEnvodedValue = WebUtility.UrlEncode(value);
-            
+
             _queryParameters.Add(key, value);
         }
 
@@ -42,7 +59,7 @@ namespace HttpUtility.Abstract
 
         protected void RemoveQueryParameter(string key)
         {
-            if(_queryParameters.TryGetValue(key, out _))
+            if (_queryParameters.TryGetValue(key, out _))
             {
                 _queryParameters.Remove(key);
             }
@@ -63,25 +80,25 @@ namespace HttpUtility.Abstract
             return QueryHelpers.AddQueryString(url, _queryParameters);
         }
 
-        protected void AddHeader(string name, string value)
+        protected void AddHeader(HttpClient client, string name, string value)
         {
-            if (!Client.DefaultRequestHeaders.Contains(name))
+            if (!client.DefaultRequestHeaders.Contains(name))
             {
-                Client.DefaultRequestHeaders.Add(name, value);
+                client.DefaultRequestHeaders.Add(name, value);
             }
         }
 
-        protected void RemoveHeader(string name)
+        protected void RemoveHeader(HttpClient client, string name)
         {
-            if (!Client.DefaultRequestHeaders.Contains(name))
+            if (!client.DefaultRequestHeaders.Contains(name))
             {
-                Client.DefaultRequestHeaders.Remove(name);
+                client.DefaultRequestHeaders.Remove(name);
             }
         }
 
-        protected void ClearHeader()
+        protected void ClearHeader(HttpClient client)
         {
-            Client.DefaultRequestHeaders.Clear();        
+            client.DefaultRequestHeaders.Clear();
         }
     }
 }

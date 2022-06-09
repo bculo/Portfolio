@@ -7,7 +7,7 @@ using Time.Common.Contracts;
 
 namespace Time.Common
 {
-    public class UtcDateTimeService : IDateTIme
+    public class UtcDateTimeService : IDateTime
     {
         public DateTime DateTime => DateTime.UtcNow;
     }

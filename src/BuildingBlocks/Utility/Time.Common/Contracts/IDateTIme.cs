@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Time.Common.Contracts
 {
-    public interface IDateTIme
+    public interface IDateTime
     {
         DateTime DateTime { get; }
     }

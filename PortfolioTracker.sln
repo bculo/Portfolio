@@ -25,6 +25,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Application", "src\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Domain", "src\Services\Trend\Trend.Domain\Trend.Domain.csproj", "{663D34C1-B5ED-447E-A95D-D6BE562042E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend.Instructions", "Trend.Instructions", "{404FFD72-92AD-410E-B5D0-3D47F9D90EF8}"
+	ProjectSection(SolutionItems) = preProject
+		src\Services\Trend\Trend.Instructions\Create_Serilog_User.txt = src\Services\Trend\Trend.Instructions\Create_Serilog_User.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +74,7 @@ Global
 		{677995B9-E076-4C5E-A089-F5279D551BFC} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 		{C13A0992-4633-41D5-875A-DF47515545E3} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 		{663D34C1-B5ED-447E-A95D-D6BE562042E5} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
+		{404FFD72-92AD-410E-B5D0-3D47F9D90EF8} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
