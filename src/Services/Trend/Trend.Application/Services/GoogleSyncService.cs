@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Dtos.Common.v1.Trend;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using Trend.Application.Models.Dtos.Google;
 using Trend.Application.Models.Service.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
+using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Services
 {
@@ -19,6 +22,9 @@ namespace Trend.Application.Services
         private readonly ILogger<GoogleSyncService> _logger;
         private readonly IGoogleSearchClient _searchService;
         private readonly IDateTime _time;
+        private readonly IMapper _mapper;
+        private readonly IRepository<Article> _articleRepository;
+        private readonly IRepository<SyncStatus> _syncRepository;
 
         public GoogleSyncResult Result { get; set; }
         public SyncStatus SyncStatus { get; set; }
@@ -26,10 +32,17 @@ namespace Trend.Application.Services
         public GoogleSyncService(
             ILogger<GoogleSyncService> logger,
             IGoogleSearchClient searchService,
-            IDateTime time)
+            IDateTime time,
+            IMapper mapper,
+            IRepository<Article> articleRepository,
+            IRepository<SyncStatus> syncRepository)
         {
             _logger = logger;
             _searchService = searchService;
+            _mapper = mapper;
+            _time = time;
+            _articleRepository = articleRepository;
+            _syncRepository = syncRepository;
 
             Result = new GoogleSyncResult();
         }
@@ -53,14 +66,25 @@ namespace Trend.Application.Services
                 await ExecuteSync(articleSync.Key, articleSync.Value);
             }
 
+            SyncStatus.Finished = _time.DateTime;
+
+            await PersistSyncStatus();
+
             return Result;
+        }
+
+        private async Task PersistSyncStatus()
+        {
+            _logger.LogTrace("PersistSyncStatus method called in GoogleSyncService");
+
+            await _syncRepository.Add(SyncStatus);
         }
 
         private SyncStatus CreateSyncInstance()
         {
             return new SyncStatus
             {
-                Id = ObjectId.GenerateNewId(),
+                Id = ObjectId.GenerateNewId().ToString(),
                 Created = _time.DateTime,
                 Started = _time.DateTime,
             };
@@ -77,7 +101,7 @@ namespace Trend.Application.Services
 
             var responses = await FetchData(keyWords!);
 
-            HandleRequestResponse(responses, type);
+            await HandleRequestResponse(responses, type);
         }
 
         private async Task<IReadOnlyList<GoogleResponseStatus>> FetchData(IReadOnlyList<string> keyWords) 
@@ -90,6 +114,8 @@ namespace Trend.Application.Services
 
             await Task.WhenAll(requestList.Select(i => i.Item1));
 
+            _logger.LogTrace("All HTTP request finished");
+
             return requestList.Select(item => new GoogleResponseStatus
             {
                 Result = item.Item1.Result, //search response DTO
@@ -99,18 +125,40 @@ namespace Trend.Application.Services
             .AsReadOnly();
         }
 
-        private void HandleRequestResponse(IReadOnlyList<GoogleResponseStatus> responses, ArticleType type)
+        private async Task HandleRequestResponse(IReadOnlyList<GoogleResponseStatus> responses, ArticleType type)
         {
+            var newEntities = new List<Article>();
+
             foreach(var response in responses)
             {
-                Result.AddResponse(type, response.SearchWord, response.Succedded, response.Result);
-
                 SyncStatus.TotalRequests++;
+                ArticleGroupDto articleGroupDto = null;
+
                 if (response.Succedded)
                 {
                     SyncStatus.SucceddedRequests++;
+                    articleGroupDto = _mapper.Map<ArticleGroupDto>(response.Result);
+                    newEntities.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
                 }
+
+                Result.AddResponse(type, response.SearchWord, response.Succedded, articleGroupDto);
             }
+
+            await PersistNewArticles(newEntities);
+        }
+
+        private async Task PersistNewArticles(List<Article> newEntities)
+        {
+            if(newEntities.Count == 0)
+            {
+                return;
+            }
+
+            _logger.LogTrace("Saving new article entities");
+
+            await _articleRepository.Add(newEntities);
+
+            _logger.LogTrace("New articles saved");
         }
 
         private class GoogleResponseStatus

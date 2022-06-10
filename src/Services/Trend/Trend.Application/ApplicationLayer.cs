@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trend.Application.Configurations
+namespace Trend.Application
 {
-    public static class MongoConfiguration
+    public static class ApplicationLayer
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dtos.Common.v1.Trend;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,15 +16,15 @@ namespace Trend.Application.Models.Service.Google
         /// Item 2 -> searchWord
         /// Item 3 -> Http request status
         /// </summary>
-        private List<Tuple<ArticleType, string, bool, GoogleSearchEngineResponseDto>> _requests;
+        private List<Tuple<ArticleType, string, bool, ArticleGroupDto?>> _requests;
 
         public GoogleSyncResult()
         {
-            _requests = new List<Tuple<ArticleType, string, bool, GoogleSearchEngineResponseDto>>();
+            _requests = new List<Tuple<ArticleType, string, bool, ArticleGroupDto?>>();
         }
 
 
-        public void AddResponse(ArticleType type, string searchWord, bool requestStatus, GoogleSearchEngineResponseDto responseInstance)
+        public void AddResponse(ArticleType type, string searchWord, bool requestStatus, ArticleGroupDto? responseInstance)
         {
             _requests.Add(Tuple.Create(type, searchWord, requestStatus, responseInstance));
         }
@@ -37,9 +38,9 @@ namespace Trend.Application.Models.Service.Google
             return _requests.Count;
         }
 
-        public List<GoogleSearchEngineResponseDto> GetInstances()
+        public List<ArticleGroupDto> GetInstances()
         {
-            return _requests.Select(i => i.Item4).ToList();
+            return _requests.Where(i => i.Item4 != null).Select(i => i.Item4!).ToList();
         }
     }
 }

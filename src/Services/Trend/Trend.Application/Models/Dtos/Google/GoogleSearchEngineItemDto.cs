@@ -18,6 +18,8 @@ namespace Trend.Application.Models.Dtos.Google
         public string Link { get; set; }
         [JsonPropertyName("snippet")]
         public string Snippet { get; set; }
+        [JsonPropertyName("displayLink")]
+        public string Page { get; set; }
         [JsonPropertyName("pagemap")]
         public GoogleSearchEnginePageMapDto PageMap { get; set; }
     }

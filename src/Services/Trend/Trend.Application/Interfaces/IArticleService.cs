@@ -1,9 +1,4 @@
-﻿using Dtos.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dtos.Common.v1.Trend;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces

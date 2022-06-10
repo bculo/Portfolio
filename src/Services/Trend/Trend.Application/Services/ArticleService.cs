@@ -1,10 +1,5 @@
-﻿using Dtos.Common;
+﻿using Dtos.Common.v1.Trend;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -38,9 +33,8 @@ namespace Trend.Application.Services
             //TODO add automapper
             var dtos = articles.Select(i => new ArticleDto
             {
-                Id = i.Id.ToString(),
                 Title = i.Title,
-                Url = i.ArticleUrl
+                Url = i.ArticleUrl,
             }).ToList();
 
             return dtos;

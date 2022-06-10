@@ -43,7 +43,7 @@ namespace Trend.Application.Repositories
 
         public virtual async Task<bool> Delete(string id)
         {
-            var filter = Builders<T>.Filter.Eq(t => t.Id, new ObjectId(id));
+            var filter = Builders<T>.Filter.Eq(t => t.Id, id);
             var deleteResult = await _collection.DeleteOneAsync(filter);
             return deleteResult.DeletedCount > 0;
         }
@@ -64,7 +64,7 @@ namespace Trend.Application.Repositories
 
         public virtual async Task<T> FindById(string id)
         {
-            var filter = Builders<T>.Filter.Eq(t => t.Id, new ObjectId(id));
+            var filter = Builders<T>.Filter.Eq(t => t.Id, id);
             var result = await _collection.FindAsync(filter);
             return result.FirstOrDefault();
         }

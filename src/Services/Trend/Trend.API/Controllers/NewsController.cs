@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trend.Application.Interfaces;
-using Trend.Domain.Entities;
-using Trend.Domain.Interfaces;
 
 namespace Trend.API.Controllers
 {

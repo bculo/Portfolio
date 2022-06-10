@@ -2,8 +2,12 @@ using HttpUtility.Extensions;
 using MongoDB.Driver;
 using Serilog;
 using System.Diagnostics;
+using Time.Common;
+using Time.Common.Contracts;
 using Trend.API.Filters;
+using Trend.Application;
 using Trend.Application.Clients;
+using Trend.Application.Configurations.Persistence;
 using Trend.Application.Interfaces;
 using Trend.Application.Options;
 using Trend.Application.Repositories;
@@ -52,12 +56,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<GoogleSearchOptions>(builder.Configuration.GetSection("GoogleSearchOptions"));
 builder.Services.Configure<MongoOptions>(builder.Configuration.GetSection("MongoOptions"));
+builder.Services.Configure<SyncBackgroundServiceOptions>(builder.Configuration.GetSection("SyncBackgroundServiceOptions"));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 builder.Services.AddScoped<IGoogleSyncService, GoogleSyncService>();
 builder.Services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
+builder.Services.AddScoped<IDateTime, LocalDateTimeService>();
 
 builder.Services.AddHttpClient();
+
+builder.Services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
+
+MongoConfiguration.Configure();
 
 var app = builder.Build();
 
