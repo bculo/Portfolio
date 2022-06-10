@@ -28,6 +28,7 @@ namespace Trend.Application.Services
 
         public GoogleSyncResult Result { get; set; }
         public SyncStatus SyncStatus { get; set; }
+        public List<Article> Entities { get; set; }
 
         public GoogleSyncService(
             ILogger<GoogleSyncService> logger,
@@ -45,6 +46,7 @@ namespace Trend.Application.Services
             _syncRepository = syncRepository;
 
             Result = new GoogleSyncResult();
+            Entities = new List<Article>();
         }
 
         public async Task<GoogleSyncResult> Sync(Dictionary<ArticleType, IReadOnlyList<string>> articleTypesToSync)
@@ -67,10 +69,18 @@ namespace Trend.Application.Services
             }
 
             SyncStatus.Finished = _time.DateTime;
+            SyncStatus.SucceddedRequests = Result.TotalSuccess;
+            SyncStatus.TotalRequests = Result.Total;
 
-            await PersistSyncStatus();
+            await PersistData();
 
             return Result;
+        }
+
+        private async Task PersistData()
+        {
+            await PersistSyncStatus();
+            await PersistNewArticles();
         }
 
         private async Task PersistSyncStatus()
@@ -78,6 +88,20 @@ namespace Trend.Application.Services
             _logger.LogTrace("PersistSyncStatus method called in GoogleSyncService");
 
             await _syncRepository.Add(SyncStatus);
+        }
+
+        private async Task PersistNewArticles()
+        {
+            if (Entities.Count == 0)
+            {
+                return;
+            }
+
+            _logger.LogTrace("Saving new article entities");
+
+            await _articleRepository.Add(Entities);
+
+            _logger.LogTrace("New articles saved");
         }
 
         private SyncStatus CreateSyncInstance()
@@ -101,7 +125,7 @@ namespace Trend.Application.Services
 
             var responses = await FetchData(keyWords!);
 
-            await HandleRequestResponse(responses, type);
+            await CreateResponse(responses, type);
         }
 
         private async Task<IReadOnlyList<GoogleResponseStatus>> FetchData(IReadOnlyList<string> keyWords) 
@@ -125,10 +149,8 @@ namespace Trend.Application.Services
             .AsReadOnly();
         }
 
-        private async Task HandleRequestResponse(IReadOnlyList<GoogleResponseStatus> responses, ArticleType type)
+        private async Task CreateResponse(IReadOnlyList<GoogleResponseStatus> responses, ArticleType type)
         {
-            var newEntities = new List<Article>();
-
             foreach(var response in responses)
             {
                 SyncStatus.TotalRequests++;
@@ -138,27 +160,11 @@ namespace Trend.Application.Services
                 {
                     SyncStatus.SucceddedRequests++;
                     articleGroupDto = _mapper.Map<ArticleGroupDto>(response.Result);
-                    newEntities.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
+                    Entities.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
                 }
 
                 Result.AddResponse(type, response.SearchWord, response.Succedded, articleGroupDto);
             }
-
-            await PersistNewArticles(newEntities);
-        }
-
-        private async Task PersistNewArticles(List<Article> newEntities)
-        {
-            if(newEntities.Count == 0)
-            {
-                return;
-            }
-
-            _logger.LogTrace("Saving new article entities");
-
-            await _articleRepository.Add(newEntities);
-
-            _logger.LogTrace("New articles saved");
         }
 
         private class GoogleResponseStatus
