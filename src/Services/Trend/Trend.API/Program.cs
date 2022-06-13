@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using HttpUtility.Extensions;
 using MongoDB.Driver;
 using Serilog;
@@ -50,7 +51,7 @@ Serilog.Debugging.SelfLog.Enable(msg => {
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<GlobalExceptionFilter>();
-});
+}).AddFluentValidation();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -60,6 +61,9 @@ builder.Services.Configure<MongoOptions>(builder.Configuration.GetSection("Mongo
 builder.Services.Configure<SyncBackgroundServiceOptions>(builder.Configuration.GetSection("SyncBackgroundServiceOptions"));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+builder.Services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<ISyncSettingRepository, SyncSettingRepository>();
 //builder.Services.AddScoped<IMongoContext, MongoContext>();
 //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -68,10 +72,14 @@ MongoConfiguration.Configure();
 builder.Services.AddScoped<IGoogleSyncService, GoogleSyncService>();
 builder.Services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
 builder.Services.AddScoped<IDateTime, LocalDateTimeService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<ISyncService, SyncService>();
+
 
 builder.Services.AddHttpClient();
 
 builder.Services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(ApplicationLayer).Assembly));
 
 var app = builder.Build();
 

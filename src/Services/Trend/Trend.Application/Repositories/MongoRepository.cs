@@ -14,8 +14,8 @@ namespace Trend.Application.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : IDocument
     {
-        private readonly MongoOptions _options;
-        private readonly IMongoCollection<T> _collection;
+        protected readonly MongoOptions _options;
+        protected IMongoCollection<T> _collection;
 
         public MongoRepository(IOptions<MongoOptions> options)
         {

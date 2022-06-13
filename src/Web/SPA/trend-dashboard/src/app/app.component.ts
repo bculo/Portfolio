@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'trend-dashboard';
+
+  fetchData(): void {
+    console.log("FETCH");
+    
+  }
+
 }

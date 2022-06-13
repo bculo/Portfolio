@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +10,19 @@ namespace Trend.Application.Models.Dtos.Google
 {
     public class GoogleSearchEngineItemDto
     {
-        [JsonPropertyName("kind")]
+        [JsonProperty("kind")]
         public string Kind { get; set; }
-        [JsonPropertyName("title")]
+        [JsonProperty("title")]
         public string Title { get; set; }
-        [JsonPropertyName("htmlTitle")]
+        [JsonProperty("htmlTitle")]
         public string HtmlTitle { get; set; }
+        [JsonProperty("link")]
         public string Link { get; set; }
-        [JsonPropertyName("snippet")]
+        [JsonProperty("snippet")]
         public string Snippet { get; set; }
-        [JsonPropertyName("displayLink")]
-        public string Page { get; set; }
-        [JsonPropertyName("pagemap")]
+        [JsonProperty("displayLink")]
+        public string DisplayLink { get; set; }
+        [JsonProperty("pagemap")]
         public GoogleSearchEnginePageMapDto PageMap { get; set; }
     }
 }

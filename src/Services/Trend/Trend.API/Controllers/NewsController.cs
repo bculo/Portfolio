@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dtos.Common.v1.Trend;
+using Microsoft.AspNetCore.Mvc;
+using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 
 namespace Trend.API.Controllers
@@ -16,34 +18,54 @@ namespace Trend.API.Controllers
             _service = service;
         }
 
+        [HttpGet("GetLatestsNews")]
+        [ProducesResponseType(typeof(List<ArticleTypeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetLatestsNews()
+        {
+            _logger.LogTrace("GetLatestsNews method called");
+
+            return Ok(await _service.GetLatestNews());
+        }
+
         [HttpGet("GetLatestCryptoNews")]
+        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastCryptoNews()
         {
             _logger.LogTrace("GetLastCryptoNews method called");
 
-            var response = await _service.GetLatestNews(Domain.Enums.ArticleType.Crypto);
-
-            return Ok(response);
+            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Crypto));
         }
 
         [HttpGet("GetLatestStockNews")]
+        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastStockNews()
         {
             _logger.LogTrace("GetLastStockNews method called");
 
-            var response = await _service.GetLatestNews(Domain.Enums.ArticleType.Stock);
-
-            return Ok(response);
+            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Stock));
         }
 
         [HttpGet("GetLatestEtfNews")]
+        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEtfNews()
         {
             _logger.LogTrace("GetLastEtfNews method called");
 
-            var response = await _service.GetLatestNews(Domain.Enums.ArticleType.Etf);
+            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Etf));
+        }
 
-            return Ok(response);
+        [HttpGet("GetLatestEconomyNews")]
+        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetLastEconomyNews()
+        {
+            _logger.LogTrace("GetLastEconomyNews method called");
+
+            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Economy));
         }
     }
 }

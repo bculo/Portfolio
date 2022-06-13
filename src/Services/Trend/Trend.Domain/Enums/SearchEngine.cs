@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Trend.Domain.Enums
 {
-    public enum ArticleType
+    public enum SearchEngine
     {
-        Crypto = 0,
-        Stock = 1,
-        Etf = 2,
-        Economy = 3
+        Google = 0,
+        Twitter = 1,
     }
 }

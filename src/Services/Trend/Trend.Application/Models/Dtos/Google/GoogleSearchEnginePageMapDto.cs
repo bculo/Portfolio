@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,9 @@ namespace Trend.Application.Models.Dtos.Google
 {
     public class GoogleSearchEnginePageMapDto
     {
-        [JsonPropertyName("cse_thumbnail")]
+        [JsonProperty("cse_thumbnail")]
         public List<GoogleSearchEngineThumbnailDto> Thumbnails { get; set; }
-        [JsonPropertyName("metatags")]
+        [JsonProperty("metatags")]
         public List<GoogleSearchEngineMetatagDto> Metatags { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Dtos.Common.v1.Trend;
+﻿using AutoMapper;
+using Dtos.Common.v1.Trend;
 using Microsoft.Extensions.Logging;
 using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
@@ -10,32 +11,63 @@ namespace Trend.Application.Services
     public class ArticleService : IArticleService
     {
         private readonly ILogger<ArticleService> _logger;
-        private readonly IRepository<Article> _articleRepo;
-        private readonly IRepository<SyncStatus> _syncRepo;
+        private readonly IArticleRepository _articleRepo;
+        private readonly ISyncStatusRepository _syncRepo;
+        private readonly IMapper _mapper;
 
-        public ArticleService(ILogger<ArticleService> logger, 
-            IRepository<Article> articleRepo,
-            IRepository<SyncStatus> syncRepo)
+        public ArticleService(ILogger<ArticleService> logger,
+            IArticleRepository articleRepo,
+            ISyncStatusRepository syncRepo,
+            IMapper mapper)
         {
             _logger = logger;
             _articleRepo = articleRepo;
             _syncRepo = syncRepo;
+            _mapper = mapper;
         }
 
         public async Task<List<ArticleDto>> GetLatestNews(ArticleType type)
         {
             _logger.LogTrace("Fetching news for type {0}", type);
 
-            var articles = await _articleRepo.GetAll();
+            var lastValidSync = await _syncRepo.GetLastValidSync();
+
+            if(lastValidSync is null)
+            {
+                _logger.LogInformation("No successful sync item found");
+                return new List<ArticleDto>();
+            }
+
+            var articles = await _articleRepo.GetArticles(lastValidSync.Started, lastValidSync.Finished!.Value, type);
 
             _logger.LogTrace("Fetched records from database");
 
-            //TODO add automapper
-            var dtos = articles.Select(i => new ArticleDto
+            var dtos = _mapper.Map<List<ArticleDto>>(articles);
+
+            _logger.LogTrace("Entities mapped to dtos");
+
+            return dtos;
+        }
+
+        public async Task<List<ArticleTypeDto>> GetLatestNews()
+        {
+            _logger.LogTrace("Fetching latest news");
+
+            var lastValidSync = await _syncRepo.GetLastValidSync();
+
+            if (lastValidSync is null)
             {
-                Title = i.Title,
-                Url = i.ArticleUrl,
-            }).ToList();
+                _logger.LogInformation("No successful sync item found");
+                return new List<ArticleTypeDto>();
+            }
+
+            var articles = await _articleRepo.GetArticles(lastValidSync.Started, lastValidSync.Finished!.Value);
+
+            _logger.LogTrace("Fetched records from database");
+
+            var dtos = _mapper.Map<List<ArticleTypeDto>>(articles);
+
+            _logger.LogTrace("Entities mapped to dtos");
 
             return dtos;
         }

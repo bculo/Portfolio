@@ -18,16 +18,25 @@ namespace Trend.Application.Configurations.Persistence
         {
             BsonClassMap.RegisterClassMap<Article>(config =>
             {
+                config.AutoMap();
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                 config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
-
                 config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ArticleType>(MongoDB.Bson.BsonType.String));
             });
 
             BsonClassMap.RegisterClassMap<SyncStatus>(config =>
             {
+                config.AutoMap();
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                 config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
+            });
+
+            BsonClassMap.RegisterClassMap<SyncSetting>(config =>
+            {
+                config.AutoMap();
+                config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
+                config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
+                config.MapMember(c => c.Engine).SetSerializer(new EnumSerializer<SearchEngine>(MongoDB.Bson.BsonType.String));
             });
         }
     }

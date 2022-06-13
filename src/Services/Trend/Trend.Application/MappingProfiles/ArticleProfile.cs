@@ -22,16 +22,31 @@ namespace Trend.Application.MappingProfiles
 
             CreateMap<GoogleSearchEngineItemDto, ArticleDto>()
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dst => dst.Snippet, opt => opt.MapFrom(src => src.Snippet))
+                .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Snippet))
                 .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.Link))
+                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.DisplayLink))
                 .ReverseMap();
 
             CreateMap<GoogleSearchEngineItemDto, Article>()
-                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.Page))
+                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.DisplayLink))
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Snippet))
                 .ForMember(dst => dst.ArticleUrl, opt => opt.MapFrom(src => src.Link))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .AfterMap<DefineArticleCreatedDateTimeAction>();
+
+            CreateMap<Article, ArticleDto>()
+                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
+                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
+                .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl));
+
+            CreateMap<Article, ArticleTypeDto>()
+                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
+                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
+                .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl))
+                .ForMember(dst => dst.TypeName, opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.Type));
         }
     }
 }

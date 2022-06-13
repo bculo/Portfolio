@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,13 @@ namespace Trend.Application.Models.Dtos.Google
 {
     public class GoogleSearchEngineThumbnailDto
     {
-        [JsonPropertyName("src")]
+        [JsonProperty("src")]
         public string Src { get; set; }
 
-        [JsonPropertyName("width")]
+        [JsonProperty("width")]
         public int Width { get; set; }
 
-        [JsonPropertyName("height")]
+        [JsonProperty("height")]
         public int Height { get; set; }
     }
 }
