@@ -9,6 +9,7 @@ using Trend.Application;
 using Trend.Application.Clients;
 using Trend.Application.Configurations.Persistence;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Repositories;
 using Trend.Application.Options;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
@@ -59,6 +60,11 @@ builder.Services.Configure<MongoOptions>(builder.Configuration.GetSection("Mongo
 builder.Services.Configure<SyncBackgroundServiceOptions>(builder.Configuration.GetSection("SyncBackgroundServiceOptions"));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+//builder.Services.AddScoped<IMongoContext, MongoContext>();
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+MongoConfiguration.Configure();
+
 builder.Services.AddScoped<IGoogleSyncService, GoogleSyncService>();
 builder.Services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
 builder.Services.AddScoped<IDateTime, LocalDateTimeService>();
@@ -66,8 +72,6 @@ builder.Services.AddScoped<IDateTime, LocalDateTimeService>();
 builder.Services.AddHttpClient();
 
 builder.Services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
-
-MongoConfiguration.Configure();
 
 var app = builder.Build();
 

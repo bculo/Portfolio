@@ -23,8 +23,8 @@ namespace Trend.Application.Services
         private readonly IGoogleSearchClient _searchService;
         private readonly IDateTime _time;
         private readonly IMapper _mapper;
-        private readonly IRepository<Article> _articleRepository;
-        private readonly IRepository<SyncStatus> _syncRepository;
+        private readonly IRepository<SyncStatus> _syncRepo;
+        private readonly IRepository<Article> _articleRepo;
 
         public GoogleSyncResult Result { get; set; }
         public SyncStatus SyncStatus { get; set; }
@@ -35,15 +35,15 @@ namespace Trend.Application.Services
             IGoogleSearchClient searchService,
             IDateTime time,
             IMapper mapper,
-            IRepository<Article> articleRepository,
-            IRepository<SyncStatus> syncRepository)
+            IRepository<SyncStatus> syncRepo,
+            IRepository<Article> articleRepo)
         {
             _logger = logger;
             _searchService = searchService;
             _mapper = mapper;
             _time = time;
-            _articleRepository = articleRepository;
-            _syncRepository = syncRepository;
+            _syncRepo = syncRepo;
+            _articleRepo = articleRepo;
 
             Result = new GoogleSyncResult();
             Entities = new List<Article>();
@@ -87,7 +87,7 @@ namespace Trend.Application.Services
         {
             _logger.LogTrace("PersistSyncStatus method called in GoogleSyncService");
 
-            await _syncRepository.Add(SyncStatus);
+            await _syncRepo.Add(SyncStatus);
         }
 
         private async Task PersistNewArticles()
@@ -99,9 +99,7 @@ namespace Trend.Application.Services
 
             _logger.LogTrace("Saving new article entities");
 
-            await _articleRepository.Add(Entities);
-
-            _logger.LogTrace("New articles saved");
+            await _articleRepo.Add(Entities);
         }
 
         private SyncStatus CreateSyncInstance()

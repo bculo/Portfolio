@@ -11,7 +11,7 @@ namespace Trend.Domain.Interfaces
     {
         Task Add(T entity);
         Task Add(ICollection<T> entities);
-        Task<bool> Delete(string id);
+        Task Delete(string id);
         Task<T> FindById(string id);
         Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression);
         Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, int page, int take);

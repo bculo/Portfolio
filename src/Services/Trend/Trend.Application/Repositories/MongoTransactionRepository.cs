@@ -1,60 +1,51 @@
-﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Trend.Application.Options;
+using Trend.Application.Interfaces.Repositories;
 using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Repositories
 {
-    public class MongoRepository<T> : IRepository<T> where T : IDocument
+    public class MongoTransactionRepository<T> : IRepository<T> where T : IDocument
     {
-        private readonly MongoOptions _options;
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoContext _context;
+        protected readonly IMongoCollection<T> _dbSet;
 
-        public MongoRepository(IOptions<MongoOptions> options)
+        public MongoTransactionRepository(IMongoContext context)
         {
-            _options = options.Value;
+            _context = context;
 
-            var client = new MongoClient(_options.ConnectionString);
-            var database = client.GetDatabase(_options.DatabaseName);
-            _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
-        }
-
-        public virtual IQueryable<T> GetQueryable()
-        {
-            return _collection.AsQueryable();
+            _dbSet = _context.GetCollection<T>(typeof(T).Name.ToLower());
         }
 
         public virtual async Task Add(T entity)
         {
-            await _collection.InsertOneAsync(entity);
+            _context.AddCommand(async () => await _dbSet.InsertOneAsync(entity));
         }
 
         public virtual async Task Add(ICollection<T> entities)
         {
-            await _collection.InsertManyAsync(entities);
+            _context.AddCommand(async () => await _dbSet.InsertManyAsync(entities));
         }
 
         public virtual async Task Delete(string id)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
-            await _collection.DeleteOneAsync(filter);
+            _context.AddCommand(async () => await _dbSet.DeleteOneAsync(filter));
         }
 
         public virtual async Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression)
         {
-            return _collection.Find(filterExpression).SortByDescending(i => i.Created).ToList();
+            return _dbSet.Find(filterExpression).SortByDescending(i => i.Created).ToList();
         }
 
         public virtual async Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, int page, int take)
         {
-            return _collection.Find(filterExpression)
+            return _dbSet.Find(filterExpression)
                 .SortByDescending(i => i.Created)
                 .Skip((page - 1) * take)
                 .Limit(take)
@@ -64,13 +55,18 @@ namespace Trend.Application.Repositories
         public virtual async Task<T> FindById(string id)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
-            var result = await _collection.FindAsync(filter);
+            var result = await _dbSet.FindAsync(filter);
             return result.FirstOrDefault();
         }
 
         public virtual async Task<List<T>> GetAll()
         {
             return GetQueryable().ToList();
+        }
+
+        public virtual IQueryable<T> GetQueryable()
+        {
+            return _dbSet.AsQueryable();
         }
     }
 }
