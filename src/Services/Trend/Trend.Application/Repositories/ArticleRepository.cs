@@ -19,7 +19,7 @@ namespace Trend.Application.Repositories
 
         }
 
-        public virtual async Task<List<Article>> GetArticles(DateTime from, DateTime to, ArticleType type)
+        public virtual async Task<List<Article>> GetArticles(DateTime from, DateTime to, ContextType type)
         {
             return _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
                 .SortByDescending(i => i.Created)

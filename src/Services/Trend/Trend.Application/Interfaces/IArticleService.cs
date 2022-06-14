@@ -5,7 +5,7 @@ namespace Trend.Application.Interfaces
 {
     public interface IArticleService
     {
-        Task<List<ArticleDto>> GetLatestNews(ArticleType type);
+        Task<List<ArticleDto>> GetLatestNews(ContextType type);
         Task<List<ArticleTypeDto>> GetLatestNews();
     }
 }

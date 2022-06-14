@@ -16,17 +16,17 @@ namespace Trend.Application.Models.Service.Google
         /// Item 2 -> searchWord
         /// Item 3 -> Http request status
         /// </summary>
-        private List<Tuple<ArticleType, string, bool, ArticleGroupDto?>> _requests;
+        private List<Tuple<ContextType, string, bool, ArticleGroupDto?>> _requests;
 
         public int Total => _requests.Count;
         public int TotalSuccess => _requests.Count(i => i.Item3);
 
         public GoogleSyncResult()
         {
-            _requests = new List<Tuple<ArticleType, string, bool, ArticleGroupDto?>>();
+            _requests = new List<Tuple<ContextType, string, bool, ArticleGroupDto?>>();
         }
 
-        public void AddResponse(ArticleType type, string searchWord, bool requestStatus, ArticleGroupDto? responseInstance)
+        public void AddResponse(ContextType type, string searchWord, bool requestStatus, ArticleGroupDto? responseInstance)
         {
             _requests.Add(Tuple.Create(type, searchWord, requestStatus, responseInstance));
         }

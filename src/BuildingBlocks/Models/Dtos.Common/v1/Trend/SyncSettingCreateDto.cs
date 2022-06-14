@@ -10,5 +10,6 @@ namespace Dtos.Common.v1.Trend
     {
         public string SearchWord { get; set; }
         public int SearchEngine { get; set; }
+        public int ContextType { get; set; }
     }
 }

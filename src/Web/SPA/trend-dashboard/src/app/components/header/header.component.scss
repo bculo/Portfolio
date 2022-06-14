@@ -1,0 +1,26 @@
+@import 'src/styles/base/colors';
+
+.header {
+
+    padding: 1rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 0.5rem 3rem rgba($black, .2);;
+
+    &__logo-box {
+        padding: 0rem 1.5rem;
+        cursor: pointer;
+        align-self: center;
+    }
+
+    &__logo-text {
+        font-size: 1.8rem;
+    }
+
+    &__nav-item {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+    }
+}

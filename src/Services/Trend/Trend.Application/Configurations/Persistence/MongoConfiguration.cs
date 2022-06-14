@@ -21,7 +21,7 @@ namespace Trend.Application.Configurations.Persistence
                 config.AutoMap();
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                 config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
-                config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ArticleType>(MongoDB.Bson.BsonType.String));
+                config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
             });
 
             BsonClassMap.RegisterClassMap<SyncStatus>(config =>

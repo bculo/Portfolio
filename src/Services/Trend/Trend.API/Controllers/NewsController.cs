@@ -35,7 +35,7 @@ namespace Trend.API.Controllers
         {
             _logger.LogTrace("GetLastCryptoNews method called");
 
-            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Crypto));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Crypto));
         }
 
         [HttpGet("GetLatestStockNews")]
@@ -45,7 +45,7 @@ namespace Trend.API.Controllers
         {
             _logger.LogTrace("GetLastStockNews method called");
 
-            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Stock));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Stock));
         }
 
         [HttpGet("GetLatestEtfNews")]
@@ -55,7 +55,7 @@ namespace Trend.API.Controllers
         {
             _logger.LogTrace("GetLastEtfNews method called");
 
-            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Etf));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Etf));
         }
 
         [HttpGet("GetLatestEconomyNews")]
@@ -65,7 +65,7 @@ namespace Trend.API.Controllers
         {
             _logger.LogTrace("GetLastEconomyNews method called");
 
-            return Ok(await _service.GetLatestNews(Domain.Enums.ArticleType.Economy));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Economy));
         }
     }
 }

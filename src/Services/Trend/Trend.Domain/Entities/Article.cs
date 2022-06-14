@@ -13,7 +13,7 @@ namespace Trend.Domain.Entities
         public string Text { get; set; }
         public byte[] Image { get; set; }
         public DateTime Created { get; set; }
-        public ArticleType Type { get; set; }
+        public ContextType Type { get; set; }
         public DateTime? DeactivationDate { get; set; }
         public bool IsActive { get; set; }
     }

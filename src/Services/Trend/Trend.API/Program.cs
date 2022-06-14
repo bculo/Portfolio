@@ -81,6 +81,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(ApplicationLayer).Assembly));
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -89,6 +91,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowAnyOrigin());
 
 app.UseSerilogRequestLogging();
 

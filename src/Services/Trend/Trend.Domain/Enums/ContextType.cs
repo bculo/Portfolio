@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trend.Domain.Enums
 {
-    public enum ArticleType
+    public enum ContextType
     {
         Crypto = 0,
         Stock = 1,

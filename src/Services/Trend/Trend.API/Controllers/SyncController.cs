@@ -22,9 +22,23 @@ namespace Trend.API.Controllers
         }
 
         [HttpGet("Sync")]
+        [ProducesResponseType(typeof(List<ArticleGroupDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Sync()
         {
-            throw new NotImplementedException();
+            _logger.LogTrace("Method Sync called in SyncController");
+
+            return Ok((await _syncService.ExecuteGoogleSync()).GetInstances());
+        }
+
+        [HttpGet("GetSyncStatuses")]
+        [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSyncStatuses()
+        {
+            _logger.LogTrace("Method GetSyncStatuses called in SyncController");
+
+            return Ok(await _syncService.GetSyncStatuses());
         }
 
         [HttpGet("GetSyncSettingsWords")]
@@ -45,6 +59,16 @@ namespace Trend.API.Controllers
             _logger.LogTrace("Method GetAvaiableSearchEngines called in SyncController");
 
             return Ok(await _syncService.GetAvailableSearchEngines());
+        }
+
+        [HttpGet("GetAvaiableContextTypes")]
+        [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAvaiableContextTypes()
+        {
+            _logger.LogTrace("Method GetAvaiableContextTypes called in SyncController");
+
+            return Ok(await _syncService.GetAvaiableContextTypes());
         }
 
         [HttpPost("AddNewSearchWord")]

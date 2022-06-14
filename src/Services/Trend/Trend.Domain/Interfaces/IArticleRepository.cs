@@ -11,6 +11,6 @@ namespace Trend.Domain.Interfaces
     public interface IArticleRepository
     {
         Task<List<Article>> GetArticles(DateTime from, DateTime to);
-        Task<List<Article>> GetArticles(DateTime from, DateTime to, ArticleType type);
+        Task<List<Article>> GetArticles(DateTime from, DateTime to, ContextType type);
     }
 }

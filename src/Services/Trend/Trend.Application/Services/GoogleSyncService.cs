@@ -49,7 +49,7 @@ namespace Trend.Application.Services
             Entities = new List<Article>();
         }
 
-        public async Task<GoogleSyncResult> Sync(Dictionary<ArticleType, IReadOnlyList<string>> articleTypesToSync)
+        public async Task<GoogleSyncResult> Sync(Dictionary<ContextType, List<string>> articleTypesToSync)
         {
             _logger.LogTrace("Sync method called in GoogleSyncService");
 
@@ -112,7 +112,7 @@ namespace Trend.Application.Services
             };
         }
 
-        private async Task ExecuteSync(ArticleType type, IReadOnlyList<string> keyWords)
+        private async Task ExecuteSync(ContextType type, IReadOnlyList<string> keyWords)
         {
             _logger.LogTrace("Sync for article type {0}", type.ToString());
 
@@ -147,7 +147,7 @@ namespace Trend.Application.Services
             .AsReadOnly();
         }
 
-        private async Task CreateResponse(IReadOnlyList<GoogleResponseStatus> responses, ArticleType type)
+        private async Task CreateResponse(IReadOnlyList<GoogleResponseStatus> responses, ContextType type)
         {
             foreach(var response in responses)
             {

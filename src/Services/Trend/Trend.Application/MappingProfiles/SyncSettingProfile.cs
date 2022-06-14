@@ -18,6 +18,7 @@ namespace Trend.Application.MappingProfiles
             CreateMap<SyncSettingCreateDto, SyncSetting>()
                 .ForMember(dst => dst.SearchWord, opt => opt.MapFrom(src => src.SearchWord))
                 .ForMember(dst => dst.Engine, opt => opt.MapFrom(src => (SearchEngine)src.SearchEngine))
+                .ForMember(dst => dst.Type, opt => opt.MapFrom(src => (SearchEngine)src.ContextType))
                 .AfterMap<DefineSyncSettingCreatedDateTimeAction>();
 
             CreateMap<SyncSetting, SyncSettingDto>()

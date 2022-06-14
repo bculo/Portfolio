@@ -10,6 +10,6 @@ namespace Trend.Application.Interfaces
 {
     public interface IGoogleSyncService
     {
-        Task<GoogleSyncResult> Sync(Dictionary<ArticleType, IReadOnlyList<string>> articleTypesToSync);
+        Task<GoogleSyncResult> Sync(Dictionary<ContextType, List<string>> articleTypesToSync);
     }
 }

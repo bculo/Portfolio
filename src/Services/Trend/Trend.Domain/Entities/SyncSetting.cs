@@ -16,5 +16,6 @@ namespace Trend.Domain.Entities
         public bool IsActive { get; set; }
         public string SearchWord { get; set; }
         public SearchEngine Engine { get; set; }
+        public ContextType Type { get; set; }
     }
 }

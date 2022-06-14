@@ -26,7 +26,7 @@ namespace Trend.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleDto>> GetLatestNews(ArticleType type)
+        public async Task<List<ArticleDto>> GetLatestNews(ContextType type)
         {
             _logger.LogTrace("Fetching news for type {0}", type);
 
