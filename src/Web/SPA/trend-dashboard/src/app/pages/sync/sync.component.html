@@ -1,14 +1,13 @@
-<button (click)="test()" [disabled]="loading$ | async"> FETCH </button>
+<div class="app-page">
 
-<ng-container *ngFor="let item of statuses$ | async">
-
-    <div>
-        <p> {{ item.id }} </p>
-        <p> {{ item.started | date }} </p>
-        <p> {{ item.finished | date }} </p>
-        <p> {{ item.totalRequests }} </p>
-        <p> {{ item.succeddedRequests }} </p>
+    <div class="app-page__header">
+        <h1> Sync </h1>
     </div>
-    <br/>
 
-</ng-container>
+    <div  class="app-page__content">
+        <app-sync-item *ngFor="let item of statuses$ | async" [item]="item"></app-sync-item>
+    </div>
+
+</div>
+
+

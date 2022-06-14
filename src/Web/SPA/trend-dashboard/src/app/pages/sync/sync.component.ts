@@ -20,12 +20,9 @@ export class SyncComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit(): void {
+    this.store.dispatch(fromSync.fetchStatuses());
+
     this.statuses$ = this.store.select(fromSync.getItems);
     this.loading$ = this.store.select(fromSync.getLoading);
   }
-
-  test(): void {
-    this.store.dispatch(fromSync.fetchStatuses());
-  }
-
 }

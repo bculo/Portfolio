@@ -6,11 +6,13 @@ import { SyncComponent } from './sync.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers, effects } from './store'
+import { reducers, effects } from './store';
+import { SyncItemComponent } from './components/sync-item/sync-item.component'
 
 @NgModule({
   declarations: [
-    SyncComponent
+    SyncComponent,
+    SyncItemComponent
   ],
   imports: [
     CommonModule,
