@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Time.Common.Contracts;
 using Trend.Application.Interfaces;
 using Trend.Application.Options;
+using Trend.Domain.Entities;
+using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Background
 {
@@ -19,7 +21,9 @@ namespace Trend.Application.Background
         private readonly IServiceProvider _provider;
         private readonly SyncBackgroundServiceOptions _options;
 
-        public SyncBackgroundService(ILogger<SyncBackgroundService> logger, IServiceProvider provider, IOptions<SyncBackgroundServiceOptions> options)
+        public SyncBackgroundService(ILogger<SyncBackgroundService> logger, 
+            IServiceProvider provider, 
+            IOptions<SyncBackgroundServiceOptions> options)
         {
             _logger = logger;
             _provider = provider;
@@ -34,20 +38,54 @@ namespace Trend.Application.Background
                 {
                     _logger.LogTrace("Scope created inside SyncBackgroundService");
 
-                    try
-                    {
-                        var syncService = scope.ServiceProvider.GetRequiredService<IGoogleSyncService>();
+                    var time = scope.ServiceProvider.GetRequiredService<IDateTime>();
+                    var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
 
-                        var syncResult = await syncService.Sync(null);
-                    }
-                    catch(Exception e)
-                    {
-                        _logger.LogError(e, e.Message);
-                    }
+                    var lastSync = await syncRepo.GetLastValidSync();
 
-                    Thread.Sleep(_options.SleepTimeMiliseconds);
+                    if(CanExecuteSync(time, lastSync))
+                    {
+                        _logger.LogTrace("CanExecuteSync returned TRUE");
+                        await StartSyncProcess(scope, time);
+                    }
                 }
+
+                Thread.Sleep(_options.SleepTimeMiliseconds);
             }
+        }
+
+        private async Task StartSyncProcess(IServiceScope scope, IDateTime time)
+        {
+            try
+            {
+                var syncService = scope.ServiceProvider.GetRequiredService<ISyncService>();
+
+                _logger.LogTrace("Sync started {0}", time.DateTime);
+
+                var syncResult = await syncService.ExecuteGoogleSync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+            }
+        }
+
+        private bool CanExecuteSync(IDateTime time, SyncStatus status)
+        {
+            if(status is null)
+            {
+                return true;
+            }
+
+            var timeSpanFromLastSync = time.DateTime - status.Finished!.Value;
+
+            if(timeSpanFromLastSync.TotalHours > _options.TimeSpanBetweenSyncsHours)
+            {
+                _logger.LogInformation("Timespan between current time and last sync is greater then {0}", _options.TimeSpanBetweenSyncsHours);
+                return true;
+            }
+
+            return false;
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)

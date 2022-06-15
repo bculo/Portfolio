@@ -7,6 +7,7 @@ using Time.Common;
 using Time.Common.Contracts;
 using Trend.API.Filters;
 using Trend.Application;
+using Trend.Application.Background;
 using Trend.Application.Clients;
 using Trend.Application.Configurations.Persistence;
 using Trend.Application.Interfaces;
@@ -80,6 +81,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(ApplicationLayer).Assembly));
+
+//builder.Services.AddHostedService<SyncBackgroundService>();
 
 builder.Services.AddCors();
 

@@ -9,5 +9,6 @@ namespace Trend.Application.Options
     public class SyncBackgroundServiceOptions
     {
         public int SleepTimeMiliseconds { get; set; }
+        public int TimeSpanBetweenSyncsHours { get; set; }
     }
 }
