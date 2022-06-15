@@ -1,23 +1,52 @@
 import { createSelector } from "@ngrx/store";
 import { getSyncModuleState, SyncAppState } from "..";
-import { SyncState } from "./sync.reducer";
+import { FetchSyncStatuses, ManageSettings } from "./sync.reducer";
 
-export const getSyncState = createSelector(
+/*
+SYNC STATUSES
+*/
+
+export const getSyncStatusesState = createSelector(
     getSyncModuleState,
-    (state: SyncAppState) => state.sync
+    (state: SyncAppState) => state.sync.fetchStatuses
 );
 
-export const getLoading = createSelector(
-    getSyncState,
-    (state: SyncState) => state.loading
+export const syncGetLoading = createSelector(
+    getSyncStatusesState,
+    (state: FetchSyncStatuses) => state.loading
 );
 
-export const getError = createSelector(
-    getSyncState,
-    (state: SyncState) => state.error
+export const syncGetError = createSelector(
+    getSyncStatusesState,
+    (state: FetchSyncStatuses) => state.error
 );
 
-export const getItems = createSelector(
-    getSyncState,
-    (state: SyncState) => state.items
+export const syncGetItems = createSelector(
+    getSyncStatusesState,
+    (state: FetchSyncStatuses) => state.items
 );
+
+/*
+SETTINGS SECTION
+*/
+
+export const getSettingsState = createSelector(
+    getSyncModuleState,
+    (state: SyncAppState) => state.sync.manageSettings
+);
+
+export const settingGetLoading = createSelector(
+    getSettingsState,
+    (state: ManageSettings) => state.loading
+);
+
+export const settingGetError = createSelector(
+    getSettingsState,
+    (state: ManageSettings) => state.error
+);
+
+export const settingGetValidationErrors = createSelector(
+    getSettingsState,
+    (state: ManageSettings) => state.errors
+);
+

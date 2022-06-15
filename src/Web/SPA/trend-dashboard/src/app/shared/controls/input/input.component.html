@@ -1,0 +1,6 @@
+<input type="text" 
+    [disabled]="disabled" 
+    [value]="value" 
+    [type]="type"
+    (keyup)="onUpdate($any($event).target.value)"
+    (blur)="onBlur()"/>

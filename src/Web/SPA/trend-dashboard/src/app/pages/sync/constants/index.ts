@@ -1,0 +1,1 @@
+export const SETTINGS_FROM = 'ADD_SETTINGS_FORM';

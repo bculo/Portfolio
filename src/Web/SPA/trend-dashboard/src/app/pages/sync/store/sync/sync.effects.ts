@@ -4,12 +4,15 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 
 import * as SyncAction from './sync.actions'; 
-import { SyncStatus } from "./index";
+import { AddSyncSetting, DictionaryList, SyncStatus } from "./index";
+import { isValidationException } from "src/app/shared/utils/error-response";
+import { FormMapperService } from "src/app/services/form-mapper/form-mapper.service";
+import { SETTINGS_FROM } from "../../constants";
 
 @Injectable()
 export class SyncEffects {
 
-    constructor(private actions$: Actions, private http: HttpClient){}
+    constructor(private actions$: Actions, private http: HttpClient, private formHelper: FormMapperService){}
 
     loadStatuses$ = createEffect(() => this.actions$.pipe(
         ofType(SyncAction.fetchStatuses),
@@ -21,5 +24,22 @@ export class SyncEffects {
             )
         })
     ));
+
+    addNewSetting$ = createEffect(() => this.actions$.pipe(
+        ofType(SyncAction.addNewWord),
+        map((action) => action.newSetting),
+        switchMap((request: AddSyncSetting) => {
+            return this.http.post<AddSyncSetting>("http://localhost:5276/api/Sync/AddNewSearchWord", request).pipe(
+                tap((response) => console.log(response)),
+                map(() => SyncAction.addNewWordSuccess()),
+                catchError(error => {
+                    if(!isValidationException(error)) 
+                        return of(SyncAction.addNewWordError({error: error.message}));
+                    this.formHelper.handleValidationError(SETTINGS_FROM, error.error.errors);
+                    return of(SyncAction.addNewWordValidationError({ errors: error.error.errors }));
+                })
+            )
+        })
+    ))
 
 }

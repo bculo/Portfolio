@@ -6,6 +6,35 @@
 
     <div  class="app-page__content">
         <app-sync-item *ngFor="let item of statuses$ | async" [item]="item"></app-sync-item>
+
+        <app-button type="button" (click)="enable()">ENABLE</app-button>
+
+        <app-button type="button" (click)="disable()">DISABLE</app-button>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+
+            <app-form-filed 
+                label='Search word'
+                [control]="getControl('searchWord')">
+                <app-input formControlName="searchWord" type="text"></app-input>
+            </app-form-filed>
+
+            <app-form-filed 
+                label='Search engine'
+                [control]="getControl('searchEngine')">
+                <app-input formControlName="searchEngine" type="number"></app-input>
+            </app-form-filed>
+
+            <app-form-filed 
+                label='Context type'
+                [control]="getControl('contextType')">
+                <app-input formControlName="contextType" type="number"></app-input>
+            </app-form-filed>            
+        
+
+            <app-button type="submit">Submit</app-button>
+
+        </form>
     </div>
 
 </div>

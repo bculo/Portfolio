@@ -8,6 +8,10 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store';
 import { SyncItemComponent } from './components/sync-item/sync-item.component'
+import { ButtonModule } from 'src/app/shared/buttons/button/button.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputModule } from 'src/app/shared/controls/input/input.module';
+import { FormFiledModule } from 'src/app/shared/controls/form-filed/form-filed.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,10 @@ import { SyncItemComponent } from './components/sync-item/sync-item.component'
   imports: [
     CommonModule,
     SyncRoutingModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    InputModule,
+    FormFiledModule,
 
     StoreModule.forFeature('syncfeature', reducers),
     EffectsModule.forFeature(effects)

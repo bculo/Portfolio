@@ -5,3 +5,9 @@ export interface SyncStatus {
     totalRequests: number;
     succeddedRequests: number;
 }
+
+export interface AddSyncSetting {
+    searchWord: string;
+    searchEngine: number,
+    contextType: number
+}

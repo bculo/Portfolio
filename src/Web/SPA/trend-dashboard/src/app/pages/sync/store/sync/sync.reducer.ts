@@ -1,17 +1,37 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SyncActions from './sync.actions';
-import { SyncStatus } from './sync.models';
+import { DictionaryList, SyncStatus } from './sync.models';
 
-export interface SyncState {
+export interface FetchSyncStatuses {
     loading: boolean;
     error: string;
     items: SyncStatus[]
 }
 
+export interface ManageSettings {
+    loading: boolean;
+    error: string;
+    errors: DictionaryList<string>;
+    validationException: boolean;
+}
+
+export interface SyncState {
+    fetchStatuses: FetchSyncStatuses
+    manageSettings: ManageSettings
+}
+
 const initialState: SyncState = {
-    error: null,
-    items: null,
-    loading: false
+    fetchStatuses: {
+        error: null,
+        items: null,
+        loading: false,
+    },
+    manageSettings: {
+        error: null,
+        errors: null,
+        loading: false,
+        validationException: false
+    }
 }
 
 export const syncReducer = createReducer(
@@ -20,23 +40,74 @@ export const syncReducer = createReducer(
     on(SyncActions.fetchStatuses, (state) => {
         return {
             ...state,
-            loading: true,
+            fetchStatuses: {
+                ...state.fetchStatuses,
+                loading: true
+            }
         }
     }),
 
     on(SyncActions.fetchStatusesSuccess, (state, { items }) => {
         return {
             ...state,
-            loading: false,
-            items: items
+            fetchStatuses: {
+                ...state.fetchStatuses,
+                loading: false,
+                items: items
+            }
         }
     }),
 
     on(SyncActions.fetchStatusesError, (state, { error }) => {
         return {
             ...state,
-            loading: false,
-            error: error
+            fetchStatuses: {
+                ...state.fetchStatuses,
+                loading: false,
+                error: error
+            }
+        }
+    }),
+
+    on(SyncActions.addNewWord, (state) => {
+        return {
+            ...state,
+            manageSettings: {
+                ...state.manageSettings,
+                loading: true,
+            }
+        }
+    }),
+
+    on(SyncActions.addNewWordError, (state, { error }) => {
+        return {
+            ...state,
+            manageSettings: {
+                ...state.manageSettings,
+                loading: false,
+                error: error
+            }
+        }
+    }),
+
+    on(SyncActions.addNewWordValidationError, (state, { errors }) => {
+        return {
+            ...state,
+            manageSettings: {
+                ...state.manageSettings,
+                loading: false,
+                errors: errors
+            }
+        }
+    }),
+
+    on(SyncActions.addNewWordSuccess, (state) => {
+        return {
+            ...state,
+            manageSettings: {
+                ...state.manageSettings,
+                loading: false,
+            }
         }
     }),
 
