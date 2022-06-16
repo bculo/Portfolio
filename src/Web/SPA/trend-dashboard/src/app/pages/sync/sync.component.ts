@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { FormMapperService } from 'src/app/services/form-mapper/form-mapper.service';
+import { Observable } from 'rxjs';
+import { FormHelperService } from 'src/app/services/form-mapper/form-helper.service';
+import { markFormAsTouched } from 'src/app/shared/utils/form';
 
 import * as fromRoot from 'src/app/store';
-import { SETTINGS_FROM } from './constants';
+import { SETTINGS_FORM_IDENTIFIER } from './constants';
 
 import * as fromSync from './store/sync';
-import { Dictionary, DictionaryList, SyncStatus } from './store/sync';
+import { SyncStatus } from './store/sync';
 
 @Component({
   selector: 'app-sync',
@@ -24,10 +25,10 @@ export class SyncComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromRoot.State>,
     private fb: FormBuilder,
-    private formHelper: FormMapperService) { }
+    private formHelper: FormHelperService) { }
 
   ngOnDestroy(): void {
-    this.formHelper.removeForm(SETTINGS_FROM);
+    this.formHelper.removeForm(SETTINGS_FORM_IDENTIFIER);
   }
 
   ngOnInit(): void {
@@ -47,7 +48,7 @@ export class SyncComponent implements OnInit, OnDestroy {
       }]            
     });
 
-    this.formHelper.addForm(SETTINGS_FROM, this.form);
+    this.formHelper.addForm(SETTINGS_FORM_IDENTIFIER, this.form);
 
     this.store.dispatch(fromSync.fetchStatuses());
 
@@ -55,21 +56,11 @@ export class SyncComponent implements OnInit, OnDestroy {
     this.loading$ = this.store.select(fromSync.syncGetLoading);
   }
 
-  disable() {
-    console.log(this.formHelper.getAll());
-  }
-
-  enable() {
-    this.form.enable();
-  }
-
   onSubmit() {
     if(this.form.invalid){
-      console.log("onSubmit failed");
+      markFormAsTouched(this.form);
       return;
     }
-
-    console.log(this.form.value);
 
     this.store.dispatch(fromSync.addNewWord({newSetting: this.form.value}));
   }
@@ -77,10 +68,4 @@ export class SyncComponent implements OnInit, OnDestroy {
   getControl(name: string) : AbstractControl {
     return this.form.controls[name];
   }
-
-  canPressSubmitButton() {
-
-  }
-
-
 }

@@ -10,6 +10,7 @@ export class FormFiledComponent implements OnInit {
 
   @Input() label: string;
   @Input() control: AbstractControl;
+  @Input() required: boolean = false;
 
   error: string = 'ERROR';
   
@@ -20,8 +21,8 @@ export class FormFiledComponent implements OnInit {
 
   }
 
-  isValid(): boolean{
-    return this.control.touched && this.control.valid;
+  hasError(): boolean{
+    return this.control.touched && this.control.invalid;
   }
 
   get errorKey(){

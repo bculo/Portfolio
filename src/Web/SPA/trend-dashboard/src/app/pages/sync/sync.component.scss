@@ -1,0 +1,53 @@
+.sync-form {
+    max-width: 65rem;
+    padding: 2rem 5rem;
+    border-radius: 5px;
+    box-shadow: 0 .5rem 2rem rgba(0, 0, 0, .3);
+    margin: 0 auto;
+
+    &__title {
+        margin-bottom: 1rem;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+
+        &--left {
+            justify-content: left;
+        }
+
+        &--right {
+            justify-content: center;
+        }
+
+        &--right {
+            justify-content: right;
+        }
+    }
+
+    &__fields {
+        & > *:not(:last-child) {
+            margin-bottom: .5rem;
+        }
+    }
+
+    &__actions {
+        padding-top: 2rem;
+        display: flex;
+        align-items: center;
+
+        & > *:not(:last-child) {
+            margin-right: 1rem;
+        }
+
+        &--left {
+            justify-content: left;
+        }
+
+        &--right {
+            justify-content: center;
+        }
+
+        &--right {
+            justify-content: right;
+        }
+    }
+}

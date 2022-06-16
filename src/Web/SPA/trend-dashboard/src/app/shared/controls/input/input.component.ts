@@ -18,6 +18,8 @@ export type InputType = 'text' | 'number'
 export class InputComponent implements OnInit, ControlValueAccessor  {
 
   @Input() type: InputType;
+  @Input() placeholder: string = '';
+
   value: string;
   disabled: boolean;
 

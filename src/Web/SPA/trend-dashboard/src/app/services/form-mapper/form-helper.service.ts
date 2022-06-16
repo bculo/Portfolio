@@ -3,7 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { Dictionary, DictionaryList } from 'src/app/models/frontend/dictionary';
 import { pascalToCamelCase } from 'src/app/shared/utils/string';
 
-export interface FormState {
+interface FormState {
   form: FormGroup,
   mapping: Dictionary<string>
 }
@@ -11,11 +11,9 @@ export interface FormState {
 @Injectable({
   providedIn: 'root'
 })
-export class FormMapperService {
+export class FormHelperService {
 
   private forms: Dictionary<FormState> = {};
-
-  constructor() { }
 
   isAvailable(formIdentifier: string): boolean {
     return this.forms[formIdentifier] != null;
@@ -32,7 +30,7 @@ export class FormMapperService {
     };
   }
 
-  removeForm(formIdentifier: string) {
+  removeForm(formIdentifier: string): void {
     delete this.forms[formIdentifier];
   }
 
@@ -40,24 +38,22 @@ export class FormMapperService {
     const formState = this.forms[formIdentifier];
     if(!formState) return;
 
-    if(formState.mapping) { //use custom mapping
-      for(let key in errors){
-        const formControlName: string = formState.mapping[key];
-        const formControl: AbstractControl = formState.form.controls[formControlName];
-        const formControlError = errors[key][0];
-        formControl.setErrors({ serverError: { message: formControlError}});
-      }
-      return;
-    }
+    const mappingFunction = formState.mapping ? this.definedNameMapping : this.pascalCaseNameMapping;
 
-    for(let key in errors){ //use pascalecase mapping
-      const formControl: AbstractControl = formState.form.controls[pascalToCamelCase(key)];
+    for(let key in errors){
+      const formControlName: string = mappingFunction(key, formState);
+      const formControl: AbstractControl = formState.form.controls[formControlName];
       const formControlError = errors[key][0];
-      formControl.setErrors({ serverError: { message: formControlError}});
+      formControl.setErrors({ serverError: { message: formControlError }});
     }
   }
 
-  getAll() {
-    return {...this.forms};
-  }
+  private pascalCaseNameMapping(key: string, formState: FormState = null): string {
+    return pascalToCamelCase(key);
+  } 
+
+  private definedNameMapping(key: string, formState: FormState = null): string {
+    return formState.mapping[key];
+  } 
+
 }

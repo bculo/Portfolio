@@ -4,15 +4,15 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 
 import * as SyncAction from './sync.actions'; 
-import { AddSyncSetting, DictionaryList, SyncStatus } from "./index";
+import { AddSyncSetting, SyncStatus } from "./index";
 import { isValidationException } from "src/app/shared/utils/error-response";
-import { FormMapperService } from "src/app/services/form-mapper/form-mapper.service";
-import { SETTINGS_FROM } from "../../constants";
+import { FormHelperService } from "src/app/services/form-mapper/form-helper.service";
+import { SETTINGS_FORM_IDENTIFIER } from "../../constants";
 
 @Injectable()
 export class SyncEffects {
 
-    constructor(private actions$: Actions, private http: HttpClient, private formHelper: FormMapperService){}
+    constructor(private actions$: Actions, private http: HttpClient, private formHelper: FormHelperService){}
 
     loadStatuses$ = createEffect(() => this.actions$.pipe(
         ofType(SyncAction.fetchStatuses),
@@ -35,7 +35,7 @@ export class SyncEffects {
                 catchError(error => {
                     if(!isValidationException(error)) 
                         return of(SyncAction.addNewWordError({error: error.message}));
-                    this.formHelper.handleValidationError(SETTINGS_FROM, error.error.errors);
+                    this.formHelper.handleValidationError(SETTINGS_FORM_IDENTIFIER, error.error.errors);
                     return of(SyncAction.addNewWordValidationError({ errors: error.error.errors }));
                 })
             )
