@@ -1,17 +1,26 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
-import * as fromSync from './sync';
+
+import { DictionariesEffects } from './dictionaries/dictionaries.effects';
 import { SyncEffects } from './sync/sync.effects';
 
-export interface SyncAppState {
-    sync: fromSync.SyncState
+import * as fromSync from './sync/sync.reducer';
+import * as fromDictionaries from './dictionaries/dictionaries.reducer';
+
+export interface SyncModuleState {
+    sync: fromSync.State,
+    dictionaries: fromDictionaries.State,
 };
 
-export const reducers: ActionReducerMap<SyncAppState> = {
-    sync: fromSync.syncReducer
+export const reducer: ActionReducerMap<SyncModuleState> = {
+    sync: fromSync.reducer,
+    dictionaries: fromDictionaries.reducer,
 };
 
 export const effects: any[] = [
-    SyncEffects
+    SyncEffects,
+    DictionariesEffects
 ];
 
-export const getSyncModuleState = createFeatureSelector<SyncAppState>('syncfeature');
+export const syncUserModuleState = createFeatureSelector<SyncModuleState>('sync');
+
+

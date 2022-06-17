@@ -9,7 +9,9 @@ import * as fromRoot from 'src/app/store';
 import { SETTINGS_FORM_IDENTIFIER } from './constants';
 
 import * as fromSync from './store/sync';
-import { SyncStatus } from './store/sync';
+import * as fromDictionaries from './store/dictionaries';
+
+import { ControlItem } from './store/dictionaries';
 
 @Component({
   selector: 'app-sync',
@@ -20,8 +22,8 @@ export class SyncComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  statuses$: Observable<SyncStatus[]>;
-  loading$: Observable<boolean>;
+  contextTypes$: Observable<ControlItem[]>;
+  engineTypes$: Observable<ControlItem[]>;
 
   constructor(private store: Store<fromRoot.State>,
     private fb: FormBuilder,
@@ -39,21 +41,22 @@ export class SyncComponent implements OnInit, OnDestroy {
         validators: [Validators.required, Validators.minLength(2)]
       }],
       'searchEngine': [null, {
-        updateOn: 'blur',
+        updateOn: 'change',
         validators: [Validators.required]
       }],
       'contextType': [null, {
-        updateOn: 'blur',
+        updateOn: 'change',
         validators: [Validators.required]
-      }]            
+      }],              
     });
 
     this.formHelper.addForm(SETTINGS_FORM_IDENTIFIER, this.form);
 
     this.store.dispatch(fromSync.fetchStatuses());
+    this.store.dispatch(fromDictionaries.fetchDictionaries());
 
-    this.statuses$ = this.store.select(fromSync.syncGetItems);
-    this.loading$ = this.store.select(fromSync.syncGetLoading);
+    this.contextTypes$ = this.store.select(fromDictionaries.getContextTypesDict);
+    this.engineTypes$ = this.store.select(fromDictionaries.getEngineTypesDict);
   }
 
   onSubmit() {
@@ -62,7 +65,9 @@ export class SyncComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.store.dispatch(fromSync.addNewWord({newSetting: this.form.value}));
+    console.log(this.form.value);
+
+    //this.store.dispatch(fromSync.addNewWord({newSetting: this.form.value}));
   }
 
   getControl(name: string) : AbstractControl {

@@ -1,9 +1,9 @@
 import { createAction, props } from "@ngrx/store";
-import { AddSyncSetting, DictionaryList, SyncStatus } from "./sync.models";
+import { SyncStatus } from "./sync.models";
 
-const FETCH_STATUSES = '[Sync] Fetch: Start';
-const FETCH_STATUSES_ERROR = '[Sync] Fetch: Error';
-const FETCH_STATUSES_SUCCESS = '[Sync] Fetch: Success';
+const FETCH_STATUSES = '[Sync] Fetch: start';
+const FETCH_STATUSES_ERROR = '[Sync] Fetch: error';
+const FETCH_STATUSES_SUCCESS = '[Sync] Fetch: success';
 
 export const fetchStatuses = createAction(
     FETCH_STATUSES
@@ -23,10 +23,11 @@ export const fetchStatusesSuccess = createAction(
     }>()
 );
 
-const ADD_NEW_WORD = '[Sync] Add: Start';
-const ADD_NEW_WORD_ERROR = '[Sync] Add: Error';
-const ADD_NEW_WORD_VALIDATION_ERROR = '[Sync] Add: Error Validation';
-const ADD_NEW_WORD_SUCCESS = '[Sync] Add: Success';
+/*
+const ADD_NEW_WORD = '[Sync] New word: add';
+const ADD_NEW_WORD_ERROR = '[Sync] New word: error';
+const ADD_NEW_WORD_VALIDATION_ERROR = '[Sync] New word: validation error';
+const ADD_NEW_WORD_SUCCESS = '[Sync] New word: success';
 
 export const addNewWord =  createAction(
     ADD_NEW_WORD,
@@ -52,3 +53,5 @@ export const addNewWordValidationError =  createAction(
 export const addNewWordSuccess =  createAction(
     ADD_NEW_WORD_SUCCESS,
 );
+*/
+

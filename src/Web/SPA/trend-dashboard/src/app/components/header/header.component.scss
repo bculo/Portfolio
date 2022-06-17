@@ -1,16 +1,16 @@
 @import 'src/styles/base/colors';
 
-.header {
+.app-header {
 
     padding: 1rem 4rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     box-shadow: 0 0.5rem 3rem rgba($black, .2);;
 
     &__logo-box {
         padding: 0rem 1.5rem;
         cursor: pointer;
-        align-self: center;
     }
 
     &__logo-text {

@@ -1,7 +1,9 @@
 .app-input {
     width: 100%;
     padding: .3rem 1rem;
-    line-height: 1.8rem;
+    line-height: 2.5rem;
+    font-size: 1.4rem;
     outline: none;
-    display: block;
+    border: 1px solid $light-gray;
+    border-radius: $small-border-radius;
 }

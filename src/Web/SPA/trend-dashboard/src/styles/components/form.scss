@@ -1,7 +1,5 @@
 .app-form {
     padding: 2rem 5rem;
-    border-radius: $small-border-radius;
-    @include shadow;
 
     &--small {
         max-width: 45rem;
@@ -23,32 +21,37 @@
         margin: 0 auto;
     }
 
+    &--shadow {
+        border-radius: $small-border-radius;
+        @include shadow;
+    }
+
     &__title {
         margin-bottom: 1rem;
         font-size: 1.8rem;
         text-transform: uppercase;
 
         &--left {
-            justify-content: left;
+            text-align: left;
         }
 
         &--right {
-            justify-content: center;
+            text-align: right;
         }
 
-        &--right {
-            justify-content: right;
+        &--center {
+            text-align: center;
         }
     }
 
     &__fields {
         & > *:not(:last-child) {
-            margin-bottom: .2rem;
+            margin-bottom: .5rem;
         }
     }
 
     &__actions {
-        padding-top: 2rem;
+        padding: 1rem 0;
         display: flex;
         align-items: center;
 

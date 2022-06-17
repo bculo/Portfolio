@@ -1,3 +1,5 @@
+@import 'base/colors';
+
 *,
 *::after,
 *::before {
@@ -11,8 +13,8 @@ html{
 }
 
 body {
-    font-family: sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     line-height: 1.7;
-    color: #777;
+    color: $light-gray;
     box-sizing: border-box;
 }

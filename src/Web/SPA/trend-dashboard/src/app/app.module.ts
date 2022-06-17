@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import * as state from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -23,8 +24,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     HttpClientModule,
 
     StoreModule.forRoot(state.reducers),
-    EffectsModule.forRoot(state.effects),
-    StoreDevtoolsModule.instrument({ logOnly: false }), 
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ logOnly: false }),
+    
+    BrowserAnimationsModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]
