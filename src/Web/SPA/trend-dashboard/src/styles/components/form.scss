@@ -1,3 +1,71 @@
 .app-form {
-    box-shadow: 0 .5rem 2rem rgba($black, .3);
+    padding: 2rem 5rem;
+    border-radius: $small-border-radius;
+    @include shadow;
+
+    &--small {
+        max-width: 45rem;
+    }
+
+    &--medium {
+        max-width: 60rem;
+    }
+
+    &--big {
+        max-width: 80rem;
+    }
+
+    &--max {
+        width: 100%;
+    }
+
+    &--center {
+        margin: 0 auto;
+    }
+
+    &__title {
+        margin-bottom: 1rem;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+
+        &--left {
+            justify-content: left;
+        }
+
+        &--right {
+            justify-content: center;
+        }
+
+        &--right {
+            justify-content: right;
+        }
+    }
+
+    &__fields {
+        & > *:not(:last-child) {
+            margin-bottom: .2rem;
+        }
+    }
+
+    &__actions {
+        padding-top: 2rem;
+        display: flex;
+        align-items: center;
+
+        & > *:not(:last-child) {
+            margin-right: 1rem;
+        }
+
+        &--left {
+            justify-content: left;
+        }
+
+        &--right {
+            justify-content: center;
+        }
+
+        &--right {
+            justify-content: right;
+        }
+    }
 }

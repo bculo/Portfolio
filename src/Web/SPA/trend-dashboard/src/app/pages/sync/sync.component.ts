@@ -68,4 +68,8 @@ export class SyncComponent implements OnInit, OnDestroy {
   getControl(name: string) : AbstractControl {
     return this.form.controls[name];
   }
+
+  onClear(): void {
+    this.form.reset();
+  }
 }

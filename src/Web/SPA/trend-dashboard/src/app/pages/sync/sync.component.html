@@ -7,13 +7,13 @@
     <div  class="app-page__content">
         <app-sync-item *ngFor="let item of statuses$ | async" [item]="item"></app-sync-item>
 
-        <form [formGroup]="form" class="sync-form" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+        <form [formGroup]="form" class="app-form app-form--small app-form--center" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
 
-            <div class="sync-form__title">
+            <div class="app-form__title">
                 <h5>Add new setting</h5>
             </div>
 
-            <div class="sync-form__fields">
+            <div class="app-form__fields">
                 <app-form-filed 
                     label='Search word'
                     [control]="getControl('searchWord')"
@@ -36,8 +36,8 @@
                 </app-form-filed>     
             </div>       
         
-            <div class="sync-form__actions sync-form__actions sync-form__actions--right">
-                <app-button type="button">Clear</app-button>
+            <div class="app-form__actions app-form__actions--right">
+                <app-button type="button" (click)="onClear()">Clear</app-button>
                 <app-button type="submit">Submit</app-button>
             </div>
 
