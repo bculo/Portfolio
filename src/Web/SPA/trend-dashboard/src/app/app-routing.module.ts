@@ -12,8 +12,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/news/news.module').then(i => i.NewsModule)
   },
   {
-    path: 'sync',
-    loadChildren: () => import('./pages/sync/sync.module').then(i => i.SyncModule)
+    path: 'manage',
+    loadChildren: () => import('./pages/manage/manage.module').then(i => i.ManageModule)
   },
   {
     path: 'static',
@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: '**',
     pathMatch: 'full',
-    redirectTo: 'static/welcome',
+    redirectTo: 'static/home',
   }
 ];
 

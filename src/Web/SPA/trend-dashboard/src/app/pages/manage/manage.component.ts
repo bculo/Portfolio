@@ -15,10 +15,10 @@ import { ControlItem } from './store/dictionaries';
 
 @Component({
   selector: 'app-sync',
-  templateUrl: './sync.component.html',
-  styleUrls: ['./sync.component.scss']
+  templateUrl: './manage.component.html',
+  styleUrls: ['./manage.component.scss']
 })
-export class SyncComponent implements OnInit, OnDestroy {
+export class ManageComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
@@ -34,6 +34,7 @@ export class SyncComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.formHelper.addForm(SETTINGS_FORM_IDENTIFIER, this.form);
     
     this.form = this.fb.group({
       'searchWord': [null, {
@@ -49,8 +50,6 @@ export class SyncComponent implements OnInit, OnDestroy {
         validators: [Validators.required]
       }],              
     });
-
-    this.formHelper.addForm(SETTINGS_FORM_IDENTIFIER, this.form);
 
     this.store.dispatch(fromSync.fetchStatuses());
     this.store.dispatch(fromDictionaries.fetchDictionaries());

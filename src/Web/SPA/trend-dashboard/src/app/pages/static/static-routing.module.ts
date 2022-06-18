@@ -1,11 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StaticComponent } from './static.component';
 
 const routes: Routes = [
   {
-    path: 'welcome',
-    component: StaticComponent
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(i => i.HomeModule)
+  },
+  {
+    path: '404',
+    loadChildren: () => import('./pages/notfound/notfound.module').then(i => i.NotfoundModule)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home'
   }
 ];
 

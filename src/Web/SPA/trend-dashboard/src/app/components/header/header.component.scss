@@ -1,4 +1,12 @@
 @import 'src/styles/base/colors';
+@import 'src/styles/abstract/mixins';
+
+@mixin navigation-item {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
 
 .app-header {
 
@@ -18,9 +26,50 @@
     }
 
     &__nav-item {
+        @include navigation-item;
+    }
+
+    &__dropdown-item{
+        @include navigation-item;
+        position: relative;
+    }
+
+    &__dropdown-item:hover &__dropdown {
+        opacity: 1;
+        min-width: 20rem;
+        width: 100%;
+    }
+
+    &__dropdown {
+        transition: all .5s;
+        opacity: 0;
+        right: 0;
+        top: 100%;
+        min-width: 0;
+        width: 0;
+        position: absolute;
+        border: 1px solid $light-gray;
+        overflow: hidden;
+        border-radius: 3px;
+        background-color: $dirty-white;
+    }
+
+    &__dropdown-list {
+        
+    }
+
+    &__dropdown-list-item {
         display: inline-block;
-        padding: 0.5rem 1.5rem;
-        font-size: 1.6rem;
-        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        padding: 1rem 3rem;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid $light-gray;
+        }
+
+        &:hover {
+            background-color: lighten($dirty-white, 15%);
+        }
     }
 }

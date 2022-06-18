@@ -6,6 +6,8 @@ import { SyncEffects } from './sync/sync.effects';
 import * as fromSync from './sync/sync.reducer';
 import * as fromDictionaries from './dictionaries/dictionaries.reducer';
 
+export const SYNC_MODULE_STATE = 'syncmodulestate'
+
 export interface SyncModuleState {
     sync: fromSync.State,
     dictionaries: fromDictionaries.State,
@@ -21,6 +23,6 @@ export const effects: any[] = [
     DictionariesEffects
 ];
 
-export const syncUserModuleState = createFeatureSelector<SyncModuleState>('sync');
+export const syncUserModuleState = createFeatureSelector<SyncModuleState>(SYNC_MODULE_STATE);
 
 
