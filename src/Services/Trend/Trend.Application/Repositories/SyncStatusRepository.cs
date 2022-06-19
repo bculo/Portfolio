@@ -19,11 +19,18 @@ namespace Trend.Application.Repositories
                 
         }
 
-        public virtual async Task<SyncStatus> GetLastValidSync()
+        public async Task<SyncStatus> GetLastValidSync()
         {
             return _collection.Find(t => t.TotalRequests > 0 && t.SucceddedRequests > 0)
                             .SortByDescending(i => i.Created)
                             .FirstOrDefault();
+        }
+
+        public async Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId)
+        {
+            return GetQueryable().Where(i => i.Id == syncStatusId)
+                .SelectMany(i => i.UsedSyncWords)
+                .ToList();
         }
     }
 }

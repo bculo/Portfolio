@@ -157,5 +157,34 @@ namespace Trend.Application.Services
                 Value = i.ToString()
             }).ToList();
         }
+
+        public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId)
+        {
+            _logger.LogTrace("Fetching sync status");
+
+            var syncStatus = await _syncStatusRepo.FindById(syncStatusId);
+
+            if(syncStatus is null)
+            {
+                _logger.LogInformation("Sync status with ID {0} not found", syncStatusId);
+                throw new TrendNotFoundException();
+            }
+
+            _logger.LogTrace("Fetching sync status words");
+
+            var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId);
+
+            if(syncWords.Count == 0)
+            {
+                _logger.LogTrace("Zero items find in database");
+                return new List<SyncStatusWordDto>();
+            }
+
+            _logger.LogTrace("Mapping entities to dtos");
+
+            var response = _mapper.Map<List<SyncStatusWordDto>>(syncWords);
+
+            return response;
+        }
     }
 }

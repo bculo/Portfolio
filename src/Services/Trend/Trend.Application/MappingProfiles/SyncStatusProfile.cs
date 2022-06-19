@@ -19,6 +19,11 @@ namespace Trend.Application.MappingProfiles
                 .ForMember(dst => dst.Started, opt => opt.MapFrom(src => src.Started))
                 .ForMember(dst => dst.TotalRequests, opt => opt.MapFrom(src => src.TotalRequests))
                 .ForMember(dst => dst.SucceddedRequests, opt => opt.MapFrom(src => src.SucceddedRequests));
+
+            CreateMap<SyncStatusWord, SyncStatusWordDto>()
+                .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.Word))
+                .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => (int)src.Type));
         }
     }
 }

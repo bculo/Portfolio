@@ -68,19 +68,44 @@ namespace Trend.Application.Services
                 await ExecuteSync(articleSync.Key, articleSync.Value);
             }
 
-            SyncStatus.Finished = _time.DateTime;
-            SyncStatus.SucceddedRequests = Result.TotalSuccess;
-            SyncStatus.TotalRequests = Result.Total;
-
-            await PersistData();
+            await PersistData(articleTypesToSync);
 
             return Result;
         }
 
-        private async Task PersistData()
+        private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync)
         {
+            AttachSyncWordToSyncStatus(articleTypesToSync);
+            MarkSyncStatusAsFinished();
+            AttachSyncStatusIdentifierToArticles();
             await PersistSyncStatus();
             await PersistNewArticles();
+        }
+
+        private void MarkSyncStatusAsFinished()
+        {
+            SyncStatus.Finished = _time.DateTime;
+            SyncStatus.SucceddedRequests = Result.TotalSuccess;
+            SyncStatus.TotalRequests = Result.Total;
+        }
+
+        private void AttachSyncWordToSyncStatus(Dictionary<ContextType, List<string>> articleTypesToSync)
+        {
+            foreach (var dict in articleTypesToSync)
+            {
+                var words = dict.Value.Select(item => new SyncStatusWord
+                {
+                    Type = dict.Key,
+                    Word = item
+                });
+
+                SyncStatus.UsedSyncWords.AddRange(words);
+            }
+        }
+
+        private void AttachSyncStatusIdentifierToArticles()
+        {
+            Entities.ForEach(item => item.SyncStatusId = SyncStatus.Id);
         }
 
         private async Task PersistSyncStatus()

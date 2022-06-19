@@ -41,6 +41,16 @@ namespace Trend.API.Controllers
             return Ok(await _syncService.GetSyncStatuses());
         }
 
+        [HttpGet("GetSyncStatusWords/{id}")]
+        [ProducesResponseType(typeof(List<SyncStatusWordDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSyncStatusWords(string id)
+        {
+            _logger.LogTrace("Method GetSyncStatusWords called in SyncController");
+
+            return Ok(await _syncService.GetSyncStatusSearchWords(id));
+        }
+
         [HttpGet("GetSyncSettingsWords")]
         [ProducesResponseType(typeof(List<SyncSettingDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]

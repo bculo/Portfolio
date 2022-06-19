@@ -24,5 +24,7 @@ namespace Trend.Application.Repositories
             var instance = _collection.Find(i => i.SearchWord.ToLower() == searchWord.ToLower() && i.Engine == engine).FirstOrDefault();
             return instance != null;
         }
+
+        
     }
 }

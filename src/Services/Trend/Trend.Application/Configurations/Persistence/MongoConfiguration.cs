@@ -29,6 +29,7 @@ namespace Trend.Application.Configurations.Persistence
                 config.AutoMap();
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                 config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
+                config.UnmapMember(c => c.BadRequests);
             });
 
             BsonClassMap.RegisterClassMap<SyncSetting>(config =>
@@ -37,6 +38,12 @@ namespace Trend.Application.Configurations.Persistence
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                 config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
                 config.MapMember(c => c.Engine).SetSerializer(new EnumSerializer<SearchEngine>(MongoDB.Bson.BsonType.String));
+            });
+
+            BsonClassMap.RegisterClassMap<SyncStatusWord>(config =>
+            {
+                config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
+                config.MapMember(i => i.Word);
             });
         }
     }

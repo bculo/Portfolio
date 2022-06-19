@@ -8,7 +8,7 @@ using Trend.Domain.Interfaces;
 
 namespace Trend.Domain.Entities
 {
-    public class SyncSetting : IDocument
+    public class SyncSetting : IDocumentRoot
     {
         public string Id { get; set; }
         public DateTime Created { get; set; }

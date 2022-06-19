@@ -19,5 +19,7 @@ namespace Trend.Application.Interfaces
         Task<SyncSettingDto> AddNewSyncSetting(SyncSettingCreateDto instance); 
         Task RemoveSyncSetting(string id);
         Task<List<KeyValueElementDto>> GetAvaiableContextTypes();
+        Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId);
+        
     }
 }

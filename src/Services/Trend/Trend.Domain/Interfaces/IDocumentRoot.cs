@@ -1,6 +1,6 @@
 ﻿namespace Trend.Domain.Interfaces
 {
-    public interface IDocument
+    public interface IDocumentRoot
     {
         string Id { get; set; }
         public DateTime Created { get; set; }

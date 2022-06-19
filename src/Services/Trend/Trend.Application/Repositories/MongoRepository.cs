@@ -8,11 +8,14 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Trend.Application.Options;
+using Trend.Application.Utils.Persistence;
 using Trend.Domain.Interfaces;
+using Trend.Domain.Queries.Requests.Common;
+using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Application.Repositories
 {
-    public class MongoRepository<T> : IRepository<T> where T : IDocument
+    public class MongoRepository<T> : IRepository<T> where T : IDocumentRoot
     {
         protected readonly MongoOptions _options;
         protected IMongoCollection<T> _collection;
@@ -21,7 +24,7 @@ namespace Trend.Application.Repositories
         {
             _options = options.Value;
 
-            var client = new MongoClient(_options.ConnectionString);
+            var client = TrendMongoUtils.CreateMongoClient(_options);
             var database = client.GetDatabase(_options.DatabaseName);
             _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
         }
@@ -71,6 +74,22 @@ namespace Trend.Application.Repositories
         public virtual async Task<List<T>> GetAll()
         {
             return GetQueryable().ToList();
+        }
+
+        public virtual async Task<long> Count()
+        {
+            return _collection.CountDocuments(i => true);
+        }
+
+        public virtual async Task<PageResponse<T>> GetPage(PageRequest request)
+        {
+            var count = _collection.AsQueryable().LongCount();
+            var items = _collection.AsQueryable()
+                .Skip(request.Skip)
+                .Take(request.Take)
+                .ToList();
+
+            return new PageResponse<T>(count, items);
         }
     }
 }

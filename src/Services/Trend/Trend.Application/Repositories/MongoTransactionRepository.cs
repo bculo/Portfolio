@@ -7,10 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Trend.Application.Interfaces.Repositories;
 using Trend.Domain.Interfaces;
+using Trend.Domain.Queries.Requests.Common;
+using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Application.Repositories
 {
-    public class MongoTransactionRepository<T> : IRepository<T> where T : IDocument
+    public class MongoTransactionRepository<T> : IRepository<T> where T : IDocumentRoot
     {
         protected readonly IMongoContext _context;
         protected readonly IMongoCollection<T> _dbSet;
@@ -30,6 +32,11 @@ namespace Trend.Application.Repositories
         public virtual async Task Add(ICollection<T> entities)
         {
             _context.AddCommand(async () => await _dbSet.InsertManyAsync(entities));
+        }
+
+        public virtual async Task<long> Count()
+        {
+            return _dbSet.CountDocuments(i => true);
         }
 
         public virtual async Task Delete(string id)
@@ -62,6 +69,17 @@ namespace Trend.Application.Repositories
         public virtual async Task<List<T>> GetAll()
         {
             return GetQueryable().ToList();
+        }
+
+        public virtual async Task<PageResponse<T>> GetPage(PageRequest request)
+        {
+            var count = _dbSet.AsQueryable().LongCount();
+            var items = _dbSet.AsQueryable()
+                .Skip(request.Skip)
+                .Take(request.Take)
+                .ToList();
+
+            return new PageResponse<T>(count, items);
         }
 
         public virtual IQueryable<T> GetQueryable()

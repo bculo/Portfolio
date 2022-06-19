@@ -2,7 +2,7 @@
 
 namespace Trend.Domain.Entities
 {
-    public class SyncStatus : IDocument
+    public class SyncStatus : IDocumentRoot
     {
         public string Id { get; set; }
         public DateTime Started { get; set; }
@@ -11,5 +11,11 @@ namespace Trend.Domain.Entities
         public int SucceddedRequests { get; set; }
         public int BadRequests => TotalRequests - SucceddedRequests;
         public DateTime Created { get; set; }
+        public List<SyncStatusWord> UsedSyncWords { get; set; }
+
+        public SyncStatus()
+        {
+            UsedSyncWords = new List<SyncStatusWord>();
+        }
     }
 }
