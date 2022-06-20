@@ -3,6 +3,7 @@ using Grpc.Core.Interceptors;
 using Newtonsoft.Json;
 using System.Text;
 using Trend.Domain.Exceptions;
+using Trend.Grpc.Interceptors.Models;
 
 namespace Trend.Grpc.Interceptors
 {
@@ -91,6 +92,22 @@ namespace Trend.Grpc.Interceptors
 
         private RpcException HandleCustomException(TrendAppCoreException grpcException, Metadata metadata)
         {
+            if(grpcException is TrendValidationException)
+            {
+                var validationException = grpcException as TrendValidationException;
+
+                var validationResponse = new ValidationResponse
+                {
+                    Errors = validationException!.Errors,
+                    Message = validationException!.Message,
+                    Title = validationException!.Title,
+                };
+
+                var responseJson = JsonConvert.SerializeObject(validationResponse, Formatting.Indented);
+
+                return new RpcException(new Status(StatusCode.InvalidArgument, responseJson), metadata);
+            }
+
             if(grpcException is TrendNotFoundException)
             {
                 return new RpcException(new Status(StatusCode.NotFound, grpcException.UserMessage), metadata);

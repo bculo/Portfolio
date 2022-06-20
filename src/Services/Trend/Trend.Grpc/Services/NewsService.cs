@@ -1,9 +1,12 @@
 ﻿
 using AutoMapper;
 using Dtos.Common.Shared;
+using Dtos.Common.v1.Trend;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Trend.Application.Interfaces;
+using Trend.Application.Utils.Validation;
+using Trend.Application.Validators.News;
 using Trend.Domain.Enums;
 using Trend.Grpc.Protos;
 
@@ -46,7 +49,7 @@ namespace Trend.Grpc.Services
 
         public override async Task GetLatestNewsForType(ArticleTypeRequest request, IServerStreamWriter<ArticleItem> responseStream, ServerCallContext context)
         {
-            _logger.LogTrace("GetLatestNews method called in NewsService");
+            _logger.LogTrace("GetLatestNewsForType method called in NewsService");
 
             var requestType = (ContextType)(int)request.Type;
 
@@ -55,6 +58,26 @@ namespace Trend.Grpc.Services
                 var responseItem = _mapper.Map<ArticleItem>(item);
                 await responseStream.WriteAsync(responseItem);
             }
+        }
+
+        public override async Task<ArticleItemExtendedPageResponse> GetLatestNewsPage(FetchLatestNewsPageRequest request, ServerCallContext context)
+        {
+            _logger.LogTrace("GetLatestNewsPage method called in NewsService");
+
+            var serviceRequest = _mapper.Map<FetchLatestNewsPageDto>(request);
+
+            ValidationUtils.Validate(serviceRequest, new FetchLatestNewsPageDtoValidator());
+
+            var serviceResponse = await _service.GetLatestNewsPage(serviceRequest);
+
+            var response = new ArticleItemExtendedPageResponse
+            { 
+                Count = serviceResponse.Count,
+            };
+
+            response.Items.AddRange(_mapper.Map<List<ArticleTypeItem>>(serviceResponse.Items));
+
+            return response;
         }
     }
 }

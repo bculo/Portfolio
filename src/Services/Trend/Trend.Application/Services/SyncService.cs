@@ -20,13 +20,13 @@ namespace Trend.Application.Services
     {
         private readonly ILogger<SyncService> _logger;
         private readonly IMapper _mapper;
-        private readonly ISyncSettingRepository _syncSettingRepo;
+        private readonly ISearchWordRepository _syncSettingRepo;
         private readonly ISyncStatusRepository _syncStatusRepo;
         private readonly IGoogleSyncService _googleSync;
 
         public SyncService(ILogger<SyncService> logger, 
             IMapper mapper,
-            ISyncSettingRepository syncSettingRepo,
+            ISearchWordRepository syncSettingRepo,
             IGoogleSyncService googleSync,
             ISyncStatusRepository syncStatusRepository)
         {
@@ -35,29 +35,6 @@ namespace Trend.Application.Services
             _syncSettingRepo = syncSettingRepo;
             _googleSync = googleSync;
             _syncStatusRepo = syncStatusRepository;
-        }
-
-        public async Task<SyncSettingDto> AddNewSyncSetting(SyncSettingCreateDto instance)
-        {
-            _logger.LogTrace("Checking if duplicate");
-
-            var isDuplicate = await _syncSettingRepo.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine);
-
-            if (isDuplicate)
-            {
-                _logger.LogInformation("Sync setting with given search word and engine needs to be unqiue");
-                throw new TrendAppCoreException("Sync setting with given search word and engine needs to be unqiue");
-            }
-
-            var entity = _mapper.Map<SyncSetting>(instance);
-
-            _logger.LogTrace("Adding new sync setting to DB");
-
-            await _syncSettingRepo.Add(entity);
-
-            var response = _mapper.Map<SyncSettingDto>(entity);
-
-            return response;
         }
 
         public async Task<GoogleSyncResult> ExecuteGoogleSync()
@@ -74,58 +51,11 @@ namespace Trend.Application.Services
 
             Dictionary<ContextType, List<string>> googleSyncRequest = searchWords
                 .GroupBy(i => i.Type)
-                .ToDictionary(i => i.Key, y => y.Select(i => i.SearchWord).ToList());
+                .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
 
             var syncResult = await _googleSync.Sync(googleSyncRequest);
 
             return syncResult;
-        }
-
-        public async Task<List<SyncSettingDto>> GetSyncSettingsWords()
-        {
-            _logger.LogTrace("Fetching sync settings words");
-
-            var entities = await _syncSettingRepo.GetAll();
-
-            _logger.LogTrace("Mapping entities to dtos");
-
-            var dtos = _mapper.Map<List<SyncSettingDto>>(entities);
-
-            return dtos;
-        }
-
-        public async Task<List<KeyValueElementDto>> GetAvailableSearchEngines()
-        {
-            _logger.LogTrace("Mapping enum to dto");
-
-            return Enum.GetValues<SearchEngine>().Select(i => new KeyValueElementDto
-            {
-                Key = (int)i,
-                Value = i.ToString()
-            }).ToList();
-        }
-
-        public async Task RemoveSyncSetting(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                _logger.LogInformation("ID {0} is null or empty", id);
-                throw new TrendAppCoreException("Given id is invalid");
-            }
-
-            _logger.LogTrace("Fetching item with {0}", id);
-
-            var entity = await _syncSettingRepo.FindById(id);
-
-            if(entity is null)
-            {
-                _logger.LogInformation("Item with given id {0} not found", id);
-                throw new TrendNotFoundException();
-            }
-
-            _logger.LogTrace("Removing item");
-
-            await _syncSettingRepo.Delete(entity.Id);
         }
 
         public async Task<List<SyncStatusDto>> GetSyncStatuses()
@@ -145,17 +75,6 @@ namespace Trend.Application.Services
             var dtos = _mapper.Map<List<SyncStatusDto>>(entities);
 
             return dtos;
-        }
-
-        public async Task<List<KeyValueElementDto>> GetAvaiableContextTypes()
-        {
-            _logger.LogTrace("Mapping enum to dto");
-
-            return Enum.GetValues<ContextType>().Select(i => new KeyValueElementDto
-            {
-                Key = (int)i,
-                Value = i.ToString()
-            }).ToList();
         }
 
         public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId)

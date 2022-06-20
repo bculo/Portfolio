@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dtos.Common.Shared
 {
-    public class PageRequestDto<T>
+    public class PageRequestDto
     {
         public int Page { get; set; }
         public int Take { get; set; }
-        public T? Search { get; set; }
-    }
-
-    public class PageRequestDto : PageRequestDto<object>
-    {
-
     }
 }

@@ -24,7 +24,7 @@ namespace Trend.Application.Services
         private readonly IDateTime _time;
         private readonly IMapper _mapper;
         private readonly IRepository<SyncStatus> _syncRepo;
-        private readonly IRepository<Article> _articleRepo;
+        private readonly IArticleRepository _articleRepo;
 
         public GoogleSyncResult Result { get; set; }
         public SyncStatus SyncStatus { get; set; }
@@ -36,7 +36,7 @@ namespace Trend.Application.Services
             IDateTime time,
             IMapper mapper,
             IRepository<SyncStatus> syncRepo,
-            IRepository<Article> articleRepo)
+            IArticleRepository articleRepo)
         {
             _logger = logger;
             _searchService = searchService;
@@ -75,11 +75,27 @@ namespace Trend.Application.Services
 
         private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync)
         {
+            if(Result.TotalSuccess == 0)
+            {
+                await PersistSyncStatus();
+                return;
+            }
+
+            //fetch current active instances (fetched instances will be deactivated)
+            var oldActiveArticles = await _articleRepo.GetActiveArticles();
+            var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
+
+            //prepare
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
             AttachSyncStatusIdentifierToArticles();
+
+            //save sync status and new articles
             await PersistSyncStatus();
             await PersistNewArticles();
+
+            //deactivate old articles
+            await _articleRepo.DeactivateArticles(oldActiveIds);
         }
 
         private void MarkSyncStatusAsFinished()

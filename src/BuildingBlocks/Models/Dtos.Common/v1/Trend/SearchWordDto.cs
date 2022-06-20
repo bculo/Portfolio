@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dtos.Common.v1.Trend
 {
-    public class SyncSettingDto
+    public class SearchWordDto
     {
         public string Id { get; set; }
         public DateTime Created { get; set; }

@@ -32,7 +32,7 @@ namespace Trend.Application.Configurations.Persistence
                 config.UnmapMember(c => c.BadRequests);
             });
 
-            BsonClassMap.RegisterClassMap<SyncSetting>(config =>
+            BsonClassMap.RegisterClassMap<SearchWord>(config =>
             {
                 config.AutoMap();
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);

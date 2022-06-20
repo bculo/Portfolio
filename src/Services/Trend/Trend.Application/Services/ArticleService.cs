@@ -7,6 +7,7 @@ using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;
+using Trend.Domain.Queries.Requests.Common;
 
 namespace Trend.Application.Services
 {
@@ -32,15 +33,7 @@ namespace Trend.Application.Services
         {
             _logger.LogTrace("Fetching news for type {0}", type);
 
-            var lastValidSync = await _syncRepo.GetLastValidSync();
-
-            if(lastValidSync is null)
-            {
-                _logger.LogInformation("No successful sync item found");
-                return new List<ArticleDto>();
-            }
-
-            var articles = await _articleRepo.GetArticles(lastValidSync.Started, lastValidSync.Finished!.Value, type);
+            var articles = await _articleRepo.GetActiveArticles(type);
 
             _logger.LogTrace("Fetched records from database");
 
@@ -55,15 +48,7 @@ namespace Trend.Application.Services
         {
             _logger.LogTrace("Fetching latest news");
 
-            var lastValidSync = await _syncRepo.GetLastValidSync();
-
-            if (lastValidSync is null)
-            {
-                _logger.LogInformation("No successful sync item found");
-                return new List<ArticleTypeDto>();
-            }
-
-            var articles = await _articleRepo.GetArticles(lastValidSync.Started, lastValidSync.Finished!.Value);
+            var articles = await _articleRepo.GetActiveArticles();
 
             _logger.LogTrace("Fetched records from database");
 
@@ -88,17 +73,7 @@ namespace Trend.Application.Services
         {
             _logger.LogTrace("Fetching latest news");
 
-            var lastValidSync = await _syncRepo.GetLastValidSync();
-
-            if (lastValidSync is null)
-            {
-                _logger.LogInformation("No successful sync item found");
-                yield break;
-            }
-
-            _logger.LogTrace("Mapping to dtos");
-
-            await foreach(var entity in _articleRepo.GetArticlesEnumerable(lastValidSync.Started, lastValidSync.Finished!.Value))
+            await foreach(var entity in _articleRepo.GetActiveArticlesEnumerable())
             {
                 yield return _mapper.Map<ArticleTypeDto>(entity);
             }
@@ -108,20 +83,32 @@ namespace Trend.Application.Services
         {
             _logger.LogTrace("Fetching latest news");
 
-            var lastValidSync = await _syncRepo.GetLastValidSync();
-
-            if (lastValidSync is null)
-            {
-                _logger.LogInformation("No successful sync item found");
-                yield break;
-            }
-
-            _logger.LogTrace("Mapping to dtos");
-
-            await foreach (var entity in _articleRepo.GetArticlesEnumerable(lastValidSync.Started, lastValidSync.Finished!.Value, type))
+            await foreach (var entity in _articleRepo.GetActiveArticlesEnumerable(type))
             {
                 yield return _mapper.Map<ArticleDto>(entity);
             }
+        }
+
+        public async Task<PageResponseDto<ArticleDto>> GetLatestNewsPage(FetchArticleTypePageDto page)
+        {
+            _logger.LogTrace("Fetching articles page");
+
+            var repoPage = await _articleRepo.FilterBy(page.Page, page.Take, i => i.Type == (ContextType)page.Type);
+
+            _logger.LogTrace("Mapping entities to dto instance");
+
+            return _mapper.Map<PageResponseDto<ArticleDto>>(repoPage);
+        }
+
+        public async Task<PageResponseDto<ArticleTypeDto>> GetLatestNewsPage(FetchLatestNewsPageDto page)
+        {
+            _logger.LogTrace("Fetching articles page");
+
+            var repoPage = await _articleRepo.FilterBy(page.Page, page.Take);
+
+            _logger.LogTrace("Mapping entities to dto instance");
+
+            return _mapper.Map<PageResponseDto<ArticleTypeDto>>(repoPage);
         }
     }
 }

@@ -8,7 +8,7 @@ using Trend.Domain.Enums;
 
 namespace Trend.Domain.Interfaces
 {
-    public interface ISyncSettingRepository : IRepository<SyncSetting>
+    public interface ISearchWordRepository : IRepository<SearchWord>
     {
         Task<bool> IsDuplicate(string searchWord, SearchEngine engine);
     }

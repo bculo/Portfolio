@@ -50,13 +50,21 @@ namespace Trend.Application.Repositories
             return _dbSet.Find(filterExpression).SortByDescending(i => i.Created).ToList();
         }
 
-        public virtual async Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, int page, int take)
+        public virtual async Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null)
         {
-            return _dbSet.Find(filterExpression)
+            if (filterExpression is null)
+            {
+                filterExpression = i => true;
+            }
+
+            var count = _dbSet.CountDocuments(filterExpression);
+            var items = _dbSet.Find(filterExpression)
                 .SortByDescending(i => i.Created)
                 .Skip((page - 1) * take)
                 .Limit(take)
                 .ToList();
+
+            return new PageResponse<T>(count, items);
         }
 
         public virtual async Task<T> FindById(string id)

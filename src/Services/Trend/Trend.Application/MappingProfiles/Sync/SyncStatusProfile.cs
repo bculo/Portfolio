@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Trend.Domain.Entities;
 
-namespace Trend.Application.MappingProfiles
+namespace Trend.Application.MappingProfiles.Sync
 {
     public class SyncStatusProfile : Profile
     {

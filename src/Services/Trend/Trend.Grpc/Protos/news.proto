@@ -8,9 +8,7 @@ service News {
 	rpc GetAllNews(google.protobuf.Empty) returns (stream ArticleTypeItem);
 	rpc GetLatestNews(google.protobuf.Empty) returns (stream ArticleItem);
 	rpc GetLatestNewsForType(ArticleTypeRequest) returns (stream ArticleItem);
-	rpc GetLatestNewsPage(FetchLatestNewsPageRequest) returns (ArticleItemPageResponse);
-	rpc GetLatestNewsForTypePage(FetchArticleTypePageRequest) returns (ArticleItemPageResponse);
-
+	rpc GetLatestNewsPage(FetchLatestNewsPageRequest) returns (ArticleItemExtendedPageResponse);
 }
 
 enum ArticleTypeEnum {
@@ -21,7 +19,7 @@ enum ArticleTypeEnum {
 }	
 
 message Page {
-	int32 page = 1;
+	int32 pageNum = 1;
 	int32 take = 2;
 }
 
@@ -38,9 +36,9 @@ message FetchArticleTypePageRequest {
 	ArticleTypeEnum type = 2;
 }
 
-message ArticleItemPageResponse {
+message ArticleItemExtendedPageResponse {
 	int64 count = 1;
-	repeated ArticleItem items = 2;
+	repeated ArticleTypeItem items = 2;
 }
 
 message ArticleTypeItem {

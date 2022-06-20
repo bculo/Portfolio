@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dtos.Common.v1.Trend
 {
-    public class SyncSettingCreateDto
+    public class SearchWordCreateDto
     {
         public string SearchWord { get; set; }
         public int SearchEngine { get; set; }

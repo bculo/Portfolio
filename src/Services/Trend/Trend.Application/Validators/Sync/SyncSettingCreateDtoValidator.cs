@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Trend.Domain.Enums;
 
-namespace Trend.Application.Validators
+namespace Trend.Application.Validators.Sync
 {
-    public class SyncSettingCreateDtoValidator : AbstractValidator<SyncSettingCreateDto>
+    public class SyncSettingCreateDtoValidator : AbstractValidator<SearchWordCreateDto>
     {
         public SyncSettingCreateDtoValidator()
         {

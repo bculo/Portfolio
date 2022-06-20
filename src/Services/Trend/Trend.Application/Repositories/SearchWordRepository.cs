@@ -12,16 +12,16 @@ using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Repositories
 {
-    public class SyncSettingRepository : MongoRepository<SyncSetting>, ISyncSettingRepository
+    public class SearchWordRepository : MongoRepository<SearchWord>, ISearchWordRepository
     {
-        public SyncSettingRepository(IOptions<MongoOptions> options) : base(options)
+        public SearchWordRepository(IOptions<MongoOptions> options) : base(options)
         {
 
         }
 
         public async Task<bool> IsDuplicate(string searchWord, SearchEngine engine)
         {
-            var instance = _collection.Find(i => i.SearchWord.ToLower() == searchWord.ToLower() && i.Engine == engine).FirstOrDefault();
+            var instance = _collection.Find(i => i.Word.ToLower() == searchWord.ToLower() && i.Engine == engine).FirstOrDefault();
             return instance != null;
         }
 

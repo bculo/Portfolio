@@ -10,7 +10,7 @@ using Trend.Domain.Entities;
 
 namespace Trend.Application.MappingProfiles.Actions
 {
-    public class DefineSyncSettingCreatedDateTimeAction : IMappingAction<SyncSettingCreateDto, SyncSetting>
+    public class DefineSyncSettingCreatedDateTimeAction : IMappingAction<SearchWordCreateDto, Domain.Entities.SearchWord>
     {
         private readonly IDateTime _time;
 
@@ -19,7 +19,7 @@ namespace Trend.Application.MappingProfiles.Actions
             _time = time;
         }
 
-        public void Process(SyncSettingCreateDto source, SyncSetting destination, ResolutionContext context)
+        public void Process(SearchWordCreateDto source, Domain.Entities.SearchWord destination, ResolutionContext context)
         {
             destination.Created = _time.DateTime;
             destination.IsActive = true;

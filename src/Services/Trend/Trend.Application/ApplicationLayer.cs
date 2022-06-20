@@ -34,7 +34,7 @@ namespace Trend.Application
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
             services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
-            services.AddScoped<ISyncSettingRepository, SyncSettingRepository>();
+            services.AddScoped<ISearchWordRepository, SearchWordRepository>();
 
             MongoConfiguration.Configure();
             //builder.Services.AddScoped<IMongoContext, MongoContext>();
@@ -45,6 +45,7 @@ namespace Trend.Application
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ISyncService, SyncService>();
+            services.AddScoped<ISearchWordService, SearchWordService>();
 
             services.AddHttpClient();
 

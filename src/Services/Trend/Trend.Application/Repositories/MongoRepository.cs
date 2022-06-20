@@ -55,13 +55,21 @@ namespace Trend.Application.Repositories
             return _collection.Find(filterExpression).SortByDescending(i => i.Created).ToList();
         }
 
-        public virtual async Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, int page, int take)
+        public virtual async Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null)
         {
-            return _collection.Find(filterExpression)
+            if(filterExpression is null)
+            {
+                filterExpression = i => true;
+            }
+
+            var count = _collection.CountDocuments(filterExpression);
+            var items = _collection.Find(filterExpression)
                 .SortByDescending(i => i.Created)
                 .Skip((page - 1) * take)
                 .Limit(take)
                 .ToList();
+
+            return new PageResponse<T>(count, items);
         }
 
         public virtual async Task<T> FindById(string id)
@@ -79,17 +87,6 @@ namespace Trend.Application.Repositories
         public virtual async Task<long> Count()
         {
             return _collection.CountDocuments(i => true);
-        }
-
-        public virtual async Task<PageResponse<T>> GetPage(PageRequest request)
-        {
-            var count = _collection.AsQueryable().LongCount();
-            var items = _collection.AsQueryable()
-                .Skip(request.Skip)
-                .Take(request.Take)
-                .ToList();
-
-            return new PageResponse<T>(count, items);
         }
 
         public virtual async IAsyncEnumerable<T> GetAllEnumerable()

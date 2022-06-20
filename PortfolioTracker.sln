@@ -21,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Time.Common", "src\Building
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B7EB0582-59ED-492B-8A29-14347335D168}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Application", "src\Services\Trend\Trend.Application\Trend.Application.csproj", "{C13A0992-4633-41D5-875A-DF47515545E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Application", "src\Services\Trend\Trend.Application\Trend.Application.csproj", "{C13A0992-4633-41D5-875A-DF47515545E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Domain", "src\Services\Trend\Trend.Domain\Trend.Domain.csproj", "{663D34C1-B5ED-447E-A95D-D6BE562042E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Domain", "src\Services\Trend\Trend.Domain\Trend.Domain.csproj", "{663D34C1-B5ED-447E-A95D-D6BE562042E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend.Instructions", "Trend.Instructions", "{404FFD72-92AD-410E-B5D0-3D47F9D90EF8}"
 	ProjectSection(SolutionItems) = preProject
@@ -32,9 +32,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend.Instructions", "Trend
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{05ED715D-48C4-4D36-9649-DD7F6467CADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtos.Common", "src\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj", "{BA912A66-0E67-4290-962B-5F4610B3CADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos.Common", "src\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj", "{BA912A66-0E67-4290-962B-5F4610B3CADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "String.Common", "src\BuildingBlocks\Utility\String.Common\String.Common.csproj", "{3AD40BC4-2842-4B62-9240-246762D14294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "String.Common", "src\BuildingBlocks\Utility\String.Common\String.Common.csproj", "{3AD40BC4-2842-4B62-9240-246762D14294}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Grpc", "src\Services\Trend\Trend.Grpc\Trend.Grpc.csproj", "{4490A7FE-A882-481F-9387-B905385B8C8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +76,10 @@ Global
 		{3AD40BC4-2842-4B62-9240-246762D14294}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AD40BC4-2842-4B62-9240-246762D14294}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AD40BC4-2842-4B62-9240-246762D14294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4490A7FE-A882-481F-9387-B905385B8C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4490A7FE-A882-481F-9387-B905385B8C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4490A7FE-A882-481F-9387-B905385B8C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4490A7FE-A882-481F-9387-B905385B8C8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{05ED715D-48C4-4D36-9649-DD7F6467CADD} = {E4CAA80B-5C9A-40EE-9BFF-76A5BD7E193A}
 		{BA912A66-0E67-4290-962B-5F4610B3CADE} = {05ED715D-48C4-4D36-9649-DD7F6467CADD}
 		{3AD40BC4-2842-4B62-9240-246762D14294} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
+		{4490A7FE-A882-481F-9387-B905385B8C8F} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
