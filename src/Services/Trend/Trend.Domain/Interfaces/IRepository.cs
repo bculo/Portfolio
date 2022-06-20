@@ -13,6 +13,7 @@ namespace Trend.Domain.Interfaces
     {
         Task Add(T entity);
         Task<PageResponse<T>> GetPage(PageRequest request);
+        IAsyncEnumerable<T> GetAllEnumerable();
         Task Add(ICollection<T> entities);
         Task Delete(string id);
         Task<T> FindById(string id);

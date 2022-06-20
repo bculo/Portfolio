@@ -91,5 +91,19 @@ namespace Trend.Application.Repositories
 
             return new PageResponse<T>(count, items);
         }
+
+        public virtual async IAsyncEnumerable<T> GetAllEnumerable()
+        {
+            using(var cursor = await _collection.Find(i => true).ToCursorAsync())
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    foreach (var current in cursor.Current)
+                    {
+                        yield return current;
+                    }
+                }
+            }
+        }
     }
 }

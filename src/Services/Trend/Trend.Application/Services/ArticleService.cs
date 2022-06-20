@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -70,6 +72,56 @@ namespace Trend.Application.Services
             _logger.LogTrace("Entities mapped to dtos");
 
             return dtos;
+        }
+
+        public async IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable()
+        {
+            _logger.LogTrace("Fetching entities");
+
+            await foreach(var entity in _articleRepo.GetAllEnumerable())
+            {
+                yield return _mapper.Map<ArticleTypeDto>(entity);
+            }
+        }
+
+        public async IAsyncEnumerable<ArticleTypeDto> GetLatestNewsEnumerable()
+        {
+            _logger.LogTrace("Fetching latest news");
+
+            var lastValidSync = await _syncRepo.GetLastValidSync();
+
+            if (lastValidSync is null)
+            {
+                _logger.LogInformation("No successful sync item found");
+                yield break;
+            }
+
+            _logger.LogTrace("Mapping to dtos");
+
+            await foreach(var entity in _articleRepo.GetArticlesEnumerable(lastValidSync.Started, lastValidSync.Finished!.Value))
+            {
+                yield return _mapper.Map<ArticleTypeDto>(entity);
+            }
+        }
+
+        public async IAsyncEnumerable<ArticleDto> GetLatestNewsEnumerable(ContextType type)
+        {
+            _logger.LogTrace("Fetching latest news");
+
+            var lastValidSync = await _syncRepo.GetLastValidSync();
+
+            if (lastValidSync is null)
+            {
+                _logger.LogInformation("No successful sync item found");
+                yield break;
+            }
+
+            _logger.LogTrace("Mapping to dtos");
+
+            await foreach (var entity in _articleRepo.GetArticlesEnumerable(lastValidSync.Started, lastValidSync.Finished!.Value, type))
+            {
+                yield return _mapper.Map<ArticleDto>(entity);
+            }
         }
     }
 }

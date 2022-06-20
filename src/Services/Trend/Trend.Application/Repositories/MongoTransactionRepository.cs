@@ -86,5 +86,19 @@ namespace Trend.Application.Repositories
         {
             return _dbSet.AsQueryable();
         }
+
+        public virtual async IAsyncEnumerable<T> GetAllEnumerable()
+        {
+            using (var cursor = _dbSet.Find(i => true).ToCursor())
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    foreach (var current in cursor.Current)
+                    {
+                        yield return current;
+                    }
+                }
+            }
+        }
     }
 }

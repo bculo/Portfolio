@@ -19,10 +19,5 @@ namespace Trend.Grpc.Services
                 Message = "Hello " + request.Name
             });
         }
-
-        public override Task<EmptyResponse> ThrowError(EmptyRequest request, ServerCallContext context)
-        {
-            throw new Exception("HELLLO");
-        }
     }
 }

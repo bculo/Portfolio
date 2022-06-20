@@ -19,18 +19,50 @@ namespace Trend.Application.Repositories
 
         }
 
-        public virtual async Task<List<Article>> GetArticles(DateTime from, DateTime to, ContextType type)
+        public async Task<List<Article>> GetArticles(DateTime from, DateTime to, ContextType type)
         {
             return _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
                 .SortByDescending(i => i.Created)
                 .ToList();
         }
 
-        public virtual async Task<List<Article>> GetArticles(DateTime from, DateTime to)
+        public async Task<List<Article>> GetArticles(DateTime from, DateTime to)
         {
             return _collection.Find(i => i.Created >= from && i.Created <= to)
                 .SortByDescending(i => i.Created)
                 .ToList();
+        }
+
+        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to)
+        {
+            using(var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to)
+                .SortByDescending(i => i.Created)
+                .ToCursorAsync())
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    foreach(var item in cursor.Current)
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
+
+        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, ContextType type)
+        {
+            using (var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
+                .SortByDescending(i => i.Created)
+                .ToCursorAsync())
+            {
+                while (await cursor.MoveNextAsync())
+                {
+                    foreach (var item in cursor.Current)
+                    {
+                        yield return item;
+                    }
+                }
+            }
         }
     }
 }
