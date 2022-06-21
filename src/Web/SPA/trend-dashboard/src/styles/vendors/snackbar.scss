@@ -1,0 +1,27 @@
+.snackbar {
+
+    &--error {
+        background-color: $error;
+        color: $on-error;
+    }
+
+    &--success {
+        background-color: $success;
+        color: $on-success;
+    }
+
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    align-items: center;
+
+    &__text {
+
+    }
+
+    &__close {
+        margin-left: 2rem;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+}

@@ -6,7 +6,7 @@ import {
   ActivatedRoute
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { catchError, filter, Observable, of, switchMap, take, timeout } from 'rxjs';
+import { map, filter, Observable, of, switchMap, take, tap } from 'rxjs';
 
 import * as fromRoot from 'src/app/store/';
 import * as fromSync from 'src/app/pages/manage/store/sync';
@@ -18,6 +18,7 @@ export class SyncResolver implements Resolve<SyncStatus> {
   constructor(private store: Store<fromRoot.State>, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SyncStatus> {
+    console.log("HELLO");
     const syncId: string = route.params['id'];
     return this.store.select(fromSync.selectEntityById({id: syncId})).pipe(
       take(1),
@@ -27,14 +28,19 @@ export class SyncResolver implements Resolve<SyncStatus> {
         }
 
         this.store.dispatch(fromSync.fetchSyncItem({id: syncId}));
-        return this.store.select(fromSync.getAdditionallyFetchedItem).pipe(
-          timeout(5000),
-          filter(i => !!i), 
-          take(1),
-          catchError(() => {
-            this.router.navigate(['/manage/sync'])
-            return of(null);
-          })
+          return this.store.select(fromSync.getLoadingSync).pipe(
+            filter(loading => !loading), 
+            take(1),
+            switchMap(() => {
+              return this.store.select(fromSync.getAdditionallyFetchedItem).pipe(
+                take(1),
+                map((status) => {
+                  if(status) return status;
+                  this.router.navigate(["/manage/sync"]);
+                  return null;
+                })
+              )
+            })
         );
       })
     );

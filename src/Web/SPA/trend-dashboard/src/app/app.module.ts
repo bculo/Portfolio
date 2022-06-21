@@ -11,17 +11,20 @@ import * as state from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NotificationComponent } from './services/notification/components/notification/notification.component';
+import { NotificationModule } from './services/notification/notification.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NotificationModule,
 
     StoreModule.forRoot(state.reducers),
     EffectsModule.forRoot([]),
