@@ -6,7 +6,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { effects, reducer } from './store';
-import { SyncItemComponent } from './components/sync-item/sync-item.component'
 import { ButtonModule } from 'src/app/shared/buttons/button/button.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputModule } from 'src/app/shared/controls/input/input.module';
@@ -15,11 +14,11 @@ import { SelectModule } from 'src/app/shared/controls/select/select.module';
 
 import { SYNC_MODULE_STATE } from './store';
 import { ManageComponent } from './manage.component';
+import { SyncResolver } from './resolvers/sync/sync.resolver';
 
 @NgModule({
   declarations: [
-    ManageComponent,
-    SyncItemComponent
+    ManageComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +32,7 @@ import { ManageComponent } from './manage.component';
     EffectsModule.forFeature(effects),
 
     ManageRoutingModule,
-  ]
+  ],
+  providers: [SyncResolver]
 })
 export class ManageModule { }

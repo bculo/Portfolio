@@ -8,12 +8,20 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Validators.Common
 {
-    public class PageRequestDtoValidator<T> : AbstractValidator<T> where T : PageRequestDto
+    public class PageRequestDtoBaseValidator<T> : AbstractValidator<T> where T : PageRequestDto
     {
-        public PageRequestDtoValidator()
+        public PageRequestDtoBaseValidator()
         {
             RuleFor(i => i.Page).GreaterThan(0);
             RuleFor(i => i.Take).GreaterThan(0);
+        }
+    }
+
+    public class PageRequestDtoValidator : PageRequestDtoBaseValidator<PageRequestDto>
+    {
+        public PageRequestDtoValidator() : base()
+        {
+
         }
     }
 }

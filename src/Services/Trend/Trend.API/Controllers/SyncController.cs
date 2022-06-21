@@ -1,4 +1,5 @@
-﻿using Dtos.Common.v1.Trend;
+﻿using Dtos.Common.Shared;
+using Dtos.Common.v1.Trend;
 using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
@@ -28,6 +29,16 @@ namespace Trend.API.Controllers
             return Ok((await _syncService.ExecuteGoogleSync()).GetInstances());
         }
 
+        [HttpGet("GetSync/{id}")]
+        [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSync(string id)
+        {
+            _logger.LogTrace("Method GetSync called in SyncController");
+
+            return Ok(await _syncService.GetSync(id));
+        }
+
         [HttpGet("GetSyncStatuses")]
         [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -36,6 +47,17 @@ namespace Trend.API.Controllers
             _logger.LogTrace("Method GetSyncStatuses called in SyncController");
 
             return Ok(await _syncService.GetSyncStatuses());
+        }
+
+        [HttpPost("GetSyncStatusesPage")]
+        [ProducesResponseType(typeof(PageResponseDto<SyncStatusDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSyncStatusesPage(PageRequestDto page)
+        {
+            _logger.LogTrace("Method GetSyncStatuses called in SyncController");
+
+            return Ok(await _syncService.GetSyncStatusesPage(page));
         }
 
         [HttpGet("GetSyncStatusWords/{id}")]

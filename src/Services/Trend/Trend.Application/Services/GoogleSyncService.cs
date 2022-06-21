@@ -75,19 +75,21 @@ namespace Trend.Application.Services
 
         private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync)
         {
-            if(Result.TotalSuccess == 0)
+            //prepare sync instance
+            AttachSyncWordToSyncStatus(articleTypesToSync);
+            MarkSyncStatusAsFinished();
+
+            if (Result.TotalSuccess == 0)
             {
                 await PersistSyncStatus();
                 return;
             }
 
-            //fetch current active instances (fetched instances will be deactivated)
+            //fetch current active instances (fetched instances that will be deactivated)
             var oldActiveArticles = await _articleRepo.GetActiveArticles();
             var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
 
-            //prepare
-            AttachSyncWordToSyncStatus(articleTypesToSync);
-            MarkSyncStatusAsFinished();
+            //prepare article instances
             AttachSyncStatusIdentifierToArticles();
 
             //save sync status and new articles

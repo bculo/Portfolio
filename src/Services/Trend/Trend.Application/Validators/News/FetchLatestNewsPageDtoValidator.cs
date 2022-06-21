@@ -9,7 +9,7 @@ using Trend.Application.Validators.Common;
 
 namespace Trend.Application.Validators.News
 {
-    public class FetchLatestNewsPageDtoValidator : PageRequestDtoValidator<FetchLatestNewsPageDto>
+    public class FetchLatestNewsPageDtoValidator : PageRequestDtoBaseValidator<FetchLatestNewsPageDto>
     {
         public FetchLatestNewsPageDtoValidator() : base()
         {

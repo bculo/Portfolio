@@ -1,0 +1,22 @@
+<div class="app-page app-page--small">
+
+    <div class="app-page__header">
+        <h1> Sync </h1>
+    </div>
+
+    <div class="app-page__content app-page__content--widthsmall">
+
+        <div class="app-page__content-section">
+            <div class="button-group button-group--right">
+                <app-button type="button" (click)="onSync()" [disabled]="executingSync$ | async">SYNC</app-button>
+            </div>
+        </div>
+
+        <div class="app-page__content-section">         
+            <app-list-item *ngFor="let syncItem of syncItems$ | async" [item]="syncItem"></app-list-item>
+        </div>
+
+    </div>
+
+
+</div>

@@ -13,5 +13,6 @@ namespace Dtos.Common.v1.Trend
         public DateTime Finished { get; set; }
         public int TotalRequests { get; set; }
         public int SucceddedRequests { get; set; }
+        public List<SyncStatusWordDto> SearchWords { get; set; }
     }
 }

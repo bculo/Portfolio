@@ -10,7 +10,7 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Validators.News
 {
-    public class FetchArticleTypePageDtoValidator : PageRequestDtoValidator<FetchArticleTypePageDto>
+    public class FetchArticleTypePageDtoValidator : PageRequestDtoBaseValidator<FetchArticleTypePageDto>
     {
         public FetchArticleTypePageDtoValidator() : base()
         {

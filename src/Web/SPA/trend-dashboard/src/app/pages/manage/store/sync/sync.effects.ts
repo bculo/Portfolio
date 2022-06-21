@@ -22,21 +22,24 @@ export class SyncEffects {
         })
     ));
 
-    /*
-    addNewSetting$ = createEffect(() => this.actions$.pipe(
-        ofType(SyncAction.addNewWord),
-        map((action) => action.newSetting),
-        switchMap((request: AddSyncSetting) => {
-            return this.http.post<AddSyncSetting>("http://localhost:5276/api/Sync/AddNewSearchWord", request).pipe(
-                map(() => SyncAction.addNewWordSuccess()),
-                catchError(error => {
-                    if(!isValidationException(error)) 
-                        return of(SyncAction.addNewWordError({error: error.message}));
-                    this.formHelper.handleValidationError(SETTINGS_FORM_IDENTIFIER, error.error.errors);
-                    return of(SyncAction.addNewWordValidationError({ errors: error.error.errors }));
-                })
+    fetchSyncItem$ = createEffect(() => this.actions$.pipe(
+        ofType(SyncAction.fetchSyncItem),
+        map((action) => action.id),
+        switchMap((id: string) => {
+            return this.http.get<SyncStatus>(`http://localhost:5276/api/Sync/GetSync/${id}`).pipe(
+                map(response => SyncAction.fetchSyncItemSuccess({status: response})),
+                catchError(error => of(SyncAction.fetchStatusesError({error: error.message})))
             )
         })
     ));
-    */
+
+    executeSync$ = createEffect(() => this.actions$.pipe(
+        ofType(SyncAction.sync),
+        switchMap(() => {
+            return this.http.get("http://localhost:5276/api/Sync/Sync").pipe(
+                map(() => SyncAction.syncSuccess()),
+                catchError(error => of(SyncAction.syncError({error: error.message})))
+            )
+        })
+    ))
 }

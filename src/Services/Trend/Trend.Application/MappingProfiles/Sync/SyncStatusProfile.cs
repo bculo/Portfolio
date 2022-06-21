@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Trend.Domain.Entities;
+using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Application.MappingProfiles.Sync
 {
@@ -18,7 +20,8 @@ namespace Trend.Application.MappingProfiles.Sync
                 .ForMember(dst => dst.Finished, opt => opt.MapFrom(src => src.Finished))
                 .ForMember(dst => dst.Started, opt => opt.MapFrom(src => src.Started))
                 .ForMember(dst => dst.TotalRequests, opt => opt.MapFrom(src => src.TotalRequests))
-                .ForMember(dst => dst.SucceddedRequests, opt => opt.MapFrom(src => src.SucceddedRequests));
+                .ForMember(dst => dst.SucceddedRequests, opt => opt.MapFrom(src => src.SucceddedRequests))
+                .ForMember(dst => dst.SearchWords, opt => opt.MapFrom(src => src.UsedSyncWords));
 
             CreateMap<SyncStatusWord, SyncStatusWordDto>()
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.Word))

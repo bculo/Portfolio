@@ -1,6 +1,6 @@
 .app-page {
-    max-width: 96rem;
     margin: 4rem auto;
+    padding: 0 4rem;
 
     &__header {
         font-size: 1.6rem;
@@ -10,9 +10,54 @@
 
     &__content {
         margin: 0 auto;
+
+        &--widthsmall {
+            width: 60%;
+        }
+
+        &--widthmedium {
+            width: 75%;
+        }
+
+        &--widthbig {
+            width: 90%;
+        }
+
+        & > *:last-child {
+            padding-bottom: 3rem;
+        }
     }
 
-    &__footer {
+    &__content-section {
+        padding: 1rem 0;
+        margin: 0 auto;
 
+        &--widthsmall {
+            width: 60%;
+        }
+
+        &--widthmedium {
+            width: 75%;
+        }
+
+        &--widthbig {
+            width: 90%;
+        }
+    }
+
+    &--small {
+        max-width: 96rem;
+    }
+
+    &--medium {
+        max-width: 120rem;
+    }
+
+    &--big {
+        max-width: 140rem;
+    }
+
+    &--huge {
+        width: 100%;
     }
 }

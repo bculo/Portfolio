@@ -6,8 +6,13 @@ export interface SyncStatus {
     succeddedRequests: number;
 }
 
+export interface SyncStatusWord {
+    
+}
+
 export interface AddSyncSetting {
     searchWord: string;
     searchEngine: number,
     contextType: number
 }
+

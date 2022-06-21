@@ -1,13 +1,11 @@
 @import 'src/styles/base/colors';
 
-
-
 .sync-item {
     padding: 1.5rem 1rem;
     box-shadow: 0 .5rem 2rem rgba($black, .3);
-    max-width: 50rem;
     margin: 2rem auto;
     border-radius: 3px;
+    transition: .5s;
 
     &__header-box {
         text-align: center;
@@ -25,5 +23,11 @@
 
     &__stats-box{
         text-align: center;
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: translateY(-3px);
+        box-shadow: 0 .8rem 2.5rem rgba($black, .3);
     }
 }

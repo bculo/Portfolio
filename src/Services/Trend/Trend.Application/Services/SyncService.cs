@@ -58,6 +58,29 @@ namespace Trend.Application.Services
             return syncResult;
         }
 
+        public async Task<SyncStatusDto> GetSync(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                _logger.LogInformation("Sync id not provided");
+                return null;
+            }
+
+            _logger.LogTrace("Search sync status by ID {0}", id);
+
+            var entity = await _syncStatusRepo.FindById(id);
+
+            if(entity is null)
+            {
+                _logger.LogInformation("Sync with provided ID {0} not found", id);
+                return null;
+            }
+
+            _logger.LogTrace("Mapping entity to dto");
+
+            return _mapper.Map<SyncStatusDto>(entity);
+        }
+
         public async Task<List<SyncStatusDto>> GetSyncStatuses()
         {
             _logger.LogTrace("Fetching sync statuses from DB");
@@ -75,6 +98,19 @@ namespace Trend.Application.Services
             var dtos = _mapper.Map<List<SyncStatusDto>>(entities);
 
             return dtos;
+        }
+
+        public async Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request)
+        {
+            _logger.LogTrace("Fetching entities page");
+
+            var entitiesPage = await _syncStatusRepo.FilterBy(request.Page, request.Take);
+
+            _logger.LogTrace("Mapping to dtos");
+
+            var dtoPage = _mapper.Map<PageResponseDto<SyncStatusDto>>(entitiesPage);
+
+            return dtoPage;
         }
 
         public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId)
