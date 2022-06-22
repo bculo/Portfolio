@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Article;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Trend.Application.Interfaces;

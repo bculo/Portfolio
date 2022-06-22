@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.SearchWord;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

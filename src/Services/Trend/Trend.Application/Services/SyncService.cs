@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Sync;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Trend.Application.Interfaces;
-using Trend.Application.Models.Service.Google;
+using Trend.Application.Models.Service.Intern.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
@@ -37,7 +37,7 @@ namespace Trend.Application.Services
             _syncStatusRepo = syncStatusRepository;
         }
 
-        public async Task<GoogleSyncResult> ExecuteGoogleSync()
+        public async Task<GoogleSyncResultDto> ExecuteGoogleSync()
         {
             _logger.LogTrace("Starting the sync process by fetching db instances");
 
@@ -55,7 +55,11 @@ namespace Trend.Application.Services
 
             var syncResult = await _googleSync.Sync(googleSyncRequest);
 
-            return syncResult;
+            _logger.LogTrace("Mapping sync result to dto");
+
+            var dto = _mapper.Map<GoogleSyncResultDto>(syncResult);
+
+            return dto;
         }
 
         public async Task<SyncStatusDto> GetSync(string id)

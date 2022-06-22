@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Article;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using System;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Time.Common.Contracts;
 using Trend.Application.Interfaces;
 using Trend.Application.Models.Dtos.Google;
-using Trend.Application.Models.Service.Google;
+using Trend.Application.Models.Service.Intern.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;
@@ -78,6 +78,7 @@ namespace Trend.Application.Services
             //prepare sync instance
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
+            Result.SetSyncInstance(SyncStatus);
 
             if (Result.TotalSuccess == 0)
             {
@@ -195,16 +196,14 @@ namespace Trend.Application.Services
             foreach(var response in responses)
             {
                 SyncStatus.TotalRequests++;
-                ArticleGroupDto articleGroupDto = null;
 
                 if (response.Succedded)
                 {
                     SyncStatus.SucceddedRequests++;
-                    articleGroupDto = _mapper.Map<ArticleGroupDto>(response.Result);
                     Entities.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
                 }
 
-                Result.AddResponse(type, response.SearchWord, response.Succedded, articleGroupDto);
+                Result.AddResponse(type, response.SearchWord, response.Succedded, response.Succedded ? response.Result : null);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using Dtos.Common.v1.Trend;
+﻿using Dtos.Common.v1.Trend.Article;
 using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Sync;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trend.Application.Models.Service.Intern.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Queries.Responses.Common;
 
@@ -27,6 +28,10 @@ namespace Trend.Application.MappingProfiles.Sync
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.Word))
                 .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => (int)src.Type));
+
+            CreateMap<GoogleSyncResult, GoogleSyncResultDto>()
+                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.SyncStatus))
+                .ForMember(dst => dst.SearchResult, opt => opt.MapFrom(src => src.GetInstances()));
         }
     }
 }

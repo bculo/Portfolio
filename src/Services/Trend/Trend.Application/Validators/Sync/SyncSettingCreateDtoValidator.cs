@@ -1,4 +1,4 @@
-﻿using Dtos.Common.v1.Trend;
+﻿using Dtos.Common.v1.Trend.SearchWord;
 using FluentValidation;
 using System;
 using System.Collections.Generic;

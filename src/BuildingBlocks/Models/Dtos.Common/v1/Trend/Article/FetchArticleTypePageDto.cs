@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtos.Common.v1.Trend
+namespace Dtos.Common.v1.Trend.Article
 {
     public class FetchArticleTypePageDto : PageRequestDto
     {

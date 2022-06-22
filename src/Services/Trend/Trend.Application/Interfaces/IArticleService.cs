@@ -1,5 +1,6 @@
 ﻿using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Article;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces

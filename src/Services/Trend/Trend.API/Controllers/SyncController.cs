@@ -1,5 +1,6 @@
 ﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Article;
+using Dtos.Common.v1.Trend.Sync;
 using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
@@ -20,13 +21,13 @@ namespace Trend.API.Controllers
         }
 
         [HttpGet("Sync")]
-        [ProducesResponseType(typeof(List<ArticleGroupDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GoogleSyncResultDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Sync()
         {
             _logger.LogTrace("Method Sync called in SyncController");
 
-            return Ok((await _syncService.ExecuteGoogleSync()).GetInstances());
+            return Ok(await _syncService.ExecuteGoogleSync());
         }
 
         [HttpGet("GetSync/{id}")]

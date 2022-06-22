@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.SearchWord;
 using System;
 using System.Collections.Generic;
 using System.Linq;

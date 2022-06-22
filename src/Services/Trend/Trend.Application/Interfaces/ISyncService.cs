@@ -1,11 +1,11 @@
 ﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
+using Dtos.Common.v1.Trend.Sync;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Trend.Application.Models.Service.Google;
+using Trend.Application.Models.Service.Intern.Google;
 using Trend.Domain.Entities;
 
 namespace Trend.Application.Interfaces
@@ -14,7 +14,7 @@ namespace Trend.Application.Interfaces
     { 
         Task<List<SyncStatusDto>> GetSyncStatuses();
         Task<SyncStatusDto> GetSync(string id);
-        Task<GoogleSyncResult> ExecuteGoogleSync();
+        Task<GoogleSyncResultDto> ExecuteGoogleSync();
         Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId);
         Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request);
     }
