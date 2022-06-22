@@ -15,8 +15,9 @@
         <div class="app-page__content-section">         
             <app-list-item *ngFor="let syncItem of syncItems$ | async" [item]="syncItem"></app-list-item>
         </div>
-  
+
+        <div class="app-page__content-section"> 
+            <button type="button" (click)="onLoad()" [disabled]="loadMoreAvailable$ | async">LOAD</button>
+        </div>
     </div>
-
-
 </div>

@@ -12,9 +12,10 @@ import { InputModule } from 'src/app/shared/controls/input/input.module';
 import { FormFiledModule } from 'src/app/shared/controls/form-filed/form-filed.module';
 import { SelectModule } from 'src/app/shared/controls/select/select.module';
 
-import { SYNC_MODULE_STATE } from './store';
 import { ManageComponent } from './manage.component';
 import { SyncResolver } from './resolvers/sync/sync.resolver';
+
+import { SYNC_MODULE_STATE } from './constants'
 
 @NgModule({
   declarations: [

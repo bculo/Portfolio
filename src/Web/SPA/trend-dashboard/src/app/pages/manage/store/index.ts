@@ -1,12 +1,10 @@
-import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
 import { DictionariesEffects } from './dictionaries/dictionaries.effects';
 import { SyncEffects } from './sync/sync.effects';
 
 import * as fromSync from './sync/sync.reducer';
 import * as fromDictionaries from './dictionaries/dictionaries.reducer';
-
-export const SYNC_MODULE_STATE = 'syncmodulestate'
 
 export interface SyncModuleState {
     sync: fromSync.State,
@@ -22,7 +20,5 @@ export const effects: any[] = [
     SyncEffects,
     DictionariesEffects
 ];
-
-export const syncUserModuleState = createFeatureSelector<SyncModuleState>(SYNC_MODULE_STATE);
 
 

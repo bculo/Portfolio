@@ -1,12 +1,21 @@
 import { createAction, props } from "@ngrx/store";
-import { SyncStatus } from "./sync.models";
+import { PaginatedResult, SyncStatus } from "./sync.models";
+
+const SET_PAGE_TAKE_LIMIT = '[Sync] Set page take limit'
+
+export const setPageTakeLimit = createAction(
+    SET_PAGE_TAKE_LIMIT,
+    props<{
+        take: number
+    }>()
+)
 
 const FETCH_STATUSES = '[Sync] Fetch colleciton: start';
 const FETCH_STATUSES_ERROR = '[Sync] Fetch colleciton: error';
 const FETCH_STATUSES_SUCCESS = '[Sync] Fetch colleciton: success';
 
 export const fetchStatuses = createAction(
-    FETCH_STATUSES,
+    FETCH_STATUSES
 );
 
 export const fetchStatusesError = createAction(
@@ -19,7 +28,7 @@ export const fetchStatusesError = createAction(
 export const fetchStatusesSuccess = createAction(
     FETCH_STATUSES_SUCCESS,
     props<{
-        items: SyncStatus[]
+        page: PaginatedResult<SyncStatus>
     }>()
 );
 
@@ -66,36 +75,3 @@ export const fetchSyncItemSuccess = createAction(
         status: SyncStatus
     }>()
 );
-
-/*
-const ADD_NEW_WORD = '[Sync] New word: add';
-const ADD_NEW_WORD_ERROR = '[Sync] New word: error';
-const ADD_NEW_WORD_VALIDATION_ERROR = '[Sync] New word: validation error';
-const ADD_NEW_WORD_SUCCESS = '[Sync] New word: success';
-
-export const addNewWord =  createAction(
-    ADD_NEW_WORD,
-    props<{
-        newSetting: AddSyncSetting
-    }>()
-);
-
-export const addNewWordError =  createAction(
-    ADD_NEW_WORD_ERROR,
-    props<{
-        error: string
-    }>()
-);
-
-export const addNewWordValidationError =  createAction(
-    ADD_NEW_WORD_VALIDATION_ERROR,
-    props<{
-        errors: DictionaryList<string>
-    }>()
-);
-
-export const addNewWordSuccess =  createAction(
-    ADD_NEW_WORD_SUCCESS,
-);
-*/
-

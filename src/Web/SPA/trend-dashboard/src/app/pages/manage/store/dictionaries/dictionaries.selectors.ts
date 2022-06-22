@@ -1,5 +1,8 @@
-import { createSelector } from "@ngrx/store";
-import { syncUserModuleState } from "../index";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { SyncModuleState } from "..";
+import { SYNC_MODULE_STATE } from "../../constants";
+
+export const syncUserModuleState = createFeatureSelector<SyncModuleState>(SYNC_MODULE_STATE);
 
 export const dictState = createSelector(
     syncUserModuleState,

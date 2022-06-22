@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, takeUntil, take, tap, filter } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable, take, tap, filter, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'src/app/store';
 
-import { SyncStatus } from '../../../../store/sync/sync.models';
-import * as fromSync from '../../../../store/sync';
-import { NotificationService } from 'src/app/services/notification/notification.service';
+import * as syncSelectors from 'src/app/pages/manage/store/sync/sync.selectors';
+import * as syncModels from 'src/app/pages/manage/store/sync/sync.models';
+import * as syncActions from 'src/app/pages/manage/store/sync/sync.actions';
 
 @Component({
   selector: 'app-list',
@@ -15,34 +15,37 @@ import { NotificationService } from 'src/app/services/notification/notification.
 })
 export class ListComponent implements OnInit {
 
-  syncItems$: Observable<SyncStatus[]>;
+  syncItems$: Observable<syncModels.SyncStatus[]>;
   executingSync$: Observable<boolean>;
+  loadMoreAvailable$: Observable<boolean>
 
-  constructor(private store: Store<fromRoot.State>, private notification: NotificationService) { }
+  subscription: Subscription;
 
+  constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit(): void {
     
-    this.store.select(fromSync.selectTotal).pipe(
+    this.store.select(syncSelectors.selectTotal).pipe(
       take(1),
       filter(num => num == 0),
-      tap(() => this.store.dispatch(fromSync.fetchStatuses()))
+      tap(() => this.store.dispatch(syncActions.fetchStatuses()))
     ).subscribe();
 
-    this.syncItems$ = this.store.select(fromSync.selectAll);
-    this.executingSync$ = this.store.select(fromSync.getExecutingSync).pipe(
-      tap((result) => {
-        if(result) this.store.dispatch(fromSync.fetchStatuses());
-      })
-    );
+    this.loadMoreAvailable$ = this.store.select(syncSelectors.fetchingItemsAvailableSync);
+    this.syncItems$ = this.store.select(syncSelectors.selectAll);
+    this.executingSync$ = this.store.select(syncSelectors.getExecutingSync);
   }
 
   onSync(): void {
-    this.store.dispatch(fromSync.sync());
+    this.store.dispatch(syncActions.sync());
   }
 
   onLoad(): void {
-    
-    this.notification.success("test for success message");
+    this.store.select(syncSelectors.canLoadNextPageSync).pipe(
+      take(1),
+      filter((canLoad) => canLoad),
+      tap(_ => this.store.dispatch(syncActions.fetchStatuses()))
+    ).subscribe();
   }
+
 }

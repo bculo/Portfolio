@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
 import { SyncStatus } from 'src/app/models/backend/sync';
 
 import * as fromRoot from 'src/app/store/index';
-import * as fromSync from 'src/app/pages/manage/store/sync';
 
 @Component({
   selector: 'app-detail',

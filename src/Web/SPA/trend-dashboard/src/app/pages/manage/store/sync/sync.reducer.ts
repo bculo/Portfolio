@@ -3,10 +3,13 @@ import * as SyncActions from './sync.actions';
 import { SyncStatus } from './sync.models';
 
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { PaginationState } from 'src/app/models/frontend/page';
 
 export const adapter: EntityAdapter<SyncStatus> = createEntityAdapter<SyncStatus>();
 
 export interface State extends EntityState<SyncStatus> {
+    pageState: PaginationState
+    initializationFailed: boolean;
     selectedItem: SyncStatus,
     executingSync: boolean;
     loading: boolean;
@@ -14,14 +17,39 @@ export interface State extends EntityState<SyncStatus> {
 };
 
 const initialState: State = adapter.getInitialState({
-    loading: null,
-    executingSync: null,
-    error: null,
-    selectedItem: null
+    initializationFailed: null,
+
+    pageState: {
+        page: 0,
+        take: 5,
+        totalItems: 0
+    },
+
+    loading: null, //loading items?
+
+    executingSync: null, //is sync button pressed?
+
+    selectedItem: null, //helper for selected item (show details)
+
+    error: null, //error message
 });
 
 export const reducer = createReducer(
     initialState,
+
+    //
+    //SET PAGE TAKE LIMIT
+    //
+
+    on(SyncActions.setPageTakeLimit, (state, { take }) => {
+        return {
+            ...state,
+            pageState: {
+                ...state.pageState,
+                take: (take > 0) ? take : 5
+            }
+        }
+    }),
 
     //
     //FETCH COLLECTION
@@ -34,10 +62,16 @@ export const reducer = createReducer(
         }
     }),
 
-    on(SyncActions.fetchStatusesSuccess, (state, { items }) => {
-        return adapter.addMany(items, {
+    on(SyncActions.fetchStatusesSuccess, (state, { page }) => {
+        return adapter.addMany(page.items, {
             ...state,
-            loading: false
+            loading: false,
+            initializationFailed: false,
+            pageState: {
+                ...state.pageState,
+                page: state.pageState.page + 1,
+                totalItems: page.count
+            }
         });
     }),
 
@@ -45,7 +79,8 @@ export const reducer = createReducer(
         return {
             ...state,
             loading: false,
-            error: error
+            error: error,
+            initializationFailed: true,
         }
     }),
 
@@ -89,7 +124,7 @@ export const reducer = createReducer(
         return {
             ...state,
             loading: false,
-            selectedItem: status
+            selectedItem: status,
         }
     }),
 

@@ -1,25 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { FormHelperService } from 'src/app/services/form-mapper/form-helper.service';
-import { markFormAsTouched } from 'src/app/shared/utils/form';
-
-import * as fromRoot from 'src/app/store';
-import { SETTINGS_FORM_IDENTIFIER } from './constants';
-
-import * as fromSync from './store/sync';
-import * as fromDictionaries from './store/dictionaries';
-
-import { ControlItem } from './store/dictionaries';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sync',
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss']
 })
-export class ManageComponent implements OnInit, OnDestroy {
+export class ManageComponent implements OnInit {
 
+  /*
   form: FormGroup;
 
   contextTypes$: Observable<ControlItem[]>;
@@ -51,7 +39,7 @@ export class ManageComponent implements OnInit, OnDestroy {
       }],              
     });
 
-    this.store.dispatch(fromSync.fetchStatuses());
+    //this.store.dispatch(fromSync.fetchStatuses());
     this.store.dispatch(fromDictionaries.fetchDictionaries());
 
     this.contextTypes$ = this.store.select(fromDictionaries.getContextTypesDict);
@@ -75,5 +63,10 @@ export class ManageComponent implements OnInit, OnDestroy {
 
   onClear(): void {
     this.form.reset();
+  }
+  */
+
+  ngOnInit(): void {
+    
   }
 }
