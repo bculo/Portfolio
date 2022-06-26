@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { SyncStatus } from 'src/app/models/backend/sync';
 
-import * as fromRoot from 'src/app/store/index';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-detail',
@@ -14,7 +13,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   status: SyncStatus;
 
-  constructor(private router: ActivatedRoute, private store: Store<fromRoot.State>) { }
+  constructor(private router: ActivatedRoute, private location: Location) { }
 
   ngOnDestroy(): void {
 
@@ -22,6 +21,10 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.status = this.router.snapshot.data[0];
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

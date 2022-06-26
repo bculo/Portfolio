@@ -10,12 +10,6 @@ export const setPageTakeLimit = createAction(
     }>()
 );
 
-const REMOVE_LAST_ITEM = '[Sync] Remove last entity item';
-
-const removeLastEntityItem = createAction(
-    REMOVE_LAST_ITEM,    
-)
-
 const FETCH_STATUSES = '[Sync] Fetch colleciton: start';
 const FETCH_STATUSES_ERROR = '[Sync] Fetch colleciton: error';
 const FETCH_STATUSES_SUCCESS = '[Sync] Fetch colleciton: success';

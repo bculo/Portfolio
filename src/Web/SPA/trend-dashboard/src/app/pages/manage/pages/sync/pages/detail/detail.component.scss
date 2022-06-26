@@ -1,0 +1,41 @@
+@import 'src/styles/base/colors';
+
+.sync-detail {
+    padding: 1.5rem 1rem;
+    box-shadow: 0 .5rem 2rem rgba($black, .3);
+    border-radius: 3px;
+    transition: .3s;
+    font-size: 1.2rem;
+
+    &__header-title {
+        text-align: center;
+        padding-bottom: 2rem;
+        font-size: 1.6rem;
+    }
+
+    &__time-span-box {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__stats-box{
+        text-align: center;
+    }
+
+    &__word-container {
+        margin-top: 1rem;
+        text-align: center;
+
+        & > *:not(:last-child) {
+            margin-right: 1rem;
+        }
+    }
+    
+    &__word {
+        box-shadow: 0 .3rem 1rem rgba($black, .3);
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #ffd670;
+        border-radius: 4px;
+    }
+}

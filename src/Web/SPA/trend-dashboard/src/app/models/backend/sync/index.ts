@@ -8,9 +8,9 @@ export interface SyncStatus {
 }
 
 export interface SyncStatusWord {
-    searchWord: string;
-    searchEngine: number,
-    contextType: number
+    word: string;
+    contextTypeName: number,
+    contextTypeId: number
 }
 
 export interface AddSyncSetting {
