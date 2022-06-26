@@ -17,6 +17,7 @@ export class ListComponent implements OnInit {
 
   syncItems$: Observable<syncModels.SyncStatus[]>;
   executingSync$: Observable<boolean>;
+  fetchingItems$: Observable<boolean>;
   loadMoreAvailable$: Observable<boolean>
 
   subscription: Subscription;
@@ -34,6 +35,7 @@ export class ListComponent implements OnInit {
     this.loadMoreAvailable$ = this.store.select(syncSelectors.fetchingItemsAvailableSync);
     this.syncItems$ = this.store.select(syncSelectors.selectAll);
     this.executingSync$ = this.store.select(syncSelectors.getExecutingSync);
+    this.fetchingItems$ = this.store.select(syncSelectors.getLoadingSync);
   }
 
   onSync(): void {

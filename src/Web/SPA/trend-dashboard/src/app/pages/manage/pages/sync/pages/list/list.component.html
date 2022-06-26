@@ -17,7 +17,12 @@
         </div>
 
         <div class="app-page__content-section"> 
-            <button type="button" (click)="onLoad()" [disabled]="loadMoreAvailable$ | async">LOAD</button>
+            <div class="button-group button-group--center">
+                <app-button type="button" (click)="onLoad()" [disabled]="loadMoreAvailable$ | async">FETCH</app-button>
+            </div>
         </div>
     </div>
+
+    <app-spinner *ngIf="(executingSync$ | async) || (fetchingItems$ | async)"></app-spinner>
+    
 </div>
