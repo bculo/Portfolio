@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, of, switchMap, withLatestFrom} from "rxjs";
 
-import { PaginatedResult, SyncStatus } from "./sync.models";
+import { PaginatedResult, SyncExecuted, SyncStatus } from "./sync.models";
 import { NotificationService } from "src/app/services/notification/notification.service";
 import { Store } from "@ngrx/store";
 
@@ -52,8 +52,8 @@ export class SyncEffects {
     executeSync$ = createEffect(() => this.actions$.pipe(
         ofType(syncAction.sync),
         switchMap(() => {
-            return this.http.get("http://localhost:5276/api/Sync/Sync").pipe(
-                map(() => syncAction.syncSuccess()),
+            return this.http.get<SyncExecuted>("http://localhost:5276/api/Sync/Sync").pipe(
+                map((response) => syncAction.syncSuccess({ newSync: response.status })),
                 catchError(error => { 
                     this.notificationService.error(error.message);
                     return of(syncAction.syncError({error: error.message}))

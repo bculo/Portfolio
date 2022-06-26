@@ -95,11 +95,15 @@ export const reducer = createReducer(
         }
     }),
 
-    on(SyncActions.syncSuccess, (state) => {
-        return {
+    on(SyncActions.syncSuccess, (state, { newSync }) => {
+        return adapter.setAll([newSync, ...Object.values(state.entities).slice(0, -1)], {
             ...state,
             executingSync: false,
-        }
+            pageState: {
+                ...state.pageState,
+                totalItems: state.pageState.totalItems + 1
+            }
+        })
     }),
 
     on(SyncActions.syncError, (state, { error }) => {

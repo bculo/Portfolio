@@ -4,10 +4,13 @@ export interface SyncStatus {
     finished: Date,
     totalRequests: number;
     succeddedRequests: number;
+    searchWords: SyncStatusWord[]
 }
 
 export interface SyncStatusWord {
-    
+    searchWord: string;
+    searchEngine: number,
+    contextType: number
 }
 
 export interface AddSyncSetting {
@@ -16,3 +19,6 @@ export interface AddSyncSetting {
     contextType: number
 }
 
+export interface SyncExecuted {
+    status: SyncStatus;
+}

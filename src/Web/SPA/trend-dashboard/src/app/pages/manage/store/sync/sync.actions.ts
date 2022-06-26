@@ -8,6 +8,12 @@ export const setPageTakeLimit = createAction(
     props<{
         take: number
     }>()
+);
+
+const REMOVE_LAST_ITEM = '[Sync] Remove last entity item';
+
+const removeLastEntityItem = createAction(
+    REMOVE_LAST_ITEM,    
 )
 
 const FETCH_STATUSES = '[Sync] Fetch colleciton: start';
@@ -48,7 +54,10 @@ export const syncError = createAction(
 );
 
 export const syncSuccess = createAction(
-    SYNC_SUCCESS
+    SYNC_SUCCESS,
+    props<{
+        newSync: SyncStatus
+    }>()
 );
 
 const FETCH_SYNC_ITEM = "[Sync] Fetch item: start";
@@ -75,3 +84,5 @@ export const fetchSyncItemSuccess = createAction(
         status: SyncStatus
     }>()
 );
+
+
