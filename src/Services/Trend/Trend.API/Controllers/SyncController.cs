@@ -2,6 +2,7 @@
 using Dtos.Common.v1.Trend.Article;
 using Dtos.Common.v1.Trend.Sync;
 using Microsoft.AspNetCore.Mvc;
+using Trend.API.Filters.Action;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 

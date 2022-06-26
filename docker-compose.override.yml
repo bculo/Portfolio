@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   trend.mongo:
     container_name: trend_mongo_db
     volumes:
@@ -10,8 +11,12 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: trendpassword
-
-  mongo.express:
-    container_name: mongo_express
+  
+  trend.redis:
+    container_name: trend_redis
+    volumes:
+      - redisstore:/data
+    ports:
+      - "6379:6379"
 
 

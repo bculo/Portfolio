@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Serilog;
 using Trend.API.Filters;
+using Trend.API.Filters.Action;
 using Trend.Application;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<GlobalExceptionFilter>();
 }).AddFluentValidation();
+
+builder.Services.AddScoped<CacheActionFilter>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

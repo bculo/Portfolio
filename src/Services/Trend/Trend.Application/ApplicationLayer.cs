@@ -27,6 +27,12 @@ namespace Trend.Application
     {
         public static void AddServices(IConfiguration configuration, IServiceCollection services)
         {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration["RedisOptions:ConnectionString"];
+                options.InstanceName = configuration["RedisOptions:InstanceName"];
+            });
+
             services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
             services.Configure<MongoOptions>(configuration.GetSection("MongoOptions"));
             services.Configure<SyncBackgroundServiceOptions>(configuration.GetSection("SyncBackgroundServiceOptions"));
@@ -46,6 +52,7 @@ namespace Trend.Application
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<ISearchWordService, SearchWordService>();
+            services.AddScoped<ICacheService, CacheService>();
 
             services.AddHttpClient();
 

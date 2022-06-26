@@ -36,7 +36,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos.Common", "src\Building
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "String.Common", "src\BuildingBlocks\Utility\String.Common\String.Common.csproj", "{3AD40BC4-2842-4B62-9240-246762D14294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Grpc", "src\Services\Trend\Trend.Grpc\Trend.Grpc.csproj", "{4490A7FE-A882-481F-9387-B905385B8C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Grpc", "src\Services\Trend\Trend.Grpc\Trend.Grpc.csproj", "{4490A7FE-A882-481F-9387-B905385B8C8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DDBB15E6-89C1-4A61-B5CB-813F0AF99A1B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

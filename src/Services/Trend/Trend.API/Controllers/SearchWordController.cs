@@ -2,6 +2,7 @@
 using Dtos.Common.v1.Trend.SearchWord;
 using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Models;
+using Trend.API.Filters.Action;
 using Trend.Application.Interfaces;
 
 namespace Trend.API.Controllers
@@ -19,6 +20,7 @@ namespace Trend.API.Controllers
             _logger = logger;
         }
 
+        [ServiceFilter(typeof(CacheActionFilter))]
         [HttpGet("GetSearchWords")]
         [ProducesResponseType(typeof(List<SearchWordDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]

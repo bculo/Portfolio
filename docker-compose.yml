@@ -5,8 +5,9 @@ services:
   trend.mongo:
     image: mongo:latest
 
-  mongo.express:
-    image: mongo-express
+  trend.redis:
+    image: 'redis:7.0.2'
  
 volumes:
   mongodbstore:
+  redisstore:
