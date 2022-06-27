@@ -5,6 +5,7 @@ import * as DictionariesActions from './dictionaries.actions';
 
 export interface State {
     loading: boolean;
+    loaded: boolean;
     error: string;
     engines: ControlItem[];
     types: ControlItem[];
@@ -14,7 +15,8 @@ const initialState: State = {
     engines: [],
     types: [],
     error: null,
-    loading: false
+    loading: false,
+    loaded: false,
 };
 
 export const reducer = createReducer(
@@ -29,7 +31,8 @@ export const reducer = createReducer(
         ...state,
         loading: false,
         engines: engines,
-        types: types
+        types: types,
+        loaded: true
     })),
 
     on(DictionariesActions.fetchDictionariesError, (state, { error }) => ({

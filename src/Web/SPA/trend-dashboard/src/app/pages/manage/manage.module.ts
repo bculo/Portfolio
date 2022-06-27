@@ -19,7 +19,6 @@ import { SYNC_MODULE_STATE } from './constants'
 
 @NgModule({
   declarations: [
-    ManageComponent
   ],
   imports: [
     CommonModule,

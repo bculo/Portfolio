@@ -16,3 +16,8 @@ export const {
     selectAll,
     selectTotal,
 } = adapter.getSelectors(settingsState);
+
+export const loading = createSelector(
+    settingsState,
+    (state) => state.loading
+)

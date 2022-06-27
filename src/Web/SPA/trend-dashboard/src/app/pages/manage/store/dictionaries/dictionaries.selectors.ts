@@ -1,3 +1,4 @@
+import { state } from "@angular/animations";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { SyncModuleState } from "..";
 import { SYNC_MODULE_STATE } from "../../constants";
@@ -28,3 +29,17 @@ export const getErrorDict = createSelector(
     dictState,
     (state) => state.error
 );
+
+export const areLoaded = createSelector(
+    dictState,
+    (state) => state.loaded
+)
+
+export const shouldLoad = createSelector(
+    dictState,
+    (state) => {
+        if(!state.loaded && !state.loading && !state.error)
+            return true;
+        return false;
+    }
+)
