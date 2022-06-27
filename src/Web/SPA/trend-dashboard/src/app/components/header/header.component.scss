@@ -40,10 +40,10 @@
     }
 
     &__dropdown {
+        z-index: 300;
         transition: all .5s;
         opacity: 0;
         right: 0;
-        top: 100%;
         width: 0;
         position: absolute;
         border: 1px solid $light-gray;

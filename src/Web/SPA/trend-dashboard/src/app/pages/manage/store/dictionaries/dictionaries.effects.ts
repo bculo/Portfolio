@@ -16,8 +16,8 @@ export class DictionariesEffects {
         ofType(DictionariesActions.fetchDictionaries),
         switchMap(() => {
             return zip(
-                this.http.get<KeyValuePair[]>("http://localhost:5276/api/Sync/GetAvaiableSearchEngines"),
-                this.http.get<KeyValuePair[]>("http://localhost:5276/api/Sync/GetAvaiableContextTypes")
+                this.http.get<KeyValuePair[]>("http://localhost:5276/api/SearchWord/GetAvaiableSearchEngines"),
+                this.http.get<KeyValuePair[]>("http://localhost:5276/api/SearchWord/GetAvaiableContextTypes")
             ).pipe(
                 map(([engines, types]) => {
                     const enginesFinal = mapKeyValuePairCollectionToControlItems(engines);
