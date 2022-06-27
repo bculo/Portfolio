@@ -53,6 +53,7 @@ namespace Trend.Application
             services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<ISearchWordService, SearchWordService>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped(typeof(ILanguageService<>), typeof(LanguageService<>));
 
             services.AddHttpClient();
 
