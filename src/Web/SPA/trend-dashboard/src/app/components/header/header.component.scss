@@ -36,8 +36,7 @@
 
     &__dropdown-item:hover &__dropdown {
         opacity: 1;
-        min-width: 20rem;
-        width: 100%;
+        width: 200%;
     }
 
     &__dropdown {
@@ -45,17 +44,12 @@
         opacity: 0;
         right: 0;
         top: 100%;
-        min-width: 0;
         width: 0;
         position: absolute;
         border: 1px solid $light-gray;
         overflow: hidden;
         border-radius: 3px;
         background-color: $dirty-white;
-    }
-
-    &__dropdown-list {
-        
     }
 
     &__dropdown-list-item {
