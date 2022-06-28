@@ -11,6 +11,7 @@ import * as fromRoot from 'src/app/store/index';
 
 import * as syncAction from './sync.actions';
 import * as syncSelectors from './sync.selectors';
+import { handleServerError } from "src/app/shared/utils/error-response";
 
 @Injectable()
 export class SyncEffects {
@@ -28,8 +29,7 @@ export class SyncEffects {
             return this.http.post<PaginatedResult<SyncStatus>>("http://localhost:5276/api/Sync/GetSyncStatusesPage", pageRequest).pipe(
                 map(response => syncAction.fetchStatusesSuccess({ page: response })),
                 catchError(error => {
-                    this.notificationService.error(error.message);
-                    return of(syncAction.fetchStatusesError({error: error.message}))
+                    return of(syncAction.fetchStatusesError({error: handleServerError(error, this.notificationService)}))
                 })
             )
         })
@@ -42,8 +42,7 @@ export class SyncEffects {
             return this.http.get<SyncStatus>(`http://localhost:5276/api/Sync/GetSync/${id}`).pipe(
                 map(response => syncAction.fetchSyncItemSuccess({status: response})),
                 catchError(error => { 
-                    this.notificationService.error(error.message);
-                    return of(syncAction.fetchStatusesError({error: error.message}))
+                    return of(syncAction.fetchStatusesError({error: handleServerError(error, this.notificationService)}))
                 })
             )
         })
@@ -55,8 +54,7 @@ export class SyncEffects {
             return this.http.get<SyncExecuted>("http://localhost:5276/api/Sync/Sync").pipe(
                 map((response) => syncAction.syncSuccess({ newSync: response.status })),
                 catchError(error => { 
-                    this.notificationService.error(error.message);
-                    return of(syncAction.syncError({error: error.message}))
+                    return of(syncAction.syncError({error: handleServerError(error, this.notificationService)}))
                 })
             )
         })

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { filter, Observable, take, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SETTINGS_FORM_IDENTIFIER } from 'src/app/pages/manage/constants';
 import { ControlItem } from 'src/app/pages/manage/store/dictionaries/dictionaries.models';
 import { FormHelperService } from 'src/app/services/form-mapper/form-helper.service';
@@ -13,8 +13,6 @@ import * as fromRoot from 'src/app/store/index';
 import * as dictionariesSelector from 'src/app/pages/manage/store/dictionaries/dictionaries.selectors';
 
 import * as settingsActions from 'src/app/pages/manage/store/settings/settings.actions';
-import * as settingsSelector from 'src/app/pages/manage/store/settings/settings.selectors';
-
 
 @Component({
   selector: 'app-search-word-form',

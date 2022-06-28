@@ -30,7 +30,7 @@ namespace Trend.API.Filters.Action
             if(action?.Result is OkObjectResult)
             {
                 var actionResult = action.Result as OkObjectResult;
-                await _cache.Add(GetIdentifier(context), actionResult?.Value);
+                await _cache.Add(GetIdentifier(context), actionResult!.Value);
             }
         }
 
