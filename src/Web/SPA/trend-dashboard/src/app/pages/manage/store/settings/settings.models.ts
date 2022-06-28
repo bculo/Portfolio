@@ -1,1 +1,1 @@
-export { Setting } from "src/app/models/backend/settings";
+export { Setting, CreateSetting } from "src/app/models/backend/settings";

@@ -41,4 +41,26 @@ export const reducer = createReducer(
             loading: false
         })
     }),
+
+    on(settingsActions.addSetting, (state) => {
+        return {
+            ...state,
+            loading: true
+        }
+    }),
+
+    on(settingsActions.addSettingSuccess, (state, { setting }) => {
+        return adapter.addOne(setting, {
+            ...state,
+            loading: false
+        });
+    }),
+
+    on(settingsActions.addSettingError, (state, { error }) => {
+        return {
+            ...state,
+            loading: false,
+            error: error
+        }
+    }),
 );

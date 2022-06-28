@@ -3,3 +3,9 @@ export interface Setting {
     searchWord: string;
     searchEngineName: string;
 }
+
+export interface CreateSetting {
+    searchWord: string;
+    searchEngine: 0;
+    contextType: 0;
+}

@@ -50,7 +50,7 @@ export class SettingsComponent implements OnInit {
   addNewWord(): void {
     this.dialog.open(SearchWordFormComponent, {
       height: 'auto',
-      width: '60rem',
+      width: '45rem',
       panelClass: 'modal',
       autoFocus: false
     });

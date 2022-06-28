@@ -2,15 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 import { SETTINGS_FORM_IDENTIFIER } from 'src/app/pages/manage/constants';
 import { ControlItem } from 'src/app/pages/manage/store/dictionaries/dictionaries.models';
 import { FormHelperService } from 'src/app/services/form-mapper/form-helper.service';
+import { markFormAsTouched } from 'src/app/shared/utils/form';
 
 import * as fromRoot from 'src/app/store/index';
 
 import * as dictionariesSelector from 'src/app/pages/manage/store/dictionaries/dictionaries.selectors';
-import { markFormAsTouched } from 'src/app/shared/utils/form';
+
+import * as settingsActions from 'src/app/pages/manage/store/settings/settings.actions';
+import * as settingsSelector from 'src/app/pages/manage/store/settings/settings.selectors';
+
 
 @Component({
   selector: 'app-search-word-form',
@@ -30,8 +34,6 @@ export class SearchWordFormComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<SearchWordFormComponent>) { }
 
   ngOnInit(): void {
-    this.formHelper.addForm(SETTINGS_FORM_IDENTIFIER, this.form);
-
     this.form = this.fb.group({
       'searchWord': [null, {
         updateOn: 'blur',
@@ -46,6 +48,8 @@ export class SearchWordFormComponent implements OnInit, OnDestroy {
         validators: [Validators.required]
       }],              
     });
+
+    this.formHelper.addForm(SETTINGS_FORM_IDENTIFIER, this.form);
 
     this.contextTypes$ = this.store.select(dictionariesSelector.getContextTypesDict);
     this.engineTypes$ = this.store.select(dictionariesSelector.getEngineTypesDict);
@@ -65,9 +69,8 @@ export class SearchWordFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log(this.form.value);
-
-    //this.store.dispatch(fromSync.addNewWord({newSetting: this.form.value}));
+    this.store.dispatch(settingsActions.addSetting({setting: this.form.value}));
+    this.closeDialog();
   }
 
   getControl(name: string) : AbstractControl {

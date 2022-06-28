@@ -17,7 +17,8 @@
     }
 
     &__error {
-        height: 1rem;
+        min-height: 1.5rem;
+        height: auto;
         font-size: 1rem;
         color: $error;
     }
