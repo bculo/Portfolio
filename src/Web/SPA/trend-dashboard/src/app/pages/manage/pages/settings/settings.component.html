@@ -4,7 +4,7 @@
         <h1> Settings </h1>
     </div>
 
-    <div class="app-page__content app-page__content--widthsmall">
+    <div class="app-page__content app-page__content--widthmedium">
 
         <div class="app-page__content-section">
             <div class="button-group button-group--right">
@@ -13,12 +13,12 @@
             </div>
         </div>
 
-        <div class="app-page__content-section">
-
+        <div class="app-page__content-section setting-items">
             <app-search-word-item *ngFor="let setting of items$ | async" [setting]="setting"></app-search-word-item>
-
         </div>
 
     </div>
+
+    <app-spinner *ngIf="loadingSearchWords$ | async"></app-spinner>
 
 </div>

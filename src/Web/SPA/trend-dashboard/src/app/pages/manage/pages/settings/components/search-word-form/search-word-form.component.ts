@@ -70,7 +70,6 @@ export class SearchWordFormComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(settingsActions.addSetting({setting: this.form.value}));
-    this.closeDialog();
   }
 
   getControl(name: string) : AbstractControl {

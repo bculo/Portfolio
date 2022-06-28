@@ -13,5 +13,6 @@ namespace Dtos.Common.v1.Trend.SearchWord
         public string SearchWord { get; set; }
         public string SearchEngineName { get; set; }
         public int SearchEngineId { get; set; }
+        public string ContextTypeName { get; set; }
     }
 }

@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'src/app/shared/controls/select/select.module';
 import { FormFiledModule } from 'src/app/shared/controls/form-filed/form-filed.module';
 import { InputModule } from 'src/app/shared/controls/input/input.module';
+import { SpinnerModule } from 'src/app/shared/indicators/spinner/spinner.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { InputModule } from 'src/app/shared/controls/input/input.module';
     ReactiveFormsModule,
     SelectModule,
     FormFiledModule,
-    InputModule
+    InputModule,
+    SpinnerModule
   ]
 })
 export class SettingsModule { }

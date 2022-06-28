@@ -24,7 +24,8 @@ namespace Trend.Application.MappingProfiles.SearchWord
             CreateMap<Domain.Entities.SearchWord, SearchWordDto>()
                 .ForMember(dst => dst.SearchEngineName, opt => opt.MapFrom(src => src.Engine.ToString()))
                 .ForMember(dst => dst.SearchWord, opt => opt.MapFrom(src => src.Word))
-                .ForMember(dst => dst.SearchEngineId, opt => opt.MapFrom(src => (int)src.Engine));
+                .ForMember(dst => dst.SearchEngineId, opt => opt.MapFrom(src => (int)src.Engine))
+                .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()));
         }
     }
 }

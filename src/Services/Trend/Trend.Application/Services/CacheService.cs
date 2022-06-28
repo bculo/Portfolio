@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Trend.Application.Interfaces;
 using Trend.Application.Options;
 
@@ -24,7 +25,12 @@ namespace Trend.Application.Services
                 return;
             }
 
-            string json = JsonConvert.SerializeObject(instance);
+            string json = JsonConvert.SerializeObject(instance, 
+                Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
 
             await _cache.SetStringAsync(identifier, json);
         }

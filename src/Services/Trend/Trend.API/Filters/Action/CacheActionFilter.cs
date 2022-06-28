@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Trend.Application.Interfaces;
 
 namespace Trend.API.Filters.Action
@@ -20,9 +21,7 @@ namespace Trend.API.Filters.Action
 
             if(cahceResult != null)
             {
-                var temp = JsonConvert.DeserializeObject(cahceResult);
-                var cacheResponseFormatted = JsonConvert.SerializeObject(temp, Formatting.Indented);
-                context.Result = new OkObjectResult(cacheResponseFormatted);
+                context.Result = new OkObjectResult(cahceResult);
                 return;
             }
 

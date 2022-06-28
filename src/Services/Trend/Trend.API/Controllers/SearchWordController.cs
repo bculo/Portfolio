@@ -20,7 +20,6 @@ namespace Trend.API.Controllers
             _logger = logger;
         }
 
-        [ServiceFilter(typeof(CacheActionFilter))]
         [HttpGet("GetSearchWords")]
         [ProducesResponseType(typeof(List<SearchWordDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -31,6 +30,8 @@ namespace Trend.API.Controllers
             return Ok(await _service.GetSyncSettingsWords());
         }
 
+
+        [ServiceFilter(typeof(CacheActionFilter))]
         [HttpGet("GetAvaiableSearchEngines")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -41,6 +42,8 @@ namespace Trend.API.Controllers
             return Ok(await _service.GetAvailableSearchEngines());
         }
 
+
+        [ServiceFilter(typeof(CacheActionFilter))]
         [HttpGet("GetAvaiableContextTypes")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
