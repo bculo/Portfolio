@@ -10,6 +10,8 @@ import { Setting } from '../../store/settings/settings.models';
 
 import * as dictionariesActions from 'src/app/pages/manage/store/dictionaries/dictionaries.actions';
 import * as dictionariesSelectors from 'src/app/pages/manage/store/dictionaries/dictionaries.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchWordFormComponent } from './components/search-word-form/search-word-form.component';
 
 
 @Component({
@@ -24,7 +26,7 @@ export class SettingsComponent implements OnInit {
 
   items$: Observable<Setting[]>;
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.items$ = this.store.select(settingsSelectors.selectAll);
@@ -46,11 +48,15 @@ export class SettingsComponent implements OnInit {
   }
 
   addNewWord(): void {
-    console.log("ADD NEW WORD");
+    this.dialog.open(SearchWordFormComponent, {
+      height: 'auto',
+      width: '60rem',
+      panelClass: 'modal',
+      autoFocus: false
+    });
   }
 
   refresh(): void {
     this.store.dispatch(settingsActions.settingsFetch());
   }
-
 }

@@ -15,7 +15,7 @@
 
         <div class="app-page__content-section">
 
-            <app-search-word-item *ngFor="let setting in items$ | async" [setting]="setting"></app-search-word-item>
+            <app-search-word-item *ngFor="let setting of items$ | async" [setting]="setting"></app-search-word-item>
 
         </div>
 
