@@ -8,6 +8,16 @@ services:
   trend.redis:
     image: 'redis:7.0.2'
  
+  identity.database:
+    image: 'mcr.microsoft.com/mssql/server:2019-latest'
+   
+  sql.server.tools:
+    image: mcr.microsoft.com/mssql-tools
+
+  keycloak: 
+    image: jboss/keycloak
+
 volumes:
   mongodbstore:
   redisstore:
+  identitysqlvolume:

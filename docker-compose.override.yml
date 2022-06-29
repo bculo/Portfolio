@@ -19,4 +19,34 @@ services:
     ports:
       - "6379:6379"
 
+  identity.database:
+    container_name: identity_database
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=pa55w0rd!
+    ports:
+      - 1433:1433
+    volumes:
+      - identitysqlvolume:/var/opt/mssql
 
+  sql.server.tools:
+    container_name: msql_tools
+    depends_on:
+      - identity.database
+    command: /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S identity.database -U sa -P pa55w0rd! -Q "create database Keycloak"; do sleep 5; done'
+
+  keycloak:
+    container_name: keycloak
+    ports:
+      - 8080:8080
+    environment:
+      - DB_VENDOR=mssql
+      - DB_USER=sa
+      - DB_PASSWORD=pa55w0rd!
+      - DB_ADDR=identity.database
+      - DB_DATABASE=Keycloak
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    depends_on:
+      - identity.database
+      - sql.server.tools
