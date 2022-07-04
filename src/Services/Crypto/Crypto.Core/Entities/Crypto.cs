@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Entities
 {
-    public class Crypto : AuditableEntity<long>
+    public class Crypto : Entity
     {
         public string Symbol { get; set; }
         public string Name { get; set; }

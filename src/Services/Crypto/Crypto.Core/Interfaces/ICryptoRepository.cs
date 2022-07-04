@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Interfaces
 {
-    public interface IAuditableEntity
+    public interface ICryptoRepository : IRepository<Core.Entities.Crypto>
     {
-        DateTime ModifiedOn { get; set; }
-        DateTime CreatedOn { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Entities
 {
-    public class CryptoPrice : Entity<long>
+    public class CryptoPrice : Entity
     {
         public decimal Price { get; set; }
         public long CryptoId { get; set; }
