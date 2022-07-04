@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Crypto.Core\Crypto.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
 </Project>
