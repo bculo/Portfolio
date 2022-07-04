@@ -12,7 +12,15 @@ namespace Crypto.Infrastracture.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Core.Entities.Crypto> builder)
         {
-            
+            builder.HasKey(i => i.Id);
+
+            builder.Property(i => i.Symbol)
+                .HasMaxLength(15)
+                .IsRequired(true);
+
+            builder.Property(i => i.Name)
+                .HasMaxLength(250)
+                .IsRequired(true);
         }
     }
 }

@@ -13,7 +13,16 @@ namespace Crypto.Infrastracture.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<CryptoPrice> builder)
         {
-            
+            builder.HasKey(i => i.Id);
+
+            builder.Property(i => i.Price)
+                .HasColumnType("decimal(18,2)");
+
+            builder.HasOne(i => i.Crypto)
+                .WithMany(i => i.Prices)
+                .HasForeignKey(i => i.CryptoId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(true);
         }
     }
 }
