@@ -1,4 +1,6 @@
-﻿using Crypto.Infrastracture.Persistence;
+﻿using Crypto.Core.Interfaces;
+using Crypto.Infrastracture.Persistence;
+using Crypto.Infrastracture.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,9 @@ namespace Crypto.Infrastracture
             {
                 opt.UseSqlServer(configuration.GetConnectionString("CryptoDatabase"));
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
         }
     }
 }

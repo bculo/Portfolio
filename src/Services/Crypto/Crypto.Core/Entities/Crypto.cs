@@ -10,7 +10,6 @@ namespace Crypto.Core.Entities
     {
         public string Symbol { get; set; }
         public string Name { get; set; }
-        public bool UpdateAutomatically { get; set; }
         public virtual ICollection<CryptoPrice> Prices { get; set; }
 
         public Crypto()
