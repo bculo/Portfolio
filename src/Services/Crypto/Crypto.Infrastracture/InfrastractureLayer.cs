@@ -1,14 +1,12 @@
-﻿using Crypto.Core.Interfaces;
+﻿using Crypto.Application.Interfaces.Services;
+using Crypto.Application.Options;
+using Crypto.Core.Interfaces;
+using Crypto.Infrastracture.Clients;
 using Crypto.Infrastracture.Persistence;
 using Crypto.Infrastracture.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crypto.Infrastracture
 {
@@ -16,6 +14,8 @@ namespace Crypto.Infrastracture
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<CryptoInfoApiOptions>(configuration.GetSection("CryptoInfoApiOptions"));
+
             services.AddDbContext<CryptoDbContext>(opt =>
             {
                 opt.UseSqlServer(configuration.GetConnectionString("CryptoDatabase"));
@@ -23,6 +23,8 @@ namespace Crypto.Infrastracture
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+
+            services.AddHttpClient<ICryptoInfoService, CoinMarketCapClient>();
         }
     }
 }

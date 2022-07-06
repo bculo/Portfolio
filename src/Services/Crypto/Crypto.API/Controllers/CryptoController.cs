@@ -1,4 +1,5 @@
-﻿using Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto;
+﻿using Crypto.Application.Interfaces.Services;
+using Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto;
 using Crypto.Application.Modules.Crypto.Commands.DeleteCrypto;
 using Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos;
 using MediatR;
