@@ -1,4 +1,5 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto;
+using Crypto.Application.Modules.Crypto.Commands.DeleteCrypto;
 using Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,13 @@ namespace Crypto.API.Controllers
         public async Task<IActionResult> FetchAll()
         {
             return Ok(await _mediator.Send(new FetchAllCryptosQuery { }));
+        }
+
+        [HttpDelete("Delete/{symbol}")]
+        public async Task<IActionResult> Delete(string symbol)
+        {
+            await _mediator.Send(new DeleteCryptoCommand { Symbol = symbol });
+            return NoContent();
         }
     }
 }

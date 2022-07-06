@@ -11,7 +11,8 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
     {
         public FetchAllCryptosQueryMapper()
         {
-            CreateMap<Core.Entities.Crypto, FetchAllCryptosDto>();
+            CreateMap<Core.Entities.Crypto, FetchAllCryptosDto>()
+                .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.CreatedOn));
         }
     }
 }

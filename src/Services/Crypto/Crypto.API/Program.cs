@@ -10,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 ApplicationLayer.AddServices(builder.Services, builder.Configuration);
 InfrastractureLayer.AddServices(builder.Services, builder.Configuration);
 

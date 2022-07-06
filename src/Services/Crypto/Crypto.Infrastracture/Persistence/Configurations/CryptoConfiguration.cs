@@ -14,6 +14,9 @@ namespace Crypto.Infrastracture.Persistence.Configurations
         {
             builder.HasKey(i => i.Id);
 
+            builder.HasIndex(i => i.Symbol)
+                .IsUnique();
+
             builder.Property(i => i.Symbol)
                 .HasMaxLength(15)
                 .IsRequired(true);

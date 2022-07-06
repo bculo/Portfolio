@@ -63,6 +63,11 @@ namespace Crypto.Infrastracture.Persistence.Repositories
             return await _context.Set<T>().FindAsync(id);
         }
 
+        public async virtual Task<T> FindSingle(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
+        }
+
         public async virtual Task<List<T>> GetAll()
         {
             return await _context.Set<T>().ToListAsync();

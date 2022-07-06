@@ -22,7 +22,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
         public async Task<Unit> Handle(AddNewCryptoCommand request, CancellationToken cancellationToken)
         {
-            var items = await _work.CryptoRepository.Find(i => i.Name.ToLower() == i.Name.ToLower());
+            var items = await _work.CryptoRepository.Find(i => i.Symbol.ToLower() == request.Symbol.ToLower());
 
             if(items.Any())
             {

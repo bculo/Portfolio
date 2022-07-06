@@ -9,5 +9,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
     public class FetchAllCryptosDto
     {
         public string Symbol { get; set; }
+        public string Name { get; set; }
+        public DateTime Created { get; set; }
     }
 }
