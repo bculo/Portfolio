@@ -19,5 +19,6 @@ namespace Crypto.Core.Interfaces
         Task Add(T newInstance);
         Task AddRange(IEnumerable<T> instances);
         Task Remove(T instance);
+        Task<long> Count();
     }
 }

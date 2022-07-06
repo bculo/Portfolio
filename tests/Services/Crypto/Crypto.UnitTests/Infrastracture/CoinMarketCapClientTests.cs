@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.UnitTests.Infrastracture
 {
-    public class CryptoInfoServiceTests
+    public class CoinMarketCapClientTests
     {
         private const string VALID_SYMBOL = "btc";
         private const string INVALID_SYMBOL = "DRAGON123";
@@ -25,6 +25,14 @@ namespace Crypto.UnitTests.Infrastracture
             var response = await service.FetchData(VALID_SYMBOL);
 
             Assert.NotNull(response);
+
+            var itemDictionary = response.Data;
+
+            var dictionaryKey = itemDictionary.ContainsKey(VALID_SYMBOL) ? VALID_SYMBOL : VALID_SYMBOL.ToUpper();
+
+            var finalItemsCollection = itemDictionary[dictionaryKey];
+
+            Assert.Contains(finalItemsCollection, i => i.Symbol.ToLower() == VALID_SYMBOL.ToLower());
         }
 
         [Fact]

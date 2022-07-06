@@ -29,6 +29,11 @@ namespace Crypto.Infrastracture.Persistence.Repositories
             _context.Set<T>().AddRange(instances);
         }
 
+        public async virtual Task<long> Count()
+        {
+            return await _context.Set<T>().LongCountAsync();
+        }
+
         public async virtual Task<List<T>> FetchPage(int page, int take)
         {
             return await _context.Set<T>().OrderByDescending(i => i.CreatedOn)

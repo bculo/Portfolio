@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Crypto.Application.Interfaces.Services;
+using Crypto.Application.Models.Info;
 using Crypto.Core.Interfaces;
 using MediatR;
 using System;
@@ -13,21 +15,29 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
     {
         private readonly IUnitOfWork _work;
         private readonly IMapper _mapper;
+        private readonly ICryptoInfoService _infoService;
 
-        public AddNewCryptoCommandHandler(IUnitOfWork work, IMapper mapper)
+        public CryptoInfoDataDto? Info { get; set; }
+
+        public AddNewCryptoCommandHandler(IUnitOfWork work, 
+            IMapper mapper, 
+            ICryptoInfoService infoService)
         {
             _work = work;
             _mapper = mapper;
+            _infoService = infoService;
         }
 
         public async Task<Unit> Handle(AddNewCryptoCommand request, CancellationToken cancellationToken)
         {
-            var items = await _work.CryptoRepository.Find(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+            var item = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
 
-            if(items.Any())
+            if(item != null)
             {
                 throw new Exception("Item with given symbol already exists");
             }
+
+            var cryptoInfo = await _infoService.FetchData(request.Symbol);
 
             var newInstance = _mapper.Map<Core.Entities.Crypto>(request);
 
@@ -35,6 +45,21 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
             await _work.Commit();
 
             return Unit.Value;
+        }
+
+        private void ExtractDataInfo(CryptoInfoResponseDto infoResponse, string symbol)
+        {
+            var cryptoData = infoResponse.Data.Values.FirstOrDefault();
+
+            if (cryptoData is null || !cryptoData.Any())
+            {
+                throw new Exception("Invalid crypto data");
+            }
+
+            Info = cryptoData.FirstOrDefault(i => i.Symbol.ToLower() == symbol.ToLower()
+                                    && !string.IsNullOrEmpty(i.Description)
+                                    && !string.IsNullOrEmpty(i.Name)
+                                    && !string.IsNullOrEmpty(i.Logo));
         }
     }
 }
