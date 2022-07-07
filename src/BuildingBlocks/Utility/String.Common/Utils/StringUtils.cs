@@ -19,5 +19,10 @@ namespace String.Common.Utils
 
             return encoding.GetBytes(toConvert);
         }
+
+        public static string ArrayTostring(IEnumerable<string> words, string separator = "")
+        {
+            return string.Join(separator, words);
+        }
     }
 }

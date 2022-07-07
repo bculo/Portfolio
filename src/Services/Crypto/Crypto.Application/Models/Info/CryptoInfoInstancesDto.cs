@@ -41,7 +41,7 @@ namespace Crypto.Application.Models.Info
         public string Logo { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
-        //[JsonPropertyName("urls")]
-        //public Dictionary<string, string[]> Urls { get; set; }
+        [JsonPropertyName("urls")]
+        public Dictionary<string, string[]> Urls { get; set; }
     }
 }

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Http.Common\Http.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\String.Common\String.Common.csproj" />
     <ProjectReference Include="..\Crypto.Application\Crypto.Application.csproj" />
   </ItemGroup>
 

@@ -30,7 +30,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Infrastracture\btc-response.json">
+    <None Update="Static\btc-info-response.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Static\btc-price-success-response.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Static\price-bad-response.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

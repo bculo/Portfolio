@@ -60,7 +60,7 @@ namespace Crypto.UnitTests.Infrastracture
 
             if(symbol == VALID_SYMBOL)
             {
-                string btcResponseJson = File.ReadAllText("./Infrastracture/btc-response.json");
+                string btcResponseJson = File.ReadAllText("./Static/btc-info-response.json");
                 handler.When("https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?symbol=btc")
                     .Respond("application/json", btcResponseJson);
             }

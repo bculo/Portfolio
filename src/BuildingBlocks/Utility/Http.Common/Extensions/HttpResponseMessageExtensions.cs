@@ -28,6 +28,22 @@ namespace Http.Common.Extensions
             return JsonConvert.DeserializeObject<T>(stringResponse)!;
         }
 
+        public static async Task<string> HandleResponse(this HttpResponseMessage response, ILogger logger = null)
+        {
+            if (response == null)
+            {
+                return default!;
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                logger?.LogWarning("Request failed with status code {0}", response.StatusCode);
+                return default!;
+            }
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public static async Task<T> HandleResponseWithException<T, TException>(this HttpResponseMessage response, ILogger logger = null) where TException : Exception, new()
         {
             if (response == null)

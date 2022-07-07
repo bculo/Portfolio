@@ -15,6 +15,7 @@ namespace Crypto.Infrastracture
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<CryptoInfoApiOptions>(configuration.GetSection("CryptoInfoApiOptions"));
+            services.Configure<CryptoPriceApiOptions>(configuration.GetSection("CryptoPriceApiOptions"));
 
             services.AddDbContext<CryptoDbContext>(opt =>
             {
@@ -25,6 +26,7 @@ namespace Crypto.Infrastracture
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
             services.AddHttpClient<ICryptoInfoService, CoinMarketCapClient>();
+            services.AddHttpClient<ICryptoPriceService, CryptoCompareClient>();
         }
     }
 }

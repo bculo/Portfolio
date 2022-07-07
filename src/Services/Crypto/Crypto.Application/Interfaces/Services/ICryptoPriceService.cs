@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crypto.Application.Models.Price;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Crypto.Application.Interfaces.Services
 {
     public interface ICryptoPriceService
     {
+        Task<CryptoPriceSingleResponseDto> GetPriceInfo(string symbol);
     }
 }
