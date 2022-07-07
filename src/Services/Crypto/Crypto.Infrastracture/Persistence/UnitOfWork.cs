@@ -14,6 +14,7 @@ namespace Crypto.Infrastracture.Persistence
 
         public ICryptoPriceRepository CryptoPriceRepository { get; private set; }
         public ICryptoRepository CryptoRepository { get; private set; }
+        public ICryptoExplorerRepository CryptoExplorerRepository { get; private set; }
 
         public UnitOfWork(CryptoDbContext context)
         {
@@ -21,6 +22,7 @@ namespace Crypto.Infrastracture.Persistence
 
             CryptoPriceRepository = new CryptoPriceRepository(context);
             CryptoRepository = new CryptoRepository(context);
+            CryptoExplorerRepository = new CryptoExplorerRepository(context);
         }
 
         public virtual async Task Commit()

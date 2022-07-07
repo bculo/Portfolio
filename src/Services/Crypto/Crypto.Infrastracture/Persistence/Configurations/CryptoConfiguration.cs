@@ -24,6 +24,15 @@ namespace Crypto.Infrastracture.Persistence.Configurations
             builder.Property(i => i.Name)
                 .HasMaxLength(250)
                 .IsRequired(true);
+
+            builder.Property(i => i.WebSite)
+                .HasMaxLength(250)
+                .IsRequired(false);
+
+            builder.Property(i => i.SourceCode)
+                .HasMaxLength(250)
+                .IsRequired(false);
+
         }
     }
 }

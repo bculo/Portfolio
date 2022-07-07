@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Info;
+using Crypto.Application.Models.Price;
+using Crypto.Core.Entities;
 using Crypto.Core.Interfaces;
 using MediatR;
 using System;
@@ -48,12 +50,44 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
             var info = cryptoInfoTask.Result;
             var price = cryptoPriceTask.Result;
 
-            var newInstance = _mapper.Map<Core.Entities.Crypto>(request);
+            if(info is null || price is null)
+            {
+                throw new Exception("Provided symbol not supported");
+            }
+
+            ExtractDataInfo(info, request.Symbol);
+
+            var newInstance = CreateNewInstance(price);
 
             await _work.CryptoRepository.Add(newInstance);
             await _work.Commit();
 
             return Unit.Value;
+        }
+
+        private Core.Entities.Crypto CreateNewInstance(CryptoPriceSingleResponseDto price)
+        {
+            var newCrypto = new Core.Entities.Crypto
+            {
+                Logo = Info!.Logo,
+                Name = Info!.Name,
+                Symbol = Info!.Symbol,
+                Description = Info!.Description,
+                WebSite = Info!.Urls["website"]?.FirstOrDefault() ?? null,
+                SourceCode = Info!.Urls["source_code"]?.FirstOrDefault() ?? null
+            };
+
+            newCrypto.Explorers = Info!.Urls["explorer"]?.Select(i => new CryptoExplorer
+            {
+                Url = i
+            }).ToList() ?? new List<CryptoExplorer>();
+
+            newCrypto.Prices.Add(new CryptoPrice
+            {
+                Price = price.Prices["EUR"]
+            });
+            
+            return newCrypto;
         }
 
         private void ExtractDataInfo(CryptoInfoResponseDto infoResponse, string symbol)
@@ -69,6 +103,11 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
                                     && !string.IsNullOrEmpty(i.Description)
                                     && !string.IsNullOrEmpty(i.Name)
                                     && !string.IsNullOrEmpty(i.Logo));
+
+            if(Info is null)
+            {
+                throw new Exception("Provided symbol not supported");
+            }
         }
     }
 }

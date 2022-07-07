@@ -3,6 +3,7 @@ using Crypto.Application.Options;
 using Crypto.Core.Interfaces;
 using Crypto.Infrastracture.Clients;
 using Crypto.Infrastracture.Persistence;
+using Crypto.Infrastracture.Persistence.Interceptors;
 using Crypto.Infrastracture.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,8 @@ namespace Crypto.Infrastracture
             services.AddDbContext<CryptoDbContext>(opt =>
             {
                 opt.UseSqlServer(configuration.GetConnectionString("CryptoDatabase"));
+
+                opt.AddInterceptors(new[] { new CommandInterceptor() });
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

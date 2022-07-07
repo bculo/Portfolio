@@ -11,6 +11,5 @@ namespace Crypto.Application.Models.Price
         public string Symbol { get; set; }
         public List<string> Currencies { get; set; }
         public Dictionary<string, decimal>  Prices { get; set; }
-        public bool ValidResponse { get; set; }
     }
 }
