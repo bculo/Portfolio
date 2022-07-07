@@ -3,8 +3,10 @@ using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Info;
 using Crypto.Application.Models.Price;
 using Crypto.Core.Entities;
+using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +21,22 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
         private readonly IMapper _mapper;
         private readonly ICryptoInfoService _infoService;
         private readonly ICryptoPriceService _priceService;
+        private readonly ILogger<AddNewCryptoCommandHandler> _logger;
 
         public CryptoInfoDataDto? Info { get; set; }
+        public decimal Price { get; set; }
 
         public AddNewCryptoCommandHandler(IUnitOfWork work, 
             IMapper mapper, 
             ICryptoInfoService infoService,
-            ICryptoPriceService priceService)
+            ICryptoPriceService priceService,
+            ILogger<AddNewCryptoCommandHandler> logger)
         {
             _work = work;
             _mapper = mapper;
             _infoService = infoService;
             _priceService = priceService;
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(AddNewCryptoCommand request, CancellationToken cancellationToken)
@@ -39,7 +45,8 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
             if(item != null)
             {
-                throw new Exception("Item with given symbol already exists");
+                _logger.LogInformation("Item with given symbol {0} already exist", request.Symbol);
+                throw new CryptoCoreException($"Item with given symbol {request.Symbol} already exist");
             }
 
             var cryptoInfoTask = _infoService.FetchData(request.Symbol);
@@ -52,12 +59,13 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
             if(info is null || price is null)
             {
-                throw new Exception("Provided symbol not supported");
+                _logger.LogInformation("Info and price items are not fetched successfuly (HTTP clients)");
+                throw new CryptoCoreException("Provided symbol not supported");
             }
 
-            ExtractDataInfo(info, request.Symbol);
+            ParseData(info, price, request.Symbol);
 
-            var newInstance = CreateNewInstance(price);
+            var newInstance = CreateNewInstance();
 
             await _work.CryptoRepository.Add(newInstance);
             await _work.Commit();
@@ -65,7 +73,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
             return Unit.Value;
         }
 
-        private Core.Entities.Crypto CreateNewInstance(CryptoPriceSingleResponseDto price)
+        private Core.Entities.Crypto CreateNewInstance()
         {
             var newCrypto = new Core.Entities.Crypto
             {
@@ -84,19 +92,20 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
             newCrypto.Prices.Add(new CryptoPrice
             {
-                Price = price.Prices["EUR"]
+                Price = Price
             });
             
             return newCrypto;
         }
 
-        private void ExtractDataInfo(CryptoInfoResponseDto infoResponse, string symbol)
+        private void ParseData(CryptoInfoResponseDto infoResponse, CryptoPriceSingleResponseDto priceResponse, string symbol)
         {
             var cryptoData = infoResponse.Data.Values.FirstOrDefault();
 
             if (cryptoData is null || !cryptoData.Any())
             {
-                throw new Exception("Invalid crypto data");
+                _logger.LogInformation("Information about given symbol not found");
+                throw new Exception("Unexpected exception");
             }
 
             Info = cryptoData.FirstOrDefault(i => i.Symbol.ToLower() == symbol.ToLower()
@@ -106,8 +115,17 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
             if(Info is null)
             {
-                throw new Exception("Provided symbol not supported");
+                _logger.LogInformation("Information about given symbol not found");
+                throw new Exception("Unexpected exception");
             }
+
+            if(priceResponse.Prices == null || !priceResponse.Prices.Keys.All(i => i != "USD"))
+            {
+                _logger.LogInformation("Price for given symbol not found");
+                throw new Exception("Unexpected exception");
+            }
+
+            Price = priceResponse.Prices["USD"];
         }
     }
 }
