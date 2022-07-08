@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
 {
-    public class FetchAllCryptosQuery : IRequest<List<FetchAllCryptosDto>>
+    public class FetchAllCryptosQuery : IRequest<List<FetchAllCryptosResponseDto>>
     {
     }
 }

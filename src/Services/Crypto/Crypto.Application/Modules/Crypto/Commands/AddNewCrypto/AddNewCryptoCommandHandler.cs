@@ -119,13 +119,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
                 throw new Exception("Unexpected exception");
             }
 
-            if(priceResponse.Prices == null || !priceResponse.Prices.Keys.All(i => i != "USD"))
-            {
-                _logger.LogInformation("Price for given symbol not found");
-                throw new Exception("Unexpected exception");
-            }
-
-            Price = priceResponse.Prices["USD"];
+            Price = priceResponse.Price;
         }
     }
 }

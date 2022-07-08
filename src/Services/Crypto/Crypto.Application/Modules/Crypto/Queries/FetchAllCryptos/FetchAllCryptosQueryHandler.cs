@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
 {
-    public class FetchAllCryptosQueryHandler : IRequestHandler<FetchAllCryptosQuery, List<FetchAllCryptosDto>>
+    public class FetchAllCryptosQueryHandler : IRequestHandler<FetchAllCryptosQuery, List<FetchAllCryptosResponseDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _work;
@@ -20,11 +20,11 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
             _work = work;
         }
 
-        public async Task<List<FetchAllCryptosDto>> Handle(FetchAllCryptosQuery request, CancellationToken cancellationToken)
+        public async Task<List<FetchAllCryptosResponseDto>> Handle(FetchAllCryptosQuery request, CancellationToken cancellationToken)
         {
             var items = await _work.CryptoRepository.GetAll();
 
-            var dtos = _mapper.Map<List<FetchAllCryptosDto>>(items);
+            var dtos = _mapper.Map<List<FetchAllCryptosResponseDto>>(items);
 
             return dtos;
         }

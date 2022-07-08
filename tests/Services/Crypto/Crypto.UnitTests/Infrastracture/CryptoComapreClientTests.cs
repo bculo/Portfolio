@@ -16,7 +16,6 @@ namespace Crypto.UnitTests.Infrastracture
         private const string BTC_SYMBOL = "BTC";
         private const string UNKNOWN_SYMBOL = "DRAGON123";
 
-        private const string EUR_CURRENCY = "EUR";
         private const string USD_CURRENCY = "USD";
 
         [Fact]
@@ -28,8 +27,8 @@ namespace Crypto.UnitTests.Infrastracture
 
             Assert.NotNull(response);
             Assert.Equal(BTC_SYMBOL, response.Symbol);
-            Assert.Contains(response.Currencies, p => p == EUR_CURRENCY);
-            Assert.Contains(response.Currencies, p => p == USD_CURRENCY);
+            Assert.Equal(USD_CURRENCY, response.Currency);
+            Assert.True(response.Price > 0.0m);
         }
 
         [Fact]
@@ -49,7 +48,7 @@ namespace Crypto.UnitTests.Infrastracture
                 ApiKey = "Apikey ...........",
                 BaseUrl = "https://min-api.cryptocompare.com/data",
                 HeaderKey = "authorization",
-                Currencies = new string[] { EUR_CURRENCY, USD_CURRENCY }
+                Currency = USD_CURRENCY,
             };
 
             var options = Options.Create(infoOptions);

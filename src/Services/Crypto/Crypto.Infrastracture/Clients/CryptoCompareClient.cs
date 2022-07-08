@@ -27,7 +27,7 @@ namespace Crypto.Infrastracture.Clients
         {
             AddHeader(_options.HeaderKey, _options.ApiKey);
 
-            var url = $"{_options.BaseUrl}/price?fsym={symbol.ToUpper()}&tsyms={StringUtils.ArrayTostring(_options.Currencies, ",")}";
+            var url = $"{_options.BaseUrl}/price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}";
 
             var response = await Client.GetAsync(url);
 
@@ -42,8 +42,8 @@ namespace Crypto.Infrastracture.Clients
 
             return new CryptoPriceSingleResponseDto
             {
-                Currencies = _options.Currencies.ToList(),
-                Prices = finalContent!,
+                Currency = _options.Currency,
+                Price = finalContent[_options.Currency],
                 Symbol = symbol.ToUpper()
             };
         }
