@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
 using MediatR;
 using System;
@@ -22,9 +23,14 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
 
         public async Task<FetchSingleResponseDto> Handle(FetchSingleQuery request, CancellationToken cancellationToken)
         {
-            var items = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+            var entity = await _work.CryptoRepository.GetWithPrice(request.Symbol);
 
-            var dto = _mapper.Map<FetchSingleResponseDto>(items);
+            if(entity is null)
+            {
+                throw new CryptoCoreException("Item with symbol {0} not found", request.Symbol);
+            }
+
+            var dto = _mapper.Map<FetchSingleResponseDto>(entity);
 
             return dto;
         }

@@ -1,4 +1,5 @@
-﻿using Crypto.Core.Interfaces;
+﻿using Crypto.Core.Exceptions;
+using Crypto.Core.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.DeleteCrypto
 
             if(item is null)
             {
-                throw new Exception("Item not found");
+                throw new CryptoCoreException("Item not found");
             }
 
             await _work.CryptoRepository.Remove(item);

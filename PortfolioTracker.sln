@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.UnitTests", "tests\S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events", "Events", "{4598C28E-F027-4075-9045-1B5009AA89C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Common", "src\BuildingBlocks\Events\Events.Common\Events.Common.csproj", "{D96DC344-9500-4090-901B-7B6D892C67E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events.Common", "src\BuildingBlocks\Events\Events.Common\Events.Common.csproj", "{D96DC344-9500-4090-901B-7B6D892C67E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -18,22 +18,19 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
     public class AddNewCryptoCommandHandler : IRequestHandler<AddNewCryptoCommand>
     {
         private readonly IUnitOfWork _work;
-        private readonly IMapper _mapper;
         private readonly ICryptoInfoService _infoService;
         private readonly ICryptoPriceService _priceService;
         private readonly ILogger<AddNewCryptoCommandHandler> _logger;
 
         public CryptoInfoDataDto? Info { get; set; }
-        public decimal Price { get; set; }
+        public CryptoPriceSingleResponseDto? Price { get; set; }
 
-        public AddNewCryptoCommandHandler(IUnitOfWork work, 
-            IMapper mapper, 
+        public AddNewCryptoCommandHandler(IUnitOfWork work,
             ICryptoInfoService infoService,
             ICryptoPriceService priceService,
             ILogger<AddNewCryptoCommandHandler> logger)
         {
             _work = work;
-            _mapper = mapper;
             _infoService = infoService;
             _priceService = priceService;
             _logger = logger;
@@ -92,7 +89,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
             newCrypto.Prices.Add(new CryptoPrice
             {
-                Price = Price
+                Price = Price!.Price
             });
             
             return newCrypto;
@@ -119,7 +116,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
                 throw new Exception("Unexpected exception");
             }
 
-            Price = priceResponse.Price;
+            Price = priceResponse;
         }
     }
 }

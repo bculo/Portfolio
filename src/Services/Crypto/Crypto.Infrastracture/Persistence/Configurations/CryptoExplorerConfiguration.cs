@@ -22,7 +22,7 @@ namespace Crypto.Infrastracture.Persistence.Configurations
             builder.HasOne(i => i.Crypto)
                 .WithMany(i => i.Explorers)
                 .HasForeignKey(i => i.CryptoId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crypto.Core.Queries.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Crypto.Core.Interfaces
 {
     public interface ICryptoRepository : IRepository<Core.Entities.Crypto>
     {
+        Task<CryptoResponseQuery> GetWithPrice(string symbol);
     }
 }
