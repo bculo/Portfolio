@@ -17,7 +17,11 @@ services:
   keycloak: 
     image: jboss/keycloak
 
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+
 volumes:
   mongodbstore:
   redisstore:
   identitysqlvolume:
+  rabbitmqstore:

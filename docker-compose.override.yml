@@ -6,6 +6,7 @@ services:
     container_name: trend_mongo_db
     volumes:
       - mongodbstore:/data/db
+      - mongodbstore:/data/configdb
     ports:
       - "27017:27017"
     environment:
@@ -50,3 +51,14 @@ services:
     depends_on:
       - identity.database
       - sql.server.tools
+
+  rabbitmq:
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmquser
+      - RABBITMQ_DEFAULT_PASS=rabbitmqpassword
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmqstore:/var/lib/rabbitmq
