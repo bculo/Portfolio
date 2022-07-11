@@ -15,5 +15,6 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
         public string SourceCode { get; set; }
         public DateTime Created { get; set; }
         public string Logo { get; set; }
+        public decimal Price { get; set; }
     }
 }

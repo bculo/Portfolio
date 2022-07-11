@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Crypto.Core.Queries.Response;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 {
@@ -11,13 +7,13 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
     {
         public FetchAllQueryMapper()
         {
-            CreateMap<Core.Entities.Crypto, FetchAllResponseDto>()
-                .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.CreatedOn))
+            CreateMap<CryptoResponseQuery, FetchAllResponseDto>()
+                .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))
                 .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dst => dst.SourceCode, opt => opt.MapFrom(src => src.SourceCode))
-                .ForMember(dst => dst.Website, opt => opt.MapFrom(src => src.WebSite))
+                .ForMember(dst => dst.Website, opt => opt.MapFrom(src => src.Website))
                 .ForMember(dst => dst.Logo, opt => opt.MapFrom(src => src.Logo));
         }
     }

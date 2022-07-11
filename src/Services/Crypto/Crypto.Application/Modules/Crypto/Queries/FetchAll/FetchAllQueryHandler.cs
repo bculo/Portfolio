@@ -22,7 +22,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 
         public async Task<List<FetchAllResponseDto>> Handle(FetchAllQuery request, CancellationToken cancellationToken)
         {
-            var items = await _work.CryptoRepository.GetAll();
+            var items = await _work.CryptoRepository.GetAllWithPrice();
 
             var dtos = _mapper.Map<List<FetchAllResponseDto>>(items);
 

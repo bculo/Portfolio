@@ -10,5 +10,6 @@ namespace Crypto.Core.Interfaces
     public interface ICryptoRepository : IRepository<Core.Entities.Crypto>
     {
         Task<CryptoResponseQuery> GetWithPrice(string symbol);
+        Task<List<CryptoResponseQuery>> GetAllWithPrice();
     }
 }
