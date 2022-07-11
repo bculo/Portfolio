@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using Crypto.Application.Options;
+using FluentValidation;
+using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +18,21 @@ namespace Crypto.Application
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
+
             services.AddScoped<IDateTime, LocalDateTimeService>();
 
             services.AddMediatR(typeof(ApplicationLayer).Assembly);
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(configuration["QueueOptions:Address"]);
+                });
+            });
         }
     }
 }

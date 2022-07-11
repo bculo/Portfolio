@@ -5,6 +5,8 @@ using Crypto.Application.Models.Price;
 using Crypto.Core.Entities;
 using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
+using Events.Common.Crypto;
+using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 {
@@ -21,6 +24,8 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
         private readonly ICryptoInfoService _infoService;
         private readonly ICryptoPriceService _priceService;
         private readonly ILogger<AddNewCryptoCommandHandler> _logger;
+        private readonly IPublishEndpoint _publish;
+        private readonly IDateTime _time;
 
         public CryptoInfoDataDto? Info { get; set; }
         public CryptoPriceSingleResponseDto? Price { get; set; }
@@ -28,12 +33,16 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
         public AddNewCryptoCommandHandler(IUnitOfWork work,
             ICryptoInfoService infoService,
             ICryptoPriceService priceService,
-            ILogger<AddNewCryptoCommandHandler> logger)
+            ILogger<AddNewCryptoCommandHandler> logger,
+            IPublishEndpoint publish,
+            IDateTime time)
         {
             _work = work;
             _infoService = infoService;
             _priceService = priceService;
             _logger = logger;
+            _publish = publish;
+            _time = time;
         }
 
         public async Task<Unit> Handle(AddNewCryptoCommand request, CancellationToken cancellationToken)
@@ -66,6 +75,16 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
 
             await _work.CryptoRepository.Add(newInstance);
             await _work.Commit();
+
+            await _publish.Publish(new NewCryptoAdded
+            {
+                CreatedOn = _time.DateTime,
+                Currency = Price!.Currency,
+                Id = newInstance.Id,
+                Name = newInstance.Name,
+                Price = Price!.Price,
+                Symbol = newInstance.Symbol,
+            });
 
             return Unit.Value;
         }
