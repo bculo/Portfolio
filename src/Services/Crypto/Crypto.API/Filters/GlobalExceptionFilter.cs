@@ -45,6 +45,22 @@ namespace Crypto.API.Filters
                 return;
             }
 
+            if(trendException is CryptoCoreValidationException)
+            {
+                var validationException = context.Exception as CryptoCoreValidationException;
+
+                var validatioResponse = new ValidationErrorResponse
+                {
+                    Errors = validationException!.Errors,
+                    Message = validationException.Message,
+                    StatusCode = StatusCodes.Status400BadRequest
+                };
+
+                context.Result = new BadRequestObjectResult(validatioResponse);
+                context.ExceptionHandled = true;
+                return;
+            }
+
             var errorResponse = new ErrorResponseModel
             {
                 Message = context.Exception.Message,

@@ -1,6 +1,7 @@
-﻿using Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto;
-using Crypto.Application.Modules.Crypto.Commands.DeleteCrypto;
-using Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos;
+﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
+using Crypto.Application.Modules.Crypto.Commands.Delete;
+using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
+using Crypto.Application.Modules.Crypto.Queries.FetchAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +22,23 @@ namespace Crypto.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> AddNewCrypto([FromBody] AddNewCryptoCommand instance)
+        public async Task<IActionResult> AddNewCrypto([FromBody] AddNewCommand instance)
         {
             await _mediator.Send(instance);
+            return NoContent();
+        }
+
+        [HttpPost("UpdatePrice")]
+        public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceCommand command)
+        {
+            await _mediator.Send(command);
             return NoContent();
         }
 
         [HttpGet("FetchAll")]
         public async Task<IActionResult> FetchAll()
         {
-            return Ok(await _mediator.Send(new FetchAllCryptosQuery { }));
+            return Ok(await _mediator.Send(new FetchAllQuery { }));
         }
 
         [HttpGet("Single/{symbol}")]
@@ -42,7 +50,7 @@ namespace Crypto.API.Controllers
         [HttpDelete("Delete/{symbol}")]
         public async Task<IActionResult> Delete(string symbol)
         {
-            await _mediator.Send(new DeleteCryptoCommand { Symbol = symbol });
+            await _mediator.Send(new DeleteCommand { Symbol = symbol });
             return NoContent();
         }
     }

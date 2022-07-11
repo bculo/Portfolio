@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Commands.DeleteCrypto
+namespace Crypto.Application.Modules.Crypto.Commands.Delete
 {
-    public class DeleteCryptoCommand : IRequest
+    public class DeleteCommand : IRequest
     {
         public string Symbol { get; set; }
     }

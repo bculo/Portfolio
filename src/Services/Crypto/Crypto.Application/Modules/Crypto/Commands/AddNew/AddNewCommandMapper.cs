@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 
-namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
+namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
-    public class AddNewCryptoCommandMapper : Profile
+    public class AddNewCommandMapper : Profile
     {
-        public AddNewCryptoCommandMapper()
+        public AddNewCommandMapper()
         {
-            CreateMap<AddNewCryptoCommand, Core.Entities.Crypto>()
+            CreateMap<AddNewCommand, Core.Entities.Crypto>()
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol.ToUpper()))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Symbol.ToUpper()));
         }   

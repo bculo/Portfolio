@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
+namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
-    public class AddNewCryptoCommand : IRequest
+    public class AddNewCommand : IRequest
     {
         public string Symbol { get; set; }
     }

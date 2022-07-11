@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
+namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 {
-    public class FetchAllCryptosResponseDto
+    public class FetchAllResponseDto
     {
         public string Symbol { get; set; }
         public string Name { get; set; }

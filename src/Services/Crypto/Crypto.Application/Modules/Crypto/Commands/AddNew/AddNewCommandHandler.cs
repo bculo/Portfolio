@@ -16,24 +16,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Time.Common.Contracts;
 
-namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
+namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
-    public class AddNewCryptoCommandHandler : IRequestHandler<AddNewCryptoCommand>
+    public class AddNewCommandHandler : IRequestHandler<AddNewCommand>
     {
         private readonly IUnitOfWork _work;
         private readonly ICryptoInfoService _infoService;
         private readonly ICryptoPriceService _priceService;
-        private readonly ILogger<AddNewCryptoCommandHandler> _logger;
+        private readonly ILogger<AddNewCommandHandler> _logger;
         private readonly IPublishEndpoint _publish;
         private readonly IDateTime _time;
 
         public CryptoInfoDataDto? Info { get; set; }
         public CryptoPriceSingleResponseDto? Price { get; set; }
 
-        public AddNewCryptoCommandHandler(IUnitOfWork work,
+        public AddNewCommandHandler(IUnitOfWork work,
             ICryptoInfoService infoService,
             ICryptoPriceService priceService,
-            ILogger<AddNewCryptoCommandHandler> logger,
+            ILogger<AddNewCommandHandler> logger,
             IPublishEndpoint publish,
             IDateTime time)
         {
@@ -45,7 +45,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewCrpyto
             _time = time;
         }
 
-        public async Task<Unit> Handle(AddNewCryptoCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddNewCommand request, CancellationToken cancellationToken)
         {
             var item = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
 

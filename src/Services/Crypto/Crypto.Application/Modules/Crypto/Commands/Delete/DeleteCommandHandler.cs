@@ -7,18 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Commands.DeleteCrypto
+namespace Crypto.Application.Modules.Crypto.Commands.Delete
 {
-    public class DeleteCryptoCommandHandler : IRequestHandler<DeleteCryptoCommand>
+    public class DeleteCommandHandler : IRequestHandler<DeleteCommand>
     {
         private readonly IUnitOfWork _work;
 
-        public DeleteCryptoCommandHandler(IUnitOfWork work)
+        public DeleteCommandHandler(IUnitOfWork work)
         {
             _work = work;
         }
 
-        public async Task<Unit> Handle(DeleteCryptoCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCommand request, CancellationToken cancellationToken)
         {
             var item = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
 

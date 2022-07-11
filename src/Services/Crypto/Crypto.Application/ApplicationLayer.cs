@@ -1,4 +1,5 @@
-﻿using Crypto.Application.Options;
+﻿using Crypto.Application.Behaviours;
+using Crypto.Application.Options;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -22,6 +23,8 @@ namespace Crypto.Application
 
             services.AddScoped<IDateTime, LocalDateTimeService>();
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+
             services.AddMediatR(typeof(ApplicationLayer).Assembly);
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
@@ -31,6 +34,7 @@ namespace Crypto.Application
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
+                    config.ConfigureEndpoints(context);
                 });
             });
         }

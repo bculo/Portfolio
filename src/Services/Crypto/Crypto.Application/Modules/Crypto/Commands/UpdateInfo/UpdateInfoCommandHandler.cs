@@ -3,12 +3,15 @@ using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Info;
 using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
+using Events.Common.Crypto;
+using MassTransit;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 {
@@ -16,13 +19,20 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
     {
         private readonly IUnitOfWork _work;
         private readonly ICryptoInfoService _infoService;
+        private readonly IPublishEndpoint _publish;
+        private readonly IDateTime _time;
 
         public CryptoInfoDataDto? Info { get; set; }
 
-        public UpdateInfoCommandHandler(IUnitOfWork work, ICryptoInfoService infoService)
+        public UpdateInfoCommandHandler(IUnitOfWork work, 
+            ICryptoInfoService infoService,
+            IPublishEndpoint publish,
+            IDateTime time)
         {
             _work = work;
             _infoService = infoService;
+            _publish = publish;
+            _time = time;
         }
 
         public async Task<Unit> Handle(UpdateInfoCommand request, CancellationToken cancellationToken)
@@ -44,6 +54,16 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
             ParseData(infoResponse, request.Symbol);
 
             await UpdateInstance(entity);
+
+            await _publish.Publish(new CryptoInfoUpdated
+            {
+                CreatedOn = _time.DateTime,
+                Description = entity.Description,
+                Id = entity.Id,
+                Name = entity.Name,
+                Symbol = entity.Symbol,
+                Website = entity.WebSite
+            });
 
             return Unit.Value;
         }

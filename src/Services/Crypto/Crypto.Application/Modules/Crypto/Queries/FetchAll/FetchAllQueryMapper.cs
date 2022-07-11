@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
+namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 {
-    public class FetchAllCryptosQueryMapper : Profile
+    public class FetchAllQueryMapper : Profile
     {
-        public FetchAllCryptosQueryMapper()
+        public FetchAllQueryMapper()
         {
-            CreateMap<Core.Entities.Crypto, FetchAllCryptosResponseDto>()
+            CreateMap<Core.Entities.Crypto, FetchAllResponseDto>()
                 .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.CreatedOn))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))

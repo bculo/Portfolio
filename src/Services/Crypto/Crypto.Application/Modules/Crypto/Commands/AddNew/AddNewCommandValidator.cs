@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
+namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
-    public class UpdateInfoCommandValidator : AbstractValidator<UpdateInfoCommand>
+    public class AddNewCommandValidator : AbstractValidator<AddNewCommand>
     {
-        public UpdateInfoCommandValidator()
+        public AddNewCommandValidator()
         {
             RuleFor(i => i.Symbol)
                 .Matches(RegexConstants.SYMBOL)

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Queries.FetchAllCryptos
+namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 {
-    public class FetchAllCryptosQuery : IRequest<List<FetchAllCryptosResponseDto>>
+    public class FetchAllQuery : IRequest<List<FetchAllResponseDto>>
     {
     }
 }
