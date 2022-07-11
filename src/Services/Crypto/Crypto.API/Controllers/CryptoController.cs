@@ -2,6 +2,7 @@
 using Crypto.Application.Modules.Crypto.Commands.Delete;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.Application.Modules.Crypto.Queries.FetchAll;
+using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,12 @@ namespace Crypto.API.Controllers
         {
             await _mediator.Send(new DeleteCommand { Symbol = symbol });
             return NoContent();
+        }
+
+        [HttpGet("GetPriceHisotry/{symbol}")]
+        public async Task<IActionResult> GetPriceHistory(string symbol)
+        {
+            return Ok(await _mediator.Send(new FetchPriceHistoryQuery { Symbol = symbol }));
         }
     }
 }

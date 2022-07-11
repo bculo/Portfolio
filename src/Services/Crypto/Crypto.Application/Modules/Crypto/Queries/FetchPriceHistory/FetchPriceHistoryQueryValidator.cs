@@ -6,15 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
+namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
 {
-    public class FetchSingleQueryValidator : AbstractValidator<FetchSingleQuery>
+    public class FetchPriceHistoryQueryValidator : AbstractValidator<FetchPriceHistoryQuery>
     {
-        public FetchSingleQueryValidator()
+        public FetchPriceHistoryQueryValidator()
         {
             RuleFor(i => i.Symbol)
                 .Matches(RegexConstants.SYMBOL)
                 .NotEmpty();
-        }
+        }   
     }
 }
