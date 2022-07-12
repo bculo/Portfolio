@@ -1,6 +1,7 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Application.Modules.Crypto.Commands.Delete;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
+using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
@@ -33,6 +34,13 @@ namespace Crypto.API.Controllers
         public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceCommand command)
         {
             await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpGet("UpdateAllPrices")]
+        public async Task<IActionResult> UpdateAllPrices()
+        {
+            await _mediator.Send(new UpdatePriceAllCommand { });
             return NoContent();
         }
 

@@ -76,7 +76,7 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
         public async virtual Task<List<T>> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
 
