@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Models.Price
 {
-    public class CryptoPriceSingleResponseDto
+    public class CryptoPriceResponseDto
     {
         public string Symbol { get; set; }
         public string Currency { get; set; }

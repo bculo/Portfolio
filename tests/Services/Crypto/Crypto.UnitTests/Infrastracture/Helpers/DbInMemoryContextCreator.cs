@@ -29,9 +29,9 @@ namespace Crypto.UnitTests.Infrastracture.Common
 
         public static void SeedData(IUnitOfWork work)
         {
-            var instance1 = new Core.Entities.Crypto { Symbol = "btc", Name = "Vitcoin" };
-            var instance2 = new Core.Entities.Crypto { Symbol = "eth", Name = "Etherum" };
-            var instance3 = new Core.Entities.Crypto { Symbol = "ada", Name = "Cardano" };
+            var instance1 = new Core.Entities.Crypto { Symbol = "btc", Name = "Bitcoin", Description = "random description", Logo = "LOGO_URL" };
+            var instance2 = new Core.Entities.Crypto { Symbol = "eth", Name = "Etherum", Description = "random description", Logo = "LOGO_URL" };
+            var instance3 = new Core.Entities.Crypto { Symbol = "ada", Name = "Cardano", Description = "random description", Logo = "LOGO_URL" };
 
             work.CryptoRepository.Add(instance1);
             work.CryptoRepository.Add(instance2);

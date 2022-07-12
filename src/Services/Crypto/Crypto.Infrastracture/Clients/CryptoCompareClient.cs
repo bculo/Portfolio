@@ -21,12 +21,12 @@ namespace Crypto.Infrastracture.Clients
         public CryptoCompareClient(HttpClient client, IOptions<CryptoPriceApiOptions> options) : base(client)
         {
             _options = options.Value;
+
+            AddHeader(_options.HeaderKey, _options.ApiKey);
         }
 
-        public async Task<CryptoPriceSingleResponseDto> GetPriceInfo(string symbol)
+        public async Task<CryptoPriceResponseDto> GetPriceInfo(string symbol)
         {
-            AddHeader(_options.HeaderKey, _options.ApiKey);
-
             var url = $"{_options.BaseUrl}/price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}";
 
             var response = await Client.GetAsync(url);
@@ -40,12 +40,42 @@ namespace Crypto.Infrastracture.Clients
 
             var finalContent = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(content);
 
-            return new CryptoPriceSingleResponseDto
+            return new CryptoPriceResponseDto
             {
                 Currency = _options.Currency,
-                Price = finalContent[_options.Currency],
+                Price = finalContent![_options.Currency],
                 Symbol = symbol.ToUpper()
             };
+        }
+
+        public async Task<List<CryptoPriceResponseDto>> GetPriceInfo(List<string> symbols)
+        {
+            var url = $"{_options.BaseUrl}/pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}";
+
+            var response = await Client.GetAsync(url);
+
+            var content = await response.HandleResponse();
+
+            if (IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
+            {
+                return null;
+            }
+
+            var finalContent = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, decimal>>>(content);
+
+            var finalResult = new List<CryptoPriceResponseDto>();
+
+            foreach(var item in finalContent)
+            {
+                finalResult.Add(new CryptoPriceResponseDto
+                {
+                    Currency = _options.Currency,
+                    Symbol = item.Key,
+                    Price = item.Value[_options.Currency]
+                });
+            }
+
+            return finalResult;
         }
 
         private bool IsBadRequest(string content)
@@ -61,6 +91,11 @@ namespace Crypto.Infrastracture.Clients
             }
 
             return false;
+        }
+
+        private string ConvertSymbolsArrayToString(List<string> symbols)
+        {
+            return string.Join(",", symbols.Select(i => i.ToUpper()));
         }
     }
 }

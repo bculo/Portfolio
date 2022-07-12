@@ -9,6 +9,7 @@ namespace Crypto.Application.Interfaces.Services
 {
     public interface ICryptoPriceService
     {
-        Task<CryptoPriceSingleResponseDto> GetPriceInfo(string symbol);
+        Task<CryptoPriceResponseDto> GetPriceInfo(string symbol);
+        Task<List<CryptoPriceResponseDto>> GetPriceInfo(List<string> symbols);
     }
 }

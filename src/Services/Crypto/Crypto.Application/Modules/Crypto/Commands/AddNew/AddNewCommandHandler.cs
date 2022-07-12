@@ -28,7 +28,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
         private readonly IDateTime _time;
 
         public CryptoInfoDataDto? Info { get; set; }
-        public CryptoPriceSingleResponseDto? Price { get; set; }
+        public CryptoPriceResponseDto? Price { get; set; }
 
         public AddNewCommandHandler(IUnitOfWork work,
             ICryptoInfoService infoService,
@@ -114,7 +114,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             return newCrypto;
         }
 
-        private void ParseData(CryptoInfoResponseDto infoResponse, CryptoPriceSingleResponseDto priceResponse, string symbol)
+        private void ParseData(CryptoInfoResponseDto infoResponse, CryptoPriceResponseDto priceResponse, string symbol)
         {
             var cryptoData = infoResponse.Data.Values.FirstOrDefault();
 

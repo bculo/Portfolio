@@ -53,5 +53,10 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
             return result.ToList();
         }
+
+        public async Task<List<string>> GetAllSymbols()
+        {
+            return await _context.Cryptos.Select(i => i.Symbol).ToListAsync();
+        }
     }
 }

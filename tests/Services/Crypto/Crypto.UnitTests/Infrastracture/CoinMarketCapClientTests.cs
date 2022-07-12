@@ -14,38 +14,57 @@ namespace Crypto.UnitTests.Infrastracture
 {
     public class CoinMarketCapClientTests
     {
-        private const string VALID_SYMBOL = "btc";
+        private const string BTC_SYMBOL = "btc";
+
         private const string INVALID_SYMBOL = "DRAGON123";
+
+        private static string[] VALID_SYMBOLS = new string[] { BTC_SYMBOL };
 
         [Fact]
         public async Task FetchData_Should_Return_Instance_When_Valid_Symbol_Provided()
         {
-            var service = Build(VALID_SYMBOL);
+            string symbol = BTC_SYMBOL;
 
-            var response = await service.FetchData(VALID_SYMBOL);
+            var service = Build(symbol);
+
+            var response = await service.FetchData(symbol);
 
             Assert.NotNull(response);
 
             var itemDictionary = response.Data;
 
-            var dictionaryKey = itemDictionary.ContainsKey(VALID_SYMBOL) ? VALID_SYMBOL : VALID_SYMBOL.ToUpper();
+            var dictionaryKey = itemDictionary.ContainsKey(symbol) ? symbol : symbol.ToUpper();
 
             var finalItemsCollection = itemDictionary[dictionaryKey];
 
-            Assert.Contains(finalItemsCollection, i => i.Symbol.ToLower() == VALID_SYMBOL.ToLower());
+            Assert.Contains(finalItemsCollection, i => i.Symbol.ToLower() == symbol.ToLower());
         }
 
         [Fact]
         public async Task FetchData_Should_Return_Null_When_Invalid_Symbol_Provided()
         {
-            var service = Build(INVALID_SYMBOL);
+            string symbol = INVALID_SYMBOL;
 
-            var response = await service.FetchData(INVALID_SYMBOL);
+            var service = Build(symbol);
+
+            var response = await service.FetchData(symbol);
 
             Assert.Null(response);
         }
 
-        public ICryptoInfoService Build(string symbol)
+        [Fact]
+        public async Task FetchData_Should_Return_Null_When_Request_Unauthorized()
+        {
+            string symbol = BTC_SYMBOL;
+
+            var service = Build(symbol, false);
+
+            var response = await service.FetchData(symbol);
+
+            Assert.Null(response);
+        }
+
+        public ICryptoInfoService Build(string symbol, bool isAuthorized = true)
         {
             var infoOptions = new CryptoInfoApiOptions
             {
@@ -58,16 +77,21 @@ namespace Crypto.UnitTests.Infrastracture
 
             var handler = new MockHttpMessageHandler();
 
-            if(symbol == VALID_SYMBOL)
+            if(VALID_SYMBOLS.Contains(symbol) && isAuthorized)
             {
                 string btcResponseJson = File.ReadAllText("./Static/btc-info-response.json");
                 handler.When("https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?symbol=btc")
                     .Respond("application/json", btcResponseJson);
             }
-            else
+            else if(!VALID_SYMBOLS.Contains(symbol) && isAuthorized)
             {
                 handler.When("https://pro-api.coinmarketcap.com/v2/cryptocurrency/*")
                     .Respond(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                handler.When("https://pro-api.coinmarketcap.com/v2/cryptocurrency/*")
+                    .Respond(HttpStatusCode.Unauthorized);
             }
 
             var client = handler.ToHttpClient();

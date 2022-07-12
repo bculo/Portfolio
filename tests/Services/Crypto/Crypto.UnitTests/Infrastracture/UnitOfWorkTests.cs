@@ -134,7 +134,9 @@ namespace Crypto.UnitTests.Infrastracture
             return new Core.Entities.Crypto
             {
                 Symbol = symbol,
-                Name = symbol
+                Name = symbol,
+                Description = "random description",
+                Logo = "LOGO_URL",      
             };
         }
     }

@@ -11,5 +11,6 @@ namespace Crypto.Core.Interfaces
     {
         Task<CryptoResponseQuery> GetWithPrice(string symbol);
         Task<List<CryptoResponseQuery>> GetAllWithPrice();
+        Task<List<string>> GetAllSymbols();
     }
 }
