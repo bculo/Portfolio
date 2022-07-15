@@ -22,8 +22,11 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated$ = this.store.select(authSelectors.isAuthenticated);
   }
 
-  login(){
+  login(): void {
     this.auth.login();
   }
 
+  logout(): void {
+    this.auth.logout();
+  }
 }

@@ -37,12 +37,35 @@ export class KeycloakService {
     this.store.dispatch(authActions.userAuthenticated({status:storeInstance}));
   }
 
+  private addEventListeners(){
+    this.keycloackInstance.onTokenExpired = () => {
+      this.refreshToken();
+    }
+  }
+
+  private refreshToken() {
+    from(this.keycloackInstance.updateToken(5)).pipe(
+      take(1),
+      tap((refreshed) => this.handleRefreshResponse(refreshed))
+    ).subscribe();
+  }
+
+  private handleRefreshResponse(refreshed: boolean) {
+    if(refreshed) {
+      this.store.dispatch(authActions.userLogout());
+      return;
+    }
+  }
+
   init() {
     this.keycloackInstance = new Keycloak(this.getConfig());
-    return from(this.keycloackInstance.init({ 
+
+    from(this.keycloackInstance.init({ 
       onLoad: 'check-sso', 
       silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
     })).pipe(take(1), tap((auth) => this.handleAuthentication(auth))).subscribe();
+
+    this.addEventListeners();
   }
 
   getUserName(): string {
@@ -79,6 +102,10 @@ export class KeycloakService {
 
   login(): void {
     this.keycloackInstance.login();
+  }
+
+  logout(): void {
+    this.keycloackInstance.logout({ redirectUri: window.location.origin + "/static/home" });
   }
 
   getKeycloackInstance(): Keycloak {

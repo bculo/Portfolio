@@ -18,6 +18,9 @@
         <li class="app-header__nav-item" routerLink="/news">
             <a class="app-header__nav-link">News</a>
         </li>
+        <li class="app-header__nav-item" (click)="logout()">
+            <a class="app-header__nav-link">Logout</a>
+        </li>
     </ul>
 
     <ul class="app-header__nav-list" *ngIf="!(isAuthenticated$ | async)">

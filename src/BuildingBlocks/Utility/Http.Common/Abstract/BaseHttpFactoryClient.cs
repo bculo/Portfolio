@@ -34,11 +34,16 @@ namespace Http.Common.Abstract
             _queryParameters = new Dictionary<string, string>();
         }
 
-        protected virtual HttpClient CreateNewClient()
+        protected virtual HttpClient CreateNewClient(string clientName = null)
         {
             ClearQueryParameters();
 
-            return _clientFactory.CreateClient();
+            if(clientName == null)
+            {
+                return _clientFactory.CreateClient();
+            }
+
+            return _clientFactory.CreateClient(clientName);
         }
 
         protected void AddQueryParameter(string key, string value)

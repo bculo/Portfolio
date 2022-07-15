@@ -4,9 +4,6 @@ import * as authActions from './auth.actions';
 
 export interface State {
     isAuthenticated: boolean;
-    refreshToken: string;
-    token: string;
-    idToken: string;
     username: string;
     email: string;
     loading: boolean;
@@ -17,11 +14,8 @@ export interface State {
 export const initialState: State = {
     isAuthenticated: false,
     error: null,
-    idToken: null,
     loading: false,
     refreshingToken: false,
-    refreshToken: null,
-    token: null,
     username: null,
     email: null
 }
