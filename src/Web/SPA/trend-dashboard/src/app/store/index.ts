@@ -1,11 +1,13 @@
 import { ActionReducerMap } from "@ngrx/store"
 
-export interface State {
+import * as fromAuth from './auth/auth.reducer';
 
+export interface State {
+    auth: fromAuth.State,
 };
 
 export const reducers: ActionReducerMap<State> = {
-
+    auth: fromAuth.authReducer
 };
 
 export const effects: any[] = [];

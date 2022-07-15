@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -25,9 +25,9 @@ import { NotificationModule } from './services/notification/notification.module'
     AppRoutingModule,
     HttpClientModule,
     NotificationModule,
-
+    
     StoreModule.forRoot(state.reducers),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(state.effects),
     StoreDevtoolsModule.instrument({ logOnly: false }),
     
     BrowserAnimationsModule, 

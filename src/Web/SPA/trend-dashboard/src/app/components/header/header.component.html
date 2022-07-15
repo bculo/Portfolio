@@ -4,7 +4,7 @@
         <h2 class="app-header__logo-text">Trend</h2>
     </div>
 
-    <ul class="app-header__nav-list">
+    <ul class="app-header__nav-list" *ngIf="isAuthenticated$ | async">
         <li class="app-header__nav-item" routerLink="/static">
             <a class="app-header__nav-link">Home</a>
         </li>
@@ -17,6 +17,12 @@
         </li>
         <li class="app-header__nav-item" routerLink="/news">
             <a class="app-header__nav-link">News</a>
+        </li>
+    </ul>
+
+    <ul class="app-header__nav-list" *ngIf="!(isAuthenticated$ | async)">
+        <li class="app-header__nav-item" (click)="login()">
+            <a class="app-header__nav-link">Login</a>
         </li>
     </ul>
 
