@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from './guards/role/role.guard';
 
 const routes: Routes = [
   {
@@ -9,11 +10,13 @@ const routes: Routes = [
   },
   {
     path: 'news',
-    loadChildren: () => import('./pages/news/news.module').then(i => i.NewsModule)
+    loadChildren: () => import('./pages/news/news.module').then(i => i.NewsModule),
+    canActivate: [RoleGuard]
   },
   {
     path: 'manage',
-    loadChildren: () => import('./pages/manage/manage.module').then(i => i.ManageModule)
+    loadChildren: () => import('./pages/manage/manage.module').then(i => i.ManageModule),
+    canActivate: [RoleGuard]
   },
   {
     path: 'static',

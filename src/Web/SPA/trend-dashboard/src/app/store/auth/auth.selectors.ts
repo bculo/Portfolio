@@ -7,3 +7,8 @@ export const isAuthenticated = createSelector(
     getAuthState,
     (state) => state.isAuthenticated
 );
+
+export const isAdmin = createSelector(
+    getAuthState,
+    (state) => state.role == "Admin"
+);

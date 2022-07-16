@@ -15,11 +15,13 @@ import * as authSelectors from 'src/app/store/auth/auth.selectors';
 export class HeaderComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean>;
+  isAdmin$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>, private auth: KeycloakService) { }
 
   ngOnInit(): void {
     this.isAuthenticated$ = this.store.select(authSelectors.isAuthenticated);
+    this.isAdmin$ = this.store.select(authSelectors.isAdmin);
   }
 
   login(): void {
@@ -28,5 +30,9 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.auth.logout();
+  }
+
+  register(): void {
+    this.auth.register();
   }
 }

@@ -8,14 +8,14 @@
         <li class="app-header__nav-item" routerLink="/static">
             <a class="app-header__nav-link">Home</a>
         </li>
-        <li class="app-header__dropdown-item">
+        <li class="app-header__dropdown-item" *ngIf="isAdmin$ | async">
             Manage
             <ul class="app-header__dropdown">
                 <li class="app-header__dropdown-list-item" routerLink="manage/sync">Syncs</li>
                 <li class="app-header__dropdown-list-item" routerLink="manage/settings">Settings</li>
             </ul>
         </li>
-        <li class="app-header__nav-item" routerLink="/news">
+        <li class="app-header__nav-item" routerLink="/news" *ngIf="isAdmin$ | async">
             <a class="app-header__nav-link">News</a>
         </li>
         <li class="app-header__nav-item" (click)="logout()">
@@ -26,6 +26,9 @@
     <ul class="app-header__nav-list" *ngIf="!(isAuthenticated$ | async)">
         <li class="app-header__nav-item" (click)="login()">
             <a class="app-header__nav-link">Login</a>
+        </li>
+        <li class="app-header__nav-item" (click)="register()">
+            <a class="app-header__nav-link">Register</a>
         </li>
     </ul>
 

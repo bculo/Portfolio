@@ -3,13 +3,14 @@ import Keycloak from 'keycloak-js';
 
 import json from 'src/assets/keycloak.json';
 
-import { from, take, tap } from 'rxjs';
+import { catchError, from, of, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'src/app/store/';
 
 import * as authActions from 'src/app/store/auth/auth.actions';
 import { UserAuthenticated } from 'src/app/store/auth/auth.models';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,10 @@ import { UserAuthenticated } from 'src/app/store/auth/auth.models';
 export class KeycloakService {
 
   private keycloackInstance: Keycloak;
+  private initCalled: boolean;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromRoot.State>, 
+    private notification: NotificationService) {}
 
   private getConfig(): any {
     return {
@@ -28,13 +31,26 @@ export class KeycloakService {
     }
   }
 
+  private userInValidRole(): boolean {
+    return this.keycloackInstance.hasResourceRole("Admin");
+  }
+
   private handleAuthentication(authenticated: boolean): void {
-    if(!authenticated) return;
+    if(!authenticated){
+      this.store.dispatch(authActions.userAuthenticationFailed());
+      return;
+    }
+
     const storeInstance: UserAuthenticated = {
-      email: null,
-      username: this.getUserName()
+      email: this.getEmail(),
+      username: this.getUserName(),
+      role: !this.userInValidRole() ? 'User' : 'Admin'
     };
-    this.store.dispatch(authActions.userAuthenticated({status:storeInstance}));
+
+    this.store.dispatch(authActions.userAuthenticated( {status:storeInstance} ));
+
+    if(storeInstance.role == 'User')
+      this.notification.error("User has no rights to use Trend.Client application");
   }
 
   private addEventListeners(){
@@ -46,18 +62,23 @@ export class KeycloakService {
   private refreshToken() {
     from(this.keycloackInstance.updateToken(5)).pipe(
       take(1),
-      tap((refreshed) => this.handleRefreshResponse(refreshed))
+      tap((refreshed) => this.handleRefreshResponse(refreshed)),
+      catchError((error) => { this.clearToken(); return of(null) })
     ).subscribe();
   }
 
   private handleRefreshResponse(refreshed: boolean) {
-    if(refreshed) {
+    if(!refreshed) {
       this.store.dispatch(authActions.userLogout());
       return;
     }
   }
 
   init() {
+    if(this.initCalled) return;
+
+    this.store.dispatch(authActions.userAuthenticationStarted());
+
     this.keycloackInstance = new Keycloak(this.getConfig());
 
     from(this.keycloackInstance.init({ 
@@ -66,6 +87,14 @@ export class KeycloakService {
     })).pipe(take(1), tap((auth) => this.handleAuthentication(auth))).subscribe();
 
     this.addEventListeners();
+
+    this.initCalled = true;
+  }
+
+  getEmail(): string {
+    if(this.keycloackInstance.authenticated && this.keycloackInstance.idTokenParsed["email"])
+      return this.keycloackInstance.idTokenParsed["email"];
+    return null;
   }
 
   getUserName(): string {
@@ -92,8 +121,8 @@ export class KeycloakService {
 
   getAuthorizationToken(): string {
     if(this.keycloackInstance.authenticated)
-    return this.keycloackInstance.token;
-  return null;
+      return this.keycloackInstance.token;
+    return null;
   }
 
   clearToken(): void {
@@ -102,6 +131,10 @@ export class KeycloakService {
 
   login(): void {
     this.keycloackInstance.login();
+  }
+
+  register(): void {
+    this.keycloackInstance.register();
   }
 
   logout(): void {
