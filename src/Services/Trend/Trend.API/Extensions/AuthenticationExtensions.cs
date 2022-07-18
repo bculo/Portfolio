@@ -1,4 +1,6 @@
 ﻿using Cryptography.Common.Utils;
+using Keycloak.Common;
+using Keycloak.Common.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
@@ -12,9 +14,12 @@ namespace Trend.API.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration configuration)
         {
             //NOTE: Update System.IdentityModel.Tokens.Jwt to newest version to fix bux -> Method not found: 'Void Microsoft.IdentityModel.Tokens.InternalValidators.ValidateLifetimeAndIssuerAfterSignatureNotValidatedJwt(Microsoft.IdentityModel.Tokens.SecurityToken, System.Nullable`1<System.DateTime>, System.Nullable`1<System.DateTime>, System.String, Microsoft.IdentityModel.Tokens.TokenValidationParameters, System.Text.StringBuilder)'.
+
+            services.Configure<KeycloakOptions>(configuration.GetSection("KeycloakOptions"));
+            services.AddKeyCloakClaimTransormer();
 
             services.AddAuthentication(opt =>
             {

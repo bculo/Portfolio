@@ -18,10 +18,9 @@ builder.Services.AddControllers(opt =>
 })
 .AddFluentValidation();
 
-builder.Services.ConfigureJWT(builder.Configuration);
+builder.Services.ConfigureAuthorization(builder.Configuration);
 
 builder.Services.AddLocalization();
-
 
 builder.Services.AddScoped<CacheActionFilter>();
 
