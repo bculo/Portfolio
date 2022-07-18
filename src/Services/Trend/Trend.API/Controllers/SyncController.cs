@@ -1,6 +1,8 @@
 ﻿using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend.Article;
 using Dtos.Common.v1.Trend.Sync;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Action;
 using Trend.API.Filters.Models;
@@ -10,6 +12,7 @@ namespace Trend.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SyncController : ControllerBase
     {
         private readonly ILogger<SyncController> _logger;

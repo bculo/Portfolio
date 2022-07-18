@@ -1,7 +1,10 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Globalization;
+using Trend.API.Extensions;
 using Trend.API.Filters;
 using Trend.API.Filters.Action;
 using Trend.Application;
@@ -15,13 +18,37 @@ builder.Services.AddControllers(opt =>
 })
 .AddFluentValidation();
 
+builder.Services.ConfigureJWT(builder.Configuration);
+
 builder.Services.AddLocalization();
 
 
 builder.Services.AddScoped<CacheActionFilter>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+
+    c.AddSecurityDefinition("Bearer",
+        new OpenApiSecurityScheme
+        {
+            Description = "JWT Authorization header using the Bearer scheme.",
+            Type = SecuritySchemeType.Http, 
+            Scheme = JwtBearerDefaults.AuthenticationScheme
+        }
+    );
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+        {
+            new OpenApiSecurityScheme{
+                Reference = new OpenApiReference{
+                    Id = JwtBearerDefaults.AuthenticationScheme, //The name of the previously defined security scheme.
+                    Type = ReferenceType.SecurityScheme
+                }
+            },new List<string>()
+        }
+    });
+});
 
 ApplicationLayer.AddServices(builder.Configuration, builder.Services);
 //ApplicationLayer.AddBackgroundServies(builder.Configuration, builder.Services);
@@ -56,7 +83,6 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowAnyOrigin());
-
 
 app.UseRequestLocalization();
 
