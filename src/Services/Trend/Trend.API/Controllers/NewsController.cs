@@ -1,4 +1,6 @@
 ﻿using Dtos.Common.v1.Trend.Article;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
@@ -7,6 +9,7 @@ namespace Trend.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NewsController : ControllerBase
     {
         private readonly ILogger<NewsController> _logger;

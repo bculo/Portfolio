@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Trend.API.Filters.Models;
 using Trend.API.Filters.Action;
 using Trend.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Trend.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SearchWordController : ControllerBase
     {
         private readonly ILogger<SearchWordController> _logger;
