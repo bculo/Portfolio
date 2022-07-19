@@ -50,8 +50,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 ApplicationLayer.AddServices(builder.Configuration, builder.Services);
-//ApplicationLayer.AddBackgroundServies(builder.Configuration, builder.Services);
-ApplicationLayer.AddLogger(builder);
+
+ApplicationLayer.AddLogger(builder.Host);
 
 builder.Services.Configure<RequestLocalizationOptions>(opts =>
 {

@@ -8,7 +8,6 @@ namespace Trend.Domain.Enums
 {
     public enum SearchEngine
     {
-        Google = 0,
-        Twitter = 1,
+        Google = 0
     }
 }

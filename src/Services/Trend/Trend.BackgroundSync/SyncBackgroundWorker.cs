@@ -1,28 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Time.Common.Contracts;
 using Trend.Application.Interfaces;
 using Trend.Application.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Interfaces;
 
-namespace Trend.Application.Background
+namespace Trend.BackgroundSync
 {
-    public class SyncBackgroundService : BackgroundService
+    public class SyncBackgroundWorker : BackgroundService
     {
-        private readonly ILogger<SyncBackgroundService> _logger;
+        private readonly ILogger<SyncBackgroundWorker> _logger;
         private readonly IServiceProvider _provider;
         private readonly SyncBackgroundServiceOptions _options;
 
-        public SyncBackgroundService(ILogger<SyncBackgroundService> logger, 
-            IServiceProvider provider, 
+        public SyncBackgroundWorker(ILogger<SyncBackgroundWorker> logger,
+            IServiceProvider provider,
             IOptions<SyncBackgroundServiceOptions> options)
         {
             _logger = logger;
@@ -43,7 +35,7 @@ namespace Trend.Application.Background
 
                     var lastSync = await syncRepo.GetLastValidSync();
 
-                    if(CanExecuteSync(time, lastSync))
+                    if (CanExecuteSync(time, lastSync))
                     {
                         _logger.LogTrace("CanExecuteSync returned TRUE");
                         await StartSyncProcess(scope, time);
@@ -72,14 +64,14 @@ namespace Trend.Application.Background
 
         private bool CanExecuteSync(IDateTime time, SyncStatus status)
         {
-            if(status is null)
+            if (status is null)
             {
                 return true;
             }
 
             var timeSpanFromLastSync = time.DateTime - status.Finished!.Value;
 
-            if(timeSpanFromLastSync.TotalHours > _options.TimeSpanBetweenSyncsHours)
+            if (timeSpanFromLastSync.TotalHours > _options.TimeSpanBetweenSyncsHours)
             {
                 _logger.LogInformation("Timespan between current time and last sync is greater then {0}", _options.TimeSpanBetweenSyncsHours);
                 return true;

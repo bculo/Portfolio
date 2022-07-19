@@ -69,9 +69,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Event", "Event", "{F956F731
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.API", "src\Services\Event\Event.API\Event.API.csproj", "{3FA09F3A-D535-40E8-BC06-C6ECB1D5434C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography.Common", "src\BuildingBlocks\Utility\Cryptography.Common\Cryptography.Common.csproj", "{700BA783-3444-494D-A17B-65860B35A241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.Common", "src\BuildingBlocks\Utility\Cryptography.Common\Cryptography.Common.csproj", "{700BA783-3444-494D-A17B-65860B35A241}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keycloak.Common", "src\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj", "{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common", "src\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj", "{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.BackgroundSync", "src\Services\Trend\Trend.BackgroundSync\Trend.BackgroundSync.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,10 @@ Global
 		{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +190,7 @@ Global
 		{3FA09F3A-D535-40E8-BC06-C6ECB1D5434C} = {F956F731-06A9-4BF3-9424-653C3130E348}
 		{700BA783-3444-494D-A17B-65860B35A241} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 		{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
+		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

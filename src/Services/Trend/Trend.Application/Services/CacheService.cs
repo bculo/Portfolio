@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Time.Common.Contracts;
 using Trend.Application.Interfaces;
 using Trend.Application.Options;
 
@@ -11,11 +12,13 @@ namespace Trend.Application.Services
     {
         private readonly IDistributedCache _cache;
         private readonly RedisOptions _options;
+        private readonly IDateTime _time;
 
-        public CacheService(IDistributedCache cache, IOptions<RedisOptions> options)
+        public CacheService(IDistributedCache cache, IOptions<RedisOptions> options, IDateTime time)
         {
             _cache = cache;
             _options = options.Value;
+            _time = time;
         }
 
         public async Task Add(string identifier, object instance)
@@ -32,7 +35,7 @@ namespace Trend.Application.Services
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
 
-            await _cache.SetStringAsync(identifier, json);
+            await _cache.SetStringAsync(identifier, json, GetCacheOptions());
         }
 
         public async Task<T> Get<T>(string identifier) where T : class
@@ -77,6 +80,14 @@ namespace Trend.Application.Services
             }
 
             return JsonConvert.DeserializeObject<List<T>>(value);
+        }
+
+        private DistributedCacheEntryOptions GetCacheOptions()
+        {
+            return new DistributedCacheEntryOptions
+            {
+                AbsoluteExpiration = _time.DateTime + TimeSpan.FromMinutes(_options.RememberTime)
+            };
         }
     }
 }

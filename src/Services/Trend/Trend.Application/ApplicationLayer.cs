@@ -2,17 +2,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Serilog;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Time.Common;
 using Time.Common.Contracts;
-using Trend.Application.Background;
 using Trend.Application.Clients;
 using Trend.Application.Configurations.Persistence;
 using Trend.Application.Interfaces;
@@ -61,14 +56,9 @@ namespace Trend.Application
             services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(ApplicationLayer).Assembly));
         }
 
-        public static void AddBackgroundServies(IConfiguration configuration, IServiceCollection services)
+        public static void AddLogger(IHostBuilder host)
         {
-            services.AddHostedService<SyncBackgroundService>();
-        }
-
-        public static void AddLogger(WebApplicationBuilder builder)
-        {
-            builder.Host.UseSerilog((ctx, cl) =>
+            host.UseSerilog((ctx, cl) =>
             {
                 cl.ReadFrom.Configuration(ctx.Configuration);
 
