@@ -1,6 +1,7 @@
 ﻿using Keycloak.Common.Options;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace Keycloak.Common
 {
     public static class KeycloakExtensions
     {
-        public static void AddKeyCloakClaimTransormer(this IServiceCollection services)
+        public static void AddKeyCloakClaimTransormer(this IServiceCollection services, IConfiguration configuration, string keycloackConfigSection = "KeycloakOptions")
         {
+            services.Configure<KeycloakOptions>(configuration.GetSection(keycloackConfigSection));
             services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
         }
     }
