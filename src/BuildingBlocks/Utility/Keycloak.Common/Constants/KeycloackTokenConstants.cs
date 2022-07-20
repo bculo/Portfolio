@@ -16,5 +16,6 @@ namespace Keycloak.Common.Constants
         public const string USERNAME = "preferred_username";
         public const string EMAIL = "email";
         public const string USERID = ClaimTypes.NameIdentifier;
+        public const string ROLE = ClaimTypes.Role;
     }
 }

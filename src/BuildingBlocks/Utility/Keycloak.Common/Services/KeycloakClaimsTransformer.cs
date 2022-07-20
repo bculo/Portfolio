@@ -31,22 +31,47 @@ namespace Keycloak.Common.Services
                 return Task.FromResult(principal);
             }
 
-            if (claimsIdentity.IsAuthenticated && claimsIdentity.HasClaim((claim) => claim.Type == "resource_access"))
-            {
-                var userRole = claimsIdentity.FindFirst((claim) => claim.Type == "resource_access");
+            HandleApplicationRoles(claimsIdentity);
 
-                var content = Newtonsoft.Json.Linq.JObject.Parse(userRole!.Value);
-
-                if(!content.ContainsKey(_options!.ApplicationName))
-                    return Task.FromResult(principal);
-
-                foreach (var role in content[_options!.ApplicationName]["roles"])
-                {
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
-                }
-            }
+            HandleRealmRoles(claimsIdentity);
 
             return Task.FromResult(principal);
+        }
+
+        private void HandleApplicationRoles(ClaimsIdentity claimsIdentity)
+        {
+            if (claimsIdentity.IsAuthenticated && claimsIdentity.HasClaim((claim) => claim.Type == "resource_access"))
+            {
+                var userAppRoles = claimsIdentity.FindFirst((claim) => claim.Type == "resource_access");
+
+                var content = Newtonsoft.Json.Linq.JObject.Parse(userAppRoles!.Value);
+
+                if (content.ContainsKey(_options!.ApplicationName))
+                {
+                    foreach (var role in content[_options!.ApplicationName]["roles"])
+                    {
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                    }
+                }
+            }
+        }
+
+        private void HandleRealmRoles(ClaimsIdentity claimsIdentity)
+        {
+            if (claimsIdentity.IsAuthenticated && claimsIdentity.HasClaim((claim) => claim.Type == "realm_access"))
+            {
+                var userRealmRoles = claimsIdentity.FindFirst((claim) => claim.Type == "realm_access");
+
+                var content = Newtonsoft.Json.Linq.JObject.Parse(userRealmRoles!.Value);
+
+                if (content.ContainsKey("roles"))
+                {
+                    foreach (var role in content["roles"])
+                    {
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                    }
+                }
+            }
         }
     }
 }

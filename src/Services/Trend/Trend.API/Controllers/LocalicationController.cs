@@ -15,12 +15,10 @@ namespace Trend.API.Controllers
     public class LocalicationController : ControllerBase
     {
         private readonly ILanguageService<AppCommon> _language;
-        private readonly KeycloackUserInfo _info;
 
-        public LocalicationController(ILanguageService<AppCommon> language, KeycloackUserInfo info)
+        public LocalicationController(ILanguageService<AppCommon> language)
         {
             _language = language;
-            _info = info;
         }
 
         [HttpGet("/{id}")]
@@ -29,12 +27,6 @@ namespace Trend.API.Controllers
             var culture = _language.GetCurrentCulture();
 
             return Ok(_language.Get(id));
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetTest()
-        {
-            return Ok(_info.GetIdentifier());
         }
     }
 }

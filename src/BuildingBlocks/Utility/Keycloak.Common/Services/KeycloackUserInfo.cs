@@ -62,5 +62,20 @@ namespace Keycloak.Common.Services
         {
             return Claims?.FindFirst(KeycloackTokenConstants.ISSUER)?.Value;
         }
+
+        public IEnumerable<string> GetRoles()
+        {
+            return Claims?.FindAll(KeycloackTokenConstants.ROLE)?.Select(i => i.Value)?.ToList() ?? Enumerable.Empty<string>();
+        }
+
+        public bool IsInRole(string roleName)
+        {
+            if (string.IsNullOrEmpty(roleName))
+            {
+                return false;
+            }
+
+            return GetRoles().Any(i => i == roleName);
+        }
     }
 }

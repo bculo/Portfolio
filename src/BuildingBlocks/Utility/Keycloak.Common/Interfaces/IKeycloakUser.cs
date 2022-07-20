@@ -19,5 +19,9 @@ namespace Keycloak.Common.Interfaces
         string? UserName();
 
         string? GetIssuer();
+
+        IEnumerable<string> GetRoles();
+
+        bool IsInRole(string roleName);
     }
 }
