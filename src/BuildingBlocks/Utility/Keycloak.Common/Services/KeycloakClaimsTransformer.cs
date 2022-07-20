@@ -37,6 +37,9 @@ namespace Keycloak.Common.Services
 
                 var content = Newtonsoft.Json.Linq.JObject.Parse(userRole!.Value);
 
+                if(!content.ContainsKey(_options!.ApplicationName))
+                    return Task.FromResult(principal);
+
                 foreach (var role in content[_options!.ApplicationName]["roles"])
                 {
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));

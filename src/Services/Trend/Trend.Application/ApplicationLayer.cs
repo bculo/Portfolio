@@ -88,5 +88,41 @@ namespace Trend.Application
                 Debug.WriteLine(msg);
             });
         }
+
+        public static void ConfigureAuth(IServiceCollection services, IConfiguration configuration)
+        {
+            //NOTE: Update System.IdentityModel.Tokens.Jwt to newest version to fix bux -> Method not found: 'Void Microsoft.IdentityModel.Tokens.InternalValidators.ValidateLifetimeAndIssuerAfterSignatureNotValidatedJwt(Microsoft.IdentityModel.Tokens.SecurityToken, System.Nullable`1<System.DateTime>, System.Nullable`1<System.DateTime>, System.String, Microsoft.IdentityModel.Tokens.TokenValidationParameters, System.Text.StringBuilder)'.
+
+            services.UseKeycloak(configuration, "KeycloakOptions");
+
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = configuration.GetValue<bool>("AuthOptions:ValidateAudience"),
+                    ValidateIssuer = configuration.GetValue<bool>("AuthOptions:ValidateIssuer"),
+                    ValidIssuers = new[] { configuration["AuthOptions:ValidIssuer"] },
+                    ValidateIssuerSigningKey = configuration.GetValue<bool>("AuthOptions:ValidateIssuerSigningKey"),
+                    IssuerSigningKey = RsaUtils.ImportSubjectPublicKeyInfo(configuration["AuthOptions:PublicRsaKey"]),
+                    ValidateLifetime = configuration.GetValue<bool>("AuthOptions:ValidateLifetime")
+                };
+
+                //Add JWT events
+                opt.Events = new JwtBearerEvents()
+                {
+                    OnTokenValidated = c =>
+                    {
+                        Console.WriteLine("User successfully authenticated");
+                        return Task.CompletedTask;
+                    },
+                };
+            });
+        }
     }
 }

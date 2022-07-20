@@ -17,6 +17,7 @@ builder.Services.AddGrpcReflection();
 
 builder.Services.ConfigureAuthorization(builder.Configuration);
 builder.Services.AddAuthorization();
+
 ApplicationLayer.AddServices(builder.Configuration, builder.Services);
 ApplicationLayer.AddLogger(builder.Host);
 

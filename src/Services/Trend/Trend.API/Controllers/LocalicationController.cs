@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Keycloak.Common.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -14,10 +15,12 @@ namespace Trend.API.Controllers
     public class LocalicationController : ControllerBase
     {
         private readonly ILanguageService<AppCommon> _language;
+        private readonly KeycloackUserInfo _info;
 
-        public LocalicationController(ILanguageService<AppCommon> language)
+        public LocalicationController(ILanguageService<AppCommon> language, KeycloackUserInfo info)
         {
             _language = language;
+            _info = info;
         }
 
         [HttpGet("/{id}")]
@@ -26,6 +29,12 @@ namespace Trend.API.Controllers
             var culture = _language.GetCurrentCulture();
 
             return Ok(_language.Get(id));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTest()
+        {
+            return Ok(_info.GetIdentifier());
         }
     }
 }

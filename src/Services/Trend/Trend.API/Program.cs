@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.OpenApi.Models;
@@ -22,7 +23,8 @@ builder.Services.ConfigureAuthorization(builder.Configuration);
 
 builder.Services.AddLocalization();
 
-builder.Services.AddScoped<CacheActionFilter>();
+builder.Services.AddScoped<CacheActionFilter>(); 
+builder.Services.AddScoped<KeycloackUserInfo>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
