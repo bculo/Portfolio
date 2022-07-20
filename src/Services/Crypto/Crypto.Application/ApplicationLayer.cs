@@ -20,6 +20,7 @@ namespace Crypto.Application
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
+            services.Configure<CryptoUpdateOptions>(configuration.GetSection("CryptoUpdateOptions"));
 
             services.AddScoped<IDateTime, LocalDateTimeService>();
 

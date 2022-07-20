@@ -13,7 +13,7 @@ mongosh -u root -p trendpassword --host localhost --port 27017
 use admin
 
 5. Step
-db.createUser(name: 'logger', pwd: 'loggerpassword', roles: [ { role: 'readWrite', db: 'TrendLogs' } ] })
+db.createUser({user: 'logger', pwd: 'loggerpassword', roles: [ { role: 'readWrite', db: 'TrendLogs' } ] })
 
 6. Step
 db.system.users.find().pretty() and find added user
