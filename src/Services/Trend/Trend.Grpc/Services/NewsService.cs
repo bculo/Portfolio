@@ -4,6 +4,8 @@ using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Trend.Application.Interfaces;
 using Trend.Application.Utils.Validation;
 using Trend.Application.Validators.News;
@@ -12,6 +14,7 @@ using Trend.Grpc.Protos;
 
 namespace Trend.Grpc.Services
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NewsService : News.NewsBase
     {
         private readonly IArticleService _service;

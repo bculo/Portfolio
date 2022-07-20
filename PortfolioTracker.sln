@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.Common", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common", "src\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj", "{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.BackgroundSync", "src\Services\Trend\Trend.BackgroundSync\Trend.BackgroundSync.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.BackgroundSync", "src\Services\Trend\Trend.BackgroundSync\Trend.BackgroundSync.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.BackgroundUpdate", "src\Services\Crypto\Crypto.BackgroundUpdate\Crypto.BackgroundUpdate.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +159,10 @@ Global
 		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,6 +197,7 @@ Global
 		{700BA783-3444-494D-A17B-65860B35A241} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 		{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
+		{AF83473F-5CBC-499E-B53E-9B12597AF57B} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
