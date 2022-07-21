@@ -13,16 +13,23 @@ namespace Trend.API.Extensions
     {
         /// <summary>
         /// Add JWT bearer authentication
+        /// NOTE: Update System.IdentityModel.Tokens.Jwt to newest version to fix bux -> Method not found: 
+        /// 'Void Microsoft.IdentityModel.Tokens.InternalValidators.ValidateLifetimeAndIssuerAfterSignatureNotValidatedJwt(Microsoft.IdentityModel.Tokens.SecurityToken, System.Nullable`1<System.DateTime>, System.Nullable`1<System.DateTime>, System.String, Microsoft.IdentityModel.Tokens.TokenValidationParameters, System.Text.StringBuilder)'.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration configuration)
         {
-            //NOTE: Update System.IdentityModel.Tokens.Jwt to newest version to fix bux -> Method not found: 'Void Microsoft.IdentityModel.Tokens.InternalValidators.ValidateLifetimeAndIssuerAfterSignatureNotValidatedJwt(Microsoft.IdentityModel.Tokens.SecurityToken, System.Nullable`1<System.DateTime>, System.Nullable`1<System.DateTime>, System.String, Microsoft.IdentityModel.Tokens.TokenValidationParameters, System.Text.StringBuilder)'.
-            services.UseKeycloak(configuration, "KeycloakOptions");
-
+            //Service for fetching relevant user data for this app
             services.AddScoped<ICurrentUser, UserService>();
 
+            //Configure keycloak
+            services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
+            services.UseKeycloakFlowService(configuration["KeycloakOptions:ApplicationName"],
+                configuration["KeycloakOptions:ClientSecret"],
+                configuration["KeycloakOptions:TokenEndpoint"]);
+
+            //Define authentication using JWT token
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,7 +48,7 @@ namespace Trend.API.Extensions
                     ValidateLifetime = configuration.GetValue<bool>("AuthOptions:ValidateLifetime")
                 };
 
-                //Add JWT events
+                //JWT events sections
                 opt.Events = new JwtBearerEvents()
                 {
                     OnTokenValidated = c =>

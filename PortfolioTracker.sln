@@ -75,7 +75,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common", "src\Buil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.BackgroundSync", "src\Services\Trend\Trend.BackgroundSync\Trend.BackgroundSync.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.BackgroundUpdate", "src\Services\Crypto\Crypto.BackgroundUpdate\Crypto.BackgroundUpdate.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.BackgroundUpdate", "src\Services\Crypto\Crypto.BackgroundUpdate\Crypto.BackgroundUpdate.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstract", "Abstract", "{06F4282A-052B-4EBD-9119-C1DFDFC702BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth0.Abstract", "src\BuildingBlocks\Abstract\Auth0.Abstract\Auth0.Abstract.csproj", "{396390AD-74BD-40AA-BECA-B8AFFD1A5831}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +167,10 @@ Global
 		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF83473F-5CBC-499E-B53E-9B12597AF57B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{396390AD-74BD-40AA-BECA-B8AFFD1A5831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{396390AD-74BD-40AA-BECA-B8AFFD1A5831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{396390AD-74BD-40AA-BECA-B8AFFD1A5831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{396390AD-74BD-40AA-BECA-B8AFFD1A5831}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,6 +206,8 @@ Global
 		{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 		{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 		{AF83473F-5CBC-499E-B53E-9B12597AF57B} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
+		{06F4282A-052B-4EBD-9119-C1DFDFC702BB} = {E4CAA80B-5C9A-40EE-9BFF-76A5BD7E193A}
+		{396390AD-74BD-40AA-BECA-B8AFFD1A5831} = {06F4282A-052B-4EBD-9119-C1DFDFC702BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

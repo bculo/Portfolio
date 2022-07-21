@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.Constants
 {
-    public static class KeycloackTokenConstants
+    internal static class KeycloakTokenConstants
     {
         public const string EXPIRE = "exp";
         public const string ISSUER = "iss";
@@ -17,5 +17,8 @@ namespace Keycloak.Common.Constants
         public const string EMAIL = "email";
         public const string USERID = ClaimTypes.NameIdentifier;
         public const string ROLE = ClaimTypes.Role;
+        public const string CLIENTID = "clientId";
+        public const string CLIENT_HOST = "clientId";
+        public const string CLIENT_ADDRESS = "clientAddress";
     }
 }

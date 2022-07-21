@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.Options
 {
-    public class KeycloakOptions
+    internal class KeycloakClaimOptions
     {
-        public string ApplicationName { get; set; }
+        public string? ApplicationName { get; set; }
     }
 }

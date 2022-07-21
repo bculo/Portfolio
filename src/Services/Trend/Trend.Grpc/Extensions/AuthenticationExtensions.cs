@@ -20,8 +20,7 @@ namespace Trend.API.Extensions
         public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration configuration)
         {
             //NOTE: Update System.IdentityModel.Tokens.Jwt to newest version to fix bux -> Method not found: 'Void Microsoft.IdentityModel.Tokens.InternalValidators.ValidateLifetimeAndIssuerAfterSignatureNotValidatedJwt(Microsoft.IdentityModel.Tokens.SecurityToken, System.Nullable`1<System.DateTime>, System.Nullable`1<System.DateTime>, System.String, Microsoft.IdentityModel.Tokens.TokenValidationParameters, System.Text.StringBuilder)'.
-
-            services.UseKeycloak(configuration, "KeycloakOptions");
+            services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
 
             services.AddScoped<ICurrentUser, UserService>();
 

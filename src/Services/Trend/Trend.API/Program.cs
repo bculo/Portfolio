@@ -23,8 +23,7 @@ builder.Services.ConfigureAuthorization(builder.Configuration);
 
 builder.Services.AddLocalization();
 
-builder.Services.AddScoped<CacheActionFilter>(); 
-builder.Services.AddScoped<KeycloackUserInfo>();
+builder.Services.AddScoped<CacheActionFilter>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

@@ -13,11 +13,11 @@ namespace Keycloak.Common.Services
     /// <summary>
     /// Flatten resource_access because Microsoft identity model doesn't support nested claims
     /// </summary>
-    public class KeycloakClaimsTransformer : IClaimsTransformation
+    internal class KeycloakClaimsTransformer : IClaimsTransformation
     {
-        private readonly KeycloakOptions _options;
+        private readonly KeycloakClaimOptions _options;
 
-        public KeycloakClaimsTransformer(IOptions<KeycloakOptions> options)
+        public KeycloakClaimsTransformer(IOptions<KeycloakClaimOptions> options)
         {
             _options = options.Value;
         }
@@ -46,7 +46,7 @@ namespace Keycloak.Common.Services
 
                 var content = Newtonsoft.Json.Linq.JObject.Parse(userAppRoles!.Value);
 
-                if (content.ContainsKey(_options!.ApplicationName))
+                if (content.ContainsKey(_options!.ApplicationName ?? "---"))
                 {
                     foreach (var role in content[_options!.ApplicationName]["roles"])
                     {

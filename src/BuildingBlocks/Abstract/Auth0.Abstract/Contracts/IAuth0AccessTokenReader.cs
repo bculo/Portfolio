@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Keycloak.Common.Interfaces
+namespace Auth0.Abstract.Contracts
 {
-    public interface IKeycloakUser
+    /// <summary>
+    /// Interface for fetching data from Access token
+    /// </summary>
+    public interface IAuth0AccessTokenReader
     {
         bool IsAuthenticated();
 
@@ -23,5 +27,11 @@ namespace Keycloak.Common.Interfaces
         IEnumerable<string> GetRoles();
 
         bool IsInRole(string roleName);
+
+        bool IsApplication();
+
+        string? GetClientId();
+
+        IPAddress? GetClientAddress();
     }
 }
