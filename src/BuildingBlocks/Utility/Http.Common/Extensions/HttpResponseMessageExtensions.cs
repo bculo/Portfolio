@@ -19,7 +19,7 @@ namespace Http.Common.Extensions
 
             if (!response.IsSuccessStatusCode)
             {
-                logger?.LogWarning("Request failed with status code {0}", response.StatusCode);
+                logger?.LogWarning("Request failed with status code {0}, Reason: {1}", response.StatusCode, response?.ReasonPhrase);
                 return default!;
             }
 
