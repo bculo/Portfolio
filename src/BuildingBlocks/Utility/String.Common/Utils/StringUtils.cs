@@ -8,9 +8,9 @@ namespace String.Common.Utils
 {
     public static class StringUtils
     {
-        public static byte[] StringToByteArray(string toConvert, string encodingType)
+        public static byte[]? StringToByteArray(string toConvert, string encodingType)
         {
-            if (string.IsNullOrEmpty(toConvert))
+            if (string.IsNullOrEmpty(toConvert) || string.IsNullOrEmpty(encodingType))
             {
                 return null!;
             }
@@ -20,8 +20,18 @@ namespace String.Common.Utils
             return encoding.GetBytes(toConvert);
         }
 
-        public static string ArrayTostring(IEnumerable<string> words, string separator = "")
+        public static string ArrayToString(IEnumerable<string> words, string separator = "")
         {
+            if(words is null || !words.Any())
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(separator))
+            {
+                throw new ArgumentNullException(nameof(separator));
+            }
+
             return string.Join(separator, words);
         }
     }

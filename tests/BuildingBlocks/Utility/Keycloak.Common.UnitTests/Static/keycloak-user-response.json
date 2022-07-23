@@ -1,0 +1,45 @@
+﻿{
+  "exp": 1658594445,
+  "iat": 1658594145,
+  "jti": "09fd0387-43aa-41ea-a371-98ff10704f5a",
+  "iss": "http://localhost:8080/auth/realms/PortfolioRealm",
+  "aud": "account",
+  "sub": "f534a4a8-ff20-4a0e-85bf-d79fac599c78",
+  "typ": "Bearer",
+  "azp": "Trend.Client",
+  "session_state": "ba021122-1210-45c3-b29d-3ee429669c3c",
+  "acr": "1",
+  "allowed-origins": [
+    "http://localhost:4200"
+  ],
+  "realm_access": {
+    "roles": [
+      "default-roles-portfoliorealm",
+      "User",
+      "offline_access",
+      "uma_authorization"
+    ]
+  },
+  "resource_access": {
+    "Trend.Client": {
+      "roles": [
+        "User"
+      ]
+    },
+    "account": {
+      "roles": [
+        "manage-account",
+        "manage-account-links",
+        "view-profile"
+      ]
+    }
+  },
+  "scope": "email profile",
+  "sid": "ba021122-1210-45c3-b29d-3ee429669c3c",
+  "email_verified": false,
+  "name": "dorix morix",
+  "preferred_username": "dorix",
+  "given_name": "dorix",
+  "family_name": "morix",
+  "email": "dorix@gmail.com"
+}
