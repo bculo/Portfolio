@@ -1,0 +1,21 @@
+﻿{
+  "exp": 1658603803,
+  "iat": 1658603503,
+  "jti": "f387636e-7388-4b7d-b08e-5e3335c21ab1",
+  "iss": "http://localhost:8080/auth/realms/PortfolioRealm",
+  "sub": "9241fddc-bc15-4a2d-9698-afd759e8b6a2",
+  "typ": "Bearer",
+  "azp": "Trend.API",
+  "acr": "1",
+  "realm_access": {
+    "roles": [
+      "Application"
+    ]
+  },
+  "scope": "email profile",
+  "clientHost": "172.18.0.1",
+  "clientId": "Trend.API",
+  "email_verified": false,
+  "preferred_username": "service-account-trend.api",
+  "clientAddress": "172.18.0.1"
+}

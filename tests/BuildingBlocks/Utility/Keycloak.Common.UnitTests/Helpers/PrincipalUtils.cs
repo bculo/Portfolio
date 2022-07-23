@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Moq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,78 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.UnitTests.Helpers
 {
-    public static class KeycloakClaimsPrincipalUtils
+    public static class PrincipalUtils
     {
         private const string KEYCLOAK_USER_RESPONSE_PATH = "Static/keycloak-user-response.json";
+        private const string KEYCLOAK_CLIENT_RESPONSE_PATH = "Static/keycloak-client-response.json";
 
-        public static ClaimsPrincipal CreateClaimsPrincipalWithoutRoleForUser(string firstName, string lastName, string username)
+        public static ClaimsPrincipal? CreateEmptyPrincipal()
         {
-            var jsonObject = CreateJsonObject();
+            var identityMock = new Mock<ClaimsIdentity>();
+            identityMock.Setup(i => i.IsAuthenticated).Returns(false);
+            identityMock.Setup(i => i.Claims).Returns(Enumerable.Empty<Claim>());
+
+            return new ClaimsPrincipal(identityMock.Object);
+        }
+
+        public static ClaimsPrincipal CreatePrincipalForClientWithoutRoles(string clientName)
+        {
+            var jsonObject = CreateClientJsonObject();
+
+            var claims = new List<Claim>();
+
+            foreach (var pair in jsonObject)
+            {
+                switch (pair.Key)
+                {
+                    case "clientId":
+                        claims.Add(new Claim("clientId", clientName));
+                        break;
+                    case "realm_access":
+                        break;
+                    case "resource_access":
+                        break;
+                    default:
+                        claims.Add(new Claim(pair.Key, pair.Value!.ToString()));
+                        break;
+                }
+            }
+
+            var identity = new ClaimsIdentity(claims, "Bearer");
+            return new ClaimsPrincipal(identity);
+        }
+
+        public static ClaimsPrincipal CreatePrincipalForClientWithRole(string clientName, string clientRealmRole)
+        {
+            var jsonObject = CreateClientJsonObject();
+
+            var claims = new List<Claim>();
+
+            foreach (var pair in jsonObject)
+            {
+                switch (pair.Key)
+                {
+                    case "clientId":
+                        claims.Add(new Claim("clientId", clientName));
+                        break;
+                    case "realm_access":
+                        claims.Add(new Claim("realm_access", AddRealmRoles(clientRealmRole)));
+                        break;
+                    case "resource_access":
+                        break;
+                    default:
+                        claims.Add(new Claim(pair.Key, pair.Value!.ToString()));
+                        break;
+                }
+            }
+
+            var identity = new ClaimsIdentity(claims, "Bearer");
+            return new ClaimsPrincipal(identity);
+        }
+
+        public static ClaimsPrincipal CreatePrincipalWithoutRoleForUser(string firstName, string lastName, string username)
+        {
+            var jsonObject = CreateUserJsonObject();
 
             var claims = new List<Claim>();
 
@@ -52,9 +118,9 @@ namespace Keycloak.Common.UnitTests.Helpers
             return new ClaimsPrincipal(identity);
         }
 
-        public static ClaimsPrincipal CreateClaimsPrincipalWithRealmRoleForUser(string firstName, string lastName, string username, string realmRole)
+        public static ClaimsPrincipal CreatePrincipalWithRealmRoleForUser(string firstName, string lastName, string username, string realmRole)
         {
-            var jsonObject = CreateJsonObject();
+            var jsonObject = CreateUserJsonObject();
 
             var claims = new List<Claim>();
 
@@ -92,9 +158,9 @@ namespace Keycloak.Common.UnitTests.Helpers
             return new ClaimsPrincipal(identity);
         }
 
-        public static ClaimsPrincipal CreateClaimsPrincipalWithRealmMultipleRoleForUser(string firstName, string lastName, string username, params string[] realmRoles)
+        public static ClaimsPrincipal CreatePrincipalWithRealmMultipleRolesForUser(string firstName, string lastName, string username, params string[] realmRoles)
         {
-            var jsonObject = CreateJsonObject();
+            var jsonObject = CreateUserJsonObject();
 
             var claims = new List<Claim>();
 
@@ -132,9 +198,9 @@ namespace Keycloak.Common.UnitTests.Helpers
             return new ClaimsPrincipal(identity);
         }
 
-        public static ClaimsPrincipal CreateClaimsPrincipalWithApplicationRoleForUser(string firstName, string lastName, string username, string appName, string appRole)
+        public static ClaimsPrincipal CreatePrincipalWithApplicationRoleForUser(string firstName, string lastName, string username, string appName, string appRole)
         {
-            var jsonObject = CreateJsonObject();
+            var jsonObject = CreateUserJsonObject();
 
             var claims = new List<Claim>();
 
@@ -172,7 +238,7 @@ namespace Keycloak.Common.UnitTests.Helpers
             return new ClaimsPrincipal(identity);
         }
 
-        private static JObject CreateJsonObject()
+        private static JObject CreateUserJsonObject()
         {
             if (!File.Exists(KEYCLOAK_USER_RESPONSE_PATH))
             {
@@ -180,6 +246,25 @@ namespace Keycloak.Common.UnitTests.Helpers
             }
 
             var jsonUserResponse = File.ReadAllText(KEYCLOAK_USER_RESPONSE_PATH);
+
+            var jsonObject = Newtonsoft.Json.Linq.JObject.Parse(jsonUserResponse);
+
+            if (jsonObject is null)
+            {
+                throw new ArgumentNullException(nameof(jsonObject));
+            }
+
+            return jsonObject;
+        }
+
+        private static JObject CreateClientJsonObject()
+        {
+            if (!File.Exists(KEYCLOAK_CLIENT_RESPONSE_PATH))
+            {
+                throw new FileNotFoundException();
+            }
+
+            var jsonUserResponse = File.ReadAllText(KEYCLOAK_CLIENT_RESPONSE_PATH);
 
             var jsonObject = Newtonsoft.Json.Linq.JObject.Parse(jsonUserResponse);
 

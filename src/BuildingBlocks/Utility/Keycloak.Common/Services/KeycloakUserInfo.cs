@@ -39,17 +39,17 @@ namespace Keycloak.Common.Services
             return null;
         }
 
-        public virtual string? FullName()
+        public virtual string? GetFullName()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.FULLNAME)?.Value;
         }
 
-        public virtual string? Email()
+        public virtual string? GetEmail()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.EMAIL)?.Value;
         }
 
-        public virtual string? UserName()
+        public virtual string? GetUserName()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.USERNAME)?.Value;
         }

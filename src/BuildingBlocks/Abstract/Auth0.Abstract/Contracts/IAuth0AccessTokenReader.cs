@@ -16,11 +16,11 @@ namespace Auth0.Abstract.Contracts
 
         Guid? GetIdentifier();
 
-        string? FullName();
+        string? GetFullName();
 
-        string? Email();
+        string? GetEmail();
 
-        string? UserName();
+        string? GetUserName();
 
         string? GetIssuer();
 
