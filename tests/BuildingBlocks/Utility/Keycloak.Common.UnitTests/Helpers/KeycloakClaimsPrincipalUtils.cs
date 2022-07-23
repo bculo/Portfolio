@@ -132,6 +132,46 @@ namespace Keycloak.Common.UnitTests.Helpers
             return new ClaimsPrincipal(identity);
         }
 
+        public static ClaimsPrincipal CreateClaimsPrincipalWithApplicationRoleForUser(string firstName, string lastName, string username, string appName, string appRole)
+        {
+            var jsonObject = CreateJsonObject();
+
+            var claims = new List<Claim>();
+
+            foreach (var pair in jsonObject)
+            {
+                switch (pair.Key)
+                {
+                    case "name":
+                        claims.Add(new Claim("name", $"{firstName} {lastName}"));
+                        break;
+                    case "preferred_username":
+                        claims.Add(new Claim("preferred_username", username));
+                        break;
+                    case "given_name":
+                        claims.Add(new Claim("given_name", firstName));
+                        break;
+                    case "family_name":
+                        claims.Add(new Claim("family_name", lastName));
+                        break;
+                    case "email":
+                        claims.Add(new Claim("email", $"{firstName}.{lastName}@mail.com"));
+                        break;
+                    case "realm_access":
+                        break;
+                    case "resource_access":
+                        claims.Add(new Claim("resource_access", AddApplicationRoles(appName, appRole)));
+                        break;
+                    default:
+                        claims.Add(new Claim(pair.Key, pair.Value!.ToString()));
+                        break;
+                }
+            }
+
+            var identity = new ClaimsIdentity(claims, "Bearer");
+            return new ClaimsPrincipal(identity);
+        }
+
         private static JObject CreateJsonObject()
         {
             if (!File.Exists(KEYCLOAK_USER_RESPONSE_PATH))
@@ -159,6 +199,15 @@ namespace Keycloak.Common.UnitTests.Helpers
             };
 
             return JsonConvert.SerializeObject(realmRoles);
+        }
+
+        private static string AddApplicationRoles(string applicationName, params string[] roles)
+        {
+            var dictionary = new Dictionary<string, object>();
+
+            dictionary.Add(applicationName, new { roles = roles });
+
+            return JsonConvert.SerializeObject(dictionary);
         }
 
     }

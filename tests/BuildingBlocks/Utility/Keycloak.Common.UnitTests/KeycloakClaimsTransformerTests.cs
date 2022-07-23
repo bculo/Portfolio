@@ -11,8 +11,6 @@ namespace Keycloak.Common.UnitTests
 {
     public class KeycloakClaimsTransformerTests
     {
-        private const string APP_NAME = "Test.API";
-
         [Fact]
         public void TransformAsync_Should_Throw_NullReferenceException_When_Passed_Value_Null()
         {
@@ -68,11 +66,29 @@ namespace Keycloak.Common.UnitTests
             Assert.Contains(result.Claims, i => i.Value == secondUserRole);
         }
 
-        private KeycloakClaimsTransformer CreateInstance()
+
+        [Fact]
+        public async Task TransformAsync_Should_Create_Role_Claim_When_Principal_With_Single_Application_Role_Passed()
+        {
+            var applicationName = "TEST.API";
+            var userRole = "Admin";
+
+            var instance = CreateInstance(applicationName);
+
+            var principal = KeycloakClaimsPrincipalUtils.CreateClaimsPrincipalWithApplicationRoleForUser("dorix", "morix", "dorix", applicationName, userRole);
+
+            var result = await instance.TransformAsync(principal);
+
+            Assert.NotNull(result);
+            Assert.Contains(result.Claims, i => i.Type == KeycloakTokenConstants.ROLE);
+            Assert.Contains(result.Claims, i => i.Value == userRole);
+        }
+
+        private KeycloakClaimsTransformer CreateInstance(string appName = "APP")
         {
             var options = Microsoft.Extensions.Options.Options.Create(new KeycloakClaimOptions
             {
-                ApplicationName = APP_NAME,
+                ApplicationName = appName,
             });
 
             var logger = Mock.Of<ILogger<KeycloakClaimsTransformer>>();
