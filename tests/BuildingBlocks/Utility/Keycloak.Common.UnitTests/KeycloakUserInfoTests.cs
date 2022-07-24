@@ -74,7 +74,7 @@ namespace Keycloak.Common.UnitTests
 
             var principal = PrincipalUtils.CreatePrincipalWithRealmRoleForUser(firstName, lastName, userName, userRole);
 
-            var claimTransformer = CreateInstanceUtils.CreateInstanceTransformer("TEST.API");
+            var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
 
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
@@ -104,7 +104,7 @@ namespace Keycloak.Common.UnitTests
 
             var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser(firstName, lastName, userName, firstUserRole, secondUserRole);
 
-            var claimTransformer = CreateInstanceUtils.CreateInstanceTransformer("TEST.API");
+            var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
 
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
@@ -132,7 +132,7 @@ namespace Keycloak.Common.UnitTests
 
             var principal = PrincipalUtils.CreatePrincipalForClientWithoutRoles(clientId);
 
-            var claimTransformer = CreateInstanceUtils.CreateInstanceTransformer();
+            var claimTransformer = InstanceUtils.CreateInstanceTransformer();
 
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
@@ -155,7 +155,7 @@ namespace Keycloak.Common.UnitTests
 
             var principal = PrincipalUtils.CreatePrincipalForClientWithRole(clientId, role);
 
-            var claimTransformer = CreateInstanceUtils.CreateInstanceTransformer();
+            var claimTransformer = InstanceUtils.CreateInstanceTransformer();
 
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
@@ -183,7 +183,7 @@ namespace Keycloak.Common.UnitTests
 
             var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser(firstName, lastName, userName, firstUserRole, secondUserRole);
 
-            var claimTransformer = CreateInstanceUtils.CreateInstanceTransformer("TEST.API");
+            var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
 
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
@@ -206,7 +206,7 @@ namespace Keycloak.Common.UnitTests
 
         private KeycloakUserInfo CreateInstance(ClaimsPrincipal principal)
         {
-            return CreateInstanceUtils.CreateInstanceUserInfo(principal);
+            return InstanceUtils.CreateInstanceUserInfo(principal);
         }
     }
 }

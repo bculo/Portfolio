@@ -1,4 +1,5 @@
-﻿using Keycloak.Common.Options;
+﻿using Keycloak.Common.Clients;
+using Keycloak.Common.Options;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -12,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.UnitTests.Helpers
 {
-    internal static class CreateInstanceUtils
+    internal static class InstanceUtils
     {
-        internal static KeycloakClaimsTransformer CreateInstanceTransformer(string appName = "APP")
+        public static KeycloakClaimsTransformer CreateInstanceTransformer(string appName = "APP")
         {
             var options = Microsoft.Extensions.Options.Options.Create(new KeycloakClaimOptions
             {
@@ -26,7 +27,7 @@ namespace Keycloak.Common.UnitTests.Helpers
             return new KeycloakClaimsTransformer(options, logger);
         }
 
-        internal static KeycloakUserInfo CreateInstanceUserInfo(ClaimsPrincipal principal)
+        public static KeycloakUserInfo CreateInstanceUserInfo(ClaimsPrincipal principal)
         {
             var accessorMock = new Mock<IHttpContextAccessor>();
             accessorMock.Setup(i => i.HttpContext.User).Returns(principal);

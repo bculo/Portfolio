@@ -86,7 +86,7 @@ namespace Keycloak.Common.UnitTests
 
         private KeycloakClaimsTransformer CreateInstance(string appName = "APP")
         {
-            return CreateInstanceUtils.CreateInstanceTransformer(appName);
+            return InstanceUtils.CreateInstanceTransformer(appName);
         }
 
     }

@@ -35,4 +35,8 @@
     <ProjectReference Include="..\..\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Requests\" />
+  </ItemGroup>
+
 </Project>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.UnitTests.Helpers
 {
-    public static class PrincipalUtils
+    internal static class PrincipalUtils
     {
         private const string KEYCLOAK_USER_RESPONSE_PATH = "Static/keycloak-user-response.json";
         private const string KEYCLOAK_CLIENT_RESPONSE_PATH = "Static/keycloak-client-response.json";

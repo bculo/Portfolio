@@ -8,6 +8,6 @@ namespace Keycloak.Common.Constants
 {
     internal static class KeycloakGrantTypeConstants
     {
-        public static string CLIENT_CREDENTIALS = "grant_type";
+        public static string CLIENT_CREDENTIALS = "client_credentials";
     }
 }

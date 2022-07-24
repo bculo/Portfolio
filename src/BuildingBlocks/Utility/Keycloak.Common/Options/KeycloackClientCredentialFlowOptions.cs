@@ -9,7 +9,5 @@ namespace Keycloak.Common.Options
     internal class KeycloackClientCredentialFlowOptions
     {
         public string? AuthorizationServerUrl { get; set; }
-        public string? ClientId { get; set; }
-        public string? ClientSecret { get; set; }
     }
 }

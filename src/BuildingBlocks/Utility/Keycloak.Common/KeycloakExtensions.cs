@@ -42,23 +42,16 @@ namespace Keycloak.Common
         /// <param name="clientId"></param>
         /// <param name="clientSecret"></param>
         /// <param name="tokenEndpoint"></param>
-        public static void UseKeycloakFlowService(this IServiceCollection services,
-            string clientId,
-            string clientSecret,
-            string tokenEndpoint)
+        public static void UseKeycloakFlowService(this IServiceCollection services, string tokenEndpoint)
         {
-            Guard.Against.NullOrEmpty(clientId);
-            Guard.Against.NullOrEmpty(clientSecret);
             Guard.Against.NullOrEmpty(tokenEndpoint);
 
             services.AddOptions<KeycloackClientCredentialFlowOptions>().Configure(opt =>
             {
-                opt.ClientId = clientId;
-                opt.ClientSecret = clientSecret;
                 opt.AuthorizationServerUrl = tokenEndpoint;
             });
 
-            services.AddHttpClient<IAuth0ClientCredentialFlowService, KeycloakClientCredentialFlowClient>();
+            services.AddHttpClient<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
         }
     }
 }
