@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Crypto.IntegrationTests.CryptoController.Constants;
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,10 @@ namespace Crypto.IntegrationTests.CryptoController
     public class FetchAllTests : IClassFixture<CryptoApiFactory>
     {
         private readonly CryptoApiFactory _factory;
-        private readonly HttpClient _client;
 
         public FetchAllTests(CryptoApiFactory factory)
         {
             _factory = factory;
-            _client = factory.CreateClient();
         }
 
         [Fact]
@@ -25,7 +24,7 @@ namespace Crypto.IntegrationTests.CryptoController
             HttpClient client = _factory.CreateClient();
 
             //Act
-            var response = await _client.GetAsync("/api/crypto/fetchall");
+            var response = await client.GetAsync(ApiEndpoint.FETCH_ALL);
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

@@ -1,4 +1,6 @@
 ﻿using Crypto.Infrastracture.Persistence;
+using Crypto.IntegrationTests.Extensions;
+using Crypto.IntegrationTests.Utils;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
@@ -13,7 +15,7 @@ namespace Crypto.IntegrationTests
 {
     public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        /*
+        
         private readonly TestcontainersContainer _dbContainer =
             new TestcontainersBuilder<TestcontainersContainer>()
                 .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
@@ -22,35 +24,42 @@ namespace Crypto.IntegrationTests
                 .WithPortBinding(5777, 1433)
                 .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
                 .Build();
-        */
+        
 
-        private readonly MsSqlTestcontainer _dbContainer =
+        private readonly MsSqlTestcontainer _sqlServerContainer =
             new TestcontainersBuilder<MsSqlTestcontainer>()
                 .WithDatabase(new MsSqlTestcontainerConfiguration()
                 {
                     Password = "yourStrong(!)Password"
-                }).Build();
+                })
+                .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
+                .Build();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            var connectionString = SqlServerUtils.ChangeConnectionDatabaseName(_sqlServerContainer.ConnectionString, "CryptoIntegrationDb");
+
             builder.ConfigureTestServices(services =>
             {
                 services.RemoveAll(typeof(CryptoDbContext));
+
                 services.AddDbContext<CryptoDbContext>(opt =>
                 {
-                    opt.UseSqlServer(_dbContainer.ConnectionString);
+                    opt.UseSqlServer(connectionString);
                 });
+
+                services.Migrate<CryptoDbContext>();
             });
         }
 
         public async Task InitializeAsync()
         {
-            await _dbContainer.StartAsync();
+            await _sqlServerContainer.StartAsync();
         }
 
         async Task IAsyncLifetime.DisposeAsync()
         {
-            await _dbContainer.StopAsync();
+            await _sqlServerContainer.StopAsync();
         }
     }
 }

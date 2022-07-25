@@ -8,6 +8,6 @@ namespace Crypto.IntegrationTests.CryptoController.Constants
 {
     public static class ApiEndpoint
     {
-        public const string 
+        public const string FETCH_ALL = "/api/crypto/fetchall";
     }
 }
