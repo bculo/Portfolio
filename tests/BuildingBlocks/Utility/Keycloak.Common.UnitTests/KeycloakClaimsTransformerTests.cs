@@ -13,7 +13,7 @@ namespace Keycloak.Common.UnitTests
     public class KeycloakClaimsTransformerTests
     {
         [Fact]
-        public async Task TransformAsync_Should_Throw_NullReferenceException_When_Passed_Value_Null()
+        public async Task TransformAsync_ShouldThrowNullReferenceException_WhenPassedValueNull()
         {
             var instance = CreateInstance();
 
@@ -21,7 +21,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public async Task TransformAsync_Should_Not_Create_Role_Claim_When_Principal_Without_Roles_Passed()
+        public async Task TransformAsync_ShouldNotCreateRoleClaim_WhenPrincipalWithoutRolesPassed()
         {
             var instance = CreateInstance();
 
@@ -34,7 +34,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public async Task TransformAsync_Should_Create_Role_Claim_When_Principal_With_Single_Realm_Role_Passed()
+        public async Task TransformAsync_ShouldCreateRoleClaim_WhenPrincipalWithSingleRealmRolePassed()
         {
             var instance = CreateInstance();
 
@@ -50,7 +50,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public async Task TransformAsync_Should_Create_Multiple_Role_Claims_When_Principal_With_Multiple_Realm_Roles_Passed()
+        public async Task TransformAsync_ShouldCreateMultipleRoleClaims_WhenPrincipalWithMultipleRealmRolesPassed()
         {
             var instance = CreateInstance();
 
@@ -68,7 +68,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public async Task TransformAsync_Should_Create_Role_Claim_When_Principal_With_Single_Application_Role_Passed()
+        public async Task TransformAsync_ShouldCreateRoleClaim_WhenPrincipalWithSingleApplicationRolePassed()
         {
             var applicationName = "TEST.API";
             var userRole = "Admin";

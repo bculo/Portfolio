@@ -14,7 +14,7 @@ namespace Keycloak.Common.UnitTests
     public class KeycloakUserInfoTests
     {
         [Fact]
-        public void GetRoles_Should_Return_Empty_Enumerable_When_ClaimPrincipal_Null()
+        public void GetRoles_ShouldReturnEmptyEnumerable_WhenClaimPrincipalNull()
         {
             var userInfo = CreateInstance(null);
 
@@ -25,7 +25,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public void IsAuthenticated_Should_Return_False_When_ClaimPrincipal_Null()
+        public void IsAuthenticated_ShouldReturnFalse_WhenClaimPrincipalNull()
         {
             var userInfo = CreateInstance(null);
 
@@ -35,7 +35,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public void IsAuthenticated_Should_Return_False_When_User_Not_Authenticated()
+        public void IsAuthenticated_ShouldReturnFalse_WhenUserNotAuthenticated()
         {
             var userInfo = CreateInstance(PrincipalUtils.CreateEmptyPrincipal());
 
@@ -71,11 +71,8 @@ namespace Keycloak.Common.UnitTests
             string lastName = "mor";
             string userName = "dorix";
             string userRole = "Admin";
-
-            var principal = PrincipalUtils.CreatePrincipalWithRealmRoleForUser(firstName, lastName, userName, userRole);
-
             var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
-
+            var principal = PrincipalUtils.CreatePrincipalWithRealmRoleForUser(firstName, lastName, userName, userRole);
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
             var userInfo = CreateInstance(transformedPrincipal);
@@ -102,10 +99,8 @@ namespace Keycloak.Common.UnitTests
             string firstUserRole = "Admin";
             string secondUserRole = "User";
 
-            var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser(firstName, lastName, userName, firstUserRole, secondUserRole);
-
             var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
-
+            var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser(firstName, lastName, userName, firstUserRole, secondUserRole);
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
             var userInfo = CreateInstance(transformedPrincipal);
@@ -131,9 +126,7 @@ namespace Keycloak.Common.UnitTests
             string clientId = "Test.API";
 
             var principal = PrincipalUtils.CreatePrincipalForClientWithoutRoles(clientId);
-
             var claimTransformer = InstanceUtils.CreateInstanceTransformer();
-
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
             var userInfo = CreateInstance(transformedPrincipal);
@@ -154,9 +147,7 @@ namespace Keycloak.Common.UnitTests
             string role = "Application";
 
             var principal = PrincipalUtils.CreatePrincipalForClientWithRole(clientId, role);
-
             var claimTransformer = InstanceUtils.CreateInstanceTransformer();
-
             var transformedPrincipal = await claimTransformer.TransformAsync(principal);
 
             var userInfo = CreateInstance(transformedPrincipal);
@@ -168,40 +159,6 @@ namespace Keycloak.Common.UnitTests
             Assert.True(authenticatedResult);
             Assert.Equal(clientId, clientIdResult);
             Assert.Equal(1, rolesResult.Count()!);
-        }
-
-        //CreatePrincipalForClientWithRole
-
-        [Fact]
-        public async Task IsAuthenticated_User_With_Multiple_Roles_Test()
-        {
-            string firstName = "dor";
-            string lastName = "mor";
-            string userName = "dorix";
-            string firstUserRole = "Admin";
-            string secondUserRole = "User";
-
-            var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser(firstName, lastName, userName, firstUserRole, secondUserRole);
-
-            var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
-
-            var transformedPrincipal = await claimTransformer.TransformAsync(principal);
-
-            var userInfo = CreateInstance(transformedPrincipal);
-
-            var authenticatedResult = userInfo.IsAuthenticated();
-            var userNameResult = userInfo.GetUserName();
-            var emailResult = userInfo.GetEmail();
-            var rolesResult = userInfo.GetRoles();
-            var userInFirstRoleResult = userInfo.IsInRole(firstUserRole);
-            var userInSecondRoleResult = userInfo.IsInRole(secondUserRole);
-
-            Assert.True(authenticatedResult);
-            Assert.Equal(userNameResult, userName);
-            Assert.NotEmpty(emailResult);
-            Assert.Equal(2, rolesResult.Count()!);
-            Assert.True(userInFirstRoleResult);
-            Assert.True(userInSecondRoleResult);
         }
 
         private KeycloakUserInfo CreateInstance(ClaimsPrincipal principal)

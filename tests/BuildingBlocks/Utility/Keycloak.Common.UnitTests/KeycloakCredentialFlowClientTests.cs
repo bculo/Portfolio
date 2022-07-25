@@ -22,7 +22,7 @@ namespace Keycloak.Common.UnitTests
         public const string VALID_CLIENT_SECRET = "v9YmKiVQw86L69fYXhyP2B3WdRiXbKSc";
 
         [Fact]
-        public async Task GetToken_Should_Return_Token_When_Valid_Client_Data_Provided()
+        public async Task GetToken_ShouldReturnToken_WhenValidClientDataProvided()
         {
             var clientId = VALID_CLIENT_ID;
             var clientSecret = VALID_CLIENT_SECRET;
@@ -36,7 +36,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public async Task GetToken_Should_Throw_Exception_When_Null_Client_Data_Provided()
+        public async Task GetToken_ShouldThrowException_WhenNullClientDataProvided()
         {
             string? clientId = null;
             string? clientSecret = null;
@@ -47,7 +47,7 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public async Task GetToken_Should_Return_Null_When_Invalid_Client_Data_Provided()
+        public async Task GetToken_ShouldReturnNull_When_InvalidClientDataProvided()
         {
             string? clientId = "random.client";
             string? clientSecret = "randomrandomrandomabc";

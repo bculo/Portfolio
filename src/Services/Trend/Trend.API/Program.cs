@@ -12,7 +12,6 @@ using Trend.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<GlobalExceptionFilter>();
@@ -93,3 +92,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//For testing purpose
+public partial class Program { }

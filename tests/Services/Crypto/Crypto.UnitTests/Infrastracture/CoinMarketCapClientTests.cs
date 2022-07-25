@@ -21,46 +21,48 @@ namespace Crypto.UnitTests.Infrastracture
         private static string[] VALID_SYMBOLS = new string[] { BTC_SYMBOL };
 
         [Fact]
-        public async Task FetchData_Should_Return_Instance_When_Valid_Symbol_Provided()
+        public async Task FetchData_ShouldReturnInstance_WhenValidSymbolProvided()
         {
+            //Arrange
             string symbol = BTC_SYMBOL;
-
             var service = Build(symbol);
 
+            //Act
             var response = await service.FetchData(symbol);
 
+            //Assert
             Assert.NotNull(response);
-
             var itemDictionary = response.Data;
-
             var dictionaryKey = itemDictionary.ContainsKey(symbol) ? symbol : symbol.ToUpper();
-
             var finalItemsCollection = itemDictionary[dictionaryKey];
-
             Assert.Contains(finalItemsCollection, i => i.Symbol.ToLower() == symbol.ToLower());
         }
 
         [Fact]
-        public async Task FetchData_Should_Return_Null_When_Invalid_Symbol_Provided()
+        public async Task FetchData_ShouldReturnNull_WhenInvalidSymbolProvided()
         {
+            //Arrange
             string symbol = INVALID_SYMBOL;
-
             var service = Build(symbol);
 
+            //Act
             var response = await service.FetchData(symbol);
 
+            //Assert
             Assert.Null(response);
         }
 
         [Fact]
-        public async Task FetchData_Should_Return_Null_When_Request_Unauthorized()
+        public async Task FetchData_ShouldReturnNull_WhenRequestUnauthorized()
         {
+            //Arrange
             string symbol = BTC_SYMBOL;
-
             var service = Build(symbol, false);
 
+            //Act
             var response = await service.FetchData(symbol);
 
+            //Assert
             Assert.Null(response);
         }
 

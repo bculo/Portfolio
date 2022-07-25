@@ -28,14 +28,16 @@ namespace Crypto.UnitTests.Infrastracture
         private static string[] INVALID_SYMBOLS = new string[] { UNKNOWN_SYMBOL_V1, UNKNOWN_SYMBOL_V2 };
 
         [Fact]
-        public async Task GetPriceInfo_Should_Return_Price_Information_When_Correct_Symbol_Provided()
+        public async Task GetPriceInfo_ShouldReturnPriceInformation_WhenCorrectSymbolProvided()
         {
+            //Arrange
             string symbol = ETH_SYMBOL;
-
             var client = BuildClientForSignleSymbol(symbol);
 
+            //Act
             var response = await client.GetPriceInfo(symbol);
 
+            //Assert
             Assert.NotNull(response);
             Assert.Equal(symbol, response.Symbol);
             Assert.Equal(USD_CURRENCY, response.Currency);
@@ -43,66 +45,76 @@ namespace Crypto.UnitTests.Infrastracture
         }
 
         [Fact]
-        public async Task GetPriceInfo_Should_Return_Null_When_Incorrect_Symbol_Provided()
+        public async Task GetPriceInfo_ShouldReturnNull_WhenIncorrectSymbolProvided()
         {
+            //Arrange
             string symbol = UNKNOWN_SYMBOL_V1;
-
             var client = BuildClientForSignleSymbol(symbol);
 
+            //Act
             var response = await client.GetPriceInfo(symbol);
 
+            //Assert
             Assert.Null(response);
         }
 
         [Fact]
-        public async Task GetPriceInfo_Should_Return_Prices_Information_When_Correct_Symbols_Provided()
+        public async Task GetPriceInfo_ShouldReturnPricesInformation_WhenCorrectSymbolsProvided()
         {
+            //Arrange
             var symbols = new List<string>(VALID_SYMBOLS);
-
             var client = BuildClientForMultipleSymbols(symbols);
 
+            //Act
             var result = await client.GetPriceInfo(symbols);
 
+            //Assert
             Assert.NotNull(result);
             Assert.Equal(result.Count, symbols.Count);
             Assert.All(result, i => symbols.Contains(i.Symbol));
         }
 
         [Fact]
-        public async Task GetPriceInfo_Should_Return_Prices_When_Some_Correct_Symbols_Provided()
+        public async Task GetPriceInfo_ShouldReturnPrices_WhenSomeCorrectSymbolsProvided()
         {
+            //Arrange
             var symbols = new List<string>(VALID_SYMBOLS);
             symbols.Add(UNKNOWN_SYMBOL_V1);
-            
             var client = BuildClientForMultipleSymbols(symbols);
 
+            //Act
             var result = await client.GetPriceInfo(symbols);
 
+            //Assert
             Assert.NotNull(result);
             Assert.DoesNotContain(result, i => i.Symbol == UNKNOWN_SYMBOL_V1);
         }
 
         [Fact]
-        public async Task GetPriceInfo_Should_Return_NULL_When_Empty_List_Passed_To_Method()
+        public async Task GetPriceInfo_ShouldReturnNULL_WhenEmptyListPassedToMethod()
         {
+            //Arrange
             var symbols = new List<string>();
-
             var client = BuildClientForMultipleSymbols(symbols);
 
+            //Act
             var result = await client.GetPriceInfo(symbols);
 
+            //Assert
             Assert.Null(result);
         }
 
         [Fact]
-        public async Task GetPriceInfo_Should_Return_Null_When_All_Incorrect_Symbols_Provided()
+        public async Task GetPriceInfo_ShouldReturnNull_WhenAllIncorrectSymbolsProvided()
         {
+            //Arrange
             var symbols = new List<string>(INVALID_SYMBOLS);
-
             var client = BuildClientForMultipleSymbols(symbols);
 
+            //Act
             var result = await client.GetPriceInfo(symbols);
 
+            //Assert
             Assert.Null(result);
         }
 
