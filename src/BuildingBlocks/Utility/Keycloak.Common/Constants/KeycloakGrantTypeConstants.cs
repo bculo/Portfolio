@@ -9,5 +9,6 @@ namespace Keycloak.Common.Constants
     internal static class KeycloakGrantTypeConstants
     {
         public static string CLIENT_CREDENTIALS = "client_credentials";
+        public static string OWNER_CREDENTIALS = "password";
     }
 }

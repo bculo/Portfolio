@@ -6,30 +6,36 @@ using Keycloak.Common.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Keycloak.Common.Clients
 {
-    internal class KeycloakCredentialFlowClient : IAuth0ClientCredentialFlowService
+    public class KeycloakOwnerCredentialFlowClient : IAuth0OwnerCredentialFlowService
     {
+        private readonly KeycloakOwnerCredentialFlowOptions _options;
+        private readonly ILogger<KeycloakOwnerCredentialFlowClient> _logger;
         private readonly IHttpClientFactory _factory;
-        private readonly KeycloackClientCredentialFlowOptions _options;
-        private readonly ILogger<KeycloakCredentialFlowClient> _logger;
 
-        public KeycloakCredentialFlowClient(IHttpClientFactory factory, 
-            IOptions<KeycloackClientCredentialFlowOptions> options,
-            ILogger<KeycloakCredentialFlowClient> logger)
+        public KeycloakOwnerCredentialFlowClient(IHttpClientFactory factory,
+            IOptions<KeycloakOwnerCredentialFlowOptions> options,
+            ILogger<KeycloakOwnerCredentialFlowClient> logger)
         {
-            _factory = factory;
             _options = options.Value;
             _logger = logger;
+            _factory = factory;
         }
 
-        public async Task<TokenCredentialResponse> GetToken(string clientId, string clientSecret, IEnumerable<string>? scopes = null)
+        public async Task<TokenCredentialResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 
             Guard.Against.NullOrEmpty(clientId);
-            Guard.Against.NullOrEmpty(clientSecret);
+            Guard.Against.NullOrEmpty(username);
+            Guard.Against.NullOrEmpty(password);
 
             var http = _factory.CreateClient();
 
@@ -37,9 +43,10 @@ namespace Keycloak.Common.Clients
 
             var body = new List<KeyValuePair<string, string>>()
             {
+                new KeyValuePair<string, string>("grant_type", KeycloakGrantTypeConstants.OWNER_CREDENTIALS),
                 new KeyValuePair<string, string>("client_id", clientId),
-                new KeyValuePair<string, string>("client_secret", clientSecret),
-                new KeyValuePair<string, string>("grant_type", KeycloakGrantTypeConstants.CLIENT_CREDENTIALS)
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password)
             };
 
             HttpContent content = new FormUrlEncodedContent(body);
@@ -69,16 +76,6 @@ namespace Keycloak.Common.Clients
             _logger.LogTrace("Parsing json response...");
 
             return JsonConvert.DeserializeObject<TokenCredentialResponse>(responseJson);
-        }
-
-        private string DefineScope(IEnumerable<string>? scopes)
-        {
-            if(scopes == null || !scopes.Any())
-            {
-                return null;
-            }
-
-            return String.Join(" ", scopes.Select(i => i?.Trim()));
         }
     }
 }

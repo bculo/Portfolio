@@ -15,7 +15,7 @@ namespace Crypto.IntegrationTests
 {
     public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        
+        /*
         private readonly TestcontainersContainer _dbContainer =
             new TestcontainersBuilder<TestcontainersContainer>()
                 .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
@@ -24,7 +24,7 @@ namespace Crypto.IntegrationTests
                 .WithPortBinding(5777, 1433)
                 .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
                 .Build();
-        
+        */
 
         private readonly MsSqlTestcontainer _sqlServerContainer =
             new TestcontainersBuilder<MsSqlTestcontainer>()

@@ -46,12 +46,19 @@ namespace Keycloak.Common
         {
             Guard.Against.NullOrEmpty(tokenEndpoint);
 
+            //Client credentials flow
             services.AddOptions<KeycloackClientCredentialFlowOptions>().Configure(opt =>
             {
                 opt.AuthorizationServerUrl = tokenEndpoint;
             });
-
             services.AddHttpClient<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
+
+            //Resource owner password credentials flow
+            services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
+            {
+                opt.AuthorizationServerUrl = tokenEndpoint;
+            });
+            services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
         }
     }
 }

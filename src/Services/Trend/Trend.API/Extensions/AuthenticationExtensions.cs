@@ -25,7 +25,7 @@ namespace Trend.API.Extensions
 
             //Configure keycloak
             services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakFlowService(configuration["KeycloakOptions:ApplicationName"]);
+            services.UseKeycloakFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
             //Define authentication using JWT token
             services.AddAuthentication(opt =>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.IntegrationTests.CryptoController.Constants
+namespace Crypto.IntegrationTests.Constants
 {
     public static class ApiEndpoint
     {

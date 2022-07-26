@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Auth0.Abstract.Models
 {
-    public class ClientCredentialsFlowResponse
+    public class TokenCredentialResponse
     {
         [JsonProperty("access_token")]
         public string? AccessToken { get; set; }
