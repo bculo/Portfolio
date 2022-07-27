@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.Clients
 {
-    public class KeycloakOwnerCredentialFlowClient : IAuth0OwnerCredentialFlowService
+    internal class KeycloakOwnerCredentialFlowClient : IAuth0OwnerCredentialFlowService
     {
         private readonly KeycloakOwnerCredentialFlowOptions _options;
         private readonly ILogger<KeycloakOwnerCredentialFlowClient> _logger;
@@ -29,7 +29,7 @@ namespace Keycloak.Common.Clients
             _factory = factory;
         }
 
-        public async Task<TokenCredentialResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
+        public async Task<TokenClientCredentialResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 
@@ -61,7 +61,7 @@ namespace Keycloak.Common.Clients
             {
                 var errorResponse = await authorizationServerResponse.Content.ReadAsStringAsync();
 
-                _logger.LogWarning("Client credentials flow request failed with status code {0}. Reason: {1}, Details {2}",
+                _logger.LogWarning("Resource owner password credentials flow request failed with status code {0}. Reason: {1}, Details {2}",
                     authorizationServerResponse.StatusCode,
                     authorizationServerResponse.ReasonPhrase,
                     errorResponse);
@@ -75,7 +75,7 @@ namespace Keycloak.Common.Clients
 
             _logger.LogTrace("Parsing json response...");
 
-            return JsonConvert.DeserializeObject<TokenCredentialResponse>(responseJson);
+            return JsonConvert.DeserializeObject<TokenClientCredentialResponse>(responseJson);
         }
     }
 }

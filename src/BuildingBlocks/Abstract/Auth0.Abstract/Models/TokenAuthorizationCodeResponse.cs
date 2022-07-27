@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Auth0.Abstract.Models
 {
-    public class TokenCredentialResponse
+    public class TokenAuthorizationCodeResponse
     {
         [JsonProperty("access_token")]
         public string? AccessToken { get; set; }
@@ -15,5 +15,9 @@ namespace Auth0.Abstract.Models
         public string? TokenType { get; set; }
         [JsonProperty("expires_in")]
         public int ExpiresIn { get; set; }
+        [JsonProperty("refresh_token")]
+        public string? RefreshToken { get; set; }
+        [JsonProperty("refresh_expires_in")]
+        public int RefreshTokenExpiresIn { get; set; }
     }
 }

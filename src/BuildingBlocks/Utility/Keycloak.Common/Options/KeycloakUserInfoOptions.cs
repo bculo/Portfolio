@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.Options
 {
-    internal class KeycloackClientCredentialFlowOptions
+    internal class KeycloakUserInfoOptions
     {
         public string? AuthorizationServerUrl { get; set; }
     }

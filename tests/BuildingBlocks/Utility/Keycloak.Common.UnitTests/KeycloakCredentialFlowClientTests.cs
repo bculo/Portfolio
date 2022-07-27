@@ -78,7 +78,7 @@ namespace Keycloak.Common.UnitTests
             factoryMock.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(handler.ToHttpClient());
 
-            var options = Microsoft.Extensions.Options.Options.Create(new KeycloackClientCredentialFlowOptions
+            var options = Microsoft.Extensions.Options.Options.Create(new KeycloakClientCredentialFlowOptions
             {
                 AuthorizationServerUrl = authorizationServerUrl,
             });

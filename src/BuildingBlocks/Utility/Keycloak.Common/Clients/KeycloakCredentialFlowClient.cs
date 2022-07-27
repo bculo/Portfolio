@@ -12,11 +12,11 @@ namespace Keycloak.Common.Clients
     internal class KeycloakCredentialFlowClient : IAuth0ClientCredentialFlowService
     {
         private readonly IHttpClientFactory _factory;
-        private readonly KeycloackClientCredentialFlowOptions _options;
+        private readonly KeycloakClientCredentialFlowOptions _options;
         private readonly ILogger<KeycloakCredentialFlowClient> _logger;
 
         public KeycloakCredentialFlowClient(IHttpClientFactory factory, 
-            IOptions<KeycloackClientCredentialFlowOptions> options,
+            IOptions<KeycloakClientCredentialFlowOptions> options,
             ILogger<KeycloakCredentialFlowClient> logger)
         {
             _factory = factory;
@@ -24,7 +24,7 @@ namespace Keycloak.Common.Clients
             _logger = logger;
         }
 
-        public async Task<TokenCredentialResponse> GetToken(string clientId, string clientSecret, IEnumerable<string>? scopes = null)
+        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string clientSecret, IEnumerable<string>? scopes = null)
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 
@@ -68,17 +68,7 @@ namespace Keycloak.Common.Clients
 
             _logger.LogTrace("Parsing json response...");
 
-            return JsonConvert.DeserializeObject<TokenCredentialResponse>(responseJson);
-        }
-
-        private string DefineScope(IEnumerable<string>? scopes)
-        {
-            if(scopes == null || !scopes.Any())
-            {
-                return null;
-            }
-
-            return String.Join(" ", scopes.Select(i => i?.Trim()));
+            return JsonConvert.DeserializeObject<TokenAuthorizationCodeResponse>(responseJson);
         }
     }
 }

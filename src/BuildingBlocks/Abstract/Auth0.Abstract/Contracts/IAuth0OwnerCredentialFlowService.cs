@@ -17,6 +17,6 @@ namespace Auth0.Abstract.Contracts
         /// <param name="password">User password</param>
         /// <param name="scopes">Scopes</param>
         /// <returns></returns>
-        Task<TokenCredentialResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = default);
+        Task<TokenClientCredentialResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = default);
     }
 }

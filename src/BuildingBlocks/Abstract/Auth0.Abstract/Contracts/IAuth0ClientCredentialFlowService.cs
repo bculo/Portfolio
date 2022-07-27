@@ -18,6 +18,6 @@ namespace Auth0.Abstract.Contracts
         /// </summary>
         /// <param name="scopes">User scopes</param>
         /// <returns></returns>
-        Task<TokenCredentialResponse> GetToken(string clientId, string clientSecret, IEnumerable<string>? scopes = default);
+        Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string clientSecret, IEnumerable<string>? scopes = default);
     }
 }
