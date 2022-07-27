@@ -26,7 +26,6 @@ namespace Keycloak.Common.UnitTests
         {
             var clientId = VALID_CLIENT_ID;
             var clientSecret = VALID_CLIENT_SECRET;
-
             var instance = CreateFlowClientInstance(clientId, clientSecret);
 
             var tokenResponse = await instance.GetToken(clientId, clientSecret);
@@ -40,7 +39,6 @@ namespace Keycloak.Common.UnitTests
         {
             string? clientId = null;
             string? clientSecret = null;
-
             var instance = CreateFlowClientInstance(clientId, clientSecret);
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => instance.GetToken(clientId, clientSecret));
@@ -51,7 +49,6 @@ namespace Keycloak.Common.UnitTests
         {
             string? clientId = "random.client";
             string? clientSecret = "randomrandomrandomabc";
-
             var instance = CreateFlowClientInstance(clientId, clientSecret);
 
             var tokenResponse = await instance.GetToken(clientId, clientSecret);

@@ -24,7 +24,6 @@ namespace Keycloak.Common.UnitTests
         public async Task TransformAsync_ShouldNotCreateRoleClaim_WhenPrincipalWithoutRolesPassed()
         {
             var instance = CreateInstance();
-
             var principal = PrincipalUtils.CreatePrincipalWithoutRoleForUser("dorix", "morix", "dorix");
 
             var result = await instance.TransformAsync(principal);
@@ -37,9 +36,7 @@ namespace Keycloak.Common.UnitTests
         public async Task TransformAsync_ShouldCreateRoleClaim_WhenPrincipalWithSingleRealmRolePassed()
         {
             var instance = CreateInstance();
-
             string userRole = "Admin";
-
             var principal = PrincipalUtils.CreatePrincipalWithRealmRoleForUser("dorix", "morix", "dorix", userRole);
 
             var result = await instance.TransformAsync(principal);
@@ -53,10 +50,8 @@ namespace Keycloak.Common.UnitTests
         public async Task TransformAsync_ShouldCreateMultipleRoleClaims_WhenPrincipalWithMultipleRealmRolesPassed()
         {
             var instance = CreateInstance();
-
             var firstUserRole = "Admin";
             var secondUserRole = "PowerAdmin";
-
             var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser("dorix", "morix", "dorix", firstUserRole, secondUserRole);
 
             var result = await instance.TransformAsync(principal);
@@ -72,9 +67,7 @@ namespace Keycloak.Common.UnitTests
         {
             var applicationName = "TEST.API";
             var userRole = "Admin";
-
             var instance = CreateInstance(applicationName);
-
             var principal = PrincipalUtils.CreatePrincipalWithApplicationRoleForUser("dorix", "morix", "dorix", applicationName, userRole);
 
             var result = await instance.TransformAsync(principal);
@@ -88,6 +81,5 @@ namespace Keycloak.Common.UnitTests
         {
             return InstanceUtils.CreateInstanceTransformer(appName);
         }
-
     }
 }

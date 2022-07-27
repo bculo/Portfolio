@@ -39,26 +39,41 @@ namespace Keycloak.Common
         /// Register keycloak client for oauth flows
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="clientId"></param>
-        /// <param name="clientSecret"></param>
-        /// <param name="tokenEndpoint"></param>
-        public static void UseKeycloakFlowService(this IServiceCollection services, string tokenEndpoint)
+        /// <param name="aurhoriazionServer"></param>
+        public static void UseKeycloakFlowService(this IServiceCollection services, string aurhoriazionServer)
         {
-            Guard.Against.NullOrEmpty(tokenEndpoint);
+            Guard.Against.NullOrEmpty(aurhoriazionServer);
 
             //Client credentials flow
             services.AddOptions<KeycloakClientCredentialFlowOptions>().Configure(opt =>
             {
-                opt.AuthorizationServerUrl = tokenEndpoint;
+                opt.AuthorizationServerUrl = aurhoriazionServer;
             });
             services.AddHttpClient<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
 
             //Resource owner password credentials flow
             services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
             {
-                opt.AuthorizationServerUrl = tokenEndpoint;
+                opt.AuthorizationServerUrl = aurhoriazionServer;
             });
             services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
+        }
+
+        /// <summary>
+        /// Register keycloak client for userinfo endpoint
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="aurhoriazionServer"></param>
+        public static void UseKeycloakUserInfoService(this IServiceCollection services, string aurhoriazionServer)
+        {
+            Guard.Against.NullOrEmpty(aurhoriazionServer);
+
+            //Client for userinfo endpoint
+            services.AddOptions<KeycloakUserInfoOptions>().Configure(opt =>
+            {
+                opt.AuthorizationServerUrl = aurhoriazionServer;
+            });
+            services.AddHttpClient<IOpenIdUserInfoService, KeycloakUserInfoClient>();
         }
     }
 }

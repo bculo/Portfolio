@@ -29,7 +29,7 @@ namespace Keycloak.Common.Clients
             _factory = factory;
         }
 
-        public async Task<TokenClientCredentialResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
+        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 
@@ -75,7 +75,7 @@ namespace Keycloak.Common.Clients
 
             _logger.LogTrace("Parsing json response...");
 
-            return JsonConvert.DeserializeObject<TokenClientCredentialResponse>(responseJson);
+            return JsonConvert.DeserializeObject<TokenAuthorizationCodeResponse>(responseJson);
         }
     }
 }

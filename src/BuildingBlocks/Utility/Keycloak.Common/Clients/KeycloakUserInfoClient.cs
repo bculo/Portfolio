@@ -16,11 +16,11 @@ namespace Keycloak.Common.Clients
     internal class KeycloakUserInfoClient : IOpenIdUserInfoService
     {
         private readonly KeycloakUserInfoOptions _options;
-        private readonly ILogger<KeycloakOwnerCredentialFlowClient> _logger;
+        private readonly ILogger<KeycloakUserInfoClient> _logger;
         private readonly IHttpClientFactory _factory;
 
         public KeycloakUserInfoClient(IOptions<KeycloakUserInfoOptions> options,
-            ILogger<KeycloakOwnerCredentialFlowClient> logger,
+            ILogger<KeycloakUserInfoClient> logger,
             IHttpClientFactory factory)
         {
             _options = options.Value;

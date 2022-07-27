@@ -17,7 +17,6 @@ namespace Crypto.UnitTests.Infrastracture
         public async Task Commit_ShouldAttachTimestamp_WhenExecuted()
         {
             var crypto = Create();
-
             var work = BuildUnitOfWork();
 
             await work.CryptoRepository.Add(crypto);
