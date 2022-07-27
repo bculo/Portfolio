@@ -1,4 +1,4 @@
-﻿using Keycloak.Common.Interfaces;
+﻿using Auth0.Abstract.Contracts;
 using Trend.Domain.Exceptions;
 using Trend.Domain.Interfaces;
 
@@ -6,9 +6,9 @@ namespace Trend.Grpc.Services
 {
     public class UserService : ICurrentUser
     {
-        private readonly IKeycloakUser _user;
+        private readonly IAuth0AccessTokenReader _user;
 
-        public UserService(IKeycloakUser user)
+        public UserService(IAuth0AccessTokenReader user)
         {
             _user = user;
         }

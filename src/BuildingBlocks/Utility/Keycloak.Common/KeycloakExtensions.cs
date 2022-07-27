@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Auth0.Abstract.Contracts;
 using Keycloak.Common.Clients;
+using Keycloak.Common.Interfaces;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -74,6 +75,22 @@ namespace Keycloak.Common
                 opt.AuthorizationServerUrl = aurhoriazionServer;
             });
             services.AddHttpClient<IOpenIdUserInfoService, KeycloakUserInfoClient>();
+        }
+
+        /// <summary>
+        /// Register keycloak client for admin api
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="aurhoriazionServer"></param>
+        public static void UseKeycloakAdminService(this IServiceCollection services, string adminApiBase)
+        {
+            Guard.Against.NullOrEmpty(adminApiBase);
+
+            services.AddOptions<KeycloakAdminApiOptions>().Configure(opt =>
+            {
+                opt.AdminApiEndpointBase = adminApiBase;
+            });
+            services.AddHttpClient<IKeycloakAdminService, KeycloakAdminClient>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Auth0.Abstract.Contracts;
 using Auth0.Abstract.Models;
 using Keycloak.Common.Constants;
+using Keycloak.Common.Extensions;
 using Keycloak.Common.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -55,27 +56,7 @@ namespace Keycloak.Common.Clients
 
             var authorizationServerResponse = await http.PostAsync("protocol/openid-connect/token", content);
 
-            _logger.LogTrace("Response received...");
-
-            if (!authorizationServerResponse.IsSuccessStatusCode)
-            {
-                var errorResponse = await authorizationServerResponse.Content.ReadAsStringAsync();
-
-                _logger.LogWarning("Resource owner password credentials flow request failed with status code {0}. Reason: {1}, Details {2}",
-                    authorizationServerResponse.StatusCode,
-                    authorizationServerResponse.ReasonPhrase,
-                    errorResponse);
-
-                return null;
-            }
-
-            _logger.LogTrace("Reading response...");
-
-            var responseJson = await authorizationServerResponse.Content.ReadAsStringAsync();
-
-            _logger.LogTrace("Parsing json response...");
-
-            return JsonConvert.DeserializeObject<TokenAuthorizationCodeResponse>(responseJson);
+            return await authorizationServerResponse.HandleResponse<TokenAuthorizationCodeResponse>(_logger);
         }
     }
 }

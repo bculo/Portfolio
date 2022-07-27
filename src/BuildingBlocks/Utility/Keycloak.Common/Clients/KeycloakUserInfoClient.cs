@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Auth0.Abstract.Contracts;
 using Auth0.Abstract.Models;
+using Keycloak.Common.Extensions;
 using Keycloak.Common.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -43,27 +44,7 @@ namespace Keycloak.Common.Clients
 
             var authorizationServerResponse = await http.GetAsync("protocol/openid-connect/userinfo");
 
-            _logger.LogTrace("Response received...");
-
-            if (!authorizationServerResponse.IsSuccessStatusCode)
-            {
-                var errorResponse = await authorizationServerResponse.Content.ReadAsStringAsync();
-
-                _logger.LogWarning("User info request failed with status code {0}. Reason: {1}, Details {2}",
-                    authorizationServerResponse.StatusCode,
-                    authorizationServerResponse.ReasonPhrase,
-                    errorResponse);
-
-                return null;
-            }
-
-            _logger.LogTrace("Reading response...");
-
-            var responseJson = await authorizationServerResponse.Content.ReadAsStringAsync();
-
-            _logger.LogTrace("Parsing json response...");
-
-            return JsonConvert.DeserializeObject<UserInfoResponse>(responseJson);
+            return await authorizationServerResponse.HandleResponse<UserInfoResponse>(_logger);
         }
     }
 }
