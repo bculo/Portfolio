@@ -1,8 +1,11 @@
-﻿using FluentAssertions;
+﻿using Auth0.Abstract.Models;
+using AutoFixture;
+using FluentAssertions;
 using Keycloak.Common.Clients;
 using Keycloak.Common.Options;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,8 @@ namespace Keycloak.Common.UnitTests
     public class KeycloakUserInfoClientTests
     {
         private const string VALID_ACCESS_TOKEN = "asdsadjksadjksadkjsakdsalkdsakdjsaldkj";
+
+        private readonly Fixture _fixture = new Fixture();
 
         [Fact]
         public async Task GetUserInfo_ShouldReturnInstance_WhenValidAccessTokenProvided()
@@ -68,7 +73,7 @@ namespace Keycloak.Common.UnitTests
             var handler = new MockHttpMessageHandler();
             if(accessToken == VALID_ACCESS_TOKEN)
             {
-                handler.When(HttpMethod.Get, "*").Respond("application/json", GetValidResponseJson());
+                handler.When(HttpMethod.Get, "*").Respond("application/json", JsonConvert.SerializeObject(_fixture.Create<UserInfoResponse>()));
             }
             else
             {
@@ -87,19 +92,6 @@ namespace Keycloak.Common.UnitTests
             var logger = Mock.Of<ILogger<KeycloakUserInfoClient>>();
 
             return new KeycloakUserInfoClient(options, logger, factoryMock.Object);
-        }
-
-        private string GetValidResponseJson()
-        {
-            return @"{
-                'sub': 'f534a4a8-ff20-4a0e-85bf-d79fac599c78',
-                'email_verified': false,
-                'name': 'dorix morix',
-                'preferred_username': 'dorix',
-                'given_name': 'dorix',
-                'family_name': 'morix',
-                'email': 'dorix@gmail.com'
-            }";
         }
     }
 }

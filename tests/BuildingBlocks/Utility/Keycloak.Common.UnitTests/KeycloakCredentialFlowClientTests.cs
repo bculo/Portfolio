@@ -1,25 +1,34 @@
-﻿using FluentAssertions;
+﻿using Auth0.Abstract.Models;
+using AutoFixture;
 using Keycloak.Common.Clients;
 using Keycloak.Common.Options;
-using Keycloak.Common.UnitTests.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Keycloak.Common.UnitTests
 {
     public class KeycloakCredentialFlowClientTests
     {
+        public const string AUTHORIZATION_SERVER = "http://authorizationpoint/";
         public const string VALID_CLIENT_ID = "VALID.CLIENT";
         public const string VALID_CLIENT_SECRET = "v9YmKiVQw86L69fYXhyP2B3WdRiXbKSc";
+
+        private readonly Fixture _fixture = new Fixture();
+        private readonly Mock<IHttpClientFactory> _mockFactory = new Mock<IHttpClientFactory>();
+        private readonly IOptions<KeycloakClientCredentialFlowOptions> _options;
+        private readonly ILogger<KeycloakCredentialFlowClient> _logger = Mock.Of<ILogger<KeycloakCredentialFlowClient>>();
+
+        public KeycloakCredentialFlowClientTests()
+        {
+            _options = Microsoft.Extensions.Options.Options.Create(new KeycloakClientCredentialFlowOptions
+            {
+                AuthorizationServerUrl = AUTHORIZATION_SERVER,
+            });
+        }
 
         [Fact]
         public async Task GetToken_ShouldReturnToken_WhenValidClientDataProvided()
@@ -58,12 +67,11 @@ namespace Keycloak.Common.UnitTests
 
         internal KeycloakCredentialFlowClient CreateFlowClientInstance(string clientId, string clientSecret)
         {
-            string authorizationServerUrl = "http://authorizationpoint/";
-
             var handler = new MockHttpMessageHandler();
+
             if(clientSecret == VALID_CLIENT_SECRET && clientId == VALID_CLIENT_ID)
             {
-                string validResponse = File.ReadAllText("Static/client-credentials-valid.json");
+                string validResponse = JsonConvert.SerializeObject(_fixture.Create<TokenClientCredentialResponse>());
                 handler.When(HttpMethod.Post, "*").Respond("application/json", validResponse);
             }
             else
@@ -71,18 +79,10 @@ namespace Keycloak.Common.UnitTests
                 handler.When(HttpMethod.Post, "*").Respond(HttpStatusCode.BadRequest);
             }
 
-            var factoryMock = new Mock<IHttpClientFactory>();
-            factoryMock.Setup(i => i.CreateClient(It.IsAny<string>()))
+            _mockFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(handler.ToHttpClient());
 
-            var options = Microsoft.Extensions.Options.Options.Create(new KeycloakClientCredentialFlowOptions
-            {
-                AuthorizationServerUrl = authorizationServerUrl,
-            });
-
-            var logger = Mock.Of<ILogger<KeycloakCredentialFlowClient>>();
-
-            return new KeycloakCredentialFlowClient(factoryMock.Object, options, logger);
+            return new KeycloakCredentialFlowClient(_mockFactory.Object, _options, _logger);
         }
     }
 }

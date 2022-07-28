@@ -1,17 +1,16 @@
+using Keycloak.Common.Constants;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
+using Keycloak.Common.UnitTests.Generators;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using Keycloak.Common.UnitTests.Helpers;
-using Keycloak.Common.Constants;
-using Microsoft.AspNetCore.Http;
 
 namespace Keycloak.Common.UnitTests
 {
     public class KeycloakClaimsTransformerTests
     {
+        private readonly PrincipalManager _generator = new PrincipalManager();
+
         [Fact]
         public async Task TransformAsync_ShouldThrowNullReferenceException_WhenPassedValueNull()
         {
@@ -23,8 +22,8 @@ namespace Keycloak.Common.UnitTests
         [Fact]
         public async Task TransformAsync_ShouldNotCreateRoleClaim_WhenPrincipalWithoutRolesPassed()
         {
+            var principal = await _generator.CreatePrincipalForUser();
             var instance = CreateInstance();
-            var principal = PrincipalUtils.CreatePrincipalWithoutRoleForUser("dorix", "morix", "dorix");
 
             var result = await instance.TransformAsync(principal);
 
@@ -35,24 +34,26 @@ namespace Keycloak.Common.UnitTests
         [Fact]
         public async Task TransformAsync_ShouldCreateRoleClaim_WhenPrincipalWithSingleRealmRolePassed()
         {
+            var firstUserRole = "Admin";
+            string[] realmRoles = new[] { firstUserRole };
+            var principal = await _generator.CreatePrincipalForUser(realmRoles: realmRoles);
             var instance = CreateInstance();
-            string userRole = "Admin";
-            var principal = PrincipalUtils.CreatePrincipalWithRealmRoleForUser("dorix", "morix", "dorix", userRole);
 
             var result = await instance.TransformAsync(principal);
 
             Assert.NotNull(result);
             Assert.Contains(result.Claims, i => i.Type == KeycloakTokenConstants.ROLE);
-            Assert.Contains(result.Claims, i => i.Value == userRole);
+            Assert.Contains(result.Claims, i => i.Value == firstUserRole);
         }
 
         [Fact]
         public async Task TransformAsync_ShouldCreateMultipleRoleClaims_WhenPrincipalWithMultipleRealmRolesPassed()
         {
-            var instance = CreateInstance();
             var firstUserRole = "Admin";
             var secondUserRole = "PowerAdmin";
-            var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser("dorix", "morix", "dorix", firstUserRole, secondUserRole);
+            string[] roles = new[] { firstUserRole, secondUserRole };
+            var principal = await _generator.CreatePrincipalForUser(realmRoles: roles);
+            var instance = CreateInstance();
 
             var result = await instance.TransformAsync(principal);
 
@@ -66,20 +67,44 @@ namespace Keycloak.Common.UnitTests
         public async Task TransformAsync_ShouldCreateRoleClaim_WhenPrincipalWithSingleApplicationRolePassed()
         {
             var applicationName = "TEST.API";
-            var userRole = "Admin";
+            var firstUserRole = "Admin";
+            var roles = new[] { firstUserRole };
             var instance = CreateInstance(applicationName);
-            var principal = PrincipalUtils.CreatePrincipalWithApplicationRoleForUser("dorix", "morix", "dorix", applicationName, userRole);
+            var principal = await _generator.CreatePrincipalForUser(applicationName: applicationName, appRoles: roles);
 
             var result = await instance.TransformAsync(principal);
 
             Assert.NotNull(result);
             Assert.Contains(result.Claims, i => i.Type == KeycloakTokenConstants.ROLE);
-            Assert.Contains(result.Claims, i => i.Value == userRole);
+            Assert.Contains(result.Claims, i => i.Value == firstUserRole);
+        }
+
+        [Fact]
+        public async Task TransformAsync_ShouldCreateClientRoleClaim_WhenPrincipalWithSingleApplicationRolePassed()
+        {
+            var applicationName = "TEST.API";
+            var clientRole = "Application";
+            var roles = new[] { clientRole };
+            var instance = CreateInstance(applicationName);
+            var principal = await _generator.CreatePrincipalForClient(clientName: applicationName, clientRealmRole: roles);
+
+            var result = await instance.TransformAsync(principal);
+
+            Assert.NotNull(result);
+            Assert.Contains(result.Claims, i => i.Type == KeycloakTokenConstants.ROLE);
+            Assert.Contains(result.Claims, i => i.Value == clientRole);
         }
 
         private KeycloakClaimsTransformer CreateInstance(string appName = "APP")
         {
-            return InstanceUtils.CreateInstanceTransformer(appName);
+            var options = Microsoft.Extensions.Options.Options.Create(new KeycloakClaimOptions
+            {
+                ApplicationName = appName,
+            });
+
+            var logger = Mock.Of<ILogger<KeycloakClaimsTransformer>>();
+
+            return new KeycloakClaimsTransformer(options, logger);
         }
     }
 }

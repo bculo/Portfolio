@@ -1,23 +1,36 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using Keycloak.Common.Clients;
+using Keycloak.Common.Models.Response.Users;
 using Keycloak.Common.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
+using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Keycloak.Common.UnitTests
 {
     public class KeycloakAdminClientTests
     {
+        private const string ADMIN_API_POINT = "http://adminapi/test/";
         private const string VALID_REALM = "PortfolioRealm";
         private const string VALID_ACCESS_TOKEN = "abc-sir";
         private const string VALID_USER_ID = "e246ce6c-30de-4b82-ba92-cafb31bdc9a0";
+
+        private readonly Fixture _fixture = new Fixture();
+        private readonly IOptions<KeycloakAdminApiOptions> _options;
+        private readonly Mock<IHttpClientFactory> _httpClientFactory = new Mock<IHttpClientFactory>();
+        private readonly ILogger<KeycloakAdminClient> _logger = new Mock<ILogger<KeycloakAdminClient>>().Object;
+
+        public KeycloakAdminClientTests()
+        {
+            _options = Microsoft.Extensions.Options.Options.Create(new KeycloakAdminApiOptions
+            {
+                AdminApiEndpointBase = ADMIN_API_POINT,
+            });
+        }
 
         [Fact]
         public async Task GetUsers_ShouldReturnUserList_WhenValidRealmAndAccessTokenProvided()
@@ -133,152 +146,37 @@ namespace Keycloak.Common.UnitTests
         /// <returns></returns>
         private KeycloakAdminClient CreateAdminClientUsers(string realm, string token)
         {
-            string adminApiBaseUrl = "http://localhost:8080/auth/admin/realms/";
-
             var mockHandler = new MockHttpMessageHandler();
+            var handled = false;
 
             if(realm == VALID_REALM && token == VALID_ACCESS_TOKEN)
             {
-                mockHandler.When(HttpMethod.Get, "*").Respond("application/json", GetValidUsersResponse());
+                mockHandler.When(HttpMethod.Get, "*").Respond("application/json", JsonConvert.SerializeObject(_fixture.CreateMany<UserResponse>(5)));
+                handled = true;
             }
 
             if(realm != VALID_REALM && token == VALID_ACCESS_TOKEN)
             {
                 mockHandler.When(HttpMethod.Get, "*").Respond(HttpStatusCode.NotFound, "application/json", "'error': 'Realm not found.'");
+                handled = true;
             }
 
             if (realm == VALID_REALM && token != VALID_ACCESS_TOKEN)
             {
                 mockHandler.When(HttpMethod.Get, "*").Respond(HttpStatusCode.Unauthorized, "application/json", "'error': 'HTTP 401 Unauthorized'");
+                handled = true;
             }
 
-            if(realm != VALID_REALM && token != VALID_ACCESS_TOKEN)
+            if(!handled)
             {
                 mockHandler.When(HttpMethod.Get, "*").Respond(HttpStatusCode.BadRequest);
+                handled = true;
             }
 
-            var factoryMock = new Mock<IHttpClientFactory>();
-            factoryMock.Setup(i => i.CreateClient(It.IsAny<string>()))
+            _httpClientFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(mockHandler.ToHttpClient());
 
-            var options = Microsoft.Extensions.Options.Options.Create(new KeycloakAdminApiOptions
-            {
-                AdminApiEndpointBase = adminApiBaseUrl,
-            });
-
-            var logger = Mock.Of<ILogger<KeycloakAdminClient>>();
-
-            return new KeycloakAdminClient(factoryMock.Object, options, logger);
-        }
-
-        private string GetValidUsersResponse()
-        {
-            return @"[
-                {
-                    'id': 'e246ce6c-30de-4b82-ba92-cafb31bdc9a0',
-                    'createdTimestamp': 1657999153525,
-                    'username': 'bculo',
-                    'enabled': true,
-                    'totp': true,
-                    'emailVerified': false,
-                    'firstName': 'Božo',
-                    'lastName': 'Čulo',
-                    'email': 'culobozo@gmail.com',
-                    'disableableCredentialTypes': [],
-                    'requiredActions': [],
-                    'notBefore': 0,
-                    'access': {
-                        'manageGroupMembership': true,
-                        'view': true,
-                        'mapRoles': true,
-                        'impersonate': true,
-                        'manage': true
-                    }
-                },
-                {
-                    'id': 'be2b67bb-0a15-42d4-8c28-b4729a4329b6',
-                    'createdTimestamp': 1657819590270,
-                    'username': 'culix',
-                    'enabled': true,
-                    'totp': false,
-                    'emailVerified': false,
-                    'disableableCredentialTypes': [],
-                    'requiredActions': [],
-                    'notBefore': 0,
-                    'access': {
-                        'manageGroupMembership': true,
-                        'view': true,
-                        'mapRoles': true,
-                        'impersonate': true,
-                        'manage': true
-                    }
-                },
-                {
-                    'id': 'f534a4a8-ff20-4a0e-85bf-d79fac599c78',
-                    'createdTimestamp': 1657993399744,
-                    'username': 'dorix',
-                    'enabled': true,
-                    'totp': false,
-                    'emailVerified': false,
-                    'firstName': 'dorix',
-                    'lastName': 'morix',
-                    'email': 'dorix@gmail.com',
-                    'disableableCredentialTypes': [],
-                    'requiredActions': [],
-                    'notBefore': 0,
-                    'access': {
-                        'manageGroupMembership': true,
-                        'view': true,
-                        'mapRoles': true,
-                        'impersonate': true,
-                        'manage': true
-                    }
-                },
-                {
-                    'id': 'acdd8e0e-2e20-4304-90de-6426b05a6af6',
-                    'createdTimestamp': 1657991769743,
-                    'username': 'hardcorenoob',
-                    'enabled': true,
-                    'totp': true,
-                    'emailVerified': true,
-                    'firstName': 'mulix',
-                    'lastName': 'mulix',
-                    'email': 'hardcorenoob2@gmail.com',
-                    'disableableCredentialTypes': [],
-                    'requiredActions': [],
-                    'notBefore': 0,
-                    'access': {
-                        'manageGroupMembership': true,
-                        'view': true,
-                        'mapRoles': true,
-                        'impersonate': true,
-                        'manage': true
-                    }
-                },
-                {
-                    'id': '47a9594d-1dbf-41c4-a77c-0be19d50537d',
-                    'createdTimestamp': 1657997777837,
-                    'username': 'marinko',
-                    'enabled': true,
-                    'totp': false,
-                    'emailVerified': false,
-                    'firstName': 'Marinko',
-                    'lastName': 'Stanić',
-                    'email': 'marinkosvaser@gmail.com',
-                    'disableableCredentialTypes': [],
-                    'requiredActions': [
-                        'CONFIGURE_TOTP'
-                    ],
-                    'notBefore': 0,
-                    'access': {
-                        'manageGroupMembership': true,
-                        'view': true,
-                        'mapRoles': true,
-                        'impersonate': true,
-                        'manage': true
-                    }
-                }
-            ]";
+            return new KeycloakAdminClient(_httpClientFactory.Object, _options, _logger);
         }
 
         /// <summary>
@@ -290,16 +188,15 @@ namespace Keycloak.Common.UnitTests
         /// <returns></returns>
         private KeycloakAdminClient CreateAdminClientForSingleUser(string realm, string token, string userId)
         {
-            string adminApiBaseUrl = "http://localhost:8080/auth/admin/realms/";
-
             var handerMocked = false;
-
             var mockHandler = new MockHttpMessageHandler();
 
             //VALID DATA
             if (realm == VALID_REALM && token == VALID_ACCESS_TOKEN && userId == VALID_USER_ID)
             {
-                mockHandler.When(HttpMethod.Get, "*").Respond("application/json", GetValidSingleUserResponse());
+                var validResponse = _fixture.Create<UserResponse>();
+                validResponse.UserId = Guid.Parse(VALID_USER_ID);
+                mockHandler.When(HttpMethod.Get, "*").Respond("application/json", JsonConvert.SerializeObject(validResponse));
                 handerMocked = true;
             }
 
@@ -330,50 +227,10 @@ namespace Keycloak.Common.UnitTests
                 mockHandler.When(HttpMethod.Get, "*").Respond(HttpStatusCode.BadRequest);
             }
 
-            var factoryMock = new Mock<IHttpClientFactory>();
-            factoryMock.Setup(i => i.CreateClient(It.IsAny<string>()))
+            _httpClientFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(mockHandler.ToHttpClient());
 
-            var options = Microsoft.Extensions.Options.Options.Create(new KeycloakAdminApiOptions
-            {
-                AdminApiEndpointBase = adminApiBaseUrl,
-            });
-
-            var logger = Mock.Of<ILogger<KeycloakAdminClient>>();
-
-            return new KeycloakAdminClient(factoryMock.Object, options, logger);
-        }
-
-        private string GetValidSingleUserResponse()
-        {
-            return @"{
-                'id': 'e246ce6c-30de-4b82-ba92-cafb31bdc9a0',
-                'createdTimestamp': 1657999153525,
-                'username': 'bculo',
-                'enabled': true,
-                'totp': true,
-                'emailVerified': false,
-                'firstName': 'Božo',
-                'lastName': 'Čulo',
-                'email': 'culobozo@gmail.com',
-                'disableableCredentialTypes': [],
-                'requiredActions': [],
-                'federatedIdentities': [
-                    {
-                        'identityProvider': 'github',
-                        'userId': '37018801',
-                        'userName': 'bculo'
-                    }
-                ],
-                'notBefore': 0,
-                'access': {
-                    'manageGroupMembership': true,
-                    'view': true,
-                    'mapRoles': true,
-                    'impersonate': true,
-                    'manage': true
-                }
-            }";
+            return new KeycloakAdminClient(_httpClientFactory.Object, _options, _logger);
         }
     }
 }

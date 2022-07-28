@@ -24,7 +24,10 @@ namespace Keycloak.Common.Services
 
         public virtual Guid? GetIdentifier()
         {
-            var guidAsString = Claims?.FindFirst(KeycloakTokenConstants.USERID)?.Value;
+            var guidAsStringMain = Claims?.FindFirst(KeycloakTokenConstants.USERID)?.Value;
+            var guidAsStringBackup = Claims?.FindFirst(KeycloakTokenConstants.USERIDBACKUP)?.Value;
+
+            var guidAsString = guidAsStringMain ?? guidAsStringBackup ?? null;
 
             if (string.IsNullOrEmpty(guidAsString))
             {

@@ -87,7 +87,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{5DD6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common.UnitTests", "tests\BuildingBlocks\Utility\Keycloak.Common.UnitTests\Keycloak.Common.UnitTests.csproj", "{803B6E77-E236-4A43-A178-D79102C0258C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.IntegrationTests", "tests\Services\Crypto\Crypto.IntegrationTests\Crypto.IntegrationTests.csproj", "{B514430E-02D7-426F-858C-F131391C149F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.IntegrationTests", "tests\Services\Crypto\Crypto.IntegrationTests\Crypto.IntegrationTests.csproj", "{B514430E-02D7-426F-858C-F131391C149F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

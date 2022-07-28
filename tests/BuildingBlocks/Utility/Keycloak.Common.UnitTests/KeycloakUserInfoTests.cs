@@ -1,22 +1,29 @@
-﻿using Keycloak.Common.Services;
-using Keycloak.Common.UnitTests.Helpers;
+﻿using Keycloak.Common.Options;
+using Keycloak.Common.Services;
+using Keycloak.Common.UnitTests.Generators;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Keycloak.Common.UnitTests
 {
     public class KeycloakUserInfoTests
     {
+        public const string VALID_APPLICATION_CLINED_ID = "VALID.CLIENT";
+        private readonly PrincipalManager _generator;
+
+        public KeycloakUserInfoTests()
+        {
+            var options = Microsoft.Extensions.Options.Options.Create(new KeycloakClaimOptions { ApplicationName = VALID_APPLICATION_CLINED_ID });
+            var logger = Mock.Of<ILogger<KeycloakClaimsTransformer>>();
+            _generator = new PrincipalManager(new KeycloakClaimsTransformer(options, logger));
+        }
+
         [Fact]
         public void GetRoles_ShouldReturnEmptyEnumerable_WhenClaimPrincipalNull()
         {
-            var userInfo = CreateInstance(null);
+            var userInfo = CreateInstance();
 
             var roles = userInfo.GetRoles();
 
@@ -27,7 +34,7 @@ namespace Keycloak.Common.UnitTests
         [Fact]
         public void IsAuthenticated_ShouldReturnFalse_WhenClaimPrincipalNull()
         {
-            var userInfo = CreateInstance(null);
+            var userInfo = CreateInstance();
 
             var result = userInfo.IsAuthenticated();
 
@@ -35,9 +42,19 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public void IsAuthenticated_ShouldReturnFalse_WhenUserNotAuthenticated()
+        public void GetFullName_ShouldReturnNull_WhenClaimPrincipalNull()
         {
-            var userInfo = CreateInstance(PrincipalUtils.CreateEmptyPrincipal());
+            var userInfo = CreateInstance();
+
+            var userName = userInfo.GetFullName();
+
+            Assert.Null(userName);
+        }
+
+        [Fact]
+        public void IsAuthenticated_ShouldReturnFalse_WhenPrincipalEmpty()
+        {
+            var userInfo = CreateInstance(_generator.CreateEmptyPrincipal());
 
             var result = userInfo.IsAuthenticated();
 
@@ -45,125 +62,177 @@ namespace Keycloak.Common.UnitTests
         }
 
         [Fact]
-        public void User_Without_Role_Test()
+        public void GetFullName_ShouldReturnNull_WhenPrincipalEmpty()
         {
-            string firstName = "dor";
-            string lastName = "mor";
-            string userName = "dorix";
+            var userInfo = CreateInstance(_generator.CreateEmptyPrincipal());
 
-            var userInfo = CreateInstance(PrincipalUtils.CreatePrincipalWithoutRoleForUser(firstName, lastName, userName));
+            var userName = userInfo.GetFullName();
 
-            var authenticatedResult = userInfo.IsAuthenticated();
-            var userNameResult = userInfo.GetUserName();
-            var emailResult = userInfo.GetEmail();
-            var rolesResult = userInfo.GetRoles();
-
-            Assert.True(authenticatedResult);
-            Assert.Equal(userNameResult, userName);
-            Assert.NotEmpty(emailResult);
-            Assert.Equal(0, rolesResult.Count()!);
+            Assert.Null(userName);
         }
 
         [Fact]
-        public async Task User_With_Single_Role_Test()
+        public void GetRoles_ShouldReturnEmptyEnumerable_WhenPrincipalEmpty()
         {
-            string firstName = "dor";
-            string lastName = "mor";
-            string userName = "dorix";
-            string userRole = "Admin";
-            var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
-            var principal = PrincipalUtils.CreatePrincipalWithRealmRoleForUser(firstName, lastName, userName, userRole);
-            var transformedPrincipal = await claimTransformer.TransformAsync(principal);
+            var userInfo = CreateInstance();
 
-            var userInfo = CreateInstance(transformedPrincipal);
+            var roles = userInfo.GetRoles();
 
-            var authenticatedResult = userInfo.IsAuthenticated();
-            var userNameResult = userInfo.GetUserName();
-            var emailResult = userInfo.GetEmail();
-            var rolesResult = userInfo.GetRoles();
-            var userInRoleResult = userInfo.IsInRole(userRole);
-
-            Assert.True(authenticatedResult);
-            Assert.Equal(userNameResult, userName);
-            Assert.NotEmpty(emailResult);
-            Assert.Equal(1, rolesResult.Count()!);
-            Assert.True(userInRoleResult);
+            Assert.NotNull(roles);
+            Assert.Empty(roles);
         }
 
         [Fact]
-        public async Task User_With_Multiple_Roles_Test()
+        public async Task IsAuthenticated_ShouldReturnTrue_WhenPricnipalContainsData()
         {
-            string firstName = "dor";
-            string lastName = "mor";
-            string userName = "dorix";
-            string firstUserRole = "Admin";
-            string secondUserRole = "User";
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", lastName: "user", username: "username");
+            var userInfo = CreateInstance(principal);
 
-            var claimTransformer = InstanceUtils.CreateInstanceTransformer("TEST.API");
-            var principal = PrincipalUtils.CreatePrincipalWithRealmMultipleRolesForUser(firstName, lastName, userName, firstUserRole, secondUserRole);
-            var transformedPrincipal = await claimTransformer.TransformAsync(principal);
+            var result = userInfo.IsAuthenticated();
 
-            var userInfo = CreateInstance(transformedPrincipal);
-
-            var authenticatedResult = userInfo.IsAuthenticated();
-            var userNameResult = userInfo.GetUserName();
-            var emailResult = userInfo.GetEmail();
-            var rolesResult = userInfo.GetRoles();
-            var userInFirstRoleResult = userInfo.IsInRole(firstUserRole);
-            var userInSecondRoleResult = userInfo.IsInRole(secondUserRole);
-
-            Assert.True(authenticatedResult);
-            Assert.Equal(userNameResult, userName);
-            Assert.NotEmpty(emailResult);
-            Assert.Equal(2, rolesResult.Count()!);
-            Assert.True(userInFirstRoleResult);
-            Assert.True(userInSecondRoleResult);
+            Assert.True(result);
         }
 
         [Fact]
-        public async Task Machine_Without_Roles_Test()
+        public async Task GetUsername_ShouldReturnProvidedUsername_WhenPricnipalWithUsernameProvided()
         {
-            string clientId = "Test.API";
+            string userName = "username";
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", lastName: "user", username: userName);
+            var userInfo = CreateInstance(principal);
 
-            var principal = PrincipalUtils.CreatePrincipalForClientWithoutRoles(clientId);
-            var claimTransformer = InstanceUtils.CreateInstanceTransformer();
-            var transformedPrincipal = await claimTransformer.TransformAsync(principal);
+            var result = userInfo.GetUserName();
 
-            var userInfo = CreateInstance(transformedPrincipal);
-
-            var authenticatedResult = userInfo.IsAuthenticated();
-            var clientIdResult = userInfo.GetClientId();
-            var rolesResult = userInfo.GetRoles();
-
-            Assert.True(authenticatedResult);
-            Assert.Equal(clientId, clientIdResult);
-            Assert.Equal(0, rolesResult.Count()!);
+            Assert.Equal(result, userName);
         }
 
         [Fact]
-        public async Task Machine_With_Single_Role_Test()
+        public async Task GetIdentifier_ShouldReturnIdentifier_WhenPrincipalWithDataProvided()
         {
-            string clientId = "Test.API";
-            string role = "Application";
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", lastName: "user", username: "username");
+            var userInfo = CreateInstance(principal);
 
-            var principal = PrincipalUtils.CreatePrincipalForClientWithRole(clientId, role);
-            var claimTransformer = InstanceUtils.CreateInstanceTransformer();
-            var transformedPrincipal = await claimTransformer.TransformAsync(principal);
+            var result = userInfo.GetIdentifier();
 
-            var userInfo = CreateInstance(transformedPrincipal);
-
-            var authenticatedResult = userInfo.IsAuthenticated();
-            var clientIdResult = userInfo.GetClientId();
-            var rolesResult = userInfo.GetRoles();
-
-            Assert.True(authenticatedResult);
-            Assert.Equal(clientId, clientIdResult);
-            Assert.Equal(1, rolesResult.Count()!);
+            Assert.NotNull(result);
         }
 
-        private KeycloakUserInfo CreateInstance(ClaimsPrincipal principal)
+        [Fact]
+        public async Task GetEmail_ShouldReturnEmail_WhenPrincipalWithDataProvided()
         {
-            return InstanceUtils.CreateInstanceUserInfo(principal);
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", lastName: "user", username: "username");
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetEmail();
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task GetFullName_ShouldReturnFullName_WhenPrincipalWithDataProvided()
+        {
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", lastName: "user", username: "username");
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetFullName();
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task GetRoles_ShouldReturnDefiendRoles_WhenPrincipaWithRealmRolesDefined()
+        {
+            var realmRoles = new string[] { "Admin", "User" };
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", lastName: "user", username: "username", realmRoles: realmRoles);
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetRoles();
+
+            Assert.NotEmpty(result);
+            Assert.Contains(result, i => realmRoles.Contains(i));
+        }
+
+        [Fact]
+        public async Task GetRoles_ShouldReturnDefiendRoles_WhenPrincipaWithApplicationRolesDefined()
+        {
+            var appRoles = new string[] { "Admin", "User" };
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user", 
+                lastName: "user", 
+                username: "username", 
+                appRoles: appRoles, 
+                applicationName: VALID_APPLICATION_CLINED_ID);
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetRoles();
+
+            Assert.NotEmpty(result);
+            Assert.Contains(result, i => appRoles.Contains(i));
+        }
+
+        [Fact]
+        public async Task GetRoles_ShouldReturnEmptyRoles_WhenPrincipaWithInvalidApplicationNameDefined()
+        {
+            var appRoles = new string[] { "Admin", "User" };
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user",
+                lastName: "user",
+                username: "username",
+                appRoles: appRoles,
+                applicationName: "INVALID.APP");
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetRoles();
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetRoles_ShouldReturnRoles_WhenPrincipaWithRealmAndApplicationRolesDefined()
+        {
+            var appRoles = new string[] { "Admin", "User" };
+            var realmRoles = new string[] { "Application" };
+            var allRoles = appRoles.Concat(realmRoles);
+            var principal = await _generator.CreatePrincipalForUser(firstName: "user",
+                lastName: "user",
+                username: "username",
+                appRoles: appRoles,
+                applicationName: "INVALID.APP",
+                realmRoles: realmRoles);
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetRoles();
+
+            Assert.NotEmpty(result);
+            Assert.Contains(result, i => allRoles.Contains(i));
+        }
+
+        [Fact]
+        public async Task IsAuthenticated_ShouldReturnTrue_WhenClientPrincipalProvided()
+        {
+            var principal = await _generator.CreatePrincipalForClient(clientName: VALID_APPLICATION_CLINED_ID);
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.IsAuthenticated();
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task GetClientId_ShouldReturnIdentifier_WhenClientPrincipalProvided()
+        {
+            var clientId = VALID_APPLICATION_CLINED_ID;
+            var principal = await _generator.CreatePrincipalForClient(clientName: clientId);
+            var userInfo = CreateInstance(principal);
+
+            var result = userInfo.GetClientId();
+
+            Assert.NotEmpty(result);
+            Assert.Equal(result, clientId);
+        }
+
+        private KeycloakUserInfo CreateInstance(ClaimsPrincipal? principal = null)
+        {
+            var accessorMock = new Mock<IHttpContextAccessor>();
+            accessorMock.Setup(i => i.HttpContext.User).Returns(principal);
+            return new KeycloakUserInfo(accessorMock.Object);
         }
     }
 }
