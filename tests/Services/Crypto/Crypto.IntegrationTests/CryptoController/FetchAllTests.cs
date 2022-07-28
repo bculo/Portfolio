@@ -1,4 +1,5 @@
-﻿using Crypto.IntegrationTests.Constants;
+﻿using Crypto.Infrastracture.Persistence;
+using Crypto.IntegrationTests.Constants;
 using FluentAssertions;
 
 namespace Crypto.IntegrationTests.CryptoController
@@ -13,13 +14,13 @@ namespace Crypto.IntegrationTests.CryptoController
         }
 
         [Fact]
-        public async Task Test()
+        public async Task FetchAll_ShouldReturnStatusOk_WhenExecutedSuccessfully()
         {
             //Arrange
-            HttpClient client = _factory.CreateClient();
+            var client = _factory.CreateClient();
 
             //Act
-            var response = await client.GetAsync(ApiEndpoint.FETCH_ALL);
+            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_ALL);
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

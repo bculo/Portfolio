@@ -19,10 +19,7 @@ namespace Crypto.IntegrationTests.Extensions
 
             var context = scopedServices.GetRequiredService<T>();
 
-            if (context.Database.CanConnect())
-            {
-                context.Database.Migrate();
-            }
+            context.Database.Migrate();          
         }
     }
 }

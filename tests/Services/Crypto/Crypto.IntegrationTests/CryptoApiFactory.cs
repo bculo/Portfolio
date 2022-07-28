@@ -39,8 +39,12 @@ namespace Crypto.IntegrationTests
         {
             var connectionString = SqlServerUtils.ChangeConnectionDatabaseName(_sqlServerContainer.ConnectionString, "CryptoIntegrationDb");
 
-            builder.ConfigureTestServices(services =>
+            builder.ConfigureTestServices(async services =>
             {
+                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<CryptoDbContext>));
+                if (descriptor != null)
+                    services.Remove(descriptor);
+
                 services.RemoveAll(typeof(CryptoDbContext));
 
                 services.AddDbContext<CryptoDbContext>(opt =>
@@ -49,6 +53,8 @@ namespace Crypto.IntegrationTests
                 });
 
                 services.Migrate<CryptoDbContext>();
+
+                await CryptoDbContextSeed.SeedData(services);
             });
         }
 
