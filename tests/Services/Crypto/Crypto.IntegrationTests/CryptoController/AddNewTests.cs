@@ -7,17 +7,30 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class AddNewTests : IClassFixture<CryptoApiFactory>
+    public class AddNewTests : IClassFixture<CryptoApiFactory>, IClassFixture<RabbitMqFixture>
     {
         private readonly CryptoApiFactory _factory;
-        private readonly HttpClient _client;
 
-        public AddNewTests(CryptoApiFactory factory)
+        public AddNewTests(CryptoApiFactory factory, RabbitMqFixture rabbitMq)
         {
             _factory = factory;
-            _client = factory.CreateClient();
+
+            rabbitMq.ConfigureRabbitMq(_factory);
+        }
+
+        [Fact]
+        public void Test()
+        {
+
+            Assert.True(true);
         }
 
 
+        [Fact]
+        public void Test2()
+        {
+
+            Assert.True(true);
+        }
     }
 }

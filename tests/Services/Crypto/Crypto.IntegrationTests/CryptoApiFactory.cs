@@ -4,6 +4,7 @@ using Crypto.IntegrationTests.Utils;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -15,57 +16,48 @@ namespace Crypto.IntegrationTests
 {
     public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        /*
-        private readonly TestcontainersContainer _dbContainer =
-            new TestcontainersBuilder<TestcontainersContainer>()
-                .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
-                .WithEnvironment("ACCEPT_EULA", "Y")
-                .WithEnvironment("SA_PASSWORD", "pa55w0rd!")
-                .WithPortBinding(5777, 1433)
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
-                .Build();
-        */
-
-        private readonly MsSqlTestcontainer _sqlServerContainer =
-            new TestcontainersBuilder<MsSqlTestcontainer>()
-                .WithDatabase(new MsSqlTestcontainerConfiguration()
-                {
-                    Password = "yourStrong(!)Password"
-                })
-                .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
-                .Build();
+        private readonly MsSqlTestcontainer _sqlServerContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
+            .WithDatabase(new MsSqlTestcontainerConfiguration()
+            {
+                Password = "yourStrong(!)Password"
+            })
+            .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
+            .Build();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            var connectionString = SqlServerUtils.ChangeConnectionDatabaseName(_sqlServerContainer.ConnectionString, "CryptoIntegrationDb");
-
             builder.ConfigureTestServices(async services =>
             {
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<CryptoDbContext>));
-                if (descriptor != null)
-                    services.Remove(descriptor);
-
-                services.RemoveAll(typeof(CryptoDbContext));
-
-                services.AddDbContext<CryptoDbContext>(opt =>
-                {
-                    opt.UseSqlServer(connectionString);
-                });
-
-                services.Migrate<CryptoDbContext>();
-
-                await CryptoDbContextSeed.SeedData(services);
+                await ConfigureDatabase(services);
             });
         }
 
         public async Task InitializeAsync()
         {
-            await _sqlServerContainer.StartAsync();
+            await Task.WhenAll(_sqlServerContainer.StartAsync());
         }
 
         async Task IAsyncLifetime.DisposeAsync()
         {
-            await _sqlServerContainer.StopAsync();
+            await Task.WhenAll(_sqlServerContainer.StopAsync());
+        }
+
+        private async Task ConfigureDatabase(IServiceCollection services)
+        {
+            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<CryptoDbContext>));
+
+            services.Remove(descriptor);
+            services.RemoveAll(typeof(CryptoDbContext));
+
+            var connectionString = SqlServerUtils.ChangeConnectionDatabaseName(_sqlServerContainer.ConnectionString, "CryptoIntegrationDb");
+
+            services.AddDbContext<CryptoDbContext>(opt =>
+            {
+                opt.UseSqlServer(connectionString);
+            });
+
+            services.Migrate<CryptoDbContext>();
+            await CryptoDbContextSeed.SeedData(services);
         }
     }
 }
