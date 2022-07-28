@@ -118,7 +118,6 @@ namespace Crypto.UnitTests.Infrastracture
             Assert.Null(result);
         }
 
-
         private ICryptoPriceService BuildClientForMultipleSymbols(List<string> symbols)
         {
             var infoOptions = new CryptoPriceApiOptions
@@ -137,13 +136,13 @@ namespace Crypto.UnitTests.Infrastracture
             {
                 var response = MockResponse(symbols);
 
-                handler.When("https://min-api.cryptocompare.com/data/*")
+                handler.When("*")
                     .Respond("application/json", response);
 
                 return new CryptoCompareClient(handler.ToHttpClient(), options);
             }
 
-            handler.When("https://min-api.cryptocompare.com/data/*")
+            handler.When("*")
                 .Respond(HttpStatusCode.BadRequest);
 
             return new CryptoCompareClient(handler.ToHttpClient(), options);
@@ -186,12 +185,25 @@ namespace Crypto.UnitTests.Infrastracture
             }
             else
             {
-                string badResponseJson = File.ReadAllText("./Static/price-bad-response.json");
+                string badResponseJson = BadResponseJson();
                 handler.When("https://min-api.cryptocompare.com/data/*")
                     .Respond("application/json", badResponseJson);
             }
 
             return new CryptoCompareClient(handler.ToHttpClient(), options);
+        }
+
+        private string BadResponseJson()
+        {
+            return @"{
+              'Response': 'Error',
+              'Message': 'cccagg_or_exchange market does not exist for this coin pair (DRAGON123-EUR), cccagg_or_exchange market does not exist for this coin pair (DRAGON123-USD)',
+              'HasWarning': false,
+              'Type': 1,
+              'RateLimit': {},
+              'Data': {},
+              'Cooldown': 0
+            }";
         }
     }
 }

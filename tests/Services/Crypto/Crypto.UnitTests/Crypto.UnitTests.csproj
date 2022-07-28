@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.1" />
@@ -27,18 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Services\Crypto\Crypto.Application\Crypto.Application.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\Crypto\Crypto.Infrastracture\Crypto.Infrastracture.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Static\btc-info-response.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Static\btc-price-success-response.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Static\price-bad-response.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
