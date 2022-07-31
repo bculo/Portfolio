@@ -1,31 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Infrastracture.Persistence
+namespace Crypto.IntegrationTests.SeedData
 {
-    public static class CryptoDbContextSeed
+    public static class CryptoStaticData
     {
-        public async static Task SeedData(IServiceCollection collection, Func<List<Core.Entities.Crypto>>? getSeedData = null)
-        {
-            var provider = collection.BuildServiceProvider();
-
-            using var scope = provider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
-
-            if(dbContext == null)
-            {
-                throw new ArgumentNullException(nameof(dbContext));
-            }
-
-            dbContext.Cryptos.AddRange(getSeedData == null ? GetCryptos() : getSeedData());
-            await dbContext.SaveChangesAsync();
-        }
-
-        private static List<Core.Entities.Crypto> GetCryptos()
+        public static List<Core.Entities.Crypto> GetCryptos()
         {
             var result = new List<Core.Entities.Crypto>();
 
@@ -99,6 +82,11 @@ namespace Crypto.Infrastracture.Persistence
             });
 
             return result;
+        }
+
+        public static string[] GetSupportedCryptoSymbols()
+        {
+            return new string[] { "TETHA", "TFUEL", "MATIC", "USDT", "USDC", "BNB" };
         }
     }
 }

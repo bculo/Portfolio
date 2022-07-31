@@ -1,4 +1,5 @@
-﻿using DotNet.Testcontainers.Builders;
+﻿using Crypto.IntegrationTests.Interfaces;
+using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using MassTransit;
@@ -17,15 +18,9 @@ namespace Crypto.IntegrationTests
             .WithName($"RabbitMq.Test.Integration.{Guid.NewGuid()}")
             .Build();
 
-        public void ConfigureRabbitMq(CryptoApiFactory factory)
+        public void ConfigureRabbitMq(IWebHostHelpBuilder factory)
         {
-            factory.WithWebHostBuilder(conf =>
-            {
-                conf.ConfigureServices(services =>
-                {
-                    ConfigureRabbitMq(services);
-                });
-            });
+            factory.ConfigureServices(ConfigureRabbitMq);
 
             if (_rabbitMqContainer.State == TestcontainersState.Running)
                 return;
