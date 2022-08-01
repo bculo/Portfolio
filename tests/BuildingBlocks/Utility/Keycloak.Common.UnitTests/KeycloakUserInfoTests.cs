@@ -10,7 +10,7 @@ namespace Keycloak.Common.UnitTests
 {
     public class KeycloakUserInfoTests
     {
-        public const string VALID_APPLICATION_CLINED_ID = "VALID.CLIENT";
+        public const string VALID_APPLICATION_CLINED_ID = "Test.Client";
         private readonly PrincipalManager _generator;
 
         public KeycloakUserInfoTests()

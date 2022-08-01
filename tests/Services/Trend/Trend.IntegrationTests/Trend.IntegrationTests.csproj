@@ -28,10 +28,4 @@
     <ProjectReference Include="..\..\..\..\src\Services\Trend\Trend.API\Trend.API.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Static\realm.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

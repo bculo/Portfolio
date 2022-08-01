@@ -13,9 +13,9 @@ namespace Keycloak.Common.UnitTests
 {
     public class KeycloakCredentialFlowClientTests
     {
-        public const string AUTHORIZATION_SERVER = "http://authorizationpoint/";
-        public const string VALID_CLIENT_ID = "VALID.CLIENT";
-        public const string VALID_CLIENT_SECRET = "v9YmKiVQw86L69fYXhyP2B3WdRiXbKSc";
+        public const string AUTHORIZATION_SERVER = "http://localhost:8080/auth/realms/PortfolioRealm/";
+        public const string VALID_CLIENT_ID = "Test.API";
+        public const string VALID_CLIENT_SECRET = "R3sjJgsRgYnfAxBT3xY30KMoP8bTwiIu";
 
         private readonly Fixture _fixture = new Fixture();
         private readonly Mock<IHttpClientFactory> _mockFactory = new Mock<IHttpClientFactory>();

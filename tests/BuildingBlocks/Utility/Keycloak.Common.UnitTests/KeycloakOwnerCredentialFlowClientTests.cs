@@ -19,8 +19,8 @@ namespace Keycloak.Common.UnitTests
 {
     public class KeycloakOwnerCredentialFlowClientTests
     {
-        private const string AUTHORIZATION_SERVER = "http://authorizationpoint/";
-        private const string VALID_CLIENTID = "Trend.Client";
+        public const string AUTHORIZATION_SERVER = "http://localhost:8080/auth/realms/PortfolioRealm/";
+        private const string VALID_CLIENTID = "Test.Client"; //Access_Type should be public
         private const string VALID_USERNAME = "dorix";
         private const string VALID_PASSWORD = "dorix";
 
@@ -134,7 +134,7 @@ namespace Keycloak.Common.UnitTests
             }
 
             _mockFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
-                .Returns(handler.ToHttpClient());
+                .Returns(new HttpClient());
 
             return new KeycloakOwnerCredentialFlowClient(_mockFactory.Object, _options, _logger);
         }

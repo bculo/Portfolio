@@ -40,12 +40,11 @@ namespace Keycloak.Common
         /// Register keycloak client for oauth flows
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="aurhoriazionServer"></param>
-        public static void UseKeycloakFlowService(this IServiceCollection services, string aurhoriazionServer)
+        /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/</param>
+        public static void UseKeycloakCredentialFlowService(this IServiceCollection services, string aurhoriazionServer)
         {
             Guard.Against.NullOrEmpty(aurhoriazionServer);
 
-            //Client credentials flow
             services.AddOptions<KeycloakClientCredentialFlowOptions>().Configure(opt =>
             {
                 opt.AuthorizationServerUrl = aurhoriazionServer;
@@ -59,12 +58,28 @@ namespace Keycloak.Common
             });
             services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
         }
+        /// <summary>
+        /// Register keycloak client for oauth flows
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ -> usually it is master/</param>
+        public static void UseKeycloakOwnerCredentialFlowService(this IServiceCollection services, string aurhoriazionServerOwner)
+        {
+            Guard.Against.NullOrEmpty(aurhoriazionServerOwner);
+
+            //Resource owner password credentials flow
+            services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
+            {
+                opt.AuthorizationServerUrl = aurhoriazionServerOwner;
+            });
+            services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
+        }
 
         /// <summary>
         /// Register keycloak client for userinfo endpoint
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="aurhoriazionServer"></param>
+        /// <param name="aurhoriazionServer"> example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ </param>
         public static void UseKeycloakUserInfoService(this IServiceCollection services, string aurhoriazionServer)
         {
             Guard.Against.NullOrEmpty(aurhoriazionServer);

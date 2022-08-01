@@ -14,5 +14,6 @@ namespace Keycloak.Common.Interfaces
     {
         Task<List<UserResponse>> GetUsers(string realm, string accessToken);
         Task<UserResponse> GetUserById(string realm, string accessToken, Guid userId);
+        Task<bool> ImportRealm(string realmDataJson, string accessToken);
     }
 }

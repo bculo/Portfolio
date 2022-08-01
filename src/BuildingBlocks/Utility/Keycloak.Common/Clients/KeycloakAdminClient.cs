@@ -66,5 +66,28 @@ namespace Keycloak.Common.Clients
 
             return await response.HandleResponse<List<UserResponse>>(_logger);
         }
+
+        public async Task<bool> ImportRealm(string realmDataJson, string accessToken)
+        {
+            _logger.LogTrace("Method {0} called", nameof(GetUsers));
+
+            Guard.Against.NullOrEmpty(realmDataJson);
+            Guard.Against.NullOrEmpty(accessToken);
+
+            var http = _factory.CreateClient();
+
+            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
+
+            _logger.LogTrace("Sending request...");
+
+            var content = new StringContent(realmDataJson, Encoding.UTF8, "application/json");
+
+            var response = await http.PostAsync("", content);
+
+            var result = await response.HandleResponse<string>(_logger);
+
+            return true;
+        }
     }
 }
