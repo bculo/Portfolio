@@ -15,5 +15,7 @@ namespace Crypto.IntegrationTests.Constants
         public const string CRYPTO_PRICE_HISTORY = "/api/crypto/GetPriceHisotry";
         public const string CRYPTO_DELETE = "/api/crypto/delete";
         public const string CRYPTO_ADD_NEW = "/api/crypto/Create";
+        public const string CRYPTO_UPDATE = "/api/crypto/UpdatePrice";
+        public const string CRYPTO_UPDATE_ALL = "/api/crypto/UpdateAllPrices";
     }
 }

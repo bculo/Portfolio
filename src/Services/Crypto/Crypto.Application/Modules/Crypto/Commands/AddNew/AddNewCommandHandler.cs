@@ -97,14 +97,17 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 Name = Info!.Name,
                 Symbol = Info!.Symbol,
                 Description = Info!.Description,
-                WebSite = Info!.Urls["website"]?.FirstOrDefault() ?? null,
-                SourceCode = Info!.Urls["source_code"]?.FirstOrDefault() ?? null
+                WebSite = Info.Urls.ContainsKey("website") ? Info!.Urls["website"]!.FirstOrDefault() : null,
+                SourceCode = Info.Urls.ContainsKey("source_code") ? Info!.Urls["source_code"]!.FirstOrDefault() : null,
             };
 
-            newCrypto.Explorers = Info!.Urls["explorer"]?.Select(i => new CryptoExplorer
+            if (Info.Urls.ContainsKey("explorer"))
             {
-                Url = i
-            }).ToList() ?? new List<CryptoExplorer>();
+                newCrypto.Explorers = Info!.Urls["explorer"]?.Select(i => new CryptoExplorer
+                {
+                    Url = i
+                }).ToList() ?? new List<CryptoExplorer>();
+            }
 
             newCrypto.Prices.Add(new CryptoPrice
             {

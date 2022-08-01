@@ -1,4 +1,5 @@
 ﻿using Crypto.Application.Interfaces.Services;
+using Crypto.Application.Options;
 using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Extensions;
 using Crypto.IntegrationTests.Interfaces;
@@ -8,17 +9,28 @@ using Crypto.IntegrationTests.Utils;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Crypto.IntegrationTests
 {
     public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime, IWebHostHelpBuilder
     {
+        private readonly RabbitMqTestcontainer _rabbitMqContainer = new TestcontainersBuilder<RabbitMqTestcontainer>()
+            .WithMessageBroker(new RabbitMqTestcontainerConfiguration
+            {
+                Username = "rabbitmqusertest",
+                Password = "rabbitmqpasswordtest"
+            })
+            .WithName($"RabbitMq.Test.Integration.{Guid.NewGuid()}")
+            .Build();
+
         private readonly MsSqlTestcontainer _sqlServerContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
             .WithDatabase(new MsSqlTestcontainerConfiguration()
             {
@@ -29,21 +41,24 @@ namespace Crypto.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureTestServices(async services =>
+            builder.ConfigureTestServices(services =>
             {
-                await ConfigureDatabase(services);
+                ConfigureDatabase(services).Wait();
                 ConfigureServices(services);
+                ConfigureRabbitMq(services);
             });
         }
 
         public async Task InitializeAsync()
         {
-            await Task.WhenAll(_sqlServerContainer.StartAsync());
+            await Task.WhenAll(_sqlServerContainer.StartAsync(),
+                _rabbitMqContainer.StartAsync());
         }
 
         async Task IAsyncLifetime.DisposeAsync()
         {
-            await Task.WhenAll(_sqlServerContainer.StopAsync());
+            await Task.WhenAll(_sqlServerContainer.StopAsync(),
+                _rabbitMqContainer.StopAsync());
         }
 
         private async Task ConfigureDatabase(IServiceCollection services)
@@ -64,19 +79,34 @@ namespace Crypto.IntegrationTests
             await CryptoDbContextSeed.SeedData(services, CryptoStaticData.GetCryptos);
         }
 
+        private void ConfigureRabbitMq(IServiceCollection services)
+        {
+            var massTransitDescriptors = services.Where(d => d.ServiceType.Namespace!.Contains("MassTransit", StringComparison.OrdinalIgnoreCase)).ToList();
+
+            foreach (var item in massTransitDescriptors)
+            {
+                services.Remove(item);
+            }
+
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(_rabbitMqContainer.ConnectionString);
+                    config.ConfigureEndpoints(context);
+                });
+            });
+        }
+
         private void ConfigureServices(IServiceCollection services)
         {
-            ServiceDescriptor? descriptor = default;
-
             //Configure ICryptoInfoService 
-            descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ICryptoInfoService));
-            services.Remove(descriptor);
-            services.AddScoped<ICryptoInfoService, MockCryptoInfoService>();
+            services.RemoveAll(typeof(ICryptoInfoService));
+            services.AddHttpClient<ICryptoInfoService, MockCryptoInfoService>();
 
             //Configure ICryptoPriceService 
-            descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ICryptoPriceService));
-            services.Remove(descriptor);
-            services.AddScoped<ICryptoPriceService, MockCryptoPriceService>();
+            services.RemoveAll(typeof(ICryptoPriceService));
+            services.AddHttpClient<ICryptoPriceService, MockCryptoPriceService>();
         }
 
         public void ConfigureServices(Action<IServiceCollection> action)

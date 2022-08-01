@@ -86,7 +86,7 @@ namespace Crypto.IntegrationTests.SeedData
 
         public static string[] GetSupportedCryptoSymbols()
         {
-            return new string[] { "TETHA", "TFUEL", "MATIC", "USDT", "USDC", "BNB" };
+            return new string[] { "TETHA", "TFUEL", "MATIC", "USDT", "USDC", "BNB", "ETH", "ADA", "BTC" };
         }
     }
 }

@@ -15,6 +15,11 @@ namespace Crypto.IntegrationTests.MockImplementations
         private readonly Fixture _fixture = new Fixture();
         private readonly string[] AvailableSymbols = CryptoStaticData.GetSupportedCryptoSymbols();
 
+        public MockCryptoPriceService(HttpClient client)
+        {
+
+        }   
+
         public Task<CryptoPriceResponseDto> GetPriceInfo(string symbol)
         {
             if (!AvailableSymbols.Contains(symbol.ToUpper()))
@@ -25,7 +30,7 @@ namespace Crypto.IntegrationTests.MockImplementations
             var response = _fixture.Create<CryptoPriceResponseDto>();
 
             response.Symbol = symbol;
-            response.Symbol = "USD";
+            response.Currency = "USD";
 
             return Task.FromResult(response);
         }

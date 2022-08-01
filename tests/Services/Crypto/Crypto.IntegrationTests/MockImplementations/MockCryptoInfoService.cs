@@ -13,7 +13,12 @@ namespace Crypto.IntegrationTests.MockImplementations
     public class MockCryptoInfoService : ICryptoInfoService
     {
         private readonly Fixture _fixture = new Fixture();
-        private readonly string[] AvailableSymbols = CryptoStaticData.GetSupportedCryptoSymbols(); 
+        private readonly string[] AvailableSymbols = CryptoStaticData.GetSupportedCryptoSymbols();
+
+        public MockCryptoInfoService(HttpClient client)
+        {
+
+        }
 
         public Task<CryptoInfoResponseDto> FetchData(string symbol)
         {

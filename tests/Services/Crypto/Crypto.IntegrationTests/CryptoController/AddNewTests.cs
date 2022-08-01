@@ -10,15 +10,13 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class AddNewTests : IClassFixture<CryptoApiFactory>, IClassFixture<RabbitMqFixture>
+    public class AddNewTests : IClassFixture<CryptoApiFactory>
     {
         private readonly CryptoApiFactory _factory;
 
-        public AddNewTests(CryptoApiFactory factory, RabbitMqFixture rabbitMq)
+        public AddNewTests(CryptoApiFactory factory)
         {
             _factory = factory;
-
-            rabbitMq.ConfigureRabbitMq(_factory);
         }
 
         [Fact]
