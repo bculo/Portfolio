@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Crypto.IntegrationTests
 {
-    public class CryptoApiFactory: WebApplicationFactory<Program>, IAsyncLifetime
+    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly RabbitMqTestcontainer _rabbitMqContainer = new TestcontainersBuilder<RabbitMqTestcontainer>()
             .WithMessageBroker(new RabbitMqTestcontainerConfiguration

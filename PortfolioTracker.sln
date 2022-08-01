@@ -89,7 +89,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common.UnitTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.IntegrationTests", "tests\Services\Crypto\Crypto.IntegrationTests\Crypto.IntegrationTests.csproj", "{B514430E-02D7-426F-858C-F131391C149F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Mock.Common", "tests\Services\Crypto\Crypto.Mock.Common\Crypto.Mock.Common.csproj", "{E94E52A6-CF67-4439-968E-C18881817C6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Mock.Common", "tests\Services\Crypto\Crypto.Mock.Common\Crypto.Mock.Common.csproj", "{E94E52A6-CF67-4439-968E-C18881817C6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend", "Trend", "{650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.IntegrationTests", "tests\Services\Trend\Trend.IntegrationTests\Trend.IntegrationTests.csproj", "{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +197,10 @@ Global
 		{E94E52A6-CF67-4439-968E-C18881817C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E94E52A6-CF67-4439-968E-C18881817C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E94E52A6-CF67-4439-968E-C18881817C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -235,6 +243,8 @@ Global
 		{803B6E77-E236-4A43-A178-D79102C0258C} = {5DD671F6-A76F-40DD-945D-D0D42BA8918D}
 		{B514430E-02D7-426F-858C-F131391C149F} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
 		{E94E52A6-CF67-4439-968E-C18881817C6C} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
+		{650F277F-16ED-4CC2-B5DA-CFB8636F7B1D} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
+		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

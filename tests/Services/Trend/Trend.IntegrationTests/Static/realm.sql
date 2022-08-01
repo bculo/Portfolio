@@ -1,0 +1,2614 @@
+USE [Keycloak]
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, 0, N'account', 0, 1, NULL, N'/realms/master/account/', 0, NULL, 0, N'master', N'openid-connect', 0, 0, 0, N'${client_account}', 0, N'client-secret', N'${authBaseUrl}', NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, 0, N'account', 0, 1, NULL, N'/realms/PortfolioRealm/account/', 0, NULL, 0, N'PortfolioRealm', N'openid-connect', 0, 0, 0, N'${client_account}', 0, N'client-secret', N'${authBaseUrl}', NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', 1, 0, N'admin-cli', 0, 1, NULL, NULL, 0, NULL, 0, N'master', N'openid-connect', 0, 0, 0, N'${client_admin-cli}', 0, N'client-secret', NULL, NULL, NULL, 0, 0, 1, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', 1, 1, N'Test.API', 0, 1, NULL, NULL, 0, NULL, 0, N'PortfolioRealm', N'openid-connect', -1, 0, 0, NULL, 0, N'client-secret', NULL, NULL, NULL, 1, 0, 1, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', 1, 0, N'security-admin-console', 0, 1, NULL, N'/admin/PortfolioRealm/console/', 0, NULL, 0, N'PortfolioRealm', N'openid-connect', 0, 0, 0, N'${client_security-admin-console}', 0, N'client-secret', N'${authAdminUrl}', NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', 1, 0, N'Trend.API', 0, 0, N'4vHUg6o9MbdpSpjvqJKN75t5rF9rUCTF', NULL, 0, NULL, 0, N'PortfolioRealm', N'openid-connect', -1, 0, 0, NULL, 1, N'client-secret', NULL, NULL, NULL, 1, 0, 1, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', 1, 1, N'Trend.Client', 0, 1, NULL, NULL, 0, NULL, 0, N'PortfolioRealm', N'openid-connect', -1, 0, 0, NULL, 0, N'client-secret', NULL, NULL, NULL, 1, 0, 1, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', 1, 0, N'admin-cli', 0, 1, NULL, NULL, 0, NULL, 0, N'PortfolioRealm', N'openid-connect', 0, 0, 0, N'${client_admin-cli}', 0, N'client-secret', NULL, NULL, NULL, 0, 0, 1, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'7632639a-dddf-4066-a723-6481cadc025b', 1, 0, N'PortfolioRealm-realm', 0, 0, NULL, NULL, 1, NULL, 0, N'master', NULL, 0, 0, 0, N'PortfolioRealm Realm', 0, N'client-secret', NULL, NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', 1, 0, N'broker', 0, 0, NULL, NULL, 1, NULL, 0, N'master', N'openid-connect', 0, 0, 0, N'${client_broker}', 0, N'client-secret', NULL, NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', 1, 0, N'broker', 0, 0, NULL, NULL, 1, NULL, 0, N'PortfolioRealm', N'openid-connect', 0, 0, 0, N'${client_broker}', 0, N'client-secret', NULL, NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, 0, N'master-realm', 0, 0, NULL, NULL, 1, NULL, 0, N'master', NULL, 0, 0, 0, N'master Realm', 0, N'client-secret', NULL, NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', 1, 0, N'account-console', 0, 1, NULL, N'/realms/PortfolioRealm/account/', 0, NULL, 0, N'PortfolioRealm', N'openid-connect', 0, 0, 0, N'${client_account-console}', 0, N'client-secret', N'${authBaseUrl}', NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', 1, 0, N'realm-management', 0, 0, NULL, NULL, 1, NULL, 0, N'PortfolioRealm', N'openid-connect', 0, 0, 0, N'${client_realm-management}', 0, N'client-secret', NULL, NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', 1, 0, N'security-admin-console', 0, 1, NULL, N'/admin/master/console/', 0, NULL, 0, N'master', N'openid-connect', 0, 0, 0, N'${client_security-admin-console}', 0, N'client-secret', N'${authAdminUrl}', NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT] ([ID], [ENABLED], [FULL_SCOPE_ALLOWED], [CLIENT_ID], [NOT_BEFORE], [PUBLIC_CLIENT], [SECRET], [BASE_URL], [BEARER_ONLY], [MANAGEMENT_URL], [SURROGATE_AUTH_REQUIRED], [REALM_ID], [PROTOCOL], [NODE_REREG_TIMEOUT], [FRONTCHANNEL_LOGOUT], [CONSENT_REQUIRED], [NAME], [SERVICE_ACCOUNTS_ENABLED], [CLIENT_AUTHENTICATOR_TYPE], [ROOT_URL], [DESCRIPTION], [REGISTRATION_TOKEN], [STANDARD_FLOW_ENABLED], [IMPLICIT_FLOW_ENABLED], [DIRECT_ACCESS_GRANTS_ENABLED], [ALWAYS_DISPLAY_IN_CONSOLE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', 1, 0, N'account-console', 0, 1, NULL, N'/realms/master/account/', 0, NULL, 0, N'master', N'openid-connect', 0, 0, 0, N'${client_account-console}', 0, N'client-secret', N'${authBaseUrl}', NULL, NULL, 1, 0, 0, 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'0db53450-29d1-45fd-abd1-c26cd6278974', N'email', N'PortfolioRealm', N'OpenID Connect built-in scope: email', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'0f38ad4e-5fb8-4f88-aa6f-5894f3e1713b', N'role_list', N'PortfolioRealm', N'SAML role list', N'saml')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'15720d05-eb33-40ab-962b-dd31555b52ff', N'profile', N'PortfolioRealm', N'OpenID Connect built-in scope: profile', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', N'address', N'PortfolioRealm', N'OpenID Connect built-in scope: address', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'210e97b9-ff18-4f82-948c-75905b98b2d3', N'roles', N'PortfolioRealm', N'OpenID Connect scope for add user roles to the access token', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', N'roles', N'master', N'OpenID Connect scope for add user roles to the access token', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'299e1e1b-6383-4628-957b-39f77e10d657', N'offline_access', N'master', N'OpenID Connect built-in scope: offline_access', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'3b2aeb23-f0e3-4fa1-a2ce-591c2402a6d5', N'role_list', N'master', N'SAML role list', N'saml')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'3fa50dad-702f-4d84-afc3-cae32b5d296d', N'profile', N'master', N'OpenID Connect built-in scope: profile', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'71a37058-7bb3-4eb0-a88c-7cfe08994889', N'offline_access', N'PortfolioRealm', N'OpenID Connect built-in scope: offline_access', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', N'microprofile-jwt', N'master', N'Microprofile - JWT built-in scope', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'9ca8664b-02c6-49e4-b54a-f665415ccaee', N'email', N'master', N'OpenID Connect built-in scope: email', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', N'phone', N'PortfolioRealm', N'OpenID Connect built-in scope: phone', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', N'web-origins', N'PortfolioRealm', N'OpenID Connect scope for add allowed web origins to the access token', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'cfe2a60d-546d-4b42-b721-0f2781f5d505', N'microprofile-jwt', N'PortfolioRealm', N'Microprofile - JWT built-in scope', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'd7f33783-1825-4574-8c37-045285a943f3', N'phone', N'master', N'OpenID Connect built-in scope: phone', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', N'web-origins', N'master', N'OpenID Connect scope for add allowed web origins to the access token', N'openid-connect')
+GO
+INSERT [dbo].[CLIENT_SCOPE] ([ID], [NAME], [REALM_ID], [DESCRIPTION], [PROTOCOL]) VALUES (N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', N'address', N'master', N'OpenID Connect built-in scope: address', N'openid-connect')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'zoneinfo', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'website', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'profile', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'website', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'email verified', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'9ca8664b-02c6-49e4-b54a-f665415ccaee')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'1ae8ed67-d040-45f5-9bef-0eebaf2040fb', N'audience resolve', N'openid-connect', N'oidc-audience-resolve-mapper', NULL, N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'gender', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'241b5ff6-7974-41e5-a77d-d928fe180a27', N'audience resolve', N'openid-connect', N'oidc-audience-resolve-mapper', NULL, N'210e97b9-ff18-4f82-948c-75905b98b2d3')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'email verified', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'0db53450-29d1-45fd-abd1-c26cd6278974')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'2e7eba57-6d82-49b6-a449-5a86408be502', N'allowed web origins', N'openid-connect', N'oidc-allowed-origins-mapper', NULL, N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'2f95a15b-fd52-4527-9f6d-3d3b84741a3b', N'Client IP Address', N'openid-connect', N'oidc-usersessionmodel-note-mapper', N'5eec38c1-424e-46ee-91ca-a15ff692ca31', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'nickname', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'locale', N'openid-connect', N'oidc-usermodel-attribute-mapper', N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'picture', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'429faa31-4fe9-4fd0-8098-d19f0b51e219', N'role list', N'saml', N'saml-role-list-mapper', NULL, N'3b2aeb23-f0e3-4fa1-a2ce-591c2402a6d5')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'email', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'9ca8664b-02c6-49e4-b54a-f665415ccaee')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'middle name', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'address', N'openid-connect', N'oidc-address-mapper', NULL, N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'55997103-821c-41ed-bf00-b8abfbd16306', N'full name', N'openid-connect', N'oidc-full-name-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'updated at', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'locale', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'username', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'picture', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'phone number', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'd7f33783-1825-4574-8c37-045285a943f3')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'username', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'6e4ebea1-8094-47c8-8e9a-71697d095db8', N'audience resolve', N'openid-connect', N'oidc-audience-resolve-mapper', N'edf0885a-4763-4d9f-a267-27c417cf904e', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'nickname', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'gender', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'upn', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'cfe2a60d-546d-4b42-b721-0f2781f5d505')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'given name', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'middle name', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'groups', N'openid-connect', N'oidc-usermodel-realm-role-mapper', NULL, N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'birthdate', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'address', N'openid-connect', N'oidc-address-mapper', NULL, N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'groups', N'openid-connect', N'oidc-usermodel-realm-role-mapper', NULL, N'cfe2a60d-546d-4b42-b721-0f2781f5d505')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'upn', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'locale', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'zoneinfo', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'9a0f7cad-098c-4058-8a31-0f4b608e8709', N'realm roles', N'openid-connect', N'oidc-usermodel-realm-role-mapper', NULL, N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'phone number verified', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'd7f33783-1825-4574-8c37-045285a943f3')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'profile', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'phone number verified', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'9cdd619a-33bf-4f85-86b1-b26a6b39251b')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'family name', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'given name', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'b6f6e4af-5d8f-4dcc-a369-c6effba818d0', N'client roles', N'openid-connect', N'oidc-usermodel-client-role-mapper', NULL, N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'baf48d90-f6bb-4cb2-8e49-13aa1954fb82', N'Client ID', N'openid-connect', N'oidc-usersessionmodel-note-mapper', N'5eec38c1-424e-46ee-91ca-a15ff692ca31', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'be80a07e-418d-43c6-badf-5568c4a13418', N'role list', N'saml', N'saml-role-list-mapper', NULL, N'0f38ad4e-5fb8-4f88-aa6f-5894f3e1713b')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'c3209e74-3b17-44e6-87e7-ea1c63a08c2a', N'Client Host', N'openid-connect', N'oidc-usersessionmodel-note-mapper', N'5eec38c1-424e-46ee-91ca-a15ff692ca31', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'c4db2509-9319-4b19-91bd-26522f4db7f8', N'client roles', N'openid-connect', N'oidc-usermodel-client-role-mapper', NULL, N'210e97b9-ff18-4f82-948c-75905b98b2d3')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'c6e9900a-fab0-44dc-93ad-90d0e15c0863', N'allowed web origins', N'openid-connect', N'oidc-allowed-origins-mapper', NULL, N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'phone number', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'9cdd619a-33bf-4f85-86b1-b26a6b39251b')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'birthdate', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'locale', N'openid-connect', N'oidc-usermodel-attribute-mapper', N'471e39c8-ca4e-4fcc-bf71-530962160f50', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'family name', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'3fa50dad-702f-4d84-afc3-cae32b5d296d')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'updated at', N'openid-connect', N'oidc-usermodel-attribute-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'e8730017-4571-4655-bd21-480ebdc8cc2f', N'full name', N'openid-connect', N'oidc-full-name-mapper', NULL, N'15720d05-eb33-40ab-962b-dd31555b52ff')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'ebe20957-3d39-4c45-8c78-7388ccc5e20d', N'realm roles', N'openid-connect', N'oidc-usermodel-realm-role-mapper', NULL, N'210e97b9-ff18-4f82-948c-75905b98b2d3')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'f04d6f41-d5c6-421e-9622-269b01327f06', N'audience resolve', N'openid-connect', N'oidc-audience-resolve-mapper', N'b126a82b-7c88-44f5-a5d3-641bb337adab', NULL)
+GO
+INSERT [dbo].[PROTOCOL_MAPPER] ([ID], [NAME], [PROTOCOL], [PROTOCOL_MAPPER_NAME], [CLIENT_ID], [CLIENT_SCOPE_ID]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'email', N'openid-connect', N'oidc-usermodel-property-mapper', NULL, N'0db53450-29d1-45fd-abd1-c26cd6278974')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'zoneinfo', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'zoneinfo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'045e9325-5595-4909-a08d-c5c3bd298b88', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'website', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'website', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'06a931f2-56dd-42cf-8e26-1c81f00ea057', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'profile', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'profile', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'098a11bf-6e2a-4971-a5df-e2b88b34b09f', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'website', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'website', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'131b945d-df17-426e-b12d-df1cff1c9332', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'email_verified', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'boolean', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'emailVerified', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'133efe2c-50c1-4c19-8771-d1669761d984', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'gender', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'gender', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'1b078c47-f322-446a-91c8-95d8c3a0cae7', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'email_verified', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'boolean', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'emailVerified', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'28207357-2880-4cc6-8ef4-d0fb80408ad9', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'2f95a15b-fd52-4527-9f6d-3d3b84741a3b', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'2f95a15b-fd52-4527-9f6d-3d3b84741a3b', N'clientAddress', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'2f95a15b-fd52-4527-9f6d-3d3b84741a3b', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'2f95a15b-fd52-4527-9f6d-3d3b84741a3b', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'2f95a15b-fd52-4527-9f6d-3d3b84741a3b', N'clientAddress', N'user.session.note')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'nickname', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'nickname', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'3494de6d-b832-48d9-924b-0c0363334e89', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'locale', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'locale', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'36bd26e7-928f-4a91-bb3b-525660f045d6', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'picture', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'picture', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'390c0682-ec72-4289-9c78-a7c260f74b8d', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'429faa31-4fe9-4fd0-8098-d19f0b51e219', N'Role', N'attribute.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'429faa31-4fe9-4fd0-8098-d19f0b51e219', N'Basic', N'attribute.nameformat')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'429faa31-4fe9-4fd0-8098-d19f0b51e219', N'false', N'single')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'email', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'email', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'44f5ebf0-bc47-4297-96f4-c5df67d8e513', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'middle_name', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'middleName', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'460a3cf1-ae4a-48fd-bc53-51ba9e40765a', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'country', N'user.attribute.country')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'formatted', N'user.attribute.formatted')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'locality', N'user.attribute.locality')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'postal_code', N'user.attribute.postal_code')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'region', N'user.attribute.region')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'street', N'user.attribute.street')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'53b9e2bf-05c7-4e20-8eed-c5be83bfe792', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'55997103-821c-41ed-bf00-b8abfbd16306', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'55997103-821c-41ed-bf00-b8abfbd16306', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'55997103-821c-41ed-bf00-b8abfbd16306', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'updated_at', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'updatedAt', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'573587d5-c892-4cae-809c-a42a192b5f1b', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'locale', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'locale', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'5e4a5684-52a2-4fb7-968b-abed66846eb1', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'preferred_username', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'username', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'63995dcd-2928-4f61-8e14-df07692c8330', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'picture', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'picture', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'667ddab7-0bc4-4b23-9504-1ee664c865dc', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'phone_number', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'phoneNumber', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'66b8be4b-fdfc-4f84-87af-79fbce4451d3', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'preferred_username', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'username', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'6cdedd7a-1a4d-4f9e-8876-31a1f7f9c9e8', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'nickname', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'nickname', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'752e0303-41df-49df-a561-3189c8827296', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'gender', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'gender', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'794d0e1b-30f3-4f4b-9f49-bd2a3e64c720', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'upn', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'username', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7bfba1c5-e1ce-4391-8880-6b837be4c63a', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'given_name', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'firstName', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'7e9becdb-d33d-4dbe-b112-00a6d22b4065', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'middle_name', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'middleName', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'808a7396-0d3d-4a21-b9dd-ab348847b45a', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'groups', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'true', N'multivalued')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'84521f3a-37a3-40da-b933-812a28f41d10', N'foo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'birthdate', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'birthdate', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'850a993c-d648-4fed-94ae-0828135e476d', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'country', N'user.attribute.country')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'formatted', N'user.attribute.formatted')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'locality', N'user.attribute.locality')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'postal_code', N'user.attribute.postal_code')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'region', N'user.attribute.region')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'street', N'user.attribute.street')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'86e0bac5-eca9-4cb2-8dd7-c6ddc0c43005', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'groups', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'true', N'multivalued')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8941a985-58ff-42b4-879e-8522f9e8988c', N'foo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'upn', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'username', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8a919b7a-4285-4a9c-aa03-e5a6c71f1045', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'locale', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'locale', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'8b948d80-f0b1-4ded-bc4e-426fef526144', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'zoneinfo', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'zoneinfo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'905baf4f-f1df-4ef8-81a9-42f82829dfc5', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9a0f7cad-098c-4058-8a31-0f4b608e8709', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9a0f7cad-098c-4058-8a31-0f4b608e8709', N'realm_access.roles', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9a0f7cad-098c-4058-8a31-0f4b608e8709', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9a0f7cad-098c-4058-8a31-0f4b608e8709', N'true', N'multivalued')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9a0f7cad-098c-4058-8a31-0f4b608e8709', N'foo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'phone_number_verified', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'boolean', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'phoneNumberVerified', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'9cc3393c-3306-4c44-8551-c0e6b90d1d62', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'profile', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'profile', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a47cfe1d-f79d-4e65-8013-6b7d830b3fd1', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'phone_number_verified', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'boolean', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'phoneNumberVerified', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8527fba-6654-4289-ac14-1d2730f3969f', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'family_name', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'lastName', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'a8adf48b-023d-4c63-9caf-e7b0ec261bb3', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'given_name', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'firstName', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ae032b42-2ab8-4f57-a893-d0ca1c681055', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'b6f6e4af-5d8f-4dcc-a369-c6effba818d0', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'b6f6e4af-5d8f-4dcc-a369-c6effba818d0', N'resource_access.${client_id}.roles', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'b6f6e4af-5d8f-4dcc-a369-c6effba818d0', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'b6f6e4af-5d8f-4dcc-a369-c6effba818d0', N'true', N'multivalued')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'b6f6e4af-5d8f-4dcc-a369-c6effba818d0', N'foo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'baf48d90-f6bb-4cb2-8e49-13aa1954fb82', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'baf48d90-f6bb-4cb2-8e49-13aa1954fb82', N'clientId', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'baf48d90-f6bb-4cb2-8e49-13aa1954fb82', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'baf48d90-f6bb-4cb2-8e49-13aa1954fb82', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'baf48d90-f6bb-4cb2-8e49-13aa1954fb82', N'clientId', N'user.session.note')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'be80a07e-418d-43c6-badf-5568c4a13418', N'Role', N'attribute.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'be80a07e-418d-43c6-badf-5568c4a13418', N'Basic', N'attribute.nameformat')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'be80a07e-418d-43c6-badf-5568c4a13418', N'false', N'single')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c3209e74-3b17-44e6-87e7-ea1c63a08c2a', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c3209e74-3b17-44e6-87e7-ea1c63a08c2a', N'clientHost', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c3209e74-3b17-44e6-87e7-ea1c63a08c2a', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c3209e74-3b17-44e6-87e7-ea1c63a08c2a', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c3209e74-3b17-44e6-87e7-ea1c63a08c2a', N'clientHost', N'user.session.note')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c4db2509-9319-4b19-91bd-26522f4db7f8', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c4db2509-9319-4b19-91bd-26522f4db7f8', N'resource_access.${client_id}.roles', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c4db2509-9319-4b19-91bd-26522f4db7f8', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c4db2509-9319-4b19-91bd-26522f4db7f8', N'true', N'multivalued')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c4db2509-9319-4b19-91bd-26522f4db7f8', N'foo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'phone_number', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'phoneNumber', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'c77938ce-e229-4818-84da-1683d79e9e63', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'birthdate', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'birthdate', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd63cf582-c7f1-46a5-be1d-db82a5213eec', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'locale', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'locale', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'd7d3b092-8c60-4763-83a5-f5ee903500c5', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'family_name', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'lastName', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e171dcf7-fc34-4a1a-bf71-20497c03bb41', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'updated_at', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'updatedAt', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e2e497d6-daa0-4306-bf37-59f2de3fcfd2', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e8730017-4571-4655-bd21-480ebdc8cc2f', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e8730017-4571-4655-bd21-480ebdc8cc2f', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'e8730017-4571-4655-bd21-480ebdc8cc2f', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ebe20957-3d39-4c45-8c78-7388ccc5e20d', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ebe20957-3d39-4c45-8c78-7388ccc5e20d', N'realm_access.roles', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ebe20957-3d39-4c45-8c78-7388ccc5e20d', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ebe20957-3d39-4c45-8c78-7388ccc5e20d', N'true', N'multivalued')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'ebe20957-3d39-4c45-8c78-7388ccc5e20d', N'foo', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'true', N'access.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'email', N'claim.name')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'true', N'id.token.claim')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'String', N'jsonType.label')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'email', N'user.attribute')
+GO
+INSERT [dbo].[PROTOCOL_MAPPER_CONFIG] ([PROTOCOL_MAPPER_ID], [VALUE], [NAME]) VALUES (N'f26c0651-042e-4a67-99ad-53632c4997bf', N'true', N'userinfo.token.claim')
+GO
+INSERT [dbo].[REALM] ([ID], [ACCESS_CODE_LIFESPAN], [USER_ACTION_LIFESPAN], [ACCESS_TOKEN_LIFESPAN], [ACCOUNT_THEME], [ADMIN_THEME], [EMAIL_THEME], [ENABLED], [EVENTS_ENABLED], [EVENTS_EXPIRATION], [LOGIN_THEME], [NAME], [NOT_BEFORE], [PASSWORD_POLICY], [REGISTRATION_ALLOWED], [REMEMBER_ME], [RESET_PASSWORD_ALLOWED], [SOCIAL], [SSL_REQUIRED], [SSO_IDLE_TIMEOUT], [SSO_MAX_LIFESPAN], [UPDATE_PROFILE_ON_SOC_LOGIN], [VERIFY_EMAIL], [MASTER_ADMIN_CLIENT], [LOGIN_LIFESPAN], [INTERNATIONALIZATION_ENABLED], [DEFAULT_LOCALE], [REG_EMAIL_AS_USERNAME], [ADMIN_EVENTS_ENABLED], [ADMIN_EVENTS_DETAILS_ENABLED], [EDIT_USERNAME_ALLOWED], [OTP_POLICY_COUNTER], [OTP_POLICY_WINDOW], [OTP_POLICY_PERIOD], [OTP_POLICY_DIGITS], [OTP_POLICY_ALG], [OTP_POLICY_TYPE], [BROWSER_FLOW], [REGISTRATION_FLOW], [DIRECT_GRANT_FLOW], [RESET_CREDENTIALS_FLOW], [CLIENT_AUTH_FLOW], [OFFLINE_SESSION_IDLE_TIMEOUT], [REVOKE_REFRESH_TOKEN], [ACCESS_TOKEN_LIFE_IMPLICIT], [LOGIN_WITH_EMAIL_ALLOWED], [DUPLICATE_EMAILS_ALLOWED], [DOCKER_AUTH_FLOW], [REFRESH_TOKEN_MAX_REUSE], [ALLOW_USER_MANAGED_ACCESS], [SSO_MAX_LIFESPAN_REMEMBER_ME], [SSO_IDLE_TIMEOUT_REMEMBER_ME], [DEFAULT_ROLE]) VALUES (N'master', 60, 300, 60, NULL, NULL, NULL, 1, 0, 0, NULL, N'master', 0, NULL, 0, 0, 0, 0, N'EXTERNAL', 1800, 36000, 0, 0, N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1800, 0, NULL, 0, 0, 0, 0, 0, 1, 30, 6, N'HmacSHA1', N'totp', N'7b7ece41-14fb-4bd0-9e08-e50a0c624f76', N'bf9a5f14-c6a5-4de3-bf02-509e72d7b4d4', N'e3f6b51f-bf87-4e3f-ad2a-def4727f9b7a', N'b2979e60-66ff-4051-b9ab-80c91165bc5d', N'aa7a1cc3-8cee-4c66-ba98-27bb6c8c9a5d', 2592000, 0, 900, 1, 0, N'9b8247c8-3d52-4fa8-b47e-d2edae46bd28', 0, 0, 0, 0, N'257605c4-2db2-41fb-93a2-c5dabda32cf9')
+GO
+INSERT [dbo].[REALM] ([ID], [ACCESS_CODE_LIFESPAN], [USER_ACTION_LIFESPAN], [ACCESS_TOKEN_LIFESPAN], [ACCOUNT_THEME], [ADMIN_THEME], [EMAIL_THEME], [ENABLED], [EVENTS_ENABLED], [EVENTS_EXPIRATION], [LOGIN_THEME], [NAME], [NOT_BEFORE], [PASSWORD_POLICY], [REGISTRATION_ALLOWED], [REMEMBER_ME], [RESET_PASSWORD_ALLOWED], [SOCIAL], [SSL_REQUIRED], [SSO_IDLE_TIMEOUT], [SSO_MAX_LIFESPAN], [UPDATE_PROFILE_ON_SOC_LOGIN], [VERIFY_EMAIL], [MASTER_ADMIN_CLIENT], [LOGIN_LIFESPAN], [INTERNATIONALIZATION_ENABLED], [DEFAULT_LOCALE], [REG_EMAIL_AS_USERNAME], [ADMIN_EVENTS_ENABLED], [ADMIN_EVENTS_DETAILS_ENABLED], [EDIT_USERNAME_ALLOWED], [OTP_POLICY_COUNTER], [OTP_POLICY_WINDOW], [OTP_POLICY_PERIOD], [OTP_POLICY_DIGITS], [OTP_POLICY_ALG], [OTP_POLICY_TYPE], [BROWSER_FLOW], [REGISTRATION_FLOW], [DIRECT_GRANT_FLOW], [RESET_CREDENTIALS_FLOW], [CLIENT_AUTH_FLOW], [OFFLINE_SESSION_IDLE_TIMEOUT], [REVOKE_REFRESH_TOKEN], [ACCESS_TOKEN_LIFE_IMPLICIT], [LOGIN_WITH_EMAIL_ALLOWED], [DUPLICATE_EMAILS_ALLOWED], [DOCKER_AUTH_FLOW], [REFRESH_TOKEN_MAX_REUSE], [ALLOW_USER_MANAGED_ACCESS], [SSO_MAX_LIFESPAN_REMEMBER_ME], [SSO_IDLE_TIMEOUT_REMEMBER_ME], [DEFAULT_ROLE]) VALUES (N'PortfolioRealm', 60, 300, 300, NULL, NULL, NULL, 1, 0, 0, NULL, N'PortfolioRealm', 1657889614, NULL, 1, 0, 0, 0, N'EXTERNAL', 1800, 36000, 0, 0, N'7632639a-dddf-4066-a723-6481cadc025b', 1800, 0, NULL, 0, 0, 0, 0, 0, 1, 30, 6, N'HmacSHA1', N'totp', N'9d2fcf02-84b7-4b45-9321-5ea22b4b5a5a', N'6cb134ce-728b-4a2d-8c3d-9258679688df', N'1667866a-6659-48a5-8ed8-76d759c9aac5', N'ad947843-5416-4bd3-bc3e-8f7df4da2976', N'47318817-bf40-40bb-b7df-b5a6f78b104c', 2592000, 0, 900, 1, 0, N'e3eff0d3-cca8-418f-a0f4-737f239a5807', 0, 0, 0, 0, N'2c222dec-9664-4df4-835e-9c6fbd4b100f')
+GO
+INSERT [dbo].[IDENTITY_PROVIDER] ([INTERNAL_ID], [ENABLED], [PROVIDER_ALIAS], [PROVIDER_ID], [STORE_TOKEN], [AUTHENTICATE_BY_DEFAULT], [REALM_ID], [ADD_TOKEN_ROLE], [TRUST_EMAIL], [FIRST_BROKER_LOGIN_FLOW_ID], [POST_BROKER_LOGIN_FLOW_ID], [PROVIDER_DISPLAY_NAME], [LINK_ONLY]) VALUES (N'c16e9969-d11c-4e56-b622-9d81180c8d69', 1, N'github', N'github', 0, 0, N'PortfolioRealm', 0, 0, N'ef34d055-9824-482a-830d-bfb0e8c9e795', NULL, NULL, 0)
+GO
+INSERT [dbo].[IDENTITY_PROVIDER_CONFIG] ([IDENTITY_PROVIDER_ID], [VALUE], [NAME]) VALUES (N'c16e9969-d11c-4e56-b622-9d81180c8d69', N'c0933eba815dab764cd6', N'clientId')
+GO
+INSERT [dbo].[IDENTITY_PROVIDER_CONFIG] ([IDENTITY_PROVIDER_ID], [VALUE], [NAME]) VALUES (N'c16e9969-d11c-4e56-b622-9d81180c8d69', N'2779c007c59154e3c60c2021bea3b760bbeb2591', N'clientSecret')
+GO
+INSERT [dbo].[IDENTITY_PROVIDER_CONFIG] ([IDENTITY_PROVIDER_ID], [VALUE], [NAME]) VALUES (N'c16e9969-d11c-4e56-b622-9d81180c8d69', N'IMPORT', N'syncMode')
+GO
+INSERT [dbo].[IDENTITY_PROVIDER_CONFIG] ([IDENTITY_PROVIDER_ID], [VALUE], [NAME]) VALUES (N'c16e9969-d11c-4e56-b622-9d81180c8d69', N'true', N'useJwksUrl')
+GO
+INSERT [dbo].[WEB_ORIGINS] ([CLIENT_ID], [VALUE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'+')
+GO
+INSERT [dbo].[WEB_ORIGINS] ([CLIENT_ID], [VALUE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'http://localhost:4200')
+GO
+INSERT [dbo].[WEB_ORIGINS] ([CLIENT_ID], [VALUE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'+')
+GO
+INSERT [dbo].[SCOPE_MAPPING] ([CLIENT_ID], [ROLE_ID]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'58d074ab-cc8f-46e2-bee1-5bbacc694439')
+GO
+INSERT [dbo].[SCOPE_MAPPING] ([CLIENT_ID], [ROLE_ID]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'75c0d120-6fc7-45b9-b2c2-e437b712569c')
+GO
+INSERT [dbo].[SCOPE_MAPPING] ([CLIENT_ID], [ROLE_ID]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'b1b7b394-0bf1-4b06-9138-f100670558d2')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'false', N'backchannel.logout.revoke.offline.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'true', N'backchannel.logout.session.required')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'S256', N'pkce.code.challenge.method')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'backchannel.logout.revoke.offline.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'true', N'backchannel.logout.session.required')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'client_credentials.use_refresh_token')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'exclude.session.state.from.auth.response')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'id.token.as.detached.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'oauth2.device.authorization.grant.enabled')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'oidc.ciba.grant.enabled')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'require.pushed.authorization.requests')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.artifact.binding')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.assertion.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.authnstatement')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.client.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.encrypt')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.force.post.binding')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.multivalued.roles')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.onetimeuse.condition')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.server.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml.server.signature.keyinfo.ext')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'saml_force_name_id_format')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'false', N'tls.client.certificate.bound.access.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'true', N'use.refresh.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'backchannel.logout.revoke.offline.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'true', N'backchannel.logout.session.required')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'client_credentials.use_refresh_token')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'exclude.session.state.from.auth.response')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'id.token.as.detached.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'oauth2.device.authorization.grant.enabled')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'oidc.ciba.grant.enabled')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'require.pushed.authorization.requests')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.artifact.binding')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.assertion.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.authnstatement')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.client.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.encrypt')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.force.post.binding')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.multivalued.roles')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.onetimeuse.condition')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.server.signature')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml.server.signature.keyinfo.ext')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'saml_force_name_id_format')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'false', N'tls.client.certificate.bound.access.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'true', N'use.refresh.tokens')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'S256', N'pkce.code.challenge.method')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'S256', N'pkce.code.challenge.method')
+GO
+INSERT [dbo].[CLIENT_ATTRIBUTES] ([CLIENT_ID], [VALUE], [NAME]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'S256', N'pkce.code.challenge.method')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'/realms/master/account/*')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'/realms/PortfolioRealm/account/*')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'/admin/PortfolioRealm/console/*')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'http://localhost:5276/')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'http://localhost:4200/*')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'/realms/PortfolioRealm/account/*')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'/admin/master/console/*')
+GO
+INSERT [dbo].[REDIRECT_URIS] ([CLIENT_ID], [VALUE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'/realms/master/account/*')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ROLE_MAPPING] ([SCOPE_ID], [ROLE_ID]) VALUES (N'299e1e1b-6383-4628-957b-39f77e10d657', N'39d8ddfb-6297-49c9-acb1-398397a21b06')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ROLE_MAPPING] ([SCOPE_ID], [ROLE_ID]) VALUES (N'71a37058-7bb3-4eb0-a88c-7cfe08994889', N'c6b354bb-75af-4500-a46e-3cd7fb04badc')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'0db53450-29d1-45fd-abd1-c26cd6278974', N'${emailScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'0db53450-29d1-45fd-abd1-c26cd6278974', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'0db53450-29d1-45fd-abd1-c26cd6278974', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'0f38ad4e-5fb8-4f88-aa6f-5894f3e1713b', N'${samlRoleListScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'0f38ad4e-5fb8-4f88-aa6f-5894f3e1713b', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'15720d05-eb33-40ab-962b-dd31555b52ff', N'${profileScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'15720d05-eb33-40ab-962b-dd31555b52ff', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'15720d05-eb33-40ab-962b-dd31555b52ff', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', N'${addressScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'210e97b9-ff18-4f82-948c-75905b98b2d3', N'${rolesScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'210e97b9-ff18-4f82-948c-75905b98b2d3', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'210e97b9-ff18-4f82-948c-75905b98b2d3', N'false', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', N'${rolesScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', N'false', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'299e1e1b-6383-4628-957b-39f77e10d657', N'${offlineAccessScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'299e1e1b-6383-4628-957b-39f77e10d657', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'3b2aeb23-f0e3-4fa1-a2ce-591c2402a6d5', N'${samlRoleListScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'3b2aeb23-f0e3-4fa1-a2ce-591c2402a6d5', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'3fa50dad-702f-4d84-afc3-cae32b5d296d', N'${profileScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'3fa50dad-702f-4d84-afc3-cae32b5d296d', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'3fa50dad-702f-4d84-afc3-cae32b5d296d', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'71a37058-7bb3-4eb0-a88c-7cfe08994889', N'${offlineAccessScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'71a37058-7bb3-4eb0-a88c-7cfe08994889', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', N'false', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'9ca8664b-02c6-49e4-b54a-f665415ccaee', N'${emailScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'9ca8664b-02c6-49e4-b54a-f665415ccaee', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'9ca8664b-02c6-49e4-b54a-f665415ccaee', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', N'${phoneScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', N'', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', N'false', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', N'false', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'cfe2a60d-546d-4b42-b721-0f2781f5d505', N'false', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'cfe2a60d-546d-4b42-b721-0f2781f5d505', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'd7f33783-1825-4574-8c37-045285a943f3', N'${phoneScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'd7f33783-1825-4574-8c37-045285a943f3', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'd7f33783-1825-4574-8c37-045285a943f3', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', N'', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', N'false', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', N'false', N'include.in.token.scope')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', N'${addressScopeConsentText}', N'consent.screen.text')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', N'true', N'display.on.consent.screen')
+GO
+INSERT [dbo].[CLIENT_SCOPE_ATTRIBUTES] ([SCOPE_ID], [VALUE], [NAME]) VALUES (N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', N'true', N'include.in.token.scope')
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'00d414e3-61e3-41ad-84be-0ee8ea272eec', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_view-profile}', N'view-profile', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'034607de-a301-4645-b99a-b943de9c8007', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_view-profile}', N'view-profile', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'0a6abdd9-2176-485d-a2df-1ce7b913521e', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_manage-users}', N'manage-users', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'11b1e7b6-5e6a-4a7e-9f7d-0c04521ad127', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_manage-events}', N'manage-events', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'13bcfdce-38b8-4c0f-b036-38393745e01c', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_manage-realm}', N'manage-realm', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'14c19094-9748-4771-9e44-2071b268626f', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_manage-authorization}', N'manage-authorization', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'1621896a-8673-40b6-91c4-de2ccf2d86a3', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_manage-users}', N'manage-users', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'22466898-e87f-4c45-860b-707989086de6', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_view-authorization}', N'view-authorization', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'22da3943-14ff-4afe-9b88-277864ab807e', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_manage-events}', N'manage-events', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'25546558-205a-4855-8144-941ef7ce754b', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_query-groups}', N'query-groups', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'master', 0, N'${role_default-roles}', N'default-roles-master', N'master', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'25e5d337-c1f4-4574-8b7b-00193c36fa5e', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_view-realm}', N'view-realm', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'2a7da7c3-59cc-4ab5-8f90-92f3dbcd3454', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_view-identity-providers}', N'view-identity-providers', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'2ac8173c-0071-40bb-94c0-676d70c75381', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_view-applications}', N'view-applications', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'PortfolioRealm', 0, N'${role_default-roles}', N'default-roles-portfoliorealm', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'2e038e75-029d-4aa5-81be-d1cc602b0692', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_delete-account}', N'delete-account', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'3037c2a9-92f8-4423-bee2-ecc7bc65daae', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_query-users}', N'query-users', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'3246486e-ae0b-4990-b6ba-3570a99bcd27', N'PortfolioRealm', 0, NULL, N'Moderator', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'32c5ced1-0128-4092-8cb0-7860e3b23461', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_query-groups}', N'query-groups', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'34d459ba-ddb7-4ce1-b421-89a701b8795b', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_view-realm}', N'view-realm', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'3974686e-15a3-40fc-8a43-c38c116cc3ae', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_manage-consent}', N'manage-consent', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'39d8ddfb-6297-49c9-acb1-398397a21b06', N'master', 0, N'${role_offline-access}', N'offline_access', N'master', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'3ab6e480-e55f-40a2-b748-890533d0b8b6', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_manage-account-links}', N'manage-account-links', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'403afc75-a226-40dc-ac0a-28f6b95c6235', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_manage-authorization}', N'manage-authorization', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'4568f15c-899c-439f-a7d6-bcb4bb388c2c', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_view-consent}', N'view-consent', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'45fa60d4-f1ed-435a-8dca-7b158b0bce29', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_manage-identity-providers}', N'manage-identity-providers', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'468ee58c-0a52-425b-b98e-1e78cf12d49c', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_view-authorization}', N'view-authorization', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'4ddb137e-cb9b-485b-8f4a-945cb05b7479', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_create-client}', N'create-client', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'56e04f86-940d-4f81-ace3-67f161222b82', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_manage-authorization}', N'manage-authorization', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'58d074ab-cc8f-46e2-bee1-5bbacc694439', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_manage-account}', N'manage-account', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'5bb336c6-1f40-4207-a943-da2871f6e6d1', N'PortfolioRealm', 0, N'${role_uma_authorization}', N'uma_authorization', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'62dd02be-2a84-4236-9a02-1bc10d424e96', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_manage-account-links}', N'manage-account-links', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'64d73fa2-c5fe-43bb-bf54-246a003d40ad', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_view-clients}', N'view-clients', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'65ba9286-00f3-4e30-bdaa-b93a8d1d9922', N'master', 0, N'${role_create-realm}', N'create-realm', N'master', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'6740907d-6d91-43f3-b414-578fce15e03c', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_create-client}', N'create-client', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'6757e33c-b690-4d5c-86ba-ce357d347dab', N'89f6e2a1-10e1-43fb-ac03-3986df71841b', 1, N'${role_read-token}', N'read-token', N'master', N'89f6e2a1-10e1-43fb-ac03-3986df71841b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'678f9b70-90ba-4a9c-8476-057893de0b67', N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', 1, NULL, N'User', N'PortfolioRealm', N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'67bc7e2e-804e-40a1-8e49-bc5364239144', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_view-applications}', N'view-applications', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'69f4cf19-a841-4f2c-ac95-d32881f3ac91', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_view-clients}', N'view-clients', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'6c094521-d118-44c1-9a95-108d57048ef1', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_view-events}', N'view-events', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'70732ba6-d7cf-4c7c-88a6-6c2e2f626eec', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_query-realms}', N'query-realms', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'71aef8fd-b801-4d19-8479-bbc9f16fad84', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_manage-clients}', N'manage-clients', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'75c0d120-6fc7-45b9-b2c2-e437b712569c', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_manage-account}', N'manage-account', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'76239340-9bbd-445c-a072-ede92bb3b068', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_manage-realm}', N'manage-realm', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'79c41b02-aaec-48a5-a233-628d5ce13453', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_query-users}', N'query-users', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'7a009434-3726-4049-995b-f715ff81bee7', N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', 1, N'${role_read-token}', N'read-token', N'PortfolioRealm', N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'master', 0, N'${role_admin}', N'admin', N'master', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'7b7ac902-1e14-442b-b3b5-c27330572a68', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_query-clients}', N'query-clients', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'7da8a8f1-84c1-4936-8cc9-97db8c7329cc', N'145180b0-7ae3-4bc3-a398-41864d49ae15', 1, N'${role_view-consent}', N'view-consent', N'master', N'145180b0-7ae3-4bc3-a398-41864d49ae15', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'7e5b12ba-0016-4bb9-a92c-96cbf7e44834', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_manage-users}', N'manage-users', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'831f1c86-629b-45eb-b9d9-2f6f04771c22', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_query-realms}', N'query-realms', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'8947f024-962b-4b87-8c33-1d6c421cc501', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_view-events}', N'view-events', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'8dbd616c-4fd3-4201-b52a-34166b3d9320', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_view-events}', N'view-events', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'9236c909-e32c-4546-a8e2-e8c8713c4e64', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_delete-account}', N'delete-account', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'935c64f6-3f2f-437a-a516-9c989fabbabe', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_impersonation}', N'impersonation', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_realm-admin}', N'realm-admin', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'9cd68cf9-9eba-492e-bb5c-b2328a0b78fc', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_view-clients}', N'view-clients', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'9fc9d940-10f1-4a64-a088-48336756e1dd', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_manage-clients}', N'manage-clients', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'a3911cd3-791d-487a-a196-4e4b79f9fab4', N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', 1, NULL, N'Admin', N'PortfolioRealm', N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'a974c41d-e4b5-4ff5-bb73-d70887600c9d', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_manage-clients}', N'manage-clients', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'ac51520d-9fad-4030-b68c-6fdf3206a4e0', N'PortfolioRealm', 0, NULL, N'Admin', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'aeddaa1f-30f2-4920-92fc-eb19c7d24712', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_view-identity-providers}', N'view-identity-providers', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'b1b7b394-0bf1-4b06-9138-f100670558d2', N'PortfolioRealm', 0, NULL, N'Application', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'b588f9cb-bbb5-40b1-9d71-455097cac3cb', N'PortfolioRealm', 0, NULL, N'User', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'bb63cc40-eea1-40ff-be96-a64ad6aa9791', N'master', 0, N'${role_uma_authorization}', N'uma_authorization', N'master', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'c6b354bb-75af-4500-a46e-3cd7fb04badc', N'PortfolioRealm', 0, N'${role_offline-access}', N'offline_access', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'c93ffc0c-3876-43cb-a007-4a459af49f16', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_manage-realm}', N'manage-realm', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'cb653e16-b300-419f-b54d-ba5c99e7434d', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_query-groups}', N'query-groups', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'd016cc73-2e99-4fae-bdba-15eb0a27ecb1', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_impersonation}', N'impersonation', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'd2c5bbc3-6014-42f1-9395-d6214ddf0871', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_query-clients}', N'query-clients', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'd453011a-27b0-46f4-a264-24ad7e1dfb4f', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_create-client}', N'create-client', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'd5efc40c-b9b5-442c-aa99-34512fe4d129', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_manage-identity-providers}', N'manage-identity-providers', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'd7a596f7-fb1a-4e85-a2a2-33433d115d79', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_view-users}', N'view-users', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'dc3d0753-e18a-459b-a171-ec52622fab7e', N'1636276f-b6d8-4730-93cf-c923784eb0aa', 1, N'${role_manage-consent}', N'manage-consent', N'PortfolioRealm', N'1636276f-b6d8-4730-93cf-c923784eb0aa', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'e82751f5-c425-4986-bf0c-78620768cf26', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_view-authorization}', N'view-authorization', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'e8456b13-b23b-42e1-9f33-38fe8b7075a3', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_view-users}', N'view-users', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'ea101722-c674-46f2-83ce-1228495d1c74', N'PortfolioRealm', 0, NULL, N'Vip', N'PortfolioRealm', NULL, NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'ea1dad6f-c9b2-4ca5-b3b2-0e1522bb136e', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_query-users}', N'query-users', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'efbc41cf-6c9a-4cdf-a664-d9cb199b864b', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_query-clients}', N'query-clients', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'f127bf8e-6c8e-4482-a69a-43aa6a7828e4', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_impersonation}', N'impersonation', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'f2f78d04-6a5b-455a-8a80-b915106f7d9c', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_view-realm}', N'view-realm', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'f6e2008c-0989-469a-8a9d-6ed6133a4377', N'7632639a-dddf-4066-a723-6481cadc025b', 1, N'${role_view-users}', N'view-users', N'master', N'7632639a-dddf-4066-a723-6481cadc025b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'fb787cfd-ddfd-430f-9f11-608e2db45c6c', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_manage-events}', N'manage-events', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'fbc317f6-0a36-407b-b856-66d324a556e7', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_view-identity-providers}', N'view-identity-providers', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'fbfeb166-b93d-4a97-892c-f95dc740c3a1', N'c0865956-09ee-447b-ab20-faccb97d771b', 1, N'${role_manage-identity-providers}', N'manage-identity-providers', N'PortfolioRealm', N'c0865956-09ee-447b-ab20-faccb97d771b', NULL)
+GO
+INSERT [dbo].[KEYCLOAK_ROLE] ([ID], [CLIENT_REALM_CONSTRAINT], [CLIENT_ROLE], [DESCRIPTION], [NAME], [REALM_ID], [CLIENT], [REALM]) VALUES (N'fe471154-4f56-460d-8713-838117a475b5', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', 1, N'${role_query-realms}', N'query-realms', N'master', N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', NULL)
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'00d414e3-61e3-41ad-84be-0ee8ea272eec')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'034607de-a301-4645-b99a-b943de9c8007')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'0a6abdd9-2176-485d-a2df-1ce7b913521e')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'11b1e7b6-5e6a-4a7e-9f7d-0c04521ad127')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'13bcfdce-38b8-4c0f-b036-38393745e01c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'14c19094-9748-4771-9e44-2071b268626f')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'1621896a-8673-40b6-91c4-de2ccf2d86a3')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'22466898-e87f-4c45-860b-707989086de6')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'22da3943-14ff-4afe-9b88-277864ab807e')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'25546558-205a-4855-8144-941ef7ce754b')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'f6e2008c-0989-469a-8a9d-6ed6133a4377', N'25546558-205a-4855-8144-941ef7ce754b')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'25e5d337-c1f4-4574-8b7b-00193c36fa5e')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'2a7da7c3-59cc-4ab5-8f90-92f3dbcd3454')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'3037c2a9-92f8-4423-bee2-ecc7bc65daae')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'e8456b13-b23b-42e1-9f33-38fe8b7075a3', N'3037c2a9-92f8-4423-bee2-ecc7bc65daae')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'32c5ced1-0128-4092-8cb0-7860e3b23461')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'e8456b13-b23b-42e1-9f33-38fe8b7075a3', N'32c5ced1-0128-4092-8cb0-7860e3b23461')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'34d459ba-ddb7-4ce1-b421-89a701b8795b')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'39d8ddfb-6297-49c9-acb1-398397a21b06')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'58d074ab-cc8f-46e2-bee1-5bbacc694439', N'3ab6e480-e55f-40a2-b748-890533d0b8b6')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'403afc75-a226-40dc-ac0a-28f6b95c6235')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'dc3d0753-e18a-459b-a171-ec52622fab7e', N'4568f15c-899c-439f-a7d6-bcb4bb388c2c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'45fa60d4-f1ed-435a-8dca-7b158b0bce29')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'468ee58c-0a52-425b-b98e-1e78cf12d49c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'4ddb137e-cb9b-485b-8f4a-945cb05b7479')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'56e04f86-940d-4f81-ace3-67f161222b82')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'58d074ab-cc8f-46e2-bee1-5bbacc694439')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'5bb336c6-1f40-4207-a943-da2871f6e6d1')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'75c0d120-6fc7-45b9-b2c2-e437b712569c', N'62dd02be-2a84-4236-9a02-1bc10d424e96')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'64d73fa2-c5fe-43bb-bf54-246a003d40ad')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'65ba9286-00f3-4e30-bdaa-b93a8d1d9922')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'6740907d-6d91-43f3-b414-578fce15e03c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'678f9b70-90ba-4a9c-8476-057893de0b67')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'69f4cf19-a841-4f2c-ac95-d32881f3ac91')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'6c094521-d118-44c1-9a95-108d57048ef1')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'70732ba6-d7cf-4c7c-88a6-6c2e2f626eec')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'71aef8fd-b801-4d19-8479-bbc9f16fad84')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'75c0d120-6fc7-45b9-b2c2-e437b712569c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'76239340-9bbd-445c-a072-ede92bb3b068')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'79c41b02-aaec-48a5-a233-628d5ce13453')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'd7a596f7-fb1a-4e85-a2a2-33433d115d79', N'79c41b02-aaec-48a5-a233-628d5ce13453')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'69f4cf19-a841-4f2c-ac95-d32881f3ac91', N'7b7ac902-1e14-442b-b3b5-c27330572a68')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'7b7ac902-1e14-442b-b3b5-c27330572a68')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'3974686e-15a3-40fc-8a43-c38c116cc3ae', N'7da8a8f1-84c1-4936-8cc9-97db8c7329cc')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'7e5b12ba-0016-4bb9-a92c-96cbf7e44834')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'831f1c86-629b-45eb-b9d9-2f6f04771c22')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'8947f024-962b-4b87-8c33-1d6c421cc501')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'8dbd616c-4fd3-4201-b52a-34166b3d9320')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'935c64f6-3f2f-437a-a516-9c989fabbabe')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'9cd68cf9-9eba-492e-bb5c-b2328a0b78fc')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'9fc9d940-10f1-4a64-a088-48336756e1dd')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'a974c41d-e4b5-4ff5-bb73-d70887600c9d')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'aeddaa1f-30f2-4920-92fc-eb19c7d24712')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'b588f9cb-bbb5-40b1-9d71-455097cac3cb')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'bb63cc40-eea1-40ff-be96-a64ad6aa9791')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'c6b354bb-75af-4500-a46e-3cd7fb04badc')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'c93ffc0c-3876-43cb-a007-4a459af49f16')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'cb653e16-b300-419f-b54d-ba5c99e7434d')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'd7a596f7-fb1a-4e85-a2a2-33433d115d79', N'cb653e16-b300-419f-b54d-ba5c99e7434d')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'd016cc73-2e99-4fae-bdba-15eb0a27ecb1')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'64d73fa2-c5fe-43bb-bf54-246a003d40ad', N'd2c5bbc3-6014-42f1-9395-d6214ddf0871')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'd2c5bbc3-6014-42f1-9395-d6214ddf0871')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'd453011a-27b0-46f4-a264-24ad7e1dfb4f')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'd5efc40c-b9b5-442c-aa99-34512fe4d129')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'd7a596f7-fb1a-4e85-a2a2-33433d115d79')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'e82751f5-c425-4986-bf0c-78620768cf26')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'e8456b13-b23b-42e1-9f33-38fe8b7075a3')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'ea1dad6f-c9b2-4ca5-b3b2-0e1522bb136e')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'f6e2008c-0989-469a-8a9d-6ed6133a4377', N'ea1dad6f-c9b2-4ca5-b3b2-0e1522bb136e')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'efbc41cf-6c9a-4cdf-a664-d9cb199b864b')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'9cd68cf9-9eba-492e-bb5c-b2328a0b78fc', N'efbc41cf-6c9a-4cdf-a664-d9cb199b864b')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'f127bf8e-6c8e-4482-a69a-43aa6a7828e4')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'f2f78d04-6a5b-455a-8a80-b915106f7d9c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'f6e2008c-0989-469a-8a9d-6ed6133a4377')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'fb787cfd-ddfd-430f-9f11-608e2db45c6c')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'fbc317f6-0a36-407b-b856-66d324a556e7')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'998e6902-089c-4e72-8954-0ea70cd9dab9', N'fbfeb166-b93d-4a97-892c-f95dc740c3a1')
+GO
+INSERT [dbo].[COMPOSITE_ROLE] ([COMPOSITE], [CHILD_ROLE]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'fe471154-4f56-460d-8713-838117a475b5')
+GO
+INSERT [dbo].[REALM_EVENTS_LISTENERS] ([REALM_ID], [VALUE]) VALUES (N'master', N'jboss-logging')
+GO
+INSERT [dbo].[REALM_EVENTS_LISTENERS] ([REALM_ID], [VALUE]) VALUES (N'PortfolioRealm', N'jboss-logging')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'1a4e85b5-0c1d-45cb-9d6b-fa9f89205e64', N'Max Clients Limit', N'master', N'max-clients', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'29c7e2aa-5aa5-4d91-b037-23b50d22c9d3', N'aes-generated', N'master', N'aes-generated', N'org.keycloak.keys.KeyProvider', N'master', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'30332d03-0a1b-468e-874e-5c764f35efc2', N'rsa-enc-generated', N'PortfolioRealm', N'rsa-enc-generated', N'org.keycloak.keys.KeyProvider', N'PortfolioRealm', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'418f4909-0b2c-4290-8b5d-0645b6d217df', N'Max Clients Limit', N'PortfolioRealm', N'max-clients', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'451ad7b3-35fb-4e5e-8b9a-2d1b7fddd3a9', N'rsa-generated', N'master', N'rsa-generated', N'org.keycloak.keys.KeyProvider', N'master', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'47d423f7-0a12-4ee4-b6f6-96272800afb4', N'Allowed Client Scopes', N'master', N'allowed-client-templates', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'57f29267-dd3e-4a35-8a1c-a740657be001', N'hmac-generated', N'master', N'hmac-generated', N'org.keycloak.keys.KeyProvider', N'master', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'5c57769a-8763-493c-9fba-1d197347e9d3', N'rsa-enc-generated', N'master', N'rsa-enc-generated', N'org.keycloak.keys.KeyProvider', N'master', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'6f9a2895-58f3-483c-9e11-f9c4d8d8b8c0', N'Allowed Client Scopes', N'PortfolioRealm', N'allowed-client-templates', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'authenticated')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'78df6af7-516f-4764-bfce-8c5f01396146', N'hmac-generated', N'PortfolioRealm', N'hmac-generated', N'org.keycloak.keys.KeyProvider', N'PortfolioRealm', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'79ab99d0-d0c0-4748-bb13-f1706f3f0801', N'aes-generated', N'PortfolioRealm', N'aes-generated', N'org.keycloak.keys.KeyProvider', N'PortfolioRealm', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'7aa933b3-b3e4-4feb-9306-ee40048027ad', N'rsa-generated', N'PortfolioRealm', N'rsa-generated', N'org.keycloak.keys.KeyProvider', N'PortfolioRealm', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'7bb56ba5-2794-4488-8b07-a01f9dceb6ff', N'Trusted Hosts', N'master', N'trusted-hosts', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'84cac8b6-2106-414d-8e42-54c2ad0a24ef', N'Full Scope Disabled', N'master', N'scope', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'Allowed Protocol Mapper Types', N'master', N'allowed-protocol-mappers', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'authenticated')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'Allowed Protocol Mapper Types', N'PortfolioRealm', N'allowed-protocol-mappers', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'authenticated')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'a2a716b1-b79e-4fc9-bf2a-1aa0649d8da5', N'Consent Required', N'PortfolioRealm', N'consent-required', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'a33c1dff-1921-4280-a466-73df9ddb58e0', N'Trusted Hosts', N'PortfolioRealm', N'trusted-hosts', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'b0c998ea-3beb-43e1-9c38-2052a91c0648', N'Consent Required', N'master', N'consent-required', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'b522ec47-8846-445f-88b9-565d8952a803', NULL, N'PortfolioRealm', N'declarative-user-profile', N'org.keycloak.userprofile.UserProfileProvider', N'PortfolioRealm', NULL)
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'Allowed Protocol Mapper Types', N'PortfolioRealm', N'allowed-protocol-mappers', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'Allowed Protocol Mapper Types', N'master', N'allowed-protocol-mappers', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'df09be78-42c1-457d-9e0d-16c2413c6abf', N'Allowed Client Scopes', N'master', N'allowed-client-templates', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'master', N'authenticated')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'e2225668-37da-43ac-a7a5-d514fa864312', N'Full Scope Disabled', N'PortfolioRealm', N'scope', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'anonymous')
+GO
+INSERT [dbo].[COMPONENT] ([ID], [NAME], [PARENT_ID], [PROVIDER_ID], [PROVIDER_TYPE], [REALM_ID], [SUB_TYPE]) VALUES (N'e4eba346-aaab-4638-b155-0d6739aeb8de', N'Allowed Client Scopes', N'PortfolioRealm', N'allowed-client-templates', N'org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy', N'PortfolioRealm', N'anonymous')
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'11fbcb0c-3a6b-4b31-8d1f-7d8b5b59f521', N'VERIFY_EMAIL', N'Verify Email', N'master', 1, 0, N'VERIFY_EMAIL', 50)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'2d96535d-9672-48e9-9695-0d5fb57ee22b', N'delete_account', N'Delete Account', N'master', 0, 0, N'delete_account', 60)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'34e58eb9-8d39-4191-9dcb-c0b1f4e4f0dc', N'UPDATE_PASSWORD', N'Update Password', N'master', 1, 0, N'UPDATE_PASSWORD', 30)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'405035e5-a7e3-4627-9a9a-0dd2e35388e6', N'update_user_locale', N'Update User Locale', N'master', 1, 0, N'update_user_locale', 1000)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'53ee6827-1721-4d67-b978-639ba994749b', N'VERIFY_EMAIL', N'Verify Email', N'PortfolioRealm', 1, 0, N'VERIFY_EMAIL', 50)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'6760af1a-d01e-4e76-a412-22107094d7c2', N'delete_account', N'Delete Account', N'PortfolioRealm', 0, 0, N'delete_account', 60)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'7185084a-90a3-40ff-8604-790eb4820a80', N'CONFIGURE_TOTP', N'Configure OTP', N'master', 1, 0, N'CONFIGURE_TOTP', 10)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'73a81e58-8a31-4cdf-b373-cb79baf0f3d0', N'update_user_locale', N'Update User Locale', N'PortfolioRealm', 1, 0, N'update_user_locale', 1000)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'78c6fafc-fc7c-4a21-b276-3c516b3250f1', N'terms_and_conditions', N'Terms and Conditions', N'master', 0, 0, N'terms_and_conditions', 20)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'8d1e221f-efea-403c-8e0a-e007ee57b039', N'UPDATE_PROFILE', N'Update Profile', N'PortfolioRealm', 1, 0, N'UPDATE_PROFILE', 40)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'be67733f-8544-46d7-bbea-6c8ee6dac49d', N'UPDATE_PROFILE', N'Update Profile', N'master', 1, 0, N'UPDATE_PROFILE', 40)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'c254640e-3154-478f-aea9-f439e44e26eb', N'terms_and_conditions', N'Terms and Conditions', N'PortfolioRealm', 0, 0, N'terms_and_conditions', 20)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'ccd2a7c5-2352-4756-99b8-71f9c85e2b86', N'UPDATE_PASSWORD', N'Update Password', N'PortfolioRealm', 1, 0, N'UPDATE_PASSWORD', 30)
+GO
+INSERT [dbo].[REQUIRED_ACTION_PROVIDER] ([ID], [ALIAS], [NAME], [REALM_ID], [ENABLED], [DEFAULT_ACTION], [PROVIDER_ID], [PRIORITY]) VALUES (N'f029132c-c84b-46d1-b95e-031cff7eeefb', N'CONFIGURE_TOTP', N'Configure OTP', N'PortfolioRealm', 1, 1, N'CONFIGURE_TOTP', 10)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'3b2aeb23-f0e3-4fa1-a2ce-591c2402a6d5', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'master', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'0f38ad4e-5fb8-4f88-aa6f-5894f3e1713b', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[DEFAULT_CLIENT_SCOPE] ([REALM_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'PortfolioRealm', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG] ([ID], [ALIAS], [REALM_ID]) VALUES (N'2c4fd460-f9de-4813-97d2-c02733312b84', N'create unique user config', N'PortfolioRealm')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG] ([ID], [ALIAS], [REALM_ID]) VALUES (N'3a73c2e1-ecea-4aa5-abc5-bb9b7b7f3f92', N'review profile config', N'PortfolioRealm')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG] ([ID], [ALIAS], [REALM_ID]) VALUES (N'3f44a4dc-f733-4fb8-88ed-afd86005ca82', N'review profile config', N'master')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG] ([ID], [ALIAS], [REALM_ID]) VALUES (N'46e0ae78-6a87-44ad-912d-5e792e733402', N'create unique user config', N'master')
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'030a1219-733c-45f2-981a-54250255af93', N'First broker login - Conditional OTP', N'Flow to determine if the OTP is required for the authentication', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'0b0ddd50-ae12-40f9-84ac-b314afa2e19d', N'registration form', N'registration form', N'PortfolioRealm', N'form-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'0e26b950-02ad-451c-b288-0dab53bee116', N'Authentication Options', N'Authentication options.', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'1667866a-6659-48a5-8ed8-76d759c9aac5', N'direct grant', N'OpenID Connect Resource Owner Grant', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'28178f5c-28bc-4dce-bc35-79168b78f3d7', N'forms', N'Username, password, otp and other auth forms.', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'31d58513-37ed-4e0c-9db3-eaea3aaa901b', N'User creation or linking', N'Flow for the existing/non-existing user alternatives', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'41c93501-79c4-4a48-9eab-122ff70b08e0', N'saml ecp', N'SAML ECP Profile Authentication Flow', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'47318817-bf40-40bb-b7df-b5a6f78b104c', N'clients', N'Base authentication for clients', N'PortfolioRealm', N'client-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'48072366-1e5a-4e84-bd37-5181a1f7bae2', N'Handle Existing Account', N'Handle what to do if there is existing account with same email/username like authenticated identity provider', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'493a594d-7726-4182-8117-22e99f85d920', N'Reset - Conditional OTP', N'Flow to determine if the OTP should be reset or not. Set to REQUIRED to force.', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'4962a695-becd-4187-acef-a65b8ffc514d', N'Authentication Options', N'Authentication options.', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'4c321279-bdae-4f38-b3fe-323cbbe12ac3', N'User creation or linking', N'Flow for the existing/non-existing user alternatives', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'558c51fd-476b-4797-b4ad-f86eebe15e45', N'Verify Existing Account by Re-authentication', N'Reauthentication of existing account', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'5c5086ed-96f9-43b4-85f0-ec8b881fcd55', N'First broker login - Conditional OTP', N'Flow to determine if the OTP is required for the authentication', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'6cb134ce-728b-4a2d-8c3d-9258679688df', N'registration', N'registration flow', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'790c6c4c-9fc2-41a5-9504-656974a53bf7', N'Account verification options', N'Method with which to verity the existing account', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'7b7ece41-14fb-4bd0-9e08-e50a0c624f76', N'browser', N'browser based authentication', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'85c21c35-d96f-45fd-a419-0cd60cdc7ec7', N'Direct Grant - Conditional OTP', N'Flow to determine if the OTP is required for the authentication', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'8a0e4d78-5c6a-486f-bb1d-793b0a3b6188', N'saml ecp', N'SAML ECP Profile Authentication Flow', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'8cb60f4c-0024-49e8-94bd-b4aac42dadba', N'Browser - Conditional OTP', N'Flow to determine if the OTP is required for the authentication', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'9563eff6-ee59-4c8f-baf1-d9ee0b0518ba', N'http challenge', N'An authentication flow based on challenge-response HTTP Authentication Schemes', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'9b8247c8-3d52-4fa8-b47e-d2edae46bd28', N'docker auth', N'Used by Docker clients to authenticate against the IDP', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'9d2fcf02-84b7-4b45-9321-5ea22b4b5a5a', N'browser', N'browser based authentication', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'a1930cc0-67d9-49b9-9c15-998853913f60', N'registration form', N'registration form', N'master', N'form-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'a1baf1e5-dee8-4ca0-a018-00adfb087011', N'Handle Existing Account', N'Handle what to do if there is existing account with same email/username like authenticated identity provider', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'a5c03930-0864-4b24-b1bd-00cdb6f6eec0', N'Direct Grant - Conditional OTP', N'Flow to determine if the OTP is required for the authentication', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'a703d598-71e4-4f1f-bc9b-425d27998cda', N'http challenge', N'An authentication flow based on challenge-response HTTP Authentication Schemes', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'aa7a1cc3-8cee-4c66-ba98-27bb6c8c9a5d', N'clients', N'Base authentication for clients', N'master', N'client-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'ad947843-5416-4bd3-bc3e-8f7df4da2976', N'reset credentials', N'Reset credentials for a user if they forgot their password or something', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'af7da451-a5ac-4d12-8ac5-86e02b105181', N'Browser - Conditional OTP', N'Flow to determine if the OTP is required for the authentication', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'b2979e60-66ff-4051-b9ab-80c91165bc5d', N'reset credentials', N'Reset credentials for a user if they forgot their password or something', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'b71f6032-95f2-497a-9b03-6461f483aa62', N'first broker login', N'Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'bcc2d143-5728-468c-a6db-18d4f7feb804', N'forms', N'Username, password, otp and other auth forms.', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'bf9a5f14-c6a5-4de3-bf02-509e72d7b4d4', N'registration', N'registration flow', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'd295d5c2-259e-4aed-a7b0-15984e6da8ed', N'Verify Existing Account by Re-authentication', N'Reauthentication of existing account', N'PortfolioRealm', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'dccb5628-3f43-40c3-8ef1-c77ffbe9a905', N'Account verification options', N'Method with which to verity the existing account', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'e3eff0d3-cca8-418f-a0f4-737f239a5807', N'docker auth', N'Used by Docker clients to authenticate against the IDP', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'e3f6b51f-bf87-4e3f-ad2a-def4727f9b7a', N'direct grant', N'OpenID Connect Resource Owner Grant', N'master', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'ef34d055-9824-482a-830d-bfb0e8c9e795', N'first broker login', N'Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account', N'PortfolioRealm', N'basic-flow', 1, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_FLOW] ([ID], [ALIAS], [DESCRIPTION], [REALM_ID], [PROVIDER_ID], [TOP_LEVEL], [BUILT_IN]) VALUES (N'fed76b65-5ccb-4fdd-a6b9-310e446f9cb3', N'Reset - Conditional OTP', N'Flow to determine if the OTP should be reset or not. Set to REQUIRED to force.', N'master', N'basic-flow', 0, 1)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'01eb8926-bc7a-4127-9bc1-12747aaf212d', NULL, NULL, N'master', N'a703d598-71e4-4f1f-bc9b-425d27998cda', 0, 20, 1, N'0e26b950-02ad-451c-b288-0dab53bee116', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'03740571-6253-4005-8f3c-f5640336b6ce', NULL, NULL, N'PortfolioRealm', N'48072366-1e5a-4e84-bd37-5181a1f7bae2', 0, 20, 1, N'790c6c4c-9fc2-41a5-9504-656974a53bf7', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'0482ed1e-f09c-4103-8948-670a35a1c175', NULL, N'registration-profile-action', N'PortfolioRealm', N'0b0ddd50-ae12-40f9-84ac-b314afa2e19d', 0, 40, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'06a2b16c-15fd-4b33-9872-f64ccb19ecb6', NULL, N'conditional-user-configured', N'PortfolioRealm', N'a5c03930-0864-4b24-b1bd-00cdb6f6eec0', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'099d717f-aec1-4cb7-a833-4b20c6a084d9', NULL, N'idp-email-verification', N'PortfolioRealm', N'790c6c4c-9fc2-41a5-9504-656974a53bf7', 2, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'0c9159d2-6cc6-4653-9600-9d3349453c64', NULL, N'registration-user-creation', N'PortfolioRealm', N'0b0ddd50-ae12-40f9-84ac-b314afa2e19d', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'11b640fd-7f38-4db2-8834-ef6632c9eb11', NULL, N'basic-auth', N'PortfolioRealm', N'4962a695-becd-4187-acef-a65b8ffc514d', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'14c52295-6b5f-4c5d-840a-b815a90f5c64', NULL, NULL, N'PortfolioRealm', N'28178f5c-28bc-4dce-bc35-79168b78f3d7', 1, 20, 1, N'af7da451-a5ac-4d12-8ac5-86e02b105181', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'178c0378-1d11-4258-86ca-90708ba48682', NULL, N'idp-confirm-link', N'master', N'a1baf1e5-dee8-4ca0-a018-00adfb087011', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'1b772c6f-42e2-4e28-8a4c-fa5e9c4ef57b', NULL, NULL, N'PortfolioRealm', N'9563eff6-ee59-4c8f-baf1-d9ee0b0518ba', 0, 20, 1, N'4962a695-becd-4187-acef-a65b8ffc514d', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'1e2fefc8-bee8-4a49-a737-10fe02546811', NULL, NULL, N'master', N'b71f6032-95f2-497a-9b03-6461f483aa62', 0, 20, 1, N'4c321279-bdae-4f38-b3fe-323cbbe12ac3', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'200baa74-cfc1-4dfc-bc31-d7a042f9f3b4', NULL, N'client-secret-jwt', N'master', N'aa7a1cc3-8cee-4c66-ba98-27bb6c8c9a5d', 2, 30, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'223cd020-7c8f-40bf-8800-3eb101b3351e', NULL, N'idp-create-user-if-unique', N'master', N'4c321279-bdae-4f38-b3fe-323cbbe12ac3', 2, 10, 0, NULL, N'46e0ae78-6a87-44ad-912d-5e792e733402')
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'27191a27-d05e-4139-aa74-77864dedc68f', NULL, N'registration-user-creation', N'master', N'a1930cc0-67d9-49b9-9c15-998853913f60', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'2744243e-e564-434a-9cae-4c8b69598a58', NULL, N'registration-recaptcha-action', N'master', N'a1930cc0-67d9-49b9-9c15-998853913f60', 3, 60, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'2bf1e1a1-6bf4-426b-85fd-490d7598a192', NULL, N'idp-confirm-link', N'PortfolioRealm', N'48072366-1e5a-4e84-bd37-5181a1f7bae2', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'2ec0c744-d3c7-4e46-b025-d0cc5c186515', NULL, NULL, N'PortfolioRealm', N'9d2fcf02-84b7-4b45-9321-5ea22b4b5a5a', 2, 30, 1, N'28178f5c-28bc-4dce-bc35-79168b78f3d7', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'33258db8-f133-4c12-8244-fe00b4911f07', NULL, N'auth-otp-form', N'PortfolioRealm', N'af7da451-a5ac-4d12-8ac5-86e02b105181', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'33d34d98-4735-4b5b-8370-2fec47b053ee', NULL, N'client-secret', N'PortfolioRealm', N'47318817-bf40-40bb-b7df-b5a6f78b104c', 2, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'38647e87-f67d-460b-8a0c-6a58701c8f15', NULL, N'client-secret-jwt', N'PortfolioRealm', N'47318817-bf40-40bb-b7df-b5a6f78b104c', 2, 30, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'38ffe0d9-e512-4b12-97e9-aae9cc32d91e', NULL, N'auth-spnego', N'PortfolioRealm', N'4962a695-becd-4187-acef-a65b8ffc514d', 3, 30, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'3e803429-5db0-4ab2-8ce1-b53aef495ac5', NULL, N'no-cookie-redirect', N'PortfolioRealm', N'9563eff6-ee59-4c8f-baf1-d9ee0b0518ba', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'47666be2-25de-408f-a0a3-8cbacae6ab45', NULL, N'direct-grant-validate-username', N'PortfolioRealm', N'1667866a-6659-48a5-8ed8-76d759c9aac5', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'4af6ce8a-9a55-4598-9231-10a6b9b8a1cf', NULL, N'reset-otp', N'master', N'fed76b65-5ccb-4fdd-a6b9-310e446f9cb3', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'4bcd712c-554b-484c-bab5-57db2b7a6974', NULL, NULL, N'PortfolioRealm', N'ad947843-5416-4bd3-bc3e-8f7df4da2976', 1, 40, 1, N'493a594d-7726-4182-8117-22e99f85d920', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'4ed3ecf4-5e4a-4791-98bd-07cea4c628e6', NULL, N'auth-otp-form', N'master', N'8cb60f4c-0024-49e8-94bd-b4aac42dadba', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'4f2e8e0f-de42-4582-a775-47b9df24a7ab', NULL, N'idp-username-password-form', N'master', N'558c51fd-476b-4797-b4ad-f86eebe15e45', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'4f3d61f5-71f5-4acf-87f4-20b348525b4e', NULL, N'reset-credentials-choose-user', N'PortfolioRealm', N'ad947843-5416-4bd3-bc3e-8f7df4da2976', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'51fa02f5-7445-4339-b50e-0ccd61e95aa4', NULL, N'direct-grant-validate-otp', N'master', N'85c21c35-d96f-45fd-a419-0cd60cdc7ec7', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'52a92d6c-addb-44fc-9128-f68e89883dd2', NULL, N'idp-review-profile', N'PortfolioRealm', N'ef34d055-9824-482a-830d-bfb0e8c9e795', 0, 10, 0, NULL, N'3a73c2e1-ecea-4aa5-abc5-bb9b7b7f3f92')
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'546519fc-55fd-4e26-bfa3-ece5fe38510f', NULL, N'docker-http-basic-authenticator', N'master', N'9b8247c8-3d52-4fa8-b47e-d2edae46bd28', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'552e77e5-722d-4d55-a594-1c2989ba146e', NULL, NULL, N'master', N'bcc2d143-5728-468c-a6db-18d4f7feb804', 1, 20, 1, N'8cb60f4c-0024-49e8-94bd-b4aac42dadba', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'570dac6c-f742-4e2f-8651-4a1c3c06a80c', NULL, N'reset-otp', N'PortfolioRealm', N'493a594d-7726-4182-8117-22e99f85d920', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'5a4f2984-e5d1-4327-9449-cdbf9f345c6a', NULL, N'auth-spnego', N'master', N'0e26b950-02ad-451c-b288-0dab53bee116', 3, 30, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'5cd87e18-1974-4a33-a93c-09ce70c36641', NULL, N'conditional-user-configured', N'PortfolioRealm', N'af7da451-a5ac-4d12-8ac5-86e02b105181', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'5d9fbaea-a29d-4eba-b1dc-9871297eed1c', NULL, N'conditional-user-configured', N'PortfolioRealm', N'030a1219-733c-45f2-981a-54250255af93', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'6071c730-0898-4c29-a285-4d39e3a18e9b', NULL, NULL, N'master', N'e3f6b51f-bf87-4e3f-ad2a-def4727f9b7a', 1, 30, 1, N'85c21c35-d96f-45fd-a419-0cd60cdc7ec7', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'623c0d3a-756a-430e-a4c6-c9c95b843926', NULL, N'docker-http-basic-authenticator', N'PortfolioRealm', N'e3eff0d3-cca8-418f-a0f4-737f239a5807', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'62978c84-9578-4570-b4c0-680e14d4d998', NULL, N'auth-spnego', N'PortfolioRealm', N'9d2fcf02-84b7-4b45-9321-5ea22b4b5a5a', 3, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'656d3ff9-e2df-4d78-9969-edb420baeb57', NULL, N'auth-username-password-form', N'master', N'bcc2d143-5728-468c-a6db-18d4f7feb804', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'69a9641f-ae07-4e55-abc4-2d73b0429403', NULL, N'auth-username-password-form', N'PortfolioRealm', N'28178f5c-28bc-4dce-bc35-79168b78f3d7', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'6a81aa0c-da2c-4ac9-aa32-be3751b45dca', NULL, N'auth-cookie', N'PortfolioRealm', N'9d2fcf02-84b7-4b45-9321-5ea22b4b5a5a', 2, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'6ba2ce75-dabf-4999-8d8c-7700b8b3f278', NULL, N'identity-provider-redirector', N'master', N'7b7ece41-14fb-4bd0-9e08-e50a0c624f76', 2, 25, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'6d630fec-d4c5-4d74-88df-3f7c7cd9161b', NULL, N'reset-credentials-choose-user', N'master', N'b2979e60-66ff-4051-b9ab-80c91165bc5d', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'70089769-a59c-4ddd-bcd9-b3c8e125e28c', NULL, N'registration-password-action', N'master', N'a1930cc0-67d9-49b9-9c15-998853913f60', 0, 50, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'73856340-817e-49e3-8b15-781905116a77', NULL, N'reset-password', N'master', N'b2979e60-66ff-4051-b9ab-80c91165bc5d', 0, 30, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'74e30a55-be40-4450-94cd-89bd50ea59f5', NULL, N'reset-credential-email', N'PortfolioRealm', N'ad947843-5416-4bd3-bc3e-8f7df4da2976', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'75281ac4-d62d-4298-a4a8-68c3723f5a45', NULL, NULL, N'PortfolioRealm', N'd295d5c2-259e-4aed-a7b0-15984e6da8ed', 1, 20, 1, N'030a1219-733c-45f2-981a-54250255af93', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'7626d9ff-efa6-4f75-8b1b-9a4b9377bca6', NULL, N'reset-credential-email', N'master', N'b2979e60-66ff-4051-b9ab-80c91165bc5d', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'78a92592-0b3a-4c72-a59d-804efdaf4d19', NULL, N'idp-create-user-if-unique', N'PortfolioRealm', N'31d58513-37ed-4e0c-9db3-eaea3aaa901b', 2, 10, 0, NULL, N'2c4fd460-f9de-4813-97d2-c02733312b84')
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'7fce143b-3c23-4a7e-8e74-9e5a0eae6bd7', NULL, N'basic-auth-otp', N'master', N'0e26b950-02ad-451c-b288-0dab53bee116', 3, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'803d6061-e1d6-4ba6-95df-fac002768801', NULL, N'direct-grant-validate-password', N'master', N'e3f6b51f-bf87-4e3f-ad2a-def4727f9b7a', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'87a48292-b861-444f-9154-facb08af6e4d', NULL, N'conditional-user-configured', N'master', N'5c5086ed-96f9-43b4-85f0-ec8b881fcd55', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'8886117e-7f41-4b25-9421-d2cd1d269634', NULL, N'auth-cookie', N'master', N'7b7ece41-14fb-4bd0-9e08-e50a0c624f76', 2, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'8e8d444c-8497-42b7-9a25-c0c070d7fc96', NULL, NULL, N'master', N'a1baf1e5-dee8-4ca0-a018-00adfb087011', 0, 20, 1, N'dccb5628-3f43-40c3-8ef1-c77ffbe9a905', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'8f7965f6-f86f-4b8f-b2f2-6e2ee87ced36', NULL, N'client-jwt', N'master', N'aa7a1cc3-8cee-4c66-ba98-27bb6c8c9a5d', 2, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'9137442b-da4a-4c24-8be0-c8735ea131e5', NULL, N'conditional-user-configured', N'PortfolioRealm', N'493a594d-7726-4182-8117-22e99f85d920', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'9b2d43d3-0d63-41b6-91ea-4e98443ddf74', NULL, N'idp-email-verification', N'master', N'dccb5628-3f43-40c3-8ef1-c77ffbe9a905', 2, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'9dceeb06-6d1d-4fc7-9142-1191b56e2322', NULL, N'idp-review-profile', N'master', N'b71f6032-95f2-497a-9b03-6461f483aa62', 0, 10, 0, NULL, N'3f44a4dc-f733-4fb8-88ed-afd86005ca82')
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'a576cf74-54d3-48e7-829b-3c6f86027083', NULL, N'basic-auth-otp', N'PortfolioRealm', N'4962a695-becd-4187-acef-a65b8ffc514d', 3, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'a61d7601-fafc-478b-b8a8-8cdd6cf34f3a', NULL, N'direct-grant-validate-password', N'PortfolioRealm', N'1667866a-6659-48a5-8ed8-76d759c9aac5', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'a99e61e2-41ec-4628-9b36-15802cc3495f', NULL, N'basic-auth', N'master', N'0e26b950-02ad-451c-b288-0dab53bee116', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'aeb35324-46ad-485b-8100-ea6787353b0e', NULL, N'http-basic-authenticator', N'PortfolioRealm', N'41c93501-79c4-4a48-9eab-122ff70b08e0', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'aedd24f0-a84e-43e8-adaf-5cd98086317e', NULL, N'client-x509', N'master', N'aa7a1cc3-8cee-4c66-ba98-27bb6c8c9a5d', 2, 40, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b20b4a98-eb04-43b9-969d-a9651b55b8d6', NULL, N'direct-grant-validate-otp', N'PortfolioRealm', N'a5c03930-0864-4b24-b1bd-00cdb6f6eec0', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b2423895-8244-425f-9917-844cd2052606', NULL, N'conditional-user-configured', N'master', N'fed76b65-5ccb-4fdd-a6b9-310e446f9cb3', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b2bccb96-7571-4567-95a7-765a7bac2d04', NULL, N'registration-page-form', N'master', N'bf9a5f14-c6a5-4de3-bf02-509e72d7b4d4', 0, 10, 1, N'a1930cc0-67d9-49b9-9c15-998853913f60', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b43410a8-0073-4954-9729-dc7179692215', NULL, N'client-secret', N'master', N'aa7a1cc3-8cee-4c66-ba98-27bb6c8c9a5d', 2, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b692dd6c-ee8c-4995-8589-1e1ef515d2ad', NULL, NULL, N'PortfolioRealm', N'1667866a-6659-48a5-8ed8-76d759c9aac5', 1, 30, 1, N'a5c03930-0864-4b24-b1bd-00cdb6f6eec0', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b7c2f310-9ead-4fa0-ab1c-79d3c37897dd', NULL, NULL, N'master', N'7b7ece41-14fb-4bd0-9e08-e50a0c624f76', 2, 30, 1, N'bcc2d143-5728-468c-a6db-18d4f7feb804', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b8268b20-14d3-4b41-8cb1-5b0e1e55b303', NULL, N'registration-profile-action', N'master', N'a1930cc0-67d9-49b9-9c15-998853913f60', 0, 40, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'b95098b6-0f52-4be9-859b-e7ff9f138cc7', NULL, N'direct-grant-validate-username', N'master', N'e3f6b51f-bf87-4e3f-ad2a-def4727f9b7a', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'bcf6f02c-58c1-4a2c-8668-331dfca994a3', NULL, N'no-cookie-redirect', N'master', N'a703d598-71e4-4f1f-bc9b-425d27998cda', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'bf7f751c-a8b7-48ce-ae4c-f3da22261031', NULL, N'http-basic-authenticator', N'master', N'8a0e4d78-5c6a-486f-bb1d-793b0a3b6188', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'bff54322-1acf-496b-bc54-cfb35c3b948b', NULL, N'auth-spnego', N'master', N'7b7ece41-14fb-4bd0-9e08-e50a0c624f76', 3, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'c681c0fa-c2d7-477b-8ab9-2232f6bcd04d', NULL, NULL, N'master', N'dccb5628-3f43-40c3-8ef1-c77ffbe9a905', 2, 20, 1, N'558c51fd-476b-4797-b4ad-f86eebe15e45', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd1622cf8-4c0f-4b5b-8386-e7682070c3ea', NULL, NULL, N'PortfolioRealm', N'790c6c4c-9fc2-41a5-9504-656974a53bf7', 2, 20, 1, N'd295d5c2-259e-4aed-a7b0-15984e6da8ed', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd2dc87b0-88f5-4f87-8ce3-6791d6546197', NULL, N'reset-password', N'PortfolioRealm', N'ad947843-5416-4bd3-bc3e-8f7df4da2976', 0, 30, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd3d3fd5b-4191-4581-b317-d7de1158b2af', NULL, N'auth-otp-form', N'master', N'5c5086ed-96f9-43b4-85f0-ec8b881fcd55', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd62d5e68-20b2-4346-9d2b-ed2cea3aacbf', NULL, NULL, N'master', N'558c51fd-476b-4797-b4ad-f86eebe15e45', 1, 20, 1, N'5c5086ed-96f9-43b4-85f0-ec8b881fcd55', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd70890c1-77c9-4892-9017-5dc684e7eeca', NULL, NULL, N'PortfolioRealm', N'ef34d055-9824-482a-830d-bfb0e8c9e795', 0, 20, 1, N'31d58513-37ed-4e0c-9db3-eaea3aaa901b', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd7146a6f-9889-458d-9c1c-4828d3b884ca', NULL, N'client-jwt', N'PortfolioRealm', N'47318817-bf40-40bb-b7df-b5a6f78b104c', 2, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'd898cf98-34f3-4cf9-8904-d0be8c8b6f97', NULL, N'auth-otp-form', N'PortfolioRealm', N'030a1219-733c-45f2-981a-54250255af93', 0, 20, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'e16c1a78-6fa1-4356-a584-a1ae6e323b8e', NULL, N'identity-provider-redirector', N'PortfolioRealm', N'9d2fcf02-84b7-4b45-9321-5ea22b4b5a5a', 2, 25, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'e25ab607-6ffd-4c7e-b012-7062c8677378', NULL, N'conditional-user-configured', N'master', N'8cb60f4c-0024-49e8-94bd-b4aac42dadba', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'e2f1cddf-e258-49ec-8e4d-1f5a401d9538', NULL, NULL, N'master', N'b2979e60-66ff-4051-b9ab-80c91165bc5d', 1, 40, 1, N'fed76b65-5ccb-4fdd-a6b9-310e446f9cb3', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'e2f783e7-a17b-4efc-a329-4f52fe062653', NULL, N'client-x509', N'PortfolioRealm', N'47318817-bf40-40bb-b7df-b5a6f78b104c', 2, 40, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'e2fc66dd-526a-4318-a206-15fd3de55349', NULL, N'registration-recaptcha-action', N'PortfolioRealm', N'0b0ddd50-ae12-40f9-84ac-b314afa2e19d', 3, 60, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'ef3547fb-2eba-4923-809b-ab15806da3b5', NULL, NULL, N'master', N'4c321279-bdae-4f38-b3fe-323cbbe12ac3', 2, 20, 1, N'a1baf1e5-dee8-4ca0-a018-00adfb087011', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'f44cc92b-f22b-4324-afc9-fa4428bee3de', NULL, N'conditional-user-configured', N'master', N'85c21c35-d96f-45fd-a419-0cd60cdc7ec7', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'f634e432-f078-48eb-a44a-eb0cd94c3621', NULL, N'registration-page-form', N'PortfolioRealm', N'6cb134ce-728b-4a2d-8c3d-9258679688df', 0, 10, 1, N'0b0ddd50-ae12-40f9-84ac-b314afa2e19d', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'f65794d6-8f95-4d0b-af41-d51185c4853b', NULL, NULL, N'PortfolioRealm', N'31d58513-37ed-4e0c-9db3-eaea3aaa901b', 2, 20, 1, N'48072366-1e5a-4e84-bd37-5181a1f7bae2', NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'f8c50873-7404-4030-b9ec-01b3aab72d99', NULL, N'registration-password-action', N'PortfolioRealm', N'0b0ddd50-ae12-40f9-84ac-b314afa2e19d', 0, 50, 0, NULL, NULL)
+GO
+INSERT [dbo].[AUTHENTICATION_EXECUTION] ([ID], [ALIAS], [AUTHENTICATOR], [REALM_ID], [FLOW_ID], [REQUIREMENT], [PRIORITY], [AUTHENTICATOR_FLOW], [AUTH_FLOW_ID], [AUTH_CONFIG]) VALUES (N'fd8db849-dce9-4d7a-a026-b63564cc8b90', NULL, N'idp-username-password-form', N'PortfolioRealm', N'd295d5c2-259e-4aed-a7b0-15984e6da8ed', 0, 10, 0, NULL, NULL)
+GO
+INSERT [dbo].[REALM_REQUIRED_CREDENTIAL] ([TYPE], [FORM_LABEL], [INPUT], [SECRET], [REALM_ID]) VALUES (N'password', N'password', 1, 1, N'master')
+GO
+INSERT [dbo].[REALM_REQUIRED_CREDENTIAL] ([TYPE], [FORM_LABEL], [INPUT], [SECRET], [REALM_ID]) VALUES (N'password', N'password', 1, 1, N'PortfolioRealm')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.contentSecurityPolicy', N'master', N'frame-src ''self''; frame-ancestors ''self''; object-src ''none'';')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.contentSecurityPolicy', N'PortfolioRealm', N'frame-src ''self''; frame-ancestors ''self''; object-src ''none'';')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.contentSecurityPolicyReportOnly', N'master', N'')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.contentSecurityPolicyReportOnly', N'PortfolioRealm', N'')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.strictTransportSecurity', N'master', N'max-age=31536000; includeSubDomains')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.strictTransportSecurity', N'PortfolioRealm', N'max-age=31536000; includeSubDomains')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xContentTypeOptions', N'master', N'nosniff')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xContentTypeOptions', N'PortfolioRealm', N'nosniff')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xFrameOptions', N'master', N'SAMEORIGIN')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xFrameOptions', N'PortfolioRealm', N'SAMEORIGIN')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xRobotsTag', N'master', N'none')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xRobotsTag', N'PortfolioRealm', N'none')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xXSSProtection', N'master', N'1; mode=block')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'_browser_header.xXSSProtection', N'PortfolioRealm', N'1; mode=block')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'actionTokenGeneratedByAdminLifespan', N'PortfolioRealm', N'43200')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'actionTokenGeneratedByUserLifespan', N'PortfolioRealm', N'300')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'bruteForceProtected', N'master', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'bruteForceProtected', N'PortfolioRealm', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'cibaAuthRequestedUserHint', N'PortfolioRealm', N'login_hint')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'cibaBackchannelTokenDeliveryMode', N'PortfolioRealm', N'poll')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'cibaExpiresIn', N'PortfolioRealm', N'120')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'cibaInterval', N'PortfolioRealm', N'5')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'client-policies.policies', N'PortfolioRealm', N'{"policies":[]}')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'client-policies.profiles', N'PortfolioRealm', N'{"profiles":[]}')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'clientOfflineSessionIdleTimeout', N'PortfolioRealm', N'0')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'clientOfflineSessionMaxLifespan', N'PortfolioRealm', N'0')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'clientSessionIdleTimeout', N'PortfolioRealm', N'0')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'clientSessionMaxLifespan', N'PortfolioRealm', N'0')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'defaultSignatureAlgorithm', N'master', N'RS256')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'defaultSignatureAlgorithm', N'PortfolioRealm', N'RS256')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'displayName', N'master', N'Keycloak')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'displayNameHtml', N'master', N'<div class="kc-logo-text"><span>Keycloak</span></div>')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'failureFactor', N'master', N'30')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'failureFactor', N'PortfolioRealm', N'30')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'maxDeltaTimeSeconds', N'master', N'43200')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'maxDeltaTimeSeconds', N'PortfolioRealm', N'43200')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'maxFailureWaitSeconds', N'master', N'900')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'maxFailureWaitSeconds', N'PortfolioRealm', N'900')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'minimumQuickLoginWaitSeconds', N'master', N'60')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'minimumQuickLoginWaitSeconds', N'PortfolioRealm', N'60')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'oauth2DeviceCodeLifespan', N'PortfolioRealm', N'600')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'oauth2DevicePollingInterval', N'PortfolioRealm', N'5')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'offlineSessionMaxLifespan', N'master', N'5184000')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'offlineSessionMaxLifespan', N'PortfolioRealm', N'5184000')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'offlineSessionMaxLifespanEnabled', N'master', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'offlineSessionMaxLifespanEnabled', N'PortfolioRealm', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'parRequestUriLifespan', N'PortfolioRealm', N'60')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'permanentLockout', N'master', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'permanentLockout', N'PortfolioRealm', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'quickLoginCheckMilliSeconds', N'master', N'1000')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'quickLoginCheckMilliSeconds', N'PortfolioRealm', N'1000')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'waitIncrementSeconds', N'master', N'60')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'waitIncrementSeconds', N'PortfolioRealm', N'60')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyAttestationConveyancePreference', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyAttestationConveyancePreferencePasswordless', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyAuthenticatorAttachment', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyAuthenticatorAttachmentPasswordless', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyAvoidSameAuthenticatorRegister', N'PortfolioRealm', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyAvoidSameAuthenticatorRegisterPasswordless', N'PortfolioRealm', N'false')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyCreateTimeout', N'PortfolioRealm', N'0')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyCreateTimeoutPasswordless', N'PortfolioRealm', N'0')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyRequireResidentKey', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyRequireResidentKeyPasswordless', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyRpEntityName', N'PortfolioRealm', N'keycloak')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyRpEntityNamePasswordless', N'PortfolioRealm', N'keycloak')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyRpId', N'PortfolioRealm', N'')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyRpIdPasswordless', N'PortfolioRealm', N'')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicySignatureAlgorithms', N'PortfolioRealm', N'ES256')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicySignatureAlgorithmsPasswordless', N'PortfolioRealm', N'ES256')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyUserVerificationRequirement', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[REALM_ATTRIBUTE] ([NAME], [REALM_ID], [VALUE]) VALUES (N'webAuthnPolicyUserVerificationRequirementPasswordless', N'PortfolioRealm', N'not specified')
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'47a9594d-1dbf-41c4-a77c-0be19d50537d', N'marinkosvaser@gmail.com', N'marinkosvaser@gmail.com', 0, 1, NULL, N'Marinko', N'Stanić', N'PortfolioRealm', N'marinko', 1657997777837, NULL, 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'9241fddc-bc15-4a2d-9698-afd759e8b6a2', NULL, N'772540da-0c51-46b1-886f-06c11e9ba072', 0, 1, NULL, NULL, NULL, N'PortfolioRealm', N'service-account-trend.api', 1658322059500, N'5eec38c1-424e-46ee-91ca-a15ff692ca31', 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'acdd8e0e-2e20-4304-90de-6426b05a6af6', N'hardcorenoob2@gmail.com', N'hardcorenoob2@gmail.com', 1, 1, NULL, N'mulix', N'mulix', N'PortfolioRealm', N'hardcorenoob', 1657991769743, NULL, 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'be2b67bb-0a15-42d4-8c28-b4729a4329b6', NULL, N'17a83d90-22d5-4ea2-ac92-6cf47125feab', 0, 1, NULL, NULL, NULL, N'PortfolioRealm', N'culix', 1657819590270, NULL, 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'e246ce6c-30de-4b82-ba92-cafb31bdc9a0', N'culobozo@gmail.com', N'culobozo@gmail.com', 0, 1, NULL, N'Božo', N'Čulo', N'PortfolioRealm', N'bculo', 1657999153525, NULL, 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'f534a4a8-ff20-4a0e-85bf-d79fac599c78', N'dorix@gmail.com', N'dorix@gmail.com', 0, 1, NULL, N'dorix', N'morix', N'PortfolioRealm', N'dorix', 1657993399744, NULL, 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'f8bc4d3c-ded2-406d-8cd3-948cd2593ec1', N'test@gmail.com', N'test@gmail.com', 0, 1, NULL, N'test', N'test', N'master', N'test', 1658954772621, NULL, 0)
+GO
+INSERT [dbo].[USER_ENTITY] ([ID], [EMAIL], [EMAIL_CONSTRAINT], [EMAIL_VERIFIED], [ENABLED], [FEDERATION_LINK], [FIRST_NAME], [LAST_NAME], [REALM_ID], [USERNAME], [CREATED_TIMESTAMP], [SERVICE_ACCOUNT_CLIENT_LINK], [NOT_BEFORE]) VALUES (N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0', NULL, N'fe91c48d-af63-49be-adc3-bf5281d3627b', 0, 1, NULL, NULL, NULL, N'master', N'admin', 1657290943139, NULL, 0)
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'47a9594d-1dbf-41c4-a77c-0be19d50537d')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'9241fddc-bc15-4a2d-9698-afd759e8b6a2')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'b1b7b394-0bf1-4b06-9138-f100670558d2', N'9241fddc-bc15-4a2d-9698-afd759e8b6a2')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'acdd8e0e-2e20-4304-90de-6426b05a6af6')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'be2b67bb-0a15-42d4-8c28-b4729a4329b6')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'a3911cd3-791d-487a-a196-4e4b79f9fab4', N'be2b67bb-0a15-42d4-8c28-b4729a4329b6')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'e246ce6c-30de-4b82-ba92-cafb31bdc9a0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'2c222dec-9664-4df4-835e-9c6fbd4b100f', N'f534a4a8-ff20-4a0e-85bf-d79fac599c78')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'f8bc4d3c-ded2-406d-8cd3-948cd2593ec1')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'11b1e7b6-5e6a-4a7e-9f7d-0c04521ad127', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'25546558-205a-4855-8144-941ef7ce754b', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'257605c4-2db2-41fb-93a2-c5dabda32cf9', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'25e5d337-c1f4-4574-8b7b-00193c36fa5e', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'45fa60d4-f1ed-435a-8dca-7b158b0bce29', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'468ee58c-0a52-425b-b98e-1e78cf12d49c', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'4ddb137e-cb9b-485b-8f4a-945cb05b7479', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'56e04f86-940d-4f81-ace3-67f161222b82', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'64d73fa2-c5fe-43bb-bf54-246a003d40ad', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'71aef8fd-b801-4d19-8479-bbc9f16fad84', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'7a6c9131-b60e-4cbd-8a49-361134d5ea11', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'7e5b12ba-0016-4bb9-a92c-96cbf7e44834', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'831f1c86-629b-45eb-b9d9-2f6f04771c22', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'8947f024-962b-4b87-8c33-1d6c421cc501', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'aeddaa1f-30f2-4920-92fc-eb19c7d24712', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'c93ffc0c-3876-43cb-a007-4a459af49f16', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'd2c5bbc3-6014-42f1-9395-d6214ddf0871', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'ea1dad6f-c9b2-4ca5-b3b2-0e1522bb136e', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[USER_ROLE_MAPPING] ([ROLE_ID], [USER_ID]) VALUES (N'f6e2008c-0989-469a-8a9d-6ed6133a4377', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0')
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'0f0692e0-4905-4052-88d7-716956ee96fe', NULL, N'password', N'fb0beec2-eb29-4a52-8f4c-6b7566355ee0', 1657290943165, NULL, N'{"value":"09ak0OnprrkbRjls99bmlQPriwUxiD5/xxMCoCg4J0sPWHDaGuXnJecnCYO6L3OMdZ5lwt2kz8oR/1dmpK3onQ==","salt":"aqQg4XHFEHXX/9DalwhOAw==","additionalParameters":{}}', N'{"hashIterations":27500,"algorithm":"pbkdf2-sha256","additionalParameters":{}}', 10)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'4641d374-bdea-42a0-9847-26ffa213d104', NULL, N'password', N'acdd8e0e-2e20-4304-90de-6426b05a6af6', 1657991769802, NULL, N'{"value":"6sXL2S6xb9xDdvOWXeXR2zz06C+c3hqc+735ZVpxMsOa6plICzGwsB4QzT9VFNXRnBFMB74MLq8mub/c4/1TQA==","salt":"8MvAJaQEoXDiAGO2hlrn/Q==","additionalParameters":{}}', N'{"hashIterations":27500,"algorithm":"pbkdf2-sha256","additionalParameters":{}}', 10)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'48044ad9-1c93-4593-b7bd-0b5c79af052d', NULL, N'password', N'be2b67bb-0a15-42d4-8c28-b4729a4329b6', 1657819600233, NULL, N'{"value":"PBYENaW2HargIliLTzRksQXk7e6/hNiXWwZx7QVF8icdpjwRWnNWJmXyVTgEmaLRrZcXLzgplOFAExtpCw1dEQ==","salt":"9XiUp8+yRgynQbkJJuOrxA==","additionalParameters":{}}', N'{"hashIterations":27500,"algorithm":"pbkdf2-sha256","additionalParameters":{}}', 10)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'4cfe0243-4f32-4553-a41b-eb3820ffa814', NULL, N'password', N'47a9594d-1dbf-41c4-a77c-0be19d50537d', 1657997777856, NULL, N'{"value":"HVEOHYbvPVvXaAkxfxvFNilo8TocYw/OqZs7RvW+41gOjXMwxOBZFS4cA+HD1F/VAtA0HE3zJeH5mViDCCsOZg==","salt":"M7jEnaxKsOmyjb+mVWoBkA==","additionalParameters":{}}', N'{"hashIterations":27500,"algorithm":"pbkdf2-sha256","additionalParameters":{}}', 10)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'55aba731-2ab2-4abd-a5f7-4fa49f26f97e', NULL, N'password', N'f8bc4d3c-ded2-406d-8cd3-948cd2593ec1', 1658954782725, NULL, N'{"value":"0TL6EptVpE0rb0S5QK3TItteG8e9Oe1WWiscUpc8gEi2tZ5lOZxJpwpFtCkqJzAUSLwSINnCWgn5yhNUWJ/LHw==","salt":"h71bHiT1EktUNqTue/g98Q==","additionalParameters":{}}', N'{"hashIterations":27500,"algorithm":"pbkdf2-sha256","additionalParameters":{}}', 10)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'b5f5a9a9-8bac-4430-890e-36d2eabbc3e4', NULL, N'otp', N'acdd8e0e-2e20-4304-90de-6426b05a6af6', 1657997709756, N'test', N'{"value":"nHvV1LWUP8IMAKAHwIyy"}', N'{"subType":"totp","digits":6,"counter":0,"period":30,"algorithm":"HmacSHA1"}', 20)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'c6a1f23e-2b2f-491c-ba83-91969c48be71', NULL, N'password', N'f534a4a8-ff20-4a0e-85bf-d79fac599c78', 1657993399761, NULL, N'{"value":"QMtcNYTx9EXVJoN/hElfSTj7fHFa6U/VZLFr30vSNj0VvtLQDyBN1O3vJ595usHMzSKhdN+KPMGU0aiu5v+36Q==","salt":"MEnCcVOco7CNiMj8XqzLyQ==","additionalParameters":{}}', N'{"hashIterations":27500,"algorithm":"pbkdf2-sha256","additionalParameters":{}}', 10)
+GO
+INSERT [dbo].[CREDENTIAL] ([ID], [SALT], [TYPE], [USER_ID], [CREATED_DATE], [USER_LABEL], [SECRET_DATA], [CREDENTIAL_DATA], [PRIORITY]) VALUES (N'e871e154-ba7e-4acd-9e02-4e7a705d9e57', NULL, N'otp', N'e246ce6c-30de-4b82-ba92-cafb31bdc9a0', 1657999205481, N'test', N'{"value":"cO73lqFBqOsvU61865HD"}', N'{"subType":"totp","digits":6,"counter":0,"period":30,"algorithm":"HmacSHA1"}', 10)
+GO
+INSERT [dbo].[FEDERATED_IDENTITY] ([IDENTITY_PROVIDER], [REALM_ID], [FEDERATED_USER_ID], [FEDERATED_USERNAME], [TOKEN], [USER_ID]) VALUES (N'github', N'PortfolioRealm', N'37018801', N'bculo', NULL, N'e246ce6c-30de-4b82-ba92-cafb31bdc9a0')
+GO
+INSERT [dbo].[USER_REQUIRED_ACTION] ([USER_ID], [REQUIRED_ACTION]) VALUES (N'47a9594d-1dbf-41c4-a77c-0be19d50537d', N'CONFIGURE_TOTP')
+GO
+INSERT [dbo].[USER_REQUIRED_ACTION] ([USER_ID], [REQUIRED_ACTION]) VALUES (N'9241fddc-bc15-4a2d-9698-afd759e8b6a2', N'CONFIGURE_TOTP')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'09dc6581-2d13-4efd-beb1-7d2347afb898', N'5c57769a-8763-493c-9fba-1d197347e9d3', N'keyUse', N'ENC')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'0d2693dd-0a96-4813-94ce-f9c96b314b5b', N'451ad7b3-35fb-4e5e-8b9a-2d1b7fddd3a9', N'certificate', N'MIICmzCCAYMCBgGB3jzpPDANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjIwNzA4MTQzNDAyWhcNMzIwNzA4MTQzNTQyWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD5XqLYePyxEgOUy5WOKvcsrPFNIJmfliUxvtEZcjHFfXYdEB5lSD3535qvupe/gReiQIyHnVJ2o/Khyqh5uU0zUFthGQa0F/KESeQ/SYAnhUoI7IFztivBUKatPSVXsmO3tIFrOL1oudw0Q/3/REDnCE6tENGMMGlfbgKssJtK4pYOGmeMHTCsvmAxA1MAIgors9lkoG50Cp1f7WgSkpEKkW3Z7VHHr+V+7FAQg6rtnrpeunapX6fyc2fn34MdAd8SySKA/Q5DgMpWiO264rYE/yJyJIKWCxPDH6hj1AEFl19ZNZN+K6O6TT7jmz6hZ17NePIVY954kOTwfdjCZnsDAgMBAAEwDQYJKoZIhvcNAQELBQADggEBACCzO2xs0bKIu9qGydn4lHIiHzoyR7YcyByYM0Ol2x1sXFtOuuwZn/wmo5cHCx+Jn1iVTN9Xs3hxZaeXmIQNxyJ/D9CgET8TVEJ2nP1BrFBdwmhLpR1yzoabWjTqbBERQcdfkZWF6PgU5VBIJjqZhdiD/avbpHBi2qKHAjPf4vdUVzlSYphAYIwPX2uVKZhCjTEQ6rMVxaIomqkRFbnNVPTQ3x9AMt6RH8Joe2sDRSt48TrEqDINYxSwpDJ8P2Qr1ui157sVnjnF122T2T3ZCKU/8LiDWfkUYQMLd+sJ5gzRcZeGJkhVMvsda4X6YheaCpOBMTxSyduG+5FZqmQ1zmo=')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'0dd86e3f-72d2-4206-ab28-0333878463db', N'418f4909-0b2c-4290-8b5d-0645b6d217df', N'max-clients', N'200')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'1021591c-773c-474d-a017-ebb9998af699', N'79ab99d0-d0c0-4748-bb13-f1706f3f0801', N'kid', N'89d7c1ca-eac9-4f4a-8f95-6bf0f8d364fa')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'103ef15d-2a6c-4fe6-afbf-5746a61a66ee', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'saml-role-list-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'108e6f69-324b-43f4-9f39-8c449cc431e1', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'oidc-address-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'1af09d2d-949c-4214-8674-073f22945261', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'oidc-full-name-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'1f27170e-c739-4fec-9140-b351f46a1974', N'30332d03-0a1b-468e-874e-5c764f35efc2', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'3208cd67-bf3e-4934-8f01-92c2aedcc5af', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'oidc-full-name-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'33c7e581-9571-400b-bdfd-0464a5008ae5', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'oidc-usermodel-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'378fe8c7-09e0-4f58-a8ed-578b20c2941c', N'30332d03-0a1b-468e-874e-5c764f35efc2', N'privateKey', N'MIIEpAIBAAKCAQEApnV0limBnfJtvMxpn+Cg/4XP1yvgHdJNFm+1yLuOLX1wZoGgragf7kfEnYSfpgoRo0VaADHvAV4amfalhFhBVxoGtoKgR8MDIqVH8PXp+Ut8RoZhrn7Oh7nDhQahQjgCdMzv34XbmYfxKD/6fl88O4VeGG8k7ul4GdGdhi5enNPEqDUAfGttbrlMPqL3eGUc5PPXf6OeBoyIAJXb5aia7+ce0a37WZsQ8dZwxPZt++7bSlplXlStkm1qJti7lCcl1AZ1Ux17syN+CAjGdD6aSm9ajUlEJXMHUyRseny918GzZ6ontnFbbOD8F5D7YibFV+rvsGmvbHMs0f5c71s8dQIDAQABAoIBAAKM0hhq0l2FFUFLMGMOoejIOALn3SsXya6KT5KfrPHtdgdb/QYsCTExUEXJflig1txVd6eBHFQ9CNNLAAYjA/09nNS285Wl2ypwtcVvPwJesayy6lQuBSP3KJOlIltNWFxJt3MJLfAQMRWYxVGiS93tkR92tG4kjX53w54Gn9RvM8CrvnT6idy9zU/CHNZ6U7fvmV2TrcUcARcdOlvKhYL5RckDCf8VuAqLN4XwwstZGD0naTwnsD3kNTFKNetfDFHNIsE20QmilWWm12iKio8p51foJCSCXTyWWuvltobsDbTWQyM3oHTjCG1VnHrSUm2WWE0quTOJdDMq7E0yPBECgYEA3dnuQnv2ilp/322q+0jNBFiaZfWCzUuIy/vTyrh8KZmT1Wvj8uN/pulyUqwv8FAOfhI4o57wJx3XRrlEREv8CCt6PDNPz3xmLCYf1qyxbgIqCasKuSrUSoMonva0t8cSgB3cWUaix0qrWfzjVR5yXkvfCyJjjgEDrboKRcmrjIcCgYEAwBTHeXuc9Z8E4rqtYQHpISaIBysCYmDPKFrcNaI9cv7sFMyXSjbx0f9mpniTTrovANpjcUjYsei+JhseW1c4dCKRLlNrL6sbZjiK1WtC8rtnWp8PnSv0/FCY/uqhqyFdckvaDUtnplx5ogKzTnDjAA7ou+Hn8vJobJOWZKF4SiMCgYBpIA695F3kG5RCfIYsAshbidzH+bmcrHFLL66hfiAf2k1qMXDXtKPVpQNuV3dz6Yukg9/g8Lyd3I8ZTUsjDdqEyI1on2vvRuRngT1PDZAaL95ZrHotWjU0hcgm44KpHyUOHpg+mbEivKhLwQC8YewR8OPlM8t3C9YBaYnangCzWwKBgQCX85g95Wks8eiGiJFCDaXkoLu5l++h7d3TmdVc5ITiJQKUDamdf0vcCcSl6vr1q9olPZ6vbqZmT62lLYzdS2mQjgv17u37XswlGJPT86+ZoGFJ0k0i1DRRKl1uRCUy4QkwswrDu6Q6eiuK28IHSsx5LlI016iLi/LJ+hNedlJXqwKBgQDUYGI7Av7MoIU0h6cdPQDfKCHs0KxLwsvTjlC//ziSCjrAjvScIXArQmFGAPp/dRfmKGGmt2JP0xSH4wjdWPzSbMb75aR204siI7OyfsD+PQu3XbIEJ9J7HzYgSM+yqzaaQWjXY5LcEAVdcjQDck52dgTmKeWiceeBtaM6ISW3Vg==')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'38609676-5ca0-4c75-82ba-3f23d7d86e45', N'7aa933b3-b3e4-4feb-9306-ee40048027ad', N'keyUse', N'SIG')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'3fbd9a89-6541-44a2-ab9d-721e65fe8783', N'7aa933b3-b3e4-4feb-9306-ee40048027ad', N'privateKey', N'MIIEowIBAAKCAQEAkt4YgL5h6kZ7nRCzVYdanwo/Tx98pJiK20nrgNUG0A2P+zl7Vtq/zoKr6rv6ws6hypkMWXivGwSIT83gzINgoZ0Uo6cUkJIb9XV+rhiwCJtCMCstHrfwURv98B1FlJW0YduPPnQA7rD9+zUIGfcCVhQ1T8fj57xQfYTiz6ffFT8iOt4M9ayzXElNnIhutecraoBE32gAdG4+DCVOMXb/j4VfpPqpM480xaf9MmG4U9prvIEs4rOXVb94q2GauNrndbbFRdUxDHEkpO38HDmj85QosmFCuI6t4cZSIyQmjIFPyWv6ndi9kkMvknXwO+o92Ua103rCO3hbu4ydq+3GwwIDAQABAoIBACSiukIDO7GQ+2zmqZWAOh7KE5jNJe55Dso82j485YIon+3vHNFBp+7/sZrQYXEO0lUTcH0xGZ0HuGkP1i+t5gDqiid4miymBctpD7yl8+Nxt0UEwDCVeaEB9opbAuxZm7F9b3IIxeLEy9ZKGEdB0pdeWx4XosY/t2RYLavXGFLYFyWjuzAEKi+cCWOURH/A0DAUNZdW99/rUdiirvd6v3ou+3QwMShpJFH/3UnIbw7dSm8N4hzXS1HG+WwXCHXROE1kX+RMfe5fEiHS6MrChn3ERlfTL0SNRx+WAZwaPILJc7ylvWTOGfR1jD/fbhXtaIT5002HmPqWHSiIsR0mfCECgYEA3wxv80MBDosRkVsmQvMLS7hsW/JS4SQThu+LxFUPh6lgOvyf6WGhZFdd9VLkV6EtzI4H/82QhjocZsCN3b32fRJoYpzNMczyioM5gXkXh6cHn+92F+oAHKGrDmfh9bZcBeHb0CrOXcMXXvG4meGRF9aY4nv6ftDg8BInzAAqlncCgYEAqJCJxfSTTlF2+9avhvYTby84tvLGFf+QfkzSi4SvRHV77u1zCBgsII7Lk5d9/a3Ieaf8QiYW+aoqEQ4Vv+kjtYMdkhEA8lzLEyIwlfvWvOW3oI/oXNvD0IA60LIdqdYda2H/ILNglUL+9I9EyrZe73p309peRkN1CVd/WgEUyRUCgYAtYYRthBZ09QqP/nGccYK81zsEwhrmv8ZRT++p9HyCZ42ysq9+dmS126i8Py9CPQLqeYNbImHjTXN13HuAwCOkcthWJ/z/wukeEXDjzNVivjMo8Tmfx/ZZ3PLGrZAlxAKZF8j3Y541KXpZ0Oh0NpakuP7GJd9jafA6KBd8xBPmJQKBgGpWxJOdN1CxE97MEO+TTa9WmvDPNyepkf4beLeLfQYzF3wjT+5LUYs4ijUR3OmsOEyHLRyN6vCV6PPZbt8itORNUtpS38YFxBbN+tijh1SjlrQ0FOJ/wYhHXNNLimsaKHUV3V1DzCpdmXmu6Db51eo92FpN6CtrYuoByNV+2R4BAoGBAL65qEemEAhv4zZXQO2ipVuZ4IxlqzCo1oEaLlmPvGu5Xyf45qyzWwRE6C3H1HeqHbM9tyraA4dJgdNVcqTh/xfvxXeZ0rimqSTDqqNWrcP/vMw8OdpSP3IfcEBFD3zyLaDyzY8aW5n/5lznzvQeZ695z2I45B62iY351eXkwb3o')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'3fd30386-3054-4f0e-8fe1-4758a841fb38', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'saml-user-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'452e2614-0e76-4fe3-8843-d7a3052f76fe', N'78df6af7-516f-4764-bfce-8c5f01396146', N'secret', N'22ohBUdPOlzouNvjOe_vMXG0qgPuTKm-SgJIeB4p6tvGHZRk_2RKSbJnzjpeHDk-awDVwtnWk5qWEx8RLPhQCQ')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'4612d978-3faf-46e4-9ccb-37e0a5cf05ae', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'oidc-usermodel-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'46f8904a-fabf-425f-b548-961b3d7b6d5f', N'30332d03-0a1b-468e-874e-5c764f35efc2', N'keyUse', N'ENC')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'4872bda5-6219-4dd9-a431-82fefdc80444', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'oidc-full-name-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'48c336b9-798e-4bd0-9e22-03b518b1094e', N'78df6af7-516f-4764-bfce-8c5f01396146', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'4a670d0a-d4b1-44ac-9e65-6ca23245f332', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'oidc-sha256-pairwise-sub-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'4cc0fc65-e66f-428a-a54b-4f9c2efd0de5', N'29c7e2aa-5aa5-4d91-b037-23b50d22c9d3', N'secret', N'PjzmrUHqXT0nf1JPndIWdw')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'51106b1f-82fa-475e-bb0f-e8cdc54980b7', N'e4eba346-aaab-4638-b155-0d6739aeb8de', N'allow-default-scopes', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'59c139ad-8c9c-4c68-9014-fa63d225baae', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'saml-user-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'5cc0d248-897d-4919-ab1f-f3cb2d95663f', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'saml-user-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'635167c0-712d-47b1-b30c-89f496da725c', N'79ab99d0-d0c0-4748-bb13-f1706f3f0801', N'secret', N'KTaRTMstBJsPIZgeGnAh4Q')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'63c1f831-766e-4851-9b65-9a91844d2b1f', N'30332d03-0a1b-468e-874e-5c764f35efc2', N'algorithm', N'RSA-OAEP')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'6837a254-1d1c-46e7-8628-51d1faf3e754', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'saml-user-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'6fa10673-2ef0-4ca6-8f6e-8623519cba7a', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'oidc-usermodel-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'701fd360-959a-454d-b9e9-ba37b5c7a7a7', N'a33c1dff-1921-4280-a466-73df9ddb58e0', N'client-uris-must-match', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'79190f28-2cbe-433c-87e1-9c131d347119', N'5c57769a-8763-493c-9fba-1d197347e9d3', N'certificate', N'MIICmzCCAYMCBgGB3jzpoTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjIwNzA4MTQzNDAyWhcNMzIwNzA4MTQzNTQyWjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDCxE59wna6IhlBWR9l44W9VegK6OLg+cenKzj0SY67li2/etzHdMZSoeg5bCWns+JKk6iXALOlqZb8DfD2hE0+wVUMwcSK2zSDKI3qg6/4bw6mdi0HX0vIUDBnsq4op4kq+5v5GeeHgYYknGFIc4PjEP/krj3yaRO4zRTcpXJt78U7i25jqHCIbc7629u6HNLLQTdGM6ZhkXWflw0zj+xYWvv3aISQj72DgRejZ2wx2d8vfVkvjGy/hI5s+b8ClW/2EyMpB1VLLpd6P2iqXOeatXfJ3USzLzjgKZHdvhUB4pnSO+B3tLUEWorTyYKb3WD0BYLmmLi66gguMEZ9oqKtAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADtETDIp2XTyQ9CLQVpxQ7XOHvvtFbXu70ccaOsEvBCTAc3itw2jEfrl4rDhXXPCrZ+mBTUmZpO0EwNlmcS9PdOmSev2QS/uGjuh8dFXNdrD4jhfcfeKp+u7lxy9EFdh8eYYO07mCNcWAYEGUScJADeeT8t+ZiRzzOSjWqJJysY2eTu2QvfGkRnQ2qJzOH42eBwj9CFrTowcOJCjYeF4sTdYzSTGG+7cZkx3bPjDapNZJJYr+uuE9X7MsV5AmT0GBX4aeWWtErJyD6lhSoWt5QbPQSeaDf6m9otyGNu1hYF8EZ7cBBIB7SiZpFZqtO71L+lBzEYPvEdMVv3x6HM+CBs=')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'7b5ac850-cda3-42f5-88aa-6fe918362932', N'57f29267-dd3e-4a35-8a1c-a740657be001', N'algorithm', N'HS256')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'7ee5d536-60d5-47a8-8cb7-de8286859f8e', N'7aa933b3-b3e4-4feb-9306-ee40048027ad', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'86d3f2d6-c0aa-49c9-811d-4e23b8339e4c', N'47d423f7-0a12-4ee4-b6f6-96272800afb4', N'allow-default-scopes', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'8f6658d6-6dad-4c68-a222-d218cda1bae0', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'oidc-sha256-pairwise-sub-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'90d39b33-7590-419b-8d48-a3e7ea166ca1', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'saml-role-list-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'918fe31f-07c3-4697-8afb-2bdf106aa847', N'78df6af7-516f-4764-bfce-8c5f01396146', N'algorithm', N'HS256')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'930d1d1b-27d9-41b8-a7da-d0034ec2b57d', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'oidc-address-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'9661a72c-0357-4904-a5c3-26e182b2fced', N'29c7e2aa-5aa5-4d91-b037-23b50d22c9d3', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'981404fb-7ccd-4d15-95c7-e8e736011013', N'451ad7b3-35fb-4e5e-8b9a-2d1b7fddd3a9', N'privateKey', N'MIIEpQIBAAKCAQEA+V6i2Hj8sRIDlMuVjir3LKzxTSCZn5YlMb7RGXIxxX12HRAeZUg9+d+ar7qXv4EXokCMh51SdqPyocqoeblNM1BbYRkGtBfyhEnkP0mAJ4VKCOyBc7YrwVCmrT0lV7Jjt7SBazi9aLncNEP9/0RA5whOrRDRjDBpX24CrLCbSuKWDhpnjB0wrL5gMQNTACIKK7PZZKBudAqdX+1oEpKRCpFt2e1Rx6/lfuxQEIOq7Z66Xrp2qV+n8nNn59+DHQHfEskigP0OQ4DKVojtuuK2BP8iciSClgsTwx+oY9QBBZdfWTWTfiujuk0+45s+oWdezXjyFWPeeJDk8H3YwmZ7AwIDAQABAoIBAQDaSVUTWRUZi0NHRM6tnD6yBNFVSmwvnicA3J/9PlEDJ0f1ON7imdJmoK2vlg6vvDkL9qUNMVG2ON1zcwr3QpWpjXXwERAlJbFMy8HZBGYCMlMUbLMErzquBgNhMl013xoa/Q8s5IYo3kk8FyiIAx8tHcCBDm/f36DdwFbnA9FsQiHpENlixihHDfozZ/9tfERWRew5GH3J0Au9ndpFDLvLczBbOY9o1T0S0HHINRbjOEk51+2E7aL7Ass86tn/k5kSVXXE6D3Jr1nlFXFbLY9PNoLpY1MX9lHxAH97wm+upJeu3fAWLz5pal8vaV8bs+u7qoIbboXEEt3nF7G8uSMBAoGBAP9xAInm5X9A90QOKrqMWXTM1ChcHLc8SqVa0WW3F29+91crJZhx8Sstk0BgBUFfS/TBKrsjsD7CbDJzoTUxoe/GTl62vTQPhCuRdqOWv/avnGmyAOrWmUl8LZBpFeAtdPw2zCL+RndRc2/rXE37nh7PPZf0TfjRtIbh2lOxmz9TAoGBAPnqPCl0YgTTvfccFs6MSuDBm6xTSJpBXNe49KIieTw2P9LcbltT8HdhmigIkbGq0KnnPWCAvp6FAKXfYrj4jvvNgOeV/pT5M+cKi5pa1PuuCW2al1iCdrVJ+B/r4hkOl6rEf10PjWdq6voob/9eaN1AJAO++x4CbUMhkfO2v0+RAoGBAPQkXy1uoD6mKy7Ck5hE+GMoOkZw84k2eOneCXE8M4v/QAvyUzaHAMgSAUFwBNXcbU57KYo/q/3v+VWnKpca3vm7AcCIzAFsKxkxKMFmHgd7BPYIidPqVAvmQe5aYewnxj4haa6wdU0pbjm0LD7klNZBoU8Q001TsUWRrAh+IjG9AoGAWXjxtwmyufWwshJ9W89AU30dJbHfcVJrUdQmyRE8hEEL0osWe13u3l60GRcQSiJUeC+Qesc893W4iKoUJxLd5epp9v9tWJpraZEN7+ILFFv3hiTtgEOdCkSEL7F8jen6hKm6y29w+ZB+tbbaefur4WJAQpMSRmkqAvm2ziEkFvECgYEAvYg7crpbsNc/qsW3iRR5dsBBdfjpEO0H9ya25o2Fky71h6mJNxEhGYbfW2EI+c2uX41OieQeiDs39tH8YVsR3oHwKH0BFyjblZSjc6BtT5AwQkzp+zI2MwGlUpFEHF6wbSx4Tb1leLQepyAvzWzdVCAdVTNtHJMNAU6Qb3215SY=')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'9869c4b2-7d77-49b9-99f2-619d545b5c24', N'5c57769a-8763-493c-9fba-1d197347e9d3', N'privateKey', N'MIIEowIBAAKCAQEAwsROfcJ2uiIZQVkfZeOFvVXoCuji4PnHpys49EmOu5Ytv3rcx3TGUqHoOWwlp7PiSpOolwCzpamW/A3w9oRNPsFVDMHEits0gyiN6oOv+G8OpnYtB19LyFAwZ7KuKKeJKvub+Rnnh4GGJJxhSHOD4xD/5K498mkTuM0U3KVybe/FO4tuY6hwiG3O+tvbuhzSy0E3RjOmYZF1n5cNM4/sWFr792iEkI+9g4EXo2dsMdnfL31ZL4xsv4SObPm/ApVv9hMjKQdVSy6Xej9oqlznmrV3yd1Esy844CmR3b4VAeKZ0jvgd7S1BFqK08mCm91g9AWC5pi4uuoILjBGfaKirQIDAQABAoIBAAOQMdttJlzraMjgR4nGqti27KLedeAl0bhGOymE+v6Fldqt9cIUadhzK9t5FgtGaDpzDx+MHL1IKAH+g00PSJaAVP0BwoXD0ucfY9FJjXufFIaJHPPIk4tbpDcRdsw5nHHT3pulFK5O+VRMJB9+NYh+9B+L7Ig10e2Mmvgacsh+FT+oXMkJ7LL+wbRJJpqj7KIUw5Ssxohn2tvWKIdq1BlG7zukf2iNBzDX+yTtrdW4r40tVUdms42oeS9aELofqNMuO9VuFOnBa2IXcrqTVYIcrlZkhJROqKcy16NG2sv1PL101n1Bw64AuGs7QAZ/h0O//C9RGwwuSuM7dweNB0ECgYEA/9QIz2ttSo4m1H1c+N/Qyivg1aO/wgHpV7WNKYGySmJjXnfKycmrrBqQjaxiHPUcPyTU0Ee16DwP7ABB8sq1DJBAdOjjR4ThcA0v1/gAqN+fPp61Mfz0NMqOJcxM5WWda0iH7lxQWeCXBEHdPX3inHyn1sNnVdBCHILMZ3oQwJ0CgYEAwuXHRurXfpoZkJRfT1xtEc1o/ni976asVKOThrHKF8vl/5co7ZUMsLd5naCWHuXxqeR25x7tlih+fU+gghbpyzLIAIYwyo2mX0HBCAthkJ+3irbS41mEC5Z2Tl1Y1HsrMqj3Np+2/5fUFun10rqUHoIzn+ciXOCMXO6SJa7LJVECgYASN8xE0RagV40mVqMXSgD5VLSXIikWrMIsL86UpRrIN0dyQ7+aLRVflSi0HhGClGXljT7mciTfG9/aY45Otua7tU4RxT/iKPFQ5G+CxrNtUzdo4y5uF+BgHgiPYoQbVegm6qxbahGCxP6cHACgT2Wi1TGylom2T7VViG7783Jb9QKBgAsGKkZ1pCjSGJ4X9mgrxzOZldXHCJ9UoyzKb97PkanU67aQW01NAAHC7wseeT9YLFo6xQr/sdqrgbQe2+pf12uZ/Lwi2wGqD34V3xBQbH1cu2oKO1WGy7RIF3sJRqwGJ4RfEFSzpgtBEEsXgsMfsJ8lKDxkO4pbXTUofXXKNE1xAoGBAMJp9RXhLZikZQB+l+arnGrAzz4bDp4PZkunW76UpD4gtxKaGpBGwZqiRTbk4W0WbX0t5KxYZgRb00SipTrq6y9UXrXv0c9J87hxnVrOfKdjnEwcP0gv1TFWSLKFuId05Xjc1qjgMU3tQopKhrDu1dIGReqJBXNWgPoFOKFNpYBC')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'99474449-739f-4b8b-91d1-f8bb423d1903', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'oidc-usermodel-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'99c4a68d-b62c-4818-b06f-cbb0582c9b2b', N'78df6af7-516f-4764-bfce-8c5f01396146', N'kid', N'eeef6276-d42b-401a-8bb3-decb4d17fda8')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'9b7bcb51-b484-4844-b391-30ae5cc2f875', N'6f9a2895-58f3-483c-9e11-f9c4d8d8b8c0', N'allow-default-scopes', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'9ccac3ea-e64a-423a-9e54-6fb6d3590964', N'7aa933b3-b3e4-4feb-9306-ee40048027ad', N'certificate', N'MIICqzCCAZMCBgGB/bxTZzANBgkqhkiG9w0BAQsFADAZMRcwFQYDVQQDDA5Qb3J0Zm9saW9SZWFsbTAeFw0yMjA3MTQxNzIxMjZaFw0zMjA3MTQxNzIzMDZaMBkxFzAVBgNVBAMMDlBvcnRmb2xpb1JlYWxtMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkt4YgL5h6kZ7nRCzVYdanwo/Tx98pJiK20nrgNUG0A2P+zl7Vtq/zoKr6rv6ws6hypkMWXivGwSIT83gzINgoZ0Uo6cUkJIb9XV+rhiwCJtCMCstHrfwURv98B1FlJW0YduPPnQA7rD9+zUIGfcCVhQ1T8fj57xQfYTiz6ffFT8iOt4M9ayzXElNnIhutecraoBE32gAdG4+DCVOMXb/j4VfpPqpM480xaf9MmG4U9prvIEs4rOXVb94q2GauNrndbbFRdUxDHEkpO38HDmj85QosmFCuI6t4cZSIyQmjIFPyWv6ndi9kkMvknXwO+o92Ua103rCO3hbu4ydq+3GwwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQA0wX5Z23Cl8h+57n8TfRTMBSX9+K5tlRizpnVLJ+C2z/MR5/aOZmfFSR3uIP9tRlGFSbB5AtpLFdHCOh4lO9vV+Mp0Lm6A7rJ+1j9xdwAexlj0WEQRmPBH/sdDTLgb3LnpmEphn1I5V6YA+ngbfrJY+/2EsX9C9Z13AWZp40G4LJXZ61E+YjPqOwVRVzMLVgO2Xb64Lfmu0QNealmawU7JLeknolDR9SwVjUpiC6gcG8htf1LFA9f+F78DS3g2SpxCXap7lFHoUCW8ZKRyi74drXyEvH7ADLBxaVpBP9Q9Pl8h/ZSO7aAbl8TOlHwb59G2g0SDwwISEumaC9CQSgAV')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'9e4c7cab-bd36-4d61-b3fd-5edbb06a95c3', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'oidc-address-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'9f99cbd1-d350-461d-8262-fe813295902e', N'30332d03-0a1b-468e-874e-5c764f35efc2', N'certificate', N'MIICqzCCAZMCBgGB/bxTwDANBgkqhkiG9w0BAQsFADAZMRcwFQYDVQQDDA5Qb3J0Zm9saW9SZWFsbTAeFw0yMjA3MTQxNzIxMjZaFw0zMjA3MTQxNzIzMDZaMBkxFzAVBgNVBAMMDlBvcnRmb2xpb1JlYWxtMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApnV0limBnfJtvMxpn+Cg/4XP1yvgHdJNFm+1yLuOLX1wZoGgragf7kfEnYSfpgoRo0VaADHvAV4amfalhFhBVxoGtoKgR8MDIqVH8PXp+Ut8RoZhrn7Oh7nDhQahQjgCdMzv34XbmYfxKD/6fl88O4VeGG8k7ul4GdGdhi5enNPEqDUAfGttbrlMPqL3eGUc5PPXf6OeBoyIAJXb5aia7+ce0a37WZsQ8dZwxPZt++7bSlplXlStkm1qJti7lCcl1AZ1Ux17syN+CAjGdD6aSm9ajUlEJXMHUyRseny918GzZ6ontnFbbOD8F5D7YibFV+rvsGmvbHMs0f5c71s8dQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAV7APXsgMMzJMGyQBsWjTH+hd1kyV9UKsoyV6InreXMb3ioc1yZYzjTWsia3PrRUWKdcK+K/ZqK0xTqtIbooyah29prF9lHxoHvS0zpdJIHkIxZoqQ/L44vO82KU9PkADvkP+9i1gpf23NFLw4oAGGw+qv9m1SoURo7f0L80iI/S8dzh0nEjqVwbGLAxFrHpVm0CegH5dXujLmYlxhjDEGY9EOv+oNwxWuVoojMOiSu3zJI3mAqftAGGEjrxrjhCFXVv3jTB9zDVYX36KjApTynPhXZY3XqK3VphM5Pgr9idb8BkyFAGLeJdZz0hUG6x0RsTi2/H1vyHg+UYwY4S2H')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'a54f2cb1-b5bc-4799-a907-63adc3594bc4', N'a33c1dff-1921-4280-a466-73df9ddb58e0', N'host-sending-registration-request-must-match', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'a8bee965-9fcb-4127-baec-378f244ea07d', N'451ad7b3-35fb-4e5e-8b9a-2d1b7fddd3a9', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'aa4da168-8abe-4b36-9f56-069632978be4', N'57f29267-dd3e-4a35-8a1c-a740657be001', N'secret', N'JgmnOLd2WSRW3PLs6REKOKji-i-C9qG8x1vax-jmlUxtPDVWRiyP1yAmDHSoCFbutAjKwK7vaTDpzceBmxbnLg')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'ac810f3a-aae4-421f-ab8b-6745749b8f9f', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'oidc-full-name-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'acc54a77-0570-43ee-ae21-915e071e09ef', N'57f29267-dd3e-4a35-8a1c-a740657be001', N'kid', N'c98f9894-42da-4095-94a4-6dc7623498d3')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'b5736536-8681-4fad-84ce-49ad0373a5e5', N'29c7e2aa-5aa5-4d91-b037-23b50d22c9d3', N'kid', N'a00549bf-de5e-48f0-b124-284dd81099d7')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'b6bdff42-1316-4275-8e7e-82f20c8af863', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'saml-user-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'bbd35d08-5ec0-4005-9ea5-35bc93515c81', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'saml-user-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'bea1a688-e110-417b-a3d0-b2acb8330694', N'1a4e85b5-0c1d-45cb-9d6b-fa9f89205e64', N'max-clients', N'200')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'c10e56f5-2449-4e5c-8e16-f375cc4df726', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'oidc-usermodel-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'c15bd08e-d1dd-4782-899c-40f7dd8eef7d', N'451ad7b3-35fb-4e5e-8b9a-2d1b7fddd3a9', N'keyUse', N'SIG')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'c645e12b-9a56-4039-81c5-03bffcaa8f76', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'oidc-usermodel-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'c74323ee-18f3-4fdc-8a82-d49520071908', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'oidc-usermodel-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'ca20f3e1-bab6-4838-af00-eb5e7a42d729', N'5c57769a-8763-493c-9fba-1d197347e9d3', N'algorithm', N'RSA-OAEP')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'cbf978bc-ca5c-4611-9109-c88a7494c793', N'df09be78-42c1-457d-9e0d-16c2413c6abf', N'allow-default-scopes', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'cc54daea-c52f-433f-9d5d-d97366955a37', N'7bb56ba5-2794-4488-8b07-a01f9dceb6ff', N'client-uris-must-match', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'd4dbb22b-ac16-4acb-9ce0-b8c59b480daa', N'79ab99d0-d0c0-4748-bb13-f1706f3f0801', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'd527fcbf-6846-4ca3-9eee-c8f610683ecd', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'oidc-address-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'd89df3ae-68fb-4943-9015-8315d12cf590', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'saml-user-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'dee5265f-b53d-4689-b0c2-116ad96dc3a8', N'd1206f1e-4073-45b5-adf2-00e6f0987191', N'allowed-protocol-mapper-types', N'saml-role-list-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'e16ceb60-9f4d-4fac-bc30-d25520b4f529', N'8b2e7321-142b-479e-88be-3567c9d2e4cf', N'allowed-protocol-mapper-types', N'saml-user-attribute-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'e61b4877-afc6-4938-a05e-a32667f85c14', N'57f29267-dd3e-4a35-8a1c-a740657be001', N'priority', N'100')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'e7bdd50b-1108-43b3-9a09-29d9562f7a12', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'oidc-usermodel-property-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'e9330dbd-815a-47e0-a860-788d39d5d5c8', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'oidc-sha256-pairwise-sub-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'ed7601ec-e18b-4cc6-858d-4debceabdad8', N'84e2c719-6f17-4778-8660-4004bcb8e7a1', N'allowed-protocol-mapper-types', N'oidc-sha256-pairwise-sub-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'f029bf9b-9051-444d-894e-30aa494a55b0', N'7bb56ba5-2794-4488-8b07-a01f9dceb6ff', N'host-sending-registration-request-must-match', N'true')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'f7617b09-ee37-43e6-98ea-e4fe1fa64af9', N'b8c3cfc6-3e18-45d0-8c44-407db8b735d3', N'allowed-protocol-mapper-types', N'saml-role-list-mapper')
+GO
+INSERT [dbo].[COMPONENT_CONFIG] ([ID], [COMPONENT_ID], [NAME], [VALUE]) VALUES (N'faf7793f-8908-4fdd-a013-8cee5dc41ba5', N'5c57769a-8763-493c-9fba-1d197347e9d3', N'priority', N'100')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG_ENTRY] ([AUTHENTICATOR_ID], [VALUE], [NAME]) VALUES (N'2c4fd460-f9de-4813-97d2-c02733312b84', N'false', N'require.password.update.after.registration')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG_ENTRY] ([AUTHENTICATOR_ID], [VALUE], [NAME]) VALUES (N'3a73c2e1-ecea-4aa5-abc5-bb9b7b7f3f92', N'missing', N'update.profile.on.first.login')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG_ENTRY] ([AUTHENTICATOR_ID], [VALUE], [NAME]) VALUES (N'3f44a4dc-f733-4fb8-88ed-afd86005ca82', N'missing', N'update.profile.on.first.login')
+GO
+INSERT [dbo].[AUTHENTICATOR_CONFIG_ENTRY] ([AUTHENTICATOR_ID], [VALUE], [NAME]) VALUES (N'46e0ae78-6a87-44ad-912d-5e792e733402', N'false', N'require.password.update.after.registration')
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'145180b0-7ae3-4bc3-a398-41864d49ae15', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'1636276f-b6d8-4730-93cf-c923784eb0aa', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2c000984-5b12-4ce3-bfab-9fd5274bfa37', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'2dc57e6c-206f-4c9b-8bf9-312ac7ed7237', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'471e39c8-ca4e-4fcc-bf71-530962160f50', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'5eec38c1-424e-46ee-91ca-a15ff692ca31', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6ce6dc6f-1297-4aaa-9b22-f6d98058ebc6', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'6f37c0a9-30d8-4f6a-b1be-60fbc4fc1d36', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'89f6e2a1-10e1-43fb-ac03-3986df71841b', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'9ec168ab-11f4-4d2b-bfb9-8fb45f4bd1a3', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'ab8d8de8-359b-444d-a8b0-05d9fd5a573b', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'b126a82b-7c88-44f5-a5d3-641bb337adab', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'0db53450-29d1-45fd-abd1-c26cd6278974', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'15720d05-eb33-40ab-962b-dd31555b52ff', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'1df67ff4-a60c-45ca-a5b6-e757ed7a2f85', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'210e97b9-ff18-4f82-948c-75905b98b2d3', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'71a37058-7bb3-4eb0-a88c-7cfe08994889', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'9cdd619a-33bf-4f85-86b1-b26a6b39251b', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'c42bb53c-9600-4a2e-9efc-a39f4e81fd7d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c0865956-09ee-447b-ab20-faccb97d771b', N'cfe2a60d-546d-4b42-b721-0f2781f5d505', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'c3af6ea8-92e8-4058-b85c-8aeab2bf333f', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'27a9aaba-5b63-4ac3-93d2-c301a1cf81a0', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'299e1e1b-6383-4628-957b-39f77e10d657', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'3fa50dad-702f-4d84-afc3-cae32b5d296d', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'93fc02c3-48c8-4049-b27c-fd4a4bd14c9d', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'9ca8664b-02c6-49e4-b54a-f665415ccaee', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'd7f33783-1825-4574-8c37-045285a943f3', 0)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'e94b2c07-fb5e-4bba-913b-f0ff8bb3a702', 1)
+GO
+INSERT [dbo].[CLIENT_SCOPE_CLIENT] ([CLIENT_ID], [SCOPE_ID], [DEFAULT_SCOPE]) VALUES (N'edf0885a-4763-4d9f-a267-27c417cf904e', N'eb5b05a7-c1f3-42e0-9a27-2b1e41ea255d', 0)
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.0.0.Final-KEYCLOAK-5461', N'sthorger@redhat.com', N'META-INF/jpa-changelog-1.0.0.Final.xml', CAST(N'2022-07-08T14:35:39.3700000' AS DateTime2), 1, N'EXECUTED', N'7:4e70412f24a3f382c82183742ec79317', N'createTable tableName=APPLICATION_DEFAULT_ROLES; createTable tableName=CLIENT; createTable tableName=CLIENT_SESSION; createTable tableName=CLIENT_SESSION_ROLE; createTable tableName=COMPOSITE_ROLE; createTable tableName=CREDENTIAL; createTable tab...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.0.0.Final-KEYCLOAK-5461', N'sthorger@redhat.com', N'META-INF/db2-jpa-changelog-1.0.0.Final.xml', CAST(N'2022-07-08T14:35:39.3730000' AS DateTime2), 2, N'MARK_RAN', N'7:cb16724583e9675711801c6875114f28', N'createTable tableName=APPLICATION_DEFAULT_ROLES; createTable tableName=CLIENT; createTable tableName=CLIENT_SESSION; createTable tableName=CLIENT_SESSION_ROLE; createTable tableName=COMPOSITE_ROLE; createTable tableName=CREDENTIAL; createTable tab...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.1.0.Beta1', N'sthorger@redhat.com', N'META-INF/jpa-changelog-1.1.0.Beta1.xml', CAST(N'2022-07-08T14:35:39.4030000' AS DateTime2), 3, N'EXECUTED', N'7:0310eb8ba07cec616460794d42ade0fa', N'delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION; createTable tableName=CLIENT_ATTRIBUTES; createTable tableName=CLIENT_SESSION_NOTE; createTable tableName=APP_NODE_REGISTRATIONS; addColumn table...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.1.0.Final', N'sthorger@redhat.com', N'META-INF/jpa-changelog-1.1.0.Final.xml', CAST(N'2022-07-08T14:35:39.5170000' AS DateTime2), 4, N'EXECUTED', N'7:5d25857e708c3233ef4439df1f93f012', N'renameColumn newColumnName=EVENT_TIME, oldColumnName=TIME, tableName=EVENT_ENTITY', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.2.0.Beta1', N'psilva@redhat.com', N'META-INF/jpa-changelog-1.2.0.Beta1.xml', CAST(N'2022-07-08T14:35:39.5630000' AS DateTime2), 5, N'EXECUTED', N'7:c7a54a1041d58eb3817a4a883b4d4e84', N'delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION; createTable tableName=PROTOCOL_MAPPER; createTable tableName=PROTOCOL_MAPPER_CONFIG; createTable tableName=...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.2.0.Beta1', N'psilva@redhat.com', N'META-INF/db2-jpa-changelog-1.2.0.Beta1.xml', CAST(N'2022-07-08T14:35:39.5670000' AS DateTime2), 6, N'MARK_RAN', N'7:2e01012df20974c1c2a605ef8afe25b7', N'delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION; createTable tableName=PROTOCOL_MAPPER; createTable tableName=PROTOCOL_MAPPER_CONFIG; createTable tableName=...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.2.0.RC1', N'bburke@redhat.com', N'META-INF/jpa-changelog-1.2.0.CR1.xml', CAST(N'2022-07-08T14:35:39.6170000' AS DateTime2), 7, N'EXECUTED', N'7:0f08df48468428e0f30ee59a8ec01a41', N'delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION_NOTE; delete tableName=USER_SESSION; createTable tableName=MIGRATION_MODEL; createTable tableName=IDENTITY_P...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.2.0.RC1', N'bburke@redhat.com', N'META-INF/db2-jpa-changelog-1.2.0.CR1.xml', CAST(N'2022-07-08T14:35:39.6200000' AS DateTime2), 8, N'MARK_RAN', N'7:a77ea2ad226b345e7d689d366f185c8c', N'delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION_NOTE; delete tableName=USER_SESSION; createTable tableName=MIGRATION_MODEL; createTable tableName=IDENTITY_P...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.2.0.Final', N'keycloak', N'META-INF/jpa-changelog-1.2.0.Final.xml', CAST(N'2022-07-08T14:35:39.6230000' AS DateTime2), 9, N'EXECUTED', N'7:a3377a2059aefbf3b90ebb4c4cc8e2ab', N'update tableName=CLIENT; update tableName=CLIENT; update tableName=CLIENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.3.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-1.3.0.xml', CAST(N'2022-07-08T14:35:39.6870000' AS DateTime2), 10, N'EXECUTED', N'7:04c1dbedc2aa3e9756d1a1668e003451', N'delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_PROT_MAPPER; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION_NOTE; delete tableName=USER_SESSION; createTable tableName=ADMI...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.4.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-1.4.0.xml', CAST(N'2022-07-08T14:35:39.7170000' AS DateTime2), 11, N'EXECUTED', N'7:36ef39ed560ad07062d956db861042ba', N'delete tableName=CLIENT_SESSION_AUTH_STATUS; delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_PROT_MAPPER; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION_NOTE; delete table...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.4.0', N'bburke@redhat.com', N'META-INF/db2-jpa-changelog-1.4.0.xml', CAST(N'2022-07-08T14:35:39.7170000' AS DateTime2), 12, N'MARK_RAN', N'7:d909180b2530479a716d3f9c9eaea3d7', N'delete tableName=CLIENT_SESSION_AUTH_STATUS; delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_PROT_MAPPER; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION_NOTE; delete table...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.5.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-1.5.0.xml', CAST(N'2022-07-08T14:35:39.7400000' AS DateTime2), 13, N'EXECUTED', N'7:cf12b04b79bea5152f165eb41f3955f6', N'delete tableName=CLIENT_SESSION_AUTH_STATUS; delete tableName=CLIENT_SESSION_ROLE; delete tableName=CLIENT_SESSION_PROT_MAPPER; delete tableName=CLIENT_SESSION_NOTE; delete tableName=CLIENT_SESSION; delete tableName=USER_SESSION_NOTE; delete table...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.6.1_from15', N'mposolda@redhat.com', N'META-INF/jpa-changelog-1.6.1.xml', CAST(N'2022-07-08T14:35:39.7500000' AS DateTime2), 14, N'EXECUTED', N'7:7e32c8f05c755e8675764e7d5f514509', N'addColumn tableName=REALM; addColumn tableName=KEYCLOAK_ROLE; addColumn tableName=CLIENT; createTable tableName=OFFLINE_USER_SESSION; createTable tableName=OFFLINE_CLIENT_SESSION; addPrimaryKey constraintName=CONSTRAINT_OFFL_US_SES_PK2, tableName=...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.6.1_from16-pre', N'mposolda@redhat.com', N'META-INF/jpa-changelog-1.6.1.xml', CAST(N'2022-07-08T14:35:39.7530000' AS DateTime2), 15, N'MARK_RAN', N'7:980ba23cc0ec39cab731ce903dd01291', N'delete tableName=OFFLINE_CLIENT_SESSION; delete tableName=OFFLINE_USER_SESSION', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.6.1_from16', N'mposolda@redhat.com', N'META-INF/jpa-changelog-1.6.1.xml', CAST(N'2022-07-08T14:35:39.7570000' AS DateTime2), 16, N'MARK_RAN', N'7:2fa220758991285312eb84f3b4ff5336', N'dropPrimaryKey constraintName=CONSTRAINT_OFFLINE_US_SES_PK, tableName=OFFLINE_USER_SESSION; dropPrimaryKey constraintName=CONSTRAINT_OFFLINE_CL_SES_PK, tableName=OFFLINE_CLIENT_SESSION; addColumn tableName=OFFLINE_USER_SESSION; update tableName=OF...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.6.1', N'mposolda@redhat.com', N'META-INF/jpa-changelog-1.6.1.xml', CAST(N'2022-07-08T14:35:39.7600000' AS DateTime2), 17, N'EXECUTED', N'7:d41d8cd98f00b204e9800998ecf8427e', N'empty', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.7.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-1.7.0.xml', CAST(N'2022-07-08T14:35:39.7970000' AS DateTime2), 18, N'EXECUTED', N'7:91ace540896df890cc00a0490ee52bbc', N'createTable tableName=KEYCLOAK_GROUP; createTable tableName=GROUP_ROLE_MAPPING; createTable tableName=GROUP_ATTRIBUTE; createTable tableName=USER_GROUP_MEMBERSHIP; createTable tableName=REALM_DEFAULT_GROUPS; addColumn tableName=IDENTITY_PROVIDER; ...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.8.0-2', N'keycloak', N'META-INF/jpa-changelog-1.8.0.xml', CAST(N'2022-07-08T14:35:39.8300000' AS DateTime2), 20, N'EXECUTED', N'7:df8bc21027a4f7cbbb01f6344e89ce07', N'dropDefaultValue columnName=ALGORITHM, tableName=CREDENTIAL; update tableName=CREDENTIAL', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.8.0-2', N'keycloak', N'META-INF/db2-jpa-changelog-1.8.0.xml', CAST(N'2022-07-08T14:35:39.8370000' AS DateTime2), 22, N'MARK_RAN', N'7:df8bc21027a4f7cbbb01f6344e89ce07', N'dropDefaultValue columnName=ALGORITHM, tableName=CREDENTIAL; update tableName=CREDENTIAL', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.9.1', N'keycloak', N'META-INF/jpa-changelog-1.9.1.xml', CAST(N'2022-07-08T14:35:39.8670000' AS DateTime2), 24, N'EXECUTED', N'7:80b5db88a5dda36ece5f235be8757615', N'modifyDataType columnName=PRIVATE_KEY, tableName=REALM; modifyDataType columnName=PUBLIC_KEY, tableName=REALM; modifyDataType columnName=CERTIFICATE, tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.9.1', N'keycloak', N'META-INF/db2-jpa-changelog-1.9.1.xml', CAST(N'2022-07-08T14:35:39.8700000' AS DateTime2), 25, N'MARK_RAN', N'7:1437310ed1305a9b93f8848f301726ce', N'modifyDataType columnName=PRIVATE_KEY, tableName=REALM; modifyDataType columnName=CERTIFICATE, tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.8.0', N'mposolda@redhat.com', N'META-INF/jpa-changelog-1.8.0.xml', CAST(N'2022-07-08T14:35:39.8200000' AS DateTime2), 19, N'EXECUTED', N'7:c31d1646dfa2618a9335c00e07f89f24', N'addColumn tableName=IDENTITY_PROVIDER; createTable tableName=CLIENT_TEMPLATE; createTable tableName=CLIENT_TEMPLATE_ATTRIBUTES; createTable tableName=TEMPLATE_SCOPE_MAPPING; dropNotNullConstraint columnName=CLIENT_ID, tableName=PROTOCOL_MAPPER; ad...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.8.0', N'mposolda@redhat.com', N'META-INF/db2-jpa-changelog-1.8.0.xml', CAST(N'2022-07-08T14:35:39.8330000' AS DateTime2), 21, N'MARK_RAN', N'7:f987971fe6b37d963bc95fee2b27f8df', N'addColumn tableName=IDENTITY_PROVIDER; createTable tableName=CLIENT_TEMPLATE; createTable tableName=CLIENT_TEMPLATE_ATTRIBUTES; createTable tableName=TEMPLATE_SCOPE_MAPPING; dropNotNullConstraint columnName=CLIENT_ID, tableName=PROTOCOL_MAPPER; ad...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.9.0', N'mposolda@redhat.com', N'META-INF/jpa-changelog-1.9.0.xml', CAST(N'2022-07-08T14:35:39.8600000' AS DateTime2), 23, N'EXECUTED', N'7:ed2dc7f799d19ac452cbcda56c929e47', N'update tableName=REALM; update tableName=REALM; update tableName=REALM; update tableName=REALM; update tableName=CREDENTIAL; update tableName=CREDENTIAL; update tableName=CREDENTIAL; update tableName=REALM; update tableName=REALM; customChange; dr...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'1.9.2', N'keycloak', N'META-INF/jpa-changelog-1.9.2.xml', CAST(N'2022-07-08T14:35:39.9130000' AS DateTime2), 26, N'EXECUTED', N'7:b82ffb34850fa0836be16deefc6a87c4', N'createIndex indexName=IDX_USER_EMAIL, tableName=USER_ENTITY; createIndex indexName=IDX_USER_ROLE_MAPPING, tableName=USER_ROLE_MAPPING; createIndex indexName=IDX_USER_GROUP_MAPPING, tableName=USER_GROUP_MEMBERSHIP; createIndex indexName=IDX_USER_CO...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-2.0.0', N'psilva@redhat.com', N'META-INF/jpa-changelog-authz-2.0.0.xml', CAST(N'2022-07-08T14:35:39.9430000' AS DateTime2), 27, N'EXECUTED', N'7:9cc98082921330d8d9266decdd4bd658', N'createTable tableName=RESOURCE_SERVER; addPrimaryKey constraintName=CONSTRAINT_FARS, tableName=RESOURCE_SERVER; addUniqueConstraint constraintName=UK_AU8TT6T700S9V50BU18WS5HA6, tableName=RESOURCE_SERVER; createTable tableName=RESOURCE_SERVER_RESOU...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-2.5.1', N'psilva@redhat.com', N'META-INF/jpa-changelog-authz-2.5.1.xml', CAST(N'2022-07-08T14:35:39.9470000' AS DateTime2), 28, N'EXECUTED', N'7:03d64aeed9cb52b969bd30a7ac0db57e', N'update tableName=RESOURCE_SERVER_POLICY', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.1.0-KEYCLOAK-5461', N'bburke@redhat.com', N'META-INF/jpa-changelog-2.1.0.xml', CAST(N'2022-07-08T14:35:39.9700000' AS DateTime2), 29, N'EXECUTED', N'7:f1f9fd8710399d725b780f463c6b21cd', N'createTable tableName=BROKER_LINK; createTable tableName=FED_USER_ATTRIBUTE; createTable tableName=FED_USER_CONSENT; createTable tableName=FED_USER_CONSENT_ROLE; createTable tableName=FED_USER_CONSENT_PROT_MAPPER; createTable tableName=FED_USER_CR...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.2.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-2.2.0.xml', CAST(N'2022-07-08T14:35:39.9800000' AS DateTime2), 30, N'EXECUTED', N'7:53188c3eb1107546e6f765835705b6c1', N'addColumn tableName=ADMIN_EVENT_ENTITY; createTable tableName=CREDENTIAL_ATTRIBUTE; createTable tableName=FED_CREDENTIAL_ATTRIBUTE; modifyDataType columnName=VALUE, tableName=CREDENTIAL; addForeignKeyConstraint baseTableName=FED_CREDENTIAL_ATTRIBU...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.3.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-2.3.0.xml', CAST(N'2022-07-08T14:35:40.0000000' AS DateTime2), 31, N'EXECUTED', N'7:d6e6f3bc57a0c5586737d1351725d4d4', N'createTable tableName=FEDERATED_USER; addPrimaryKey constraintName=CONSTR_FEDERATED_USER, tableName=FEDERATED_USER; dropDefaultValue columnName=TOTP, tableName=USER_ENTITY; dropColumn columnName=TOTP, tableName=USER_ENTITY; addColumn tableName=IDE...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.4.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-2.4.0.xml', CAST(N'2022-07-08T14:35:40.0070000' AS DateTime2), 32, N'EXECUTED', N'7:454d604fbd755d9df3fd9c6329043aa5', N'customChange', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.5.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-2.5.0.xml', CAST(N'2022-07-08T14:35:40.0100000' AS DateTime2), 33, N'EXECUTED', N'7:57e98a3077e29caf562f7dbf80c72600', N'customChange; modifyDataType columnName=USER_ID, tableName=OFFLINE_USER_SESSION', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.5.0-unicode-oracle', N'hmlnarik@redhat.com', N'META-INF/jpa-changelog-2.5.0.xml', CAST(N'2022-07-08T14:35:40.0130000' AS DateTime2), 34, N'MARK_RAN', N'7:e4c7e8f2256210aee71ddc42f538b57a', N'modifyDataType columnName=DESCRIPTION, tableName=AUTHENTICATION_FLOW; modifyDataType columnName=DESCRIPTION, tableName=CLIENT_TEMPLATE; modifyDataType columnName=DESCRIPTION, tableName=RESOURCE_SERVER_POLICY; modifyDataType columnName=DESCRIPTION,...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.5.0-unicode-other-dbs', N'hmlnarik@redhat.com', N'META-INF/jpa-changelog-2.5.0.xml', CAST(N'2022-07-08T14:35:40.0400000' AS DateTime2), 35, N'EXECUTED', N'7:09a43c97e49bc626460480aa1379b522', N'modifyDataType columnName=DESCRIPTION, tableName=AUTHENTICATION_FLOW; modifyDataType columnName=DESCRIPTION, tableName=CLIENT_TEMPLATE; modifyDataType columnName=DESCRIPTION, tableName=RESOURCE_SERVER_POLICY; modifyDataType columnName=DESCRIPTION,...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.5.0-duplicate-email-support', N'slawomir@dabek.name', N'META-INF/jpa-changelog-2.5.0.xml', CAST(N'2022-07-08T14:35:40.0430000' AS DateTime2), 36, N'EXECUTED', N'7:26bfc7c74fefa9126f2ce702fb775553', N'addColumn tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.5.0-unique-group-names', N'hmlnarik@redhat.com', N'META-INF/jpa-changelog-2.5.0.xml', CAST(N'2022-07-08T14:35:40.0500000' AS DateTime2), 37, N'EXECUTED', N'7:a161e2ae671a9020fff61e996a207377', N'addUniqueConstraint constraintName=SIBLING_NAMES, tableName=KEYCLOAK_GROUP', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'2.5.1', N'bburke@redhat.com', N'META-INF/jpa-changelog-2.5.1.xml', CAST(N'2022-07-08T14:35:40.0530000' AS DateTime2), 38, N'EXECUTED', N'7:37fc1781855ac5388c494f1442b3f717', N'addColumn tableName=FED_USER_CONSENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.0.0', N'bburke@redhat.com', N'META-INF/jpa-changelog-3.0.0.xml', CAST(N'2022-07-08T14:35:40.0570000' AS DateTime2), 39, N'EXECUTED', N'7:13a27db0dae6049541136adad7261d27', N'addColumn tableName=IDENTITY_PROVIDER', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.2.0-fix', N'keycloak', N'META-INF/jpa-changelog-3.2.0.xml', CAST(N'2022-07-08T14:35:40.0600000' AS DateTime2), 40, N'MARK_RAN', N'7:550300617e3b59e8af3a6294df8248a3', N'addNotNullConstraint columnName=REALM_ID, tableName=CLIENT_INITIAL_ACCESS', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.2.0-fix-with-keycloak-5416', N'keycloak', N'META-INF/jpa-changelog-3.2.0.xml', CAST(N'2022-07-08T14:35:40.0600000' AS DateTime2), 41, N'MARK_RAN', N'7:e3a9482b8931481dc2772a5c07c44f17', N'dropIndex indexName=IDX_CLIENT_INIT_ACC_REALM, tableName=CLIENT_INITIAL_ACCESS; addNotNullConstraint columnName=REALM_ID, tableName=CLIENT_INITIAL_ACCESS; createIndex indexName=IDX_CLIENT_INIT_ACC_REALM, tableName=CLIENT_INITIAL_ACCESS', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.2.0-fix-offline-sessions', N'hmlnarik', N'META-INF/jpa-changelog-3.2.0.xml', CAST(N'2022-07-08T14:35:40.0630000' AS DateTime2), 42, N'EXECUTED', N'7:72b07d85a2677cb257edb02b408f332d', N'customChange', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.2.0-fixed', N'keycloak', N'META-INF/jpa-changelog-3.2.0.xml', CAST(N'2022-07-08T14:35:40.2200000' AS DateTime2), 43, N'EXECUTED', N'7:a72a7858967bd414835d19e04d880312', N'addColumn tableName=REALM; dropPrimaryKey constraintName=CONSTRAINT_OFFL_CL_SES_PK2, tableName=OFFLINE_CLIENT_SESSION; dropColumn columnName=CLIENT_SESSION_ID, tableName=OFFLINE_CLIENT_SESSION; addPrimaryKey constraintName=CONSTRAINT_OFFL_CL_SES_P...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.3.0', N'keycloak', N'META-INF/jpa-changelog-3.3.0.xml', CAST(N'2022-07-08T14:35:40.2270000' AS DateTime2), 44, N'EXECUTED', N'7:94edff7cf9ce179e7e85f0cd78a3cf2c', N'addColumn tableName=USER_ENTITY', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-3.4.0.CR1-resource-server-pk-change-part1', N'glavoie@gmail.com', N'META-INF/jpa-changelog-authz-3.4.0.CR1.xml', CAST(N'2022-07-08T14:35:40.2300000' AS DateTime2), 45, N'EXECUTED', N'7:6a48ce645a3525488a90fbf76adf3bb3', N'addColumn tableName=RESOURCE_SERVER_POLICY; addColumn tableName=RESOURCE_SERVER_RESOURCE; addColumn tableName=RESOURCE_SERVER_SCOPE', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-3.4.0.CR1-resource-server-pk-change-part2-KEYCLOAK-6095', N'hmlnarik@redhat.com', N'META-INF/jpa-changelog-authz-3.4.0.CR1.xml', CAST(N'2022-07-08T14:35:40.2370000' AS DateTime2), 46, N'EXECUTED', N'7:e64b5dcea7db06077c6e57d3b9e5ca14', N'customChange', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'8.0.0-updating-credential-data-not-oracle-fixed', N'keycloak', N'META-INF/jpa-changelog-8.0.0.xml', CAST(N'2022-07-08T14:35:40.7070000' AS DateTime2), 73, N'EXECUTED', N'7:3979a0ae07ac465e920ca696532fc736', N'update tableName=CREDENTIAL; update tableName=CREDENTIAL; update tableName=CREDENTIAL; update tableName=FED_USER_CREDENTIAL; update tableName=FED_USER_CREDENTIAL; update tableName=FED_USER_CREDENTIAL', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-3.4.0.CR1-resource-server-pk-change-part3-fixed', N'glavoie@gmail.com', N'META-INF/jpa-changelog-authz-3.4.0.CR1.xml', CAST(N'2022-07-08T14:35:40.2430000' AS DateTime2), 47, N'EXECUTED', N'7:fd8cf02498f8b1e72496a20afc75178c', N'dropIndex indexName=IDX_RES_SERV_POL_RES_SERV, tableName=RESOURCE_SERVER_POLICY; dropIndex indexName=IDX_RES_SRV_RES_RES_SRV, tableName=RESOURCE_SERVER_RESOURCE; dropIndex indexName=IDX_RES_SRV_SCOPE_RES_SRV, tableName=RESOURCE_SERVER_SCOPE', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex', N'glavoie@gmail.com', N'META-INF/jpa-changelog-authz-3.4.0.CR1.xml', CAST(N'2022-07-08T14:35:40.3000000' AS DateTime2), 48, N'EXECUTED', N'7:542794f25aa2b1fbabb7e577d6646319', N'addNotNullConstraint columnName=RESOURCE_SERVER_CLIENT_ID, tableName=RESOURCE_SERVER_POLICY; addNotNullConstraint columnName=RESOURCE_SERVER_CLIENT_ID, tableName=RESOURCE_SERVER_RESOURCE; addNotNullConstraint columnName=RESOURCE_SERVER_CLIENT_ID, ...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authn-3.4.0.CR1-refresh-token-max-reuse', N'glavoie@gmail.com', N'META-INF/jpa-changelog-authz-3.4.0.CR1.xml', CAST(N'2022-07-08T14:35:40.3070000' AS DateTime2), 49, N'EXECUTED', N'7:edad604c882df12f74941dac3cc6d650', N'addColumn tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.4.0', N'keycloak', N'META-INF/jpa-changelog-3.4.0.xml', CAST(N'2022-07-08T14:35:40.3330000' AS DateTime2), 50, N'EXECUTED', N'7:0f88b78b7b46480eb92690cbf5e44900', N'addPrimaryKey constraintName=CONSTRAINT_REALM_DEFAULT_ROLES, tableName=REALM_DEFAULT_ROLES; addPrimaryKey constraintName=CONSTRAINT_COMPOSITE_ROLE, tableName=COMPOSITE_ROLE; addPrimaryKey constraintName=CONSTR_REALM_DEFAULT_GROUPS, tableName=REALM...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.4.0-KEYCLOAK-5230', N'hmlnarik@redhat.com', N'META-INF/jpa-changelog-3.4.0.xml', CAST(N'2022-07-08T14:35:40.3730000' AS DateTime2), 51, N'EXECUTED', N'7:d560e43982611d936457c327f872dd59', N'createIndex indexName=IDX_FU_ATTRIBUTE, tableName=FED_USER_ATTRIBUTE; createIndex indexName=IDX_FU_CONSENT, tableName=FED_USER_CONSENT; createIndex indexName=IDX_FU_CONSENT_RU, tableName=FED_USER_CONSENT; createIndex indexName=IDX_FU_CREDENTIAL, t...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.4.1', N'psilva@redhat.com', N'META-INF/jpa-changelog-3.4.1.xml', CAST(N'2022-07-08T14:35:40.3770000' AS DateTime2), 52, N'EXECUTED', N'7:c155566c42b4d14ef07059ec3b3bbd8e', N'modifyDataType columnName=VALUE, tableName=CLIENT_ATTRIBUTES', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.4.2', N'keycloak', N'META-INF/jpa-changelog-3.4.2.xml', CAST(N'2022-07-08T14:35:40.3800000' AS DateTime2), 53, N'EXECUTED', N'7:b40376581f12d70f3c89ba8ddf5b7dea', N'update tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'3.4.2-KEYCLOAK-5172', N'mkanis@redhat.com', N'META-INF/jpa-changelog-3.4.2.xml', CAST(N'2022-07-08T14:35:40.3830000' AS DateTime2), 54, N'EXECUTED', N'7:a1132cc395f7b95b3646146c2e38f168', N'update tableName=CLIENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.0.0-KEYCLOAK-6335', N'bburke@redhat.com', N'META-INF/jpa-changelog-4.0.0.xml', CAST(N'2022-07-08T14:35:40.3870000' AS DateTime2), 55, N'EXECUTED', N'7:d8dc5d89c789105cfa7ca0e82cba60af', N'createTable tableName=CLIENT_AUTH_FLOW_BINDINGS; addPrimaryKey constraintName=C_CLI_FLOW_BIND, tableName=CLIENT_AUTH_FLOW_BINDINGS', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.0.0-CLEANUP-UNUSED-TABLE', N'bburke@redhat.com', N'META-INF/jpa-changelog-4.0.0.xml', CAST(N'2022-07-08T14:35:40.3930000' AS DateTime2), 56, N'EXECUTED', N'7:7822e0165097182e8f653c35517656a3', N'dropTable tableName=CLIENT_IDENTITY_PROV_MAPPING', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.0.0-KEYCLOAK-6228', N'bburke@redhat.com', N'META-INF/jpa-changelog-4.0.0.xml', CAST(N'2022-07-08T14:35:40.4100000' AS DateTime2), 57, N'EXECUTED', N'7:c6538c29b9c9a08f9e9ea2de5c2b6375', N'dropUniqueConstraint constraintName=UK_JKUWUVD56ONTGSUHOGM8UEWRT, tableName=USER_CONSENT; dropNotNullConstraint columnName=CLIENT_ID, tableName=USER_CONSENT; addColumn tableName=USER_CONSENT; addUniqueConstraint constraintName=UK_JKUWUVD56ONTGSUHO...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.0.0-KEYCLOAK-5579-fixed', N'mposolda@redhat.com', N'META-INF/jpa-changelog-4.0.0.xml', CAST(N'2022-07-08T14:35:40.5770000' AS DateTime2), 58, N'EXECUTED', N'7:6d4893e36de22369cf73bcb051ded875', N'dropForeignKeyConstraint baseTableName=CLIENT_TEMPLATE_ATTRIBUTES, constraintName=FK_CL_TEMPL_ATTR_TEMPL; renameTable newTableName=CLIENT_SCOPE_ATTRIBUTES, oldTableName=CLIENT_TEMPLATE_ATTRIBUTES; renameColumn newColumnName=SCOPE_ID, oldColumnName...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-4.0.0.CR1', N'psilva@redhat.com', N'META-INF/jpa-changelog-authz-4.0.0.CR1.xml', CAST(N'2022-07-08T14:35:40.5930000' AS DateTime2), 59, N'EXECUTED', N'7:57960fc0b0f0dd0563ea6f8b2e4a1707', N'createTable tableName=RESOURCE_SERVER_PERM_TICKET; addPrimaryKey constraintName=CONSTRAINT_FAPMT, tableName=RESOURCE_SERVER_PERM_TICKET; addForeignKeyConstraint baseTableName=RESOURCE_SERVER_PERM_TICKET, constraintName=FK_FRSRHO213XCX4WNKOG82SSPMT...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-4.0.0.Beta3', N'psilva@redhat.com', N'META-INF/jpa-changelog-authz-4.0.0.Beta3.xml', CAST(N'2022-07-08T14:35:40.5970000' AS DateTime2), 60, N'EXECUTED', N'7:2b4b8bff39944c7097977cc18dbceb3b', N'addColumn tableName=RESOURCE_SERVER_POLICY; addColumn tableName=RESOURCE_SERVER_PERM_TICKET; addForeignKeyConstraint baseTableName=RESOURCE_SERVER_PERM_TICKET, constraintName=FK_FRSRPO2128CX4WNKOG82SSRFY, referencedTableName=RESOURCE_SERVER_POLICY', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-4.2.0.Final', N'mhajas@redhat.com', N'META-INF/jpa-changelog-authz-4.2.0.Final.xml', CAST(N'2022-07-08T14:35:40.6030000' AS DateTime2), 61, N'EXECUTED', N'7:2aa42a964c59cd5b8ca9822340ba33a8', N'createTable tableName=RESOURCE_URIS; addForeignKeyConstraint baseTableName=RESOURCE_URIS, constraintName=FK_RESOURCE_SERVER_URIS, referencedTableName=RESOURCE_SERVER_RESOURCE; customChange; dropColumn columnName=URI, tableName=RESOURCE_SERVER_RESO...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-4.2.0.Final-KEYCLOAK-9944', N'hmlnarik@redhat.com', N'META-INF/jpa-changelog-authz-4.2.0.Final.xml', CAST(N'2022-07-08T14:35:40.6100000' AS DateTime2), 62, N'EXECUTED', N'7:9ac9e58545479929ba23f4a3087a0346', N'addPrimaryKey constraintName=CONSTRAINT_RESOUR_URIS_PK, tableName=RESOURCE_URIS', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.2.0-KEYCLOAK-6313', N'wadahiro@gmail.com', N'META-INF/jpa-changelog-4.2.0.xml', CAST(N'2022-07-08T14:35:40.6130000' AS DateTime2), 63, N'EXECUTED', N'7:14d407c35bc4fe1976867756bcea0c36', N'addColumn tableName=REQUIRED_ACTION_PROVIDER', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.3.0-KEYCLOAK-7984', N'wadahiro@gmail.com', N'META-INF/jpa-changelog-4.3.0.xml', CAST(N'2022-07-08T14:35:40.6170000' AS DateTime2), 64, N'EXECUTED', N'7:241a8030c748c8548e346adee548fa93', N'update tableName=REQUIRED_ACTION_PROVIDER', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.6.0-KEYCLOAK-7950', N'psilva@redhat.com', N'META-INF/jpa-changelog-4.6.0.xml', CAST(N'2022-07-08T14:35:40.6200000' AS DateTime2), 65, N'EXECUTED', N'7:7d3182f65a34fcc61e8d23def037dc3f', N'update tableName=RESOURCE_SERVER_RESOURCE', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.6.0-KEYCLOAK-8377', N'keycloak', N'META-INF/jpa-changelog-4.6.0.xml', CAST(N'2022-07-08T14:35:40.6300000' AS DateTime2), 66, N'EXECUTED', N'7:b30039e00a0b9715d430d1b0636728fa', N'createTable tableName=ROLE_ATTRIBUTE; addPrimaryKey constraintName=CONSTRAINT_ROLE_ATTRIBUTE_PK, tableName=ROLE_ATTRIBUTE; addForeignKeyConstraint baseTableName=ROLE_ATTRIBUTE, constraintName=FK_ROLE_ATTRIBUTE_ID, referencedTableName=KEYCLOAK_ROLE...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.6.0-KEYCLOAK-8555', N'gideonray@gmail.com', N'META-INF/jpa-changelog-4.6.0.xml', CAST(N'2022-07-08T14:35:40.6370000' AS DateTime2), 67, N'EXECUTED', N'7:3797315ca61d531780f8e6f82f258159', N'createIndex indexName=IDX_COMPONENT_PROVIDER_TYPE, tableName=COMPONENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.7.0-KEYCLOAK-1267', N'sguilhen@redhat.com', N'META-INF/jpa-changelog-4.7.0.xml', CAST(N'2022-07-08T14:35:40.6400000' AS DateTime2), 68, N'EXECUTED', N'7:c7aa4c8d9573500c2d347c1941ff0301', N'addColumn tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.8.0-KEYCLOAK-8835', N'sguilhen@redhat.com', N'META-INF/jpa-changelog-4.8.0.xml', CAST(N'2022-07-08T14:35:40.6830000' AS DateTime2), 70, N'EXECUTED', N'7:ab9a9762faaba4ddfa35514b212c4922', N'addNotNullConstraint columnName=SSO_MAX_LIFESPAN_REMEMBER_ME, tableName=REALM; addNotNullConstraint columnName=SSO_IDLE_TIMEOUT_REMEMBER_ME, tableName=REALM', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'authz-7.0.0-KEYCLOAK-10443', N'psilva@redhat.com', N'META-INF/jpa-changelog-authz-7.0.0.xml', CAST(N'2022-07-08T14:35:40.6870000' AS DateTime2), 71, N'EXECUTED', N'7:b9710f74515a6ccb51b72dc0d19df8c4', N'addColumn tableName=RESOURCE_SERVER', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'8.0.0-adding-credential-columns', N'keycloak', N'META-INF/jpa-changelog-8.0.0.xml', CAST(N'2022-07-08T14:35:40.6930000' AS DateTime2), 72, N'EXECUTED', N'7:ec9707ae4d4f0b7452fee20128083879', N'addColumn tableName=CREDENTIAL; addColumn tableName=FED_USER_CREDENTIAL', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'4.7.0-KEYCLOAK-7275', N'keycloak', N'META-INF/jpa-changelog-4.7.0.xml', CAST(N'2022-07-08T14:35:40.6730000' AS DateTime2), 69, N'EXECUTED', N'7:b207faee394fc074a442ecd42185a5dd', N'renameColumn newColumnName=CREATED_ON, oldColumnName=LAST_SESSION_REFRESH, tableName=OFFLINE_USER_SESSION; addNotNullConstraint columnName=CREATED_ON, tableName=OFFLINE_USER_SESSION; addColumn tableName=OFFLINE_USER_SESSION; customChange; createIn...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'8.0.0-updating-credential-data-oracle-fixed', N'keycloak', N'META-INF/jpa-changelog-8.0.0.xml', CAST(N'2022-07-08T14:35:40.7100000' AS DateTime2), 74, N'MARK_RAN', N'7:5abfde4c259119d143bd2fbf49ac2bca', N'update tableName=CREDENTIAL; update tableName=CREDENTIAL; update tableName=CREDENTIAL; update tableName=FED_USER_CREDENTIAL; update tableName=FED_USER_CREDENTIAL; update tableName=FED_USER_CREDENTIAL', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'8.0.0-credential-cleanup-fixed', N'keycloak', N'META-INF/jpa-changelog-8.0.0.xml', CAST(N'2022-07-08T14:35:40.7700000' AS DateTime2), 75, N'EXECUTED', N'7:b48da8c11a3d83ddd6b7d0c8c2219345', N'dropDefaultValue columnName=COUNTER, tableName=CREDENTIAL; dropDefaultValue columnName=DIGITS, tableName=CREDENTIAL; dropDefaultValue columnName=PERIOD, tableName=CREDENTIAL; dropDefaultValue columnName=ALGORITHM, tableName=CREDENTIAL; dropColumn ...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'8.0.0-resource-tag-support', N'keycloak', N'META-INF/jpa-changelog-8.0.0.xml', CAST(N'2022-07-08T14:35:40.7800000' AS DateTime2), 76, N'EXECUTED', N'7:a73379915c23bfad3e8f5c6d5c0aa4bd', N'addColumn tableName=MIGRATION_MODEL; createIndex indexName=IDX_UPDATE_TIME, tableName=MIGRATION_MODEL', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.0-always-display-client', N'keycloak', N'META-INF/jpa-changelog-9.0.0.xml', CAST(N'2022-07-08T14:35:40.7830000' AS DateTime2), 77, N'EXECUTED', N'7:39e0073779aba192646291aa2332493d', N'addColumn tableName=CLIENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.0-drop-constraints-for-column-increase', N'keycloak', N'META-INF/jpa-changelog-9.0.0.xml', CAST(N'2022-07-08T14:35:40.7900000' AS DateTime2), 78, N'EXECUTED', N'7:81f87368f00450799b4bf42ea0b3ec34', N'dropUniqueConstraint constraintName=UK_FRSR6T700S9V50BU18WS5PMT, tableName=RESOURCE_SERVER_PERM_TICKET; dropUniqueConstraint constraintName=UK_FRSR6T700S9V50BU18WS5HA6, tableName=RESOURCE_SERVER_RESOURCE; dropPrimaryKey constraintName=CONSTRAINT_O...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.0-increase-column-size-federated-fk', N'keycloak', N'META-INF/jpa-changelog-9.0.0.xml', CAST(N'2022-07-08T14:35:40.8000000' AS DateTime2), 79, N'EXECUTED', N'7:20b37422abb9fb6571c618148f013a15', N'modifyDataType columnName=CLIENT_ID, tableName=FED_USER_CONSENT; modifyDataType columnName=CLIENT_REALM_CONSTRAINT, tableName=KEYCLOAK_ROLE; modifyDataType columnName=OWNER, tableName=RESOURCE_SERVER_POLICY; modifyDataType columnName=CLIENT_ID, ta...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.0-recreate-constraints-after-column-increase', N'keycloak', N'META-INF/jpa-changelog-9.0.0.xml', CAST(N'2022-07-08T14:35:40.8100000' AS DateTime2), 80, N'EXECUTED', N'7:1970bb6cfb5ee800736b95ad3fb3c78a', N'addNotNullConstraint columnName=CLIENT_ID, tableName=OFFLINE_CLIENT_SESSION; addNotNullConstraint columnName=OWNER, tableName=RESOURCE_SERVER_PERM_TICKET; addNotNullConstraint columnName=REQUESTER, tableName=RESOURCE_SERVER_PERM_TICKET; addNotNull...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.1-add-index-to-client.client_id', N'keycloak', N'META-INF/jpa-changelog-9.0.1.xml', CAST(N'2022-07-08T14:35:40.8170000' AS DateTime2), 81, N'EXECUTED', N'7:45d9b25fc3b455d522d8dcc10a0f4c80', N'createIndex indexName=IDX_CLIENT_ID, tableName=CLIENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.1-KEYCLOAK-12579-drop-constraints', N'keycloak', N'META-INF/jpa-changelog-9.0.1.xml', CAST(N'2022-07-08T14:35:40.8200000' AS DateTime2), 82, N'EXECUTED', N'7:890ae73712bc187a66c2813a724d037f', N'dropUniqueConstraint constraintName=SIBLING_NAMES, tableName=KEYCLOAK_GROUP', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.1-KEYCLOAK-12579-add-not-null-constraint', N'keycloak', N'META-INF/jpa-changelog-9.0.1.xml', CAST(N'2022-07-08T14:35:40.8270000' AS DateTime2), 83, N'EXECUTED', N'7:0a211980d27fafe3ff50d19a3a29b538', N'addNotNullConstraint columnName=PARENT_GROUP, tableName=KEYCLOAK_GROUP', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.1-KEYCLOAK-12579-recreate-constraints', N'keycloak', N'META-INF/jpa-changelog-9.0.1.xml', CAST(N'2022-07-08T14:35:40.8330000' AS DateTime2), 84, N'EXECUTED', N'7:a161e2ae671a9020fff61e996a207377', N'addUniqueConstraint constraintName=SIBLING_NAMES, tableName=KEYCLOAK_GROUP', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'9.0.1-add-index-to-events', N'keycloak', N'META-INF/jpa-changelog-9.0.1.xml', CAST(N'2022-07-08T14:35:40.8400000' AS DateTime2), 85, N'EXECUTED', N'7:01c49302201bdf815b0a18d1f98a55dc', N'createIndex indexName=IDX_EVENT_TIME, tableName=EVENT_ENTITY', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'map-remove-ri', N'keycloak', N'META-INF/jpa-changelog-11.0.0.xml', CAST(N'2022-07-08T14:35:40.8470000' AS DateTime2), 86, N'EXECUTED', N'7:3dace6b144c11f53f1ad2c0361279b86', N'dropForeignKeyConstraint baseTableName=REALM, constraintName=FK_TRAF444KK6QRKMS7N56AIWQ5Y; dropForeignKeyConstraint baseTableName=KEYCLOAK_ROLE, constraintName=FK_KJHO5LE2C0RAL09FL8CM9WFW9', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'map-remove-ri', N'keycloak', N'META-INF/jpa-changelog-12.0.0.xml', CAST(N'2022-07-08T14:35:40.8530000' AS DateTime2), 87, N'EXECUTED', N'7:578d0b92077eaf2ab95ad0ec087aa903', N'dropForeignKeyConstraint baseTableName=REALM_DEFAULT_GROUPS, constraintName=FK_DEF_GROUPS_GROUP; dropForeignKeyConstraint baseTableName=REALM_DEFAULT_ROLES, constraintName=FK_H4WPD7W4HSOOLNI3H0SW7BTJE; dropForeignKeyConstraint baseTableName=CLIENT...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'12.1.0-add-realm-localization-table', N'keycloak', N'META-INF/jpa-changelog-12.0.0.xml', CAST(N'2022-07-08T14:35:40.8600000' AS DateTime2), 88, N'EXECUTED', N'7:c95abe90d962c57a09ecaee57972835d', N'createTable tableName=REALM_LOCALIZATIONS; addPrimaryKey tableName=REALM_LOCALIZATIONS', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'default-roles', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.8630000' AS DateTime2), 89, N'EXECUTED', N'7:f1313bcc2994a5c4dc1062ed6d8282d3', N'addColumn tableName=REALM; customChange', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'default-roles-cleanup', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.8700000' AS DateTime2), 90, N'EXECUTED', N'7:90d763b52eaffebefbcbde55f269508b', N'dropTable tableName=REALM_DEFAULT_ROLES; dropTable tableName=CLIENT_DEFAULT_ROLES', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'13.0.0-KEYCLOAK-16844', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.8770000' AS DateTime2), 91, N'EXECUTED', N'7:d554f0cb92b764470dccfa5e0014a7dd', N'createIndex indexName=IDX_OFFLINE_USS_PRELOAD, tableName=OFFLINE_USER_SESSION', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'map-remove-ri-13.0.0', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.8870000' AS DateTime2), 92, N'EXECUTED', N'7:73193e3ab3c35cf0f37ccea3bf783764', N'dropForeignKeyConstraint baseTableName=DEFAULT_CLIENT_SCOPE, constraintName=FK_R_DEF_CLI_SCOPE_SCOPE; dropForeignKeyConstraint baseTableName=CLIENT_SCOPE_CLIENT, constraintName=FK_C_CLI_SCOPE_SCOPE; dropForeignKeyConstraint baseTableName=CLIENT_SC...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'13.0.0-KEYCLOAK-17992-drop-constraints', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.8930000' AS DateTime2), 93, N'EXECUTED', N'7:90a1e74f92e9cbaa0c5eab80b8a037f3', N'dropPrimaryKey constraintName=C_CLI_SCOPE_BIND, tableName=CLIENT_SCOPE_CLIENT; dropIndex indexName=IDX_CLSCOPE_CL, tableName=CLIENT_SCOPE_CLIENT; dropIndex indexName=IDX_CL_CLSCOPE, tableName=CLIENT_SCOPE_CLIENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'13.0.0-increase-column-size-federated', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.8970000' AS DateTime2), 94, N'EXECUTED', N'7:5b9248f29cd047c200083cc6d8388b16', N'modifyDataType columnName=CLIENT_ID, tableName=CLIENT_SCOPE_CLIENT; modifyDataType columnName=SCOPE_ID, tableName=CLIENT_SCOPE_CLIENT', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'13.0.0-KEYCLOAK-17992-recreate-constraints', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.9100000' AS DateTime2), 95, N'EXECUTED', N'7:64db59e44c374f13955489e8990d17a1', N'addNotNullConstraint columnName=CLIENT_ID, tableName=CLIENT_SCOPE_CLIENT; addNotNullConstraint columnName=SCOPE_ID, tableName=CLIENT_SCOPE_CLIENT; addPrimaryKey constraintName=C_CLI_SCOPE_BIND, tableName=CLIENT_SCOPE_CLIENT; createIndex indexName=...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'json-string-accomodation-fixed', N'keycloak', N'META-INF/jpa-changelog-13.0.0.xml', CAST(N'2022-07-08T14:35:40.9170000' AS DateTime2), 96, N'EXECUTED', N'7:329a578cdb43262fff975f0a7f6cda60', N'addColumn tableName=REALM_ATTRIBUTE; update tableName=REALM_ATTRIBUTE; dropColumn columnName=VALUE, tableName=REALM_ATTRIBUTE; renameColumn newColumnName=VALUE, oldColumnName=VALUE_NEW, tableName=REALM_ATTRIBUTE', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'14.0.0-KEYCLOAK-11019', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:40.9300000' AS DateTime2), 97, N'EXECUTED', N'7:fae0de241ac0fd0bbc2b380b85e4f567', N'createIndex indexName=IDX_OFFLINE_CSS_PRELOAD, tableName=OFFLINE_CLIENT_SESSION; createIndex indexName=IDX_OFFLINE_USS_BY_USER, tableName=OFFLINE_USER_SESSION; createIndex indexName=IDX_OFFLINE_USS_BY_USERSESS, tableName=OFFLINE_USER_SESSION', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'14.0.0-KEYCLOAK-18286', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:40.9330000' AS DateTime2), 98, N'MARK_RAN', N'7:075d54e9180f49bb0c64ca4218936e81', N'createIndex indexName=IDX_CLIENT_ATT_BY_NAME_VALUE, tableName=CLIENT_ATTRIBUTES', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'14.0.0-KEYCLOAK-18286-revert', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:40.9900000' AS DateTime2), 99, N'MARK_RAN', N'7:06499836520f4f6b3d05e35a59324910', N'dropIndex indexName=IDX_CLIENT_ATT_BY_NAME_VALUE, tableName=CLIENT_ATTRIBUTES', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'14.0.0-KEYCLOAK-18286-supported-dbs', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:40.9930000' AS DateTime2), 100, N'MARK_RAN', N'7:b558ad47ea0e4d3c3514225a49cc0d65', N'createIndex indexName=IDX_CLIENT_ATT_BY_NAME_VALUE, tableName=CLIENT_ATTRIBUTES', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'14.0.0-KEYCLOAK-18286-unsupported-dbs', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:41.0000000' AS DateTime2), 101, N'EXECUTED', N'7:3d2b23076e59c6f70bae703aa01be35b', N'createIndex indexName=IDX_CLIENT_ATT_BY_NAME_VALUE, tableName=CLIENT_ATTRIBUTES', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'KEYCLOAK-17267-add-index-to-user-attributes', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:41.0070000' AS DateTime2), 102, N'EXECUTED', N'7:1a7f28ff8d9e53aeb879d76ea3d9341a', N'createIndex indexName=IDX_USER_ATTRIBUTE_NAME, tableName=USER_ATTRIBUTE', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'KEYCLOAK-18146-add-saml-art-binding-identifier', N'keycloak', N'META-INF/jpa-changelog-14.0.0.xml', CAST(N'2022-07-08T14:35:41.0100000' AS DateTime2), 103, N'EXECUTED', N'7:2fd554456fed4a82c698c555c5b751b6', N'customChange', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOG] ([ID], [AUTHOR], [FILENAME], [DATEEXECUTED], [ORDEREXECUTED], [EXECTYPE], [MD5SUM], [DESCRIPTION], [COMMENTS], [TAG], [LIQUIBASE], [CONTEXTS], [LABELS], [DEPLOYMENT_ID]) VALUES (N'15.0.0-KEYCLOAK-18467', N'keycloak', N'META-INF/jpa-changelog-15.0.0.xml', CAST(N'2022-07-08T14:35:41.0170000' AS DateTime2), 104, N'EXECUTED', N'7:b06356d66c2790ecc2ae54ba0458397a', N'addColumn tableName=REALM_LOCALIZATIONS; update tableName=REALM_LOCALIZATIONS; dropColumn columnName=TEXTS, tableName=REALM_LOCALIZATIONS; renameColumn newColumnName=TEXTS, oldColumnName=TEXTS_NEW, tableName=REALM_LOCALIZATIONS; addNotNullConstrai...', N'', NULL, N'3.5.4', NULL, NULL, N'7290939245')
+GO
+INSERT [dbo].[DATABASECHANGELOGLOCK] ([ID], [LOCKED], [LOCKGRANTED], [LOCKEDBY]) VALUES (1, 0, NULL, NULL)
+GO
+INSERT [dbo].[DATABASECHANGELOGLOCK] ([ID], [LOCKED], [LOCKGRANTED], [LOCKEDBY]) VALUES (1000, 0, NULL, NULL)
+GO
+INSERT [dbo].[DATABASECHANGELOGLOCK] ([ID], [LOCKED], [LOCKGRANTED], [LOCKEDBY]) VALUES (1001, 0, NULL, NULL)
+GO
+INSERT [dbo].[MIGRATION_MODEL] ([ID], [VERSION], [UPDATE_TIME]) VALUES (N'r4osv', N'16.1.1', 1657290942)
+GO
