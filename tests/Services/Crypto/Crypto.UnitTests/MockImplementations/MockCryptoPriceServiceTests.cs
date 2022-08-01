@@ -1,20 +1,15 @@
-﻿using Crypto.Application.Interfaces.Services;
-using Crypto.Application.Options;
-using Crypto.Infrastracture.Clients;
+﻿using Crypto.Mock.Common.Clients;
 using Crypto.Mock.Common.Data;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using RichardSzalay.MockHttp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.UnitTests.Infrastracture
+namespace Crypto.UnitTests.MockImplementations
 {
-    public class CryptoComapreClientTests
+    public class MockCryptoPriceServiceTests
     {
         private const string BTC_SYMBOL = "BTC";
         private const string ETH_SYMBOL = "ETH";
@@ -25,23 +20,12 @@ namespace Crypto.UnitTests.Infrastracture
 
         private const string USD_CURRENCY = "USD";
 
-        private readonly IOptions<CryptoPriceApiOptions> _options;
         private readonly CryptoDataManager _dataManager = new CryptoDataManager();
         private static List<string> SUPPORTED_SYMBOLS = new List<string> { BTC_SYMBOL, ETH_SYMBOL, ADA_SYMBOL };
         private static List<string> INVALID_SYMBOLS = new List<string> { UNKNOWN_SYMBOL_V1, UNKNOWN_SYMBOL_V2 };
 
-        public CryptoComapreClientTests()
+        public MockCryptoPriceServiceTests()
         {
-            var infoOptions = new CryptoPriceApiOptions
-            {
-                ApiKey = "Apikey ........",
-                BaseUrl = "https://min-api.cryptocompare.com/data",
-                HeaderKey = "authorization",
-                Currency = USD_CURRENCY,
-            };
-
-            _options = Options.Create(infoOptions);
-
             _dataManager.InitData(null, SUPPORTED_SYMBOLS);
         }
 
@@ -158,33 +142,9 @@ namespace Crypto.UnitTests.Infrastracture
             Assert.Null(result);
         }
 
-        private ICryptoPriceService Build(bool isAuthorized, bool throwException, params string[] symbols)
+        private MockCryptoPriceService Build(bool isAuthorized, bool throwException, params string[] symbols)
         {
-            var handler = new MockHttpMessageHandler();
-
-            if(_dataManager.IsAnySymbolSupported(symbols) && isAuthorized && !throwException)
-            {
-                var validResponse = symbols.Length == 1 ? "{ 'USD': 20133.58 }" : MockResponse(symbols.ToList());
-                handler.When("*").Respond("application/json", validResponse);
-            }
-            else if (!_dataManager.IsAnySymbolSupported(symbols) && isAuthorized && !throwException) //Invalid symbol
-            {
-                handler.When("*").Respond(HttpStatusCode.BadRequest, "applicaiton/json", BadResponseJson());
-            }
-            else if (!isAuthorized) //401
-            {
-                handler.When("*").Respond(HttpStatusCode.Unauthorized);
-            }
-            else if (throwException) //Task canceled exception (Timeout occurred)
-            {
-                handler.When("*").Throw(new TaskCanceledException());
-            }
-            else
-            {
-                handler.When("*").Respond(HttpStatusCode.BadRequest);
-            }
-
-            return new CryptoCompareClient(handler.ToHttpClient(), _options);
+            return new MockCryptoPriceService(_dataManager.GetSupportedCryptoSymbolsArray(), isAuthorized, throwException);
         }
 
         //{"BTC":{"USD":19703.13},"ETH":{"USD":1064.4},"ADA":{"USD":0.4303}} real server response

@@ -1,11 +1,9 @@
 ﻿using Crypto.Application.Interfaces.Services;
-using Crypto.Application.Options;
 using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Interfaces;
-using Crypto.IntegrationTests.MockImplementations;
-using Crypto.IntegrationTests.SeedData;
 using Crypto.IntegrationTests.Utils;
+using Crypto.Mock.Common.Clients;
+using Crypto.Mock.Common.Data;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
@@ -16,11 +14,10 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace Crypto.IntegrationTests
 {
-    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime, IWebHostHelpBuilder
+    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly RabbitMqTestcontainer _rabbitMqContainer = new TestcontainersBuilder<RabbitMqTestcontainer>()
             .WithMessageBroker(new RabbitMqTestcontainerConfiguration
@@ -38,6 +35,13 @@ namespace Crypto.IntegrationTests
             })
             .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
             .Build();
+
+        public readonly CryptoDataManager _seeder;
+
+        public CryptoApiFactory()
+        {
+            _seeder = new CryptoDataManager();
+        }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -76,7 +80,7 @@ namespace Crypto.IntegrationTests
             });
 
             services.Migrate<CryptoDbContext>();
-            await CryptoDbContextSeed.SeedData(services, CryptoStaticData.GetCryptos);
+            await CryptoDbContextSeed.SeedData(services, _seeder.GetCryptoSeedData);
         }
 
         private void ConfigureRabbitMq(IServiceCollection services)
@@ -102,19 +106,11 @@ namespace Crypto.IntegrationTests
         {
             //Configure ICryptoInfoService 
             services.RemoveAll(typeof(ICryptoInfoService));
-            services.AddHttpClient<ICryptoInfoService, MockCryptoInfoService>();
+            services.AddScoped<ICryptoInfoService>((provider) => new MockCryptoInfoService(_seeder.GetSupportedCryptoSymbolsArray()));
 
             //Configure ICryptoPriceService 
             services.RemoveAll(typeof(ICryptoPriceService));
-            services.AddHttpClient<ICryptoPriceService, MockCryptoPriceService>();
-        }
-
-        public void ConfigureServices(Action<IServiceCollection> action)
-        {
-            WithWebHostBuilder(conf =>
-            {
-                conf.ConfigureTestServices(action);
-            });
+            services.AddScoped<ICryptoPriceService>((provider) => new MockCryptoPriceService(_seeder.GetSupportedCryptoSymbolsArray()));
         }
     }
 }

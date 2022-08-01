@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Services\Crypto\Crypto.Application\Crypto.Application.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\Crypto\Crypto.Infrastracture\Crypto.Infrastracture.csproj" />
+    <ProjectReference Include="..\Crypto.Mock.Common\Crypto.Mock.Common.csproj" />
   </ItemGroup>
 
 </Project>

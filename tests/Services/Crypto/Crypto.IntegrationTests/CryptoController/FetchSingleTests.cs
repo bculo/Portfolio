@@ -1,5 +1,8 @@
-﻿using Crypto.IntegrationTests.Constants;
+﻿using Crypto.API.Filters.Models;
+using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+using Crypto.IntegrationTests.Constants;
 using FluentAssertions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +29,13 @@ namespace Crypto.IntegrationTests.CryptoController
             var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var instances = JsonConvert.DeserializeObject<FetchSingleResponseDto>(jsonResponse);
+            instances.Should().BeOfType<FetchSingleResponseDto>();
         }
 
         [Fact]
-        public async Task FetchSingle_ShouldReturnBadRequest_WhenInvalidSymbolProvided()
+        public async Task FetchSingle_ShouldReturnBadRequest_WhenNonexistentSymbolProvided()
         {
             string symbol = "DRAGONTON";
             var client = _factory.CreateClient();
@@ -37,6 +43,22 @@ namespace Crypto.IntegrationTests.CryptoController
             var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task GetPriceHistory_ShouldReturnBadRequest_WhenInvalidSymbolFormatProvided()
+        {
+            string symbol = "SYMOL12";
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
+            
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var error = JsonConvert.DeserializeObject<ValidationErrorResponse>(jsonResponse);
+            error.Should().NotBeNull();
+            error!.Message.Should().Be("Validation exception");
+            error!.Errors.Should().NotBeEmpty();
         }
 
         [Fact]

@@ -3,6 +3,7 @@ using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Info;
 using Crypto.Application.Options;
 using Crypto.Infrastracture.Clients;
+using Crypto.Mock.Common.Data;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
@@ -12,12 +13,13 @@ namespace Crypto.UnitTests.Infrastracture
 {
     public class CoinMarketCapClientTests
     {
-        private const string BTC_SYMBOL = "btc";
+        private const string BTC_SYMBOL = "BTC";
         private const string INVALID_SYMBOL = "DRAGON123";
-        private static string[] VALID_SYMBOLS = new string[] { BTC_SYMBOL };
 
         private readonly Fixture _fixture = new Fixture();
         private readonly IOptions<CryptoInfoApiOptions> _options;
+        private readonly CryptoDataManager _seeder = new CryptoDataManager();
+        private readonly List<string> SUPPORTED_SYMBOLS = new List<string> { BTC_SYMBOL };
 
         public CoinMarketCapClientTests()
         {
@@ -29,6 +31,8 @@ namespace Crypto.UnitTests.Infrastracture
             };
 
             _options = Options.Create(infoOptions);
+
+            _seeder.InitData(null, SUPPORTED_SYMBOLS);
         }
 
         [Fact]
@@ -44,8 +48,7 @@ namespace Crypto.UnitTests.Infrastracture
             //Assert
             Assert.NotNull(response);
             var itemDictionary = response.Data;
-            var dictionaryKey = itemDictionary.ContainsKey(symbol) ? symbol : symbol.ToUpper();
-            var finalItemsCollection = itemDictionary[dictionaryKey];
+            var finalItemsCollection = itemDictionary[BTC_SYMBOL];
             Assert.Contains(finalItemsCollection, i => i.Symbol.ToLower() == symbol.ToLower());
         }
 
@@ -77,11 +80,21 @@ namespace Crypto.UnitTests.Infrastracture
             Assert.Null(response);
         }
 
-        public ICryptoInfoService Build(string symbol, bool isAuthorized = true)
+        [Fact]
+        public async Task FetchData_ShouldThrowException_WhenTimeoutOccurs()
+        {
+            //Arrange
+            string symbol = BTC_SYMBOL;
+            var service = Build(symbol, timeOutException: true);
+
+            await Assert.ThrowsAsync<TaskCanceledException>(() => service.FetchData(symbol));
+        }
+
+        public ICryptoInfoService Build(string symbol, bool isAuthorized = true, bool timeOutException = false)
         {
             var handler = new MockHttpMessageHandler();
 
-            if(VALID_SYMBOLS.Contains(symbol) && isAuthorized)
+            if(_seeder.IsSymbolSupported(symbol) && isAuthorized && !timeOutException) //Valid reqeust
             {
                 var response = _fixture.Create<CryptoInfoResponseDto>();
 
@@ -92,13 +105,21 @@ namespace Crypto.UnitTests.Infrastracture
 
                 handler.When("*").Respond("application/json", JsonConvert.SerializeObject(response));
             }
-            else if(!VALID_SYMBOLS.Contains(symbol) && isAuthorized)
+            else if(!_seeder.IsSymbolSupported(symbol) && isAuthorized && !timeOutException) //Invalid symbol
             {
                 handler.When("*").Respond(HttpStatusCode.BadRequest);
             }
-            else
+            else if(!isAuthorized) //401
             {
                 handler.When("*").Respond(HttpStatusCode.Unauthorized);
+            }
+            else if(timeOutException) //Task canceled exception (Timeout occurred)
+            {
+                handler.When("*").Throw(new TaskCanceledException());
+            }
+            else
+            {
+                handler.When("*").Respond(HttpStatusCode.BadRequest);
             }
 
             return new CoinMarketCapClient(handler.ToHttpClient(), _options);

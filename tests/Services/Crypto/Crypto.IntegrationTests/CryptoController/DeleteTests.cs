@@ -29,7 +29,7 @@ namespace Crypto.IntegrationTests.CryptoController
         }
 
         [Fact]
-        public async Task Delete_ShouldReturnBadRequest_WhenInvalidSymbolProvided()
+        public async Task Delete_ShouldReturnBadRequest_WhenNonexistentSymbolProvided()
         {
             string symbol = "DRAGONTON";
             var client = _factory.CreateClient();

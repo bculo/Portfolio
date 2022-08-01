@@ -1,6 +1,8 @@
-﻿using Crypto.Infrastracture.Persistence;
+﻿using Crypto.Application.Modules.Crypto.Queries.FetchAll;
+using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Constants;
 using FluentAssertions;
+using Newtonsoft.Json;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
@@ -24,6 +26,9 @@ namespace Crypto.IntegrationTests.CryptoController
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var instances = JsonConvert.DeserializeObject<List<FetchAllResponseDto>>(jsonResponse);
+            instances.Should().AllBeOfType<FetchAllResponseDto>();
         }
     }
 }
