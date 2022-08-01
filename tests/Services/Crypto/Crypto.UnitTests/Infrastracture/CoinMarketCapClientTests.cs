@@ -18,7 +18,7 @@ namespace Crypto.UnitTests.Infrastracture
 
         private readonly Fixture _fixture = new Fixture();
         private readonly IOptions<CryptoInfoApiOptions> _options;
-        private readonly CryptoDataManager _seeder = new CryptoDataManager();
+        private readonly DefaultDataManager _seeder = new DefaultDataManager();
         private readonly List<string> SUPPORTED_SYMBOLS = new List<string> { BTC_SYMBOL };
 
         public CoinMarketCapClientTests()
@@ -32,7 +32,8 @@ namespace Crypto.UnitTests.Infrastracture
 
             _options = Options.Create(infoOptions);
 
-            _seeder.InitData(null, SUPPORTED_SYMBOLS);
+            _seeder.InitSeedData(null);
+            _seeder.InitSupportedSymbols(SUPPORTED_SYMBOLS);
         }
 
         [Fact]

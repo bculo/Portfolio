@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Crypto.IntegrationTests
 {
-    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
+    public class CryptoApiFactory: WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly RabbitMqTestcontainer _rabbitMqContainer = new TestcontainersBuilder<RabbitMqTestcontainer>()
             .WithMessageBroker(new RabbitMqTestcontainerConfiguration
@@ -36,11 +36,11 @@ namespace Crypto.IntegrationTests
             .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
             .Build();
 
-        public readonly CryptoDataManager _seeder;
+        public readonly DefaultDataManager _seeder;
 
         public CryptoApiFactory()
         {
-            _seeder = new CryptoDataManager();
+            _seeder = new DefaultDataManager();
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)

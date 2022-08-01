@@ -15,11 +15,12 @@ namespace Crypto.UnitTests.MockImplementations
         private const string INVALID_SYMBOL = "DRAGON123";
 
         private readonly Fixture _fixture = new Fixture();
-        private readonly CryptoDataManager _seeder = new CryptoDataManager();
+        private readonly DefaultDataManager _seeder = new DefaultDataManager();
 
         public MockCryptoInfoServiceTests()
         {
-            _seeder.InitData(null, new List<string> { BTC_SYMBOL });
+            _seeder.InitSeedData(null);
+            _seeder.InitSupportedSymbols(new List<string> { BTC_SYMBOL });
         }
 
         [Fact]

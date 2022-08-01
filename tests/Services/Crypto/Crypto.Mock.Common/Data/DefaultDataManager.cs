@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Crypto.Mock.Common.Data
 {
-    public class CryptoDataManager : ICryptoDataManager
+    public class DefaultDataManager : ICryptoDataManager
     {
         private List<Core.Entities.Crypto> _seedData;
         private List<string> _supportedSymbols;
 
-        public CryptoDataManager()
+        public DefaultDataManager()
         {
             _seedData = GetDefaultCryptos();
             _supportedSymbols = GetDefaultSupportedCryptoSymbols();
@@ -32,10 +32,13 @@ namespace Crypto.Mock.Common.Data
             return _supportedSymbols.ToArray();
         }
 
-        public void InitData(List<Core.Entities.Crypto>? seedData, List<string>? supportedSymbols)
+        public void InitSeedData(List<Core.Entities.Crypto>? seedData)
         {
             _seedData = seedData ?? new List<Core.Entities.Crypto>();
+        }
 
+        public void InitSupportedSymbols(List<string>? supportedSymbols)
+        {
             supportedSymbols = supportedSymbols ?? new List<string>();
             _supportedSymbols = supportedSymbols.Concat(_seedData.Select(i => i.Symbol.ToUpper()))
                         .Distinct()

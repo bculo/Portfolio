@@ -20,13 +20,14 @@ namespace Crypto.UnitTests.MockImplementations
 
         private const string USD_CURRENCY = "USD";
 
-        private readonly CryptoDataManager _dataManager = new CryptoDataManager();
+        private readonly DefaultDataManager _dataManager = new DefaultDataManager();
         private static List<string> SUPPORTED_SYMBOLS = new List<string> { BTC_SYMBOL, ETH_SYMBOL, ADA_SYMBOL };
         private static List<string> INVALID_SYMBOLS = new List<string> { UNKNOWN_SYMBOL_V1, UNKNOWN_SYMBOL_V2 };
 
         public MockCryptoPriceServiceTests()
         {
-            _dataManager.InitData(null, SUPPORTED_SYMBOLS);
+            _dataManager.InitSeedData(null);
+            _dataManager.InitSupportedSymbols(SUPPORTED_SYMBOLS);
         }
 
         [Fact]
