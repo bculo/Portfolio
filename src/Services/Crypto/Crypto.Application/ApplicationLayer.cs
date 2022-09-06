@@ -29,7 +29,10 @@ namespace Crypto.Application
             services.AddMediatR(typeof(ApplicationLayer).Assembly);
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+        }
 
+        public static void ConfigureRabbitMQ(IServiceCollection services, IConfiguration configuration)
+        {
             services.AddMassTransit(x =>
             {
                 x.UsingRabbitMq((context, config) =>
