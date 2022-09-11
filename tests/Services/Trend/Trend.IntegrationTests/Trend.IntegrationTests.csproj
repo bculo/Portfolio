@@ -28,4 +28,10 @@
     <ProjectReference Include="..\..\..\..\src\Services\Trend\Trend.API\Trend.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Static\realm.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

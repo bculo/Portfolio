@@ -87,7 +87,7 @@ namespace Keycloak.Common.Clients
 
             var result = await response.HandleResponse<string>(_logger);
 
-            return true;
+            return (result != null) ? true : false;
         }
     }
 }

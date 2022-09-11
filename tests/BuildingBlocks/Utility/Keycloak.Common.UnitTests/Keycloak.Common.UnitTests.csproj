@@ -37,4 +37,10 @@
     <ProjectReference Include="..\..\..\..\src\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Static\create-realm-example.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

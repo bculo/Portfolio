@@ -1,6 +1,8 @@
 using Crypto.Application;
 using Crypto.GraphQL;
 using Crypto.GraphQL.Configuration;
+using Crypto.GraphQL.Filters;
+using Crypto.GraphQL.Interceptors;
 using Crypto.Infrastracture;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddType<FetchAllResponseDtoType>();
-
+    .AddType<FetchAllResponseDtoType>()
+    .AddHttpRequestInterceptor<HttpRequestInterceptor>()
+    .AddErrorFilter<ExceptionFilter>();
 
 builder.Services.AddControllers();
 

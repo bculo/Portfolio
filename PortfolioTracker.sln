@@ -93,7 +93,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Mock.Common", "tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend", "Trend", "{650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.IntegrationTests", "tests\Services\Trend\Trend.IntegrationTests\Trend.IntegrationTests.csproj", "{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.IntegrationTests", "tests\Services\Trend\Trend.IntegrationTests\Trend.IntegrationTests.csproj", "{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.GraphQL", "src\Services\Crypto\Crypto.GraphQL\Crypto.GraphQL.csproj", "{10B2291E-D44A-4553-99F7-2029BDCCD0E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,6 +203,10 @@ Global
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -245,6 +251,7 @@ Global
 		{E94E52A6-CF67-4439-968E-C18881817C6C} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
 		{650F277F-16ED-4CC2-B5DA-CFB8636F7B1D} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
+		{10B2291E-D44A-4553-99F7-2029BDCCD0E5} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
