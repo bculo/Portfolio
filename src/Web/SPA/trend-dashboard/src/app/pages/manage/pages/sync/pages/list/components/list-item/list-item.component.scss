@@ -9,6 +9,7 @@
     transition: .3s;
     animation: moveInLeft .5s linear;
     will-change: transform;
+    position: relative;
 
     &__header-box {
         text-align: center;
@@ -32,5 +33,14 @@
         cursor: pointer;
         transform: translateY(-3px);
         box-shadow: 0 .8rem 2.5rem rgba($black, .3);
+    }
+
+    &__image {
+        display: block;
+        width: 3.2rem;
+        height: 3.2rem;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
     }
 }

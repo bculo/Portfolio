@@ -12,7 +12,7 @@ namespace Trend.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SyncController : ControllerBase
     {
         private readonly ILogger<SyncController> _logger;
