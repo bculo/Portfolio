@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Filters\Filters.Web.Common\Filters.Web.Common.csproj" />
     <ProjectReference Include="..\Crypto.Application\Crypto.Application.csproj" />
     <ProjectReference Include="..\Crypto.Infrastracture\Crypto.Infrastracture.csproj" />
   </ItemGroup>

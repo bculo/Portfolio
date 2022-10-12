@@ -19,7 +19,7 @@ builder.Services
 builder.Services.AddControllers();
 
 ApplicationLayer.AddServices(builder.Services, builder.Configuration);
-ApplicationLayer.ConfigureRabbitMQ(builder.Services, builder.Configuration);
+ApplicationLayer.ConfigureMessageQueue(builder.Services, builder.Configuration, false);
 InfrastractureLayer.AddServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();

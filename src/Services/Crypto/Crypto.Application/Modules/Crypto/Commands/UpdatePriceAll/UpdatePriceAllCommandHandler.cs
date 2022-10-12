@@ -5,6 +5,7 @@ using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +21,19 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
         private readonly ICryptoPriceService _priceService;
         private readonly IPublishEndpoint _publish;
         private readonly IDateTime _time;
+        private readonly ILogger<UpdatePriceAllCommandHandler> _logger;
 
         public UpdatePriceAllCommandHandler(IUnitOfWork work,
             ICryptoPriceService priceService,
             IPublishEndpoint publish,
-            IDateTime time)
+            IDateTime time,
+            ILogger<UpdatePriceAllCommandHandler> logger)
         {
             _work = work;
             _priceService = priceService;
             _publish = publish;
             _time = time;
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(UpdatePriceAllCommand request, CancellationToken cancellationToken)
@@ -38,6 +42,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
             if (!entities.Any())
             {
+                _logger.LogTrace("ZERO entities to update");
                 return Unit.Value;
             }
 

@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 ApplicationLayer.AddServices(builder.Services, builder.Configuration);
-ApplicationLayer.ConfigureRabbitMQ(builder.Services, builder.Configuration);
+ApplicationLayer.ConfigureMessageQueue(builder.Services, builder.Configuration, true);
 InfrastractureLayer.AddServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();

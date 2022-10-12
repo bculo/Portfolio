@@ -5,6 +5,7 @@ using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+using Filters.Web.Common.Action;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,7 @@ namespace Crypto.API.Controllers
         }
 
         [HttpPost("UpdatePrice")]
+        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceCommand command)
         {
             await _mediator.Send(command);
@@ -38,6 +40,7 @@ namespace Crypto.API.Controllers
         }
 
         [HttpGet("UpdateAllPrices")]
+        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> UpdateAllPrices()
         {
             await _mediator.Send(new UpdatePriceAllCommand { });

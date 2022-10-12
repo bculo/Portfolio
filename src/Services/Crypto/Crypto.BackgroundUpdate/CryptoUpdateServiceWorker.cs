@@ -21,6 +21,20 @@ namespace Crypto.BackgroundUpdate
             _provider = provider;
         }
 
+        public override Task StartAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogTrace("StartAsync method called in Background service {0}", nameof(CryptoUpdateServiceWorker));
+
+            return base.StartAsync(cancellationToken);
+        }
+
+        public override Task StopAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogTrace("StopAsync method called in Background service {0}", nameof(CryptoUpdateServiceWorker));
+
+            return base.StopAsync(cancellationToken);
+        }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             TimeSpan executionTimeSpan = default;
@@ -53,13 +67,18 @@ namespace Crypto.BackgroundUpdate
                     executionTimeSpan = stopWatch.Elapsed;
                 }
 
-                Thread.Sleep(CalculateSleepTime(executionTimeSpan));
+                await Task.Delay(CalculateSleepTime(executionTimeSpan), stoppingToken);
             }
         }
 
         private int CalculateSleepTime(TimeSpan executionTimeSpan)
         {
-            return (_options.TimeSpanInSeconds * 1000) - (int)executionTimeSpan.TotalMilliseconds;
+            var calculted = (_options.TimeSpanInSeconds * 1000) - (int)executionTimeSpan.TotalMilliseconds;
+
+            if(calculted < 0) 
+                return 0;
+
+            return calculted;
         }
     }
 }

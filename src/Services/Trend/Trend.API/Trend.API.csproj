@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Filters\Filters.Web.Common\Filters.Web.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cryptography.Common\Cryptography.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
     <ProjectReference Include="..\Trend.Application\Trend.Application.csproj" />

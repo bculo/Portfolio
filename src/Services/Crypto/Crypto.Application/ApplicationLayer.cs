@@ -1,4 +1,5 @@
 ﻿using Crypto.Application.Behaviours;
+using Crypto.Application.Consumers;
 using Crypto.Application.Options;
 using FluentValidation;
 using MassTransit;
@@ -31,16 +32,30 @@ namespace Crypto.Application
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
         }
 
-        public static void ConfigureRabbitMQ(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration, bool useConsumers)
         {
             services.AddMassTransit(x =>
             {
+                if (useConsumers)
+                {
+                    ConfigureConsumers(x);
+                }
+
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
                     config.ConfigureEndpoints(context);
                 });
             });
+        }
+
+        private static void ConfigureConsumers(IBusRegistrationConfigurator config)
+        {
+            config.AddConsumer<CryptoPriceUpdatedConsumer>()
+                .Endpoint(config =>
+                {
+                    config.Name = $"CRYPTO-{nameof(CryptoPriceUpdatedConsumer)}";
+                });
         }
     }
 }
