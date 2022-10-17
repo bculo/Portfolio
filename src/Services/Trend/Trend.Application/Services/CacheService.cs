@@ -21,7 +21,7 @@ namespace Trend.Application.Services
             _time = time;
         }
 
-        public async Task Add(string identifier, object instance)
+        public async Task Add(string identifier, object instance, bool useExpirationTime = true)
         {
             if (instance is null)
             {
@@ -35,7 +35,13 @@ namespace Trend.Application.Services
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
 
-            await _cache.SetStringAsync(identifier, json, GetCacheOptions());
+            if(useExpirationTime)
+            {
+                await _cache.SetStringAsync(identifier, json, GetCacheOptions());
+                return;
+            }
+
+            await _cache.SetStringAsync(identifier, json);
         }
 
         public async Task<T> Get<T>(string identifier) where T : class

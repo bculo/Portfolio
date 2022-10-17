@@ -42,7 +42,7 @@ namespace Trend.BackgroundSync
                     }
                 }
 
-                Thread.Sleep(_options.SleepTimeMiliseconds);
+                 await Task.Delay(_options.SleepTimeMiliseconds);
             }
         }
 

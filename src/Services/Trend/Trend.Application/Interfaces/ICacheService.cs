@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trend.Application.Options;
 
 namespace Trend.Application.Interfaces
 {
@@ -11,6 +12,6 @@ namespace Trend.Application.Interfaces
         Task<T> Get<T>(string identifier) where T : class;
         Task<string> Get(string identifier);
         Task<List<T>> GetList<T>(string identifier) where T : class;
-        Task Add(string identifier, object instance);
+        Task Add(string identifier, object instance, bool setExpirationTime = true);
     }
 }

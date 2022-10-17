@@ -6,6 +6,8 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
     {
         IConfiguration configuration = hostcontext.Configuration;
         ApplicationLayer.AddServices(configuration, services);
+
+        services.AddHostedService<SyncBackgroundWorker>();
     });
 
 ApplicationLayer.AddLogger(hostBuilder);
