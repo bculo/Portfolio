@@ -1,5 +1,6 @@
 ﻿using Crypto.Core.Interfaces;
 using Crypto.Infrastracture.Persistence.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,16 @@ namespace Crypto.Infrastracture.Persistence
         public ICryptoPriceRepository CryptoPriceRepository { get; private set; }
         public ICryptoRepository CryptoRepository { get; private set; }
         public ICryptoExplorerRepository CryptoExplorerRepository { get; private set; }
+        public IVisitRepository VisitRepository { get; private set; }
 
-        public UnitOfWork(CryptoDbContext context)
+        public UnitOfWork(CryptoDbContext context, IServiceProvider provider)
         {
             _context = context;
 
-            CryptoPriceRepository = new CryptoPriceRepository(context);
-            CryptoRepository = new CryptoRepository(context);
-            CryptoExplorerRepository = new CryptoExplorerRepository(context);
+            CryptoPriceRepository = provider.GetService<ICryptoPriceRepository>() ?? throw new ArgumentNullException();
+            CryptoRepository = provider.GetService<ICryptoRepository>() ?? throw new ArgumentNullException();
+            CryptoExplorerRepository = provider.GetService<ICryptoExplorerRepository>() ?? throw new ArgumentNullException();
+            VisitRepository = provider.GetService<IVisitRepository>() ?? throw new ArgumentNullException();
         }
 
         public virtual async Task Commit()

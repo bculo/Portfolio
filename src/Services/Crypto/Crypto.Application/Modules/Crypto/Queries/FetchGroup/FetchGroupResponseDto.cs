@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Core.Queries.Response
+namespace Crypto.Application.Modules.Crypto.Queries.FetchGroup
 {
-    public class CryptoResponseQuery
+    public class FetchGroupResponseDto
     {
-        public long? Id { get; set; }
         public string Symbol { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string? Website { get; set; }
-        public string? SourceCode { get; set; }
+        public string Website { get; set; }
+        public string SourceCode { get; set; }
         public DateTime Created { get; set; }
         public string Logo { get; set; }
         public decimal Price { get; set; }

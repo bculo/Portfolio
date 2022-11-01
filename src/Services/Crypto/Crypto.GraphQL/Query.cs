@@ -5,12 +5,12 @@ using MediatR;
 namespace Crypto.GraphQL
 {
     public class Query
-    {
-        public async Task<List<FetchAllResponseDto>> GetAllResponseDto([Service] IMediator mediator)
+    {      
+        public async Task<IEnumerable<FetchAllResponseDto>> GetAllResponseDto([Service] IMediator mediator)
         {
             return await mediator.Send(new FetchAllQuery { });
         }
-
+        
         public async Task<FetchSingleResponseDto> GetSingleResponseDto(string symbol, [Service] IMediator mediator)
         {
             return await mediator.Send(new FetchSingleQuery { Symbol = symbol });

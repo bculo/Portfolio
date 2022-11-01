@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
+namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
 {
-    public class FetchAllQuery : IRequest<IEnumerable<FetchAllResponseDto>>
+    public class FetchPageQuery : PageBaseQuery, IRequest<IEnumerable<FetchPageResponseDto>>
     {
     }
 }

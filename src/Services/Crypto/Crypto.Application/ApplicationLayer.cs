@@ -56,6 +56,12 @@ namespace Crypto.Application
                 {
                     config.Name = $"CRYPTO-{nameof(CryptoPriceUpdatedConsumer)}";
                 });
+
+            config.AddConsumer<CryptoVisitedConsumer>()
+                .Endpoint(config =>
+                {
+                    config.Name = $"CRYPTO-{nameof(CryptoVisitedConsumer)}";
+                });
         }
     }
 }

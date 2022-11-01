@@ -27,6 +27,10 @@ namespace Crypto.Infrastracture
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<ICryptoExplorerRepository, CryptoExplorerRepository>();
+            services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
+            services.AddScoped<ICryptoRepository, CryptoRepository>();
+            services.AddScoped<IVisitRepository, VisitRepository>();
 
             services.AddHttpClient<ICryptoInfoService, CoinMarketCapClient>();
             services.AddHttpClient<ICryptoPriceService, CryptoCompareClient>();

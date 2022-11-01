@@ -3,6 +3,8 @@ using Crypto.Application.Modules.Crypto.Commands.Delete;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchAll;
+using Crypto.Application.Modules.Crypto.Queries.FetchGroup;
+using Crypto.Application.Modules.Crypto.Queries.FetchPage;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Filters.Web.Common.Action;
@@ -48,15 +50,29 @@ namespace Crypto.API.Controllers
         }
 
         [HttpGet("FetchAll")]
+        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> FetchAll()
         {
             return Ok(await _mediator.Send(new FetchAllQuery { }));
+        }
+
+        [HttpPost("FetchPage")]
+        [EnvironmentControllerFilter("Development")]
+        public async Task<IActionResult> FetchPage([FromBody] FetchPageQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
 
         [HttpGet("Single/{symbol}")]
         public async Task<IActionResult> FetchSingle(string symbol)
         {
             return Ok(await _mediator.Send(new FetchSingleQuery { Symbol = symbol }));
+        }
+
+        [HttpPost("FetchGroup")]
+        public async Task<IActionResult> FetchGroup([FromBody] FetchGroupQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
 
         [HttpDelete("Delete/{symbol}")]

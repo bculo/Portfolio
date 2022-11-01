@@ -16,11 +16,13 @@ namespace Crypto.Core.Entities
         public string? SourceCode { get; set; }
         public virtual ICollection<CryptoPrice> Prices { get; set; }
         public virtual ICollection<CryptoExplorer> Explorers { get; set; }
+        public virtual ICollection<Visit> Visits { get; set; }
 
         public Crypto()
         {
             Prices = new HashSet<CryptoPrice>();
             Explorers = new HashSet<CryptoExplorer>();
+            Visits = new HashSet<Visit>();
         }
     }
 }

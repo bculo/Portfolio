@@ -11,6 +11,7 @@ namespace Crypto.Core.Interfaces
         ICryptoPriceRepository CryptoPriceRepository { get; }
         ICryptoRepository CryptoRepository { get; }
         ICryptoExplorerRepository CryptoExplorerRepository { get; }
+        IVisitRepository VisitRepository { get; }
 
         Task Commit();
     }

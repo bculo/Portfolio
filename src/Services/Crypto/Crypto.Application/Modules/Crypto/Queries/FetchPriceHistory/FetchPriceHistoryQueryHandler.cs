@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
 {
-    public class FetchPriceHistoryQueryHandler : IRequestHandler<FetchPriceHistoryQuery, List<PriceHistoryDto>>
+    public class FetchPriceHistoryQueryHandler : IRequestHandler<FetchPriceHistoryQuery, IEnumerable<PriceHistoryDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _work;
@@ -21,7 +21,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
             _work = work;
         }
 
-        public async Task<List<PriceHistoryDto>> Handle(FetchPriceHistoryQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PriceHistoryDto>> Handle(FetchPriceHistoryQuery request, CancellationToken cancellationToken)
         {
             var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
 
