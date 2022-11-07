@@ -27,7 +27,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchGroup
                 return Enumerable.Empty<FetchGroupResponseDto>();
             }
 
-            var items = await _work.CryptoRepository.GetGroupWithPrices(request.Symbols);
+            var items = await _work.CryptoRepository.GetGroupWithPrices(request.Symbols, request.Page, request.Take);
 
             var dtos = _mapper.Map<List<FetchGroupResponseDto>>(items);
 

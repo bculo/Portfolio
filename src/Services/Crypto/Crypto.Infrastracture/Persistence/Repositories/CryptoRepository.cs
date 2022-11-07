@@ -61,11 +61,13 @@ namespace Crypto.Infrastracture.Persistence.Repositories
             return await _context.Cryptos.Select(i => i.Symbol).ToListAsync();
         }
 
-        public async Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols)
+        public async Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols, int page, int take)
         {
             var parameters = new DynamicParameters();
 
             parameters.Add("Symbols", symbols);
+            parameters.Add("Skip", (page - 1) * take);
+            parameters.Add("Take", take);
 
             var command = new CommandDefinition(
                 @"SELECT C.Symbol, C.Name, C.Description, C.WebSite, C.SourceCode, 
@@ -76,7 +78,9 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 		                FROM [dbo].[Prices]) IT
                   ON IT.CryptoId = C.Id
                   WHERE IT.Num = 1 AND C.Symbol IN @Symbols
-                  ORDER BY C.Symbol ASC",
+                  ORDER BY C.Symbol ASC
+                  OFFSET @Skip ROWS
+				  FETCH NEXT @Take ROWS ONLY",
                 parameters: parameters,
                 transaction: _context.Database.CurrentTransaction?.GetDbTransaction(),
                 commandTimeout: _context.Database.GetCommandTimeout() ?? 30

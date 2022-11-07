@@ -20,8 +20,13 @@ services:
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
 
+  eventstore.db:
+    image: eventstore/eventstore:21.10.0-buster-slim
+
 volumes:
   mongodbstore:
   redisstore:
   identitysqlvolume:
   rabbitmqstore:
+  eventstore-volume-data:
+  eventstore-volume-logs:

@@ -12,7 +12,7 @@ namespace Crypto.Core.Interfaces
         Task<CryptoResponseQuery> GetWithPrice(string symbol);
         Task<List<CryptoResponseQuery>> GetAllWithPrice();
         Task<List<CryptoResponseQuery>> GetPageWithPrices(int page, int take);
-        Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols);
+        Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols, int page, int take);
         Task<List<string>> GetAllSymbols();
     }
 }
