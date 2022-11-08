@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Core.Entities
+namespace Crypto.Core.Entities.PortfolioAggregate
 {
-    public class SearchHistory : Entity
+    public class PortfolioEvents
     {
 
     }

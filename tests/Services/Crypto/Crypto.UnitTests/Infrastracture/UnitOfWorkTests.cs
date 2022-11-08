@@ -20,7 +20,7 @@ namespace Crypto.UnitTests.Infrastracture
 
             var dbContext = new CryptoDbContext(dbOptions, timeService);
 
-            _work = new UnitOfWork(dbContext);
+            _work = new UnitOfWork(dbContext, null);
         }
 
         [Fact]
