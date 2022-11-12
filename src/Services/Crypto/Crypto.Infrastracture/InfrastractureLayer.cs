@@ -5,6 +5,8 @@ using Crypto.Infrastracture.Clients;
 using Crypto.Infrastracture.Persistence;
 using Crypto.Infrastracture.Persistence.Interceptors;
 using Crypto.Infrastracture.Persistence.Repositories;
+using Crypto.Infrastracture.Services;
+using HashidsNet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,14 @@ namespace Crypto.Infrastracture
             services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
+            services.AddScoped<IPortfolioRepositry, PortfolioRepository>();
+
+            services.AddSingleton<IIdentiferHasher>(i => 
+            {
+                var hasher = new Hashids(configuration.GetValue<string>("IdentifierHasher:Salt"),
+                    configuration.GetValue<int>("IdentifierHasher:HashLength"));
+                return new IdentifierHasher(hasher);
+            });
 
             services.AddHttpClient<ICryptoInfoService, CoinMarketCapClient>();
             services.AddHttpClient<ICryptoPriceService, CryptoCompareClient>();

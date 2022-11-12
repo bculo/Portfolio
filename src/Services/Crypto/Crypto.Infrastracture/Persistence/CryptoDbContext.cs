@@ -22,6 +22,8 @@ namespace Crypto.Infrastracture.Persistence
         public DbSet<Core.Entities.Crypto> Cryptos { get; set; }
         public DbSet<Core.Entities.CryptoPrice> Prices { get; set; }
         public DbSet<Core.Entities.Visit> Visits { get; set; }
+        public DbSet<Core.Entities.PortfolioAggregate.Portfolio> Portfolios { get; set; }
+        public DbSet<Core.Entities.PortfolioAggregate.PortfolioItem> PortfolioItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

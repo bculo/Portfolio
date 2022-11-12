@@ -9,12 +9,15 @@ namespace Crypto.Core.Entities.PortfolioAggregate
 {
     public class Portfolio : Entity, IAggregateRoot
     {
-        public string? Name { get; set; }
-        public PortfolioStatus Status { get; set; }
+        public string? Name { get; private set; }
+        public PortfolioStatus Status { get; private set; }
         public virtual ICollection<PortfolioItem> Items { get; set; }
         
-        public Portfolio()
+        public Portfolio(string name)
         {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Status = PortfolioStatus.ACTIVE;
+
             Items = new HashSet<PortfolioItem>();
         }
     }

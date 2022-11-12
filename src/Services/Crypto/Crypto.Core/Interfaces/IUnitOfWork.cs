@@ -12,7 +12,7 @@ namespace Crypto.Core.Interfaces
         ICryptoRepository CryptoRepository { get; }
         ICryptoExplorerRepository CryptoExplorerRepository { get; }
         IVisitRepository VisitRepository { get; }
-
+        IPortfolioRepositry PortfolioRepositry { get; }
         Task Commit();
     }
 }

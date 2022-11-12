@@ -17,6 +17,7 @@ namespace Crypto.Infrastracture.Persistence
         public ICryptoRepository CryptoRepository { get; private set; }
         public ICryptoExplorerRepository CryptoExplorerRepository { get; private set; }
         public IVisitRepository VisitRepository { get; private set; }
+        public IPortfolioRepositry PortfolioRepositry { get; private set; }
 
         public UnitOfWork(CryptoDbContext context, IServiceProvider provider)
         {
@@ -26,6 +27,7 @@ namespace Crypto.Infrastracture.Persistence
             CryptoRepository = provider.GetService<ICryptoRepository>() ?? throw new ArgumentNullException();
             CryptoExplorerRepository = provider.GetService<ICryptoExplorerRepository>() ?? throw new ArgumentNullException();
             VisitRepository = provider.GetService<IVisitRepository>() ?? throw new ArgumentNullException();
+            PortfolioRepositry = provider.GetService<IPortfolioRepositry>() ?? throw new ArgumentNullException();
         }
 
         public virtual async Task Commit()
