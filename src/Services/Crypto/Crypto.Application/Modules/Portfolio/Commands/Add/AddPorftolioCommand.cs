@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Portfolio.Commands.Add
 {
-    public class AddCommand : IRequest<string>
+    public class AddPorftolioCommand : IRequest<string>
     {
         public string? Name { get; set; }
     }

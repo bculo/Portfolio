@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Portfolio.Queries.FetchAll
 {
-    public class FetchAllQueryHandler : IRequestHandler<FetchAllQuery, IEnumerable<FetchAllResponseDto>>
+    public class FetchAllPortfoliosHandler : IRequestHandler<FetchAllPortfoliosQuery, IEnumerable<FetchAllPortfoliosDto>>
     {
-        private readonly ILogger<FetchAllQueryHandler> _logger;
+        private readonly ILogger<FetchAllPortfoliosHandler> _logger;
         private readonly IUnitOfWork _work;
         private readonly IMapper _mapper;
 
-        public FetchAllQueryHandler(ILogger<FetchAllQueryHandler> logger, 
+        public FetchAllPortfoliosHandler(ILogger<FetchAllPortfoliosHandler> logger, 
             IUnitOfWork work,
             IMapper mapper)
         {
@@ -25,7 +25,7 @@ namespace Crypto.Application.Modules.Portfolio.Queries.FetchAll
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<FetchAllResponseDto>> Handle(FetchAllQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<FetchAllPortfoliosDto>> Handle(FetchAllPortfoliosQuery request, CancellationToken cancellationToken)
         {
             //TODO get user ID from service
             string userId = string.Empty;
@@ -34,10 +34,10 @@ namespace Crypto.Application.Modules.Portfolio.Queries.FetchAll
 
             if (!portfolios.Any())
             {
-                return Enumerable.Empty<FetchAllResponseDto>();
+                return Enumerable.Empty<FetchAllPortfoliosDto>();
             }
 
-            var dtos = _mapper.Map<IEnumerable<FetchAllResponseDto>>(portfolios);
+            var dtos = _mapper.Map<IEnumerable<FetchAllPortfoliosDto>>(portfolios);
 
             return dtos;
         }

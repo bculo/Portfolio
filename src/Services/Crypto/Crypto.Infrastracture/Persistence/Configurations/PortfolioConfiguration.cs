@@ -1,4 +1,4 @@
-﻿using Crypto.Core.Entities.PortfolioAggregate;
+﻿using Crypto.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

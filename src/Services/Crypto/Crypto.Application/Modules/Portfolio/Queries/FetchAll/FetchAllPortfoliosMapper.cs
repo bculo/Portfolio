@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Portfolio.Queries.FetchAll
 {
-    public class FetchAllQueryMapper : Profile
+    public class FetchAllPortfoliosMapper : Profile
     {
-        public FetchAllQueryMapper()
+        public FetchAllPortfoliosMapper()
         {
-            CreateMap<Core.Entities.PortfolioAggregate.Portfolio, FetchAllResponseDto>()
+            CreateMap<Core.Entities.Portfolio, FetchAllPortfoliosDto>()
                 .ForMember(i => i.Status, opt => opt.MapFrom(i => i.Status.ToString()))
                 .ForMember(i => i.StatusId, opt => opt.MapFrom(i => (int)i.Status))
                 .ForMember(i => i.Name, opt => opt.MapFrom(i => i.Name))

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Portfolio.Queries.FetchAll
 {
-    public class FetchAllQuery : IRequest<IEnumerable<FetchAllResponseDto>>
+    public class FetchAllPortfoliosQuery : IRequest<IEnumerable<FetchAllPortfoliosDto>>
     {
         
     }

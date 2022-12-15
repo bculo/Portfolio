@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Portfolio.Commands.Add
 {
-    public class AddCommandValidator : AbstractValidator<AddCommand>
+    public class AddPorftolioCommandValidator : AbstractValidator<AddPorftolioCommand>
     {
-        public AddCommandValidator()
+        public AddPorftolioCommandValidator()
         {
             RuleFor(c => c.Name).MinimumLength(3).NotEmpty();
         }

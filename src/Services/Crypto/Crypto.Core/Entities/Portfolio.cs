@@ -5,19 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Core.Entities.PortfolioAggregate
+namespace Crypto.Core.Entities
 {
-    public class Portfolio : Entity, IAggregateRoot
+    public class Portfolio : Entity
     {
-        public string? Name { get; private set; }
-        public PortfolioStatus Status { get; private set; }
+        public string? Name { get; set; }
+        public PortfolioStatus Status { get; set; }
         public virtual ICollection<PortfolioItem> Items { get; set; }
-        
+
         public Portfolio(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Status = PortfolioStatus.ACTIVE;
-
             Items = new HashSet<PortfolioItem>();
         }
     }

@@ -21,11 +21,11 @@ namespace Crypto.API.Controllers
         [HttpGet("FetchAll")]
         public async Task<IActionResult> FetchAll()
         {
-            return Ok(await _mediator.Send(new FetchAllQuery { }));
+            return Ok(await _mediator.Send(new FetchAllPortfoliosQuery { }));
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] AddCommand instance)
+        public async Task<IActionResult> Add([FromBody] AddPorftolioCommand instance)
         {
             return Ok(await _mediator.Send(instance));
         }

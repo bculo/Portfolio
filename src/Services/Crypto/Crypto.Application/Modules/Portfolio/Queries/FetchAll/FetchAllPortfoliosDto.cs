@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Portfolio.Queries.FetchAll
 {
-    public class FetchAllResponseDto
+    public class FetchAllPortfoliosDto
     {
         public string? Id { get; set; }
         public string? Name { get; set; }

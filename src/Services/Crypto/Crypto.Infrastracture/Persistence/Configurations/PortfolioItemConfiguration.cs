@@ -1,4 +1,4 @@
-﻿using Crypto.Core.Entities.PortfolioAggregate;
+﻿using Crypto.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -15,10 +15,6 @@ namespace Crypto.Infrastracture.Persistence.Configurations
         {
             builder.HasKey(i => i.Id);
 
-            builder.Property(i => i.Symbol)
-                .HasMaxLength(256)
-                .IsRequired();
-
             builder.Property(i => i.AvaragePrice)
                 .HasPrecision(18, 2)
                 .IsRequired();
@@ -26,6 +22,12 @@ namespace Crypto.Infrastracture.Persistence.Configurations
             builder.HasOne(i => i.Portfolio)
                 .WithMany(i => i.Items)
                 .HasForeignKey(i => i.PortfolioId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            builder.HasOne(i => i.Crypto)
+                .WithMany(i => i.PortfolioItems)
+                .HasForeignKey(i => i.CryptoId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
         }
