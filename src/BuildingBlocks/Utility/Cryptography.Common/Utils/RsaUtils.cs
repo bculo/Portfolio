@@ -29,7 +29,6 @@ namespace Cryptography.Common.Utils
             RSA rsa = RSA.Create();
 
             rsa.ImportSubjectPublicKeyInfo(
-
                 source: Convert.FromBase64String(publicKeyJwt),
                 bytesRead: out _
             );
