@@ -2,5 +2,6 @@
 {
     public interface IPortfolioClient
     {
+        Task Ping(string message);
     }
 }

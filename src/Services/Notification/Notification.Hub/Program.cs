@@ -18,6 +18,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureSignalR(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder => builder
+        .WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
+
 builder.Services.AddSignalR();
 
 var app = builder.Build();
@@ -29,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

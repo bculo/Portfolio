@@ -4,7 +4,7 @@ using Notification.Hub.Interfaces;
 
 namespace Notification.Hub
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PortfolioHub : Microsoft.AspNetCore.SignalR.Hub<IPortfolioClient>
     {
         private readonly ILogger<PortfolioHub> _logger;
