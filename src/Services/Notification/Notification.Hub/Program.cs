@@ -3,6 +3,8 @@ using Keycloak.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Cryptography.Common.Utils;
+using Notification.Hub.Configurations;
+using Notification.Hub.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-ConfigureAuthentication(builder);
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.ConfigureSignalR(builder.Configuration);
 
 builder.Services.AddSignalR();
 
@@ -34,55 +37,3 @@ app.MapHub<PortfolioHub>("/portfolio");
 
 app.Run();
 
-void ConfigureAuthentication(WebApplicationBuilder builder)
-{
-    builder.Services.UseKeycloakClaimServices(builder.Configuration["KeycloakOptions:ApplicationName"]);
-
-    builder.Services.AddAuthentication(opt =>
-    {
-        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(opt =>
-    {
-        opt.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = builder.Configuration.GetValue<bool>("AuthOptions:ValidateAudience"),
-            ValidateIssuer = builder.Configuration.GetValue<bool>("AuthOptions:ValidateIssuer"),
-            ValidIssuers = new[] { builder.Configuration["AuthOptions:ValidIssuer"] },
-            ValidateIssuerSigningKey = builder.Configuration.GetValue<bool>("AuthOptions:ValidateIssuerSigningKey"),
-            IssuerSigningKey = RsaUtils.ImportSubjectPublicKeyInfo(builder.Configuration["AuthOptions:PublicRsaKey"]),
-            ValidateLifetime = builder.Configuration.GetValue<bool>("AuthOptions:ValidateLifetime")
-        };
-
-        opt.Events = new JwtBearerEvents()
-        {
-            OnTokenValidated = context =>
-            {
-                Console.WriteLine("User successfully authenticated");
-                return Task.CompletedTask;
-            },
-
-            OnMessageReceived = context =>
-            {
-                var accessToken = context.Request.Query["access_token"];
-
-                var path = context.HttpContext.Request.Path;
-
-                if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/portfolio")))
-                {
-                    context.Token = accessToken;
-                }
-
-                return Task.CompletedTask;
-            },
-
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine("Failed authentication");
-                return Task.CompletedTask;
-            }
-        };
-    });
-}

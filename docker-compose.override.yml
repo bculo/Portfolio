@@ -80,3 +80,10 @@ services:
     volumes:
       - eventstore-volume-data:/var/lib/eventstore
       - eventstore-volume-logs:/var/log/eventstore
+
+  notification.hub.redis:
+    container_name: notification.hub.redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - notification-hub-redis-store:/data

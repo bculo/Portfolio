@@ -23,6 +23,9 @@ services:
   eventstore.db:
     image: eventstore/eventstore:21.10.0-buster-slim
 
+  notification.hub.redis:
+    image: redis:7.0.7
+
 volumes:
   mongodbstore:
   redisstore:
@@ -30,3 +33,4 @@ volumes:
   rabbitmqstore:
   eventstore-volume-data:
   eventstore-volume-logs:
+  notification-hub-redis-store:

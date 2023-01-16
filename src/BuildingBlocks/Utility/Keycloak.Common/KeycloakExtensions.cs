@@ -49,6 +49,7 @@ namespace Keycloak.Common
             {
                 opt.AuthorizationServerUrl = aurhoriazionServer;
             });
+
             services.AddHttpClient<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
 
             //Resource owner password credentials flow
@@ -56,6 +57,7 @@ namespace Keycloak.Common
             {
                 opt.AuthorizationServerUrl = aurhoriazionServer;
             });
+
             services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
         }
         /// <summary>
@@ -72,6 +74,7 @@ namespace Keycloak.Common
             {
                 opt.AuthorizationServerUrl = aurhoriazionServerOwner;
             });
+
             services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
         }
 
@@ -89,6 +92,7 @@ namespace Keycloak.Common
             {
                 opt.AuthorizationServerUrl = aurhoriazionServer;
             });
+
             services.AddHttpClient<IOpenIdUserInfoService, KeycloakUserInfoClient>();
         }
 
@@ -105,6 +109,7 @@ namespace Keycloak.Common
             {
                 opt.AdminApiEndpointBase = adminApiBase;
             });
+
             services.AddHttpClient<IKeycloakAdminService, KeycloakAdminClient>();
         }
     }
