@@ -48,7 +48,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
             var symbols = entities.Select(i => i.Symbol).ToList();
 
-            var response = await _priceService.GetPriceInfo(symbols);
+            var response = await _priceService.GetPriceInfo(symbols!);
 
             if(response is null)
             {
@@ -59,7 +59,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             var events = new List<CryptoPriceUpdated>();
             foreach(var item in response)
             {
-                var crypto = entities.FirstOrDefault(i => i.Symbol.ToUpper() == item.Symbol.ToUpper());
+                var crypto = entities.FirstOrDefault(i => i.Symbol!.ToUpper() == item.Symbol.ToUpper());
                 
                 if(crypto is null)
                 {

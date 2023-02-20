@@ -16,16 +16,16 @@ namespace Crypto.Infrastracture.Persistence.Repositories
         public async Task<CryptoResponseQuery> GetWithPrice(string symbol)
         {
             return await _context.Prices.Include(i => i.Crypto)
-                                    .Where(i => i.Crypto.Symbol.ToLower() == symbol.ToLower())
+                                    .Where(i => i.Crypto!.Symbol!.ToLower() == symbol.ToLower())
                                     .OrderByDescending(i => i.CreatedOn)
                                     .Select(i => new CryptoResponseQuery
                                     {
                                         Id = i.CryptoId,
                                         Created = i.Crypto.CreatedOn,
-                                        Name = i.Crypto.Name,
-                                        Symbol = i.Crypto.Symbol,
-                                        Description = i.Crypto.Description,
-                                        Logo = i.Crypto.Logo,
+                                        Name = i.Crypto!.Name,
+                                        Symbol = i.Crypto!.Symbol,
+                                        Description = i.Crypto!.Description,
+                                        Logo = i.Crypto!.Logo,
                                         SourceCode = i.Crypto!.SourceCode,
                                         Website = i.Crypto!.WebSite,
                                         Price = i.Price
@@ -58,7 +58,7 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
         public async Task<List<string>> GetAllSymbols()
         {
-            return await _context.Cryptos.Select(i => i.Symbol).ToListAsync();
+            return await _context.Cryptos.Select(i => i.Symbol!).ToListAsync();
         }
 
         public async Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols, int page, int take)
