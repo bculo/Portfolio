@@ -1,29 +1,25 @@
-﻿using Crypto.Application.Interfaces.Services;
+﻿using Crypto.Application.Interfaces.Persistence;
+using Crypto.Application.Interfaces.Services;
 using Crypto.Core.Entities;
 using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 {
     public class UpdatePriceAllCommandHandler : IRequestHandler<UpdatePriceAllCommand>
     {
-        private readonly IUnitOfWork _work;
+        private readonly ICryptoDbContext _work;
         private readonly ICryptoPriceService _priceService;
         private readonly IPublishEndpoint _publish;
         private readonly IDateTime _time;
         private readonly ILogger<UpdatePriceAllCommandHandler> _logger;
 
-        public UpdatePriceAllCommandHandler(IUnitOfWork work,
+        public UpdatePriceAllCommandHandler(ICryptoDbContext work,
             ICryptoPriceService priceService,
             IPublishEndpoint publish,
             IDateTime time,
@@ -38,15 +34,15 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
         public async Task<Unit> Handle(UpdatePriceAllCommand request, CancellationToken cancellationToken)
         {
-            var entities = await _work.CryptoRepository.GetAll();
+            var entityDict = await _work.Cryptos.AsNoTracking().ToDictionaryAsync(x => x.Symbol!, y => y);
 
-            if (!entities.Any())
+            if (!entityDict.Any())
             {
                 _logger.LogTrace("ZERO entities to update");
                 return Unit.Value;
             }
 
-            var symbols = entities.Select(i => i.Symbol).ToList();
+            var symbols = entityDict.Keys.ToList();
 
             var response = await _priceService.GetPriceInfo(symbols!);
 
@@ -57,14 +53,15 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
             var newPrices = new List<CryptoPrice>();
             var events = new List<CryptoPriceUpdated>();
+
             foreach(var item in response)
             {
-                var crypto = entities.FirstOrDefault(i => i.Symbol!.ToUpper() == item.Symbol.ToUpper());
-                
-                if(crypto is null)
+                if(!entityDict.ContainsKey(item.Symbol!.ToUpper()))
                 {
                     continue;
                 }
+
+                var crypto = entityDict[item.Symbol!.ToUpper()];
 
                 newPrices.Add(new CryptoPrice
                 {
@@ -82,8 +79,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 });
             }
 
-            await _work.CryptoPriceRepository.AddRange(newPrices);
-            await _work.Commit();
+            await _work.SaveChangesAsync(cancellationToken);
 
             await PublishEvents(events);
 

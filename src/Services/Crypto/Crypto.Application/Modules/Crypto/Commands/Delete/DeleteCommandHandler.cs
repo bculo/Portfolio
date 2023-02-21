@@ -1,34 +1,29 @@
-﻿using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
+﻿using Crypto.Application.Interfaces.Persistence;
+using Crypto.Core.Exceptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crypto.Application.Modules.Crypto.Commands.Delete
 {
     public class DeleteCommandHandler : IRequestHandler<DeleteCommand>
     {
-        private readonly IUnitOfWork _work;
+        private readonly ICryptoDbContext _work;
 
-        public DeleteCommandHandler(IUnitOfWork work)
+        public DeleteCommandHandler(ICryptoDbContext work)
         {
             _work = work;
         }
 
         public async Task<Unit> Handle(DeleteCommand request, CancellationToken cancellationToken)
         {
-            var item = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+            var item = await _work.Cryptos.FirstOrDefaultAsync(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
 
             if(item is null)
             {
                 throw new CryptoCoreException("Item not found");
             }
 
-            await _work.CryptoRepository.Remove(item);
-            await _work.Commit();
+            await _work.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

@@ -9,6 +9,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
     public class AddNewCommand : IRequest
     {
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
     }
 }

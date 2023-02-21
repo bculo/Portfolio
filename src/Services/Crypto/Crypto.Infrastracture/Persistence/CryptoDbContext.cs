@@ -1,16 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crypto.Core;
+﻿using Crypto.Application.Interfaces.Persistence;
 using Crypto.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 using Time.Common.Contracts;
 
 namespace Crypto.Infrastracture.Persistence
 {
-    public class CryptoDbContext : DbContext
+    public class CryptoDbContext : DbContext, ICryptoDbContext
     {
         private readonly IDateTime _time;
 
@@ -19,11 +14,9 @@ namespace Crypto.Infrastracture.Persistence
             _time = time;
         }
 
-        public DbSet<Core.Entities.Crypto> Cryptos { get; set; }
-        public DbSet<Core.Entities.CryptoPrice> Prices { get; set; }
-        public DbSet<Core.Entities.Visit> Visits { get; set; }
-        public DbSet<Core.Entities.Portfolio> Portfolios { get; set; }
-        public DbSet<Core.Entities.PortfolioItem> PortfolioItems { get; set; }
+        public DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
+        public DbSet<Core.Entities.CryptoPrice> Prices => Set<Core.Entities.CryptoPrice>();
+        public DbSet<Core.Entities.Visit> Visits => Set<Core.Entities.Visit>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

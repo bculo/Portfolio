@@ -10,9 +10,9 @@ namespace Events.Common.Crypto
     public class NewCryptoAdded : IntegrationEvent
     {
         public long Id { get; set; }
-        public string Symbol { get; set; }
-        public string Name { get; set; }
+        public string? Symbol { get; set; }
+        public string? Name { get; set; }
         public decimal Price { get; set; }
-        public string Currency { get; set; }
+        public string? Currency { get; set; }
     }
 }

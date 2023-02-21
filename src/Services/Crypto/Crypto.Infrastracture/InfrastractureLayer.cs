@@ -1,4 +1,5 @@
-﻿using Crypto.Application.Interfaces.Services;
+﻿using Crypto.Application.Interfaces.Persistence;
+using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Options;
 using Crypto.Core.Interfaces;
 using Crypto.Infrastracture.Clients;
@@ -34,6 +35,8 @@ namespace Crypto.Infrastracture
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<IPortfolioRepositry, PortfolioRepository>();
+
+            services.AddScoped<ICryptoDbContext>(provider => provider.GetRequiredService<CryptoDbContext>());
 
             services.AddSingleton<IIdentiferHasher>(i => 
             {

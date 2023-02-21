@@ -1,30 +1,25 @@
-﻿using AutoMapper;
+﻿using Crypto.Application.Interfaces.Persistence;
 using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Info;
 using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 {
     public class UpdateInfoCommandHandler : IRequestHandler<UpdateInfoCommand>
     {
-        private readonly IUnitOfWork _work;
+        private readonly ICryptoDbContext _work;
         private readonly ICryptoInfoService _infoService;
         private readonly IPublishEndpoint _publish;
         private readonly IDateTime _time;
 
         public CryptoInfoDataDto? Info { get; set; }
 
-        public UpdateInfoCommandHandler(IUnitOfWork work, 
+        public UpdateInfoCommandHandler(ICryptoDbContext work, 
             ICryptoInfoService infoService,
             IPublishEndpoint publish,
             IDateTime time)
@@ -37,7 +32,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 
         public async Task<Unit> Handle(UpdateInfoCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+            var entity = await _work.Cryptos.FirstOrDefaultAsync(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
 
             if (entity is null)
             {
@@ -53,7 +48,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 
             ParseData(infoResponse, request.Symbol);
 
-            await UpdateInstance(entity);
+            await UpdateInstanceValues(entity);
 
             await _publish.Publish(new CryptoInfoUpdated
             {
@@ -68,13 +63,15 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
             return Unit.Value;
         }
 
-        private async Task UpdateInstance(Core.Entities.Crypto entity)
+        private Task UpdateInstanceValues(Core.Entities.Crypto entity)
         {
             entity.Name = Info!.Name;
             entity.Description = Info!.Description;
             entity.Logo = Info!.Logo;
             entity.WebSite = Info!.Urls["website"]?.FirstOrDefault() ?? null;
             entity.SourceCode = Info!.Urls["source_code"]?.FirstOrDefault() ?? null;
+
+            return Task.CompletedTask;
         }
 
         private void ParseData(CryptoInfoResponseDto infoResponse, string symbol)
