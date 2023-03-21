@@ -33,12 +33,19 @@ namespace Crypto.Infrastracture
             services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
+            services.AddScoped<ICacheService, CacheService>();
 
             services.AddSingleton<IIdentiferHasher>(i => 
             {
                 var hasher = new Hashids(configuration.GetValue<string>("IdentifierHasher:Salt"),
                     configuration.GetValue<int>("IdentifierHasher:HashLength"));
                 return new IdentifierHasher(hasher);
+            });
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration["RedisOptions:ConnectionString"];
+                options.InstanceName = configuration["RedisOptions:InstanceName"];
             });
 
             services.AddHttpClient<ICryptoInfoService, CoinMarketCapClient>();

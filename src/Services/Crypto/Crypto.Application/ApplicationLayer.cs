@@ -22,6 +22,7 @@ namespace Crypto.Application
         {
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
             services.Configure<CryptoUpdateOptions>(configuration.GetSection("CryptoUpdateOptions"));
+            services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
 
             services.AddScoped<IDateTime, LocalDateTimeService>();
 

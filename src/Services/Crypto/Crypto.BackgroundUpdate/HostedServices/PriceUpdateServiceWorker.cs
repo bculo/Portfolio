@@ -4,15 +4,15 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
-namespace Crypto.BackgroundUpdate
+namespace Crypto.BackgroundUpdate.HostedServices
 {
-    public class CryptoUpdateServiceWorker : BackgroundService
+    public class PriceUpdateServiceWorker : BackgroundService
     {
-        private readonly ILogger<CryptoUpdateServiceWorker> _logger;
+        private readonly ILogger<PriceUpdateServiceWorker> _logger;
         private readonly CryptoUpdateOptions _options;
         private readonly IServiceProvider _provider;
 
-        public CryptoUpdateServiceWorker(ILogger<CryptoUpdateServiceWorker> logger,
+        public PriceUpdateServiceWorker(ILogger<PriceUpdateServiceWorker> logger,
             IOptions<CryptoUpdateOptions> options,
             IServiceProvider provider)
         {
@@ -23,14 +23,14 @@ namespace Crypto.BackgroundUpdate
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogTrace("StartAsync method called in Background service {0}", nameof(CryptoUpdateServiceWorker));
+            _logger.LogTrace("StartAsync method called in Background service {0}", nameof(PriceUpdateServiceWorker));
 
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogTrace("StopAsync method called in Background service {0}", nameof(CryptoUpdateServiceWorker));
+            _logger.LogTrace("StopAsync method called in Background service {0}", nameof(PriceUpdateServiceWorker));
 
             return base.StopAsync(cancellationToken);
         }
@@ -57,7 +57,7 @@ namespace Crypto.BackgroundUpdate
 
                         stopWatch.Stop();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         stopWatch.Stop();
 
@@ -73,9 +73,9 @@ namespace Crypto.BackgroundUpdate
 
         private int CalculateSleepTime(TimeSpan executionTimeSpan)
         {
-            var calculted = (_options.TimeSpanInSeconds * 1000) - (int)executionTimeSpan.TotalMilliseconds;
+            var calculted = _options.TimeSpanInSeconds * 1000 - (int)executionTimeSpan.TotalMilliseconds;
 
-            if(calculted < 0) 
+            if (calculted < 0)
                 return 0;
 
             return calculted;

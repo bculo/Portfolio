@@ -1,5 +1,6 @@
 using Crypto.Application;
 using Crypto.BackgroundUpdate;
+using Crypto.BackgroundUpdate.HostedServices;
 using Crypto.Infrastracture;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
@@ -11,7 +12,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         InfrastractureLayer.AddServices(services, configuration);
         ApplicationLayer.ConfigureMessageQueue(services, configuration, false);
 
-        services.AddHostedService<CryptoUpdateServiceWorker>();
+        services.AddHostedService<PriceUpdateServiceWorker>();
     });
 
 var host = hostBuilder.Build();

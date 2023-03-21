@@ -19,5 +19,13 @@ namespace Crypto.Core.Exceptions
         {
             UserMessage = userMessage;
         }
+
+        public static void ThrowIfNull(object instance, string message)
+        {
+            if (instance is null)
+            {
+                throw new CryptoCoreException(message);
+            }
+        }
     }
 }

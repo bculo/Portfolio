@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
+using Crypto.Application.Interfaces.Services;
 using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
@@ -19,37 +15,49 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
         private readonly IUnitOfWork _work; 
         private readonly IPublishEndpoint _publish;
         private readonly IDateTime _time;
+        private readonly ICacheService _cache;
 
         public FetchSingleQueryHandler(IMapper mapper, 
             IUnitOfWork work, 
             IPublishEndpoint publish,
-            IDateTime time)
+            IDateTime time,
+            ICacheService cache)
         {
             _mapper = mapper;
             _work = work;
             _publish = publish;
             _time = time;
+            _cache = cache;
         }
 
         public async Task<FetchSingleResponseDto> Handle(FetchSingleQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _work.CryptoRepository.GetWithPrice(request.Symbol);
+            FetchSingleResponseDto response = default;
 
-            if(entity is null)
+            var cacheInstance = await _cache.Get<CryptoPriceUpdated>(request.Symbol);
+            if(cacheInstance is not null)
             {
-                throw new CryptoCoreException("Item with symbol {0} not found", request.Symbol);
-            }
+                response = _mapper.Map<FetchSingleResponseDto>(cacheInstance);
+                await PublishVisitedEvent(cacheInstance.Id, cacheInstance.Symbol);
+                return response;
+            } 
 
-            var dto = _mapper.Map<FetchSingleResponseDto>(entity);
+            var entity = await _work.CryptoRepository.GetWithPrice(request.Symbol);
+            CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
+            response = _mapper.Map<FetchSingleResponseDto>(entity);
+            await PublishVisitedEvent(entity.Id.Value, entity.Symbol);
 
+            return response;
+        }
+
+        private async Task PublishVisitedEvent(long cryptoId, string symbol)
+        {
             await _publish.Publish(new CryptoVisited
             {
                 CreatedOn = _time.DateTime,
-                CryptoId = entity.Id!.Value,
-                Symbol = entity.Symbol
+                CryptoId = cryptoId,
+                Symbol = symbol
             });
-
-            return dto;
         }
     }
 }
