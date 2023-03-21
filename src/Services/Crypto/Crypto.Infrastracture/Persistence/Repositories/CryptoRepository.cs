@@ -123,5 +123,12 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
             return result.ToList();
         }
+
+        public async Task<Dictionary<string, Core.Entities.Crypto>> GetAllAsDictionary()
+        {
+            return await _context.Cryptos
+                .AsNoTracking()
+                .ToDictionaryAsync(x => x.Symbol!, y => y);
+        }
     }
 }

@@ -1,13 +1,12 @@
-﻿using Crypto.Application.Interfaces.Persistence;
-using Crypto.Application.Interfaces.Services;
+﻿using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Info;
 using Crypto.Application.Models.Price;
 using Crypto.Core.Entities;
 using Crypto.Core.Exceptions;
+using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Time.Common.Contracts;
 
@@ -15,7 +14,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
     public class AddNewCommandHandler : IRequestHandler<AddNewCommand>
     {
-        private readonly ICryptoDbContext _context;
+        private readonly IUnitOfWork _work;
         private readonly ICryptoInfoService _infoService;
         private readonly ICryptoPriceService _priceService;
         private readonly ILogger<AddNewCommandHandler> _logger;
@@ -25,14 +24,14 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
         public CryptoInfoDataDto? Info { get; set; }
         public CryptoPriceResponseDto? Price { get; set; }
 
-        public AddNewCommandHandler(ICryptoDbContext context,
+        public AddNewCommandHandler(IUnitOfWork work,
             ICryptoInfoService infoService,
             ICryptoPriceService priceService,
             ILogger<AddNewCommandHandler> logger,
             IPublishEndpoint publish,
             IDateTime time)
         {
-            _context = context;
+            _work = work;
             _infoService = infoService;
             _priceService = priceService;
             _logger = logger;
@@ -42,7 +41,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 
         public async Task<Unit> Handle(AddNewCommand request, CancellationToken cancellationToken)
         {
-            var item = await _context.Cryptos.FirstOrDefaultAsync(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
+            var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
 
             if(item != null)
             {
@@ -68,7 +67,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 
             var newInstance = CreateNewInstance();
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _work.Commit();
 
             await _publish.Publish(new NewCryptoAdded
             {

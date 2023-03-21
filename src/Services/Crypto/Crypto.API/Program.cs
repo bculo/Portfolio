@@ -1,5 +1,4 @@
 using Crypto.API.Filters;
-using Crypto.API.SignalR;
 using Crypto.Application;
 using Crypto.Application.Interfaces.Services;
 using Crypto.Infrastracture;
@@ -16,8 +15,6 @@ builder.Services.AddControllers(opt =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddTransient<INotificationService, NotificationService>();
 
 builder.Services.AddSignalR();
 
@@ -37,8 +34,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapHub<CryptoHub>("/cryptohub");
 
 app.Run();
 

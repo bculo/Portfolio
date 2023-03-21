@@ -11,6 +11,7 @@ namespace Crypto.Core.Interfaces
     {
         Task<CryptoResponseQuery> GetWithPrice(string symbol);
         Task<List<CryptoResponseQuery>> GetAllWithPrice();
+        Task<Dictionary<string, Entities.Crypto>> GetAllAsDictionary();
         Task<List<CryptoResponseQuery>> GetPageWithPrices(int page, int take);
         Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols, int page, int take);
         Task<List<string>> GetAllSymbols();

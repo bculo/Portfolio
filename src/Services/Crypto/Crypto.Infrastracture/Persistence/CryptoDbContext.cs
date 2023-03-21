@@ -1,11 +1,10 @@
-﻿using Crypto.Application.Interfaces.Persistence;
-using Crypto.Core.Entities;
+﻿using Crypto.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Time.Common.Contracts;
 
 namespace Crypto.Infrastracture.Persistence
 {
-    public class CryptoDbContext : DbContext, ICryptoDbContext
+    public class CryptoDbContext : DbContext
     {
         private readonly IDateTime _time;
 

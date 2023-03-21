@@ -1,4 +1,4 @@
-﻿using Crypto.Application.Interfaces.Persistence;
+﻿using Crypto.Core.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -6,10 +6,10 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
 {
     public class VisitedCommandHandler : IRequestHandler<VisitedCommand>
     {
-        private readonly ICryptoDbContext _work;
+        private readonly IUnitOfWork _work;
         private readonly ILogger<VisitedCommandHandler> _logger;
 
-        public VisitedCommandHandler(ICryptoDbContext work, ILogger<VisitedCommandHandler> logger)
+        public VisitedCommandHandler(IUnitOfWork work, ILogger<VisitedCommandHandler> logger)
         {
             _work = work;
             _logger = logger;
@@ -19,12 +19,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
         {
             _logger.LogTrace("Crypto with {0} visited", request.CryptoId);
 
-            await _work.Visits.AddAsync(new Core.Entities.Visit
+            await _work.VisitRepository.Add(new Core.Entities.Visit
             {
                 CryptoID = request.CryptoId
             });
 
-            await _work.SaveChangesAsync(cancellationToken);
+            await _work.Commit();
 
             return Unit.Value;
         }

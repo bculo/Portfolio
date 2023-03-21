@@ -6,8 +6,8 @@ using System.Reflection;
 
 namespace Crypto.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class InfoController : ControllerBase
     {
         [HttpGet]

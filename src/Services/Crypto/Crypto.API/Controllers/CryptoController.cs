@@ -13,16 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CryptoController : ControllerBase
     {
-        private readonly ILogger<CryptoController> _logger;
         private readonly IMediator _mediator;
 
-        public CryptoController(ILogger<CryptoController> logger, IMediator mediator)
+        public CryptoController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
@@ -57,7 +55,6 @@ namespace Crypto.API.Controllers
         }
 
         [HttpPost("FetchPage")]
-        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> FetchPage([FromBody] FetchPageQuery query)
         {
             return Ok(await _mediator.Send(query));

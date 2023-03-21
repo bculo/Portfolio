@@ -1,11 +1,10 @@
-﻿using Crypto.Application.Interfaces.Persistence;
-using Crypto.Application.Interfaces.Services;
+﻿using Crypto.Application.Interfaces.Services;
 using Crypto.Core.Entities;
 using Crypto.Core.Exceptions;
+using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Time.Common.Contracts;
 
@@ -13,13 +12,13 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 {
     public class UpdatePriceAllCommandHandler : IRequestHandler<UpdatePriceAllCommand>
     {
-        private readonly ICryptoDbContext _work;
+        private readonly IUnitOfWork _work;
         private readonly ICryptoPriceService _priceService;
         private readonly IPublishEndpoint _publish;
         private readonly IDateTime _time;
         private readonly ILogger<UpdatePriceAllCommandHandler> _logger;
 
-        public UpdatePriceAllCommandHandler(ICryptoDbContext work,
+        public UpdatePriceAllCommandHandler(IUnitOfWork work,
             ICryptoPriceService priceService,
             IPublishEndpoint publish,
             IDateTime time,
@@ -34,7 +33,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
         public async Task<Unit> Handle(UpdatePriceAllCommand request, CancellationToken cancellationToken)
         {
-            var entityDict = await _work.Cryptos.AsNoTracking().ToDictionaryAsync(x => x.Symbol!, y => y);
+            var entityDict = await _work.CryptoRepository.GetAllAsDictionary();
 
             if (!entityDict.Any())
             {
@@ -79,7 +78,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 });
             }
 
-            await _work.SaveChangesAsync(cancellationToken);
+            await _work.Commit();
 
             await PublishEvents(events);
 
