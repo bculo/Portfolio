@@ -7,6 +7,8 @@ using Crypto.Application.Modules.Crypto.Queries.FetchGroup;
 using Crypto.Application.Modules.Crypto.Queries.FetchPage;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
+using Crypto.Application.Modules.Crypto.Queries.SearchBySymbol;
 using Filters.Web.Common.Action;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -83,6 +85,18 @@ namespace Crypto.API.Controllers
         public async Task<IActionResult> GetPriceHistory(string symbol)
         {
             return Ok(await _mediator.Send(new FetchPriceHistoryQuery { Symbol = symbol }));
+        }
+
+        [HttpPost("GetMostPopular")]
+        public async Task<IActionResult> GetMostPopular([FromBody] GetMostPopularQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpPost("SearchBySymbol")]
+        public async Task<IActionResult> SearchBySymbol([FromBody] SearchBySymbolQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
     }
 }

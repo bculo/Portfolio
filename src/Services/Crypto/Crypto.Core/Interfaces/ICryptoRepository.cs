@@ -15,6 +15,7 @@ namespace Crypto.Core.Interfaces
         Task<List<CryptoMostPopularQuery>> GetMostPopular(int take);
         Task<List<CryptoResponseQuery>> GetPageWithPrices(int page, int take);
         Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols, int page, int take);
+        Task<List<CryptoResponseQuery>> SearchBySymbol(string symbol, int page, int take);
         Task<List<string>> GetAllSymbols();
     }
 }

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Crypto.Application.Modules.Crypto.Queries.SearchBySymbol
 {
-    public class SearchBySymbolQuery : PageBaseQuery, IRequest<SearchBySymbolResponse>
+    public class SearchBySymbolQuery : PageBaseQuery, IRequest<List<SearchBySymbolResponse>>
     {
         public string? Symbol { get; set; }
     }

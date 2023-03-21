@@ -8,5 +8,13 @@ namespace Crypto.Application.Modules.Crypto.Queries.SearchBySymbol
 {
     public class SearchBySymbolResponse
     {
+        public string Symbol { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Website { get; set; }
+        public string SourceCode { get; set; }
+        public DateTime Created { get; set; }
+        public string Logo { get; set; }
+        public decimal Price { get; set; }
     }
 }
