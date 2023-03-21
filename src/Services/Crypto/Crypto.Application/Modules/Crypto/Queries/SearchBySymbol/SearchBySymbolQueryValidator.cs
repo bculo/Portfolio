@@ -6,7 +6,9 @@ namespace Crypto.Application.Modules.Crypto.Queries.SearchBySymbol
     {
         public SearchBySymbolQueryValidator()
         {
-            RuleFor(i => i.Symbol).NotNull();
+            RuleFor(i => i.Symbol)
+                .MaximumLength(20)
+                .NotNull();
         }
     }
 }

@@ -130,5 +130,18 @@ namespace Crypto.Infrastracture.Persistence.Repositories
                 .AsNoTracking()
                 .ToDictionaryAsync(x => x.Symbol!, y => y);
         }
+
+        public async Task<List<CryptoMostPopularQuery>> GetMostPopular(int take)
+        {
+            return await _context.Cryptos.GroupBy(x => x.Symbol)
+                .Select(i => new CryptoMostPopularQuery
+                {
+                    Counter = i.Count(),
+                    Symbol = i.Key!
+                })
+                .OrderByDescending(i => i.Counter)
+                .Take(5)
+                .ToListAsync();
+        }
     }
 }
