@@ -17,10 +17,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.Delete
         {
             var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
 
-            if(item is null)
-            {
-                throw new CryptoCoreException("Item not found");
-            }
+            CryptoCoreException.ThrowIfNull(item, "Item not found");
 
             await _work.CryptoRepository.Remove(item);
             await _work.Commit();

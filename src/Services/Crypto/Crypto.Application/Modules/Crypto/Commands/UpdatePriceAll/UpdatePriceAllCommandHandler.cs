@@ -44,11 +44,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             var symbols = entityDict.Keys.ToList();
 
             var response = await _priceService.GetPriceInfo(symbols!);
-
-            if(response is null)
-            {
-                throw new CryptoCoreException("Unexcpected error");
-            }
+            CryptoCoreException.ThrowIfNull(response, "Unexcpected error");
 
             var newPrices = new List<CryptoPrice>();
             var events = new List<CryptoPriceUpdated>();

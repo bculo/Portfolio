@@ -67,6 +67,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 
             var newInstance = CreateNewInstance();
 
+            await _work.CryptoRepository.Add(newInstance);
             await _work.Commit();
 
             await _publish.Publish(new NewCryptoAdded

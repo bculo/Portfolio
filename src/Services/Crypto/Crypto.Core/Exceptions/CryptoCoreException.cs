@@ -27,5 +27,13 @@ namespace Crypto.Core.Exceptions
                 throw new CryptoCoreException(message);
             }
         }
+
+        public static void ThrowIfEmpty<TType>(IEnumerable<TType> values, string message)
+        {
+            if(values is null || !values.Any())
+            {
+                throw new CryptoCoreException(message);
+            }
+        }
     }
 }

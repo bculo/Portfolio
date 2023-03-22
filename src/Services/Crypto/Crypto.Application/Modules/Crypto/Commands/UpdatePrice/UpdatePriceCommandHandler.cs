@@ -30,18 +30,10 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
         public async Task<Unit> Handle(UpdatePriceCommand request, CancellationToken cancellationToken)
         {
             var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
-
-            if (entity is null)
-            {
-                throw new CryptoCoreException("Item with symbol {0} not found", request.Symbol);
-            }
+            CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
 
             var priceResponse = await _priceService.GetPriceInfo(request.Symbol);
-
-            if (priceResponse is null)
-            {
-                throw new CryptoCoreException("Provided symbol not supported");
-            }
+            CryptoCoreException.ThrowIfNull(priceResponse, "Provided symbol not supported");
 
             var newPriceInstance = new CryptoPrice
             {
@@ -50,7 +42,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
             };
 
             await _work.Commit();
-
             await _publish.Publish(new CryptoPriceUpdated
             {
                 CreatedOn = _time.Now,

@@ -32,18 +32,10 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
         public async Task<Unit> Handle(UpdateInfoCommand request, CancellationToken cancellationToken)
         {
             var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
-
-            if (entity is null)
-            {
-                throw new CryptoCoreException("Item with symbol {0} not found", request.Symbol);
-            }
+            CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
 
             var infoResponse = await _infoService.FetchData(request.Symbol);
-
-            if(infoResponse is null)
-            {
-                throw new CryptoCoreException("Provided symbol not supported");
-            }
+            CryptoCoreException.ThrowIfNull(entity, "Provided symbol not supported");
 
             ParseData(infoResponse, request.Symbol);
 
@@ -77,20 +69,14 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
         {
             var cryptoData = infoResponse.Data.Values.FirstOrDefault();
 
-            if (cryptoData is null || !cryptoData.Any())
-            {
-                throw new Exception("Unexpected exception");
-            }
+            CryptoCoreException.ThrowIfEmpty(cryptoData, "Unexpected exception");
 
             Info = cryptoData.FirstOrDefault(i => i.Symbol.ToLower() == symbol.ToLower()
                                     && !string.IsNullOrEmpty(i.Description)
                                     && !string.IsNullOrEmpty(i.Name)
                                     && !string.IsNullOrEmpty(i.Logo));
 
-            if (Info is null)
-            {
-                throw new Exception("Unexpected exception");
-            }
+            CryptoCoreException.ThrowIfNull(Info, "Unexpected exception");
         }
     }
 }
