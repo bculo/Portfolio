@@ -123,7 +123,7 @@ namespace Crypto.UnitTests.Infrastracture
                 handler.When("*").Respond(HttpStatusCode.BadRequest);
             }
 
-            return new CoinMarketCapClient(handler.ToHttpClient(), _options);
+            throw new NotImplementedException();
         }
     }
 }

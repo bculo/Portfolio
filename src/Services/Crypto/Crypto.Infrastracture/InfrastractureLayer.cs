@@ -2,6 +2,7 @@
 using Crypto.Application.Options;
 using Crypto.Core.Interfaces;
 using Crypto.Infrastracture.Clients;
+using Crypto.Infrastracture.Constants;
 using Crypto.Infrastracture.Persistence;
 using Crypto.Infrastracture.Persistence.Interceptors;
 using Crypto.Infrastracture.Persistence.Repositories;
@@ -10,6 +11,8 @@ using HashidsNet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
 
 namespace Crypto.Infrastracture
 {
@@ -34,6 +37,7 @@ namespace Crypto.Infrastracture
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
 
             services.AddSingleton<IIdentiferHasher>(i => 
             {
@@ -48,8 +52,32 @@ namespace Crypto.Infrastracture
                 options.InstanceName = configuration["RedisOptions:InstanceName"];
             });
 
-            services.AddHttpClient<ICryptoInfoService, CoinMarketCapClient>();
+            ConfigureCoinMarketCapClient(services, configuration);
             services.AddHttpClient<ICryptoPriceService, CryptoCompareClient>();
+        }
+
+        private static void ConfigureCoinMarketCapClient(IServiceCollection services, IConfiguration configuration)
+        {
+            string baseAddress = configuration["CryptoInfoApiOptions:BaseUrl"];
+            int retryNumber = configuration.GetValue<int>("CryptoInfoApiOptions:RetryNumber");
+            int timeout = configuration.GetValue<int>("CryptoInfoApiOptions:Timeout");
+            string headerKey = configuration["CryptoInfoApiOptions:HeaderKey"];
+            string headerValue = configuration["CryptoInfoApiOptions:ApiKey"];
+
+            ArgumentNullException.ThrowIfNull(baseAddress);
+            ArgumentNullException.ThrowIfNull(headerKey);
+            ArgumentNullException.ThrowIfNull(headerValue);
+
+            services.AddHttpClient(ApiClient.CryptoInfo, client =>
+            {
+                client.DefaultRequestHeaders.Add(headerKey, headerValue);
+                client.BaseAddress = new Uri(baseAddress);
+                client.Timeout = TimeSpan.FromSeconds(timeout);
+            })
+            .AddTransientHttpErrorPolicy(policyBuilder =>
+            {
+                return policyBuilder.WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber));
+            });     
         }
     }
 }

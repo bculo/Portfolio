@@ -1,5 +1,6 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Application.Modules.Crypto.Commands.Delete;
+using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchAll;
@@ -28,6 +29,13 @@ namespace Crypto.API.Controllers
 
         [HttpPost("Create")]
         public async Task<IActionResult> AddNewCrypto([FromBody] AddNewCommand instance)
+        {
+            await _mediator.Send(instance);
+            return NoContent();
+        }
+
+        [HttpPost("UpdateInfo")]
+        public async Task<IActionResult> UpdateInfo([FromBody] UpdateInfoCommand instance)
         {
             await _mediator.Send(instance);
             return NoContent();
