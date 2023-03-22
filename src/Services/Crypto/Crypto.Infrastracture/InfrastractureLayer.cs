@@ -38,6 +38,7 @@ namespace Crypto.Infrastracture
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
+            services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
 
             services.AddSingleton<IIdentiferHasher>(i => 
             {
@@ -53,7 +54,7 @@ namespace Crypto.Infrastracture
             });
 
             ConfigureCoinMarketCapClient(services, configuration);
-            services.AddHttpClient<ICryptoPriceService, CryptoCompareClient>();
+            ConfigureCryptoCompareClient(services, configuration);
         }
 
         private static void ConfigureCoinMarketCapClient(IServiceCollection services, IConfiguration configuration)
@@ -78,6 +79,30 @@ namespace Crypto.Infrastracture
             {
                 return policyBuilder.WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber));
             });     
+        }
+
+        private static void ConfigureCryptoCompareClient(IServiceCollection services, IConfiguration configuration)
+        {
+            string baseAddress = configuration["CryptoPriceApiOptions:BaseUrl"];
+            int retryNumber = configuration.GetValue<int>("CryptoPriceApiOptions:RetryNumber");
+            int timeout = configuration.GetValue<int>("CryptoPriceApiOptions:Timeout");
+            string headerKey = configuration["CryptoPriceApiOptions:HeaderKey"];
+            string headerValue = configuration["CryptoPriceApiOptions:ApiKey"];
+
+            ArgumentNullException.ThrowIfNull(baseAddress);
+            ArgumentNullException.ThrowIfNull(headerKey);
+            ArgumentNullException.ThrowIfNull(headerValue);
+
+            services.AddHttpClient(ApiClient.CryptoPrice, client =>
+            {
+                client.DefaultRequestHeaders.Add(headerKey, headerValue);
+                client.BaseAddress = new Uri(baseAddress);
+                client.Timeout = TimeSpan.FromSeconds(timeout);
+            })
+            .AddTransientHttpErrorPolicy(policyBuilder =>
+            {
+                return policyBuilder.WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber));
+            });
         }
     }
 }

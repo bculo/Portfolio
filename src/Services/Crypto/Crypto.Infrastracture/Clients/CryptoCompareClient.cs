@@ -1,6 +1,7 @@
 ﻿using Crypto.Application.Interfaces.Services;
 using Crypto.Application.Models.Price;
 using Crypto.Application.Options;
+using Crypto.Infrastracture.Constants;
 using Http.Common.Extensions;
 using HttpUtility.Abstract;
 using Microsoft.Extensions.Options;
@@ -14,23 +15,23 @@ using System.Threading.Tasks;
 
 namespace Crypto.Infrastracture.Clients
 {
-    public class CryptoCompareClient : BaseHttpClient, ICryptoPriceService
+    public class CryptoCompareClient : ICryptoPriceService
     {
         private readonly CryptoPriceApiOptions _options;
+        private IHttpClientFactory _httpClientFactory;
 
-        public CryptoCompareClient(HttpClient client, IOptions<CryptoPriceApiOptions> options) : base(client)
+        public CryptoCompareClient(IHttpClientFactory httpClientFactory, IOptions<CryptoPriceApiOptions> options)
         {
             _options = options.Value;
-
-            AddHeader(_options.HeaderKey, _options.ApiKey);
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<CryptoPriceResponseDto> GetPriceInfo(string symbol)
         {
-            var url = $"{_options.BaseUrl}/price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}";
+            ArgumentNullException.ThrowIfNull(symbol);
 
-            var response = await Client.GetAsync(url);
-
+            var client = _httpClientFactory.CreateClient(ApiClient.CryptoPrice);
+            var response = await client.GetAsync($"price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}");
             var content = await response.HandleResponse();
 
             if(IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
@@ -50,10 +51,10 @@ namespace Crypto.Infrastracture.Clients
 
         public async Task<List<CryptoPriceResponseDto>> GetPriceInfo(List<string> symbols)
         {
-            var url = $"{_options.BaseUrl}/pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}";
+            ArgumentNullException.ThrowIfNull(symbols);
 
-            var response = await Client.GetAsync(url);
-
+            var client = _httpClientFactory.CreateClient(ApiClient.CryptoPrice);
+            var response = await client.GetAsync($"pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}");
             var content = await response.HandleResponse();
 
             if (IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
@@ -65,7 +66,7 @@ namespace Crypto.Infrastracture.Clients
 
             var finalResult = new List<CryptoPriceResponseDto>();
 
-            foreach(var item in finalContent)
+            foreach(var item in finalContent!)
             {
                 finalResult.Add(new CryptoPriceResponseDto
                 {

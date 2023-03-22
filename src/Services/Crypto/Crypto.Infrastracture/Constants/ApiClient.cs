@@ -9,5 +9,6 @@ namespace Crypto.Infrastracture.Constants
     public static class ApiClient
     {
         public static readonly string CryptoInfo = "CoinMarketCapClient";
+        public static readonly string CryptoPrice = "CryptoCompareClient";
     }
 }
