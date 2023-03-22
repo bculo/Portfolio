@@ -30,7 +30,7 @@ namespace Trend.BackgroundSync
                 {
                     _logger.LogTrace("Scope created inside SyncBackgroundService");
 
-                    var time = scope.ServiceProvider.GetRequiredService<IDateTime>();
+                    var time = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
                     var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
 
                     var lastSync = await syncRepo.GetLastValidSync();
@@ -46,13 +46,13 @@ namespace Trend.BackgroundSync
             }
         }
 
-        private async Task StartSyncProcess(IServiceScope scope, IDateTime time)
+        private async Task StartSyncProcess(IServiceScope scope, IDateTimeProvider time)
         {
             try
             {
                 var syncService = scope.ServiceProvider.GetRequiredService<ISyncService>();
 
-                _logger.LogTrace("Sync started {0}", time.DateTime);
+                _logger.LogTrace("Sync started {0}", time.Now);
 
                 var syncResult = await syncService.ExecuteGoogleSync();
             }
@@ -62,14 +62,14 @@ namespace Trend.BackgroundSync
             }
         }
 
-        private bool CanExecuteSync(IDateTime time, SyncStatus status)
+        private bool CanExecuteSync(IDateTimeProvider time, SyncStatus status)
         {
             if (status is null)
             {
                 return true;
             }
 
-            var timeSpanFromLastSync = time.DateTime - status.Finished!.Value;
+            var timeSpanFromLastSync = time.Now - status.Finished!.Value;
 
             if (timeSpanFromLastSync.TotalHours > _options.TimeSpanBetweenSyncsHours)
             {

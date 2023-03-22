@@ -6,9 +6,9 @@ namespace Crypto.Infrastracture.Persistence
 {
     public class CryptoDbContext : DbContext
     {
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
-        public CryptoDbContext(DbContextOptions<CryptoDbContext> options, IDateTime time) : base(options)
+        public CryptoDbContext(DbContextOptions<CryptoDbContext> options, IDateTimeProvider time) : base(options)
         {
             _time = time;
         }
@@ -33,7 +33,7 @@ namespace Crypto.Infrastracture.Persistence
 
         private void AttachDateTimeToEntities()
         {
-            var currentTime = _time.DateTime;
+            var currentTime = _time.Now;
 
             foreach (var item in ChangeTracker.Entries<Entity>())
             {

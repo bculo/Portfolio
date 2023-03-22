@@ -13,9 +13,9 @@ namespace Crypto.Infrastracture.Services
     {
         private readonly IDistributedCache _cache;
         private readonly RedisOptions _options;
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
-        public CacheService(IDistributedCache cache, IOptions<RedisOptions> options, IDateTime time)
+        public CacheService(IDistributedCache cache, IOptions<RedisOptions> options, IDateTimeProvider time)
         {
             _cache = cache;
             _options = options.Value;
@@ -96,7 +96,7 @@ namespace Crypto.Infrastracture.Services
         {
             return new DistributedCacheEntryOptions
             {
-                AbsoluteExpiration = _time.DateTime + TimeSpan.FromMinutes(_options.ExpirationTime)
+                AbsoluteExpiration = _time.Now + TimeSpan.FromMinutes(_options.ExpirationTime)
             };
         }
     }

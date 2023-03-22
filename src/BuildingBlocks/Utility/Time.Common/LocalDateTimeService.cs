@@ -7,8 +7,8 @@ using Time.Common.Contracts;
 
 namespace Time.Common
 {
-    public class LocalDateTimeService : IDateTime
+    public class LocalDateTimeService : IDateTimeProvider
     {
-        public DateTime DateTime => DateTime.Now;
+        public DateTime Now => DateTime.Now;
     }
 }

@@ -24,7 +24,7 @@ namespace Crypto.Application
             services.Configure<CryptoUpdateOptions>(configuration.GetSection("CryptoUpdateOptions"));
             services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
 
-            services.AddScoped<IDateTime, LocalDateTimeService>();
+            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 

@@ -19,17 +19,17 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
         private readonly ICryptoPriceService _priceService;
         private readonly ILogger<AddNewCommandHandler> _logger;
         private readonly IPublishEndpoint _publish;
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
-        public CryptoInfoDataDto? Info { get; set; }
-        public CryptoPriceResponseDto? Price { get; set; }
+        public CryptoInfoDataDto Info { get; set; }
+        public CryptoPriceResponseDto Price { get; set; }
 
         public AddNewCommandHandler(IUnitOfWork work,
             ICryptoInfoService infoService,
             ICryptoPriceService priceService,
             ILogger<AddNewCommandHandler> logger,
             IPublishEndpoint publish,
-            IDateTime time)
+            IDateTimeProvider time)
         {
             _work = work;
             _infoService = infoService;
@@ -71,7 +71,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 
             await _publish.Publish(new NewCryptoAdded
             {
-                CreatedOn = _time.DateTime,
+                CreatedOn = _time.Now,
                 Currency = Price!.Currency,
                 Id = newInstance.Id,
                 Name = newInstance.Name,

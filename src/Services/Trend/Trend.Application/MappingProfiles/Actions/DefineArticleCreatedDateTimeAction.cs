@@ -13,9 +13,9 @@ namespace Trend.Application.MappingProfiles.Actions
 {
     public class DefineArticleCreatedDateTimeAction : IMappingAction<GoogleSearchEngineItemDto, Article>
     {
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
-        public DefineArticleCreatedDateTimeAction(IDateTime time)
+        public DefineArticleCreatedDateTimeAction(IDateTimeProvider time)
         {
             _time = time;
         }
@@ -24,7 +24,7 @@ namespace Trend.Application.MappingProfiles.Actions
         {
             //destination.Id = ObjectId.GenerateNewId().ToString();
             destination.IsActive = true;
-            destination.Created = _time.DateTime;
+            destination.Created = _time.Now;
         }
     }
 }

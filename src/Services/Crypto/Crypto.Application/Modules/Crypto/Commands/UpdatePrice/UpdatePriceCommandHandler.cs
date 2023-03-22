@@ -14,12 +14,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
         private readonly IUnitOfWork _work;
         private readonly ICryptoPriceService _priceService;
         private readonly IPublishEndpoint _publish;
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
         public UpdatePriceCommandHandler(IUnitOfWork work, 
             ICryptoPriceService priceService, 
             IPublishEndpoint publish,
-            IDateTime time)
+            IDateTimeProvider time)
         {
             _work = work;
             _priceService = priceService;
@@ -53,7 +53,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
 
             await _publish.Publish(new CryptoPriceUpdated
             {
-                CreatedOn = _time.DateTime,
+                CreatedOn = _time.Now,
                 Currency = priceResponse.Currency,
                 Id = entity.Id,
                 Name = entity.Name,

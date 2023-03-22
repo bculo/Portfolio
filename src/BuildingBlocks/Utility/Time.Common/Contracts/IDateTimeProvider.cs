@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Time.Common.Contracts
 {
-    public interface IDateTime
+    public interface IDateTimeProvider
     {
-        DateTime DateTime { get; }
+        DateTime Now { get; }
     }
 }

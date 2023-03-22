@@ -12,16 +12,16 @@ namespace Trend.Application.MappingProfiles.Actions
 {
     public class DefineSyncSettingCreatedDateTimeAction : IMappingAction<SearchWordCreateDto, Domain.Entities.SearchWord>
     {
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
-        public DefineSyncSettingCreatedDateTimeAction(IDateTime time)
+        public DefineSyncSettingCreatedDateTimeAction(IDateTimeProvider time)
         {
             _time = time;
         }
 
         public void Process(SearchWordCreateDto source, Domain.Entities.SearchWord destination, ResolutionContext context)
         {
-            destination.Created = _time.DateTime;
+            destination.Created = _time.Now;
             destination.IsActive = true;
         }
     }

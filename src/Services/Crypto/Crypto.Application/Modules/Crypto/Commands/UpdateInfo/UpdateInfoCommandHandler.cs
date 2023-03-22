@@ -14,14 +14,14 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
         private readonly IUnitOfWork _work;
         private readonly ICryptoInfoService _infoService;
         private readonly IPublishEndpoint _publish;
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
 
         public CryptoInfoDataDto? Info { get; set; }
 
         public UpdateInfoCommandHandler(IUnitOfWork work, 
             ICryptoInfoService infoService,
             IPublishEndpoint publish,
-            IDateTime time)
+            IDateTimeProvider time)
         {
             _work = work;
             _infoService = infoService;
@@ -51,7 +51,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 
             await _publish.Publish(new CryptoInfoUpdated
             {
-                CreatedOn = _time.DateTime,
+                CreatedOn = _time.Now,
                 Description = entity.Description,
                 Id = entity.Id,
                 Name = entity.Name,

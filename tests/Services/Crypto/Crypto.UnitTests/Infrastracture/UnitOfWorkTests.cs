@@ -12,7 +12,7 @@ namespace Crypto.UnitTests.Infrastracture
 
         public UnitOfWorkTests()
         {
-            IDateTime timeService = new LocalDateTimeService();
+            IDateTimeProvider timeService = new LocalDateTimeService();
 
             var dbOptions = new DbContextOptionsBuilder<CryptoDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())

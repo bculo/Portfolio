@@ -21,7 +21,7 @@ namespace Trend.Application.Services
     {
         private readonly ILogger<GoogleSyncService> _logger;
         private readonly IGoogleSearchClient _searchService;
-        private readonly IDateTime _time;
+        private readonly IDateTimeProvider _time;
         private readonly IMapper _mapper;
         private readonly IRepository<SyncStatus> _syncRepo;
         private readonly IArticleRepository _articleRepo;
@@ -33,7 +33,7 @@ namespace Trend.Application.Services
         public GoogleSyncService(
             ILogger<GoogleSyncService> logger,
             IGoogleSearchClient searchService,
-            IDateTime time,
+            IDateTimeProvider time,
             IMapper mapper,
             IRepository<SyncStatus> syncRepo,
             IArticleRepository articleRepo)
@@ -103,7 +103,7 @@ namespace Trend.Application.Services
 
         private void MarkSyncStatusAsFinished()
         {
-            SyncStatus.Finished = _time.DateTime;
+            SyncStatus.Finished = _time.Now;
             SyncStatus.SucceddedRequests = Result.TotalSuccess;
             SyncStatus.TotalRequests = Result.Total;
         }
@@ -151,8 +151,8 @@ namespace Trend.Application.Services
             return new SyncStatus
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                Created = _time.DateTime,
-                Started = _time.DateTime,
+                Created = _time.Now,
+                Started = _time.Now,
             };
         }
 

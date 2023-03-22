@@ -42,7 +42,7 @@ namespace Trend.Application
 
             services.AddScoped<IGoogleSyncService, GoogleSyncService>();
             services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
-            services.AddScoped<IDateTime, LocalDateTimeService>();
+            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<ISearchWordService, SearchWordService>();
