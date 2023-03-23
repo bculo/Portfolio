@@ -16,8 +16,6 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSignalR();
-
 ApplicationLayer.AddServices(builder.Services, builder.Configuration);
 ApplicationLayer.ConfigureMessageQueue(builder.Services, builder.Configuration, true);
 InfrastractureLayer.AddServices(builder.Services, builder.Configuration);

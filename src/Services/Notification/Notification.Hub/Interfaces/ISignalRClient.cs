@@ -1,6 +1,6 @@
 ﻿namespace Notification.Hub.Interfaces
 {
-    public interface IPortfolioClient
+    public interface ISignalRClient
     {
         Task Ping(string message);
     }

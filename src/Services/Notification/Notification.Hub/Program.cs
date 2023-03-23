@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Cryptography.Common.Utils;
 using Notification.Hub.Configurations;
 using Notification.Hub.Extensions;
+using Notification.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureSignalR(builder.Configuration);
 
+ApplicationLayer.ConfigureMessageQueue(builder.Services, builder.Configuration);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder
@@ -27,18 +30,16 @@ builder.Services.AddCors(options =>
         .AllowCredentials());
 });
 
-builder.Services.AddSignalR();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("CorsPolicy");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
