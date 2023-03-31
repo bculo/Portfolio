@@ -1,20 +1,17 @@
+using Notification.Application;
+using Notification.Application.Interfaces;
 using Notification.Hub;
-using Keycloak.Common;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Cryptography.Common.Utils;
 using Notification.Hub.Configurations;
 using Notification.Hub.Extensions;
-using Notification.Application;
+using Notification.Hub.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureSignalR(builder.Configuration);

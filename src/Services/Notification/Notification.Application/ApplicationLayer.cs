@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notification.Application.Constants;
 using Notification.Application.Consumers.Crypto;
+using System.Reflection;
 
 namespace Notification.Application
 {
@@ -10,6 +11,11 @@ namespace Notification.Application
     {
         public static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+            });
+
             services.AddMassTransit(x =>
             {
                 ConfigureConsumers(x);

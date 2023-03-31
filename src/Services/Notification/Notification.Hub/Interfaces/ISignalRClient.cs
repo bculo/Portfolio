@@ -2,6 +2,7 @@
 {
     public interface ISignalRClient
     {
-        Task Ping(string message);
+        Task Message(object message);
+        Task Message(string message);
     }
 }
