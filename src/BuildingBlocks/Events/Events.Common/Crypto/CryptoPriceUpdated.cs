@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class CryptoPriceUpdated : IntegrationEvent
+    public class CryptoPriceUpdated
     {
         public long Id { get; set; }
-        public string? Symbol { get; set; }
-        public string? Name { get; set; }
+        public string Symbol { get; set; }
+        public string Name { get; set; }
         public decimal Price { get; set; }
-        public string? Currency { get; set; }
+        public string Currency { get; set; }
     }
 }

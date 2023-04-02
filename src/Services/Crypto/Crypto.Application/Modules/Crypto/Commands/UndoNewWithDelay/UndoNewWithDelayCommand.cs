@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Modules.Crypto.Commands.AddNew
+namespace Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay
 {
-    public class AddNewCommand : IRequest
+    public class UndoNewWithDelayCommand : IRequest
     {
-        public string Symbol { get; set; }
         public Guid TemporaryId { get; set; }
     }
 }

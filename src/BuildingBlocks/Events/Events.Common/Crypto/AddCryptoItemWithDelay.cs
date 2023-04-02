@@ -1,4 +1,5 @@
 ﻿using Events.Common.Common;
+using MassTransit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class CryptoVisited
+    public class AddCryptoItemWithDelay
     {
-        public long CryptoId { get; set; }
         public string Symbol { get; set; }
+        public Guid TemporaryId { get; set; }
     }
 }

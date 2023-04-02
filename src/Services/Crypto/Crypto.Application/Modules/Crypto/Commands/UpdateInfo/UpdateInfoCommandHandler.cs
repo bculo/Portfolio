@@ -14,7 +14,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
         private readonly IUnitOfWork _work;
         private readonly ICryptoInfoService _infoService;
         private readonly IPublishEndpoint _publish;
-        private readonly IDateTimeProvider _time;
 
         public CryptoInfoDataDto? Info { get; set; }
 
@@ -26,7 +25,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
             _work = work;
             _infoService = infoService;
             _publish = publish;
-            _time = time;
         }
 
         public async Task<Unit> Handle(UpdateInfoCommand request, CancellationToken cancellationToken)
@@ -43,7 +41,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 
             await _publish.Publish(new CryptoInfoUpdated
             {
-                CreatedOn = _time.Now,
                 Description = entity.Description,
                 Id = entity.Id,
                 Name = entity.Name,

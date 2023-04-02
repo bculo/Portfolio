@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Options
 {
-    public class CryptoUpdateOptions
+    public sealed class CryptoUpdateOptions
     {
         public int TimeSpanInSeconds { get; set; }
     }

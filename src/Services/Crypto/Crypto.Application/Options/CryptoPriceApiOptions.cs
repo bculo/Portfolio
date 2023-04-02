@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Options
 {
-    public class CryptoPriceApiOptions
+    public sealed class CryptoPriceApiOptions
     {
         public string HeaderKey { get; set; }
         public string ApiKey { get; set; }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Options
 {
-    public sealed class QueueOptions
+    public sealed class SagaTimeoutOptions
     {
-        public string Address { get; set; }
+        public int TimeoutCryptoAddInSeconds { get; set; }
     }
 }

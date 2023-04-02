@@ -15,19 +15,16 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
         private readonly IUnitOfWork _work;
         private readonly ICryptoPriceService _priceService;
         private readonly IPublishEndpoint _publish;
-        private readonly IDateTimeProvider _time;
         private readonly ILogger<UpdatePriceAllCommandHandler> _logger;
 
         public UpdatePriceAllCommandHandler(IUnitOfWork work,
             ICryptoPriceService priceService,
             IPublishEndpoint publish,
-            IDateTimeProvider time,
             ILogger<UpdatePriceAllCommandHandler> logger)
         {
             _work = work;
             _priceService = priceService;
             _publish = publish;
-            _time = time;
             _logger = logger;
         }
 
@@ -85,7 +82,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
         {
             foreach (var item in events)
             {
-                item.CreatedOn = _time.Now;
                 await _publish.Publish(item);
             }
         }

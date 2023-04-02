@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class CryptoInfoUpdated : IntegrationEvent
+    public class CryptoInfoUpdated
     {
         public long Id { get; set; }
         public string? Symbol { get; set; }

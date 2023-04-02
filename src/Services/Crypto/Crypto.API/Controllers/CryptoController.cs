@@ -1,5 +1,7 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
+using Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay;
 using Crypto.Application.Modules.Crypto.Commands.Delete;
+using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
 using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
@@ -29,6 +31,19 @@ namespace Crypto.API.Controllers
 
         [HttpPost("Create")]
         public async Task<IActionResult> AddNewCrypto([FromBody] AddNewCommand instance)
+        {
+            await _mediator.Send(instance);
+            return NoContent();
+        }
+
+        [HttpPost("CreateWithDelay")]
+        public async Task<IActionResult> AddNewCryptoWithDelay([FromBody] AddNewWithDelayCommand instance)
+        {
+            return Ok(await _mediator.Send(instance));
+        }
+
+        [HttpPost("UndoCreateWithDelay")]
+        public async Task<IActionResult> UndoAddNewCryptoWithDelay([FromBody] UndoNewWithDelayCommand instance)
         {
             await _mediator.Send(instance);
             return NoContent();

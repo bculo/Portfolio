@@ -14,19 +14,16 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _work; 
         private readonly IPublishEndpoint _publish;
-        private readonly IDateTimeProvider _time;
         private readonly ICacheService _cache;
 
         public FetchSingleQueryHandler(IMapper mapper, 
             IUnitOfWork work, 
             IPublishEndpoint publish,
-            IDateTimeProvider time,
             ICacheService cache)
         {
             _mapper = mapper;
             _work = work;
             _publish = publish;
-            _time = time;
             _cache = cache;
         }
 
@@ -54,7 +51,6 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
         {
             await _publish.Publish(new CryptoVisited
             {
-                CreatedOn = _time.Now,
                 CryptoId = cryptoId,
                 Symbol = symbol
             });

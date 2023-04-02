@@ -1,15 +1,14 @@
-﻿using Events.Common.Common;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Events.Common.Crypto
+namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
 {
-    public class CryptoVisited
+    public class AddNewWithDelayCommand : IRequest<Guid>
     {
-        public long CryptoId { get; set; }
         public string Symbol { get; set; }
     }
 }

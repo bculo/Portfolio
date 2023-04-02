@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Options
+namespace Events.Common.Crypto
 {
-    public sealed class QueueOptions
+    public class AddCryptoItemWithDelayTimeout
     {
-        public string Address { get; set; }
+        public Guid TemporaryId { get; set; }
     }
 }

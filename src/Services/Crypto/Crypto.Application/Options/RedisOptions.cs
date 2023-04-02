@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Options
 {
-    public class RedisOptions
+    public sealed class RedisOptions
     {
         public string ConnectionString { get; set; }
         public string InstanceName { get; set; }
