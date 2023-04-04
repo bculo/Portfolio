@@ -1,9 +1,11 @@
 ﻿using Crypto.Application.Options;
+using Crypto.Infrastracture.Persistence;
 using Events.Common.Crypto;
 using MassTransit;
 using Microsoft.Extensions.Options;
+using System.Diagnostics;
 
-namespace Crypto.Application.Consumers.State
+namespace Crypto.Infrastracture.Consumers.State
 {
     public class AddCryptoItemState : SagaStateMachineInstance
     {
@@ -15,6 +17,8 @@ namespace Crypto.Application.Consumers.State
 
     public class AddCryptoItemStateMachine : MassTransitStateMachine<AddCryptoItemState>
     {
+        private readonly SagaTimeoutOptions _options;
+
         public MassTransit.State Delayed { get; private set; }
         public MassTransit.State DelayExpired { get; private set; }
         public MassTransit.State DelayCanceled { get; private set; }
@@ -26,10 +30,13 @@ namespace Crypto.Application.Consumers.State
         public Event<UndoAddCryptoItemWithDelay> UndoAddCryptoItemWithDelay { get; private set; }
         public Event<NewCryptoAdded> NewCryptoAdded { get; private set; }
         public Event<Fault<AddCryptoItem>> CreateCryptoItemError { get; private set; }
+
         public Schedule<AddCryptoItemState, AddCryptoItemWithDelayTimeout> AddCryptoItemTimeout { get; private set; }
 
         public AddCryptoItemStateMachine(IOptions<SagaTimeoutOptions> options)
         {
+            _options = options.Value;
+
             InstanceState(x => x.CurrentState);
 
             Event(() => AddCryptoItemWithDelay, x => x.CorrelateById(context => context.Message.TemporaryId));
@@ -57,7 +64,7 @@ namespace Crypto.Application.Consumers.State
                 When(AddCryptoItemTimeout.Received)
                     .ThenAsync(async x =>
                     {
-                        var endpoint = await x.GetSendEndpoint(new Uri($"queue:AddCryptoItem"));
+                        var endpoint = await x.GetSendEndpoint(new Uri($"queue:crypto-add-crypto-item"));
                         await endpoint.Send(new AddCryptoItem { Symbol = x.Saga.Symbol, TemporaryId = x.Saga.CorrelationId });
                     })
                     .TransitionTo(CreationProcessStarted),
@@ -74,11 +81,28 @@ namespace Crypto.Application.Consumers.State
                     .TransitionTo(CreationProcessFinished)
                     .Finalize(),
                 When(CreateCryptoItemError)
+                    .Then(x => x.Publish(new AddCryptoItemFailed { Symbol = x.Saga.Symbol }))
                     .TransitionTo(CreationProcessFailed)
                     .Finalize(),            
                 Ignore(UndoAddCryptoItemWithDelay));
 
             SetCompletedWhenFinalized();
+        }
+    }
+
+    public class AddCryptoItemStateMachineDefinition : SagaDefinition<AddCryptoItemState>
+    {
+        private readonly IServiceProvider _provider;
+
+        public AddCryptoItemStateMachineDefinition(IServiceProvider provider)
+        {
+            _provider = provider;
+        }
+
+        protected override void ConfigureSaga(IReceiveEndpointConfigurator endpointConfigurator, ISagaConfigurator<AddCryptoItemState> sagaConfigurator)
+        {
+            endpointConfigurator.UseMessageRetry(r => r.Intervals(100, 500, 1000));
+            //endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
         }
     }
 }

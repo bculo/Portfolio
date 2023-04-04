@@ -10,7 +10,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         ApplicationLayer.AddServices(services, configuration);
         InfrastractureLayer.AddServices(services, configuration);
-        ApplicationLayer.ConfigureMessageQueue(services, configuration, false);
+        InfrastractureLayer.ConfigureMessageQueue(services, configuration, false);
 
         services.AddHostedService<PriceUpdateServiceWorker>();
     });

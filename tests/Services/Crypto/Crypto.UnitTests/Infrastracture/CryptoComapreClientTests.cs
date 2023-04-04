@@ -185,7 +185,8 @@ namespace Crypto.UnitTests.Infrastracture
                 handler.When("*").Respond(HttpStatusCode.BadRequest);
             }
 
-            return new CryptoCompareClient(handler.ToHttpClient(), _options);
+            //return new CryptoCompareClient(handler.ToHttpClient(), _options);
+            return null;
         }
 
         //{"BTC":{"USD":19703.13},"ETH":{"USD":1064.4},"ADA":{"USD":0.4303}} real server response

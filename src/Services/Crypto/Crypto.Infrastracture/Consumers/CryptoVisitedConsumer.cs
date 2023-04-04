@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Consumers
+namespace Crypto.Infrastracture.Consumers
 {
     public class CryptoVisitedConsumer : IConsumer<CryptoVisited>
     {

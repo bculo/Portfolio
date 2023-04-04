@@ -3,16 +3,19 @@ using Crypto.Application.Options;
 using Crypto.Core.Interfaces;
 using Crypto.Infrastracture.Clients;
 using Crypto.Infrastracture.Constants;
+using Crypto.Infrastracture.Consumers.State;
 using Crypto.Infrastracture.Persistence;
 using Crypto.Infrastracture.Persistence.Interceptors;
 using Crypto.Infrastracture.Persistence.Repositories;
 using Crypto.Infrastracture.Services;
 using HashidsNet;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
+using System.Reflection;
 
 namespace Crypto.Infrastracture
 {
@@ -55,6 +58,36 @@ namespace Crypto.Infrastracture
 
             ConfigureCoinMarketCapClient(services, configuration);
             ConfigureCryptoCompareClient(services, configuration);
+        }
+
+        public static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration, bool useConsumers)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
+                {
+                    o.UseSqlServer();
+                });
+                
+                x.AddDelayedMessageScheduler();
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
+
+                x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState, AddCryptoItemStateMachineDefinition>()
+                    .EntityFrameworkRepository(r =>
+                    {
+                        r.ExistingDbContext<CryptoDbContext>();
+                        r.UseSqlServer();
+                    });
+
+                x.AddConsumers(Assembly.GetExecutingAssembly());
+
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.UseDelayedMessageScheduler();
+                    config.Host(configuration["QueueOptions:Address"]);
+                    config.ConfigureEndpoints(context);
+                });
+            });
         }
 
         private static void ConfigureCoinMarketCapClient(IServiceCollection services, IConfiguration configuration)

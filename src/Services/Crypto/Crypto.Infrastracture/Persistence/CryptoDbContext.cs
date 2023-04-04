@@ -1,4 +1,5 @@
 ﻿using Crypto.Core.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Time.Common.Contracts;
 
@@ -20,6 +21,10 @@ namespace Crypto.Infrastracture.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CryptoDbContext).Assembly);
         }

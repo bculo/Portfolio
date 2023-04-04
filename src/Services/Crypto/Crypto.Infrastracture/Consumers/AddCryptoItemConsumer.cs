@@ -4,7 +4,7 @@ using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
 
-namespace Crypto.Application.Consumers
+namespace Crypto.Infrastracture.Consumers
 {
     public class AddCryptoItemConsumer : IConsumer<AddCryptoItem>
     {
