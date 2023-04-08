@@ -2,8 +2,9 @@
 using Crypto.Infrastracture.Persistence;
 using Events.Common.Crypto;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Options;
-using System.Diagnostics;
 
 namespace Crypto.Infrastracture.Consumers.State
 {
@@ -15,16 +16,21 @@ namespace Crypto.Infrastracture.Consumers.State
         public Guid? AddCryptoItemTimeoutId { get; set; }
     }
 
+    public class AddCryptoItemStateMap : SagaClassMap<AddCryptoItemState>
+    {
+        protected override void Configure(EntityTypeBuilder<AddCryptoItemState> entity, ModelBuilder model)
+        {
+            entity.Property(x => x.CurrentState).HasMaxLength(64);
+            entity.Property(x => x.Symbol).HasMaxLength(10);
+        }
+    }
+
     public class AddCryptoItemStateMachine : MassTransitStateMachine<AddCryptoItemState>
     {
-        private readonly SagaTimeoutOptions _options;
-
         public MassTransit.State Delayed { get; private set; }
         public MassTransit.State DelayExpired { get; private set; }
         public MassTransit.State DelayCanceled { get; private set; }
         public MassTransit.State CreationProcessStarted { get; private set; }
-        public MassTransit.State CreationProcessFailed { get; private set; }
-        public MassTransit.State CreationProcessFinished { get; private set; }
 
         public Event<AddCryptoItemWithDelay> AddCryptoItemWithDelay { get; private set; }
         public Event<UndoAddCryptoItemWithDelay> UndoAddCryptoItemWithDelay { get; private set; }
@@ -35,10 +41,8 @@ namespace Crypto.Infrastracture.Consumers.State
 
         public AddCryptoItemStateMachine(IOptions<SagaTimeoutOptions> options)
         {
-            _options = options.Value;
-
             InstanceState(x => x.CurrentState);
-
+          
             Event(() => AddCryptoItemWithDelay, x => x.CorrelateById(context => context.Message.TemporaryId));
             Event(() => UndoAddCryptoItemWithDelay, x => x.CorrelateById(context => context.Message.TemporaryId));
             Event(() => NewCryptoAdded, x => x.CorrelateById(context => context.Message.TemporaryId));
@@ -47,7 +51,11 @@ namespace Crypto.Infrastracture.Consumers.State
             Schedule(() => AddCryptoItemTimeout, instance => instance.AddCryptoItemTimeoutId, s =>
             {
                 s.Delay = TimeSpan.FromSeconds(options.Value.TimeoutCryptoAddInSeconds);
-                s.Received = r => r.CorrelateById(context => context.Message.TemporaryId);
+                s.Received = r =>
+                {
+                    r.CorrelateById(context => context.Message.TemporaryId);
+                    r.OnMissingInstance(m => m.Discard());
+                };
             });
 
             Initially(
@@ -70,23 +78,18 @@ namespace Crypto.Infrastracture.Consumers.State
                     .TransitionTo(CreationProcessStarted),
                 When(UndoAddCryptoItemWithDelay)
                     .Unschedule(AddCryptoItemTimeout)
-                    .TransitionTo(DelayCanceled)
                     .Finalize());
-
-            During(Delayed,
-                Ignore(AddCryptoItemWithDelay));
 
             During(CreationProcessStarted,
                 When(NewCryptoAdded)
-                    .TransitionTo(CreationProcessFinished)
                     .Finalize(),
                 When(CreateCryptoItemError)
-                    .Then(x => x.Publish(new AddCryptoItemFailed { Symbol = x.Saga.Symbol }))
-                    .TransitionTo(CreationProcessFailed)
+                    .Publish(x => new AddCryptoItemFailed { Symbol = x.Saga.Symbol })
                     .Finalize(),            
                 Ignore(UndoAddCryptoItemWithDelay));
 
-            SetCompletedWhenFinalized();
+            During(Final,
+                Ignore(AddCryptoItemTimeout.AnyReceived));
         }
     }
 
@@ -102,7 +105,7 @@ namespace Crypto.Infrastracture.Consumers.State
         protected override void ConfigureSaga(IReceiveEndpointConfigurator endpointConfigurator, ISagaConfigurator<AddCryptoItemState> sagaConfigurator)
         {
             endpointConfigurator.UseMessageRetry(r => r.Intervals(100, 500, 1000));
-            //endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
+            endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
         }
     }
 }

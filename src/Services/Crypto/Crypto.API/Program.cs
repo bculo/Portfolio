@@ -2,12 +2,21 @@ using Crypto.API.Filters;
 using Crypto.Application;
 using Crypto.Application.Interfaces.Services;
 using Crypto.Infrastracture;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<GlobalExceptionFilter>();
+});
+
+builder.Host.UseSerilog((host, log) =>
+{
+    log.MinimumLevel.Debug();
+    log.MinimumLevel.Override("Microsoft", LogEventLevel.Warning);
+    log.WriteTo.Console();
 });
 
 builder.Services.AddEndpointsApiExplorer();

@@ -4,6 +4,7 @@ using Crypto.Infrastracture.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crypto.Infrastracture.Migrations
 {
     [DbContext(typeof(CryptoDbContext))]
-    partial class CryptoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230408195244_masstransit-statemachine-fix")]
+    partial class masstransitstatemachinefix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

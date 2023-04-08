@@ -25,6 +25,7 @@ namespace Crypto.Infrastracture
         {
             services.Configure<CryptoInfoApiOptions>(configuration.GetSection("CryptoInfoApiOptions"));
             services.Configure<CryptoPriceApiOptions>(configuration.GetSection("CryptoPriceApiOptions"));
+            services.Configure<SagaTimeoutOptions>(configuration.GetSection("SagaTimeoutOptions"));
 
             services.AddDbContext<CryptoDbContext>(opt =>
             {

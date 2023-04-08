@@ -1,15 +1,19 @@
 ﻿using Crypto.Core.Entities;
+using Crypto.Infrastracture.Consumers.State;
 using MassTransit;
+using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Time.Common.Contracts;
 
 namespace Crypto.Infrastracture.Persistence
 {
-    public class CryptoDbContext : DbContext
+    public class CryptoDbContext : SagaDbContext
     {
         private readonly IDateTimeProvider _time;
 
-        public CryptoDbContext(DbContextOptions<CryptoDbContext> options, IDateTimeProvider time) : base(options)
+        public CryptoDbContext(DbContextOptions<CryptoDbContext> options, 
+            IDateTimeProvider time) 
+            : base(options)
         {
             _time = time;
         }
@@ -17,6 +21,11 @@ namespace Crypto.Infrastracture.Persistence
         public DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
         public DbSet<Core.Entities.CryptoPrice> Prices => Set<Core.Entities.CryptoPrice>();
         public DbSet<Core.Entities.Visit> Visits => Set<Core.Entities.Visit>();
+
+        protected override IEnumerable<ISagaClassMap> Configurations
+        {
+            get { yield return new AddCryptoItemStateMap(); }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
