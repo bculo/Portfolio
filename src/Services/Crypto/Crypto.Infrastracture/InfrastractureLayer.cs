@@ -68,6 +68,7 @@ namespace Crypto.Infrastracture
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
                     o.UseSqlServer();
+                    o.UseBusOutbox();
                 });
                 
                 x.AddDelayedMessageScheduler();
