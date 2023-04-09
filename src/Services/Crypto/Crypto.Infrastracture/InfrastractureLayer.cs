@@ -61,7 +61,7 @@ namespace Crypto.Infrastracture
             ConfigureCryptoCompareClient(services, configuration);
         }
 
-        public static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration, bool useConsumers)
+        public static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
