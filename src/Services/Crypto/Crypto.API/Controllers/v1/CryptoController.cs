@@ -16,10 +16,11 @@ using Filters.Web.Common.Action;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Crypto.API.Controllers
+namespace Crypto.API.Controllers.v1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class CryptoController : ControllerBase
     {
         private readonly IMediator _mediator;
