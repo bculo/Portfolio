@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Crypto.API.Versioning
+namespace Crypto.API.Configurations
 {
     public static class ApiVersionExtensions
     {

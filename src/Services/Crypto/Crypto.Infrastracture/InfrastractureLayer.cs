@@ -62,33 +62,7 @@ namespace Crypto.Infrastracture
 
         public static void ConfigureWebProjectMessageQueue(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMassTransit(x =>
-            {
-                x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
-                {
-                    o.UseSqlServer();
-                    o.UseBusOutbox();
-                });
-                
-                x.AddDelayedMessageScheduler();
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
 
-                x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState, AddCryptoItemStateMachineDefinition>()
-                    .EntityFrameworkRepository(r =>
-                    {
-                        r.ExistingDbContext<CryptoDbContext>();
-                        r.UseSqlServer();
-                    });
-
-                x.AddConsumers(Assembly.GetExecutingAssembly());
-
-                x.UsingRabbitMq((context, config) =>
-                {
-                    config.UseDelayedMessageScheduler();
-                    config.Host(configuration["QueueOptions:Address"]);
-                    config.ConfigureEndpoints(context);
-                });
-            });
         }
 
         public static void AddClients(IServiceCollection services, IConfiguration configuration)
