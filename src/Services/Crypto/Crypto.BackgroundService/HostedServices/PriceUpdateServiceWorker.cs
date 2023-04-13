@@ -1,6 +1,8 @@
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Options;
-using MediatR;
+using Crypto.Core.Exceptions;
+using Events.Common.Crypto;
+using MassTransit;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
@@ -23,15 +25,13 @@ namespace Crypto.BackgroundUpdate.HostedServices
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogTrace("StartAsync method called in Background service {0}", nameof(PriceUpdateServiceWorker));
-
+            _logger.LogInformation("StartAsync method called in Background service {0}", nameof(PriceUpdateServiceWorker));
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogTrace("StopAsync method called in Background service {0}", nameof(PriceUpdateServiceWorker));
-
+            _logger.LogInformation("StopAsync method called in Background service {0}", nameof(PriceUpdateServiceWorker));
             return base.StopAsync(cancellationToken);
         }
 
@@ -49,18 +49,21 @@ namespace Crypto.BackgroundUpdate.HostedServices
                     {
                         stopWatch.Start();
 
-                        _logger.LogTrace("Scope created inside SyncBackgroundService");
+                        var endpointProvider = scope.ServiceProvider.GetRequiredService<ISendEndpointProvider>();
+                        var endpoint = await endpointProvider.GetSendEndpoint(new Uri($"queue:crypto-update-crypto-items-price"));
+ 
+                        if(endpoint is null)
+                        {
+                            throw new CryptoCoreNotFoundException($"Message broker endpoint crypto-update-crypto-items-price not found");
+                        }
 
-                        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-
-                        await mediator.Send(new UpdatePriceAllCommand { });
+                        await endpoint.Send(new UpdateCryptoItemsPrice { }, stoppingToken);
 
                         stopWatch.Stop();
                     }
                     catch (Exception e)
                     {
                         stopWatch.Stop();
-
                         _logger.LogError(e, e.Message);
                     }
 

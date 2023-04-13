@@ -75,7 +75,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common", "src\Buil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.BackgroundSync", "src\Services\Trend\Trend.BackgroundSync\Trend.BackgroundSync.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.BackgroundUpdate", "src\Services\Crypto\Crypto.BackgroundUpdate\Crypto.BackgroundUpdate.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.BackgroundService", "src\Services\Crypto\Crypto.BackgroundService\Crypto.BackgroundService.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstract", "Abstract", "{06F4282A-052B-4EBD-9119-C1DFDFC702BB}"
 EndProject
@@ -95,8 +95,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend", "Trend", "{650F277F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.IntegrationTests", "tests\Services\Trend\Trend.IntegrationTests\Trend.IntegrationTests.csproj", "{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.GraphQL", "src\Services\Crypto\Crypto.GraphQL\Crypto.GraphQL.csproj", "{10B2291E-D44A-4553-99F7-2029BDCCD0E5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Filters", "Filters", "{AA572B96-27EC-4EB6-BC2F-1C938041611B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filters.Web.Common", "src\BuildingBlocks\Filters\Filters.Web.Common\Filters.Web.Common.csproj", "{3CE3FCE4-E013-4C78-8E88-0DABF69E08C1}"
@@ -109,7 +107,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notificatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.Hub", "src\Services\Notification\Notification.Hub\Notification.Hub.csproj", "{2B3A8A7D-0055-46CA-98F1-225022C5F85B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Application", "src\Services\Notification\Notification.Application\Notification.Application.csproj", "{A15780C8-6360-4948-9FA9-D65490AF975C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.Application", "src\Services\Notification\Notification.Application\Notification.Application.csproj", "{A15780C8-6360-4948-9FA9-D65490AF975C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,10 +215,6 @@ Global
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10B2291E-D44A-4553-99F7-2029BDCCD0E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3CE3FCE4-E013-4C78-8E88-0DABF69E08C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3CE3FCE4-E013-4C78-8E88-0DABF69E08C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CE3FCE4-E013-4C78-8E88-0DABF69E08C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -281,7 +275,6 @@ Global
 		{E94E52A6-CF67-4439-968E-C18881817C6C} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
 		{650F277F-16ED-4CC2-B5DA-CFB8636F7B1D} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
 		{4C42E4E5-6EFD-4D20-A794-24F9B16401A2} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
-		{10B2291E-D44A-4553-99F7-2029BDCCD0E5} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 		{AA572B96-27EC-4EB6-BC2F-1C938041611B} = {E4CAA80B-5C9A-40EE-9BFF-76A5BD7E193A}
 		{3CE3FCE4-E013-4C78-8E88-0DABF69E08C1} = {AA572B96-27EC-4EB6-BC2F-1C938041611B}
 		{A46B0413-5D9F-46C9-8A9C-2AD0890CA4E7} = {E90508B7-CC3F-45D9-B4EF-0D802BC43B21}

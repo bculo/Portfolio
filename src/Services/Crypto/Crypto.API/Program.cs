@@ -73,7 +73,7 @@ builder.Services.AddOpenTelemetry()
     });
 
 ApplicationLayer.AddServices(builder.Services, builder.Configuration);
-InfrastractureLayer.ConfigureMessageQueue(builder.Services, builder.Configuration);
+InfrastractureLayer.ConfigureWebProjectMessageQueue(builder.Services, builder.Configuration);
 InfrastractureLayer.AddServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();

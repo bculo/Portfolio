@@ -1,17 +1,11 @@
-using Crypto.Application;
-using Crypto.BackgroundUpdate;
+using Crypto.BackgroundUpdate.Configurations;
 using Crypto.BackgroundUpdate.HostedServices;
-using Crypto.Infrastracture;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostcontext, services) =>
     {
         IConfiguration configuration = hostcontext.Configuration;
-
-        ApplicationLayer.AddServices(services, configuration);
-        InfrastractureLayer.AddServices(services, configuration);
-        InfrastractureLayer.ConfigureMessageQueue(services, configuration);
-
+        services.ConfigureBackgroundService(configuration);
         services.AddHostedService<PriceUpdateServiceWorker>();
     });
 

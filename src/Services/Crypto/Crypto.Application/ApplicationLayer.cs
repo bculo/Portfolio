@@ -13,10 +13,6 @@ namespace Crypto.Application
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
-            services.Configure<CryptoUpdateOptions>(configuration.GetSection("CryptoUpdateOptions"));
-            services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
-
             services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
