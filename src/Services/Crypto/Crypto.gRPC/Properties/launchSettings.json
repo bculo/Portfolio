@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "Crypto.gRPC": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5098;https://localhost:7098",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

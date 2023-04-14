@@ -15,7 +15,6 @@ namespace Crypto.Application
         {
             services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-
             services.AddMediatR(typeof(ApplicationLayer).Assembly);
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);

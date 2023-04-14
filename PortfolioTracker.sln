@@ -109,6 +109,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.Hub", "src\Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.Application", "src\Services\Notification\Notification.Application\Notification.Application.csproj", "{A15780C8-6360-4948-9FA9-D65490AF975C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.gRPC", "src\Services\Crypto\Crypto.gRPC\Crypto.gRPC.csproj", "{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -231,6 +233,10 @@ Global
 		{A15780C8-6360-4948-9FA9-D65490AF975C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A15780C8-6360-4948-9FA9-D65490AF975C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A15780C8-6360-4948-9FA9-D65490AF975C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -282,6 +288,7 @@ Global
 		{EC05BAFF-44FB-410F-84CF-2AA201FE5A8C} = {E90508B7-CC3F-45D9-B4EF-0D802BC43B21}
 		{2B3A8A7D-0055-46CA-98F1-225022C5F85B} = {EC05BAFF-44FB-410F-84CF-2AA201FE5A8C}
 		{A15780C8-6360-4948-9FA9-D65490AF975C} = {EC05BAFF-44FB-410F-84CF-2AA201FE5A8C}
+		{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

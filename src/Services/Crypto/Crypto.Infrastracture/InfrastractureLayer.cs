@@ -60,11 +60,6 @@ namespace Crypto.Infrastracture
             });
         }
 
-        public static void ConfigureWebProjectMessageQueue(IServiceCollection services, IConfiguration configuration)
-        {
-
-        }
-
         public static void AddClients(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<CryptoInfoApiOptions>(configuration.GetSection("CryptoInfoApiOptions"));
