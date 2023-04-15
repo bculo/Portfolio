@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.v1
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]

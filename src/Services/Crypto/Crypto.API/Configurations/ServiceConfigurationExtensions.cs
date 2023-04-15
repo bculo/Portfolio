@@ -9,6 +9,7 @@ using Cryptography.Common.Utils;
 using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Data.SqlClient;
@@ -133,6 +134,16 @@ namespace Crypto.API.Configurations
                         return Task.CompletedTask;
                     },
                 };
+            });
+
+            services.AddAuthorization(opt =>
+            {
+                var policyName = "BearerPolicy";
+                opt.AddPolicy(policyName, new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());
+                opt.DefaultPolicy = opt.GetPolicy(policyName);
             });
         }
 
