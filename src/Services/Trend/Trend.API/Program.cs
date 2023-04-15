@@ -1,95 +1,40 @@
-using FluentValidation.AspNetCore;
-using Keycloak.Common.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
-using System.Globalization;
 using Trend.API.Extensions;
-using Trend.API.Filters;
-using Trend.API.Filters.Action;
-using Trend.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(opt =>
-{
-    opt.Filters.Add<GlobalExceptionFilter>();
-})
-.AddFluentValidation();
-
-builder.Services.ConfigureAuthorization(builder.Configuration);
-
-builder.Services.AddLocalization();
-
-builder.Services.AddScoped<CacheActionFilter>();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-
-    c.AddSecurityDefinition("Bearer",
-        new OpenApiSecurityScheme
-        {
-            Description = "JWT Authorization header using the Bearer scheme.",
-            Type = SecuritySchemeType.Http, 
-            Scheme = JwtBearerDefaults.AuthenticationScheme
-        }
-    );
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Id = JwtBearerDefaults.AuthenticationScheme,
-                    Type = ReferenceType.SecurityScheme
-                }
-            },
-            new List<string>()
-        }
-    });
-});
-
-ApplicationLayer.AddServices(builder.Configuration, builder.Services);
-
-ApplicationLayer.AddLogger(builder.Host);
-
-builder.Services.Configure<RequestLocalizationOptions>(opts =>
-{
-    var hrCulture = new CultureInfo("hr");
-    var enCulture = new CultureInfo("en");
-    var supportedCultures = new[]
-    {
-        hrCulture,
-        enCulture
-    };
-    opts.DefaultRequestCulture = new RequestCulture(enCulture, enCulture);
-    opts.SupportedCultures = supportedCultures;
-    opts.SupportedUICultures = supportedCultures;
-});
-
-
-builder.Services.AddCors();
+builder.ConfigureApiProject();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    app.UseSwaggerUI(options =>
+    {
+        options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
+        options.OAuthRealm(app.Configuration["KeycloakOptions:RealmName"]);
 
-app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowAnyOrigin());
+        var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
+
+    app.UseCors(x => x
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin());
+}
 
 app.UseRequestLocalization();
 
 app.UseSerilogRequestLogging();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

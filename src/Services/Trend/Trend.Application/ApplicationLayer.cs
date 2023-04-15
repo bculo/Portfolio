@@ -29,8 +29,6 @@ namespace Trend.Application
             services.AddScoped<ISearchWordService, SearchWordService>();
             services.AddScoped(typeof(ILanguageService<>), typeof(LanguageService<>));
 
-            services.AddHttpClient();
-
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
             services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(ApplicationLayer).Assembly));
         }

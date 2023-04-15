@@ -1,18 +1,16 @@
 ﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.Article;
 using Dtos.Common.v1.Trend.Sync;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trend.API.Filters.Action;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 
-namespace Trend.API.Controllers
+namespace Trend.API.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class SyncController : ControllerBase
     {
         private readonly ILogger<SyncController> _logger;

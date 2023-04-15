@@ -1,98 +1,79 @@
-﻿using Cryptography.Common.Utils;
+﻿using FluentValidation.AspNetCore;
 using Keycloak.Common;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Trend.API.Filters;
+using Trend.API.Filters.Action;
 using Trend.API.Services;
+using Trend.Application;
 using Trend.Domain.Interfaces;
+using WebProject.Common.Extensions;
+using WebProject.Common.Options;
 
 namespace Trend.API.Extensions
 {
     public static class ServiceConfigurationExtensions
     {
-        public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureApiProject(this WebApplicationBuilder builder)
         {
+            var services = builder.Services;
+            var configuration = builder.Configuration;
 
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add<GlobalExceptionFilter>();
+            })
+            .AddFluentValidation();
+
+            services.AddCors();
+            services.AddScoped<CacheActionFilter>();
+
+            ConfigureLocalization(services, configuration);
+            ConfigureAuthentication(services, configuration);
+
+            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
+                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
+                configuration.GetValue<int>("ApiVersion:MajorVersion"),
+                configuration.GetValue<int>("ApiVersion:MinorVersion"));
+
+            ApplicationLayer.AddLogger(builder.Host);
+            ApplicationLayer.AddCache(configuration, services);
+            ApplicationLayer.AddClients(configuration, services);
+            ApplicationLayer.AddServices(configuration, services);
+            ApplicationLayer.AddPersistence(configuration, services);
         }
 
-        private static void ConfigureAuthorization(this IServiceCollection services, IConfiguration configuration)
+        private static void ConfigureLocalization(IServiceCollection services, IConfiguration configuration)
         {
-            //Service for fetching relevant user data for this app
+            services.AddLocalization();
+
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var hrCulture = new CultureInfo("hr");
+                var enCulture = new CultureInfo("en");
+                var supportedCultures = new[]
+                {
+                    hrCulture,
+                    enCulture
+                };
+                opts.DefaultRequestCulture = new RequestCulture(enCulture, enCulture);
+                opts.SupportedCultures = supportedCultures;
+                opts.SupportedUICultures = supportedCultures;
+            });
+        }
+
+        private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
+        {
             services.AddScoped<ICurrentUser, UserService>();
 
-            //Configure keycloak
             services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
             services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
-            //Define authentication using JWT token
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = configuration.GetValue<bool>("AuthOptions:ValidateAudience"),
-                    ValidateIssuer = configuration.GetValue<bool>("AuthOptions:ValidateIssuer"),
-                    ValidIssuers = new[] { configuration["AuthOptions:ValidIssuer"] },
-                    ValidateIssuerSigningKey = configuration.GetValue<bool>("AuthOptions:ValidateIssuerSigningKey"),
-                    IssuerSigningKey = RsaUtils.ImportSubjectPublicKeyInfo(configuration["AuthOptions:PublicRsaKey"]),
-                    ValidateLifetime = configuration.GetValue<bool>("AuthOptions:ValidateLifetime")
-                };
+            var authOptions = new AuthOptions();
+            configuration.GetSection("AuthOptions").Bind(authOptions);
 
-                //JWT events sections
-                opt.Events = new JwtBearerEvents()
-                {
-                    OnTokenValidated = c =>
-                    {
-                        Console.WriteLine("User successfully authenticated");
-                        return Task.CompletedTask;
-                    },
-
-                    OnAuthenticationFailed = c =>
-                    {
-                        Console.WriteLine("Problem with authentication");
-                        return Task.CompletedTask;
-                    }
-                };
-            });
-
-            services.AddSwaggerGen(opt =>
-            {
-                var authorizationUrl = $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth";
-
-                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        Implicit = new OpenApiOAuthFlow
-                        {
-                            AuthorizationUrl = new Uri(authorizationUrl),
-                        }
-                    },
-                    In = ParameterLocation.Header,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                });
-
-                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = JwtBearerDefaults.AuthenticationScheme
-                            }
-                        },
-                        new string[] {}
-                    }
-                });
-            });
+            services.ConfigureDefaultAuthentication(authOptions);
+            services.ConfigureDefaultAuthorization();
         }
     }
 }
