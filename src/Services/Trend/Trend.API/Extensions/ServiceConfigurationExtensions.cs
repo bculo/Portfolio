@@ -1,24 +1,21 @@
 ﻿using Cryptography.Common.Utils;
 using Keycloak.Common;
-using Keycloak.Common.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
+using Microsoft.OpenApi.Models;
 using Trend.API.Services;
 using Trend.Domain.Interfaces;
 
 namespace Trend.API.Extensions
 {
-    public static class AuthenticationExtensions
+    public static class ServiceConfigurationExtensions
     {
-        /// <summary>
-        /// Add JWT bearer authentication
-        /// NOTE: Update System.IdentityModel.Tokens.Jwt to newest version to fix bux -> Method not found: 
-        /// 'Void Microsoft.IdentityModel.Tokens.InternalValidators.ValidateLifetimeAndIssuerAfterSignatureNotValidatedJwt(Microsoft.IdentityModel.Tokens.SecurityToken, System.Nullable`1<System.DateTime>, System.Nullable`1<System.DateTime>, System.String, Microsoft.IdentityModel.Tokens.TokenValidationParameters, System.Text.StringBuilder)'.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
+        {
+
+        }
+
+        private static void ConfigureAuthorization(this IServiceCollection services, IConfiguration configuration)
         {
             //Service for fetching relevant user data for this app
             services.AddScoped<ICurrentUser, UserService>();
@@ -61,6 +58,40 @@ namespace Trend.API.Extensions
                         return Task.CompletedTask;
                     }
                 };
+            });
+
+            services.AddSwaggerGen(opt =>
+            {
+                var authorizationUrl = $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth";
+
+                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Implicit = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri(authorizationUrl),
+                        }
+                    },
+                    In = ParameterLocation.Header,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
+                });
+
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
         }
     }

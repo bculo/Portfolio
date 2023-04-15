@@ -5,22 +5,15 @@ using Crypto.Infrastracture;
 using Crypto.Infrastracture.Consumers;
 using Crypto.Infrastracture.Consumers.State;
 using Crypto.Infrastracture.Persistence;
-using Cryptography.Common.Utils;
 using Keycloak.Common;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Diagnostics;
+using WebProject.Common.Extensions;
+using WebProject.Common.Options;
 
 namespace Crypto.API.Configurations
 {
@@ -42,65 +35,14 @@ namespace Crypto.API.Configurations
             InfrastractureLayer.AddCacheMemory(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
-            AddSwaggerWithApiVersioning(services, configuration);
+            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
+                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
+                configuration.GetValue<int>("ApiVersion:MajorVersion"),
+                configuration.GetValue<int>("ApiVersion:MinorVersion"));
+
             AddAuthentication(services, configuration);
             AddMessageQueue(services, configuration);
             AddOpenTelemetry(services, configuration);
-        }
-
-        private static void AddSwaggerWithApiVersioning(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddApiVersioning(config =>
-            {
-                var majorVersion = configuration.GetValue<int>("ApiVersion:MajorVersion");
-                var minorVersion = configuration.GetValue<int>("ApiVersion:MinorVersion");
-                config.DefaultApiVersion = new ApiVersion(majorVersion, minorVersion);
-                config.AssumeDefaultVersionWhenUnspecified = true;
-                config.ReportApiVersions = true;
-            });
-
-            services.AddVersionedApiExplorer(setup =>
-            {
-                setup.GroupNameFormat = "'v'VVV";
-                setup.SubstituteApiVersionInUrl = true;
-            });
-
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(opt =>
-            {
-                var authorizationUrl = $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth";
-
-                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        Implicit = new OpenApiOAuthFlow
-                        {
-                            AuthorizationUrl = new Uri(authorizationUrl),
-                        }
-                    },
-                    In = ParameterLocation.Header,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                });
-
-                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = JwtBearerDefaults.AuthenticationScheme
-                            }
-                        },
-                        new string[] {}
-                    }
-                });
-            });
-
-            services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -108,43 +50,11 @@ namespace Crypto.API.Configurations
             services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
             services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = configuration.GetValue<bool>("AuthOptions:ValidateAudience"),
-                    ValidateIssuer = configuration.GetValue<bool>("AuthOptions:ValidateIssuer"),
-                    ValidIssuers = new[] { configuration["AuthOptions:ValidIssuer"] },
-                    ValidateIssuerSigningKey = configuration.GetValue<bool>("AuthOptions:ValidateIssuerSigningKey"),
-                    IssuerSigningKey = RsaUtils.ImportSubjectPublicKeyInfo(configuration["AuthOptions:PublicRsaKey"]),
-                    ValidateLifetime = configuration.GetValue<bool>("AuthOptions:ValidateLifetime")
-                };
+            var authOptions = new AuthOptions();
+            configuration.GetSection("AuthOptions").Bind(authOptions);
 
-                opt.Events = new JwtBearerEvents()
-                {
-                    OnTokenValidated = c =>
-                    {
-                        Console.WriteLine("User successfully authenticated");
-                        return Task.CompletedTask;
-                    },
-                };
-            });
-
-            services.AddAuthorization(opt =>
-            {
-                var policyName = "BearerPolicy";
-                opt.AddPolicy(policyName, new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build());
-                opt.DefaultPolicy = opt.GetPolicy(policyName);
-            });
+            services.ConfigureDefaultAuthentication(authOptions);
+            services.ConfigureDefaultAuthorization();
         }
 
         private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
@@ -226,45 +136,6 @@ namespace Crypto.API.Configurations
                             };
                         });
             });
-        }
-    }
-
-    public class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
-    {
-        private readonly IApiVersionDescriptionProvider _provider;
-
-        public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
-        {
-            _provider = provider;
-        }
-
-        public void Configure(string name, SwaggerGenOptions options)
-        {
-            Configure(options);
-        }
-
-        public void Configure(SwaggerGenOptions options)
-        {
-            foreach (var description in _provider.ApiVersionDescriptions)
-            {
-                options.SwaggerDoc(description.GroupName, CreateVersionInfo(description));
-            }
-        }
-
-        private OpenApiInfo CreateVersionInfo(ApiVersionDescription desc)
-        {
-            var info = new OpenApiInfo()
-            {
-                Title = "Crypto API",
-                Version = desc.ApiVersion.ToString()
-            };
-
-            if (desc.IsDeprecated)
-            {
-                info.Description += "This API version has been deprecated. Please use one of the new APIs available from the explorer.";
-            }
-
-            return info;
         }
     }
 }
