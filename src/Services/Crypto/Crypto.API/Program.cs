@@ -1,5 +1,4 @@
 using Crypto.API.Configurations;
-using Crypto.API.Filters;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Serilog.Events;
@@ -12,7 +11,7 @@ builder.Host.UseSerilog((host, log) =>
     log.MinimumLevel.Override("Microsoft", LogEventLevel.Debug);
 });
 
-builder.Services.ConfigureApi(builder.Configuration);
+builder.Services.ConfigureApiProject(builder.Configuration);
 
 var app = builder.Build();
 
@@ -22,6 +21,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
+        options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
+        options.OAuthRealm(app.Configuration["KeycloakOptions:RealmName"]);
+
         var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
         {
@@ -29,8 +31,14 @@ if (app.Environment.IsDevelopment())
                 description.GroupName.ToUpperInvariant());
         }
     });
+
+    app.UseCors(x => x
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowAnyOrigin());
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

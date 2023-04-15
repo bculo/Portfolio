@@ -37,14 +37,18 @@ builder.Services.AddSwaggerGen(c =>
         }
     );
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
-            new OpenApiSecurityScheme{
-                Reference = new OpenApiReference{
-                    Id = JwtBearerDefaults.AuthenticationScheme, //The name of the previously defined security scheme.
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
                     Type = ReferenceType.SecurityScheme
                 }
-            },new List<string>()
+            },
+            new List<string>()
         }
     });
 });

@@ -14,10 +14,13 @@ using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
 using Crypto.Application.Modules.Crypto.Queries.SearchBySymbol;
 using Filters.Web.Common.Action;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]

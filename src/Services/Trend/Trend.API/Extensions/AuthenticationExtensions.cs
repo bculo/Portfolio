@@ -54,6 +54,12 @@ namespace Trend.API.Extensions
                         Console.WriteLine("User successfully authenticated");
                         return Task.CompletedTask;
                     },
+
+                    OnAuthenticationFailed = c =>
+                    {
+                        Console.WriteLine("Problem with authentication");
+                        return Task.CompletedTask;
+                    }
                 };
             });
         }
