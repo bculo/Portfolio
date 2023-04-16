@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option csharp_namespace = "Crypto.gRPC.Protos";
+option csharp_namespace = "Crypto.gRPC.Protos.v1";
 
-package crypto;
+package crypto.v1;
 
 service Crypto {
 	rpc FetchCryptoItem (FetchCryptoItemRequest) returns (FetchCryptoItemRequestResponse) {}

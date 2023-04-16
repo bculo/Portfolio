@@ -14,6 +14,7 @@ using OpenTelemetry.Trace;
 using System.Diagnostics;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
+using WebProject.Common.Rest;
 
 namespace Crypto.API.Configurations
 {

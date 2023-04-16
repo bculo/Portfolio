@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
-using Trend.Grpc.Protos;
+using Trend.Grpc.Protos.v1;
 
 namespace Trend.Grpc.GrpcProfiles
 {

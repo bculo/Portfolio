@@ -9,6 +9,7 @@ using Trend.Application;
 using Trend.Domain.Interfaces;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
+using WebProject.Common.Rest;
 
 namespace Trend.API.Extensions
 {

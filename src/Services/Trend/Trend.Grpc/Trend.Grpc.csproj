@@ -7,21 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
-	  <Protobuf Include="Protos\news.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\v1\greet.proto" GrpcServices="Server" />
+	  <Protobuf Include="Protos\v1\news.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.46.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.46.0" />
 	 <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-	 <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
 	 <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cryptography.Common\Cryptography.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj" />
     <ProjectReference Include="..\Trend.Application\Trend.Application.csproj" />
   </ItemGroup>
 

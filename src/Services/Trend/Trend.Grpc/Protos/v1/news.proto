@@ -2,7 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-option csharp_namespace = "Trend.Grpc.Protos";
+option csharp_namespace = "Trend.Grpc.Protos.v1";
+
+package news.v1;
 
 service News {
 	rpc GetAllNews(google.protobuf.Empty) returns (stream ArticleTypeItem);

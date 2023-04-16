@@ -1,5 +1,6 @@
 using Crypto.gRPC;
 using Crypto.gRPC.Protos;
+using Crypto.gRPC.Protos.v1;
 using Grpc.Core;
 
 namespace Crypto.gRPC.Services

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option csharp_namespace = "Crypto.gRPC.Protos";
+option csharp_namespace = "Trend.Grpc.Protos.v1";
 
-package greet;
+package greet.v1;
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply);
@@ -15,3 +15,4 @@ message HelloRequest {
 message HelloReply {
   string message = 1;
 }
+

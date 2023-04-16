@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Trend.Grpc;
+using Trend.Grpc.Protos.v1;
 
 namespace Trend.Grpc.Services
 {

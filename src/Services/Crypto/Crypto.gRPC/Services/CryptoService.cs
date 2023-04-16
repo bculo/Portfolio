@@ -1,11 +1,11 @@
 ﻿using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
-using Crypto.gRPC.Protos;
+using Crypto.gRPC.Protos.v1;
 using Grpc.Core;
 using MediatR;
 
 namespace Crypto.gRPC.Services
-{  
-    public class CryptoService : Protos.Crypto.CryptoBase
+{
+    public class CryptoService : Protos.v1.Crypto.CryptoBase
     {
         private readonly IMediator _mediator;
 
