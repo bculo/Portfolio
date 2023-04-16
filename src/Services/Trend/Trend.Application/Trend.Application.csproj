@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -21,10 +21,13 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.16.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+	<PackageReference Include="MassTransit.RabbitMQ" Version="8.0.6" />
+	<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Http.Common\Http.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />

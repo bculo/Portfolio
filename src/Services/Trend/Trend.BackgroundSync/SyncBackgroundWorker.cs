@@ -1,3 +1,5 @@
+using Events.Common.Trend;
+using MassTransit;
 using Microsoft.Extensions.Options;
 using Time.Common.Contracts;
 using Trend.Application.Interfaces;
@@ -28,33 +30,38 @@ namespace Trend.BackgroundSync
             {
                 using (var scope = _provider.CreateScope())
                 {
-                    _logger.LogTrace("Scope created inside SyncBackgroundService");
+                    var lastSync = await GetLastSync(scope);
 
-                    var time = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
-                    var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
-
-                    var lastSync = await syncRepo.GetLastValidSync();
-
-                    if (CanExecuteSync(time, lastSync))
+                    if (CanExecuteSync(scope, lastSync))
                     {
-                        _logger.LogTrace("CanExecuteSync returned TRUE");
-                        await StartSyncProcess(scope, time);
+                        await StartSyncProcess(scope);
                     }
                 }
 
-                 await Task.Delay(_options.SleepTimeMiliseconds);
+                await Task.Delay(_options.SleepTimeMiliseconds);
             }
         }
 
-        private async Task StartSyncProcess(IServiceScope scope, IDateTimeProvider time)
+        private async Task<SyncStatus> GetLastSync(IServiceScope scope)
         {
             try
             {
-                var syncService = scope.ServiceProvider.GetRequiredService<ISyncService>();
+                var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
+                return await syncRepo.GetLastValidSync();
+            }
+            catch(Exception e)
+            {
+                return default;
+            }
+        }
 
-                _logger.LogTrace("Sync started {0}", time.Now);
-
-                var syncResult = await syncService.ExecuteGoogleSync();
+        private async Task StartSyncProcess(IServiceScope scope)
+        {
+            try
+            {
+                var endpointProvider = scope.ServiceProvider.GetRequiredService<ISendEndpointProvider>();
+                var endpoint = await endpointProvider.GetSendEndpoint(new Uri("queue:trend-execute-news-sync"));
+                await endpoint.Send(new ExecuteNewsSync { });             
             }
             catch (Exception e)
             {
@@ -62,8 +69,10 @@ namespace Trend.BackgroundSync
             }
         }
 
-        private bool CanExecuteSync(IDateTimeProvider time, SyncStatus status)
+        private bool CanExecuteSync(IServiceScope scope, SyncStatus status)
         {
+            var time = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
+
             if (status is null)
             {
                 return true;

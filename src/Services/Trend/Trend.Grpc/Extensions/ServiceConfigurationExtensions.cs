@@ -1,4 +1,5 @@
 ﻿using Keycloak.Common;
+using MassTransit;
 using System.Reflection;
 using Trend.Application;
 using Trend.Domain.Interfaces;
@@ -25,6 +26,7 @@ namespace Trend.Grpc.Extensions
 
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+            AddMessageQueue(services, configuration);
             ConfigureAuthentication(services, configuration);
 
             ApplicationLayer.AddLogger(builder.Host);
@@ -45,6 +47,17 @@ namespace Trend.Grpc.Extensions
 
             services.ConfigureDefaultAuthentication(authOptions);
             services.ConfigureDefaultAuthorization();
+        }
+
+        private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(configuration["QueueOptions:Address"]);
+                });
+            });
         }
     }
 }

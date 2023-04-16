@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend.Sync;
+using Events.Common.Trend;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,24 +25,25 @@ namespace Trend.Application.Services
         private readonly ISearchWordRepository _syncSettingRepo;
         private readonly ISyncStatusRepository _syncStatusRepo;
         private readonly IGoogleSyncService _googleSync;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public SyncService(ILogger<SyncService> logger, 
             IMapper mapper,
             ISearchWordRepository syncSettingRepo,
             IGoogleSyncService googleSync,
-            ISyncStatusRepository syncStatusRepository)
+            ISyncStatusRepository syncStatusRepository,
+            IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
             _mapper = mapper;
             _syncSettingRepo = syncSettingRepo;
             _googleSync = googleSync;
             _syncStatusRepo = syncStatusRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<GoogleSyncResultDto> ExecuteGoogleSync()
         {
-            _logger.LogTrace("Starting the sync process by fetching db instances");
-
             var searchWords = await _syncSettingRepo.GetAll();
 
             if(searchWords.Count == 0)
@@ -58,6 +61,8 @@ namespace Trend.Application.Services
             _logger.LogTrace("Mapping sync result to dto");
 
             var dto = _mapper.Map<GoogleSyncResultDto>(syncResult);
+
+            await _publishEndpoint.Publish(new NewNewsFetched { });
 
             return dto;
         }

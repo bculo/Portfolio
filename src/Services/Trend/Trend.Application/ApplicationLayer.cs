@@ -17,8 +17,6 @@ using Trend.Domain.Interfaces;
 
 namespace Trend.Application
 {
-    //            services.Configure<SyncBackgroundServiceOptions>(configuration.GetSection("SyncBackgroundServiceOptions"));
-
     public static class ApplicationLayer
     {
         public static void AddServices(IConfiguration configuration, IServiceCollection services)
@@ -97,6 +95,7 @@ namespace Trend.Application
 
         public static void AddClients(IConfiguration configuration, IServiceCollection services)
         {
+            services.AddHttpClient();
             services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
             services.AddScoped<IGoogleSyncService, GoogleSyncService>();
             services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();

@@ -1,5 +1,6 @@
 ﻿using FluentValidation.AspNetCore;
 using Keycloak.Common;
+using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Trend.API.Filters;
@@ -29,6 +30,7 @@ namespace Trend.API.Extensions
             services.AddCors();
             services.AddScoped<CacheActionFilter>();
 
+            AddMessageQueue(services, configuration);
             ConfigureLocalization(services, configuration);
             ConfigureAuthentication(services, configuration);
 
@@ -75,6 +77,17 @@ namespace Trend.API.Extensions
 
             services.ConfigureDefaultAuthentication(authOptions);
             services.ConfigureDefaultAuthorization();
+        }
+
+        private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(configuration["QueueOptions:Address"]);
+                });
+            });
         }
     }
 }
