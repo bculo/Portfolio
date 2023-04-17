@@ -52,17 +52,36 @@ services:
       - identity.database
       - sql.server.tools
 
-  rabbitmq:
-    container_name: rabbitmq
+  rabbitmq.one:
+    hostname: rabbit-1
+    container_name: rabbit-1
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmquser
       - RABBITMQ_DEFAULT_PASS=rabbitmqpassword
+      - RABBITMQ_CONFIG_FILE=/config/rabbitmq
+      - RABBITMQ_ERLANG_COOKIE=IHKOHNFKVQMMUQMDHDVH
     ports:
-      - "5672:5672"
       - "15672:15672"
+    networks:
+      - rabbitmqnet
     volumes:
-      - rabbitmqstore:/var/lib/rabbitmq
+      - ./configs/rabbitmq/rabbit-1:/config/
 
+  rabbitmq.two:
+    hostname: rabbit-2
+    container_name: rabbit-2
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmquser
+      - RABBITMQ_DEFAULT_PASS=rabbitmqpassword
+      - RABBITMQ_CONFIG_FILE=/config/rabbitmq
+      - RABBITMQ_ERLANG_COOKIE=IHKOHNFKVQMMUQMDHDVH
+    ports:
+      - "15673:15672"
+    networks:
+      - rabbitmqnet
+    volumes:
+      - ./configs/rabbitmq/rabbit-2:/config/
+  
   eventstore.db:
     container_name: eventstore.db
     environment:
@@ -99,3 +118,4 @@ services:
       - "14268:14268"
       - "14269:14269"
       - "9411:9411"
+

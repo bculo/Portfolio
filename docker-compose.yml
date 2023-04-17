@@ -17,7 +17,10 @@ services:
   keycloak: 
     image: jboss/keycloak
 
-  rabbitmq:
+  rabbitmq.one:
+    image: masstransit/rabbitmq
+
+  rabbitmq.two:
     image: masstransit/rabbitmq
 
   eventstore.db:
@@ -33,7 +36,9 @@ volumes:
   mongodbstore:
   redisstore:
   identitysqlvolume:
-  rabbitmqstore:
   eventstore-volume-data:
   eventstore-volume-logs:
   notification-hub-redis-store:
+
+networks:
+  rabbitmqnet:
