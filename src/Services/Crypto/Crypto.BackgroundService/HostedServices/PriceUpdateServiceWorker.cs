@@ -1,6 +1,7 @@
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Options;
 using Crypto.Core.Exceptions;
+using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using Microsoft.Extensions.Options;
@@ -49,6 +50,7 @@ namespace Crypto.BackgroundUpdate.HostedServices
                     {
                         stopWatch.Start();
 
+                        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                         var endpointProvider = scope.ServiceProvider.GetRequiredService<ISendEndpointProvider>();
                         var endpoint = await endpointProvider.GetSendEndpoint(new Uri($"queue:crypto-update-crypto-items-price"));
  
@@ -58,6 +60,7 @@ namespace Crypto.BackgroundUpdate.HostedServices
                         }
 
                         await endpoint.Send(new UpdateCryptoItemsPrice { }, stoppingToken);
+                        await unitOfWork.Commit(); //Outbox pattern commit
 
                         stopWatch.Stop();
                     }

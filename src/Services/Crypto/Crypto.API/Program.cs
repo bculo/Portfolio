@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((host, log) =>
 {
-    log.MinimumLevel.Debug();
+    log.MinimumLevel.Information();
     log.MinimumLevel.Override("Microsoft", LogEventLevel.Debug);
 });
 

@@ -106,7 +106,6 @@ namespace Crypto.Infrastracture.Consumers.State
         protected override void ConfigureSaga(IReceiveEndpointConfigurator endpointConfigurator, ISagaConfigurator<AddCryptoItemState> sagaConfigurator)
         {
             endpointConfigurator.UseMessageRetry(r => r.Intervals(100, 500, 1000));
-            endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
         }
     }
 }

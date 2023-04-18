@@ -32,7 +32,7 @@ namespace Crypto.Infrastracture.Consumers
 
         protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<UpdateCryptoItemsPriceConsumer> consumerConfigurator)
         {
-            endpointConfigurator.UseMessageRetry(r => r.Interval(5, 1000));
+            endpointConfigurator.UseMessageRetry(config => config.Interval(3, 1000));
             endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
         }
     }
