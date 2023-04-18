@@ -71,9 +71,9 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 });
             }
 
-            await _work.Commit();
-
             await PublishEvents(events);
+
+            await _work.Commit();
 
             return Unit.Value;
         }

@@ -1,4 +1,5 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
+using Crypto.Infrastracture.Persistence;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
@@ -17,6 +18,22 @@ namespace Crypto.Infrastracture.Consumers
         public async Task Consume(ConsumeContext<UpdateCryptoItemsPrice> context)
         {
             await _mediator.Send(new UpdatePriceAllCommand { });
+        }
+    }
+
+    public class UpdateCryptoItemsPriceConsumerDefinition : ConsumerDefinition<UpdateCryptoItemsPriceConsumer>
+    {
+        private readonly IServiceProvider _provider;
+
+        public UpdateCryptoItemsPriceConsumerDefinition(IServiceProvider provider)
+        {
+            _provider = provider;
+        }
+
+        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<UpdateCryptoItemsPriceConsumer> consumerConfigurator)
+        {
+            endpointConfigurator.UseMessageRetry(r => r.Interval(5, 1000));
+            endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
         }
     }
 }

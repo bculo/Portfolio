@@ -31,12 +31,11 @@ namespace Crypto.BackgroundUpdate.Configurations
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
                     o.UseSqlServer();
-                    o.UseBusOutbox();
                 });
 
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
 
-                x.AddConsumer<UpdateCryptoItemsPriceConsumer>();
+                x.AddConsumer<UpdateCryptoItemsPriceConsumer, UpdateCryptoItemsPriceConsumerDefinition>();
                 x.AddConsumer<CryptoPriceUpdatedConsumer>();
 
                 x.UsingRabbitMq((context, config) =>

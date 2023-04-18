@@ -61,13 +61,13 @@ namespace Crypto.API.Configurations
         private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
+            services.Configure<SagaTimeoutOptions>(configuration.GetSection("SagaTimeoutOptions"));
 
             services.AddMassTransit(x =>
             {
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
                     o.UseSqlServer();
-                    o.UseBusOutbox();
                 });
 
                 x.AddDelayedMessageScheduler();

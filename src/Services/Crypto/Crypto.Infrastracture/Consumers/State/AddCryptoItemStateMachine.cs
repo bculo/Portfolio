@@ -89,7 +89,8 @@ namespace Crypto.Infrastracture.Consumers.State
                 Ignore(UndoAddCryptoItemWithDelay));
 
             During(Final,
-                Ignore(AddCryptoItemTimeout.AnyReceived));
+                Ignore(AddCryptoItemTimeout.AnyReceived),
+                Ignore(UndoAddCryptoItemWithDelay));
         }
     }
 
