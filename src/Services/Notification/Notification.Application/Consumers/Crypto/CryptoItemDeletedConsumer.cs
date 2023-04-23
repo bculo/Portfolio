@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Notification.Application.Consumers.Crypto
 {
-    public class NewCryptoAddedConsumer : IConsumer<NewCryptoAdded>
+    public class CryptoItemDeletedConsumer : IConsumer<CryptoItemDeleted>
     {
-        private readonly ILogger<NewCryptoAddedConsumer> _logger;
+        private readonly ILogger<CryptoItemDeletedConsumer> _logger;
 
-        public NewCryptoAddedConsumer(ILogger<NewCryptoAddedConsumer> logger)
+        public CryptoItemDeletedConsumer(ILogger<CryptoItemDeletedConsumer> logger)
         {
             _logger = logger;
         }
 
-        public Task Consume(ConsumeContext<NewCryptoAdded> context)
+        public Task Consume(ConsumeContext<CryptoItemDeleted> context)
         {
             return Task.CompletedTask;
         }

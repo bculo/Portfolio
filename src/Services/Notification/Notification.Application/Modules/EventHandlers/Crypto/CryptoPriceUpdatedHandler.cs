@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Notification.Application.EventHandlers.Crypto
+namespace Notification.Application.Modules.EventHandlers.Crypto
 {
     public static class CryptoPriceUpdatedHandler
     {
@@ -32,10 +32,10 @@ namespace Notification.Application.EventHandlers.Crypto
         public class Notification : INotification
         {
             public long Id { get; set; }
-            public string? Symbol { get; set; }
-            public string? Name { get; set; }
+            public string Symbol { get; set; }
+            public string Name { get; set; }
             public decimal Price { get; set; }
-            public string? Currency { get; set; }
+            public string Currency { get; set; }
         }
     }
 }
