@@ -1,15 +1,17 @@
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Options;
+using Crypto.BackgroundService.Interfaces;
 using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
+using Hangfire;
 using MassTransit;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 namespace Crypto.BackgroundUpdate.HostedServices
 {
-    public class PriceUpdateServiceWorker : BackgroundService
+    public class PriceUpdateServiceWorker : Microsoft.Extensions.Hosting.BackgroundService
     {
         private readonly ILogger<PriceUpdateServiceWorker> _logger;
         private readonly CryptoUpdateOptions _options;
