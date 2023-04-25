@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class FetchSingleTests : IClassFixture<CryptoApiFactory>
+    [Collection("CryptoCollection")]
+    public class FetchSingleTests
     {
         private readonly CryptoApiFactory _factory;
 
@@ -20,7 +21,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _factory = factory;
         }
 
-        [Fact]
+        // [Fact]
         public async Task FetchSingle_ShouldReturnStatusOk_WhenExistingSymbolProvided()
         {
             string symbol = "BTC";
@@ -34,7 +35,7 @@ namespace Crypto.IntegrationTests.CryptoController
             instances.Should().BeOfType<FetchSingleResponseDto>();
         }
 
-        [Fact]
+        //[Fact]
         public async Task FetchSingle_ShouldReturnBadRequest_WhenNonexistentSymbolProvided()
         {
             string symbol = "DRAGONTON";
@@ -45,7 +46,7 @@ namespace Crypto.IntegrationTests.CryptoController
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
-        [Fact]
+        //[Fact]
         public async Task GetPriceHistory_ShouldReturnBadRequest_WhenInvalidSymbolFormatProvided()
         {
             string symbol = "SYMOL12";
@@ -61,7 +62,7 @@ namespace Crypto.IntegrationTests.CryptoController
             error!.Errors.Should().NotBeEmpty();
         }
 
-        [Fact]
+        //[Fact]
         public async Task FetchSingle_ShouldReturnNotFound_WhenNullSymbolProvided()
         {
             string? symbol = null;

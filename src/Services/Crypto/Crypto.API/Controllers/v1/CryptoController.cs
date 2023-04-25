@@ -33,21 +33,21 @@ namespace Crypto.API.Controllers.v1
             _mediator = mediator;
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> AddNewCrypto([FromBody] AddNewCommand instance)
+        [HttpPost("AddNew")]
+        public async Task<IActionResult> AddNew([FromBody] AddNewCommand instance)
         {
             await _mediator.Send(instance);
             return NoContent();
         }
 
-        [HttpPost("CreateWithDelay")]
-        public async Task<IActionResult> AddNewCryptoWithDelay([FromBody] AddNewWithDelayCommand instance)
+        [HttpPost("AddNewWithDelay")]
+        public async Task<IActionResult> AddNewWithDelay([FromBody] AddNewWithDelayCommand instance)
         {
             return Ok(await _mediator.Send(instance));
         }
 
-        [HttpPost("UndoCreateWithDelay")]
-        public async Task<IActionResult> UndoAddNewCryptoWithDelay([FromBody] UndoNewWithDelayCommand instance)
+        [HttpPost("UndoAddNewDelay")]
+        public async Task<IActionResult> UndoAddNewDelay([FromBody] UndoNewWithDelayCommand instance)
         {
             await _mediator.Send(instance);
             return NoContent();

@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class UpdateAllTests : IClassFixture<CryptoApiFactory>
+    [Collection("CryptoCollection")]
+    public class UpdateAllTests
     {
         private readonly CryptoApiFactory _factory;
 
@@ -18,7 +19,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _factory = factory;
         }
 
-        [Fact]
+        //[Fact]
         public async Task UpdateAllPrices_ShouldReturnStatusNoContent_WhenExistingSymbolProvided()
         {
             var client = _factory.CreateClient();

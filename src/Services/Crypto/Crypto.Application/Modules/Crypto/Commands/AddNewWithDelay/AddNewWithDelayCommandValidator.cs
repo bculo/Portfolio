@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
 {
-    public class AddNewWithDelayValidator : AbstractValidator<AddNewWithDelayCommand>
+    public class AddNewWithDelayCommandValidator : AbstractValidator<AddNewWithDelayCommand>
     {
-        public AddNewWithDelayValidator()
+        public AddNewWithDelayCommandValidator()
         {
             RuleFor(i => i.Symbol)
                 .Matches(RegexConstants.SYMBOL)

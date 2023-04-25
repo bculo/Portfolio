@@ -6,11 +6,11 @@ using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay
 {
-    public class UndoNewWithDelayHandler : IRequestHandler<UndoNewWithDelayCommand>
+    public class UndoNewWithDelayCommandHandler : IRequestHandler<UndoNewWithDelayCommand>
     {
         private readonly IPublishEndpoint _publish;
 
-        public UndoNewWithDelayHandler(IPublishEndpoint publish)
+        public UndoNewWithDelayCommandHandler(IPublishEndpoint publish)
         {
             _publish = publish;
         }

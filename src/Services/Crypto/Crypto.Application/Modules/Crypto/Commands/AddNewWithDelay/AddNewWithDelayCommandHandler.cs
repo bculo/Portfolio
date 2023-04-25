@@ -11,12 +11,12 @@ using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
 {
-    public class AddNewWithDelayHandler : IRequestHandler<AddNewWithDelayCommand, Guid>
+    public class AddNewWithDelayCommandHandler : IRequestHandler<AddNewWithDelayCommand, Guid>
     {
-        private readonly ILogger<AddNewWithDelayHandler> _logger;
+        private readonly ILogger<AddNewWithDelayCommandHandler> _logger;
         private readonly IPublishEndpoint _publish;
 
-        public AddNewWithDelayHandler(ILogger<AddNewWithDelayHandler> logger,
+        public AddNewWithDelayCommandHandler(ILogger<AddNewWithDelayCommandHandler> logger,
             IPublishEndpoint publish)
         {
             _logger = logger;

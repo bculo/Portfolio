@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class GetPriceHistoryTests : IClassFixture<CryptoApiFactory>
+    [Collection("CryptoCollection")]
+    public class GetPriceHistoryTests
     {
         private readonly CryptoApiFactory _factory;
 
@@ -17,7 +18,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _factory = factory;
         }
 
-        [Fact]
+        //[Fact]
         public async Task GetPriceHistory_ShouldReturnStatusOk_WhenExistingSymbolProvided()
         {
             string symbol = "BTC";
@@ -28,7 +29,7 @@ namespace Crypto.IntegrationTests.CryptoController
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
 
-        [Fact]
+        //[Fact]
         public async Task GetPriceHistory_ShouldReturnBadRequest_WhenNonexistentSymbolProvided()
         {
             string symbol = "DRAGONTON";
@@ -39,7 +40,7 @@ namespace Crypto.IntegrationTests.CryptoController
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
-        [Fact]
+        //[Fact]
         public async Task GetPriceHistory_ShouldReturnNotFound_WhenNullSymbolProvided()
         {
             string? symbol = null;

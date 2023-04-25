@@ -42,6 +42,9 @@ namespace Crypto.Mock.Common.Clients
             value.Name = symbol;
             value.Description = symbol;
 
+            value.Urls.Add("website", new string[] { " crypto-url " });
+            value.Urls.Add("source_code", new string[] { "crypot-source_code " });
+
             response.Data.Clear();
             response.Data.Add(symbol, new List<CryptoInfoDataDto> { value });
 

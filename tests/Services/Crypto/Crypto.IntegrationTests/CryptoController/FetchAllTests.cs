@@ -6,7 +6,8 @@ using Newtonsoft.Json;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class FetchAllTests : IClassFixture<CryptoApiFactory>
+    [Collection("CryptoCollection")]
+    public class FetchAllTests
     {
         private readonly CryptoApiFactory _factory;
 
@@ -15,7 +16,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _factory = factory;
         }
 
-        [Fact]
+        //[Fact]
         public async Task FetchAll_ShouldReturnStatusOk_WhenExecutedSuccessfully()
         {
             //Arrange

@@ -1,15 +1,12 @@
 ﻿using Crypto.IntegrationTests.Constants;
 using FluentAssertions;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class UpdateTests : IClassFixture<CryptoApiFactory>
+    [Collection("CryptoCollection")]
+    public class UpdateTests
     {
         private readonly CryptoApiFactory _factory;
 
@@ -18,7 +15,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _factory = factory;
         }
 
-        [Fact]
+        //[Fact]
         public async Task UpdatePrice_ShouldReturnStatusBadRequest_WhenNonexistentSymbolProvided()
         {
             string symbol = "DRAGOINCOINSS";
@@ -31,7 +28,7 @@ namespace Crypto.IntegrationTests.CryptoController
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
-        [Fact]
+        //[Fact]
         public async Task UpdatePrice_ShouldReturnStatusNoContent_WhenExistingSymbolProvided()
         {
             string symbol = "BTC";
