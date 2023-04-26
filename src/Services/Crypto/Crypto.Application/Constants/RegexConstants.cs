@@ -9,7 +9,7 @@ namespace Crypto.Application.Constants
 {
     public class RegexConstants
     {
-        public static Regex SYMBOL = new Regex("^[a-zA-z]{1,15}$", 
+        public static Regex SYMBOL = new Regex("^[a-zA-Z]{1,15}$", 
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled,
             TimeSpan.FromSeconds(1)); 
     }

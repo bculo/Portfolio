@@ -1,6 +1,9 @@
 ﻿using Crypto.API.Filters.Models;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
+using Crypto.IntegrationTests.Extensions;
+using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System;
@@ -12,63 +15,53 @@ using System.Threading.Tasks;
 namespace Crypto.IntegrationTests.CryptoController
 {
     [Collection("CryptoCollection")]
-    public class FetchSingleTests
+    public class FetchSingleTests : BaseTests
     {
-        private readonly CryptoApiFactory _factory;
-
-        public FetchSingleTests(CryptoApiFactory factory)
+        public FetchSingleTests(CryptoApiFactory factory) : base(factory)
         {
-            _factory = factory;
         }
 
-        // [Fact]
-        public async Task FetchSingle_ShouldReturnStatusOk_WhenExistingSymbolProvided()
+        [Theory]
+        [InlineData("BTC")]
+        [InlineData("ETH")]
+        [InlineData("ADA")]
+        public async Task FetchSingle_ShouldReturnStatusOk_WhenExistingSymbolProvided(string symbol)
         {
-            string symbol = "BTC";
-            var client = _factory.CreateClient();
+            //Arrange
+            _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
 
-            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
+            var response = await _client.GetAsync($"{ApiEndpoint.CRYPTO_FETCH_SINGLE}/{symbol}");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var instances = JsonConvert.DeserializeObject<FetchSingleResponseDto>(jsonResponse);
             instances.Should().BeOfType<FetchSingleResponseDto>();
+            instances?.Symbol.Should().Be(symbol);
+            instances?.Price.Should().BeGreaterThan(-1);
         }
 
-        //[Fact]
-        public async Task FetchSingle_ShouldReturnBadRequest_WhenNonexistentSymbolProvided()
+        [Theory]
+        [InlineData("---------")]
+        [InlineData("!-!")]
+        public async Task FetchSingle_ShouldReturnStatusBadRequest_WhenInvalidSymbolProvided(string symbol)
         {
-            string symbol = "DRAGONTON";
-            var client = _factory.CreateClient();
+            //Arrange
+            _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
 
-            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
+            var response = await _client.GetAsync($"{ApiEndpoint.CRYPTO_FETCH_SINGLE}/{symbol}");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
         }
 
-        //[Fact]
-        public async Task GetPriceHistory_ShouldReturnBadRequest_WhenInvalidSymbolFormatProvided()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public async Task FetchSingle_ShouldReturnStatusNotFound_WhenNullOrEmptySymbolProvided(string symbol)
         {
-            string symbol = "SYMOL12";
-            var client = _factory.CreateClient();
+            //Arrange
+            _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
 
-            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
-            
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var error = JsonConvert.DeserializeObject<ValidationErrorResponse>(jsonResponse);
-            error.Should().NotBeNull();
-            error!.Message.Should().Be("Validation exception");
-            error!.Errors.Should().NotBeEmpty();
-        }
-
-        //[Fact]
-        public async Task FetchSingle_ShouldReturnNotFound_WhenNullSymbolProvided()
-        {
-            string? symbol = null;
-            var client = _factory.CreateClient();
-
-            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_SINGLE + $"/{symbol}");
+            var response = await _client.GetAsync($"{ApiEndpoint.CRYPTO_FETCH_SINGLE}/{symbol}");
 
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
         }

@@ -12,7 +12,8 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
     {
         public FetchPageQueryValidator()
         {
-            
+            RuleFor(i => i.Take).GreaterThan(0);
+            RuleFor(i => i.Page).GreaterThan(0);
         }
     }
 }

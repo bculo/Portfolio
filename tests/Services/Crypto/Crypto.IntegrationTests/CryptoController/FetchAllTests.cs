@@ -1,29 +1,31 @@
 ﻿using Crypto.Application.Modules.Crypto.Queries.FetchAll;
 using Crypto.Infrastracture.Persistence;
+using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
+using Crypto.IntegrationTests.Extensions;
+using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
 using Newtonsoft.Json;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
     [Collection("CryptoCollection")]
-    public class FetchAllTests
+    public class FetchAllTests : BaseTests
     {
-        private readonly CryptoApiFactory _factory;
 
-        public FetchAllTests(CryptoApiFactory factory)
+        public FetchAllTests(CryptoApiFactory factory) : base(factory)
         {
-            _factory = factory;
         }
 
-        //[Fact]
-        public async Task FetchAll_ShouldReturnStatusOk_WhenExecutedSuccessfully()
+        [Fact]
+        public async Task GetAll_ShouldReturnStatusOk_WhenExecutedSuccessfully()
         {
             //Arrange
-            var client = _factory.CreateClient();
+            var content = HttpClientUtilities.PrepareJsonRequest(new FetchAllQuery { });
+            _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
 
             //Act
-            var response = await client.GetAsync(ApiEndpoint.CRYPTO_FETCH_ALL);
+            var response = await _client.GetAsync(ApiEndpoint.CRYPTO_FETCH_ALL);
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

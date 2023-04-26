@@ -9,6 +9,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
         {
             RuleFor(i => i.Symbol)
                 .Matches(RegexConstants.SYMBOL)
+                .MinimumLength(1)
                 .NotEmpty();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
+using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
 using Crypto.IntegrationTests.Utils;
@@ -8,15 +9,10 @@ using FluentAssertions;
 namespace Crypto.IntegrationTests.CryptoController
 {
     [Collection("CryptoCollection")]
-    public class UndoAddNewDelayTests : IAsyncLifetime
+    public class UndoAddNewDelayTests : BaseTests
     {
-        private readonly HttpClient _client;
-        private readonly CryptoApiFactory _factory;
-
-        public UndoAddNewDelayTests(CryptoApiFactory factory)
+        public UndoAddNewDelayTests(CryptoApiFactory factory) : base(factory)
         {
-            _factory = factory;
-            _client = factory.Client;
         }
 
         [Fact]
@@ -31,13 +27,6 @@ namespace Crypto.IntegrationTests.CryptoController
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
-        }
-
-        public Task InitializeAsync() => Task.CompletedTask;
-
-        public async Task DisposeAsync()
-        {
-            await _factory.ResetDatabaseAsync();
         }
     }
 }

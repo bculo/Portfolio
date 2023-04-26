@@ -1,7 +1,9 @@
 ﻿using Crypto.Application.Interfaces.Services;
+using Crypto.Infrastracture.Constants;
 using Crypto.Infrastracture.Consumers;
 using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Extensions;
+using Crypto.IntegrationTests.Interfaces;
 using Crypto.IntegrationTests.Utils;
 using Crypto.Mock.Common.Clients;
 using Crypto.Mock.Common.Data;
@@ -13,16 +15,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Respawn;
-using System.Data.Common;
+using WireMock.RequestBuilders;
+using WireMock.Server;
 
 namespace Crypto.IntegrationTests
 {
-    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
+    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime, IApiFactory
     {
         private readonly MsSqlTestcontainer _sqlServerContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
             .WithDatabase(new MsSqlTestcontainerConfiguration()
@@ -36,6 +39,11 @@ namespace Crypto.IntegrationTests
 
         private Respawner _respawner = default!;
 
+        private readonly ICryptoDataManager _dataManager;
+
+        public WireMockServer InfoMockServer { get; private set; }
+        public WireMockServer PriceMockServer { get; private set; }
+
         public HttpClient Client { get; private set; } = default!;
 
         public async Task ResetDatabaseAsync()
@@ -43,8 +51,25 @@ namespace Crypto.IntegrationTests
             await _respawner.ResetAsync(_sqlServerConnectionString);
         }
 
+        public CryptoApiFactory()
+        {
+            InfoMockServer = WireMockServer.Start();
+            PriceMockServer = WireMockServer.Start();
+
+            _dataManager = new DefaultDataManager();
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            builder.ConfigureAppConfiguration(configrationBuilder =>
+            {
+                configrationBuilder.AddInMemoryCollection(new KeyValuePair<string, string>[]
+                {
+                    new KeyValuePair<string, string>("CryptoPriceApiOptions:BaseUrl", PriceMockServer.Url),
+                    new KeyValuePair<string, string>("CryptoInfoApiOptions:BaseUrl", InfoMockServer.Url),
+                });
+            });
+
             builder.ConfigureTestServices(services =>
             {
                 services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, opt =>
@@ -74,6 +99,9 @@ namespace Crypto.IntegrationTests
         public new async Task DisposeAsync()
         {
             await Task.WhenAll(_sqlServerContainer.StopAsync());
+
+            InfoMockServer.Stop();
+            PriceMockServer.Stop();
         }
 
         private async Task<Respawner> InitializeRespawner()
@@ -99,7 +127,7 @@ namespace Crypto.IntegrationTests
             });
 
             services.Migrate<CryptoDbContext>();
-            await CryptoDbContextSeed.SeedData(services, new DefaultDataManager().GetCryptoSeedData);
+            await CryptoDbContextSeed.SeedData(services, _dataManager.GetCryptoSeedData);
         }
 
         private void ConfigureRabbitMq(IServiceCollection services)
@@ -124,13 +152,14 @@ namespace Crypto.IntegrationTests
 
         private void ConfigureServices(IServiceCollection services)
         {
-            //Configure ICryptoInfoService 
+            /*
             services.RemoveAll(typeof(ICryptoInfoService));
-            services.AddScoped<ICryptoInfoService>((provider) => new MockCryptoInfoService(new DefaultDataManager().GetSupportedCryptoSymbolsArray()));
+            services.AddScoped<ICryptoInfoService>((provider) => new MockCryptoInfoService(_dataManager.GetSupportedCryptoSymbolsArray()));
 
             //Configure ICryptoPriceService 
             services.RemoveAll(typeof(ICryptoPriceService));
-            services.AddScoped<ICryptoPriceService>((provider) => new MockCryptoPriceService(new DefaultDataManager().GetSupportedCryptoSymbolsArray()));
+            services.AddScoped<ICryptoPriceService>((provider) => new MockCryptoPriceService(_dataManager.GetSupportedCryptoSymbolsArray()));
+            */
         }
     }
 }
