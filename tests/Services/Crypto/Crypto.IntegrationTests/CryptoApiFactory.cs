@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -33,6 +34,10 @@ namespace Crypto.IntegrationTests
                 Password = "yourStrong(!)Password",
             })
             .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
+            .Build();
+
+        private readonly RedisTestcontainer _redisContainer = new TestcontainersBuilder<RedisTestcontainer>()
+            .WithDatabase(new RedisTestcontainerConfiguration())
             .Build();
 
         private string _sqlServerConnectionString = default!;
@@ -80,6 +85,7 @@ namespace Crypto.IntegrationTests
                     opt.TokenValidationParameters.ValidateIssuer = false;
                 });
 
+                ConfigureRedis(services);
                 ConfigureDatabase(services).Wait();
                 ConfigureServices(services);
                 ConfigureRabbitMq(services);
@@ -88,7 +94,7 @@ namespace Crypto.IntegrationTests
 
         public async Task InitializeAsync()
         {
-            await Task.WhenAll(_sqlServerContainer.StartAsync());
+            await Task.WhenAll(_sqlServerContainer.StartAsync(), _redisContainer.StartAsync());
 
             _sqlServerConnectionString = $"{_sqlServerContainer.ConnectionString}TrustServerCertificate=True;";
 
@@ -98,7 +104,7 @@ namespace Crypto.IntegrationTests
 
         public new async Task DisposeAsync()
         {
-            await Task.WhenAll(_sqlServerContainer.StopAsync());
+            await Task.WhenAll(_sqlServerContainer.StopAsync(), _redisContainer.StopAsync());
 
             InfoMockServer.Stop();
             PriceMockServer.Stop();
@@ -128,6 +134,19 @@ namespace Crypto.IntegrationTests
 
             services.Migrate<CryptoDbContext>();
             await CryptoDbContextSeed.SeedData(services, _dataManager.GetCryptoSeedData);
+        }
+
+        private void ConfigureRedis(IServiceCollection services)
+        {
+            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDistributedCache));
+
+            services.RemoveAll(typeof(IDistributedCache));
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = _redisContainer.ConnectionString;
+                options.InstanceName = "RedisIntegrationTest";
+            });
         }
 
         private void ConfigureRabbitMq(IServiceCollection services)
