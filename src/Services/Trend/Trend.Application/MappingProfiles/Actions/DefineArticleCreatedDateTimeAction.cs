@@ -22,7 +22,6 @@ namespace Trend.Application.MappingProfiles.Actions
 
         public void Process(GoogleSearchEngineItemDto source, Article destination, ResolutionContext context)
         {
-            //destination.Id = ObjectId.GenerateNewId().ToString();
             destination.IsActive = true;
             destination.Created = _time.Now;
         }

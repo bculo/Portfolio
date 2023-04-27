@@ -13,6 +13,7 @@ using Trend.Application.Interfaces;
 using Trend.Application.Options;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
+using Trend.Application.Utils.Persistence;
 using Trend.Domain.Interfaces;
 
 namespace Trend.Application
@@ -47,13 +48,14 @@ namespace Trend.Application
             MongoConfiguration.Configure();
 
             services.Configure<MongoOptions>(configuration.GetSection("MongoOptions"));
+            var mongoDbOptions = configuration.GetSection("MongoOptions").Get<MongoOptions>();
+            services.AddSingleton<IMongoClient>(c => TrendMongoUtils.CreateMongoClient(mongoDbOptions));
+            services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
 
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
             services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<ISearchWordRepository, SearchWordRepository>();
-            //services.AddScoped<IMongoContext, MongoContext>();
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public static void AddLogger(IHostBuilder host)

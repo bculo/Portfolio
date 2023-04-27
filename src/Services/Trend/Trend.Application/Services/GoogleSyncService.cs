@@ -2,6 +2,7 @@
 using Dtos.Common.v1.Trend.Article;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,11 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly IRepository<SyncStatus> _syncRepo;
         private readonly IArticleRepository _articleRepo;
+        private readonly IClientSessionHandle _session;
 
-        public GoogleSyncResult Result { get; set; }
-        public SyncStatus SyncStatus { get; set; }
-        public List<Article> Entities { get; set; }
+        public GoogleSyncResult Result { get; private set; }
+        public SyncStatus SyncStatus { get; private set; }
+        public List<Article> Entities { get; private set; }
 
         public GoogleSyncService(
             ILogger<GoogleSyncService> logger,
@@ -36,7 +38,8 @@ namespace Trend.Application.Services
             IDateTimeProvider time,
             IMapper mapper,
             IRepository<SyncStatus> syncRepo,
-            IArticleRepository articleRepo)
+            IArticleRepository articleRepo,
+            IClientSessionHandle session)
         {
             _logger = logger;
             _searchService = searchService;
@@ -44,6 +47,7 @@ namespace Trend.Application.Services
             _time = time;
             _syncRepo = syncRepo;
             _articleRepo = articleRepo;
+            _session = session;
 
             Result = new GoogleSyncResult();
             Entities = new List<Article>();
@@ -61,8 +65,6 @@ namespace Trend.Application.Services
 
             SyncStatus = CreateSyncInstance();
 
-            _logger.LogTrace("Strating with sync");
-            
             foreach(var articleSync in articleTypesToSync)
             {
                 await ExecuteSync(articleSync.Key, articleSync.Value);
@@ -93,12 +95,16 @@ namespace Trend.Application.Services
             //prepare article instances
             AttachSyncStatusIdentifierToArticles();
 
+            _session.StartTransaction();
+
             //save sync status and new articles
             await PersistSyncStatus();
             await PersistNewArticles();
 
             //deactivate old articles
             await _articleRepo.DeactivateArticles(oldActiveIds);
+
+            _session.CommitTransaction();
         }
 
         private void MarkSyncStatusAsFinished()
@@ -129,8 +135,6 @@ namespace Trend.Application.Services
 
         private async Task PersistSyncStatus()
         {
-            _logger.LogTrace("PersistSyncStatus method called in GoogleSyncService");
-
             await _syncRepo.Add(SyncStatus);
         }
 
@@ -140,8 +144,6 @@ namespace Trend.Application.Services
             {
                 return;
             }
-
-            _logger.LogTrace("Saving new article entities");
 
             await _articleRepo.Add(Entities);
         }
@@ -158,15 +160,12 @@ namespace Trend.Application.Services
 
         private async Task ExecuteSync(ContextType type, IReadOnlyList<string> keyWords)
         {
-            _logger.LogTrace("Sync for article type {0}", type.ToString());
-
             if(keyWords is null || keyWords.Count == 0)
             {
                 _logger.LogInformation("Article type {0} does not contain key words", type.ToString());
             }
 
             var responses = await FetchData(keyWords!);
-
             await CreateResponse(responses, type);
         }
 
@@ -176,11 +175,7 @@ namespace Trend.Application.Services
                                     .Select(searchWord => Tuple.Create(_searchService.Search(searchWord), searchWord))
                                     .ToList();
 
-            _logger.LogTrace("HTTP request/requests sent");
-
             await Task.WhenAll(requestList.Select(i => i.Item1));
-
-            _logger.LogTrace("All HTTP request finished");
 
             return requestList.Select(item => new GoogleResponseStatus
             {

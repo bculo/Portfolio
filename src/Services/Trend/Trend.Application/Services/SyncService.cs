@@ -58,8 +58,6 @@ namespace Trend.Application.Services
 
             var syncResult = await _googleSync.Sync(googleSyncRequest);
 
-            _logger.LogTrace("Mapping sync result to dto");
-
             var dto = _mapper.Map<GoogleSyncResultDto>(syncResult);
 
             await _publishEndpoint.Publish(new NewNewsFetched { });
@@ -75,25 +73,18 @@ namespace Trend.Application.Services
                 return null;
             }
 
-            _logger.LogTrace("Search sync status by ID {0}", id);
-
             var entity = await _syncStatusRepo.FindById(id);
-
             if(entity is null)
             {
                 _logger.LogInformation("Sync with provided ID {0} not found", id);
                 return null;
             }
 
-            _logger.LogTrace("Mapping entity to dto");
-
             return _mapper.Map<SyncStatusDto>(entity);
         }
 
         public async Task<List<SyncStatusDto>> GetSyncStatuses()
         {
-            _logger.LogTrace("Fetching sync statuses from DB");
-
             var entities = await _syncStatusRepo.GetAll();
 
             if(entities.Count == 0)
@@ -102,52 +93,34 @@ namespace Trend.Application.Services
                 return new List<SyncStatusDto>();
             }
 
-            _logger.LogTrace("Mapping entities to dto");
-
             var dtos = _mapper.Map<List<SyncStatusDto>>(entities);
-
             return dtos;
         }
 
         public async Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request)
         {
-            _logger.LogTrace("Fetching entities page");
-
             var entitiesPage = await _syncStatusRepo.FilterBy(request.Page, request.Take);
-
-            _logger.LogTrace("Mapping to dtos");
-
             var dtoPage = _mapper.Map<PageResponseDto<SyncStatusDto>>(entitiesPage);
-
             return dtoPage;
         }
 
         public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId)
         {
-            _logger.LogTrace("Fetching sync status");
-
             var syncStatus = await _syncStatusRepo.FindById(syncStatusId);
-
             if(syncStatus is null)
             {
                 _logger.LogInformation("Sync status with ID {0} not found", syncStatusId);
                 throw new TrendNotFoundException();
             }
 
-            _logger.LogTrace("Fetching sync status words");
-
             var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId);
-
             if(syncWords.Count == 0)
             {
                 _logger.LogTrace("Zero items find in database");
                 return new List<SyncStatusWordDto>();
             }
 
-            _logger.LogTrace("Mapping entities to dtos");
-
             var response = _mapper.Map<List<SyncStatusWordDto>>(syncWords);
-
             return response;
         }
     }

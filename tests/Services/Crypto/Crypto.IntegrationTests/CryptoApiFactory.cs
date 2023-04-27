@@ -171,14 +171,12 @@ namespace Crypto.IntegrationTests
 
         private void ConfigureServices(IServiceCollection services)
         {
-            /*
             services.RemoveAll(typeof(ICryptoInfoService));
             services.AddScoped<ICryptoInfoService>((provider) => new MockCryptoInfoService(_dataManager.GetSupportedCryptoSymbolsArray()));
 
             //Configure ICryptoPriceService 
             services.RemoveAll(typeof(ICryptoPriceService));
             services.AddScoped<ICryptoPriceService>((provider) => new MockCryptoPriceService(_dataManager.GetSupportedCryptoSymbolsArray()));
-            */
         }
     }
 }

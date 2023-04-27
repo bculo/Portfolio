@@ -12,12 +12,10 @@ namespace Trend.API.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class NewsController : ControllerBase
     {
-        private readonly ILogger<NewsController> _logger;
         private readonly IArticleService _service;
 
-        public NewsController(ILogger<NewsController> logger, IArticleService service)
+        public NewsController(IArticleService service)
         {
-            _logger = logger;
             _service = service;
         }
 
@@ -26,8 +24,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLatestsNews()
         {
-            _logger.LogTrace("GetLatestsNews method called");
-
             return Ok(await _service.GetLatestNews());
         }
 
@@ -36,8 +32,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastCryptoNews()
         {
-            _logger.LogTrace("GetLastCryptoNews method called");
-
             return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Crypto));
         }
 
@@ -46,8 +40,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastStockNews()
         {
-            _logger.LogTrace("GetLastStockNews method called");
-
             return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Stock));
         }
 
@@ -56,8 +48,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEtfNews()
         {
-            _logger.LogTrace("GetLastEtfNews method called");
-
             return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Etf));
         }
 
@@ -66,8 +56,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEconomyNews()
         {
-            _logger.LogTrace("GetLastEconomyNews method called");
-
             return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Economy));
         }
     }

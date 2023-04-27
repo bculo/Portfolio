@@ -13,13 +13,11 @@ namespace Trend.API.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class SyncController : ControllerBase
     {
-        private readonly ILogger<SyncController> _logger;
         private readonly ISyncService _syncService;
 
-        public SyncController(ISyncService syncService, ILogger<SyncController> logger)
+        public SyncController(ISyncService syncService)
         {
             _syncService = syncService;
-            _logger = logger;
         }
 
         [HttpGet("Sync")]
@@ -27,8 +25,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Sync()
         {
-            _logger.LogTrace("Method Sync called in SyncController");
-
             return Ok(await _syncService.ExecuteGoogleSync());
         }
 
@@ -37,8 +33,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSync(string id)
         {
-            _logger.LogTrace("Method GetSync called in SyncController");
-
             return Ok(await _syncService.GetSync(id));
         }
 
@@ -47,8 +41,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatuses()
         {
-            _logger.LogTrace("Method GetSyncStatuses called in SyncController");
-
             return Ok(await _syncService.GetSyncStatuses());
         }
 
@@ -58,8 +50,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatusesPage(PageRequestDto page)
         {
-            _logger.LogTrace("Method GetSyncStatuses called in SyncController");
-
             return Ok(await _syncService.GetSyncStatusesPage(page));
         }
 
@@ -68,8 +58,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatusWords(string id)
         {
-            _logger.LogTrace("Method GetSyncStatusWords called in SyncController");
-
             return Ok(await _syncService.GetSyncStatusSearchWords(id));
         }
     }

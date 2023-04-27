@@ -14,13 +14,11 @@ namespace Trend.API.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class SearchWordController : ControllerBase
     {
-        private readonly ILogger<SearchWordController> _logger;
         private readonly ISearchWordService _service;
 
-        public SearchWordController(ISearchWordService service, ILogger<SearchWordController> logger)
+        public SearchWordController(ISearchWordService service)
         {
             _service = service;
-            _logger = logger;
         }
 
         [HttpGet("GetSearchWords")]
@@ -28,32 +26,22 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncSettingsWords()
         {
-            _logger.LogTrace("Method GetSyncSettingsWords called in SyncController");
-
             return Ok(await _service.GetSyncSettingsWords());
         }
 
-
-        [ServiceFilter(typeof(CacheActionFilter))]
         [HttpGet("GetAvaiableSearchEngines")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAvaiableSearchEngines()
         {
-            _logger.LogTrace("Method GetAvaiableSearchEngines called in SyncController");
-
             return Ok(await _service.GetAvailableSearchEngines());
         }
 
-
-        [ServiceFilter(typeof(CacheActionFilter))]
         [HttpGet("GetAvaiableContextTypes")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAvaiableContextTypes()
         {
-            _logger.LogTrace("Method GetAvaiableContextTypes called in SyncController");
-
             return Ok(await _service.GetAvaiableContextTypes());
         }
 
@@ -62,8 +50,6 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordCreateDto request)
         {
-            _logger.LogTrace("Method AddNewSearchWord called in SyncController");
-
             return Ok(await _service.AddNewSyncSetting(request));
         }
 
@@ -72,10 +58,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RemoveSearchWord(string id)
         {
-            _logger.LogTrace("Method RemoveSearchWord called in SyncController");
-
             await _service.RemoveSyncSetting(id);
-
             return NoContent();
         }
     }

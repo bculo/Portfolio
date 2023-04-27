@@ -45,15 +45,8 @@ namespace Trend.Application.Clients
             AddQueryParameter("q", searchDefinition);
 
             var url = BuildUrlWithQueryParameters(_options.Uri);
-
             var client = CreateNewClient();
-
-            _logger.LogTrace("Sending request");
-
             var result = await client.GetAsync(url);
-
-            _logger.LogTrace("Response Received");
-
             return await result.HandleResponse<GoogleSearchEngineResponseDto>();
         }
     }

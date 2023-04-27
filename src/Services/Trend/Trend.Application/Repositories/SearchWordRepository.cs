@@ -14,17 +14,16 @@ namespace Trend.Application.Repositories
 {
     public class SearchWordRepository : MongoRepository<SearchWord>, ISearchWordRepository
     {
-        public SearchWordRepository(IOptions<MongoOptions> options) : base(options)
+        public SearchWordRepository(IMongoClient client, IOptions<MongoOptions> options) 
+            : base(client, options)
         {
 
         }
 
-        public async Task<bool> IsDuplicate(string searchWord, SearchEngine engine)
+        public Task<bool> IsDuplicate(string searchWord, SearchEngine engine)
         {
             var instance = _collection.Find(i => i.Word.ToLower() == searchWord.ToLower() && i.Engine == engine).FirstOrDefault();
-            return instance != null;
-        }
-
-        
+            return Task.FromResult(instance != null);
+        }      
     }
 }
