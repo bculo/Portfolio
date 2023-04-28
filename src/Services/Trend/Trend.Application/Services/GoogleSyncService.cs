@@ -26,7 +26,7 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly IRepository<SyncStatus> _syncRepo;
         private readonly IArticleRepository _articleRepo;
-        private readonly IClientSessionHandle _session;
+        private readonly ITransaction _session;
 
         public GoogleSyncResult Result { get; private set; }
         public SyncStatus SyncStatus { get; private set; }
@@ -39,7 +39,7 @@ namespace Trend.Application.Services
             IMapper mapper,
             IRepository<SyncStatus> syncRepo,
             IArticleRepository articleRepo,
-            IClientSessionHandle session)
+            ITransaction session)
         {
             _logger = logger;
             _searchService = searchService;
@@ -95,7 +95,7 @@ namespace Trend.Application.Services
             //prepare article instances
             AttachSyncStatusIdentifierToArticles();
 
-            _session.StartTransaction();
+            await _session.StartTransaction();
 
             //save sync status and new articles
             await PersistSyncStatus();
@@ -104,7 +104,7 @@ namespace Trend.Application.Services
             //deactivate old articles
             await _articleRepo.DeactivateArticles(oldActiveIds);
 
-            _session.CommitTransaction();
+            await _session.CommitTransaction();
         }
 
         private void MarkSyncStatusAsFinished()

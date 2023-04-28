@@ -51,6 +51,7 @@ namespace Trend.Application
             var mongoDbOptions = configuration.GetSection("MongoOptions").Get<MongoOptions>();
             services.AddSingleton<IMongoClient>(c => TrendMongoUtils.CreateMongoClient(mongoDbOptions));
             services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
+            services.AddScoped<ITransaction, MongoTransactionService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
             services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
 using Trend.API.Filters.Models;
+using Trend.Application.Interfaces;
 using Trend.Domain.Exceptions;
 
 namespace Trend.API.Filters
@@ -9,9 +10,9 @@ namespace Trend.API.Filters
     public class GlobalExceptionFilter : IExceptionFilter
     {
         private readonly ILogger<GlobalExceptionFilter> _logger;
-        private readonly IClientSessionHandle _session;
+        private readonly ITransaction _session;
 
-        public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, IClientSessionHandle session)
+        public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, ITransaction session)
         {
             _logger = logger;
             _session = session;
@@ -40,18 +41,8 @@ namespace Trend.API.Filters
         }
 
         private void HandleSession()
-        {
-            try
-            {
-                if(_session.IsInTransaction)
-                {
-                    _session.AbortTransaction();
-                }
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e.Message, e);
-            }
+        { 
+            _session.AbortTransaction();
         }
 
         private void HandleCustomException(ExceptionContext context)
