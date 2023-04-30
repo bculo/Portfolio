@@ -9,12 +9,12 @@ namespace Trend.IntegrationTests
     public abstract class BaseTests : IAsyncLifetime
     {
         protected readonly IApiFactory _factory;
-        protected readonly HttpClient Client;
+        protected readonly HttpClient _client;
 
         public BaseTests(IApiFactory factory)
         {
             _factory = factory;
-            Client = _factory.Client;
+            _client = _factory.Client;
         }
 
         public virtual Task DisposeAsync()

@@ -69,6 +69,11 @@ namespace Trend.Application
                 cl.Enrich.WithProperty("Environment", ctx.HostingEnvironment.EnvironmentName);
                 cl.Enrich.WithProperty("Application", ctx.HostingEnvironment.ApplicationName);
 
+                if(!ctx.Configuration.GetValue<bool>("SerilogMongo:UseLogger"))
+                {
+                    return;
+                }
+
                 cl.WriteTo.MongoDBBson(cfg =>
                 {
                     var identity = new MongoInternalIdentity(
