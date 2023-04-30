@@ -1,15 +1,10 @@
 ﻿using Crypto.Application.Interfaces.Services;
-using Crypto.Infrastracture.Constants;
 using Crypto.Infrastracture.Consumers;
 using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Extensions;
 using Crypto.IntegrationTests.Interfaces;
-using Crypto.IntegrationTests.Utils;
 using Crypto.Mock.Common.Clients;
 using Crypto.Mock.Common.Data;
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
@@ -21,29 +16,27 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Respawn;
-using WireMock.RequestBuilders;
+using Testcontainers.MsSql;
+using Testcontainers.Redis;
 using WireMock.Server;
 
 namespace Crypto.IntegrationTests
 {
     public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime, IApiFactory
     {
-        private readonly MsSqlTestcontainer _sqlServerContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
-            .WithDatabase(new MsSqlTestcontainerConfiguration()
-            {
-                Password = "yourStrong(!)Password",
-            })
-            .WithName($"Crypto.API.Integration.{Guid.NewGuid()}")
+        private readonly MsSqlContainer _sqlServerContainer = new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+            .WithName($"Crypto.API.Integration.MsSql.{Guid.NewGuid()}")
+            .WithCleanUp(true)
             .Build();
 
-        private readonly RedisTestcontainer _redisContainer = new TestcontainersBuilder<RedisTestcontainer>()
-            .WithDatabase(new RedisTestcontainerConfiguration())
+        private readonly RedisContainer _redisContainer = new RedisBuilder()
+            .WithImage("redis:7.0.2")
+            .WithName($"Crypto.API.Integration.Redis.{Guid.NewGuid()}")
+            .WithCleanUp(true)
             .Build();
-
-        private string _sqlServerConnectionString = default!;
 
         private Respawner _respawner = default!;
-
         private readonly ICryptoDataManager _dataManager;
 
         public WireMockServer InfoMockServer { get; private set; }
@@ -53,7 +46,7 @@ namespace Crypto.IntegrationTests
 
         public async Task ResetDatabaseAsync()
         {
-            await _respawner.ResetAsync(_sqlServerConnectionString);
+            await _respawner.ResetAsync(_sqlServerContainer.GetConnectionString());
         }
 
         public CryptoApiFactory()
@@ -95,9 +88,6 @@ namespace Crypto.IntegrationTests
         public async Task InitializeAsync()
         {
             await Task.WhenAll(_sqlServerContainer.StartAsync(), _redisContainer.StartAsync());
-
-            _sqlServerConnectionString = $"{_sqlServerContainer.ConnectionString}TrustServerCertificate=True;";
-
             _respawner = await InitializeRespawner();
             Client = CreateClient();
         }
@@ -112,10 +102,11 @@ namespace Crypto.IntegrationTests
 
         private async Task<Respawner> InitializeRespawner()
         {
-            return await Respawner.CreateAsync(_sqlServerConnectionString, new RespawnerOptions
-            {
-                DbAdapter = DbAdapter.SqlServer
-            });
+            return await Respawner.CreateAsync(_sqlServerContainer.GetConnectionString(), 
+                new RespawnerOptions
+                {
+                    DbAdapter = DbAdapter.SqlServer
+                });
         }
 
         private async Task ConfigureDatabase(IServiceCollection services)
@@ -125,11 +116,9 @@ namespace Crypto.IntegrationTests
             services.Remove(descriptor);
             services.RemoveAll(typeof(CryptoDbContext));
 
-            var connectionString = SqlServerUtilities.ChangeConnectionDatabaseName(_sqlServerConnectionString, "CryptoIntegrationDb");
-
             services.AddDbContext<CryptoDbContext>(opt =>
             {
-                opt.UseSqlServer(connectionString);
+                opt.UseSqlServer(_sqlServerContainer.GetConnectionString());
             });
 
             services.Migrate<CryptoDbContext>();
@@ -144,7 +133,7 @@ namespace Crypto.IntegrationTests
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = _redisContainer.ConnectionString;
+                options.Configuration = _redisContainer.GetConnectionString();
                 options.InstanceName = "RedisIntegrationTest";
             });
         }

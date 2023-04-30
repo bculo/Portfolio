@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Trend.IntegrationTests.NewsController
 {
     [Collection("TrendCollection")]
-    public class GetLastEconomyNewsTests
+    public class GetLastEconomyNewsTests : BaseTests
     {
         public GetLastEconomyNewsTests(TrendApiFactory factory) : base(factory)
         {

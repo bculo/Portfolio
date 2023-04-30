@@ -111,7 +111,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.Application", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.gRPC", "src\Services\Crypto\Crypto.gRPC\Crypto.gRPC.csproj", "{DEFC5610-8B2B-47C5-A4D7-0CEF8F0531E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProject.Common", "src\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj", "{93224A3B-223C-4CED-A6D0-8D8EE0F6387D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProject.Common", "src\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj", "{93224A3B-223C-4CED-A6D0-8D8EE0F6387D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
