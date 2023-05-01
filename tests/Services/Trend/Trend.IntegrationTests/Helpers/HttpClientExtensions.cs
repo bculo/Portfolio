@@ -8,7 +8,7 @@ namespace Trend.IntegrationTests.Helpers
 {
     public static class HttpClientExtensions
     {
-        public static void AddJwtToken(this HttpClient client, string token)
+        public static HttpClient AddJwtToken(this HttpClient client, string token)
         {
             ArgumentNullException.ThrowIfNull(client, nameof(client));
             ArgumentNullException.ThrowIfNull(token, nameof(token));
@@ -19,13 +19,14 @@ namespace Trend.IntegrationTests.Helpers
             }
 
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            return client;
         }
 
-        public static void RemoveJwtToken(this HttpClient client)
+        public static HttpClient RemoveJwtToken(this HttpClient client)
         {
             ArgumentNullException.ThrowIfNull(client, nameof(client));
-
             client.DefaultRequestHeaders.Remove("Authorization");
+            return client;
         }
     }
 }

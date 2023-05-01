@@ -14,10 +14,10 @@ namespace Trend.IntegrationTests.NewsController
         public async Task GetLatestEtfsNews_ShouldReturnStatusOk_WhenEndpointInvoked()
         {
             //Arrange
-            _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
+            var client = GetAuthInstance(UserAuthType.User);
 
             //Act
-            var response = await _client.GetAsync(ApiEndpoints.LATEST_ETF_NEWS);
+            var response = await client.GetAsync(ApiEndpoints.LATEST_ETF_NEWS);
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

@@ -127,8 +127,6 @@ namespace Crypto.IntegrationTests
 
         private void ConfigureRedis(IServiceCollection services)
         {
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDistributedCache));
-
             services.RemoveAll(typeof(IDistributedCache));
 
             services.AddStackExchangeRedisCache(options =>

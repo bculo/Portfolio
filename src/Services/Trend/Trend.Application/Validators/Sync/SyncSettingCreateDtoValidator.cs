@@ -13,8 +13,6 @@ namespace Trend.Application.Validators.Sync
     {
         public SyncSettingCreateDtoValidator()
         {
-            var test = Enum.GetValues<SearchEngine>().Cast<int>();
-
             RuleFor(i => i.SearchWord).MinimumLength(2).NotEmpty();
 
             RuleFor(i => i.SearchEngine).Must(engine =>

@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MongoDb;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Driver;
+using Trend.Application.Options;
+using Trend.Application.Utils.Persistence;
 
 namespace Trend.IntegrationTests
 {
@@ -23,7 +27,6 @@ namespace Trend.IntegrationTests
             .WithUsername("testuser")
             .WithPassword("testuser")
             .WithName($"Trend.API.Integration.Mongo.{Guid.NewGuid()}")
-            .WithCleanUp(true)
             .Build();
 
         public HttpClient Client { get; private set; }
@@ -35,16 +38,6 @@ namespace Trend.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureAppConfiguration(configrationBuilder =>
-            {
-                configrationBuilder.AddInMemoryCollection(new KeyValuePair<string, string>[]
-                {
-                    new KeyValuePair<string, string>("SerilogMongo:UseLogger", "false"),
-                    new KeyValuePair<string, string>("MongoOptions:UseInterceptor", "false"),
-                    new KeyValuePair<string, string>("MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString()),
-                });
-            });
-
             builder.ConfigureTestServices(services =>
             {
                 services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, opt =>
@@ -54,9 +47,21 @@ namespace Trend.IntegrationTests
                     opt.TokenValidationParameters.ValidateAudience = false;
                     opt.TokenValidationParameters.ValidateIssuer = false;
                 });
+                
+                services.RemoveAll(typeof(IMongoClient));
+                services.AddSingleton<IMongoClient>(c =>
+                {
+                    var options = new MongoOptions
+                    {
+                        ConnectionString = _mongoDbContainer.GetConnectionString(),
+                        UseInterceptor = false,
+                    };
+
+                    return TrendMongoUtils.CreateMongoClient(options);
+                });
             });
         }
-
+        
         public async Task InitializeAsync()
         {
             await Task.WhenAll(_mongoDbContainer.StartAsync());

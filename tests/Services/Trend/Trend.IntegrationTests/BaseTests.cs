@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trend.IntegrationTests.Helpers;
 
 namespace Trend.IntegrationTests
 {
     public abstract class BaseTests : IAsyncLifetime
     {
         protected readonly IApiFactory _factory;
-        protected readonly HttpClient _client;
+        private readonly HttpClient _client;
 
         public BaseTests(IApiFactory factory)
         {
@@ -26,5 +27,21 @@ namespace Trend.IntegrationTests
         {
             return Task.CompletedTask;
         }
+
+        protected HttpClient GetAuthInstance(UserAuthType type)
+        {
+            return type switch
+            {
+                UserAuthType.None => _client.RemoveJwtToken(),
+                UserAuthType.User => _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN),
+                _ => throw new NotSupportedException("Auth type not supported")
+            };
+        }
+    }
+
+    public enum UserAuthType
+    {
+        None = 0,
+        User = 1
     }
 }
