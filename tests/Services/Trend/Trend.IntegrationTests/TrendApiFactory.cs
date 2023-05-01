@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MongoDb;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Trend.Application.Options;
 using Trend.Application.Utils.Persistence;
@@ -38,6 +39,11 @@ namespace Trend.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            builder.ConfigureLogging((context, loggingBuilder) =>
+            {
+                loggingBuilder.ClearProviders();
+            });
+            
             builder.ConfigureTestServices(services =>
             {
                 services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, opt =>

@@ -18,11 +18,7 @@ namespace Trend.Application.Utils.Persistence
         {
             if(!options.UseInterceptor)
             {
-                var client = new MongoClient(options.ConnectionString);
-                if (client.Settings.IsFrozen)
-                    return client;
-                client.Settings.ConnectTimeout = TimeSpan.FromSeconds(options.ConnectionTimeoutSeconds);
-                return client;
+                return new MongoClient(options.ConnectionString);
             }
 
             var mongoIdentity = new MongoInternalIdentity(options.InterceptorSettings.AuthDatabase, options.InterceptorSettings.User);
