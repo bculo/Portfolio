@@ -1,7 +1,7 @@
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Trend.IntegrationTests;
+namespace Tests.Common.Utilities;
 
 public static class HttpClientUtilities
 {

@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Trend.IntegrationTests.Helpers;
 
 namespace Trend.IntegrationTests.NewsController
 {

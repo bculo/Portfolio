@@ -1,5 +1,6 @@
 using Dtos.Common.v1.Trend.SearchWord;
 using FluentAssertions;
+using Tests.Common.Utilities;
 using Trend.Domain.Enums;
 
 namespace Trend.IntegrationTests.SearchWordController;
