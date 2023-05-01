@@ -32,9 +32,9 @@ namespace Trend.IntegrationTests
         {
             return type switch
             {
-                UserAuthType.None => _client.RemoveJwtToken(),
-                UserAuthType.User => _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN),
-                _ => throw new NotSupportedException("Auth type not supported")
+                UserAuthType.None => _client.RemoveHeaderValue("UserAuthType"),
+                UserAuthType.User => _client.AddHeaderValue("UserAuthType", ((int)UserAuthType.User).ToString()),
+                _ => _client
             };
         }
     }
