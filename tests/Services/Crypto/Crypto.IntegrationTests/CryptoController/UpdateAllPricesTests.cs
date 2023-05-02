@@ -8,13 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    [Collection("CryptoCollection")]
     public class UpdateAllPricesTests : BaseTests
     {
-        public UpdateAllPricesTests(CryptoApiFactory factory) : base(factory)
+        public UpdateAllPricesTests(CryptoApiFactory factory)
+            : base(factory)
         {
         }
 

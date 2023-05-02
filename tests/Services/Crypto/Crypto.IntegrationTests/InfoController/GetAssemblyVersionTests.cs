@@ -1,6 +1,7 @@
 ﻿using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
 using FluentAssertions;
+using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests.InfoController
 {

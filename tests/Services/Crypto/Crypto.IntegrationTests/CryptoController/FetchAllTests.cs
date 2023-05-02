@@ -1,18 +1,16 @@
 ﻿using Crypto.Application.Modules.Crypto.Queries.FetchAll;
-using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
 using Newtonsoft.Json;
+using Tests.Common.Extensions;
+using Tests.Common.Utilities;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    [Collection("CryptoCollection")]
     public class FetchAllTests : BaseTests
     {
-
         public FetchAllTests(CryptoApiFactory factory) : base(factory)
         {
         }

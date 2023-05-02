@@ -1,23 +1,17 @@
-﻿using Crypto.API.Filters.Models;
-using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+﻿using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    [Collection("CryptoCollection")]
     public class FetchSingleTests : BaseTests
     {
-        public FetchSingleTests(CryptoApiFactory factory) : base(factory)
+        public FetchSingleTests(CryptoApiFactory factory) 
+            : base(factory)
         {
         }
 

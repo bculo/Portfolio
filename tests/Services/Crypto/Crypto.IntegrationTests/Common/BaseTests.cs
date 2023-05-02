@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Crypto.IntegrationTests.Constants;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests.Common
 {
+    [Collection("CryptoCollection")]
     public abstract class BaseTests : IAsyncLifetime
     {
-        protected readonly IApiFactory _factory;
+        protected readonly CryptoApiFactory _factory;
         protected readonly HttpClient _client;
 
-        public BaseTests(IApiFactory factory)
+        public BaseTests(CryptoApiFactory factory)
         {
             _factory = factory;
             _client = factory.Client;
@@ -24,5 +28,10 @@ namespace Crypto.IntegrationTests.Common
         }
 
         public virtual Task InitializeAsync() => Task.CompletedTask;
+
+        public HttpClient GetAuthInstance()
+        {
+            return _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
+        }
     }
 }

@@ -1,17 +1,17 @@
-﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
-using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
+﻿using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Utilities;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    [Collection("CryptoCollection")]
     public class UndoAddNewDelayTests : BaseTests
     {
-        public UndoAddNewDelayTests(CryptoApiFactory factory) : base(factory)
+        public UndoAddNewDelayTests(CryptoApiFactory factory)
+            : base(factory)
         {
         }
 

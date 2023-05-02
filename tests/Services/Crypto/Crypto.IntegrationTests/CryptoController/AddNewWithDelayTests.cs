@@ -2,12 +2,12 @@
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Utilities;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    [Collection("CryptoCollection")]
     public class AddNewWithDelayTests : BaseTests
     {
         public AddNewWithDelayTests(CryptoApiFactory factory) : base(factory)

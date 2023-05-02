@@ -14,6 +14,7 @@ namespace Crypto.IntegrationTests.Constants
         public const string CRYPTO_FETCH_PAGE = "/api/v1/crypto/fetchpage";
         public const string CRYPTO_FETCH_SINGLE = "/api/v1/crypto/single";
         public const string CRYPTO_PRICE_HISTORY = "/api/v1/crypto/GetPriceHisotry";
+        public const string CRYPTO_MOST_POPULAR = "/api/v1/crypto/GetMostPopular";
         public const string CRYPTO_DELETE = "/api/v1/crypto/delete";
         public const string CRYPTO_ADD_NEW = "/api/v1/crypto/AddNew";
         public const string CRYPTO_ADD_NEW_DELAY = "/api/v1/crypto/AddNewWithDelay";

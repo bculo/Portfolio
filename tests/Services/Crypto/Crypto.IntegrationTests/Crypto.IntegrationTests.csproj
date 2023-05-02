@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Services\Crypto\Crypto.API\Crypto.API.csproj" />
+    <ProjectReference Include="..\..\..\Common\Tests.Common\Tests.Common.csproj" />
     <ProjectReference Include="..\Crypto.Mock.Common\Crypto.Mock.Common.csproj" />
   </ItemGroup>
 

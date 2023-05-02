@@ -2,17 +2,18 @@
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Utils;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Text;
+using Tests.Common.Extensions;
+using Tests.Common.Utilities;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    [Collection("CryptoCollection")]
     public class UpdatePriceTests : BaseTests
     {
-        public UpdatePriceTests(CryptoApiFactory factory) : base(factory)
+        public UpdatePriceTests(CryptoApiFactory factory) 
+            : base(factory)
         {
         }
 
