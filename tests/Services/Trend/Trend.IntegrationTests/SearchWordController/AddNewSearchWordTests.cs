@@ -1,11 +1,14 @@
 using Dtos.Common.v1.Trend.SearchWord;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Tests.Common.Utilities;
+using Trend.Domain.Entities;
 using Trend.Domain.Enums;
+using Trend.Domain.Interfaces;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-[Collection("TrendCollection")]
+
 public class AddNewSearchWordTests : BaseTests
 {
     public AddNewSearchWordTests(TrendApiFactory factory) : base(factory)
@@ -49,6 +52,26 @@ public class AddNewSearchWordTests : BaseTests
             SearchWord = word,
             ContextType = contextType,
             SearchEngine = searchEngine
+        };
+        var request = HttpClientUtilities.PrepareJsonRequest(instance);
+        var client = GetAuthInstance(UserAuthType.User);
+
+        //Act
+        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARH_WORD, request);
+        
+        //Assert
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenWordWithSameEngineAlreadyExists()
+    {
+        //Arrange
+        var instance = new SearchWordCreateDto
+        {
+            SearchWord = MockConstants.EXISTING_SEARCH_WORD_TEXT,
+            ContextType = (int)ContextType.Crypto,
+            SearchEngine = (int)SearchEngine.Google
         };
         var request = HttpClientUtilities.PrepareJsonRequest(instance);
         var client = GetAuthInstance(UserAuthType.User);

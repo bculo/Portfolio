@@ -2,7 +2,7 @@
 
 namespace Trend.IntegrationTests.NewsController
 {
-    [Collection("TrendCollection")]
+
     public class GetLastEtfNewsTests : BaseTests
     {
         public GetLastEtfNewsTests(TrendApiFactory factory) : base(factory)

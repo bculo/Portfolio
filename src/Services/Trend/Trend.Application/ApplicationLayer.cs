@@ -57,6 +57,8 @@ namespace Trend.Application
             services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<ISearchWordRepository, SearchWordRepository>();
+            
+            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
         }
 
         public static void AddLogger(IHostBuilder host)

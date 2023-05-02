@@ -2,7 +2,6 @@ using FluentAssertions;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-[Collection("TrendCollection")]
 public class GetAvaiableContextTypesTests : BaseTests
 {
     public GetAvaiableContextTypesTests(TrendApiFactory factory) : base(factory)

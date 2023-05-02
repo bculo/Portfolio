@@ -3,25 +3,29 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MongoDb;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Extensions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Tests.Common.Interfaces;
 using Tests.Common.Services;
+using Time.Common.Contracts;
 using Trend.Application.Options;
 using Trend.Application.Utils.Persistence;
+using Trend.Domain.Entities;
+using Trend.Domain.Enums;
+using Trend.IntegrationTests.SearchWordController;
 
 namespace Trend.IntegrationTests
 {
-    public interface IApiFactory
+    public class TrendApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        HttpClient Client { get; }
-    }
-
-    public class TrendApiFactory : WebApplicationFactory<Program>, IAsyncLifetime, IApiFactory
-    {
+        private string _mongoDbName;
+        private IMongoClient _mongoClient;
         private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder()
             .WithImage("mongo:5.0")
             .WithUsername("testuser")
@@ -52,9 +56,37 @@ namespace Trend.IntegrationTests
                         UseInterceptor = false,
                     };
 
-                    return TrendMongoUtils.CreateMongoClient(options);
+                    var configuration = c.GetRequiredService<IConfiguration>();
+                    _mongoClient = TrendMongoUtils.CreateMongoClient(options);
+                    _mongoDbName = configuration.GetValue<string>("MongoOptions:DatabaseName");
+                    
+                    SeedDatabase().GetAwaiter().GetResult();
+                    
+                    return _mongoClient;
                 });
             });
+        }
+        
+        public async Task ResetDatabaseState()
+        {
+            await _mongoClient.DropDatabaseAsync(_mongoDbName);
+        }
+
+        public Task SeedDatabase()
+        {
+            var db = _mongoClient.GetDatabase(_mongoDbName);
+            var col = db.GetCollection<SearchWord>(nameof(SearchWord).ToLower());
+            
+            col.InsertOne(new SearchWord
+            {
+                Engine = SearchEngine.Google,
+                Word = MockConstants.EXISTING_SEARCH_WORD_TEXT,
+                Type = ContextType.Economy,
+                IsActive = true,
+                Id = MockConstants.EXISTING_SEARCH_WORD_ID,
+            });
+            
+            return Task.CompletedTask;
         }
         
         public async Task InitializeAsync()

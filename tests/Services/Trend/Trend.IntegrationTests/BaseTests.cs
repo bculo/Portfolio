@@ -7,20 +7,20 @@ using Tests.Common.Extensions;
 
 namespace Trend.IntegrationTests
 {
+    [Collection("TrendCollection")]
     public abstract class BaseTests : IAsyncLifetime
     {
-        protected readonly IApiFactory _factory;
-        private readonly HttpClient _client;
+        protected readonly TrendApiFactory _factory;
 
-        public BaseTests(IApiFactory factory)
+        public BaseTests(TrendApiFactory factory)
         {
             _factory = factory;
-            _client = _factory.Client;
         }
 
-        public virtual Task DisposeAsync()
+        public virtual async Task DisposeAsync()
         {
-            return Task.CompletedTask;
+            await _factory.ResetDatabaseState();
+            await _factory.SeedDatabase();
         }
 
         public virtual Task InitializeAsync()
@@ -32,9 +32,9 @@ namespace Trend.IntegrationTests
         {
             return type switch
             {
-                UserAuthType.None => _client.RemoveHeaderValue("UserAuthType"),
-                UserAuthType.User => _client.AddHeaderValue("UserAuthType", ((int)UserAuthType.User).ToString()),
-                _ => _client
+                UserAuthType.None => _factory.Client.RemoveHeaderValue("UserAuthType"),
+                UserAuthType.User => _factory.Client.AddHeaderValue("UserAuthType", ((int)UserAuthType.User).ToString()),
+                _ => _factory.Client
             };
         }
     }
