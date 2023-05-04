@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using Trend.Application.Options;
 
 namespace Trend.Application.Utils.Persistence
@@ -18,7 +19,9 @@ namespace Trend.Application.Utils.Persistence
         {
             if(!options.UseInterceptor)
             {
-                return new MongoClient(options.ConnectionString);
+                var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(options.ConnectionString));
+                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+                return new MongoClient(clientSettings);
             }
 
             var mongoIdentity = new MongoInternalIdentity(options.InterceptorSettings.AuthDatabase, options.InterceptorSettings.User);

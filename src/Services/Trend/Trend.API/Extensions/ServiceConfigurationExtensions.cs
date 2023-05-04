@@ -1,8 +1,11 @@
-﻿using FluentValidation.AspNetCore;
+﻿using System.Diagnostics;
+using FluentValidation.AspNetCore;
 using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Trend.API.Filters;
 using Trend.API.Filters.Action;
 using Trend.API.Services;
@@ -33,6 +36,7 @@ namespace Trend.API.Extensions
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services, configuration);
             ConfigureAuthentication(services, configuration);
+            AddOpenTelemetry(services, configuration);
 
             services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
                 $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
@@ -88,6 +92,22 @@ namespace Trend.API.Extensions
                     config.Host(configuration["QueueOptions:Address"]);
                 });
             });
+        }
+
+        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOpenTelemetry()
+                .WithTracing(builder =>
+                {
+                    builder
+                        .AddSource("MassTransit")
+                        .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                            .AddService("Trend.API"))
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddMongoDBInstrumentation()
+                        .AddJaegerExporter();
+                });
         }
     }
 }
