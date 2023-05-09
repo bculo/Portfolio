@@ -56,7 +56,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _client.AddJwtToken(JwtTokens.USER_ROLE_TOKEN);
 
             //Act
-            var response = await _client.PostAsync(ApiEndpoint.CRYPTO_UPDATE_INFO, content);
+            var response = await _client.PostAsync(ApiEndpoint.CRYPTO_UPDATE_PRICE, content);
 
             //Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);

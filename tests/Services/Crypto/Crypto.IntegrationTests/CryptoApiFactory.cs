@@ -1,4 +1,6 @@
 ﻿using Crypto.Application.Interfaces.Services;
+using Crypto.Application.Options;
+using Crypto.Infrastracture.Constants;
 using Crypto.Infrastracture.Consumers;
 using Crypto.Infrastracture.Persistence;
 using Crypto.IntegrationTests.Extensions;
@@ -40,7 +42,6 @@ namespace Crypto.IntegrationTests
         private readonly ICryptoDataManager _dataManager;
 
         public WireMockServer InfoMockServer { get; private set; }
-        public WireMockServer PriceMockServer { get; private set; }
 
         public HttpClient Client { get; private set; } = default!;
 
@@ -52,7 +53,6 @@ namespace Crypto.IntegrationTests
         public CryptoApiFactory()
         {
             InfoMockServer = WireMockServer.Start();
-            PriceMockServer = WireMockServer.Start();
 
             _dataManager = new DefaultDataManager();
         }
@@ -63,7 +63,6 @@ namespace Crypto.IntegrationTests
             {
                 configrationBuilder.AddInMemoryCollection(new KeyValuePair<string, string>[]
                 {
-                    new KeyValuePair<string, string>("CryptoPriceApiOptions:BaseUrl", PriceMockServer.Url),
                     new KeyValuePair<string, string>("CryptoInfoApiOptions:BaseUrl", InfoMockServer.Url),
                 });
             });
@@ -83,6 +82,11 @@ namespace Crypto.IntegrationTests
                 ConfigureServices(services);
                 ConfigureRabbitMq(services);
             });
+
+            builder.ConfigureServices(collection =>
+            {
+                collection.AddSingleton(InfoMockServer);
+            });
         }
 
         public async Task InitializeAsync()
@@ -97,7 +101,6 @@ namespace Crypto.IntegrationTests
             await Task.WhenAll(_sqlServerContainer.StopAsync(), _redisContainer.StopAsync());
 
             InfoMockServer.Stop();
-            PriceMockServer.Stop();
         }
 
         private async Task<Respawner> InitializeRespawner()
@@ -158,8 +161,10 @@ namespace Crypto.IntegrationTests
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.RemoveAll(typeof(ICryptoInfoService));
-            services.AddScoped<ICryptoInfoService>((provider) => new MockCryptoInfoService(_dataManager.GetSupportedCryptoSymbolsArray()));
+            services.AddHttpClient(ApiClient.CryptoInfo, opt =>
+            {
+                opt.BaseAddress = new Uri(InfoMockServer.Urls[0]);
+            });
 
             //Configure ICryptoPriceService 
             services.RemoveAll(typeof(ICryptoPriceService));

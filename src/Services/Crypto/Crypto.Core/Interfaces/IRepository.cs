@@ -12,10 +12,10 @@ namespace Crypto.Core.Interfaces
     {
         Task<List<T>> GetAll();
         Task<List<T>> Find(Expression<Func<T, bool>> predicate);
-        Task<T> FindSingle(Expression<Func<T, bool>> predicate);
+        Task<T?> FindSingle(Expression<Func<T, bool>> predicate);
         Task<List<T>> FetchPage(int page, int take);
         Task<List<T>> FetchPage(Expression<Func<T, bool>> predicate, int page, int take);
-        Task<T> FindById(object id);
+        Task<T?> FindById(object id);
         Task Add(T newInstance);
         Task AddRange(IEnumerable<T> instances);
         Task Remove(T instance);

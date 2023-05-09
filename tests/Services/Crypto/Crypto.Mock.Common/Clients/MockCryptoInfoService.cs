@@ -34,21 +34,29 @@ namespace Crypto.Mock.Common.Clients
                 return Task.FromResult<CryptoInfoResponseDto>(null!);
             }
 
-            var response = _fixture.Create<CryptoInfoResponseDto>();
+            return Task.FromResult(CryptoInfoModelMock.Mock(symbol));
+        }
+    }
 
-            var value = response.Data.First().Value.First();
+    public static class CryptoInfoModelMock 
+    {
+        public static CryptoInfoResponseDto Mock(string symbol)
+        {
+            Fixture fixture = new();
 
-            value.Symbol = symbol;
-            value.Name = symbol;
-            value.Description = symbol;
+            var rootResponse = fixture.Create<CryptoInfoResponseDto>();
 
-            value.Urls.Add("website", new string[] { " crypto-url " });
-            value.Urls.Add("source_code", new string[] { "crypot-source_code " });
+            var data = fixture.Build<CryptoInfoDataDto>()
+                .With(x => x.Symbol, symbol)
+                .Create();
 
-            response.Data.Clear();
-            response.Data.Add(symbol, new List<CryptoInfoDataDto> { value });
+            data.Urls.Add("website", new string[] { " crypto-url" });
+            data.Urls.Add("source_code", new string[] { "crypot-source_code" });
 
-            return Task.FromResult(response);
+            rootResponse.Data.Clear();
+            rootResponse.Data.Add(symbol, new List<CryptoInfoDataDto> { data });
+
+            return rootResponse;
         }
     }
 }
