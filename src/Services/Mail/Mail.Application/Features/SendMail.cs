@@ -1,4 +1,5 @@
 using FluentValidation;
+using Mail.Application.Services.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -31,16 +32,19 @@ public static class SendMail
     }
     public class Handler : IRequestHandler<Command, Unit>
     {
+        private readonly IEmailService _mail;
         private readonly ILogger<Handler> _logger;
         
-        public Handler(ILogger<Handler> logger)
+        public Handler(ILogger<Handler> logger, IEmailService mail)
         {
+            _mail = mail;
             _logger = logger;
         }
         
-        public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Unit.Value);
-;        }
+            await _mail.SendMail(request.From, request.To, request.Message);
+            return Unit.Value;
+;       }
     }
 }
