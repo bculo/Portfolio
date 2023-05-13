@@ -14,11 +14,6 @@ public class TestModule : ICarterModule
             logger.LogTrace("Method Test called in module TestModule");
             return Results.Ok("Test endpoint");
         });
-
-        app.MapGet($"{MODULE_NAME}/Exception", () =>
-        {
-            throw new NotImplementedException();
-        });
     }
 }
 

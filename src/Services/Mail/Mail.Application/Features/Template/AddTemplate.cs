@@ -54,6 +54,7 @@ public static class AddTemplate
                 throw new MailCoreException("Template with same name already exists");
             }
             
+            /*
             await _context.SaveAsync(new MailTemplate
             {
                 Content = request.TemplateName,
@@ -61,6 +62,7 @@ public static class AddTemplate
                 Id = Guid.NewGuid().ToString(),
                 Created = _time.Now
             });
+            */
         }
     }
 }

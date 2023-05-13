@@ -15,7 +15,7 @@ public class MailModule : ICarterModule
         {
             await mediator.Send(request);
             return Results.NoContent();
-        });
+        }).RequireAuthorization();
     }
 }
 

@@ -3,6 +3,7 @@ using Mail.Application.Features;
 using Mail.Application.Features.Mail;
 using Mail.Application.Features.Template;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Mail.API.Modules;
 
@@ -16,11 +17,11 @@ public class TemplateModule : ICarterModule
         {
             await mediator.Send(request);
             return Results.NoContent();
-        });
-        
+        }).RequireAuthorization();
+
         app.MapGet($"{MODULE_NAME}/GetTemplates", async (IMediator mediator) =>
         {
             return Results.Ok(await mediator.Send(new GetTemplates.GTQuery()));
-        });
+        }).RequireAuthorization();
     }
 }

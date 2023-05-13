@@ -20,7 +20,9 @@ public static class GetTemplates
         public async Task<IEnumerable<GTResponse>> Handle(GTQuery request, CancellationToken cancellationToken)
         {
             var response = await _context.ScanAsync<MailTemplate>(null).GetRemainingAsync(cancellationToken);
-            return response.Select(i => i.ToDto());
+
+            throw new NotImplementedException();
+            //return response.Select(i => i.ToDto());
         }
     }
 
@@ -34,6 +36,7 @@ public static class GetTemplates
 
     private static GTResponse ToDto(this MailTemplate entity)
     {
+        /*
         return new GTResponse
         {
             TemplateName = entity.Name,
@@ -41,5 +44,8 @@ public static class GetTemplates
             Template = entity.Content,
             Id = Guid.Parse(entity.Id)
         };
+        */
+
+        return null;
     }
 }

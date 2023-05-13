@@ -27,4 +27,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
 
 app.MapCarter();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.Run();

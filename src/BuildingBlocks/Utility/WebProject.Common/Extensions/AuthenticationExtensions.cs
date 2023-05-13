@@ -31,7 +31,7 @@ namespace WebProject.Common.Extensions
                     ValidIssuers = new[] { options.ValidIssuer },
                     ValidateIssuerSigningKey = options.ValidateIssuerSigningKey,
                     IssuerSigningKey = RsaUtils.ImportSubjectPublicKeyInfo(options.PublicRsaKey),
-                    ValidateLifetime = options.ValidateLifetime
+                    ValidateLifetime = options.ValidateLifetime,
                 };
 
                 opt.Events = new JwtBearerEvents()

@@ -9,9 +9,12 @@
   <ItemGroup>
     <PackageReference Include="Carter" Version="6.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj" />
     <ProjectReference Include="..\Mail.Application\Mail.Application.csproj" />
   </ItemGroup>
 
