@@ -6,10 +6,10 @@ services:
     image: mongo:latest
 
   trend.redis:
-    image: 'redis:7.0.2'
+    image: redis:7.0.2
  
   identity.database:
-    image: 'mcr.microsoft.com/mssql/server:2019-latest'
+    image: mcr.microsoft.com/mssql/server:2019-latest
    
   sql.server.tools:
     image: mcr.microsoft.com/mssql-tools
@@ -20,14 +20,14 @@ services:
   rabbitmq:
     image: masstransit/rabbitmq
 
-  eventstore.db:
-    image: eventstore/eventstore:21.10.0-buster-slim
-
   notification.hub.redis:
     image: redis:7.0.7
 
   jager:
     image: jaegertracing/all-in-one:1.43
+    
+  dynamodb-mailservice-db:
+    image: amazon/dynamodb-local:1.21.0
 
 volumes:
   mongodbstore:
@@ -37,3 +37,4 @@ volumes:
   eventstore-volume-data:
   eventstore-volume-logs:
   notification-hub-redis-store:
+  dynamodb-mailservice-db-store:
