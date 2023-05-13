@@ -3,18 +3,18 @@ using Mail.Application.Services.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Mail.Application.Features;
+namespace Mail.Application.Features.Mail;
 
 public static class SendMail
 {
-    public class Command : IRequest<Unit>
+    public class SMCommand : IRequest
     {
         public string From { get; set; }
         public string To { get; set; }
         public string Message { get; set; }
     }
 
-    public class Validator : AbstractValidator<Command>
+    public class Validator : AbstractValidator<SMCommand>
     {
         public Validator()
         {
@@ -30,7 +30,7 @@ public static class SendMail
                 .NotEmpty();
         }
     }
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<SMCommand>
     {
         private readonly IEmailService _mail;
         private readonly ILogger<Handler> _logger;
@@ -41,10 +41,9 @@ public static class SendMail
             _logger = logger;
         }
         
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task Handle(SMCommand request, CancellationToken cancellationToken)
         {
             await _mail.SendMail(request.From, request.To, request.Message);
-            return Unit.Value;
-;       }
+        }
     }
 }

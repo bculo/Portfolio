@@ -1,4 +1,7 @@
 using System.Reflection;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.Runtime;
 using FluentValidation;
 using Mail.Application.Behaviours;
 using Mail.Application.Options;
@@ -20,6 +23,7 @@ public static class ApplicationLayer
         services.AddScoped<IEmailService, SendGridMailservice>();
         services.Configure<MailOptions>(configuration.GetSection(nameof(MailOptions)));
         
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         
         services.AddMediatR(cfg =>
@@ -28,5 +32,20 @@ public static class ApplicationLayer
         });
         
         services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+
+        AddPersitence(services, configuration);
+    }
+
+    private static void AddPersitence(IServiceCollection services, IConfiguration configuration)
+    {
+        var creds = new BasicAWSCredentials("test", "test");
+        var config = new AmazonDynamoDBConfig
+        {
+            ServiceURL = "http://localhost:8000",
+            AuthenticationRegion = "eu-central-1"
+        };
+        
+        services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(creds, config));
+        services.AddScoped<IDynamoDBContext, DynamoDBContext>();
     }
 }

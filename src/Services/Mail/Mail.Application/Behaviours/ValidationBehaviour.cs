@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Mail.Application.Behaviours;
 
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -31,15 +31,16 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             .Where(f => f != null)
             .ToList();
 
-        if (failures.Count != 0)
+        if (failures.Count == 0)
         {
-            var errors = failures
-                .GroupBy(e => e.PropertyName)
-                .ToDictionary(x => x.Key, y => y.Select(i => i.ErrorMessage).ToArray());
-
-            throw new MailValidationException(errors);
+            return await next();
         }
+        
+        var errors = failures
+            .GroupBy(e => e.PropertyName)
+            .ToDictionary(x => x.Key, y => y.Select(i => i.ErrorMessage).ToArray());
 
-        return await next();
+        throw new MailValidationException(errors);
+
     }
 }

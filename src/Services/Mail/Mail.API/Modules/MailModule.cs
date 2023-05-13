@@ -1,5 +1,6 @@
 ﻿using Carter;
 using Mail.Application.Features;
+using Mail.Application.Features.Mail;
 using MediatR;
 
 namespace Mail.API.Modules;
@@ -10,7 +11,7 @@ public class MailModule : ICarterModule
     
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost($"{MODULE_NAME}/Send", async (SendMail.Command request, IMediator mediator) =>
+        app.MapPost($"{MODULE_NAME}/Send", async (SendMail.SMCommand request, IMediator mediator) =>
         {
             await mediator.Send(request);
             return Results.NoContent();

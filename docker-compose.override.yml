@@ -84,9 +84,10 @@ services:
         
   dynamodb-mailservice-db:
     container_name: dynamodb-mailservice-db
+    hostname: localhost
     volumes:
-      - dynamodb-mailservice-db-store:/home/dynamodblocal/data
+      - dynamodb-mailservice-db-store:/home/dynamodblocal
     ports:
       - "8000:8000"
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal"
     
