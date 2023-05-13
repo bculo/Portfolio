@@ -1,5 +1,7 @@
 using Carter;
 using Mail.API.Extensions;
+using Mail.Application.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,13 @@ app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>
     {
-        await Results.BadRequest().ExecuteAsync(context);
+        var error = context.Features.Get<IExceptionHandlerPathFeature>()?.Error;
+        if (error is not null && error is MailCoreException)
+        {
+            var response = new { message = error.Message };
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsJsonAsync(response);
+        }
     });
 });
 

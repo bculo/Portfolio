@@ -11,6 +11,7 @@ public static class ServiceConfigurationExtensions
 {
     public static void ConfigureMinimalApiProject(this IServiceCollection services, IConfiguration configuration)
     {
+    
         services.AddCarter();
         services.ConfigureSwagger($"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth");
         
