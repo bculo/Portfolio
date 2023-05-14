@@ -1,51 +1,28 @@
 using Amazon.DynamoDBv2.DataModel;
 using Mail.Application.Entities;
+using Mail.Application.Models;
+using Mail.Application.Services.Interfaces;
 using MediatR;
 
 namespace Mail.Application.Features.Template;
 
 public static class GetTemplates
 {
-    public class GTQuery : IRequest<IEnumerable<GTResponse>> { }
+    public class GTQuery : IRequest<IEnumerable<MailTemplateBaseDto>> { }
 
-    public class GTHandler : IRequestHandler<GTQuery, IEnumerable<GTResponse>>
+    public class GTHandler : IRequestHandler<GTQuery, IEnumerable<MailTemplateBaseDto>>
     {
-        private readonly IDynamoDBContext _context;
+        private readonly IMailTemplateRepository _context;
 
-        public GTHandler(IDynamoDBContext context)
+        public GTHandler(IMailTemplateRepository context)
         {
             _context = context;
         }
         
-        public async Task<IEnumerable<GTResponse>> Handle(GTQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MailTemplateBaseDto>> Handle(GTQuery request, CancellationToken cancellationToken)
         {
-            var response = await _context.ScanAsync<MailTemplate>(null).GetRemainingAsync(cancellationToken);
-
-            throw new NotImplementedException();
-            //return response.Select(i => i.ToDto());
+            var response = await _context.GetAll();
+            return response.Select(i => i.ToBaseDto());
         }
-    }
-
-    public class GTResponse
-    {
-        public Guid Id { get; set; }
-        public string TemplateName { get; set; }
-        public string Template { get; set; }
-        public DateTime Created { get; set; }
-    }
-
-    private static GTResponse ToDto(this MailTemplate entity)
-    {
-        /*
-        return new GTResponse
-        {
-            TemplateName = entity.Name,
-            Created = entity.Created,
-            Template = entity.Content,
-            Id = Guid.Parse(entity.Id)
-        };
-        */
-
-        return null;
     }
 }

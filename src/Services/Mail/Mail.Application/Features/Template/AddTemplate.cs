@@ -1,13 +1,12 @@
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
+using Auth0.Abstract.Contracts;
 using FluentValidation;
 using Mail.Application.Entities;
-using Mail.Application.Exceptions;
+using Mail.Application.Entities.Enums;
+using Mail.Application.Services.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Time.Common.Contracts;
 
-namespace Mail.Application.Features;
+namespace Mail.Application.Features.Template;
 
 public static class AddTemplate
 {
@@ -15,6 +14,8 @@ public static class AddTemplate
     {
         public string TemplateName { get; set; }
         public string Template { get; set; }
+        public string Title { get; set; }
+        public MailTemplateCategory Category { get; set; }
     }
 
     public class Validator : AbstractValidator<ATCommand>
@@ -26,43 +27,43 @@ public static class AddTemplate
 
             RuleFor(i => i.TemplateName)
                 .NotEmpty();
+
+            RuleFor(i => i.Title)
+                .NotEmpty();
         }
     }
 
     public class Handler : IRequestHandler<ATCommand>
     {
-        private readonly IDynamoDBContext _context;
+        private readonly IMailTemplateRepository _repo;
         private readonly IDateTimeProvider _time;
+        private readonly IAuth0AccessTokenReader _tokenReader;
         
-        public Handler(IDynamoDBContext context, IDateTimeProvider time)
+        public Handler(IMailTemplateRepository repo, 
+            IDateTimeProvider time, 
+            IAuth0AccessTokenReader reader)
         {
             _time = time;
-            _context = context;
+            _repo = repo;
+            _tokenReader = reader;
         }
         
         public async Task Handle(ATCommand request, CancellationToken cancellationToken)
         {
-            var conditions = new List<ScanCondition>
+            var item = new MailTemplate
             {
-                new ("Name", ScanOperator.Equal, request.TemplateName)
-            };
-
-            var ressult = await _context.ScanAsync<MailTemplate>(conditions).GetRemainingAsync(cancellationToken);
-            
-            if (ressult.Any())
-            {
-                throw new MailCoreException("Template with same name already exists");
-            }
-            
-            /*
-            await _context.SaveAsync(new MailTemplate
-            {
-                Content = request.TemplateName,
-                Name = request.Template,
                 Id = Guid.NewGuid().ToString(),
-                Created = _time.Now
-            });
-            */
+                Category = (int)request.Category,
+                Template = request.TemplateName,
+                Name = request.TemplateName,
+                Title = request.Title,
+                Created = _time.Now,
+                IsActive = true,
+                ModifiedBy = _tokenReader.GetIdentifier()?.ToString(),
+                ModificationDate = _time.Now
+            }; 
+            
+            await _repo.AddItem(item);
         }
     }
 }
