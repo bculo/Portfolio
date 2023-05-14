@@ -1,0 +1,19 @@
+1. install aws cli localy -> https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+2. run docker-compose up -d command (nedded for local dynamodb)
+
+3. configure aws user profile. Open powershell and execute command aws configure. Fill access key, secret and region data
+	Example: 
+		AccessKey: test
+		SecretKey: test
+		Region: eu-central-1
+
+4. Create MailTemplate table
+	
+aws dynamodb create-table --table-name MailTemplate --attribute-definitions AttributeName=Category,AttributeType=N  AttributeName=Name,AttributeType=S --key-schema AttributeName=Category,KeyType=HASH AttributeName=Name,KeyType=RANGE  --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --endpoint-url http://localhost:8000
+
+NOTE: Category is partition key and Name is range/sort key!
+
+5. Check if table is created successfully
+
+aws dynamodb list-tables --endpoint-url http://localhost:8000
