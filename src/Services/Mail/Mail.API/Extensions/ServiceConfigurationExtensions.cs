@@ -1,6 +1,8 @@
 using Carter;
 using Keycloak.Common;
 using Mail.Application;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -11,13 +13,13 @@ public static class ServiceConfigurationExtensions
 {
     public static void ConfigureMinimalApiProject(this IServiceCollection services, IConfiguration configuration)
     {
-    
         services.AddCarter();
         services.ConfigureSwagger($"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth");
         
         ApplicationLayer.AddServices(services, configuration);
         
         AddAuthentication(services, configuration);
+        AddOpenTelemetry(services, configuration);
     }
     
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -30,5 +32,20 @@ public static class ServiceConfigurationExtensions
 
         services.ConfigureDefaultAuthentication(authOptions);
         services.ConfigureDefaultAuthorization();
+    }
+    
+    private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOpenTelemetry()
+            .WithTracing(builder =>
+            {
+                builder
+                    .AddSource("MassTransit")
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                        .AddService("Mail.API"))
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddJaegerExporter();
+            });
     }
 }
