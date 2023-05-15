@@ -1,7 +1,5 @@
 using Carter;
 using Mail.API.Extensions;
-using Mail.Application.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +10,6 @@ builder.Services.ConfigureMinimalApiProject(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -21,16 +18,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler(exceptionHandlerApp =>
 {
-    exceptionHandlerApp.Run(async context =>
-    {
-        var error = context.Features.Get<IExceptionHandlerPathFeature>()?.Error;
-        if (error is not null && error is MailCoreException)
-        {
-            var response = new { message = error.Message };
-            context.Response.StatusCode = 400;
-            await context.Response.WriteAsJsonAsync(response);
-        }
-    });
+    exceptionHandlerApp.Run(async context => await context.HandleResponse());
 });
 
 app.MapCarter();

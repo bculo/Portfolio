@@ -34,5 +34,12 @@ public class TemplateModule : ICarterModule
             {
                 return Results.Ok(await mediator.Send(request));
             }).RequireAuthorization();
+        
+        app.MapPost($"{MODULE_NAME}/DeactivateTemplate",
+            async ([FromBody] DeactivateTemplate.DTCommand request, IMediator mediator) =>
+            {
+                await mediator.Send(request);
+                return Results.NoContent();
+            }).RequireAuthorization();
     }
 }

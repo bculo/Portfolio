@@ -81,4 +81,9 @@ public class MailTemplateRepository : IMailTemplateRepository
     {
         await _dbContext.SaveAsync(template);
     }
+
+    public async Task UpdateItem(MailTemplate template)
+    {
+        await _dbContext.SaveAsync(template);
+    }
 }
