@@ -18,10 +18,12 @@
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
       <PackageReference Include="MimeKit" Version="4.0.0" />
       <PackageReference Include="SendGrid" Version="9.28.1" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.6" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
     </ItemGroup>
 

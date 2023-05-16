@@ -19,7 +19,7 @@ public class SendGridMailservice : IEmailService
         _options = options.Value;
     }
 
-    public async Task SendMail(string emailFrom, string emailTo, string body)
+    public async Task SendMail(string emailFrom, string emailTo, string subject, string body)
     {
         var client = new SendGridClient(_options.ApiKey);
         var from = new EmailAddress(emailFrom);
@@ -27,7 +27,7 @@ public class SendGridMailservice : IEmailService
         
         var plainTextContent = body;
         var htmlContent = $"<strong>{body}</strong>";
-        var msg = MailHelper.CreateSingleEmail(from, to, body, plainTextContent, htmlContent);
+        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
         
         var response = await client.SendEmailAsync(msg);
         
