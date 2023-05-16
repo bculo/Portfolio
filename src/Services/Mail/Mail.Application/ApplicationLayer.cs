@@ -38,11 +38,13 @@ public static class ApplicationLayer
 
     private static void AddPersitence(IServiceCollection services, IConfiguration configuration)
     {
-        var creds = new BasicAWSCredentials("test", "test");
+        services.Configure<AwsOptions>(configuration.GetSection(nameof(AwsOptions)));
+        
+        var creds = new BasicAWSCredentials(configuration["AwsOptions:AccessKeyId"], configuration["AwsOptions:AccessKeySecret"]);
         var config = new AmazonDynamoDBConfig
         {
-            ServiceURL = "http://localhost:8000",
-            AuthenticationRegion = "eu-central-1"
+            ServiceURL = configuration["AwsOptions:ServiceUrl"],
+            AuthenticationRegion = configuration["AwsOptions:Region"]
         };
         
         services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(creds, config));
