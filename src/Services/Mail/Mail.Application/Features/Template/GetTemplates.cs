@@ -8,18 +8,18 @@ namespace Mail.Application.Features.Template;
 
 public static class GetTemplates
 {
-    public class GTQuery : IRequest<IEnumerable<MailTemplateBaseDto>> { }
+    public class Query : IRequest<IEnumerable<MailTemplateBaseDto>> { }
 
-    public class GTHandler : IRequestHandler<GTQuery, IEnumerable<MailTemplateBaseDto>>
+    public class Handler : IRequestHandler<Query, IEnumerable<MailTemplateBaseDto>>
     {
         private readonly IMailTemplateRepository _context;
 
-        public GTHandler(IMailTemplateRepository context)
+        public Handler(IMailTemplateRepository context)
         {
             _context = context;
         }
         
-        public async Task<IEnumerable<MailTemplateBaseDto>> Handle(GTQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MailTemplateBaseDto>> Handle(Query request, CancellationToken cancellationToken)
         {
             var response = await _context.GetAll();
             return response.Select(i => i.ToBaseDto());

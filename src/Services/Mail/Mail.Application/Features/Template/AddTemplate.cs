@@ -10,7 +10,7 @@ namespace Mail.Application.Features.Template;
 
 public static class AddTemplate
 {
-    public class ATCommand : IRequest
+    public class Command : IRequest
     {
         public string TemplateName { get; set; }
         public string Template { get; set; }
@@ -18,7 +18,7 @@ public static class AddTemplate
         public MailTemplateCategory Category { get; set; }
     }
 
-    public class Validator : AbstractValidator<ATCommand>
+    public class Validator : AbstractValidator<Command>
     {
         public Validator()
         {
@@ -33,7 +33,7 @@ public static class AddTemplate
         }
     }
 
-    public class Handler : IRequestHandler<ATCommand>
+    public class Handler : IRequestHandler<Command>
     {
         private readonly IMailTemplateRepository _repo;
         private readonly IDateTimeProvider _time;
@@ -48,7 +48,7 @@ public static class AddTemplate
             _tokenReader = reader;
         }
         
-        public async Task Handle(ATCommand request, CancellationToken cancellationToken)
+        public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var item = new MailTemplate
             {

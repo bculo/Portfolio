@@ -7,18 +7,17 @@ namespace Mail.Application.Features.Mail;
 
 public static class InvokeSendMailProcedure
 {
-    public class ISMPCommand : IRequest
+    public class Command : IRequest
     {
         public string From { get; set; }
         public string To { get; set; }
-
         public string Title { get; set; }
         public string Message { get; set; }
     }
 
-    public class ISMPValidator : AbstractValidator<ISMPCommand>
+    public class Validator : AbstractValidator<Command>
     {
-        public ISMPValidator()
+        public Validator()
         {
             RuleFor(i => i.From)
                 .EmailAddress()
@@ -35,16 +34,16 @@ public static class InvokeSendMailProcedure
                 .NotEmpty();
         }
     }
-    public class ISMPHandler : IRequestHandler<ISMPCommand>
+    public class Handler : IRequestHandler<Command>
     {
         private readonly IPublishEndpoint _publisher;
 
-        public ISMPHandler(IPublishEndpoint publisher)
+        public Handler(IPublishEndpoint publisher)
         {
             _publisher = publisher;
         }
         
-        public async Task Handle(ISMPCommand request, CancellationToken cancellationToken)
+        public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var command = new SendCustomMail()
             {

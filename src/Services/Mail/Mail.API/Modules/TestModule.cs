@@ -13,7 +13,7 @@ public class TestModule : ICarterModule
             var logger = factory.CreateLogger("TestModule");
             logger.LogTrace("Method Test called in module TestModule");
             return Results.Ok("Test endpoint");
-        });
+        }).WithTags(MODULE_NAME);
     }
 }
 

@@ -76,6 +76,8 @@ public static class SwaggerExtensions
                     new string[] {}
                 }
             });
+            
+            opt.CustomSchemaIds(x => x.FullName);
         });
     }
 

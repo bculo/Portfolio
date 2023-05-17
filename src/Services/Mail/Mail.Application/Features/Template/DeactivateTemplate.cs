@@ -10,34 +10,34 @@ namespace Mail.Application.Features.Template;
 
 public static class DeactivateTemplate
 {
-    public class DTCommand : IRequest
+    public class Command : IRequest
     {
         public MailTemplateCategory Category { get; set; }
         public string Name { get; set; }
     }
 
-    public class DTValidator : AbstractValidator<DTCommand>
+    public class Validator : AbstractValidator<Command>
     {
-        public DTValidator()
+        public Validator()
         {
             RuleFor(i => i.Name)
                 .NotEmpty();
         }
     }
 
-    public class DTHandler : IRequestHandler<DTCommand>
+    public class Handler : IRequestHandler<Command>
     {
         private readonly IMailTemplateRepository _repo;
-        private readonly ILogger<DTHandler> _logger;
+        private readonly ILogger<Handler> _logger;
      
-        public DTHandler(IMailTemplateRepository repo,
-            ILogger<DTHandler> logger)
+        public Handler(IMailTemplateRepository repo,
+            ILogger<Handler> logger)
         {
             _repo = repo;
             _logger = logger;
         }
 
-        public async Task Handle(DTCommand request, CancellationToken cancellationToken)
+        public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var item = await _repo.GetSingle(request.Category, request.Name);
 
