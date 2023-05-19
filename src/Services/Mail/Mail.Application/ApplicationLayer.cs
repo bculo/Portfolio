@@ -49,6 +49,8 @@ public static class ApplicationLayer
         
         services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(creds, config));
         services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+        
         services.AddScoped<IMailTemplateRepository, MailTemplateRepository>();
+        services.AddScoped<IMailRepository, MailRepository>();
     }
 }

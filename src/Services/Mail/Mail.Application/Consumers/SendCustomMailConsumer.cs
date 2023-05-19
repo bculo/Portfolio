@@ -1,3 +1,4 @@
+using Auth0.Abstract.Contracts;
 using Events.Common.Mail;
 using Mail.Application.Services.Interfaces;
 using MassTransit;
@@ -9,11 +10,15 @@ public class SendCustomMailConsumer : IConsumer<SendCustomMail>
 {
     private readonly IEmailService _mailService;
     private readonly IDateTimeProvider _timeProvider;
-    
-    public SendCustomMailConsumer(IEmailService mailService, IDateTimeProvider timeProvider)
+    private readonly IMailRepository _mailRepo;
+
+    public SendCustomMailConsumer(IEmailService mailService, 
+        IDateTimeProvider timeProvider,
+        IMailRepository mailRepo)
     {
         _mailService = mailService;
         _timeProvider = timeProvider;
+        _mailRepo = mailRepo;
     }
 
     public async Task Consume(ConsumeContext<SendCustomMail> context)
@@ -23,12 +28,30 @@ public class SendCustomMailConsumer : IConsumer<SendCustomMail>
         await _mailService.SendMail(mailInstance.From, mailInstance.To, mailInstance.Title,mailInstance.Message);
         
         //TODO -> outbox pattern needed (check dynamoDB transactions)?
-        //TODO -> insert sent message to dynamoDB Mail table
+        
+        var entityModel = MapToEntity(mailInstance);
+        await _mailRepo.AddItem(entityModel);
         
         await context.Publish(new CustomMailSent
         {
             MailId = Guid.NewGuid().ToString(),
-            SentDate = _timeProvider.Now
+            SentDate = _timeProvider.Now,
+            UserId = mailInstance.UserId,
         });
+    }
+
+    private Entities.Mail MapToEntity(SendCustomMail customMail)
+    {
+        return new Entities.Mail()
+        {
+            Id = Guid.NewGuid().ToString(),
+            To = customMail.To,
+            From = customMail.From,
+            Title = customMail.Title,
+            IsActive = true,
+            Body = customMail.Message,
+            Created = _timeProvider.Now,
+            UserId = customMail.UserId
+        };
     }
 } 

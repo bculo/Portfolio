@@ -2,7 +2,7 @@
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Notification.Application.Modules.EventHandlers.Crypto;
+using Notification.Application.EventHandlers.Crypto;
 
 namespace Notification.Application.Consumers.Crypto
 {

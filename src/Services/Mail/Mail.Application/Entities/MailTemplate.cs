@@ -3,8 +3,11 @@ using Amazon.DynamoDBv2.DataModel;
 namespace Mail.Application.Entities;
 
 [DynamoDBTable("MailTemplate")]
-public class MailTemplate : BaseEntity<string>
+public class MailTemplate 
 {
+    public DateTime Created { get; set; }
+    public bool IsActive { get; set; }
+    
     [DynamoDBRangeKey("Name")]
     public string Name { get; set; }
     

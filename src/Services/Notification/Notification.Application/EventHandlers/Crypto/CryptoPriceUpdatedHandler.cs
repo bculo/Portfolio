@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Notification.Application.Modules.EventHandlers.Crypto
+namespace Notification.Application.EventHandlers.Crypto
 {
     public static class CryptoPriceUpdatedHandler
     {

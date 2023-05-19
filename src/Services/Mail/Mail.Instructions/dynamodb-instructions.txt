@@ -17,3 +17,8 @@ NOTE: Category is partition key and Name is range/sort key!
 5. Check if table is created successfully
 
 aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+6. Create MailTemplate table
+
+aws dynamodb create-table --table-name MailTemplate --attribute-definitions AttributeName=UserId,AttributeType=S  AttributeName=Id,AttributeType=S --key-schema AttributeName=UserId,KeyType=HASH AttributeName=Id,KeyType=RANGE  --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --endpoint-url http://localhost:8000
+

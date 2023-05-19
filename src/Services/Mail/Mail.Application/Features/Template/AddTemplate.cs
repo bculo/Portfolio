@@ -52,7 +52,6 @@ public static class AddTemplate
         {
             var item = new MailTemplate
             {
-                Id = Guid.NewGuid().ToString(),
                 Category = (int)request.Category,
                 Template = request.TemplateName,
                 Name = request.TemplateName,

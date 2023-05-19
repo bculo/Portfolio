@@ -1,3 +1,4 @@
+using Auth0.Abstract.Contracts;
 using Events.Common.Mail;
 using FluentValidation;
 using MassTransit;
@@ -37,10 +38,13 @@ public static class InvokeSendMailProcedure
     public class Handler : IRequestHandler<Command>
     {
         private readonly IPublishEndpoint _publisher;
+        private readonly IAuth0AccessTokenReader _tokenReader;
 
-        public Handler(IPublishEndpoint publisher)
+        public Handler(IPublishEndpoint publisher,
+            IAuth0AccessTokenReader tokenReader)
         {
             _publisher = publisher;
+            _tokenReader = tokenReader;
         }
         
         public async Task Handle(Command request, CancellationToken cancellationToken)
@@ -50,7 +54,8 @@ public static class InvokeSendMailProcedure
                 Message = request.Message,
                 Title = request.Title,
                 From = request.From,
-                To = request.To
+                To = request.To,
+                UserId = _tokenReader.GetIdentifier().ToString()
             };
 
             await _publisher.Publish(command);
