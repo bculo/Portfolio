@@ -7,8 +7,9 @@ builder.Services.ConfiguregRPCApplication(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapGrpcService<CryptoService>();
-app.MapGrpcService<GreeterService>();
+app.UseGrpcWeb();
+app.MapGrpcService<CryptoService>().EnableGrpcWeb();
+app.MapGrpcService<GreeterService>().EnableGrpcWeb();
 app.MapGrpcReflectionService();
 
 app.Run();
