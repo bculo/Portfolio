@@ -31,19 +31,52 @@ public static class SwaggerExtensions
             setup.GroupNameFormat = "'v'VVV";
             setup.SubstituteApiVersionInUrl = true;
         });
+        
+        services.AddSwaggerGen(opt =>
+        {
+            opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows
+                {
+                    Implicit = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri(authorizationUrl),
+                    }
+                },
+                In = ParameterLocation.Header,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+            });
 
-        ConfigureSwagger(services, authorizationUrl);
+            opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = JwtBearerDefaults.AuthenticationScheme
+                        }
+                    },
+                    new string[] {}
+                }
+            });
+            
+            opt.CustomSchemaIds(x => x.FullName);
+        });
         
         services.AddOptions<ServiceSwaggerOptions>().Configure(opt =>
         {
             opt.ApplicationName = applicationName ?? "Unknown service";
         });
 
-        services.ConfigureOptions<ConfigureSwaggerOptions>();
+        services.ConfigureOptions<ConfigureSwaggerApiVersioningOptions>();
     }
 
     public static void ConfigureSwagger(this IServiceCollection services,
-        string authorizationUrl)
+        string authorizationUrl, 
+        string applicationName)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(opt =>
@@ -81,12 +114,12 @@ public static class SwaggerExtensions
         });
     }
 
-    internal class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
+    internal class ConfigureSwaggerApiVersioningOptions : IConfigureNamedOptions<SwaggerGenOptions>
     {
         private readonly IApiVersionDescriptionProvider _provider;
         private readonly ServiceSwaggerOptions _options;
 
-        public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider,
+        public ConfigureSwaggerApiVersioningOptions(IApiVersionDescriptionProvider provider,
             IOptions<ServiceSwaggerOptions> options)
         {
             _provider = provider;

@@ -100,9 +100,7 @@ namespace Crypto.API.Configurations
                     builder
                         .AddSource("MassTransit")
                         .SetResourceBuilder(ResourceBuilder.CreateDefault()
-                            .AddService("Crypto.API")
-                            .AddTelemetrySdk()
-                            .AddEnvironmentVariableDetector())
+                            .AddService("Crypto.API"))
                         .AddAspNetCoreInstrumentation()
                         .AddHttpClientInstrumentation()
                         .AddSqlClientInstrumentation(opt =>
@@ -113,30 +111,13 @@ namespace Crypto.API.Configurations
 
                             opt.Filter = cmd =>
                             {
-                                if (cmd is SqlCommand command
-                                    && (command.CommandText.Contains("OutboxState")
-                                        || command.CommandText.Contains("InboxState")))
-                                {
-                                    return false;
-                                }
-                                return true;
+                                return cmd is not SqlCommand command 
+                                       || (!command.CommandText.Contains("OutboxState") 
+                                           && !command.CommandText.Contains("InboxState"));
                             };
                         })
-                        .AddJaegerExporter(o =>
-                        {
-                            o.AgentHost = "localhost";
-                            o.AgentPort = 6831;
-                            o.MaxPayloadSizeInBytes = 4096;
-                            o.ExportProcessorType = ExportProcessorType.Batch;
-                            o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
-                            {
-                                MaxQueueSize = 2048,
-                                ScheduledDelayMilliseconds = 5000,
-                                ExporterTimeoutMilliseconds = 30000,
-                                MaxExportBatchSize = 512,
-                            };
-                        });
-            });
+                        .AddJaegerExporter();
+                });
         }
     }
 }

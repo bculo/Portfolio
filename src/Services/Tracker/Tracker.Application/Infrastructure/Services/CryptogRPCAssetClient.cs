@@ -1,24 +1,30 @@
 using Crypto.gRPC.Protos.v1;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Options;
 using Tracker.Application.Interfaces;
+using Tracker.Application.Options;
 
 namespace Tracker.Application.Infrastructure.Services;
 
-public class CryptoAssetClient : IFinancialAssetClient
+public class CryptogRPCAssetClient : IFinancialAssetClient
 {
+    private readonly Crypto.gRPC.Protos.v1.Crypto.CryptoClient _client;
+
+    public CryptogRPCAssetClient(Crypto.gRPC.Protos.v1.Crypto.CryptoClient client)
+    {
+        _client = client;
+    }
+
     public async Task<FinancialAssetDto> FetchAsset(string symbol)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(symbol);
-        
-        var channel = GrpcChannel.ForAddress("http://localhost:5098"); //TODO: use configuration and yarp endpoint
-        var client = new Crypto.gRPC.Protos.v1.Crypto.CryptoClient(channel);
+        ArgumentException.ThrowIfNullOrEmpty(symbol);
 
         var request = new FetchCryptoItemRequest
         {
             Symbol = symbol
         };
         
-        var response = await client.FetchCryptoItemAsync(request);
+        var response = await _client.FetchCryptoItemAsync(request);
 
         return new FinancialAssetDto
         {

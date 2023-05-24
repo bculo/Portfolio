@@ -3,6 +3,8 @@ using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Crypto.Application.Options;
 using Crypto.Infrastracture;
 using MassTransit;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace Crypto.gRPC.Configurations
 {
@@ -28,6 +30,24 @@ namespace Crypto.gRPC.Configurations
                     config.Host(configuration["QueueOptions:Address"]);
                 });
             });
+            
+            AddOpenTelemetry(services, configuration);
+        }
+        
+        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOpenTelemetry()
+                .WithTracing(builder =>
+                {
+                    builder
+                        .AddSource("MassTransit")
+                        .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                            .AddService("Crypto.gRPC"))
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddSqlClientInstrumentation()
+                        .AddJaegerExporter();
+                });
         }
     }
 }

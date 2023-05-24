@@ -1,19 +1,22 @@
-using Tracker.Application;
+using Tracker.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-ApplicationLayer.AddServices(builder.Services, builder.Configuration);
+builder.Services.ConfigureApiProject(builder.Configuration);
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
+        options.OAuthRealm(app.Configuration["KeycloakOptions:RealmName"]);
+    });
 }
 
 app.UseAuthorization();
