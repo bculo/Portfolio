@@ -131,6 +131,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yarp.Client", "src\ApiGatew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yarp.Common", "src\ApiGateways\Yarp.Common\Yarp.Common.csproj", "{2D7AE95D-5973-4E33-8733-26E2995A4F26}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tracker", "Tracker", "{047AEAED-694A-4304-B0EB-603A1CB5A717}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker.UnitTests", "tests\Services\Tracker\Tracker.UnitTests\Tracker.UnitTests.csproj", "{E68821F4-FC38-4201-980C-C08EC4A009D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -289,6 +293,10 @@ Global
 		{2D7AE95D-5973-4E33-8733-26E2995A4F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D7AE95D-5973-4E33-8733-26E2995A4F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D7AE95D-5973-4E33-8733-26E2995A4F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -351,6 +359,8 @@ Global
 		{B8DBBF28-F857-4146-9A85-54DA1093F897} = {2641A077-B222-4E5F-AE47-805B9CA50564}
 		{A3EA00CF-D9FB-4F5F-995B-D7F9974D1437} = {2641A077-B222-4E5F-AE47-805B9CA50564}
 		{2D7AE95D-5973-4E33-8733-26E2995A4F26} = {2641A077-B222-4E5F-AE47-805B9CA50564}
+		{047AEAED-694A-4304-B0EB-603A1CB5A717} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
+		{E68821F4-FC38-4201-980C-C08EC4A009D3} = {047AEAED-694A-4304-B0EB-603A1CB5A717}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
