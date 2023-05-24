@@ -29,6 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
       <ProjectReference Include="..\Tracker.Core\Tracker.Core.csproj" />
     </ItemGroup>

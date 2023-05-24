@@ -4,6 +4,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Tracker.API.Filters;
 using Tracker.Application;
+using Tracker.Application.Infrastructure.Consumers;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -25,9 +26,15 @@ public static class ServiceConfigurationExtensions
         
         services.AddMassTransit(x =>
         { 
+            x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Tracker", false));
+            
+            x.AddConsumer<CryptoPriceUpdatedConsumer>();
+            x.AddConsumer<CryptoPriceUpdatedConsumer>();
+            
             x.UsingRabbitMq((context, config) =>
             {
                 config.Host(configuration["QueueOptions:Address"]);
+                config.ConfigureEndpoints(context);
             });
         });
         
