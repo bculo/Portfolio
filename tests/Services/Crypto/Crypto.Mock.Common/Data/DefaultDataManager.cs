@@ -132,6 +132,40 @@ namespace Crypto.Mock.Common.Data
                     }
                 }
             });
+            
+            defaultCryptoList.Add(new Core.Entities.Crypto
+            {
+                Symbol = "VEST",
+                Name = "VEST",
+                Description = "VEST",
+                Logo = "VEST",
+                Prices = new List<Core.Entities.CryptoPrice>
+                {
+                    new Core.Entities.CryptoPrice
+                    {
+                        Price = 0.5m,
+                    },
+                    new Core.Entities.CryptoPrice
+                    {
+                        Price =  0.7m,
+                    },
+                }
+            });
+            
+            defaultCryptoList.Add(new Core.Entities.Crypto
+            {
+                Symbol = "TEST",
+                Name = "TEST",
+                Description = "TEST",
+                Logo = "TEST",
+                Prices = new List<Core.Entities.CryptoPrice>
+                {
+                    new Core.Entities.CryptoPrice
+                    {
+                        Price = 0.5m,
+                    }
+                }
+            });
 
             return defaultCryptoList;
         }

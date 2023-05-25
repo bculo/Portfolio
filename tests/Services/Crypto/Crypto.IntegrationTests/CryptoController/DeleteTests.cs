@@ -18,8 +18,8 @@ namespace Crypto.IntegrationTests.CryptoController
         }
 
         [Theory]
-        [InlineData("BTC")]
-        [InlineData("ETH")]
+        [InlineData("VEST")]
+        [InlineData("TEST")]
         public async Task DeleteAsync_ShouldReturnStatusOk_WhenExistingSymbolProvided(string symbol)
         {
             //Arrange

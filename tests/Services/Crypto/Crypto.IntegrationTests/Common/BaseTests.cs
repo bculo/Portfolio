@@ -22,12 +22,15 @@ namespace Crypto.IntegrationTests.Common
             _client = factory.Client;
         }
 
-        public virtual async Task DisposeAsync()
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task InitializeAsync()
         {
             await _factory.ResetDatabaseAsync();
         }
-
-        public virtual Task InitializeAsync() => Task.CompletedTask;
 
         public HttpClient GetAuthInstance()
         {
