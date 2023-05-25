@@ -26,4 +26,15 @@ public static class ApplicationLayer
         services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
         services.AddScoped<IFinancialAssetClientFactory, FinancialAssetClientFactory>();
     }
+
+    public static void AddCache(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<ITrendCacheService, TrendCacheService>();
+        services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration["RedisOptions:ConnectionString"];
+            options.InstanceName = configuration["RedisOptions:InstanceName"];
+        });
+    }
 }

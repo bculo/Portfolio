@@ -23,6 +23,7 @@ public static class ServiceConfigurationExtensions
         services.AddCors();
 
         ApplicationLayer.AddServices(services, configuration);
+        ApplicationLayer.AddCache(services, configuration);
         
         services.AddMassTransit(x =>
         { 
