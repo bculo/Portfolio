@@ -110,7 +110,7 @@ public static class SwaggerExtensions
                 }
             });
             
-            opt.CustomSchemaIds(x => x.FullName);
+            opt.CustomSchemaIds(s => s.FullName.Replace("+", "."));
         });
     }
 
