@@ -28,6 +28,12 @@ services:
     
   dynamodb-mailservice-db:
     image: amazon/dynamodb-local:1.21.0
+    
+  tracker-postgre-db:
+    image: postgres:13
+    
+  pgadmin:
+    image: dpage/pgadmin4:7.1
 
 volumes:
   mongodbstore:
@@ -38,3 +44,5 @@ volumes:
   eventstore-volume-logs:
   notification-hub-redis-store:
   dynamodb-mailservice-db-store:
+  tracker-postgre-volume:
+  pgadmin-volume:

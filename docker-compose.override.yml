@@ -90,4 +90,26 @@ services:
     ports:
       - "8000:8000"
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal"
+
+  tracker-postgre-db:
+    container_name: tracker-postgre-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=florijan
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - tracker-postgre-volume:/var/lib/rabbitmq
+        
+  pgadmin:
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=root@root.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-volume:/var/lib/pgadmin
+    
     

@@ -24,7 +24,8 @@ public static class ServiceConfigurationExtensions
 
         ApplicationLayer.AddServices(services, configuration);
         ApplicationLayer.AddCache(services, configuration);
-        
+        ApplicationLayer.AddPersistenceStorage(services, configuration);
+
         services.AddMassTransit(x =>
         { 
             x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Tracker", false));

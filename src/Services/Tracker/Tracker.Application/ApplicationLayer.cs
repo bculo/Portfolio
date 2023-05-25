@@ -1,9 +1,11 @@
 using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Time.Common;
 using Time.Common.Contracts;
+using Tracker.Application.Infrastructure.Persistence;
 using Tracker.Application.Infrastructure.Services;
 using Tracker.Application.Interfaces;
 using Tracker.Application.Options;
@@ -35,6 +37,14 @@ public static class ApplicationLayer
         {
             options.Configuration = configuration["RedisOptions:ConnectionString"];
             options.InstanceName = configuration["RedisOptions:InstanceName"];
+        });
+    }
+    
+    public static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<TrackerDbContext>(opt =>
+        {
+            opt.UseNpgsql(configuration.GetConnectionString("TrackerDbContext"));
         });
     }
 }
