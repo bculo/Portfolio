@@ -32,7 +32,7 @@ public static class ApplicationLayer
         });
         
         services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
-
+        
         AddPersitence(services, configuration);
     }
 

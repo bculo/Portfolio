@@ -1,6 +1,6 @@
 namespace Tracker.Application.Interfaces;
 
-public interface ITrendCacheService
+public interface ITrackerCacheService
 {
     Task<T> Get<T>(string identifier) where T : class;
     Task<string> Get(string identifier);

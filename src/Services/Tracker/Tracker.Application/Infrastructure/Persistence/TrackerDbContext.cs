@@ -18,7 +18,7 @@ public class TrackerDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasPostgresExtension("uuid-ossp");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TrackerDbContext).Assembly);
     }
 }

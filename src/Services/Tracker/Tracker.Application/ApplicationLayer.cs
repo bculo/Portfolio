@@ -1,10 +1,14 @@
+using System.Reflection;
+using FluentValidation;
 using Grpc.Net.Client;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Time.Common;
 using Time.Common.Contracts;
+using Tracker.Application.Behaviours;
 using Tracker.Application.Infrastructure.Persistence;
 using Tracker.Application.Infrastructure.Services;
 using Tracker.Application.Interfaces;
@@ -27,11 +31,19 @@ public static class ApplicationLayer
         
         services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
         services.AddScoped<IFinancialAssetClientFactory, FinancialAssetClientFactory>();
+        
+        services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+        
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+        });
     }
 
     public static void AddCache(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<ITrendCacheService, TrendCacheService>();
+        services.AddScoped<ITrackerCacheService, TrackerCacheService>();
         services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
         services.AddStackExchangeRedisCache(options =>
         {
@@ -44,7 +56,7 @@ public static class ApplicationLayer
     {
         services.AddDbContext<TrackerDbContext>(opt =>
         {
-            opt.UseNpgsql(configuration.GetConnectionString("TrackerDbContext"));
+            opt.UseNpgsql(configuration.GetConnectionString("TrackerDatabase"));
         });
     }
 }

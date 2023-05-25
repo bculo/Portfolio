@@ -13,9 +13,9 @@ public class FavoriteAssetConfiguration : IEntityTypeConfiguration<FavoriteAsset
         builder.Property(p => p.Symbol)
             .HasMaxLength(10)
             .IsRequired();
-        
+
         builder.Property(p => p.UserId)
-            .HasMaxLength(100)
+            .HasColumnType("uuid")
             .IsRequired();
         
         builder.Property(p => p.AssetType)

@@ -1,13 +1,25 @@
+using Tracker.Application.Constants;
+using Tracker.Core.Enums;
+
 namespace Tracker.Application.Utilities;
 
 public static class CacheKeyUtilities
 {
     private const string CONNECTOR_CHARACTER = "-";
     
-    public static string CombineKey(string prefix, string identifier)
+    public static string CombineKey(FinancalAssetType type, string identifier)
     {
-        ArgumentException.ThrowIfNullOrEmpty(prefix);
         ArgumentException.ThrowIfNullOrEmpty(identifier);
-        return $"{prefix}{CONNECTOR_CHARACTER}{identifier}";
+        return $"{DefinePrefix(type)}{CONNECTOR_CHARACTER}{identifier}";
+    }
+
+    private static string DefinePrefix(FinancalAssetType type)
+    {
+        return type switch
+        {
+            FinancalAssetType.Crypto => CacheConstants.CRYPTO_PREFIX,
+            FinancalAssetType.Stock => CacheConstants.STOCK_PREFIX,
+            _ => string.Empty
+        };
     }
 }

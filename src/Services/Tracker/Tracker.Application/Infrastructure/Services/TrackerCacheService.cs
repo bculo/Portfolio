@@ -8,13 +8,13 @@ using Tracker.Application.Options;
 
 namespace Tracker.Application.Infrastructure.Services;
 
-public class TrendCacheService : ITrendCacheService
+public class TrackerCacheService : ITrackerCacheService
 {
     private readonly IDistributedCache _cache;
     private readonly RedisOptions _options;
     private readonly IDateTimeProvider _time;
 
-    public TrendCacheService(IDistributedCache cache, IOptions<RedisOptions> options, IDateTimeProvider time)
+    public TrackerCacheService(IDistributedCache cache, IOptions<RedisOptions> options, IDateTimeProvider time)
     {
         _cache = cache;
         _options = options.Value;

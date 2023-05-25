@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.5.2" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
       <PackageReference Include="Google.Protobuf" Version="3.23.1" />
       <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
       <PackageReference Include="Grpc.Net.Client" Version="2.53.0" />
@@ -27,6 +29,7 @@
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.5" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+      <PackageReference Include="MediatR" Version="12.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -41,9 +44,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
       <ProjectReference Include="..\Tracker.Core\Tracker.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Infrastructure\Persistence\Migrations\" />
     </ItemGroup>
 
 </Project>
