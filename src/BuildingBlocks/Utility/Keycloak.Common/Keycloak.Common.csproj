@@ -45,4 +45,10 @@
     <Folder Include="Models\Response\Clients\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Security.Permissions">
+      <HintPath>..\..\..\Services\Crypto\Crypto.BackgroundService\bin\Debug\net6.0\System.Security.Permissions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

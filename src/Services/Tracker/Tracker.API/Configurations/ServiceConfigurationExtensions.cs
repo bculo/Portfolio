@@ -25,6 +25,7 @@ public static class ServiceConfigurationExtensions
         ApplicationLayer.AddServices(services, configuration);
         ApplicationLayer.AddCache(services, configuration);
         ApplicationLayer.AddPersistenceStorage(services, configuration);
+        ApplicationLayer.AddClients(services, configuration);
 
         services.AddMassTransit(x =>
         { 

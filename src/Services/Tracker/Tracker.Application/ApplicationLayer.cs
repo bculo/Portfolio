@@ -6,9 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
 using Time.Common;
 using Time.Common.Contracts;
 using Tracker.Application.Behaviours;
+using Tracker.Application.Constants;
 using Tracker.Application.Infrastructure.Persistence;
 using Tracker.Application.Infrastructure.Services;
 using Tracker.Application.Interfaces;
@@ -21,6 +24,7 @@ public static class ApplicationLayer
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<EndpointgRPCOptions>(configuration.GetSection(nameof(EndpointgRPCOptions)));
+        services.Configure<ApplicationInfoOptions>(configuration.GetSection(nameof(ApplicationInfoOptions)));
         
         services.AddScoped(services =>
         {
@@ -58,5 +62,20 @@ public static class ApplicationLayer
         {
             opt.UseNpgsql(configuration.GetConnectionString("TrackerDatabase"));
         });
+    }
+
+    public static void AddClients(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<CryptoHttpAssetClient>();
+        services.AddHttpClient(HttpClientNames.CRYPTO_CLIENT, client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5263/api/");
+                client.Timeout = TimeSpan.FromSeconds(60);
+            })
+            .AddTransientHttpErrorPolicy(policyBuilder =>
+            {
+                return policyBuilder.WaitAndRetryAsync(
+                    Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), 2));
+            });
     }
 }

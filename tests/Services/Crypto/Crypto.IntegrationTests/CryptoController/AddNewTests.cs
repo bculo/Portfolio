@@ -5,6 +5,7 @@ using Crypto.Mock.Common.Clients;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using Crypto.Infrastracture.Persistence;
 using Tests.Common.Extensions;
 using Tests.Common.Utilities;
 using WireMock.RequestBuilders;
@@ -75,7 +76,7 @@ namespace Crypto.IntegrationTests.CryptoController
             
             //Act
             var response = await _client.PostAsync(ApiEndpoint.CRYPTO_ADD_NEW, content);
-
+            
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

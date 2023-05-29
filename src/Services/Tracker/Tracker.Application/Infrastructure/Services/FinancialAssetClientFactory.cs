@@ -22,7 +22,7 @@ public class FinancialAssetClientFactory : IFinancialAssetClientFactory
     {
         return type switch
         {
-            FinancalAssetType.Crypto => _provider.GetService(typeof(CryptogRPCAssetClient)) as IFinancialAssetClient,
+            FinancalAssetType.Crypto => _provider.GetService(typeof(CryptoHttpAssetClient)) as IFinancialAssetClient,
             _ => throw new NotSupportedException($"Financial asset client for type {type} not supported")
         };
     }

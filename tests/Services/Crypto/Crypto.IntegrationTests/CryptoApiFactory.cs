@@ -53,7 +53,7 @@ namespace Crypto.IntegrationTests
         public CryptoApiFactory()
         {
             InfoMockServer = WireMockServer.Start();
-
+            
             _dataManager = new DefaultDataManager();
         }
 

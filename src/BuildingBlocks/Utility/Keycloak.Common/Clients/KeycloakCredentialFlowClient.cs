@@ -1,12 +1,11 @@
-﻿using Ardalis.GuardClauses;
-using Auth0.Abstract.Contracts;
+﻿using Auth0.Abstract.Contracts;
 using Auth0.Abstract.Models;
 using Keycloak.Common.Constants;
 using Keycloak.Common.Extensions;
 using Keycloak.Common.Options;
+using Keycloak.Common.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace Keycloak.Common.Clients
 {
@@ -29,25 +28,24 @@ namespace Keycloak.Common.Clients
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 
-            Guard.Against.NullOrEmpty(clientId);
-            Guard.Against.NullOrEmpty(clientSecret);
-
+            ArgumentNullException.ThrowIfNull(clientId);
+            ArgumentNullException.ThrowIfNull(clientSecret);
+            
             var http = _factory.CreateClient();
-
-            http.BaseAddress = new Uri(_options.AuthorizationServerUrl);
-
+            
             var body = new List<KeyValuePair<string, string>>()
             {
-                new KeyValuePair<string, string>("client_id", clientId),
-                new KeyValuePair<string, string>("client_secret", clientSecret),
-                new KeyValuePair<string, string>("grant_type", KeycloakGrantTypeConstants.CLIENT_CREDENTIALS)
+                new ("client_id", clientId),
+                new ("client_secret", clientSecret),
+                new ("grant_type", KeycloakGrantTypeConstants.CLIENT_CREDENTIALS)
             };
 
             HttpContent content = new FormUrlEncodedContent(body);
 
             _logger.LogTrace("Sending request...");
 
-            var authorizationServerResponse = await http.PostAsync("protocol/openid-connect/token", content);
+            var uri = UriUtils.JoinUriSegments(_options.AuthorizationServerUrl, "protocol/openid-connect/token");
+            var authorizationServerResponse = await http.PostAsync(uri, content);
 
             return await authorizationServerResponse.HandleResponse<TokenClientCredentialResponse>(_logger);
         }

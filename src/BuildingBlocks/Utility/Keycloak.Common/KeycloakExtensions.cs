@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Auth0.Abstract.Contracts;
+﻿using Auth0.Abstract.Contracts;
 using Keycloak.Common.Clients;
 using Keycloak.Common.Interfaces;
 using Keycloak.Common.Options;
@@ -21,7 +20,7 @@ namespace Keycloak.Common
         /// <param name="keycloackApplicationName"></param>
         public static void UseKeycloakClaimServices(this IServiceCollection services, string keycloackApplicationName)
         {
-            Guard.Against.NullOrEmpty(keycloackApplicationName);
+            ArgumentNullException.ThrowIfNull(keycloackApplicationName);
 
             //Claim transformation
             services.AddOptions<KeycloakClaimOptions>().Configure(opt =>
@@ -43,22 +42,14 @@ namespace Keycloak.Common
         /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/</param>
         public static void UseKeycloakCredentialFlowService(this IServiceCollection services, string aurhoriazionServer)
         {
-            Guard.Against.NullOrEmpty(aurhoriazionServer);
+            ArgumentNullException.ThrowIfNull(aurhoriazionServer);
 
             services.AddOptions<KeycloakClientCredentialFlowOptions>().Configure(opt =>
             {
                 opt.AuthorizationServerUrl = aurhoriazionServer;
             });
 
-            services.AddHttpClient<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
-
-            //Resource owner password credentials flow
-            services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
-            {
-                opt.AuthorizationServerUrl = aurhoriazionServer;
-            });
-
-            services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
+            services.AddScoped<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
         }
         /// <summary>
         /// Register keycloak client for oauth flows
@@ -67,7 +58,7 @@ namespace Keycloak.Common
         /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ -> usually it is master/</param>
         public static void UseKeycloakOwnerCredentialFlowService(this IServiceCollection services, string aurhoriazionServerOwner)
         {
-            Guard.Against.NullOrEmpty(aurhoriazionServerOwner);
+            ArgumentNullException.ThrowIfNull(aurhoriazionServerOwner);
 
             //Resource owner password credentials flow
             services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
@@ -75,7 +66,7 @@ namespace Keycloak.Common
                 opt.AuthorizationServerUrl = aurhoriazionServerOwner;
             });
 
-            services.AddHttpClient<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
+            services.AddScoped<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
         }
 
         /// <summary>
@@ -85,7 +76,7 @@ namespace Keycloak.Common
         /// <param name="aurhoriazionServer"> example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ </param>
         public static void UseKeycloakUserInfoService(this IServiceCollection services, string aurhoriazionServer)
         {
-            Guard.Against.NullOrEmpty(aurhoriazionServer);
+            ArgumentNullException.ThrowIfNull(aurhoriazionServer);
 
             //Client for userinfo endpoint
             services.AddOptions<KeycloakUserInfoOptions>().Configure(opt =>
@@ -103,7 +94,7 @@ namespace Keycloak.Common
         /// <param name="aurhoriazionServer"></param>
         public static void UseKeycloakAdminService(this IServiceCollection services, string adminApiBase)
         {
-            Guard.Against.NullOrEmpty(adminApiBase);
+            ArgumentNullException.ThrowIfNull(adminApiBase);
 
             services.AddOptions<KeycloakAdminApiOptions>().Configure(opt =>
             {
