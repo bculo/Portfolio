@@ -1,12 +1,10 @@
 using Notification.Application;
 using Notification.Application.Interfaces;
 using Notification.Hub;
-using Notification.Hub.Configurations;
 using Notification.Hub.Extensions;
 using Notification.Hub.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

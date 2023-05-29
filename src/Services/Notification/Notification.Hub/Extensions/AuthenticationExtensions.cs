@@ -3,7 +3,7 @@ using Keycloak.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Notification.Hub.Configurations
+namespace Notification.Hub.Extensions
 {
     public static class AuthenticationExtensions
     {
