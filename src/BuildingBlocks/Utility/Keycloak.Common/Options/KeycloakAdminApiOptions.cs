@@ -8,6 +8,6 @@ namespace Keycloak.Common.Options
 {
     public class KeycloakAdminApiOptions
     {
-        public string? AdminApiEndpointBase { get; set; }
+        public string AdminApiEndpointBase { get; set; }
     }
 }

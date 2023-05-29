@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Auth0.Abstract.Contracts;
+﻿using Auth0.Abstract.Contracts;
 using Auth0.Abstract.Models;
 using Keycloak.Common.Constants;
 using Keycloak.Common.Extensions;
@@ -30,13 +29,13 @@ namespace Keycloak.Common.Clients
             _factory = factory;
         }
 
-        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
+        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string username, string password, IEnumerable<string> scopes = null)
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 
-            Guard.Against.NullOrEmpty(clientId);
-            Guard.Against.NullOrEmpty(username);
-            Guard.Against.NullOrEmpty(password);
+            ArgumentNullException.ThrowIfNull(clientId);
+            ArgumentNullException.ThrowIfNull(username);
+            ArgumentNullException.ThrowIfNull(password);
 
             var http = _factory.CreateClient();
 

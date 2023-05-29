@@ -8,6 +8,6 @@ namespace Keycloak.Common.Options
 {
     internal class KeycloakOwnerCredentialFlowOptions
     {
-        public string? AuthorizationServerUrl { get; set; }
+        public string AuthorizationServerUrl { get; set; }
     }
 }

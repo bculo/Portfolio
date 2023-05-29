@@ -29,7 +29,7 @@ namespace Keycloak.Common.Services
         {
             _logger.LogTrace("Method {0} in service {1} called", nameof(TransformAsync), nameof(KeycloakClaimsTransformer));
 
-            ClaimsIdentity? claimsIdentity = principal.Identity as ClaimsIdentity;
+            ClaimsIdentity claimsIdentity = principal.Identity as ClaimsIdentity;
 
             if(claimsIdentity == null) 
             {

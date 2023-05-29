@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Keycloak.Common.Extensions;
+﻿using Keycloak.Common.Extensions;
 using Keycloak.Common.Interfaces;
 using Keycloak.Common.Models.Response.Users;
 using Keycloak.Common.Options;
@@ -33,8 +32,8 @@ namespace Keycloak.Common.Clients
         {
             _logger.LogTrace("Method {0} called", nameof(GetUserById));
 
-            Guard.Against.NullOrEmpty(realm);
-            Guard.Against.NullOrEmpty(accessToken);
+            ArgumentNullException.ThrowIfNull(realm);
+            ArgumentNullException.ThrowIfNull(accessToken);
 
             var http = _factory.CreateClient();
 
@@ -52,8 +51,8 @@ namespace Keycloak.Common.Clients
         {
             _logger.LogTrace("Method {0} called", nameof(GetUsers));
 
-            Guard.Against.NullOrEmpty(realm);
-            Guard.Against.NullOrEmpty(accessToken);
+            ArgumentNullException.ThrowIfNull(realm);
+            ArgumentNullException.ThrowIfNull(accessToken);
 
             var http = _factory.CreateClient();
 
@@ -71,8 +70,8 @@ namespace Keycloak.Common.Clients
         {
             _logger.LogTrace("Method {0} called", nameof(GetUsers));
 
-            Guard.Against.NullOrEmpty(realmDataJson);
-            Guard.Against.NullOrEmpty(accessToken);
+            ArgumentNullException.ThrowIfNull(realmDataJson);
+            ArgumentNullException.ThrowIfNull(accessToken);
 
             var http = _factory.CreateClient();
 

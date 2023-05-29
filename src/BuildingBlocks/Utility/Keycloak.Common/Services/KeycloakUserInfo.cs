@@ -42,22 +42,22 @@ namespace Keycloak.Common.Services
             return null;
         }
 
-        public virtual string? GetFullName()
+        public virtual string GetFullName()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.FULLNAME)?.Value;
         }
 
-        public virtual string? GetEmail()
+        public virtual string GetEmail()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.EMAIL)?.Value;
         }
 
-        public virtual string? GetUserName()
+        public virtual string GetUserName()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.USERNAME)?.Value;
         }
 
-        public virtual string? GetIssuer()
+        public virtual string GetIssuer()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.ISSUER)?.Value;
         }
@@ -82,12 +82,12 @@ namespace Keycloak.Common.Services
             return GetRoles().Any(i => i == "Application");
         }
 
-        public string? GetClientId()
+        public string GetClientId()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.CLIENTID)?.Value;
         }
 
-        public IPAddress? GetClientAddress()
+        public IPAddress GetClientAddress()
         {
             var ipString = Claims?.FindFirst(KeycloakTokenConstants.CLIENT_ADDRESS)?.Value;
 
@@ -96,7 +96,7 @@ namespace Keycloak.Common.Services
                 return null;
             }
 
-            if(IPAddress.TryParse(ipString, out IPAddress? ipAddress))
+            if(IPAddress.TryParse(ipString, out IPAddress ipAddress))
             {
                 return ipAddress;
             }

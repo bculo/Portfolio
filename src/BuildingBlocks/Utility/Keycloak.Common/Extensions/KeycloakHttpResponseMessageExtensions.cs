@@ -10,7 +10,7 @@ namespace Keycloak.Common.Extensions
 {
     internal static class KeycloakHttpResponseMessageExtensions
     {
-        public static async Task<T> HandleResponse<T>(this HttpResponseMessage response, ILogger? logger = null)
+        public static async Task<T> HandleResponse<T>(this HttpResponseMessage response, ILogger logger = null)
         {
             logger?.LogTrace("Response received...");
 

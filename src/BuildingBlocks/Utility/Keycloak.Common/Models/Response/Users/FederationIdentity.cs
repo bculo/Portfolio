@@ -10,7 +10,7 @@ namespace Keycloak.Common.Models.Response.Users
     public class FederationIdentity
     {
         [JsonProperty("identityProvider")]
-        public string? IdentityProvider { get; set; }
+        public string IdentityProvider { get; set; }
 
         [JsonProperty("userId")]
         public string UserId { get; set; }

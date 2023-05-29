@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Auth0.Abstract.Contracts;
+﻿using Auth0.Abstract.Contracts;
 using Auth0.Abstract.Models;
 using Keycloak.Common.Extensions;
 using Keycloak.Common.Options;
@@ -33,7 +32,7 @@ namespace Keycloak.Common.Clients
         {
             _logger.LogTrace("Method {0} in {1} called", nameof(GetUserInfo), nameof(KeycloakUserInfoClient));
 
-            Guard.Against.NullOrEmpty(accessToken);
+            ArgumentNullException.ThrowIfNull(accessToken);
 
             var http = _factory.CreateClient();
 

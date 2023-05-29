@@ -24,7 +24,7 @@ namespace Keycloak.Common.Clients
             _logger = logger;
         }
 
-        public async Task<TokenClientCredentialResponse> GetToken(string clientId, string clientSecret, IEnumerable<string>? scopes = null)
+        public async Task<TokenClientCredentialResponse> GetToken(string clientId, string clientSecret, IEnumerable<string> scopes = null)
         {
             _logger.LogTrace("Method {0} called", nameof(GetToken));
 

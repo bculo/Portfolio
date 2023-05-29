@@ -13,7 +13,7 @@ namespace Keycloak.Common.Models.Response.Users
         public Guid UserId { get; set; }
 
         [JsonProperty("username")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
 
         [JsonProperty("enabled")]
         public bool Enabled { get; set; }
@@ -22,16 +22,16 @@ namespace Keycloak.Common.Models.Response.Users
         public bool EmailVerified { get; set; }
 
         [JsonProperty("firstName")]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [JsonProperty("lastName")]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
         [JsonProperty("email")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [JsonProperty("federatedIdentities")]
-        public List<FederationIdentity>? FederationIdentities { get; set; }
+        public List<FederationIdentity> FederationIdentities { get; set; }
     }
 
 }
