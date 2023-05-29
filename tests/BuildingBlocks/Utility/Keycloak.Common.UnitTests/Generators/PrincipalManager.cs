@@ -16,7 +16,7 @@ namespace Keycloak.Common.UnitTests.Generators
     internal class PrincipalManager
     {
         private readonly Fixture _fixture = new Fixture();
-        private readonly KeycloakClaimsTransformer? _transformer;
+        private readonly KeycloakClaimsTransformer _transformer;
 
         public PrincipalManager()
         {
