@@ -14,15 +14,15 @@ namespace Auth0.Abstract.Contracts
     {
         bool IsAuthenticated();
 
-        Guid? GetIdentifier();
+        Guid GetIdentifier();
 
-        string? GetFullName();
+        string GetFullName();
 
-        string? GetEmail();
+        string GetEmail();
 
-        string? GetUserName();
+        string GetUserName();
 
-        string? GetIssuer();
+        string GetIssuer();
 
         IEnumerable<string> GetRoles();
 
@@ -30,8 +30,8 @@ namespace Auth0.Abstract.Contracts
 
         bool IsApplication();
 
-        string? GetClientId();
+        string GetClientId();
 
-        IPAddress? GetClientAddress();
+        IPAddress GetClientAddress();
     }
 }

@@ -14,7 +14,7 @@ namespace Trend.Domain.Queries.Requests.Common
         public T Search { get; private set; }
         public int Skip => Page - 1;
 
-        public PageRequest(int page, int take, T? search)
+        public PageRequest(int page, int take, T search)
         {
             Page = page;
             Take = take;

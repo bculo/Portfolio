@@ -20,7 +20,10 @@ namespace Trend.Grpc.Services
         private readonly ILogger<NewsService> _logger;
         private readonly IMapper _mapper;
 
-        public NewsService(IArticleService service, IMapper mapper, ILogger<NewsService> logger)
+        public NewsService(
+            IArticleService service, 
+            IMapper mapper,
+            ILogger<NewsService> logger)
         {
             _service = service;
             _mapper = mapper;
@@ -30,7 +33,7 @@ namespace Trend.Grpc.Services
         public override async Task GetAllNews(Empty request, IServerStreamWriter<ArticleTypeItem> responseStream, ServerCallContext context)
         {
             _logger.LogTrace("GetAllNews method called in NewsService");
-
+            
             await foreach (var item in _service.GetAllEnumerable())
             {
                 var responseItem = _mapper.Map<ArticleTypeItem>(item);
@@ -41,7 +44,7 @@ namespace Trend.Grpc.Services
         public override async Task GetLatestNews(Empty request, IServerStreamWriter<ArticleItem> responseStream, ServerCallContext context)
         {
             _logger.LogTrace("GetLatestNews method called in NewsService");
-
+            
             await foreach (var item in _service.GetLatestNewsEnumerable())
             {
                 var responseItem = _mapper.Map<ArticleItem>(item);

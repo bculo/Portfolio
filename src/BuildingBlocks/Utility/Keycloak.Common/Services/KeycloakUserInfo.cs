@@ -22,7 +22,7 @@ namespace Keycloak.Common.Services
             return Claims?.Identity?.IsAuthenticated ?? false;
         }
 
-        public virtual Guid? GetIdentifier()
+        public virtual Guid GetIdentifier()
         {
             var guidAsStringMain = Claims?.FindFirst(KeycloakTokenConstants.USERID)?.Value;
             var guidAsStringBackup = Claims?.FindFirst(KeycloakTokenConstants.USERIDBACKUP)?.Value;
@@ -31,7 +31,7 @@ namespace Keycloak.Common.Services
 
             if (string.IsNullOrEmpty(guidAsString))
             {
-                return null;
+                return Guid.Empty;
             }
 
             if(Guid.TryParse(guidAsString, out var userId))
@@ -39,7 +39,7 @@ namespace Keycloak.Common.Services
                 return userId;
             }
 
-            return null;
+            return Guid.Empty;
         }
 
         public virtual string GetFullName()

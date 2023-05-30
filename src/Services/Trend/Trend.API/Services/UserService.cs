@@ -19,7 +19,7 @@ namespace Trend.API.Services
             {
                 var userId = _user.GetIdentifier();
 
-                if(userId is null)
+                if(userId == Guid.Empty)
                 {
                     throw new TrendAppAuthenticationException("Problem with authentication. User identifier is null");
                 }

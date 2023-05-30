@@ -8,10 +8,10 @@ builder.ConfiguregRPCProject();
 var app = builder.Build();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapGrpcService<NewsService>();
+app.MapGrpcService<GreeterService>();
 
 IWebHostEnvironment env = app.Environment;
 

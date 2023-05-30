@@ -13,18 +13,18 @@ namespace Auth0.Abstract.Models
     public class UserInfoResponse
     {
         [JsonProperty("sub")]
-        public string? UserId { get; set; }
+        public string UserId { get; set; }
         [JsonProperty("email_verified")]
-        public bool? EmailVerified { get; set; }
+        public bool EmailVerified { get; set; }
         [JsonProperty("name")]
-        public string? FullName { get; set; }
+        public string FullName { get; set; }
         [JsonProperty("preferred_username")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
         [JsonProperty("given_name")]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
         [JsonProperty("family_name")]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
         [JsonProperty("email")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
     }
 }

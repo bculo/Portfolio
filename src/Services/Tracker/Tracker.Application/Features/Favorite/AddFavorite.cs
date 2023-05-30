@@ -71,7 +71,7 @@ public static class AddFavorite
             {
                 Symbol = request.Symbol,
                 AssetType = request.Type,
-                UserId = _tokenReader.GetIdentifier()!.Value,
+                UserId = _tokenReader.GetIdentifier(),
             };
             _context.Favorites.Add(newFavoriteAsset);
             await _context.SaveChangesAsync(cancellationToken);

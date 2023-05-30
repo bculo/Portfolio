@@ -58,7 +58,7 @@ public static class AddTemplate
                 Title = request.Title,
                 Created = _time.Now,
                 IsActive = true,
-                ModifiedBy = _tokenReader.GetIdentifier()?.ToString(),
+                ModifiedBy = _tokenReader.GetIdentifier().ToString(),
                 ModificationDate = _time.Now
             }; 
             
