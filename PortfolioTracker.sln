@@ -115,25 +115,35 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Common", "tests\Commo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mail", "Mail", "{D717FC95-CDFD-4518-B90B-70998B516924}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail.Application", "src\Services\Mail\Mail.Application\Mail.Application.csproj", "{B416EEC0-7FDF-4347-96A7-2D418A5638A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mail.Application", "src\Services\Mail\Mail.Application\Mail.Application.csproj", "{B416EEC0-7FDF-4347-96A7-2D418A5638A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail.API", "src\Services\Mail\Mail.API\Mail.API.csproj", "{D50F8670-45E7-4AEE-A258-D8557D0CA9CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mail.API", "src\Services\Mail\Mail.API\Mail.API.csproj", "{D50F8670-45E7-4AEE-A258-D8557D0CA9CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker.Application", "src\Services\Tracker\Tracker.Application\Tracker.Application.csproj", "{EE6A4657-4AEC-422D-81B8-7AC4B07C6790}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.Application", "src\Services\Tracker\Tracker.Application\Tracker.Application.csproj", "{EE6A4657-4AEC-422D-81B8-7AC4B07C6790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker.Core", "src\Services\Tracker\Tracker.Core\Tracker.Core.csproj", "{1E5965E2-C292-47EF-A77B-A2CBDFC76A4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.Core", "src\Services\Tracker\Tracker.Core\Tracker.Core.csproj", "{1E5965E2-C292-47EF-A77B-A2CBDFC76A4F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{2641A077-B222-4E5F-AE47-805B9CA50564}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yarp.Backend", "src\ApiGateways\Yarp.Backend\Yarp.Backend.csproj", "{B8DBBF28-F857-4146-9A85-54DA1093F897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yarp.Backend", "src\ApiGateways\Yarp.Backend\Yarp.Backend.csproj", "{B8DBBF28-F857-4146-9A85-54DA1093F897}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yarp.Client", "src\ApiGateways\Yarp.Client\Yarp.Client.csproj", "{A3EA00CF-D9FB-4F5F-995B-D7F9974D1437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yarp.Client", "src\ApiGateways\Yarp.Client\Yarp.Client.csproj", "{A3EA00CF-D9FB-4F5F-995B-D7F9974D1437}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yarp.Common", "src\ApiGateways\Yarp.Common\Yarp.Common.csproj", "{2D7AE95D-5973-4E33-8733-26E2995A4F26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yarp.Common", "src\ApiGateways\Yarp.Common\Yarp.Common.csproj", "{2D7AE95D-5973-4E33-8733-26E2995A4F26}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tracker", "Tracker", "{047AEAED-694A-4304-B0EB-603A1CB5A717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker.UnitTests", "tests\Services\Tracker\Tracker.UnitTests\Tracker.UnitTests.csproj", "{E68821F4-FC38-4201-980C-C08EC4A009D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.UnitTests", "tests\Services\Tracker\Tracker.UnitTests\Tracker.UnitTests.csproj", "{E68821F4-FC38-4201-980C-C08EC4A009D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stock", "Stock", "{B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.Application", "src\Services\Stock\Stock.Application\Stock.Application.csproj", "{46806C4C-9D03-41FD-80C1-BBD19DACFFF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stock", "Stock", "{EE836572-2E88-4D25-826A-1BF2D8716DB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.UnitTests", "tests\Services\Stock\Stock.UnitTests\Stock.UnitTests.csproj", "{E9EE9FF6-EF18-4132-B2B5-A2F8B036933A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.Common", "tests\Services\Stock\Stock.Common\Stock.Common.csproj", "{F3EB7966-0173-4AA6-BBDA-C5DE1703A554}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -297,6 +307,18 @@ Global
 		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E68821F4-FC38-4201-980C-C08EC4A009D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46806C4C-9D03-41FD-80C1-BBD19DACFFF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46806C4C-9D03-41FD-80C1-BBD19DACFFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46806C4C-9D03-41FD-80C1-BBD19DACFFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46806C4C-9D03-41FD-80C1-BBD19DACFFF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9EE9FF6-EF18-4132-B2B5-A2F8B036933A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9EE9FF6-EF18-4132-B2B5-A2F8B036933A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9EE9FF6-EF18-4132-B2B5-A2F8B036933A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9EE9FF6-EF18-4132-B2B5-A2F8B036933A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EB7966-0173-4AA6-BBDA-C5DE1703A554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EB7966-0173-4AA6-BBDA-C5DE1703A554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EB7966-0173-4AA6-BBDA-C5DE1703A554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EB7966-0173-4AA6-BBDA-C5DE1703A554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -361,6 +383,11 @@ Global
 		{2D7AE95D-5973-4E33-8733-26E2995A4F26} = {2641A077-B222-4E5F-AE47-805B9CA50564}
 		{047AEAED-694A-4304-B0EB-603A1CB5A717} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
 		{E68821F4-FC38-4201-980C-C08EC4A009D3} = {047AEAED-694A-4304-B0EB-603A1CB5A717}
+		{B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F} = {E90508B7-CC3F-45D9-B4EF-0D802BC43B21}
+		{46806C4C-9D03-41FD-80C1-BBD19DACFFF4} = {B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}
+		{EE836572-2E88-4D25-826A-1BF2D8716DB8} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
+		{E9EE9FF6-EF18-4132-B2B5-A2F8B036933A} = {EE836572-2E88-4D25-826A-1BF2D8716DB8}
+		{F3EB7966-0173-4AA6-BBDA-C5DE1703A554} = {EE836572-2E88-4D25-826A-1BF2D8716DB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
