@@ -10,6 +10,7 @@ namespace Stock.Application.Interfaces
     {
         Task<bool> InitializeHtmlContent(string htmlContent);
         Task<IEnumerable<HtmlNodeElement>> FindElements(string xPathQuery);
+        Task<HtmlNodeElement> FindSingleElement(string xPathQuery);
     }
 
     public class HtmlNodeElement
@@ -17,5 +18,6 @@ namespace Stock.Application.Interfaces
         public string Text { get; set; }
         public Dictionary<string, string> Attributes { get; set; }
         public string HtmlElementType { get; set; }
+        public string Html { get; set; }
     }
 }

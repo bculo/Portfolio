@@ -53,14 +53,38 @@ namespace Stock.Application.Infrastructure.Services
 
             var elements = _document.DocumentNode
                 .SelectNodes(xPathQuery)
+                .Where(i => i is not null)
                 .Select(i => new HtmlNodeElement
                 {
                     Text = i.InnerHtml,
                     Attributes = i.Attributes.ToDictionary(x => x.Name, y => y.Value),
-                    HtmlElementType = i.OriginalName
+                    HtmlElementType = i.OriginalName,
+                    Html = i.OuterHtml,
                 });
 
             return Task.FromResult(elements);
+        }
+
+        public Task<HtmlNodeElement> FindSingleElement(string xPathQuery)
+        {
+            if (string.IsNullOrWhiteSpace(xPathQuery) || !_initialized)
+            {
+                return default;
+            }
+
+            var node = _document.DocumentNode.SelectSingleNode(xPathQuery);
+            if(node is null)
+            {
+                return null;
+            }
+
+            return Task.FromResult(new HtmlNodeElement
+            {
+                Text = node.InnerHtml,
+                Attributes = node.Attributes.ToDictionary(x => x.Name, y => y.Value),
+                HtmlElementType = node.OriginalName,
+                Html = node.OuterHtml
+            });
         }
     }
 }

@@ -152,5 +152,43 @@ namespace Stock.UnitTests.Application.Infrastructure.Services
             //Assert
             result.Should().HaveCount(0);
         }
+
+        [Theory]
+        [InlineData("//p[@class='test']")]
+        [InlineData("//p[@class='test1']")]
+        [InlineData("//p[@class='test2']")]
+        public async Task FindSingleElement_ShouldReturnInstance_WhenValidXpathProvided(string xpath)
+        {
+            //Arrange
+            var htmlContentHelper = new HtmlGeneratorHelper();
+            htmlContentHelper.InsertAdditionalContent("1", "test", "p");
+            htmlContentHelper.InsertAdditionalContent("1", "test1", "p");
+            htmlContentHelper.InsertAdditionalContent("1", "test2", "p");
+            var _htmlParserService = new HtmlParserService(_logger, htmlContentHelper.Build());
+
+            //Act
+            var result = await _htmlParserService.FindSingleElement(xpath);
+
+            //Assert
+            result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task FindSingleElement_ShouldReturnInstance_WhenMultipleNodesExistsForGivenXPath()
+        {
+            //Arrange
+            var htmlContentHelper = new HtmlGeneratorHelper();
+            htmlContentHelper.InsertAdditionalContent("1", "test", "p");
+            htmlContentHelper.InsertAdditionalContent("2", "test", "p");
+            htmlContentHelper.InsertAdditionalContent("1", "test2", "p");
+            var _htmlParserService = new HtmlParserService(_logger, htmlContentHelper.Build());
+
+            //Act
+            var result = await _htmlParserService.FindSingleElement("//p[@class='test']");
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Text.Should().Be("1");
+        }
     }
 }
