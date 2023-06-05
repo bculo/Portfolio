@@ -3,15 +3,8 @@ using Crypto.Application.Models.Price;
 using Crypto.Application.Options;
 using Crypto.Infrastracture.Constants;
 using Http.Common.Extensions;
-using HttpUtility.Abstract;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using String.Common.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crypto.Infrastracture.Clients
 {

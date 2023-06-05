@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BultInTypes.Common.Decimal;
+using Microsoft.Extensions.Logging;
 using Stock.Application.Constants;
 using Stock.Application.Interfaces;
 using Time.Common.Contracts;
@@ -48,7 +49,8 @@ namespace Stock.Application.Infrastructure.Clients
                 return default;
             }
 
-            if(!decimal.TryParse(priceSectionNode.Text, out decimal price))
+            var conversionResult = priceSectionNode.Text.ToNullableDecimal();
+            if(!conversionResult.HasValue)
             {
                 _logger.LogWarning("Problem occured when parsing string to decimal number. String is {0}", priceSectionNode.Text);
                 return default;
@@ -56,9 +58,9 @@ namespace Stock.Application.Infrastructure.Clients
 
             return new StockPriceInfo
             {
-                Price = price,
+                Price = conversionResult.Value,
                 Symbol = symbol,
-                FetchedTimestamp = DateTime.UtcNow
+                FetchedTimestamp = _timeProvider.Now
             };
         }
     }
