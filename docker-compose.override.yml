@@ -96,11 +96,20 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=florijan
-      - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
-      - tracker-postgre-volume:/var/lib/rabbitmq
+      - tracker-postgre-volume:/var/lib/postgresql/data
+
+  stock-postgre-db:
+    container_name: stock-postgre-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=florijan
+    ports:
+      - "5433:5432"
+    volumes:
+      - stock-postgre-volume:/var/lib/postgresql/data
         
   pgadmin:
     container_name: pgadmin

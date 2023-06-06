@@ -31,6 +31,9 @@ services:
     
   tracker-postgre-db:
     image: postgres:13
+
+  stock-postgre-db:
+    image: postgres:13
     
   pgadmin:
     image: dpage/pgadmin4:7.1
@@ -45,4 +48,5 @@ volumes:
   notification-hub-redis-store:
   dynamodb-mailservice-db-store:
   tracker-postgre-volume:
+  stock-postgre-volume:
   pgadmin-volume:
