@@ -8,6 +8,7 @@ using Stock.Application.Infrastructure.Clients;
 using Stock.Application.Infrastructure.Persistence;
 using Stock.Application.Infrastructure.Services;
 using Stock.Application.Interfaces;
+using System.Reflection;
 using Time.Common;
 using Time.Common.Contracts;
 
@@ -28,7 +29,12 @@ namespace Stock.Application
                 return new HtmlParserService(logger, null);
             });
 
-            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
+            services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
+
+            services.AddMediatR(opt =>
+            {
+                opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            });
         }
 
         public static void AddClients(IServiceCollection services, IConfiguration configuration)

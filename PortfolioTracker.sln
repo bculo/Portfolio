@@ -149,7 +149,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BultInTypes.Common.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Worker", "src\Services\Stock\Stock.Worker\Stock.Worker.csproj", "{8DED182E-46F8-44AB-A945-15EBC169F95F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.Core", "src\Services\Stock\Stock.Core\Stock.Core.csproj", "{D23E4CF8-62BF-4770-AED3-97CDB862F498}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Core", "src\Services\Stock\Stock.Core\Stock.Core.csproj", "{D23E4CF8-62BF-4770-AED3-97CDB862F498}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.API", "src\Services\Stock\Stock.API\Stock.API.csproj", "{DDE8C7F8-AB3D-4581-8816-DC91EE956C81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -337,6 +339,10 @@ Global
 		{D23E4CF8-62BF-4770-AED3-97CDB862F498}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D23E4CF8-62BF-4770-AED3-97CDB862F498}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D23E4CF8-62BF-4770-AED3-97CDB862F498}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDE8C7F8-AB3D-4581-8816-DC91EE956C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDE8C7F8-AB3D-4581-8816-DC91EE956C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDE8C7F8-AB3D-4581-8816-DC91EE956C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDE8C7F8-AB3D-4581-8816-DC91EE956C81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -409,6 +415,7 @@ Global
 		{D79FE697-4B31-4395-963F-C3D310CA631C} = {5DD671F6-A76F-40DD-945D-D0D42BA8918D}
 		{8DED182E-46F8-44AB-A945-15EBC169F95F} = {B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}
 		{D23E4CF8-62BF-4770-AED3-97CDB862F498} = {B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}
+		{DDE8C7F8-AB3D-4581-8816-DC91EE956C81} = {B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
