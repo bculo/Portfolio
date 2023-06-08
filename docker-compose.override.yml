@@ -94,6 +94,7 @@ services:
   tracker-postgre-db:
     container_name: tracker-postgre-db
     environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=florijan
     ports:
@@ -104,6 +105,7 @@ services:
   stock-postgre-db:
     container_name: stock-postgre-db
     environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=florijan
     ports:

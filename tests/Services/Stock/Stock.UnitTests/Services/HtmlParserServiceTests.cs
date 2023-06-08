@@ -5,7 +5,7 @@ using Moq;
 using Stock.Application.Infrastructure.Services;
 using Stock.Common;
 
-namespace Stock.UnitTests.Application.Infrastructure.Services
+namespace Stock.UnitTests.Services
 {
     public class HtmlParserServiceTests
     {

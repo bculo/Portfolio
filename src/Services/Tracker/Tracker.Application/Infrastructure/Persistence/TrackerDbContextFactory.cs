@@ -9,7 +9,7 @@ public class TrackerDbContextFactory : IDesignTimeDbContextFactory<TrackerDbCont
     public TrackerDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<TrackerDbContext>();
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=Tracker;User Id=postgres;Password=florijan;");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Tracker;User Id=postgres;Password=florijan;");
         return new TrackerDbContext(optionsBuilder.Options, new LocalDateTimeService());
     }
 }

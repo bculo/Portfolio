@@ -5,6 +5,7 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Stock.Application.Constants;
 using Stock.Application.Infrastructure.Clients;
+using Stock.Application.Infrastructure.Persistence;
 using Stock.Application.Infrastructure.Services;
 using Stock.Application.Interfaces;
 using Time.Common;
@@ -14,6 +15,11 @@ namespace Stock.Application
 {
     public static class ApplicationLayer
     {
+        public static void AddPersistence(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<StockDbContext>();
+        }
+
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IHtmlParser, HtmlParserService>(opt =>

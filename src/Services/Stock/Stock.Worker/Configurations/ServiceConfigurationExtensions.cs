@@ -1,7 +1,9 @@
 ﻿using Hangfire;
-using Hangfire.MemoryStorage;
+using Hangfire.PostgreSql;
 using Stock.Application;
+using Stock.Application.Interfaces;
 using Stock.Worker.Jobs;
+using Stock.Worker.Services;
 
 namespace Stock.Worker.Configurations
 {
@@ -9,6 +11,9 @@ namespace Stock.Worker.Configurations
     {
         public static void ConfigureBackgroundService(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IStockUser, WorkerUserService>();
+
+            ApplicationLayer.AddPersistence(services, configuration);
             ApplicationLayer.AddServices(services, configuration);
             ApplicationLayer.AddClients(services, configuration);
 
@@ -22,7 +27,7 @@ namespace Stock.Worker.Configurations
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);
                 config.UseSimpleAssemblyNameTypeSerializer();
                 config.UseRecommendedSerializerSettings();
-                config.UseMemoryStorage();
+                config.UsePostgreSqlStorage(configuration.GetConnectionString("StockDatabase"));
             });
 
             services.AddHangfireServer();
