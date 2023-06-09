@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Infrastructure.Persistence;
+using Stock.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,8 +49,7 @@ namespace Stock.Application.Features
                 var item = await _context.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() ==  request.Symbol.ToLower());
                 if(item is null)
                 {
-                    _logger.LogWarning("Given symbol {symbol} not found", request.Symbol);
-                    throw new Exception("Given symbol not found");
+                    throw new StockCoreNotFoundException($"Given symbol {request.Symbol} not found");
                 }
 
                 return new Response

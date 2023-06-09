@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Infrastructure.Persistence;
 using Stock.Application.Interfaces;
+using Stock.Core.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace Stock.Application.Features
@@ -53,15 +54,13 @@ namespace Stock.Application.Features
                 var existingInstance = await _db.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() == request.Symbol.ToLower());
                 if(existingInstance is not null)
                 {
-                    _logger.LogWarning("Stock with symbol {symbol} already exists in storage", request.Symbol);
-                    throw new Exception($"Stock with symbol {request.Symbol} already exists in storage");
+                    throw new StockCoreException($"Stock with symbol {request.Symbol} already exists in storage");
                 }
 
                 var clientResult = await _client.GetPriceForSymbol(request.Symbol);
                 if(clientResult is null)
                 {
-                    _logger.LogWarning("Stock with symbol {symbol} is not supported", request.Symbol);
-                    throw new Exception($"Stock with symbol {request.Symbol} is not supported");
+                    throw new StockCoreException($"Stock with symbol {request.Symbol} is not supported");
                 }
 
                 var newItem = new Core.Entities.Stock { Symbol = request.Symbol };
