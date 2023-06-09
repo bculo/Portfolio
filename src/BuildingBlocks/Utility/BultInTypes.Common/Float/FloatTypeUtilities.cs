@@ -16,7 +16,7 @@ namespace BultInTypes.Common.Float
                 return 0f;
             }
 
-            if(float.TryParse(number, CultureInfo.InvariantCulture, out float result))
+            if(float.TryParse(number, CultureInfo.CurrentCulture, out float result))
             {
                 return result;
             }
@@ -36,7 +36,7 @@ namespace BultInTypes.Common.Float
                 return default;
             }
 
-            if (float.TryParse(number, CultureInfo.InvariantCulture, out float result))
+            if (float.TryParse(number, CultureInfo.CurrentCulture, out float result))
             {
                 return result;
             }

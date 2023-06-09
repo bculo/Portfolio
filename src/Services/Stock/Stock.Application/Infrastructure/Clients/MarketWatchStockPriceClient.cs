@@ -26,6 +26,8 @@ namespace Stock.Application.Infrastructure.Clients
 
         public async Task<StockPriceInfo> GetPriceForSymbol(string symbol)
         {
+            ArgumentException.ThrowIfNullOrEmpty(symbol);
+
             var client = _factory.CreateClient(HttpClientNames.MARKET_WATCH);
 
             var response = await client.GetAsync($"investing/stock/{symbol}?mod=mw_quote_tab");
@@ -35,12 +37,7 @@ namespace Stock.Application.Infrastructure.Clients
             }
 
             var htmlAsString = await response.Content.ReadAsStringAsync();
-            var fullHtmlParsingResult = await _htmlParser.InitializeHtmlContent(htmlAsString);
-            if(fullHtmlParsingResult)
-            {
-                _logger.LogWarning("Given string is not proper HTML");
-                return default;
-            }
+            await _htmlParser.InitializeHtmlContent(htmlAsString);
 
             var priceSectionNode = await _htmlParser.FindSingleElement("//div[@class='intraday__data']/h2/bg-quote");
             if(priceSectionNode is null) 

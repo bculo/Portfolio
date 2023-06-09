@@ -11,7 +11,7 @@ namespace BultInTypes.Common.Decimal
                 return decimal.Zero;
             }
 
-            if (decimal.TryParse(number, CultureInfo.InvariantCulture, out decimal result))
+            if (decimal.TryParse(number, CultureInfo.CurrentCulture, out decimal result))
             {
                 return result;
             }
@@ -31,7 +31,7 @@ namespace BultInTypes.Common.Decimal
                 return default;
             }
 
-            if (decimal.TryParse(number, CultureInfo.InvariantCulture, out decimal result))
+            if (decimal.TryParse(number, CultureInfo.CurrentCulture, out decimal result))
             {
                 return result;
             }
