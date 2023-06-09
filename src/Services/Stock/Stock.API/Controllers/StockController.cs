@@ -16,9 +16,15 @@ namespace Stock.API.Controllers
         }
 
         [HttpPost("AddNew")]
-        public async Task<IActionResult> Get([FromBody] AddNew.Command command)
+        public async Task<IActionResult> AddNew([FromBody] AddNew.Command command)
         {
             return Ok(await _mediator.Send(command));
+        }
+
+        [HttpGet("Single/{symbol}")]
+        public async Task<IActionResult> GetSingle([FromRoute] string symbol)
+        {
+            return Ok(await _mediator.Send(new GetSingle.Query { Symbol = symbol }));
         }
     }
 }

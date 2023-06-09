@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Hangfire.PostgreSql;
+using MassTransit;
 using Stock.Application;
 using Stock.Application.Interfaces;
 using Stock.Worker.Jobs;
@@ -18,6 +19,7 @@ namespace Stock.Worker.Configurations
             ApplicationLayer.AddClients(services, configuration);
 
             ConfigureHangfire(services, configuration);
+            ConfigureMessageQueue(services, configuration);
         }
 
         private static void ConfigureHangfire(IServiceCollection services, IConfiguration configuration)
@@ -33,6 +35,17 @@ namespace Stock.Worker.Configurations
             services.AddHangfireServer();
 
             services.AddScoped<IPriceUpdateJobService, UpdateStockPriceHangfireJob>();
+        }
+
+        private static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(configuration["QueueOptions:Address"]);
+                });
+            });
         }
     }
 }

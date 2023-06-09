@@ -10,6 +10,9 @@ namespace Stock.Application.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(x => x.Id);
 
+            builder.HasIndex(x => x.Symbol)
+                .IsUnique();
+
             builder.Property(i => i.Symbol)
                 .HasMaxLength(10)
                 .IsRequired();
