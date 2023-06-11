@@ -34,11 +34,14 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Prices",
+                name: "StockPrice",
+                schema: "assets",
                 columns: table => new
                 {
-                    StockId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Price = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    StockId = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     ModifiedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -46,9 +49,9 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prices", x => x.StockId);
+                    table.PrimaryKey("PK_StockPrice", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prices_Stock_StockId",
+                        name: "FK_StockPrice_Stock_StockId",
                         column: x => x.StockId,
                         principalSchema: "assets",
                         principalTable: "Stock",
@@ -62,13 +65,20 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                 table: "Stock",
                 column: "Symbol",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockPrice_StockId",
+                schema: "assets",
+                table: "StockPrice",
+                column: "StockId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Prices");
+                name: "StockPrice",
+                schema: "assets");
 
             migrationBuilder.DropTable(
                 name: "Stock",

@@ -27,6 +27,7 @@ namespace Stock.Application.Infrastructure.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("StockDatabase"));
+            optionsBuilder.EnableSensitiveDataLogging(true);
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

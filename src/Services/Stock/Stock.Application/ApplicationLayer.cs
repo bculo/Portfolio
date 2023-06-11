@@ -21,11 +21,6 @@ namespace Stock.Application
             services.AddDbContext<StockDbContext>();
         }
 
-        public static void AddCache(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<StockDbContext>();
-        }
-
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IHtmlParser, HtmlParserService>(opt =>
@@ -64,7 +59,7 @@ namespace Stock.Application
                     Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber));
             });
 
-            services.AddScoped<IStockPriceClient, MarketWatchStockPriceClient>();
+            services.AddTransient<IStockPriceClient, MarketWatchStockPriceClient>();
         }
     }
 }

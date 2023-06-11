@@ -61,8 +61,11 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>
                 {
-                    b.Property<int>("StockId")
-                        .HasColumnType("integer");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -80,9 +83,14 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
 
-                    b.HasKey("StockId");
+                    b.Property<int>("StockId")
+                        .HasColumnType("integer");
 
-                    b.ToTable("Prices");
+                    b.HasKey("Id");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("StockPrice", "assets");
                 });
 
             modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>

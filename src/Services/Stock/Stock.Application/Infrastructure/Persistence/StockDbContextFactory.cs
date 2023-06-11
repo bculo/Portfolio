@@ -8,7 +8,7 @@ namespace Stock.Application.Infrastructure.Persistence
     {
         public StockDbContext CreateDbContext(string[] args)
         {
-            Debugger.Launch(); 
+            //Debugger.Launch(); 
 
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 

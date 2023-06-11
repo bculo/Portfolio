@@ -10,10 +10,16 @@ namespace Stock.Worker.Configurations
 {
     public static class ServiceConfigurationExtensions
     {
+        /// <summary>
+        /// Configure all required services
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void ConfigureBackgroundService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IStockUser, WorkerUserService>();
 
+            ApplicationLayer.AddServices(services, configuration);
             ApplicationLayer.AddPersistence(services, configuration);
             ApplicationLayer.AddServices(services, configuration);
             ApplicationLayer.AddClients(services, configuration);

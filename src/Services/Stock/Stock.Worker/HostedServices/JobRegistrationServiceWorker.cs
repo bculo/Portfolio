@@ -1,15 +1,12 @@
 ﻿using Hangfire;
-using Stock.Application.Interfaces;
 using Stock.Worker.Jobs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stock.Worker.HostedServices
 {
-    public class JobRegistrationServiceWorker : Microsoft.Extensions.Hosting.BackgroundService
+    /// <summary>
+    /// Background service that initialize all hanfire jobs. Its only executed once
+    /// </summary>
+    public class JobRegistrationServiceWorker : BackgroundService
     {
         private readonly ILogger<JobRegistrationServiceWorker> _logger;
         private readonly IServiceProvider _provider;
@@ -32,6 +29,11 @@ namespace Stock.Worker.HostedServices
             return base.StopAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Register hangfire jobs
+        /// </summary>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try

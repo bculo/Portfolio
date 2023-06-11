@@ -27,7 +27,7 @@ namespace Stock.Application.Features
             {
                 var query = BuildQuery(request);
                 
-                var items = await query.ToListAsync(cancellationToken);
+                var items = await query.AsNoTracking().ToListAsync(cancellationToken);
 
                 return MapToResponse(items);
             }

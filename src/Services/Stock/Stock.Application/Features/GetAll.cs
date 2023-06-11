@@ -19,7 +19,7 @@ namespace Stock.Application.Features
 
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = await _context.Stocks.ToListAsync(cancellationToken);
+                var items = await _context.Stocks.AsNoTracking().ToListAsync(cancellationToken);
 
                 return MapToResponse(items);
             }
