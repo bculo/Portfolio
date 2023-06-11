@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stock.Application.Features;
 
-namespace Stock.API.Controllers
+namespace Stock.API.Controllers.v1
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class StockController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -32,7 +33,13 @@ namespace Stock.API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _mediator.Send(new GetAll.Query { } ));
+            return Ok(await _mediator.Send(new GetAll.Query { }));
+        }
+
+        [HttpPost("FilterList")]
+        public async Task<IActionResult> FilterList([FromBody] FilterList.Query query)
+        {
+            return Ok(await _mediator.Send(query));
         }
     }
 }

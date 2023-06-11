@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace Stock.Application.Infrastructure.Persistence
 {
@@ -7,7 +8,7 @@ namespace Stock.Application.Infrastructure.Persistence
     {
         public StockDbContext CreateDbContext(string[] args)
         {
-            //Debugger.Launch(); 
+            Debugger.Launch(); 
 
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 

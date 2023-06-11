@@ -7,17 +7,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Stock.Application.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialmigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Stock");
+                name: "assets");
 
             migrationBuilder.CreateTable(
                 name: "Stock",
-                schema: "Stock",
+                schema: "assets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -50,7 +50,7 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                     table.ForeignKey(
                         name: "FK_Prices_Stock_StockId",
                         column: x => x.StockId,
-                        principalSchema: "Stock",
+                        principalSchema: "assets",
                         principalTable: "Stock",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -58,7 +58,7 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stock_Symbol",
-                schema: "Stock",
+                schema: "assets",
                 table: "Stock",
                 column: "Symbol",
                 unique: true);
@@ -72,7 +72,7 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Stock",
-                schema: "Stock");
+                schema: "assets");
         }
     }
 }

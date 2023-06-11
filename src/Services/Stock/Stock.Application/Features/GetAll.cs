@@ -19,13 +19,14 @@ namespace Stock.Application.Features
 
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _context.Stocks.ToListAsync(cancellationToken);
-                if(!result.Any())
-                {
-                    return Enumerable.Empty<Response>();
-                }
+                var items = await _context.Stocks.ToListAsync(cancellationToken);
 
-                return result.Select(i => new Response
+                return MapToResponse(items);
+            }
+
+            private IEnumerable<Response> MapToResponse(List<Core.Entities.Stock> items)
+            {
+                return items.Select(i => new Response
                 {
                     Id = i.Id,
                     Symbol = i.Symbol,

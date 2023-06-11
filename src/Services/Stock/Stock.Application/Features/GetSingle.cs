@@ -4,12 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Infrastructure.Persistence;
 using Stock.Core.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Stock.Application.Features
 {
@@ -46,7 +41,7 @@ namespace Stock.Application.Features
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var item = await _context.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() ==  request.Symbol.ToLower());
+                var item = await _context.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() ==  request.Symbol.ToLower(), cancellationToken);
                 if(item is null)
                 {
                     throw new StockCoreNotFoundException($"Given symbol {request.Symbol} not found");

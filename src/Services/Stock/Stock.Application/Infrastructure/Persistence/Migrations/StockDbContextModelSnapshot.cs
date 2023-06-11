@@ -56,7 +56,7 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                     b.HasIndex("Symbol")
                         .IsUnique();
 
-                    b.ToTable("Stock", "Stock");
+                    b.ToTable("Stock", "assets");
                 });
 
             modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>

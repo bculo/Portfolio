@@ -12,8 +12,8 @@ using Stock.Application.Infrastructure.Persistence;
 namespace Stock.Application.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20230609191450_Initial migration")]
-    partial class Initialmigration
+    [Migration("20230611190555_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,7 @@ namespace Stock.Application.Infrastructure.Persistence.Migrations
                     b.HasIndex("Symbol")
                         .IsUnique();
 
-                    b.ToTable("Stock", "Stock");
+                    b.ToTable("Stock", "assets");
                 });
 
             modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>

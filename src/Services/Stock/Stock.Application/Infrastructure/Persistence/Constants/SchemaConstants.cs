@@ -8,6 +8,6 @@ namespace Stock.Application.Infrastructure.Persistence.Constants
 {
     public static class SchemaConstants
     {
-        public const string STOCK_SCHEMA = "Stock";
+        public const string STOCK_SCHEMA = "assets";
     }
 }

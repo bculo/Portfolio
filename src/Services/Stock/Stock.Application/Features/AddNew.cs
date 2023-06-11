@@ -51,7 +51,7 @@ namespace Stock.Application.Features
 
             public async Task<long> Handle(Command request, CancellationToken cancellationToken)
             {
-                var existingInstance = await _db.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+                var existingInstance = await _db.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() == request.Symbol.ToLower(), cancellationToken);
                 if(existingInstance is not null)
                 {
                     throw new StockCoreException($"Stock with symbol {request.Symbol} already exists in storage");

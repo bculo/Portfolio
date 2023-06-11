@@ -62,8 +62,8 @@ public static class SwaggerExtensions
                     new string[] {}
                 }
             });
-            
-            opt.CustomSchemaIds(x => x.FullName);
+
+            opt.CustomSchemaIds(s => s.FullName.Replace("+", "."));
         });
         
         services.AddOptions<ServiceSwaggerOptions>().Configure(opt =>
