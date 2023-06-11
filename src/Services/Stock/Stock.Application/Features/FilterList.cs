@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Time.Common.Contracts
+namespace Stock.Application.Features
 {
-    public interface IDateTimeProvider
+    public static class FilterList
     {
-        DateTime Now { get; }
     }
 }

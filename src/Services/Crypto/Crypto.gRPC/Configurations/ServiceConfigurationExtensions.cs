@@ -1,4 +1,5 @@
-﻿using Crypto.Application;
+﻿using Cache.Common;
+using Crypto.Application;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Crypto.Application.Options;
 using Crypto.Infrastracture;
@@ -19,7 +20,7 @@ namespace Crypto.gRPC.Configurations
 
             InfrastractureLayer.AddCommonServices(services, configuration);
             InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            InfrastractureLayer.AddCacheMemory(services, configuration);
+            CacheConfiguration.AddRedis(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));

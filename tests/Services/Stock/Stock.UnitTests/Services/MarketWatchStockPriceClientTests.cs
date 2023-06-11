@@ -5,12 +5,12 @@ using Moq;
 using Newtonsoft.Json;
 using NSubstitute;
 using RichardSzalay.MockHttp;
-using Stock.Application.Constants;
+using Stock.Application.Common.Constants;
 using Stock.Application.Infrastructure.Clients;
 using Stock.Application.Interfaces;
 using System.Globalization;
 using System.Net;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Stock.UnitTests.Services
 {

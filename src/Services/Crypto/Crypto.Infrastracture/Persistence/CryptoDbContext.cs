@@ -3,7 +3,7 @@ using Crypto.Infrastracture.Consumers.State;
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Crypto.Infrastracture.Persistence
 {

@@ -9,9 +9,18 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	<PackageReference Include="OpenTelemetry" Version="1.4.0" />
+	<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
+	<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.14" />
+	<PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.0.0-rc9.14" />
+	<PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.4.0" />
+	<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj" />
     <ProjectReference Include="..\Stock.Application\Stock.Application.csproj" />
   </ItemGroup>
 

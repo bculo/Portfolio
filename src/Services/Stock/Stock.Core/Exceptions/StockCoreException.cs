@@ -37,4 +37,4 @@ namespace Stock.Core.Exceptions
         }
     }
 }
-}
+

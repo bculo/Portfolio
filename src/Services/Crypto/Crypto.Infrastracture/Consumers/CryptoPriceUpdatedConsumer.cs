@@ -1,4 +1,5 @@
-﻿using Crypto.Application.Interfaces.Services;
+﻿using Cache.Abstract.Contracts;
+using Crypto.Application.Interfaces.Services;
 using Events.Common.Crypto;
 using MassTransit;
 using Microsoft.Extensions.Logging;

@@ -3,7 +3,6 @@ using Crypto.Application.Options;
 using Crypto.Core.Interfaces;
 using Crypto.Infrastracture.Clients;
 using Crypto.Infrastracture.Constants;
-using Crypto.Infrastracture.Consumers.State;
 using Crypto.Infrastracture.Persistence;
 using Crypto.Infrastracture.Persistence.Interceptors;
 using Crypto.Infrastracture.Persistence.Repositories;
@@ -15,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
-using System.Reflection;
 
 namespace Crypto.Infrastracture
 {
@@ -47,17 +45,6 @@ namespace Crypto.Infrastracture
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
             services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
-        }
-
-        public static void AddCacheMemory(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddScoped<ICacheService, CacheService>();
-            services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = configuration["RedisOptions:ConnectionString"];
-                options.InstanceName = configuration["RedisOptions:InstanceName"];
-            });
         }
 
         public static void AddClients(IServiceCollection services, IConfiguration configuration)

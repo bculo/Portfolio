@@ -4,7 +4,7 @@ using Mail.Application.Entities;
 using Mail.Application.Entities.Enums;
 using Mail.Application.Services.Interfaces;
 using MediatR;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Mail.Application.Features.Template;
 

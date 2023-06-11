@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Abstract\Time.Abstract\Time.Abstract.csproj" />
+  </ItemGroup>
+
 </Project>

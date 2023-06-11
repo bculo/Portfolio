@@ -1,19 +1,11 @@
 ﻿using AutoMapper;
-using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Time.Common.Contracts;
 using Trend.Application.MappingProfiles.Actions;
 using Trend.Application.Models.Dtos.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Queries.Requests.Common;
-using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Application.MappingProfiles.News
 {

@@ -1,4 +1,5 @@
-﻿using Crypto.API.Filters;
+﻿using Cache.Common;
+using Crypto.API.Filters;
 using Crypto.Application;
 using Crypto.Application.Options;
 using Crypto.Infrastracture;
@@ -8,10 +9,8 @@ using Crypto.Infrastracture.Persistence;
 using Keycloak.Common;
 using MassTransit;
 using Microsoft.Data.SqlClient;
-using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using System.Diagnostics;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -33,7 +32,7 @@ namespace Crypto.API.Configurations
 
             InfrastractureLayer.AddCommonServices(services, configuration);
             InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            InfrastractureLayer.AddCacheMemory(services, configuration);
+            CacheConfiguration.AddRedis(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
             services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],

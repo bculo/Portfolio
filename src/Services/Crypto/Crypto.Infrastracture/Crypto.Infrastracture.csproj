@@ -18,12 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Http.Common\Http.Common.csproj" />
     <ProjectReference Include="..\Crypto.Application\Crypto.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

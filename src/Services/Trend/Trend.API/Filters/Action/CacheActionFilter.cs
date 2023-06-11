@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cache.Abstract.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Trend.Application.Interfaces;
 
 namespace Trend.API.Filters.Action
 {

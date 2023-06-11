@@ -1,4 +1,3 @@
-using System.Reflection;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
@@ -10,8 +9,9 @@ using Mail.Application.Services.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using Time.Abstract.Contracts;
 using Time.Common;
-using Time.Common.Contracts;
 
 namespace Mail.Application;
 

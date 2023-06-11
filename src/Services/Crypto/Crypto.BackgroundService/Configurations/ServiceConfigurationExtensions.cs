@@ -1,4 +1,5 @@
-﻿using Crypto.Application;
+﻿using Cache.Common;
+using Crypto.Application;
 using Crypto.Application.Options;
 using Crypto.BackgroundService.Interfaces;
 using Crypto.BackgroundService.Jobs;
@@ -24,7 +25,7 @@ namespace Crypto.BackgroundUpdate.Configurations
 
             InfrastractureLayer.AddCommonServices(services, configuration);
             InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            InfrastractureLayer.AddCacheMemory(services, configuration);
+            CacheConfiguration.AddRedis(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));

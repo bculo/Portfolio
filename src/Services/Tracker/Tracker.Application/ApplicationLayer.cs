@@ -1,4 +1,3 @@
-using System.Reflection;
 using FluentValidation;
 using Grpc.Net.Client;
 using MediatR;
@@ -8,8 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
+using System.Reflection;
+using Time.Abstract.Contracts;
 using Time.Common;
-using Time.Common.Contracts;
 using Tracker.Application.Behaviours;
 using Tracker.Application.Constants;
 using Tracker.Application.Infrastructure.Persistence;

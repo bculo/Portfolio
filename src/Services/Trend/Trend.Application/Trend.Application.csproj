@@ -31,8 +31,8 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Http.Common\Http.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Utility.Common\Http.Common.csproj" />
     <ProjectReference Include="..\Trend.Domain\Trend.Domain.csproj" />
   </ItemGroup>
 

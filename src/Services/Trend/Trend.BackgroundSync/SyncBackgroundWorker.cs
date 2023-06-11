@@ -1,7 +1,7 @@
 using Events.Common.Trend;
 using MassTransit;
 using Microsoft.Extensions.Options;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 using Trend.Application.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Interfaces;

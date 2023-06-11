@@ -1,11 +1,5 @@
 ﻿using AutoMapper;
-using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 using Trend.Application.Models.Dtos.Google;
 using Trend.Domain.Entities;
 

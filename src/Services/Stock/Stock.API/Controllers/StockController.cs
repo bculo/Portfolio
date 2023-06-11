@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stock.Application.Features;
 
 namespace Stock.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class StockController : ControllerBase
@@ -25,6 +27,12 @@ namespace Stock.API.Controllers
         public async Task<IActionResult> GetSingle([FromRoute] string symbol)
         {
             return Ok(await _mediator.Send(new GetSingle.Query { Symbol = symbol }));
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _mediator.Send(new GetAll.Query { } ));
         }
     }
 }

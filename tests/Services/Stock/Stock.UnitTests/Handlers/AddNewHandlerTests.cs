@@ -8,7 +8,7 @@ using Moq.EntityFrameworkCore;
 using Stock.Application.Features;
 using Stock.Application.Infrastructure.Persistence;
 using Stock.Application.Interfaces;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Stock.UnitTests.Handlers
 {

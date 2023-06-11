@@ -15,7 +15,7 @@ namespace Stock.Application.Features
 {
     public static class GetSingle
     {
-        public class Query : IRequest<Response>
+        public record Query : IRequest<Response>
         {
             public string Symbol { get; set; }
         }

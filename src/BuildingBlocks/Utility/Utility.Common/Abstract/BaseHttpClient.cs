@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HttpUtility.Abstract
+namespace Http.Common.Abstract
 {
     /// <summary>
     /// Abstract class for typed clients
@@ -18,7 +13,7 @@ namespace HttpUtility.Abstract
         private IDictionary<string, string> _queryParameters;
 
         protected HttpClient Client { get; set; }
-        
+
 
         public BaseHttpClient(HttpClient client)
         {
@@ -54,7 +49,7 @@ namespace HttpUtility.Abstract
 
         protected void RemoveQueryParameter(string key)
         {
-            if(_queryParameters.TryGetValue(key, out _))
+            if (_queryParameters.TryGetValue(key, out _))
             {
                 _logger?.LogTrace("Removing item with key {0}", key);
 
@@ -105,7 +100,7 @@ namespace HttpUtility.Abstract
         {
             _logger?.LogTrace("Clearing header data");
 
-            Client.DefaultRequestHeaders.Clear();        
+            Client.DefaultRequestHeaders.Clear();
         }
     }
 }

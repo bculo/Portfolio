@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Crypto.Application.Interfaces.Services;
+using Cache.Abstract.Contracts;
 using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
 {

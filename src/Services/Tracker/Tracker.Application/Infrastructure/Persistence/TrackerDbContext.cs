@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Tracker.Application.Infrastructure.Persistence;
 

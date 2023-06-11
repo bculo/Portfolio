@@ -1,8 +1,8 @@
 ﻿using BultInTypes.Common.Decimal;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Constants;
+using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Stock.Application.Infrastructure.Clients
 {

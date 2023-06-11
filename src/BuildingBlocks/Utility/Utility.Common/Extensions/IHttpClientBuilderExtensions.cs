@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Polly.Extensions.Http;
 using Polly;
 
-namespace HttpUtility.Extensions
+namespace Http.Common.Extensions
 {
     public static class IHttpClientBuilderExtensions
     {
@@ -15,7 +15,7 @@ namespace HttpUtility.Extensions
         {
             return builder.AddPolicyHandler(HttpPolicyExtensions
                 .HandleTransientHttpError()
-                .WaitAndRetryAsync(new[] 
+                .WaitAndRetryAsync(new[]
                 {
                     TimeSpan.FromSeconds(1),
                     TimeSpan.FromSeconds(2),

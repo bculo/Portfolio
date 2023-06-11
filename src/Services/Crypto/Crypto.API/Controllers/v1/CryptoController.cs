@@ -12,11 +12,10 @@ using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
 using Crypto.Application.Modules.Crypto.Queries.SearchBySymbol;
-using Filters.Web.Common.Action;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebProject.Common.Filters;
 
 namespace Crypto.API.Controllers.v1
 {

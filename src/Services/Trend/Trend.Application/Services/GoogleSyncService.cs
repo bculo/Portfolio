@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using Dtos.Common.v1.Trend.Article;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 using Trend.Application.Interfaces;
 using Trend.Application.Models.Dtos.Google;
 using Trend.Application.Models.Service.Intern.Google;

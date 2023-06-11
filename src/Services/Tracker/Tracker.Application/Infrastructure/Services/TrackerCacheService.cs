@@ -2,7 +2,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 using Tracker.Application.Interfaces;
 using Tracker.Application.Options;
 

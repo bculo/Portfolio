@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 
-namespace Filters.Web.Common.Action
+namespace WebProject.Common.Filters
 {
     public class EnvironmentControllerFilter : TypeFilterAttribute
     {
@@ -20,12 +15,12 @@ namespace Filters.Web.Common.Action
         private class EnviromentActionFilterImplementation : IAsyncActionFilter
         {
             private readonly ILogger<EnvironmentControllerFilter> _logger;
-            private readonly IHostingEnvironment _environment;
+            private readonly WebApplication _environment;
 
             private readonly IEnumerable<string> _allowedEnvironments;
 
             public EnviromentActionFilterImplementation(ILogger<EnvironmentControllerFilter> logger,
-                IHostingEnvironment environment,
+                WebApplication environment,
                 string[] allowedEnvironments)
             {
                 _logger = logger;
@@ -38,19 +33,19 @@ namespace Filters.Web.Common.Action
             {
                 if (!_allowedEnvironments.Any())
                 {
-                    _logger.LogTrace("Executing acction on environment {0}", _environment.EnvironmentName);
+                    _logger.LogTrace("Executing acction on environment {0}", _environment.Environment.EnvironmentName);
                     await next();
                     return;
                 }
 
-                if (_allowedEnvironments.Contains(_environment.EnvironmentName))
+                if (_allowedEnvironments.Contains(_environment.Environment.EnvironmentName))
                 {
-                    _logger.LogTrace("Executing acction on environment {0}", _environment.EnvironmentName);
+                    _logger.LogTrace("Executing acction on environment {0}", _environment.Environment.EnvironmentName);
                     await next();
                     return;
                 }
 
-                _logger.LogTrace("Environment {0} not supported", _environment.EnvironmentName);
+                _logger.LogTrace("Environment {0} not supported", _environment.Environment.EnvironmentName);
                 context.Result = new BadRequestObjectResult(new
                 {
                     Message = "Current environment not supported"

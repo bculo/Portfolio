@@ -1,13 +1,12 @@
-﻿using Crypto.Application.Common.Helpers;
-using Crypto.Application.Interfaces.Services;
-using Crypto.Application.Options;
+﻿using Cache.Abstract.Contracts;
+using Cache.Common.Redis;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
-namespace Crypto.Infrastracture.Services
+namespace Cache.Common.Services
 {
     public class CacheService : ICacheService
     {
@@ -15,7 +14,9 @@ namespace Crypto.Infrastracture.Services
         private readonly RedisOptions _options;
         private readonly IDateTimeProvider _time;
 
-        public CacheService(IDistributedCache cache, IOptions<RedisOptions> options, IDateTimeProvider time)
+        public CacheService(IDistributedCache cache, 
+            IOptions<RedisOptions> options, 
+            IDateTimeProvider time)
         {
             _cache = cache;
             _options = options.Value;
@@ -30,7 +31,7 @@ namespace Crypto.Infrastracture.Services
             }
 
             string json = JsonConvert.SerializeObject(instance,
-                Formatting.Indented,
+                Newtonsoft.Json.Formatting.Indented,
                 new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -51,9 +52,7 @@ namespace Crypto.Infrastracture.Services
             {
                 return null!;
             }
-
-            string key = CachePrefixHelper.DefinePrefix(identifier);
-            string value = await _cache.GetStringAsync(key);
+            string value = await _cache.GetStringAsync(identifier);
 
             if (value == null)
             {
@@ -70,8 +69,7 @@ namespace Crypto.Infrastracture.Services
                 return null!;
             }
 
-            string key = CachePrefixHelper.DefinePrefix(identifier);
-            return await _cache.GetStringAsync(key);
+            return await _cache.GetStringAsync(identifier);
         }
 
         public async Task<List<T>> GetList<T>(string identifier) where T : class
@@ -81,8 +79,7 @@ namespace Crypto.Infrastracture.Services
                 return null!;
             }
 
-            string key = CachePrefixHelper.DefinePrefix(identifier);
-            string value = await _cache.GetStringAsync(key);
+            string value = await _cache.GetStringAsync(identifier);
 
             if (value == null)
             {

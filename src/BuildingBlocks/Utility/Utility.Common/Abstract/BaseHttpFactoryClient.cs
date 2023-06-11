@@ -35,7 +35,7 @@ namespace Http.Common.Abstract
         {
             ClearQueryParameters();
 
-            if(clientName == null)
+            if (clientName == null)
             {
                 _logger?.LogTrace("Creating HTTP client");
 

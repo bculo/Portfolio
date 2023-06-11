@@ -13,7 +13,7 @@ namespace Stock.Application.Features
 {
     public static class AddNew
     {
-        public class Command : IRequest<long>
+        public record Command : IRequest<long>
         {
             public string Symbol { get; set; }
         }

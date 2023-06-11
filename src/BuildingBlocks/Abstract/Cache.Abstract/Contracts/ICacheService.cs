@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trend.Application.Options;
-
-namespace Trend.Application.Interfaces
+﻿namespace Cache.Abstract.Contracts
 {
     public interface ICacheService
     {

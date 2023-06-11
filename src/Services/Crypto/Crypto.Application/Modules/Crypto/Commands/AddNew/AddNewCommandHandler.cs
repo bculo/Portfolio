@@ -8,7 +8,6 @@ using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Time.Common.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {

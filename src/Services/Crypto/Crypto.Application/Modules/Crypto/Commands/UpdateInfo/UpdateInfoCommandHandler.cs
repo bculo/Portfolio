@@ -5,7 +5,7 @@ using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
 {

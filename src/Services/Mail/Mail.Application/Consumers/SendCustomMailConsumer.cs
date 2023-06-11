@@ -1,8 +1,7 @@
-using Auth0.Abstract.Contracts;
 using Events.Common.Mail;
 using Mail.Application.Services.Interfaces;
 using MassTransit;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Mail.Application.Consumers;
 

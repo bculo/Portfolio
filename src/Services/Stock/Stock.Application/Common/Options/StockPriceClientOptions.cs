@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Stock.Application.Options
+namespace Stock.Application.Common.Options
 {
     public sealed class StockPriceClientOptions
     {

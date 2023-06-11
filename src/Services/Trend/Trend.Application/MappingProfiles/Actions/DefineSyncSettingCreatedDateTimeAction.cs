@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using Dtos.Common.v1.Trend.SearchWord;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Time.Common.Contracts;
-using Trend.Domain.Entities;
+using Time.Abstract.Contracts;
 
 namespace Trend.Application.MappingProfiles.Actions
 {

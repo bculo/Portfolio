@@ -1,8 +1,7 @@
-﻿using AutoFixture;
-using Crypto.Infrastracture.Persistence;
+﻿using Crypto.Infrastracture.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Time.Abstract.Contracts;
 using Time.Common;
-using Time.Common.Contracts;
 
 namespace Crypto.UnitTests.Infrastracture
 {

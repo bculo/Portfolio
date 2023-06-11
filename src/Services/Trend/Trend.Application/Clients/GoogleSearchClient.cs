@@ -1,13 +1,7 @@
 ﻿using Http.Common.Abstract;
 using Http.Common.Extensions;
-using HttpUtility.Abstract;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trend.Application.Interfaces;
 using Trend.Application.Models.Dtos.Google;
 using Trend.Application.Options;

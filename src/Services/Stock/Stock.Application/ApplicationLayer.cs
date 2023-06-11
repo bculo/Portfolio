@@ -3,20 +3,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
-using Stock.Application.Constants;
+using Stock.Application.Common.Constants;
 using Stock.Application.Infrastructure.Clients;
 using Stock.Application.Infrastructure.Persistence;
 using Stock.Application.Infrastructure.Services;
 using Stock.Application.Interfaces;
 using System.Reflection;
+using Time.Abstract.Contracts;
 using Time.Common;
-using Time.Common.Contracts;
 
 namespace Stock.Application
 {
     public static class ApplicationLayer
     {
         public static void AddPersistence(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<StockDbContext>();
+        }
+
+        public static void AddCache(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<StockDbContext>();
         }

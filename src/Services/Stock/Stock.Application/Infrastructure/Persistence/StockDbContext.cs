@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Stock.Application.Interfaces;
 using Stock.Core.Entities;
-using Time.Common.Contracts;
+using Time.Abstract.Contracts;
 
 namespace Stock.Application.Infrastructure.Persistence
 {

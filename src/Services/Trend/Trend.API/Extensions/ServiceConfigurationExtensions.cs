@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
+﻿using Cache.Common;
 using FluentValidation.AspNetCore;
 using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Globalization;
 using Trend.API.Filters;
 using Trend.API.Filters.Action;
 using Trend.API.Services;
@@ -27,11 +27,11 @@ namespace Trend.API.Extensions
             services.AddControllers(opt =>
             {
                 opt.Filters.Add<GlobalExceptionFilter>();
-            })
-            .AddFluentValidation();
+            });
 
             services.AddCors();
             services.AddScoped<CacheActionFilter>();
+            services.AddFluentValidationAutoValidation();
 
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services, configuration);
@@ -44,7 +44,7 @@ namespace Trend.API.Extensions
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
             ApplicationLayer.AddLogger(builder.Host);
-            ApplicationLayer.AddCache(configuration, services);
+            CacheConfiguration.AddRedis(services, configuration);
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);

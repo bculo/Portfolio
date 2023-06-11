@@ -1,12 +1,12 @@
-﻿using FluentValidation.AspNetCore;
+﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Serilog;
 using System.Diagnostics;
+using Time.Abstract.Contracts;
 using Time.Common;
-using Time.Common.Contracts;
 using Trend.Application.Clients;
 using Trend.Application.Configurations.Persistence;
 using Trend.Application.Interfaces;
@@ -29,18 +29,7 @@ namespace Trend.Application
             services.AddScoped(typeof(ILanguageService<>), typeof(LanguageService<>));
 
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
-            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(ApplicationLayer).Assembly));
-        }
-
-        public static void AddCache(IConfiguration configuration, IServiceCollection services)
-        {
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = configuration["RedisOptions:ConnectionString"];
-                options.InstanceName = configuration["RedisOptions:InstanceName"];
-            });
-
-            services.AddScoped<ICacheService, CacheService>();
+            services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
         }
 
         public static void AddPersistence(IConfiguration configuration, IServiceCollection services)
