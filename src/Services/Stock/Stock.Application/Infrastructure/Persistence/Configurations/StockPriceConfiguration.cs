@@ -26,7 +26,7 @@ namespace Stock.Application.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            builder.ToTable(nameof(Core.Entities.StockPrice), SchemaConstants.STOCK_SCHEMA);
+            builder.ToTable(nameof(StockPrice), SchemaConstants.STOCK_SCHEMA);
         }
     }
 }

@@ -41,12 +41,5 @@ namespace Stock.API.Controllers.v1
         {
             return Ok(await _mediator.Send(query));
         }
-
-        [HttpGet("UpdateAll")]
-        public async Task<IActionResult> UpdateAll()
-        {
-            await _mediator.Send(new UpdateAll.Command { });
-            return NoContent();
-        }
     }
 }

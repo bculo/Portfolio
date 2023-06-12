@@ -1,7 +1,15 @@
+using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Serilog;
+using Serilog.Events;
 using Stock.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((host, log) =>
+{
+    log.WriteTo.Console();
+});
 
 builder.Services.ConfigureApiProject(builder.Configuration);
 
@@ -24,6 +32,7 @@ if (app.Environment.IsDevelopment())
         }
     });
 
+    app.UseHangfireDashboard();
     app.UseCors();
 }
 

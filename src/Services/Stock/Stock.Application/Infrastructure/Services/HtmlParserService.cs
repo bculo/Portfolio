@@ -34,8 +34,8 @@ namespace Stock.Application.Infrastructure.Services
 
             _document = new HtmlDocument();
             _document.LoadHtml(htmlContent);
-            
-            if(_document.ParseErrors.Any())
+
+            if (_document.ParseErrors.Any())
             {
                 _logger.LogTrace("Error occured in process of parsing string to HTML content");
                 return Task.FromResult(false);

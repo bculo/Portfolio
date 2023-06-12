@@ -1,5 +1,6 @@
 ﻿using BultInTypes.Common.Decimal;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces;
 using Time.Abstract.Contracts;

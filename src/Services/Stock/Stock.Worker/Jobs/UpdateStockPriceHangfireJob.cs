@@ -1,4 +1,4 @@
-﻿using MassTransit.Mediator;
+﻿using MediatR;
 using Stock.Application.Features;
 
 namespace Stock.Worker.Jobs
@@ -13,8 +13,8 @@ namespace Stock.Worker.Jobs
         private readonly IMediator _mediator;
         private readonly ILogger<UpdateStockPriceHangfireJob> _logger;
 
-        public UpdateStockPriceHangfireJob(ILogger<UpdateStockPriceHangfireJob> logger,
-            IMediator mediator)
+        public UpdateStockPriceHangfireJob(IMediator mediator,
+            ILogger<UpdateStockPriceHangfireJob> logger)
         {
             _logger = logger;
             _mediator = mediator;
@@ -22,8 +22,8 @@ namespace Stock.Worker.Jobs
 
         public async Task InitializeUpdateProcedure()
         {
-            _logger.LogTrace("Publishing UpdateAll.Command");
-            await _mediator.Publish(new UpdateAll.Command { });
+            _logger.LogTrace("PrepareBatchesForUpdate.Command");
+            await _mediator.Send(new PrepareBatchesForUpdate.Command { });
         }
     }
 }

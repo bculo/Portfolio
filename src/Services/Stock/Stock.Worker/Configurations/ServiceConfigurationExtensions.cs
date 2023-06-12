@@ -2,6 +2,7 @@
 using Hangfire.PostgreSql;
 using MassTransit;
 using Stock.Application;
+using Stock.Application.Infrastructure.Consumers;
 using Stock.Application.Interfaces;
 using Stock.Worker.Jobs;
 using Stock.Worker.Services;
@@ -47,9 +48,17 @@ namespace Stock.Worker.Configurations
         {
             services.AddMassTransit(x =>
             {
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Stock", false));
+
+                x.AddConsumer<BatchForUpdatePreparedConsumer>(opt =>
+                {
+                    opt.ConcurrentMessageLimit = 5;
+                });
+
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
+                    config.ConfigureEndpoints(context);
                 });
             });
         }

@@ -1,4 +1,6 @@
-﻿using Keycloak.Common;
+﻿using Hangfire;
+using Hangfire.PostgreSql;
+using Keycloak.Common;
 using MassTransit;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -36,6 +38,14 @@ namespace Stock.API.Configurations
             AddMessageQueue(services, configuration);
             AddAuthentication(services, configuration);
             AddOpenTelemetry(services, configuration);
+
+            services.AddHangfire(config =>
+            {
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);
+                config.UseSimpleAssemblyNameTypeSerializer();
+                config.UseRecommendedSerializerSettings();
+                config.UsePostgreSqlStorage(configuration.GetConnectionString("StockDatabase"));
+            });
         }
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
