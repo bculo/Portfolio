@@ -61,6 +61,12 @@ namespace Stock.Application.Features
 
                 var fetchedItemsWithPrice = await ExecuteUpdateProcedure(itemsToUpdate);
 
+                if(!fetchedItemsWithPrice.Any())
+                {
+                    _logger.LogTrace("Items not found via client usage");
+                    return;
+                }
+
                 var priceEntities = MapToPriceInstances(fetchedItemsWithPrice, itemsToUpdate);
 
                 await Save(priceEntities);
@@ -108,7 +114,11 @@ namespace Stock.Application.Features
 
                 foreach (var item in items)
                 {
-                    priceInfos.Add(await FetchAssetPrice(item.Key));
+                    var priceInfoItem = await FetchAssetPrice(item.Key);
+                    if(priceInfoItem is not null)
+                    {
+                        priceInfos.Add(priceInfoItem);
+                    }
                 }
 
                 return priceInfos;

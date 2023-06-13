@@ -2,8 +2,8 @@
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Stock.Application.Infrastructure.Services;
 using Stock.Common;
+using Stock.Infrastructure.Services;
 
 namespace Stock.UnitTests.Services
 {
