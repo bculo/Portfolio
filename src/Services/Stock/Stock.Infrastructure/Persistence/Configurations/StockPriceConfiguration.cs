@@ -1,14 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Stock.Application.Infrastructure.Persistence.Constants;
 using Stock.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Stock.Infrastructure.Persistence.Constants;
 
-namespace Stock.Application.Infrastructure.Persistence.Configurations
+namespace Stock.Infrastructure.Persistence.Configurations
 {
     public class StockPriceConfiguration : IEntityTypeConfiguration<StockPrice>
     {

@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Stock.Application.Infrastructure.Persistence;
+using Stock.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Stock.Application.Infrastructure.Persistence.Migrations
+namespace Stock.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20230611202301_Initial")]
-    partial class Initial
+    partial class StockDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

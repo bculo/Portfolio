@@ -3,7 +3,7 @@ using MassTransit;
 using MediatR;
 using Stock.Application.Features;
 
-namespace Stock.Application.Infrastructure.Consumers
+namespace Stock.Infrastructure.Consumers
 {
     public class BatchForUpdatePreparedConsumer : IConsumer<BatchForUpdatePrepared>
     {

@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Infrastructure.Persistence;
+using Stock.Application.Interfaces;
 using Stock.Core.Exceptions;
 using System.Text.RegularExpressions;
 
@@ -30,19 +29,17 @@ namespace Stock.Application.Features
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly StockDbContext _context;
-            private readonly ILogger<Handler> _logger;
+            private readonly IBaseRepository<Core.Entities.Stock> _repo;
 
-            public Handler(ILogger<Handler> logger, StockDbContext context)
+            public Handler(IBaseRepository<Core.Entities.Stock> repo)
             {
-                _logger = logger;
-                _context = context;
+                _repo = repo;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var item = await _context.Stocks.FirstOrDefaultAsync(i => i.Symbol.ToLower() ==  request.Symbol.ToLower(), cancellationToken);
-                if(item is null)
+                var item = await _repo.First(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+                if (item is null)
                 {
                     throw new StockCoreNotFoundException($"Given symbol {request.Symbol} not found");
                 }

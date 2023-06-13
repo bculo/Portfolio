@@ -1,7 +1,6 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Stock.Application.Common.Models;
-using Stock.Application.Infrastructure.Persistence;
+using Stock.Application.Interfaces;
 
 namespace Stock.Application.Features
 {
@@ -16,36 +15,27 @@ namespace Stock.Application.Features
 
         public class Handler : IRequestHandler<Query, IEnumerable<Response>>
         {
-            private readonly StockDbContext _dbContext;
+            private readonly IBaseRepository<Core.Entities.Stock> _repo;
 
-            public Handler(StockDbContext dbContext)
+            public Handler(IBaseRepository<Core.Entities.Stock> repo)
             {
-                _dbContext = dbContext;
+                _repo = repo;
             }
 
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = BuildQuery(request);
-                
-                var items = await query.AsNoTracking().ToListAsync(cancellationToken);
-
+                var items = await FilterItems(request);
                 return MapToResponse(items);
             }
 
-            private IQueryable<Core.Entities.Stock> BuildQuery(Query request)
+            private async Task<List<Core.Entities.Stock>> FilterItems(Query request)
             {
-                var query = _dbContext.Stocks.AsQueryable();
+                var (count, page) = await _repo.Page(
+                    i => string.IsNullOrWhiteSpace(request.Symbol) || i.Symbol.Contains(request.Symbol),
+                    request.Page,
+                    request.Take);
 
-                if (!string.IsNullOrWhiteSpace(request.Symbol))
-                {
-                    query = query.Where(i => i.Symbol.Contains(request.Symbol));
-                }
-
-                query = query.OrderBy(i => i.Symbol)
-                    .Skip((request.Page - 1) * request.Take)
-                    .Take(request.Take);
-
-                return query;
+                return page;
             }
 
             private IEnumerable<Response> MapToResponse(List<Core.Entities.Stock> items)

@@ -8,6 +8,7 @@ using Stock.API.Filters;
 using Stock.API.Services;
 using Stock.Application;
 using Stock.Application.Interfaces;
+using Stock.Infrastructure;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -32,8 +33,7 @@ namespace Stock.API.Configurations
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
             ApplicationLayer.AddServices(services, configuration);
-            ApplicationLayer.AddClients(services, configuration);
-            ApplicationLayer.AddPersistence(services, configuration);
+            InfrastructureLayer.AddServices(services, configuration);
 
             AddMessageQueue(services, configuration);
             AddAuthentication(services, configuration);

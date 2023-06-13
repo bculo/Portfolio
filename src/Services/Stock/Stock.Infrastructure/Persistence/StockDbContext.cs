@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Stock.Application.Interfaces;
 using Stock.Core.Entities;
 using Time.Abstract.Contracts;
 
-namespace Stock.Application.Infrastructure.Persistence
+namespace Stock.Infrastructure.Persistence
 {
     public class StockDbContext : DbContext
     {
@@ -15,8 +16,8 @@ namespace Stock.Application.Infrastructure.Persistence
         public virtual DbSet<Core.Entities.Stock> Stocks { get; set; }
         public virtual DbSet<StockPrice> Prices { get; set; }
 
-        public StockDbContext(IConfiguration configuration, 
-            IDateTimeProvider timeprovider, 
+        public StockDbContext(IConfiguration configuration,
+            IDateTimeProvider timeprovider,
             IStockUser currentUser)
         {
             _configuration = configuration;
@@ -28,8 +29,9 @@ namespace Stock.Application.Infrastructure.Persistence
         {
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("StockDatabase"));
             optionsBuilder.EnableSensitiveDataLogging(true);
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -43,7 +45,7 @@ namespace Stock.Application.Infrastructure.Persistence
 
             foreach (var entry in entries)
             {
-                if(entry.State == EntityState.Added)
+                if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedAt = _timeProvider.Now;
                     entry.Entity.CreatedBy = _currentUser.Identifier.ToString();

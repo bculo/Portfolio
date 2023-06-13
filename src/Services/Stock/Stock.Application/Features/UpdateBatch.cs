@@ -2,9 +2,7 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Infrastructure.Persistence;
 using Stock.Application.Interfaces;
 using Stock.Core.Entities;
 using Time.Abstract.Contracts;
@@ -33,26 +31,29 @@ namespace Stock.Application.Features
             private readonly IDateTimeProvider _provider;
             private readonly ILogger<Handler> _logger;
             private readonly IStockPriceClient _client;
-            private readonly StockDbContext _dbContext;
+            private readonly IBaseRepository<StockPrice> _repoPrice;
+            private readonly IBaseRepository<Core.Entities.Stock> _repoStock;
 
-            public Handler(StockDbContext dbContext,
-                IStockPriceClient client,
+            public Handler(IStockPriceClient client,
                 ILogger<Handler> logger,
                 IPublishEndpoint endpoint,
-                IDateTimeProvider provider)
+                IDateTimeProvider provider,
+                IBaseRepository<StockPrice> repoPrice,
+                IBaseRepository<Core.Entities.Stock> repoStock)
             {
-                _dbContext = dbContext;
                 _client = client;
                 _logger = logger;
                 _endpoint = endpoint;
                 _provider = provider;
+                _repoPrice = repoPrice;
+                _repoStock = repoStock;
             }
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
                 var itemsToUpdate = await GetAssetsForPriceUpdate(request.Symbols);
 
-                if(!itemsToUpdate.Any())
+                if (!itemsToUpdate.Any())
                 {
                     _logger.LogTrace("Zero items for update fetched");
                     return;
@@ -76,7 +77,7 @@ namespace Stock.Application.Features
             {
                 var timeStamp = _provider.Now;
 
-                foreach (var item in itemsWithPrice) 
+                foreach (var item in itemsWithPrice)
                 {
                     await _endpoint.Publish(new StockPriceUpdated
                     {
@@ -93,13 +94,7 @@ namespace Stock.Application.Features
             /// <returns></returns>
             private async Task<Dictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
             {
-                return await _dbContext.Stocks
-                    .Where(i => symbols.Contains(i.Symbol))
-                    .Select(i => new DbQuery
-                    {
-                        Id = i.Id,
-                        Symbol = i.Symbol,
-                    }).ToDictionaryAsync(x => x.Symbol, x => x.Id);
+                return await _repoStock.GetDictionary(i => symbols.Contains(i.Symbol), x => x.Symbol, y => y.Id);
             }
 
             /// <summary>
@@ -160,15 +155,9 @@ namespace Stock.Application.Features
             /// <returns></returns>
             private async Task Save(IEnumerable<StockPrice> priceEntities)
             {
-                _dbContext.Prices.AddRange(priceEntities);
-                await _dbContext.SaveChangesAsync();
+                await _repoPrice.Add(priceEntities.ToArray());
+                await _repoPrice.SaveChanges();
             }
-        }
-
-        private class DbQuery
-        {
-            public int Id { get; set; }
-            public string Symbol { get; set; }
         }
     }
 }

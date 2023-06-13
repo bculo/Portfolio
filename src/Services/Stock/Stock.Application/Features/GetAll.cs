@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Stock.Application.Infrastructure.Persistence;
+using Stock.Application.Interfaces;
 
 namespace Stock.Application.Features
 {
@@ -10,17 +9,16 @@ namespace Stock.Application.Features
 
         public class Handler : IRequestHandler<Query, IEnumerable<Response>>
         {
-            private readonly StockDbContext _context;
+            private readonly IBaseRepository<Core.Entities.Stock> _repo;
 
-            public Handler(StockDbContext context)
+            public Handler(IBaseRepository<Core.Entities.Stock> repo)
             {
-                _context = context;
+                _repo = repo;
             }
 
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var items = await _context.Stocks.AsNoTracking().ToListAsync(cancellationToken);
-
+                var items = await _repo.GetAll();
                 return MapToResponse(items);
             }
 

@@ -1,8 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Stock.Application.Infrastructure.Persistence.Constants;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Stock.Infrastructure.Persistence.Constants;
 
-namespace Stock.Application.Infrastructure.Persistence.Configurations
+namespace Stock.Infrastructure.Persistence.Configurations
 {
     public class StockConfiguration : IEntityTypeConfiguration<Core.Entities.Stock>
     {
@@ -17,7 +22,7 @@ namespace Stock.Application.Infrastructure.Persistence.Configurations
                 .HasMaxLength(10)
                 .IsRequired();
 
-            builder.Property(i => i.CreatedBy) 
+            builder.Property(i => i.CreatedBy)
                 .HasMaxLength(100)
                 .IsRequired();
 

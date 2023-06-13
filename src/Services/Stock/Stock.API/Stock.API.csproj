@@ -25,7 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj" />
-    <ProjectReference Include="..\Stock.Application\Stock.Application.csproj" />
+    <ProjectReference Include="..\Stock.Infrastructure\Stock.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,13 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Stock.Application.Infrastructure.Services
+namespace Stock.Infrastructure.Services
 {
     public class HtmlParserService : IHtmlParser
     {
@@ -13,7 +18,7 @@ namespace Stock.Application.Infrastructure.Services
             _logger = logger;
             _document = document;
 
-            if(document is not null)
+            if (document is not null)
             {
                 _initialized = true;
             }
@@ -27,7 +32,7 @@ namespace Stock.Application.Infrastructure.Services
         public Task<bool> InitializeHtmlContent(string htmlContent)
         {
             _initialized = !string.IsNullOrWhiteSpace(htmlContent);
-            if(!_initialized)
+            if (!_initialized)
             {
                 return Task.FromResult(false);
             }
@@ -46,7 +51,7 @@ namespace Stock.Application.Infrastructure.Services
 
         public Task<IEnumerable<HtmlNodeElement>> FindElements(string xPathQuery)
         {
-            if(string.IsNullOrWhiteSpace(xPathQuery) || !_initialized)
+            if (string.IsNullOrWhiteSpace(xPathQuery) || !_initialized)
             {
                 return Task.FromResult(Enumerable.Empty<HtmlNodeElement>());
             }
@@ -73,7 +78,7 @@ namespace Stock.Application.Infrastructure.Services
             }
 
             var node = _document.DocumentNode.SelectSingleNode(xPathQuery);
-            if(node is null)
+            if (node is null)
             {
                 return null;
             }

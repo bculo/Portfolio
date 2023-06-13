@@ -2,8 +2,9 @@
 using Hangfire.PostgreSql;
 using MassTransit;
 using Stock.Application;
-using Stock.Application.Infrastructure.Consumers;
 using Stock.Application.Interfaces;
+using Stock.Infrastructure;
+using Stock.Infrastructure.Consumers;
 using Stock.Worker.Jobs;
 using Stock.Worker.Services;
 
@@ -21,9 +22,7 @@ namespace Stock.Worker.Configurations
             services.AddScoped<IStockUser, WorkerUserService>();
 
             ApplicationLayer.AddServices(services, configuration);
-            ApplicationLayer.AddPersistence(services, configuration);
-            ApplicationLayer.AddServices(services, configuration);
-            ApplicationLayer.AddClients(services, configuration);
+            InfrastructureLayer.AddServices(services, configuration);
 
             ConfigureHangfire(services, configuration);
             ConfigureMessageQueue(services, configuration);

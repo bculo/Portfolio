@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stock.Core.Entities
 {
-    public class Stock : AuditableEntity
+    public class Stock : AuditableEntity, IEntity
     {
         public int Id { get; set; }
         public string Symbol { get; set; } 

@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
 
-namespace Stock.Application.Infrastructure.Persistence
+namespace Stock.Infrastructure.Persistence
 {
     public class StockDbContextFactory : IDesignTimeDbContextFactory<StockDbContext>
     {
         public StockDbContext CreateDbContext(string[] args)
         {
-            //Debugger.Launch(); 
+            //Debugger.Launch(); Uncomment for debug feature
 
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
