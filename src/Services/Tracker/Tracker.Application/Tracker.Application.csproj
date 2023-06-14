@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -9,41 +9,10 @@
     <ItemGroup>
       <PackageReference Include="FluentValidation" Version="11.5.2" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
-      <PackageReference Include="Google.Protobuf" Version="3.23.1" />
-      <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
-      <PackageReference Include="Grpc.Net.Client" Version="2.53.0" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.6" />
-      <PackageReference Include="Grpc.Tools" Version="2.54.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.5" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.5" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
       <PackageReference Include="MediatR" Version="12.0.1" />
-      <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Protobuf Include="Infrastructure\Protos\crypto.proto">
-        <GrpcServices>Client</GrpcServices>
-        <Access>Public</Access>
-        <ProtoCompile>True</ProtoCompile>
-        <CompileOutputs>True</CompileOutputs>
-        <OutputDir>obj\Debug\net6.0\</OutputDir>
-        <Generator>MSBuild:Compile</Generator>
-      </Protobuf>
     </ItemGroup>
 
     <ItemGroup>
@@ -52,10 +21,6 @@
       <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Utility.Common\Http.Common.csproj" />
       <ProjectReference Include="..\Tracker.Core\Tracker.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Infrastructure\Persistence\Migrations\" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,3 @@
-using Crypto.gRPC.Protos.v1;
-using Grpc.Net.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tracker.Application.Interfaces;
