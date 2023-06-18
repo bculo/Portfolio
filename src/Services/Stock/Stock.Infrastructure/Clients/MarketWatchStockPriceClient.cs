@@ -1,5 +1,6 @@
 ﻿using BultInTypes.Common.Decimal;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces;
 using Time.Abstract.Contracts;
@@ -8,19 +9,19 @@ namespace Stock.Infrastructure.Clients
 {
     public class MarketWatchStockPriceClient : IStockPriceClient
     {
-        private readonly IHtmlParser _htmlParser;
+        private readonly IServiceProvider _provider;
         private readonly IHttpClientFactory _factory;
         private readonly IDateTimeProvider _timeProvider;
         private readonly ILogger<MarketWatchStockPriceClient> _logger;
 
-        public MarketWatchStockPriceClient(IHtmlParser htmlParser,
+        public MarketWatchStockPriceClient(IServiceProvider provider,
             ILogger<MarketWatchStockPriceClient> logger,
             IHttpClientFactory factory,
             IDateTimeProvider timeProvider)
         {
             _logger = logger;
             _factory = factory;
-            _htmlParser = htmlParser;
+            _provider = provider;
             _timeProvider = timeProvider;
         }
 
@@ -36,10 +37,12 @@ namespace Stock.Infrastructure.Clients
                 return default;
             }
 
-            var htmlAsString = await response.Content.ReadAsStringAsync();
-            await _htmlParser.InitializeHtmlContent(htmlAsString);
+            var htmlParser = _provider.GetService(typeof(IHtmlParser)) as IHtmlParser;
 
-            var priceSectionNode = await _htmlParser.FindSingleElement("//div[@class='intraday__data']/h2/bg-quote");
+            var htmlAsString = await response.Content.ReadAsStringAsync();
+            await htmlParser.InitializeHtmlContent(htmlAsString);
+
+            var priceSectionNode = await htmlParser.FindSingleElement("//div[@class='intraday__data']/h2/bg-quote");
             if (priceSectionNode is null)
             {
                 _logger.LogWarning("Node for given XPath not found");

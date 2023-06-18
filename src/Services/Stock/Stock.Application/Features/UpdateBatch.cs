@@ -108,20 +108,26 @@ namespace Stock.Application.Features
             /// </summary>
             /// <param name="items"></param>
             /// <returns></returns>
-            private async Task<IEnumerable<StockPriceInfo>> ExecuteUpdateProcedure(Dictionary<string, int> items)
+            private async Task<List<StockPriceInfo>> ExecuteUpdateProcedure(Dictionary<string, int> items)
             {
-                var priceInfos = new List<StockPriceInfo>();
+                using var semaphore = new SemaphoreSlim(10);
 
-                foreach (var item in items)
+                var tasks = items.Select(async item =>
                 {
-                    var priceInfoItem = await FetchAssetPrice(item.Key);
-                    if(priceInfoItem is not null)
-                    {
-                        priceInfos.Add(priceInfoItem);
-                    }
-                }
+                    await semaphore.WaitAsync();
 
-                return priceInfos;
+                    try
+                    {
+                        return await FetchAssetPrice(item.Key);
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                });
+
+                await Task.WhenAll(tasks);
+                return tasks.Select(i => i.Result).Where(i => i is not null).ToList();
             }
 
             /// <summary>

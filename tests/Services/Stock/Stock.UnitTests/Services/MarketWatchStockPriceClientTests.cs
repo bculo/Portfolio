@@ -21,6 +21,7 @@ namespace Stock.UnitTests.Services
         private readonly Mock<IHtmlParser> _htmlParser = new Mock<IHtmlParser>();
         private readonly MockHttpMessageHandler _httpHandler = new MockHttpMessageHandler();
         private readonly Mock<IDateTimeProvider> _timeProvider = new Mock<IDateTimeProvider>();
+        private readonly Mock<IServiceProvider> _serivceProvider = new Mock<IServiceProvider>();
         private readonly Mock<IHttpClientFactory> _httpClientFactory = new Mock<IHttpClientFactory>();
         private readonly ILogger<MarketWatchStockPriceClient> _logger = Mock.Of<ILogger<MarketWatchStockPriceClient>>();
         
@@ -49,7 +50,10 @@ namespace Stock.UnitTests.Services
                         .With(p => p.Text, priceAsString)
                         .Create()));
 
-            var client = new MarketWatchStockPriceClient(_htmlParser.Object, 
+            _serivceProvider.Setup(x => x.GetService(typeof(IHtmlParser))).Returns(_htmlParser.Object);
+
+            var client = new MarketWatchStockPriceClient(
+                _serivceProvider.Object, 
                 _logger, 
                 _httpClientFactory.Object, 
                 _timeProvider.Object);
@@ -86,7 +90,10 @@ namespace Stock.UnitTests.Services
                         .With(p => p.Text, priceAsString)
                         .Create()));
 
-            var client = new MarketWatchStockPriceClient(_htmlParser.Object,
+            _serivceProvider.Setup(x => x.GetService(typeof(IHtmlParser))).Returns(_htmlParser.Object);
+
+            var client = new MarketWatchStockPriceClient(
+                _serivceProvider.Object,
                 _logger,
                 _httpClientFactory.Object,
                 _timeProvider.Object);
@@ -109,7 +116,10 @@ namespace Stock.UnitTests.Services
             _httpClientFactory.Setup(x => x.CreateClient(HttpClientNames.MARKET_WATCH))
                 .Returns(httpClient);
 
-            var client = new MarketWatchStockPriceClient(_htmlParser.Object,
+            _serivceProvider.Setup(x => x.GetService(typeof(IHtmlParser))).Returns(_htmlParser.Object);
+
+            var client = new MarketWatchStockPriceClient(
+                _serivceProvider.Object,
                 _logger,
                 _httpClientFactory.Object,
                 _timeProvider.Object);

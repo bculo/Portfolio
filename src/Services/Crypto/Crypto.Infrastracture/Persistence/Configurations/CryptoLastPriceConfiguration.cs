@@ -8,7 +8,7 @@ namespace Crypto.Infrastracture.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<CryptoLastPrice> builder)
         {
-            builder.ToView("CryptoLastPrice").HasNoKey();
+            builder.ToView("CryptoLastPrice", "dbo").HasNoKey();
         }
     }
 }
