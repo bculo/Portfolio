@@ -1,4 +1,5 @@
-﻿using Crypto.Core.Interfaces;
+﻿using Crypto.Core.Entities;
+using Crypto.Core.Interfaces;
 using Crypto.Core.Queries.Response;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
@@ -32,28 +33,9 @@ namespace Crypto.Infrastracture.Persistence.Repositories
                                     }).FirstOrDefaultAsync();                               
         }
 
-        public async Task<List<CryptoResponseQuery>> GetAllWithPrice()
+        public async Task<List<CryptoLastPrice>> GetAllWithPrice()
         {
-            var command = new CommandDefinition(
-                @"SELECT C.Symbol, C.Name, C.Description, C.WebSite, C.SourceCode, 
-	                    C.CreatedOn AS Created, C.Logo, IT.Price 
-                  FROM [dbo].[Cryptos] AS C
-                  JOIN (SELECT CryptoId, Price, 
-                            ROW_NUMBER() OVER (PARTITION BY CryptoId ORDER BY CreatedOn DESC) AS Num 
-		                FROM [dbo].[Prices]) IT
-                  ON IT.CryptoId = C.Id
-                  WHERE IT.Num = 1
-                  ORDER BY C.Symbol ASC",
-                parameters: null,
-                transaction: _context.Database.CurrentTransaction?.GetDbTransaction(),
-                commandTimeout: _context.Database.GetCommandTimeout() ?? 30
-            );
-
-            var connection = _context.Database.GetDbConnection();
-
-            var result = await connection.QueryAsync<CryptoResponseQuery>(command);
-
-            return result.ToList();
+            return await _context.CryptoLastPricesView.ToListAsync();
         }
 
         public async Task<List<string>> GetAllSymbols()

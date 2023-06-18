@@ -15,7 +15,6 @@ using Crypto.Application.Modules.Crypto.Queries.SearchBySymbol;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebProject.Common.Filters;
 
 namespace Crypto.API.Controllers.v1
 {
@@ -60,7 +59,6 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpPost("UpdatePrice")]
-        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceCommand command)
         {
             await _mediator.Send(command);
@@ -68,7 +66,6 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpGet("UpdateAllPrices")]
-        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> UpdateAllPrices()
         {
             await _mediator.Send(new UpdatePriceAllCommand { });
@@ -76,7 +73,6 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpGet("FetchAll")]
-        [EnvironmentControllerFilter("Development")]
         public async Task<IActionResult> FetchAll()
         {
             return Ok(await _mediator.Send(new FetchAllQuery { }));

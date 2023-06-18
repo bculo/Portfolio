@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crypto.Core.Entities;
 using Crypto.Core.Queries.Response;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
@@ -7,7 +8,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
     {
         public FetchAllQueryMapper()
         {
-            CreateMap<CryptoResponseQuery, FetchAllResponseDto>()
+            CreateMap<CryptoLastPrice, FetchAllResponseDto>()
                 .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))

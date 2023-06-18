@@ -18,9 +18,10 @@ namespace Crypto.Infrastracture.Persistence
             _time = time;
         }
 
-        public DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
-        public DbSet<Core.Entities.CryptoPrice> Prices => Set<Core.Entities.CryptoPrice>();
-        public DbSet<Core.Entities.Visit> Visits => Set<Core.Entities.Visit>();
+        public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
+        public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
+        public virtual DbSet<CryptoLastPrice> CryptoLastPricesView => Set<CryptoLastPrice>();
+        public virtual DbSet<Visit> Visits => Set<Visit>();
 
         protected override IEnumerable<ISagaClassMap> Configurations
         {
