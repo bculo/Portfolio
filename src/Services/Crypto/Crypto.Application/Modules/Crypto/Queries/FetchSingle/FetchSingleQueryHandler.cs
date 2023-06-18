@@ -41,7 +41,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
             var entity = await _work.CryptoRepository.GetWithPrice(request.Symbol);
             CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
             response = _mapper.Map<FetchSingleResponseDto>(entity);
-            await PublishVisitedEvent(entity.Id.Value, entity.Symbol);
+            await PublishVisitedEvent(entity.Id, entity.Symbol);
 
             return response;
         }

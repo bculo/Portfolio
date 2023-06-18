@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Crypto.Core.Entities;
 using Crypto.Core.Queries.Response;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.SearchBySymbol
     {
         public SearchBySymbolQueryMapper()
         {
-            CreateMap<CryptoResponseQuery, SearchBySymbolResponse>()
+            CreateMap<CryptoLastPrice, SearchBySymbolResponse>()
                 .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))

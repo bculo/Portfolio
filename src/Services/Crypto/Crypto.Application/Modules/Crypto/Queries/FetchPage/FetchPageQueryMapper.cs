@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using Crypto.Core.Queries.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Crypto.Core.Entities;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
 {
@@ -12,7 +7,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
     {
         public FetchPageQueryMapper()
         {
-            CreateMap<CryptoResponseQuery, FetchPageResponseDto>()
+            CreateMap<CryptoLastPrice, FetchPageResponseDto>()
                 .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))

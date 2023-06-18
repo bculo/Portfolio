@@ -65,6 +65,7 @@ namespace Crypto.Infrastracture.Migrations
                 )
 
                 SELECT 
+                    C.Id
 	                C.Symbol,
 	                C.Name, 
 	                C.Description, 

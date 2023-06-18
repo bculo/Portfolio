@@ -14,14 +14,13 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
         }
 
-        public async Task<CryptoResponseQuery> GetWithPrice(string symbol)
+        public async Task<CryptoLastPrice> GetWithPrice(string symbol)
         {
             return await _context.Prices.Include(i => i.Crypto)
                                     .Where(i => i.Crypto!.Symbol!.ToLower() == symbol.ToLower())
                                     .OrderByDescending(i => i.CreatedOn)
-                                    .Select(i => new CryptoResponseQuery
+                                    .Select(i => new CryptoLastPrice
                                     {
-                                        Id = i.CryptoId,
                                         Created = i.Crypto.CreatedOn,
                                         Name = i.Crypto!.Name,
                                         Symbol = i.Crypto!.Symbol,
@@ -43,7 +42,7 @@ namespace Crypto.Infrastracture.Persistence.Repositories
             return await _context.Cryptos.Select(i => i.Symbol!).ToListAsync();
         }
 
-        public async Task<List<CryptoResponseQuery>> GetGroupWithPrices(List<string> symbols, int page, int take)
+        public async Task<List<CryptoLastPrice>> GetGroupWithPrices(List<string> symbols, int page, int take)
         {
             var parameters = new DynamicParameters();
 
@@ -70,12 +69,12 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
             var connection = _context.Database.GetDbConnection();
 
-            var result = await connection.QueryAsync<CryptoResponseQuery>(command);
+            var result = await connection.QueryAsync<CryptoLastPrice>(command);
 
             return result.ToList();
         }
 
-        public async Task<List<CryptoResponseQuery>> GetPageWithPrices(int page, int take)
+        public async Task<List<CryptoLastPrice>> GetPageWithPrices(int page, int take)
         {
             var parameters = new DynamicParameters();
 
@@ -101,7 +100,7 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
             var connection = _context.Database.GetDbConnection();
 
-            var result = await connection.QueryAsync<CryptoResponseQuery>(command);
+            var result = await connection.QueryAsync<CryptoLastPrice>(command);
 
             return result.ToList();
         }
@@ -126,7 +125,7 @@ namespace Crypto.Infrastracture.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<CryptoResponseQuery>> SearchBySymbol(string symbol, int page, int take)
+        public async Task<List<CryptoLastPrice>> SearchBySymbol(string symbol, int page, int take)
         {
             var parameters = new DynamicParameters();
 
@@ -153,7 +152,7 @@ namespace Crypto.Infrastracture.Persistence.Repositories
 
             var connection = _context.Database.GetDbConnection();
 
-            var result = await connection.QueryAsync<CryptoResponseQuery>(command);
+            var result = await connection.QueryAsync<CryptoLastPrice>(command);
 
             return result.ToList();
         }

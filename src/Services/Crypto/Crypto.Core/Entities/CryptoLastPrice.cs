@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Entities
 {
-    public class CryptoLastPrice
+    public class CryptoLastPrice : View
     {
+        public long Id { get; set; }
         public string Symbol { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
