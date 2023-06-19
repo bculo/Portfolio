@@ -10,6 +10,7 @@ namespace Stock.Application.Interfaces
 {
     public interface IStockRepository : IBaseRepository<Core.Entities.Stock> 
     {
-        public Task<StockPriceInfoQuery> GetCurrentPrice(string symbol);
+        public Task<List<StockPriceTagQuery>> GetAllWithPrice();
+        public Task<StockPriceTagQuery> GetCurrentPrice(string symbol);
     }
 }

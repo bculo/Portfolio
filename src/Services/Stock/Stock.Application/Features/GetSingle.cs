@@ -29,16 +29,16 @@ namespace Stock.Application.Features
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IBaseRepository<Core.Entities.Stock> _repo;
+            private readonly IStockRepository _repo;
 
-            public Handler(IBaseRepository<Core.Entities.Stock> repo)
+            public Handler(IStockRepository repo)
             {
                 _repo = repo;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var item = await _repo.First(i => i.Symbol.ToLower() == request.Symbol.ToLower());
+                var item = await _repo.GetCurrentPrice(request.Symbol);
                 if (item is null)
                 {
                     throw new StockCoreNotFoundException($"Given symbol {request.Symbol} not found");
@@ -48,6 +48,7 @@ namespace Stock.Application.Features
                 {
                     Id = item.Id,
                     Symbol = item.Symbol,
+                    Price = item.Price
                 };
             }
         }
@@ -56,6 +57,7 @@ namespace Stock.Application.Features
         {
             public long Id { get; set; }
             public string Symbol { get; set; }
+            public decimal Price { get; set; }
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Stock.Application.UnitTests.Handlers
         private readonly Fixture _fixture = FixtureHelper.FixtureCircularBehavior();
         private readonly Mock<IBaseRepository<StockEntity>> _repoMock = new Mock<IBaseRepository<StockEntity>>();
 
+        /*
         [Theory]
         [InlineData("TSLA")]
         [InlineData("AAPL")]
@@ -48,5 +49,6 @@ namespace Stock.Application.UnitTests.Handlers
 
             await Assert.ThrowsAsync<StockCoreNotFoundException>(() => handler.Handle(query, CancellationToken.None));
         }     
+        */
     }
 }

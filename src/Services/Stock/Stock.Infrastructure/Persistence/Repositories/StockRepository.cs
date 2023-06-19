@@ -1,4 +1,5 @@
-﻿using Stock.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Stock.Application.Interfaces;
 using Stock.Core.Queries;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,14 @@ namespace Stock.Infrastructure.Persistence.Repositories
         {
         }
 
-        public Task<StockPriceInfoQuery> GetCurrentPrice(string symbol)
+        public async Task<List<StockPriceTagQuery>> GetAllWithPrice()
         {
-            throw new NotImplementedException();
+            return await _dbContext.StockWithPriceTag.ToListAsync();
+        }
+
+        public async Task<StockPriceTagQuery> GetCurrentPrice(string symbol)
+        {
+            return await _dbContext.StockWithPriceTag.Where(i => i.Symbol == symbol).FirstOrDefaultAsync();
         }
     }
 }

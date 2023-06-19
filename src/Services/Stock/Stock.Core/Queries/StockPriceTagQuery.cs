@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stock.Core.Queries
 {
-    public class StockPriceInfoQuery
+    public class StockPriceTagQuery
     {
         public int Id { get; set; }
         public string Symbol { get; set; }

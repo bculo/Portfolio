@@ -28,7 +28,9 @@ namespace Stock.Infrastructure
             AddClients(services, configuration);
 
             services.AddDbContext<StockDbContext>();
+
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<IStockRepository, StockRepository>();
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)
