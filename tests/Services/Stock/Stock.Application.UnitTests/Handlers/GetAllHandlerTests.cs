@@ -3,28 +3,22 @@ using FluentAssertions;
 using Moq;
 using Stock.Application.Features;
 using Stock.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Stock.Core.Queries;
 using Tests.Common.FixtureUtilities;
-using Time.Abstract.Contracts;
-using StockEntity = Stock.Core.Entities.Stock;
 
 namespace Stock.Application.UnitTests.Handlers
 {
     public class GetAllHandlerTests
     {
         private readonly Fixture _fixture = FixtureHelper.FixtureCircularBehavior();
-        private readonly Mock<IBaseRepository<StockEntity>> _repoMock = new Mock<IBaseRepository<StockEntity>>();
+        private readonly Mock<IStockRepository> _repoMock = new Mock<IStockRepository>();
 
         [Fact]
         public async Task Handle_ShouldReturnListOfItems_WhenItemsExistsInStorage()
         {
             int numberOfInstances = 5;
             var items = MockInstances(numberOfInstances);
-            _repoMock.Setup(x => x.GetAll()).ReturnsAsync(items);
+            _repoMock.Setup(x => x.GetAllWithPrice()).ReturnsAsync(items);
             var query = new GetAll.Query();
             var handler = new GetAll.Handler(_repoMock.Object);
 
@@ -33,9 +27,9 @@ namespace Stock.Application.UnitTests.Handlers
             handlerResult.Should().NotBeNull().And.HaveCount(numberOfInstances);
         }
 
-        private List<StockEntity> MockInstances(int numberOfInstances)
+        private List<StockPriceTagQuery> MockInstances(int numberOfInstances)
         {
-            return _fixture.CreateMany<StockEntity>(numberOfInstances).ToList();
+            return _fixture.CreateMany<StockPriceTagQuery>(numberOfInstances).ToList();
         }
     }
 }

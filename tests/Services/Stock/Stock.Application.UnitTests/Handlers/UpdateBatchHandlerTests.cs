@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Stock.Application.Features;
@@ -15,7 +16,9 @@ namespace Stock.Application.UnitTests.Handlers
     public class UpdateBatchHandlerTests
     {
         private readonly Fixture _fixture = FixtureHelper.FixtureCircularBehavior();
+
         private readonly IPublishEndpoint _endpoint = Mock.Of<IPublishEndpoint>();
+        private readonly IConfiguration _config;
         private readonly Mock<IDateTimeProvider> _timeMock = new Mock<IDateTimeProvider>();
         private readonly Mock<IStockPriceClient> _clientMock = new Mock<IStockPriceClient>();
         private readonly ILogger<UpdateBatch.Handler> _logger = Mock.Of<ILogger<UpdateBatch.Handler>>();
@@ -25,9 +28,17 @@ namespace Stock.Application.UnitTests.Handlers
         public UpdateBatchHandlerTests()
         {
             _timeMock.Setup(x => x.Now).Returns(DateTime.Now);
+
+            var inMemorySettings = new Dictionary<string, string> 
+            {
+                { "MaximumConcurrentHttpRequests", "5" },
+            };
+
+            _config = new ConfigurationBuilder()
+                .AddInMemoryCollection(inMemorySettings!)
+                .Build();
         }
 
-        /*
         [Fact]
         public async Task Handle_ShouldStopExecution_WhenThereAreZeroItemsToUpdate()
         {
@@ -37,7 +48,7 @@ namespace Stock.Application.UnitTests.Handlers
             ).ReturnsAsync(new Dictionary<string, int>());
 
             var handler = new UpdateBatch.Handler(_clientMock.Object, _logger, _endpoint,
-                _timeMock.Object, _repoStockPriceMock.Object, _repoStockMock.Object);
+                _timeMock.Object, _repoStockPriceMock.Object, _repoStockMock.Object, _config);
 
             var command = new UpdateBatch.Command
             {
@@ -65,7 +76,7 @@ namespace Stock.Application.UnitTests.Handlers
                 .ReturnsAsync((string passedValue) => _fixture.Build<StockPriceInfo>().With(x => x.Symbol, passedValue).Create());
 
             var handler = new UpdateBatch.Handler(_clientMock.Object, _logger, _endpoint,
-                _timeMock.Object, _repoStockPriceMock.Object, _repoStockMock.Object);
+                _timeMock.Object, _repoStockPriceMock.Object, _repoStockMock.Object, _config);
 
             var command = new UpdateBatch.Command
             {
@@ -93,7 +104,7 @@ namespace Stock.Application.UnitTests.Handlers
                 .ReturnsAsync((StockPriceInfo)null!);
 
             var handler = new UpdateBatch.Handler(_clientMock.Object, _logger, _endpoint,
-                _timeMock.Object, _repoStockPriceMock.Object, _repoStockMock.Object);
+                _timeMock.Object, _repoStockPriceMock.Object, _repoStockMock.Object, _config);
 
             var command = new UpdateBatch.Command
             {
@@ -104,6 +115,5 @@ namespace Stock.Application.UnitTests.Handlers
 
             _repoStockPriceMock.Verify(x => x.SaveChanges(), Times.Never());
         }
-        */
     }
 }
