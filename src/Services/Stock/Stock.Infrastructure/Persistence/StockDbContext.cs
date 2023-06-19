@@ -28,6 +28,7 @@ namespace Stock.Infrastructure.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("StockDatabase"));
+            optionsBuilder.UseLowerCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging(true);
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }

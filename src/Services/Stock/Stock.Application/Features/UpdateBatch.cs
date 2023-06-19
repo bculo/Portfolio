@@ -2,6 +2,7 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces;
 using Stock.Core.Entities;
@@ -28,6 +29,7 @@ namespace Stock.Application.Features
         public class Handler : IRequestHandler<Command>
         {
             private readonly IPublishEndpoint _endpoint;
+            private readonly IConfiguration _config;
             private readonly IDateTimeProvider _provider;
             private readonly ILogger<Handler> _logger;
             private readonly IStockPriceClient _client;
@@ -39,7 +41,8 @@ namespace Stock.Application.Features
                 IPublishEndpoint endpoint,
                 IDateTimeProvider provider,
                 IBaseRepository<StockPrice> repoPrice,
-                IBaseRepository<Core.Entities.Stock> repoStock)
+                IBaseRepository<Core.Entities.Stock> repoStock,
+                IConfiguration config)
             {
                 _client = client;
                 _logger = logger;
@@ -47,6 +50,7 @@ namespace Stock.Application.Features
                 _provider = provider;
                 _repoPrice = repoPrice;
                 _repoStock = repoStock;
+                _config = config;
             }
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
@@ -110,8 +114,14 @@ namespace Stock.Application.Features
             /// <returns></returns>
             private async Task<List<StockPriceInfo>> ExecuteUpdateProcedure(Dictionary<string, int> items)
             {
-                using var semaphore = new SemaphoreSlim(10);
+                int maximumConcurrentRequest = _config.GetValue<int>("MaximumConcurrentHttpRequests");
+                if(maximumConcurrentRequest <= 0)
+                {
+                    _logger.LogWarning("Maximum number of concurrent is less or equal to 0. Check application settings");
+                    maximumConcurrentRequest = 5;
+                }
 
+                using var semaphore = new SemaphoreSlim(maximumConcurrentRequest);
                 var tasks = items.Select(async item =>
                 {
                     await semaphore.WaitAsync();

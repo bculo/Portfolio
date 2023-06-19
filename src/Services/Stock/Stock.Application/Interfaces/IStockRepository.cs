@@ -1,0 +1,15 @@
+﻿using Stock.Core.Entities;
+using Stock.Core.Queries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Stock.Application.Interfaces
+{
+    public interface IStockRepository : IBaseRepository<Core.Entities.Stock> 
+    {
+        public Task<StockPriceInfoQuery> GetCurrentPrice(string symbol);
+    }
+}

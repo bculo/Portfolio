@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+	    <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
 	    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
 	    <PackageReference Include="MassTransit" Version="8.0.16" />
 	    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
@@ -24,10 +25,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Stock.Application\Stock.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Persistence\Migrations\" />
     </ItemGroup>
 
 </Project>

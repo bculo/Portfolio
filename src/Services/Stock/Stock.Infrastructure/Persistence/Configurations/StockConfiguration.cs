@@ -30,7 +30,7 @@ namespace Stock.Infrastructure.Persistence.Configurations
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.ToTable(nameof(Core.Entities.Stock), SchemaConstants.STOCK_SCHEMA);
+            builder.ToTable(nameof(Core.Entities.Stock).ToLower(), SchemaConstants.STOCK_SCHEMA);
         }
     }
 }

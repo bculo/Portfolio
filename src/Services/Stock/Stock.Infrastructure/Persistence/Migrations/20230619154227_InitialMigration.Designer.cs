@@ -12,8 +12,8 @@ using Stock.Infrastructure.Persistence;
 namespace Stock.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20230613111804_Initial")]
-    partial class Initial
+    [Migration("20230619154227_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,71 +29,88 @@ namespace Stock.Infrastructure.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdat");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("createdby");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modifiedat");
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modifiedby");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("symbol");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_stock");
 
                     b.HasIndex("Symbol")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_symbol");
 
-                    b.ToTable("Stock", "assets");
+                    b.ToTable("stock", "assets");
                 });
 
             modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdat");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("createdby");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modifiedat");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("modifiedby");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)");
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("price");
 
                     b.Property<int>("StockId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("stockid");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_stockprice");
 
-                    b.HasIndex("StockId");
+                    b.HasIndex("StockId")
+                        .HasDatabaseName("ix_stockprice_stockid");
 
-                    b.ToTable("StockPrice", "assets");
+                    b.ToTable("stockprice", "assets");
                 });
 
             modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>
@@ -102,7 +119,8 @@ namespace Stock.Infrastructure.Persistence.Migrations
                         .WithMany("Prices")
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stockprice_stock_stockid");
 
                     b.Navigation("Stock");
                 });
