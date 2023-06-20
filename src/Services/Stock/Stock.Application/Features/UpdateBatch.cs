@@ -10,6 +10,9 @@ using Time.Abstract.Contracts;
 
 namespace Stock.Application.Features
 {
+    /// <summary>
+    /// Update prices for given list of stock symbols
+    /// </summary>
     public static class UpdateBatch
     {
         public record Command : IRequest 

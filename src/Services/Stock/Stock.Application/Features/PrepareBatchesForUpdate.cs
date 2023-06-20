@@ -8,6 +8,11 @@ using Stock.Application.Interfaces;
 
 namespace Stock.Application.Features
 {
+    /// <summary>
+    /// Prepare price update batches for stock items. 
+    /// Fetch all stock items and divide them into smaller batches.
+    /// Batch size is defiend based on application settings
+    /// </summary>
     public static class PrepareBatchesForUpdate
     {
         public record Command : IRequest { }

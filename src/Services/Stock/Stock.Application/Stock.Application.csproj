@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -24,6 +25,29 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\BultInTypes.Common\BultInTypes.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
     <ProjectReference Include="..\Stock.Core\Stock.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Features.AddNewLocale.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Features.AddNewLocale.en.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Features.AddNewLocale.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Features.AddNewLocale.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Features.AddNewLocale.en.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Features.AddNewLocale.hr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

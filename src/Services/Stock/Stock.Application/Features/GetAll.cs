@@ -4,6 +4,9 @@ using Stock.Core.Queries;
 
 namespace Stock.Application.Features
 {
+    /// <summary>
+    /// Fetch all crypto items with last price tag
+    /// </summary>
     public static class GetAll
     {
         public record Query : IRequest<IEnumerable<Response>> { }
@@ -20,6 +23,7 @@ namespace Stock.Application.Features
             public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var items = await _repo.GetAllWithPrice();
+
                 return MapToResponse(items);
             }
 

@@ -2,6 +2,7 @@
 using Hangfire.PostgreSql;
 using Keycloak.Common;
 using MassTransit;
+using Microsoft.AspNetCore.Localization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Stock.API.Filters;
@@ -9,6 +10,7 @@ using Stock.API.Services;
 using Stock.Application;
 using Stock.Application.Interfaces;
 using Stock.Infrastructure;
+using System.Globalization;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -45,6 +47,19 @@ namespace Stock.API.Configurations
                 config.UseSimpleAssemblyNameTypeSerializer();
                 config.UseRecommendedSerializerSettings();
                 config.UsePostgreSqlStorage(configuration.GetConnectionString("StockDatabase"));
+            });
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(options => 
+            {
+                var supportedCultures = new List<CultureInfo> 
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("hr-HR")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
             });
         }
 

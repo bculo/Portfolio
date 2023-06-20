@@ -1,5 +1,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 using Stock.API.Configurations;
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseHangfireDashboard();
     app.UseCors();
 }
+
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 app.UseAuthorization();
 
