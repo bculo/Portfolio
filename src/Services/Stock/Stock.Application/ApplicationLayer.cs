@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stock.Application.Common.Behaviours;
 using System.Reflection;
 
 namespace Stock.Application
@@ -10,8 +13,11 @@ namespace Stock.Application
         {
             services.AddMediatR(opt =>
             {
+                opt.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
                 opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
+
+            services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
         }
    }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Stock.Application.Features;
@@ -22,6 +23,13 @@ namespace Stock.Application.UnitTests.Handlers
     {
         private readonly Fixture _fixture = FixtureHelper.FixtureCircularBehavior();
         private readonly Mock<IStockRepository> _repoMock = new Mock<IStockRepository>();
+        private readonly Mock<IStringLocalizer<GetSingleLocale>> _localeMock = new Mock<IStringLocalizer<GetSingleLocale>>();
+
+        public GetSingleHandlerTests()
+        {
+            _localeMock.Setup(x => x[It.IsAny<string>()])
+                .Returns((string passedValue) => new LocalizedString(passedValue, passedValue));
+        }
 
         [Theory]
         [InlineData("TSLA")]
@@ -31,7 +39,7 @@ namespace Stock.Application.UnitTests.Handlers
             var query = new GetSingle.Query { Symbol = symbol };
             _repoMock.Setup(x => x.GetCurrentPrice(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Build<StockPriceTagQuery>().With(x => x.Symbol, symbol).Create());
-            var handler = new GetSingle.Handler(_repoMock.Object);
+            var handler = new GetSingle.Handler(_repoMock.Object, _localeMock.Object);
 
             var result = await handler.Handle(query, CancellationToken.None);
 
@@ -45,7 +53,7 @@ namespace Stock.Application.UnitTests.Handlers
             var query = new GetSingle.Query { Symbol = "HELLO" };
             _repoMock.Setup(x => x.First(It.IsAny<Expression<Func<StockEntity, bool>>>()))
                 .ReturnsAsync((StockEntity)null!);
-            var handler = new GetSingle.Handler(_repoMock.Object);
+            var handler = new GetSingle.Handler(_repoMock.Object, _localeMock.Object);
 
             await Assert.ThrowsAsync<StockCoreNotFoundException>(() => handler.Handle(query, CancellationToken.None));
         }     

@@ -1,5 +1,8 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.Localization;
+using Moq;
 using Stock.Application.Features;
+using Stock.Application.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +17,11 @@ namespace Stock.Application.UnitTests.Validators
 
         public AddNewValidatorTests()
         {
-            _validator = new AddNew.Validator();
+            var localeMock = new Mock<IStringLocalizer<ValidationShared>>();
+            localeMock.Setup(x => x[It.IsAny<string>()])
+                .Returns((string passedValue) => new LocalizedString(passedValue, passedValue));
+
+            _validator = new AddNew.Validator(localeMock.Object);
         }
 
         [Theory]

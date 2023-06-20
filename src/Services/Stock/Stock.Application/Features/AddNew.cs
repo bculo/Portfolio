@@ -4,6 +4,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Stock.Application.Interfaces;
+using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
 using System.Text.RegularExpressions;
 
@@ -21,13 +22,13 @@ namespace Stock.Application.Features
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator()
+            public Validator(IStringLocalizer<ValidationShared> localizer)
             {
                 RuleFor(i => i.Symbol)
-                    .Matches(new Regex("^[a-zA-Z]+$",
-                        RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled,
+                    .Matches(new Regex("^[a-zA-Z]{1,10}$",
+                        RegexOptions.IgnoreCase | RegexOptions.Compiled,
                         TimeSpan.FromSeconds(1)))
-                    .MaximumLength(10)
+                    .WithMessage(localizer.GetString("Symbol pattern not valid"))
                     .NotEmpty();
             }
         }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.5.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
@@ -36,17 +37,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Features.AddNewLocale.en.resx">
+    <EmbeddedResource Update="Resources\Features.AddNewLocale.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Features.AddNewLocale.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Features.AddNewLocale.en.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Resources\Features.AddNewLocale.resx">
+      <Generator></Generator>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Features.AddNewLocale.hr.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator></Generator>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Features.GetSingleLocale.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Resources.Shared.ValidationShared.resx">
+      <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
 
