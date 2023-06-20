@@ -42,7 +42,7 @@ namespace Stock.Infrastructure.Clients
             var htmlAsString = await response.Content.ReadAsStringAsync();
             await htmlParser.InitializeHtmlContent(htmlAsString);
 
-            var priceSectionNode = await htmlParser.FindSingleElement("//div[@class='intraday__data']/h2/bg-quote");
+            var priceSectionNode = await htmlParser.FindFirstElement("//div[@class='intraday__data']/h2/bg-quote");
             if (priceSectionNode is null)
             {
                 _logger.LogWarning("Node for given XPath not found");

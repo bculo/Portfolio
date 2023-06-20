@@ -167,7 +167,7 @@ namespace Stock.UnitTests.Services
             var _htmlParserService = new HtmlParserService(_logger, htmlContentHelper.Build());
 
             //Act
-            var result = await _htmlParserService.FindSingleElement(xpath);
+            var result = await _htmlParserService.FindFirstElement(xpath);
 
             //Assert
             result.Should().NotBeNull();
@@ -184,7 +184,7 @@ namespace Stock.UnitTests.Services
             var _htmlParserService = new HtmlParserService(_logger, htmlContentHelper.Build());
 
             //Act
-            var result = await _htmlParserService.FindSingleElement("//p[@class='test']");
+            var result = await _htmlParserService.FindFirstElement("//p[@class='test']");
 
             //Assert
             result.Should().NotBeNull();

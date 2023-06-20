@@ -1,12 +1,15 @@
 ﻿using Hangfire;
 using Hangfire.PostgreSql;
 using MassTransit;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Stock.Application;
 using Stock.Application.Interfaces;
 using Stock.Infrastructure;
 using Stock.Infrastructure.Consumers;
 using Stock.Worker.Jobs;
 using Stock.Worker.Services;
+using System.Globalization;
 
 namespace Stock.Worker.Configurations
 {
@@ -26,6 +29,19 @@ namespace Stock.Worker.Configurations
 
             ConfigureHangfire(services, configuration);
             ConfigureMessageQueue(services, configuration);
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("hr-HR")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
         private static void ConfigureHangfire(IServiceCollection services, IConfiguration configuration)

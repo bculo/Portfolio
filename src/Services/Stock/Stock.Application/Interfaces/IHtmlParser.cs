@@ -10,7 +10,7 @@ namespace Stock.Application.Interfaces
     {
         Task<bool> InitializeHtmlContent(string htmlContent);
         Task<IEnumerable<HtmlNodeElement>> FindElements(string xPathQuery);
-        Task<HtmlNodeElement> FindSingleElement(string xPathQuery);
+        Task<HtmlNodeElement> FindFirstElement(string xPathQuery);
     }
 
     public class HtmlNodeElement

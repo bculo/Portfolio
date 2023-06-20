@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces;
 using Stock.Core.Entities;
+using System.Collections.Concurrent;
 using Time.Abstract.Contracts;
 
 namespace Stock.Application.Features
@@ -124,6 +125,7 @@ namespace Stock.Application.Features
                     maximumConcurrentRequest = 5;
                 }
 
+                var concurrentRequest = new ConcurrentBag<StockPriceInfo>();
                 using var semaphore = new SemaphoreSlim(maximumConcurrentRequest);
                 var tasks = items.Select(async item =>
                 {
@@ -131,7 +133,7 @@ namespace Stock.Application.Features
 
                     try
                     {
-                        return await FetchAssetPrice(item.Key);
+                        concurrentRequest.Add(await FetchAssetPrice(item.Key));
                     }
                     finally
                     {
@@ -139,8 +141,8 @@ namespace Stock.Application.Features
                     }
                 });
 
-                await Task.WhenAll(tasks);
-                return tasks.Select(i => i.Result).Where(i => i is not null).ToList();
+                await Task.WhenAll(tasks.Select(i => i));
+                return concurrentRequest.ToList();
             }
 
             /// <summary>

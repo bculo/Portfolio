@@ -44,7 +44,7 @@ namespace Stock.UnitTests.Services
             _httpClientFactory.Setup(x => x.CreateClient(HttpClientNames.MARKET_WATCH))
                 .Returns(httpClient);
 
-            _htmlParser.Setup(x => x.FindSingleElement(It.IsAny<string>()))
+            _htmlParser.Setup(x => x.FindFirstElement(It.IsAny<string>()))
                 .Returns(Task.FromResult(
                     _fixture.Build<HtmlNodeElement>()
                         .With(p => p.Text, priceAsString)
@@ -84,7 +84,7 @@ namespace Stock.UnitTests.Services
             _httpClientFactory.Setup(x => x.CreateClient(HttpClientNames.MARKET_WATCH))
                 .Returns(httpClient);
 
-            _htmlParser.Setup(x => x.FindSingleElement(It.IsAny<string>()))
+            _htmlParser.Setup(x => x.FindFirstElement(It.IsAny<string>()))
                 .Returns(Task.FromResult(
                     _fixture.Build<HtmlNodeElement>()
                         .With(p => p.Text, priceAsString)

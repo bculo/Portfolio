@@ -70,14 +70,14 @@ namespace Stock.Infrastructure.Services
             return Task.FromResult(elements);
         }
 
-        public Task<HtmlNodeElement> FindSingleElement(string xPathQuery)
+        public Task<HtmlNodeElement> FindFirstElement(string xPathQuery)
         {
             if (string.IsNullOrWhiteSpace(xPathQuery) || !_initialized)
             {
                 return default;
             }
 
-            var node = _document.DocumentNode.SelectSingleNode(xPathQuery);
+            var node = _document.DocumentNode.SelectNodes(xPathQuery)?.FirstOrDefault();
             if (node is null)
             {
                 return null;
