@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces;
 using Stock.Core.Entities;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using Time.Abstract.Contracts;
 
 namespace Stock.Application.Features
@@ -87,7 +88,7 @@ namespace Stock.Application.Features
             /// </summary>
             /// <param name="priceEntities"></param>
             /// <returns></returns>
-            private async Task PublishEvents(IEnumerable<StockPriceInfo> itemsWithPrice)
+            private async Task PublishEvents(ImmutableList<StockPriceDetails> itemsWithPrice)
             {
                 var timeStamp = _provider.Now;
 
@@ -95,6 +96,7 @@ namespace Stock.Application.Features
                 {
                     await _endpoint.Publish(new StockPriceUpdated
                     {
+                        Id = item.Id,
                         Price = item.Price,
                         Symbol = item.Symbol,
                         UpdatedOn = timeStamp
@@ -106,9 +108,9 @@ namespace Stock.Application.Features
             /// Fetch financal assets from database in dictionary form where Key presents Stock symbol and value presents database ID (unique)
             /// </summary>
             /// <returns></returns>
-            private async Task<Dictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
+            private async Task<ImmutableDictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
             {
-                return await _repoStock.GetDictionary(i => symbols.Contains(i.Symbol), x => x.Symbol, y => y.Id);
+                return (await _repoStock.GetDictionary(i => symbols.Contains(i.Symbol), x => x.Symbol, y => y.Id)).ToImmutableDictionary();
             }
 
             /// <summary>
@@ -116,7 +118,7 @@ namespace Stock.Application.Features
             /// </summary>
             /// <param name="items"></param>
             /// <returns></returns>
-            private async Task<List<StockPriceInfo>> ExecuteUpdateProcedure(Dictionary<string, int> items)
+            private async Task<ImmutableList<StockPriceDetails>> ExecuteUpdateProcedure(ImmutableDictionary<string, int> items)
             {
                 int maximumConcurrentRequest = _config.GetValue<int>("MaximumConcurrentHttpRequests");
                 if(maximumConcurrentRequest <= 0)
@@ -125,7 +127,7 @@ namespace Stock.Application.Features
                     maximumConcurrentRequest = 5;
                 }
 
-                var concurrentRequest = new ConcurrentBag<StockPriceInfo>();
+                var concurrentRequest = new ConcurrentBag<StockPriceDetails>();
                 using var semaphore = new SemaphoreSlim(maximumConcurrentRequest);
                 var tasks = items.Select(async item =>
                 {
@@ -133,7 +135,16 @@ namespace Stock.Application.Features
 
                     try
                     {
-                        concurrentRequest.Add(await FetchAssetPrice(item.Key));
+                        var fetchedInstance = await FetchAssetPrice(item.Key);
+                        if(fetchedInstance is not null)
+                        {
+                            concurrentRequest.Add(new StockPriceDetails
+                            {
+                                Id = item.Value,
+                                Price = fetchedInstance.Price,
+                                Symbol = item.Key
+                            });
+                        }
                     }
                     finally
                     {
@@ -141,8 +152,8 @@ namespace Stock.Application.Features
                     }
                 });
 
-                await Task.WhenAll(tasks.Select(i => i));
-                return concurrentRequest.ToList();
+                await Task.WhenAll(tasks);
+                return concurrentRequest.ToImmutableList();
             }
 
             /// <summary>
@@ -161,8 +172,9 @@ namespace Stock.Application.Features
             /// <param name="fetchedItemsWithPrice"></param>
             /// <param name="itemsToUpdate"></param>
             /// <returns></returns>
-            private IEnumerable<StockPrice> MapToPriceInstances(IEnumerable<StockPriceInfo> fetchedItemsWithPrice,
-                Dictionary<string, int> itemsToUpdate)
+            private IEnumerable<StockPrice> MapToPriceInstances(
+                ImmutableList<StockPriceDetails> fetchedItemsWithPrice,
+                ImmutableDictionary<string, int> itemsToUpdate)
             {
                 foreach (var fetchedItem in fetchedItemsWithPrice)
                 {
@@ -189,6 +201,13 @@ namespace Stock.Application.Features
                 await _repoPrice.Add(priceEntities.ToArray());
                 await _repoPrice.SaveChanges();
             }
+        }
+
+        public class StockPriceDetails
+        {
+            public string Symbol { get; set; }
+            public decimal Price { get; set; }
+            public long Id { get; set; }
         }
     }
 }

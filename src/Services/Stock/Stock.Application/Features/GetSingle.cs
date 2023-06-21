@@ -1,6 +1,10 @@
-﻿using FluentValidation;
+﻿using Cache.Abstract.Contracts;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Stock.Application.Common.Models;
+using Stock.Application.Common.Utilities;
 using Stock.Application.Interfaces;
 using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
@@ -33,29 +37,49 @@ namespace Stock.Application.Features
 
         public class Handler : IRequestHandler<Query, Response>
         {
+            private readonly ICacheService _cache;
             private readonly IStockRepository _repo;
+            private readonly ILogger<Handler> _logger;
             private readonly IStringLocalizer<GetSingleLocale> _localizer;
 
-            public Handler(IStockRepository repo, IStringLocalizer<GetSingleLocale> localizer)
+            public Handler(IStockRepository repo,
+                IStringLocalizer<GetSingleLocale> localizer,
+                ICacheService cache,
+                ILogger<Handler> logger)
             {
                 _repo = repo;
                 _localizer = localizer;
+                _cache = cache;
+                _logger = logger;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var item = await _repo.GetCurrentPrice(request.Symbol);
-                if (item is null)
+                var cacheItem = await _cache.Get<StockCacheItem>(StringUtilities.AddStockPrefix(request.Symbol));
+                if(cacheItem is not null)
                 {
-                    string excMessage = string.Format(_localizer.GetString("Symbol not found"), request.Symbol);
-                    throw new StockCoreNotFoundException(excMessage);
+                    _logger.LogTrace("Requested symbol {item} fetched from cache", request.Symbol);
+                    return ToResponse(cacheItem.Id, cacheItem.Symbol, cacheItem.Price);
                 }
 
+                var dbItem = await _repo.GetCurrentPrice(request.Symbol);
+                if (dbItem is not null)
+                {
+                    _logger.LogTrace("Requested symbol {item} fetched from database", request.Symbol);
+                    return ToResponse(dbItem.Id, dbItem.Symbol, dbItem.Price);
+                }
+
+                string excMessage = string.Format(_localizer.GetString("Symbol not found"), request.Symbol);
+                throw new StockCoreNotFoundException(excMessage);
+            }
+
+            private Response ToResponse(long id, string symbol, decimal price)
+            {
                 return new Response
                 {
-                    Id = item.Id,
-                    Symbol = item.Symbol,
-                    Price = item.Price
+                    Id = id,
+                    Symbol = symbol,
+                    Price = price
                 };
             }
         }

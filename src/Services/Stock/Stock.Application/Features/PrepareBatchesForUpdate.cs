@@ -27,7 +27,7 @@ namespace Stock.Application.Features
             public Handler(IPublishEndpoint endpoint,
                 ILogger<Handler> logger,
                 IBaseRepository<Core.Entities.Stock> repo,
-                    IOptionsSnapshot<BatchUpdateOptions> options)
+                IOptionsSnapshot<BatchUpdateOptions> options)
             {
                 _logger = logger;
                 _endpoint = endpoint;

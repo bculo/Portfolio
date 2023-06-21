@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Cache.Common;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
@@ -31,6 +32,8 @@ namespace Stock.Infrastructure
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IStockRepository, StockRepository>();
+
+            CacheConfiguration.AddRedis(services, configuration);
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)

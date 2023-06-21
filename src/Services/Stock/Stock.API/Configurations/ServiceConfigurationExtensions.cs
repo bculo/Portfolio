@@ -1,4 +1,5 @@
-﻿using Hangfire;
+﻿using Cache.Common;
+using Hangfire;
 using Hangfire.PostgreSql;
 using Keycloak.Common;
 using MassTransit;

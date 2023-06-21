@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stock.Application.Features;
+using System.Collections.Immutable;
 
 namespace Stock.API.Controllers.v1
 {
