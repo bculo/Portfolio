@@ -38,16 +38,13 @@ namespace Stock.Application.Features
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly ICacheService _cache;
-            private readonly IStockRepository _repo;
             private readonly ILogger<Handler> _logger;
             private readonly IStringLocalizer<GetSingleLocale> _localizer;
 
-            public Handler(IStockRepository repo,
+            public Handler(ICacheService cache,
                 IStringLocalizer<GetSingleLocale> localizer,
-                ICacheService cache,
                 ILogger<Handler> logger)
             {
-                _repo = repo;
                 _localizer = localizer;
                 _cache = cache;
                 _logger = logger;
@@ -60,13 +57,6 @@ namespace Stock.Application.Features
                 {
                     _logger.LogTrace("Requested symbol {item} fetched from cache", request.Symbol);
                     return ToResponse(cacheItem.Id, cacheItem.Symbol, cacheItem.Price);
-                }
-
-                var dbItem = await _repo.GetCurrentPrice(request.Symbol);
-                if (dbItem is not null)
-                {
-                    _logger.LogTrace("Requested symbol {item} fetched from database", request.Symbol);
-                    return ToResponse(dbItem.Id, dbItem.Symbol, dbItem.Price);
                 }
 
                 string excMessage = string.Format(_localizer.GetString("Symbol not found"), request.Symbol);

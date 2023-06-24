@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
+using User.Application;
 using User.Functions.Middlewares;
 using User.Functions.Options;
 using User.Functions.Services;
@@ -17,10 +18,13 @@ var host = new HostBuilder()
     })
     .ConfigureServices((context, services) =>
     {
+        ApplicationLayer.AddServices(services, context.Configuration);
+
         services.AddScoped<IUserService, UserService>(services =>
         {
             return new UserService(Enumerable.Empty<Claim>());
         });
+
         services.AddScoped<ITokenService, JwtTokenService>();
         services.Configure<JwtValidationOptions>(context.Configuration.GetSection("JwtValidationOptions"));
     })

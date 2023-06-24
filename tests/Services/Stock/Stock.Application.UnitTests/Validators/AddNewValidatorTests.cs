@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 using Moq;
 using Stock.Application.Features;
 using Stock.Application.Resources;
+using Stock.Application.Resources.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

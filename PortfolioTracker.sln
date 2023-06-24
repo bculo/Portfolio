@@ -167,11 +167,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.Infrastructure", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{0E52D23B-4F8E-4120-B7D2-94954BA22A0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Functions", "src\Services\User\User.Functions\User.Functions.csproj", "{4DA22454-66F7-4AFD-8D1A-E8D27771D0CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.Functions", "src\Services\User\User.Functions\User.Functions.csproj", "{4DA22454-66F7-4AFD-8D1A-E8D27771D0CA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{60C08721-EAA5-4405-9610-EE0BC35C8E07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomStringGenerator", "src\Tools\RandomStringGenerator\RandomStringGenerator.csproj", "{5705D0F0-0003-4660-A52C-09AD556AE9EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomStringGenerator", "src\Tools\RandomStringGenerator\RandomStringGenerator.csproj", "{5705D0F0-0003-4660-A52C-09AD556AE9EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Application", "src\Services\User\User.Application\User.Application.csproj", "{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -399,6 +401,10 @@ Global
 		{5705D0F0-0003-4660-A52C-09AD556AE9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5705D0F0-0003-4660-A52C-09AD556AE9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5705D0F0-0003-4660-A52C-09AD556AE9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -482,6 +488,7 @@ Global
 		{4DA22454-66F7-4AFD-8D1A-E8D27771D0CA} = {0E52D23B-4F8E-4120-B7D2-94954BA22A0E}
 		{60C08721-EAA5-4405-9610-EE0BC35C8E07} = {0AE80E40-F090-425A-88CC-D3431B4FA147}
 		{5705D0F0-0003-4660-A52C-09AD556AE9EE} = {60C08721-EAA5-4405-9610-EE0BC35C8E07}
+		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243} = {0E52D23B-4F8E-4120-B7D2-94954BA22A0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
