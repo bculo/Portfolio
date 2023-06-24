@@ -1,4 +1,4 @@
-﻿using Keycloak.Common.Models.Response.Users;
+﻿using Keycloak.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +15,6 @@ namespace Keycloak.Common.Interfaces
         Task<List<UserResponse>> GetUsers(string realm, string accessToken);
         Task<UserResponse> GetUserById(string realm, string accessToken, Guid userId);
         Task<bool> ImportRealm(string realmDataJson, string accessToken);
+        Task<bool> CreateUser(string realm, string accessToken, UserRepresentation user);
     }
 }

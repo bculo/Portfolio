@@ -13,11 +13,11 @@ namespace User.Functions.Services
         Guid GetUserId();
     }
 
-    public class UserService : IUserService
+    public class CurrentUserService : IUserService
     {
         public IEnumerable<Claim> Claims { get; private set; }
 
-        public UserService(IEnumerable<Claim> initialClaims)
+        public CurrentUserService(IEnumerable<Claim> initialClaims)
         {
             Claims = initialClaims;
         }

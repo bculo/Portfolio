@@ -20,9 +20,9 @@ var host = new HostBuilder()
     {
         ApplicationLayer.AddServices(services, context.Configuration);
 
-        services.AddScoped<IUserService, UserService>(services =>
+        services.AddScoped<IUserService, CurrentUserService>(services =>
         {
-            return new UserService(Enumerable.Empty<Claim>());
+            return new CurrentUserService(Enumerable.Empty<Claim>());
         });
 
         services.AddScoped<ITokenService, JwtTokenService>();

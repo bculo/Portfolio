@@ -110,6 +110,16 @@ services:
       - "5433:5432"
     volumes:
       - D:\Persistence\StockDB:/var/lib/postgresql/data
+
+  user-postgre-db:
+    container_name: user-postgre-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=florijan
+    ports:
+      - "5434:5432"
+    volumes:
+      - D:\Persistence\UserDB:/var/lib/postgresql/data
         
   pgadmin:
     container_name: pgadmin

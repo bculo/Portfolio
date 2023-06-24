@@ -6,12 +6,6 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Models\Response\NewFolder\**" />
-    <EmbeddedResource Remove="Models\Response\NewFolder\**" />
-    <None Remove="Models\Response\NewFolder\**" />
-  </ItemGroup>
-
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>Keycloak.Common.UnitTests</_Parameter1>
@@ -40,10 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Response\Clients\" />
   </ItemGroup>
 
   <ItemGroup>

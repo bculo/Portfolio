@@ -34,7 +34,10 @@ services:
 
   stock-postgre-db:
     image: postgres:13
-    
+
+  user-postgre-db:
+    image: postgres:13
+   
   pgadmin:
     image: dpage/pgadmin4:7.1
 
@@ -47,6 +50,4 @@ volumes:
   eventstore-volume-logs:
   notification-hub-redis-store:
   dynamodb-mailservice-db-store:
-  tracker-postgre-volume:
-  stock-postgre-volume:
   pgadmin-volume:

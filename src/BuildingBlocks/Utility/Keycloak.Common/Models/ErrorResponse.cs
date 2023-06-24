@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Keycloak.Common.Models.Response
+namespace Keycloak.Common.Models
 {
     public class ErrorResponse
     {

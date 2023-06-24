@@ -13,17 +13,30 @@ namespace User.Functions.Extensions
 {
     public static class HttpRequestDataExtensions
     {
-        public static async Task DefineResponse(this HttpRequestData request, HttpStatusCode statusCode, string message)
+        public static async Task DefineResponseMiddleware(this HttpRequestData request, HttpStatusCode statusCode, string message)
         {
             var responseInfo = new FailureResponse
             {
                 Message = message,
             };
 
-            var response = request.CreateResponse(statusCode);
-            await response.WriteAsJsonAsync(responseInfo);
+            var response = request.CreateResponse();
+            await response.WriteAsJsonAsync(responseInfo, statusCode: statusCode);
 
             request.FunctionContext.GetInvocationResult().Value = response;
+        }
+
+        public static async Task<HttpResponseData> DefineResponse(this HttpRequestData request, HttpStatusCode statusCode, string message)
+        {
+            var responseInfo = new FailureResponse
+            {
+                Message = message,
+            };
+
+            var response = request.CreateResponse();
+            await response.WriteAsJsonAsync(responseInfo, statusCode: statusCode);
+
+            return response;
         }
     }
 }

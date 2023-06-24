@@ -84,14 +84,13 @@ namespace Keycloak.Common
                 opt.AuthorizationServerUrl = aurhoriazionServer;
             });
 
-            services.AddHttpClient<IOpenIdUserInfoService, KeycloakUserInfoClient>();
+            services.AddScoped<IOpenIdUserInfoService, KeycloakUserInfoClient>();
         }
 
         /// <summary>
         /// Register keycloak client for admin api
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="aurhoriazionServer"></param>
         public static void UseKeycloakAdminService(this IServiceCollection services, string adminApiBase)
         {
             ArgumentNullException.ThrowIfNull(adminApiBase);
@@ -101,7 +100,7 @@ namespace Keycloak.Common
                 opt.AdminApiEndpointBase = adminApiBase;
             });
 
-            services.AddHttpClient<IKeycloakAdminService, KeycloakAdminClient>();
+            services.AddScoped<IKeycloakAdminService, KeycloakAdminApiClient>();
         }
     }
 }

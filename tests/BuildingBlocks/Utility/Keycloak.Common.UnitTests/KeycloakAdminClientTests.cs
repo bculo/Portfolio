@@ -2,7 +2,7 @@
 using AutoFixture;
 using FluentAssertions;
 using Keycloak.Common.Clients;
-using Keycloak.Common.Models.Response.Users;
+using Keycloak.Common.Models;
 using Keycloak.Common.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,7 +24,7 @@ namespace Keycloak.Common.UnitTests
         private const string ADMIN_API_POINT = "http://localhost:8080/auth/admin/realms/";
         private readonly IOptions<KeycloakAdminApiOptions> _adminApiOptions;
         private readonly Mock<IHttpClientFactory> _httpAdminApiClientFactory = new Mock<IHttpClientFactory>();
-        private readonly ILogger<KeycloakAdminClient> _loggerAdminApi = new Mock<ILogger<KeycloakAdminClient>>().Object;
+        private readonly ILogger<KeycloakAdminApiClient> _loggerAdminApi = new Mock<ILogger<KeycloakAdminApiClient>>().Object;
 
         private const string OWNER_AUTHORIZATION_API_POINT = "http://localhost:8080/auth/realms/master/";
         private readonly IOptions<KeycloakOwnerCredentialFlowOptions> _ownerApiOptions;
@@ -174,7 +174,7 @@ namespace Keycloak.Common.UnitTests
         /// <param name="token"></param>
         /// <param name="function"></param>
         /// <returns></returns>
-        private KeycloakAdminClient CreateAdminClientUsers(string realm, string token)
+        private KeycloakAdminApiClient CreateAdminClientUsers(string realm, string token)
         {
             var mockHandler = new MockHttpMessageHandler();
             var handled = false;
@@ -206,7 +206,7 @@ namespace Keycloak.Common.UnitTests
             _httpAdminApiClientFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(mockHandler.ToHttpClient());
 
-            return new KeycloakAdminClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
+            return new KeycloakAdminApiClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
         }
 
         private async Task<string> GetAccessToken()
@@ -223,7 +223,7 @@ namespace Keycloak.Common.UnitTests
             return response.AccessToken;
         }
 
-        private KeycloakAdminClient CreateClient(string token, Func<(bool valid, string json)> func, string? realm)
+        private KeycloakAdminApiClient CreateClient(string token, Func<(bool valid, string json)> func, string? realm)
         {
             var handerMocked = false;
             var mockHandler = new MockHttpMessageHandler();
@@ -259,10 +259,10 @@ namespace Keycloak.Common.UnitTests
             _httpAdminApiClientFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(mockHandler.ToHttpClient());
 
-            return new KeycloakAdminClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
+            return new KeycloakAdminApiClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
         }
 
-        private KeycloakAdminClient CreateClient<T>(string realm, string token, Func<T, (bool valid, string json)> func, T instance)
+        private KeycloakAdminApiClient CreateClient<T>(string realm, string token, Func<T, (bool valid, string json)> func, T instance)
         {
             var handerMocked = false;
             var mockHandler = new MockHttpMessageHandler();
@@ -298,7 +298,7 @@ namespace Keycloak.Common.UnitTests
             _httpAdminApiClientFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(mockHandler.ToHttpClient());
 
-            return new KeycloakAdminClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
+            return new KeycloakAdminApiClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Keycloak.Common.UnitTests
         /// <param name="token"></param>
         /// <param name="function"></param>
         /// <returns></returns>
-        private KeycloakAdminClient CreateAdminClientForSingleUser(string realm, string token, string userId)
+        private KeycloakAdminApiClient CreateAdminClientForSingleUser(string realm, string token, string userId)
         {
             var handerMocked = false;
             var mockHandler = new MockHttpMessageHandler();
@@ -352,7 +352,7 @@ namespace Keycloak.Common.UnitTests
             _httpAdminApiClientFactory.Setup(i => i.CreateClient(It.IsAny<string>()))
                 .Returns(mockHandler.ToHttpClient());
 
-            return new KeycloakAdminClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
+            return new KeycloakAdminApiClient(_httpAdminApiClientFactory.Object, _adminApiOptions, _loggerAdminApi);
         }
     }
 }
