@@ -12,6 +12,8 @@ namespace User.Application.Persistence
     {
         public virtual DbSet<PortfolioUser> Users { get; set; }
 
+        protected UserDbContext() { }
+
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options) { }
 

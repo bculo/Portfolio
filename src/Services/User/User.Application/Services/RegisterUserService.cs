@@ -118,7 +118,20 @@ namespace User.Application.Services
 
         public async Task AddUserToStorage(UserBaseInfoDto instance, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            var entity = MapToEntityModel(instance);
+            _context.Users.Add(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        private PortfolioUser MapToEntityModel(UserBaseInfoDto userDto)
+        {
+            return new PortfolioUser
+            {
+                BornOn = userDto.Born,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                UserName = userDto.UserName,
+            };
         }
     }
 }

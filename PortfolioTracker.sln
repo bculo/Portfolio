@@ -175,6 +175,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomStringGenerator", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Application", "src\Services\User\User.Application\User.Application.csproj", "{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{03394DC0-2427-44C3-A9F2-B37F1B2C9073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Application.UnitTests", "tests\Services\User\User.Application.UnitTests\User.Application.UnitTests.csproj", "{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -405,6 +409,10 @@ Global
 		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -489,6 +497,8 @@ Global
 		{60C08721-EAA5-4405-9610-EE0BC35C8E07} = {0AE80E40-F090-425A-88CC-D3431B4FA147}
 		{5705D0F0-0003-4660-A52C-09AD556AE9EE} = {60C08721-EAA5-4405-9610-EE0BC35C8E07}
 		{7D3BF899-58A9-4E08-A6E5-C68B3A63C243} = {0E52D23B-4F8E-4120-B7D2-94954BA22A0E}
+		{03394DC0-2427-44C3-A9F2-B37F1B2C9073} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
+		{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB} = {03394DC0-2427-44C3-A9F2-B37F1B2C9073}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
