@@ -6,6 +6,8 @@ using Keycloak.Common.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using User.Application.Common.Exceptions;
 using User.Application.Common.Options;
 using User.Application.Entities;
 using User.Application.Interfaces;
@@ -42,33 +44,39 @@ namespace User.Application.Services
 
         public async Task RegisterUser(CreateUserDto userDto, CancellationToken token = default)
         {
-            var validationResult = await _validator.ValidateAsync(userDto, token).ConfigureAwait(false); ;
+            var validationResult = await _validator.ValidateAsync(userDto, token).ConfigureAwait(false);
             if(!validationResult.IsValid)
             {
-                throw new ArgumentException("Validation failed");
+                var errors = validationResult.ToDictionary();
+                _logger.LogTrace(JsonConvert.SerializeObject(errors));
+                throw new PortfolioUserValidationException(errors);
             }
 
             var adminTokenResponse = await _adminTokenService.GetToken(_options.ClientId, _options.UserName, _options.Password).ConfigureAwait(false);
             if(adminTokenResponse is null)
             {
-                throw new ArgumentException("Bad day for this boii");
+                throw new PortfolioUserCoreException(
+                    "Problem occurrd in process of fetching admin access token from keycloak",
+                    "An error occurred. Please try again later.");
             }
 
             var keyCloakModel = MapToKeycloakModel(userDto);
             if(!await _adminApiService.CreateUser(_options.Realm, adminTokenResponse.AccessToken, keyCloakModel).ConfigureAwait(false))
             {
-                throw new ArgumentException("Bad day for this boii");
+                throw new PortfolioUserCoreException(
+                    "Couldn't add new user via Keycloak admin API",
+                    "An error occurred. Please try again later.");
             }
 
             var entity = MapToEntityModel(userDto);
+
             try
             {
                 _context.Users.Add(entity);
                 await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch
             {
-                _logger.LogError(ex, ex.Message);
                 await _publish.Publish(MapToEvent(userDto));
                 throw;
             }

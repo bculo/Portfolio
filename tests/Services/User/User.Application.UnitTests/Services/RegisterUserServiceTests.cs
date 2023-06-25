@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MockQueryable.Moq;
 using Moq;
+using User.Application.Common.Exceptions;
 using User.Application.Common.Options;
 using User.Application.Entities;
 using User.Application.Interfaces;
@@ -24,17 +25,17 @@ namespace User.Application.UnitTests.Services
     public class RegisterUserServiceTests
     {
         private Fixture _fixture = new Fixture();
-        private Mock<UserDbContext> _dbContext = new Mock<UserDbContext>();
+        private Mock<UserDbContext> _dbContextMock = new Mock<UserDbContext>();
         private Mock<IPublishEndpoint> _endpointMock = new Mock<IPublishEndpoint>();
-        private Mock<IKeycloakAdminService> _adminApi = new Mock<IKeycloakAdminService>();
-        private ILogger<RegisterUserService> _logger = Mock.Of<ILogger<RegisterUserService>>();
-        private Mock<IValidator<CreateUserDto>> _validator = new Mock<IValidator<CreateUserDto>>();
-        private Mock<IAuth0OwnerCredentialFlowService> _flowService = new Mock<IAuth0OwnerCredentialFlowService>();
-        private Mock<IOptionsSnapshot<KeycloakAdminOptions>> _options = new Mock<IOptionsSnapshot<KeycloakAdminOptions>>();
+        private Mock<IKeycloakAdminService> _adminApiMock = new Mock<IKeycloakAdminService>();
+        private Mock<IValidator<CreateUserDto>> _validatorMock = new Mock<IValidator<CreateUserDto>>();
+        private Mock<ILogger<RegisterUserService>> _loggerMock = new Mock<ILogger<RegisterUserService>>();
+        private Mock<IAuth0OwnerCredentialFlowService> _flowServiceMock = new Mock<IAuth0OwnerCredentialFlowService>();
+        private Mock<IOptionsSnapshot<KeycloakAdminOptions>> _optionsMock = new Mock<IOptionsSnapshot<KeycloakAdminOptions>>();
 
         public RegisterUserServiceTests()
         {
-            _options.Setup(x => x.Value).Returns(new KeycloakAdminOptions
+            _optionsMock.Setup(x => x.Value).Returns(new KeycloakAdminOptions
             {
                 ClientId = "testclientid",
                 Password = "password",
@@ -46,43 +47,43 @@ namespace User.Application.UnitTests.Services
         [Fact]
         public async Task RegisterUser_ShouldThrowException_WhenInvalidDtoPassed()
         {
-            _validator.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
+            _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult 
                 { 
                     Errors = _fixture.CreateMany<ValidationFailure>(3).ToList() 
                 });
 
-            var service = new RegisterUserService(_logger, 
-                _validator.Object, _dbContext.Object, _flowService.Object,
-                _options.Object, _adminApi.Object, _endpointMock.Object);
+            var service = new RegisterUserService(_loggerMock.Object, 
+                _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
 
             var invalidRequest = _fixture.Build<CreateUserDto>()
                 .With(x => x.Email, "invalidmail")
                 .Create();
 
-            await Assert.ThrowsAsync<ArgumentException>(() => service.RegisterUser(invalidRequest, CancellationToken.None));
+            await Assert.ThrowsAsync<PortfolioUserValidationException>(() => service.RegisterUser(invalidRequest, CancellationToken.None));
             _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Fact]
         public async Task RegisterUser_ShouldThrowException_WhenKeycloakAdminTokenIsNotFetched()
         {
-            _validator.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
+            _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult
                 {
                     Errors = new List<ValidationFailure>()
                 });
 
-            _flowService.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
+            _flowServiceMock.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync((TokenAuthorizationCodeResponse)null!);
 
-            var service = new RegisterUserService(_logger,
-                _validator.Object, _dbContext.Object, _flowService.Object,
-                _options.Object, _adminApi.Object, _endpointMock.Object);
+            var service = new RegisterUserService(_loggerMock.Object,
+                _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
-            await Assert.ThrowsAsync<ArgumentException>(() => service.RegisterUser(validRequest, CancellationToken.None));
+            await Assert.ThrowsAsync<PortfolioUserCoreException>(() => service.RegisterUser(validRequest, CancellationToken.None));
             _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
@@ -90,51 +91,51 @@ namespace User.Application.UnitTests.Services
         [Fact]
         public async Task RegisterUser_ShouldThrowException_WhenUserIsNotAddedSuccessfullyToKeycloak()
         {
-            _validator.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
+            _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult
                 {
                     Errors = new List<ValidationFailure>()
                 });
 
-            _flowService.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
+            _flowServiceMock.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(_fixture.Create<TokenAuthorizationCodeResponse>());
 
-            _adminApi.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
+            _adminApiMock.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
                 .ReturnsAsync(false);
 
-            var service = new RegisterUserService(_logger,
-                _validator.Object, _dbContext.Object, _flowService.Object,
-                _options.Object, _adminApi.Object, _endpointMock.Object);
+            var service = new RegisterUserService(_loggerMock.Object,
+                _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
-            await Assert.ThrowsAsync<ArgumentException>(() => service.RegisterUser(validRequest, CancellationToken.None));
+            await Assert.ThrowsAsync<PortfolioUserCoreException>(() => service.RegisterUser(validRequest, CancellationToken.None));
             _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Fact]
         public async Task RegisterUser_ShouldThrowException_WhenFailureOccurOnAddingNewUserToStorage()
         {
-            _validator.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
+            _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult
                 {
                     Errors = new List<ValidationFailure>()
                 });
 
-            _flowService.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
+            _flowServiceMock.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(_fixture.Create<TokenAuthorizationCodeResponse>());
 
-            _adminApi.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
+            _adminApiMock.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
                 .ReturnsAsync(true);
 
             var usersDbSetMock = new List<PortfolioUser>().AsQueryable().BuildMockDbSet();
-            _dbContext.Setup(x => x.Users).Returns(usersDbSetMock.Object);
-            _dbContext.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
+            _dbContextMock.Setup(x => x.Users).Returns(usersDbSetMock.Object);
+            _dbContextMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
                 .Throws(new DbUpdateException());
 
-            var service = new RegisterUserService(_logger,
-                _validator.Object, _dbContext.Object, _flowService.Object,
-                _options.Object, _adminApi.Object, _endpointMock.Object);
+            var service = new RegisterUserService(_loggerMock.Object,
+                _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
@@ -146,24 +147,24 @@ namespace User.Application.UnitTests.Services
         [Fact]
         public async Task RegisterUser_ShouldExecuteWithoutException_WhenAllInnerServicesExecuteWithoutFailure()
         {
-            _validator.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
+            _validatorMock.Setup(x => x.ValidateAsync(It.IsAny<CreateUserDto>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new FluentValidation.Results.ValidationResult
                 {
                     Errors = new List<ValidationFailure>()
                 });
 
-            _flowService.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
+            _flowServiceMock.Setup(x => x.GetToken(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(_fixture.Create<TokenAuthorizationCodeResponse>());
 
-            _adminApi.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
+            _adminApiMock.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
                 .ReturnsAsync(true);
 
             var usersDbSetMock = new List<PortfolioUser>().AsQueryable().BuildMockDbSet();
-            _dbContext.Setup(x => x.Users).Returns(usersDbSetMock.Object);
+            _dbContextMock.Setup(x => x.Users).Returns(usersDbSetMock.Object);
 
-            var service = new RegisterUserService(_logger,
-                _validator.Object, _dbContext.Object, _flowService.Object,
-                _options.Object, _adminApi.Object, _endpointMock.Object);
+            var service = new RegisterUserService(_loggerMock.Object,
+                _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
