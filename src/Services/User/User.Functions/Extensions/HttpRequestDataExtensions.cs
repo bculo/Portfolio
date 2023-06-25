@@ -13,9 +13,10 @@ namespace User.Functions.Extensions
 {
     public static class HttpRequestDataExtensions
     {
-        public static async Task DefineResponseMiddleware(this HttpRequestData request, HttpStatusCode statusCode, string message)
+        public static async Task DefineResponseMiddleware<T>(this HttpRequestData request, HttpStatusCode statusCode, T message) 
+            where T : notnull
         {
-            var responseInfo = new FailureResponse
+            var responseInfo = new FailureResponse<T>
             {
                 Message = message,
             };
@@ -26,9 +27,10 @@ namespace User.Functions.Extensions
             request.FunctionContext.GetInvocationResult().Value = response;
         }
 
-        public static async Task<HttpResponseData> DefineResponse(this HttpRequestData request, HttpStatusCode statusCode, string message)
+        public static async Task<HttpResponseData> DefineResponse<T>(this HttpRequestData request, HttpStatusCode statusCode, T message)
+            where T : notnull
         {
-            var responseInfo = new FailureResponse
+            var responseInfo = new FailureResponse<T>
             {
                 Message = message,
             };

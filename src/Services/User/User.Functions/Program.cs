@@ -10,6 +10,7 @@ using User.Functions.Services;
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(opt =>
     {
+        opt.UseMiddleware<ExceptionMiddleware>();
         opt.UseMiddleware<AuthorizationMiddleware>();
     })
     .ConfigureAppConfiguration(config =>
