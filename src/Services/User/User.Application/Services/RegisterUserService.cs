@@ -22,13 +22,14 @@ namespace User.Application.Services
         private readonly ILogger<RegisterUserService> _logger;
         private readonly IKeycloakAdminService _adminApiService;
         private readonly IAuth0OwnerCredentialFlowService _adminTokenService;
-        
+
         public RegisterUserService(ILogger<RegisterUserService> logger,
             IValidator<CreateUserDto> validator,
             UserDbContext context,
             IAuth0OwnerCredentialFlowService adminTokenService,
             IOptionsSnapshot<KeycloakAdminOptions> options,
-            IKeycloakAdminService adminApiService)
+            IKeycloakAdminService adminApiService,
+            IPublishEndpoint publish)
         {
             _validator = validator;
             _context = context;
@@ -36,11 +37,12 @@ namespace User.Application.Services
             _adminTokenService = adminTokenService;
             _adminApiService = adminApiService;
             _options = options.Value;
+            _publish = publish;
         }
 
         public async Task RegisterUser(CreateUserDto userDto, CancellationToken token = default)
         {
-            var validationResult = await _validator.ValidateAsync(userDto);
+            var validationResult = await _validator.ValidateAsync(userDto, token).ConfigureAwait(false); ;
             if(!validationResult.IsValid)
             {
                 throw new ArgumentException("Validation failed");
@@ -53,7 +55,7 @@ namespace User.Application.Services
             }
 
             var keyCloakModel = MapToKeycloakModel(userDto);
-            if(!await _adminApiService.CreateUser(_options.Realm, adminTokenResponse.AccessToken, keyCloakModel))
+            if(!await _adminApiService.CreateUser(_options.Realm, adminTokenResponse.AccessToken, keyCloakModel).ConfigureAwait(false))
             {
                 throw new ArgumentException("Bad day for this boii");
             }
@@ -68,6 +70,7 @@ namespace User.Application.Services
             {
                 _logger.LogError(ex, ex.Message);
                 await _publish.Publish(MapToEvent(userDto));
+                throw;
             }
         }
 
