@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Events.Common.User
 {
-    public class UserNotSavedToPersistenceStorage
+    public class PortfolioUserApproved
     {
         public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime BornOn { get; set; }
+        public long InternalId { get; set; }
+        public Guid ExternalId { get; set; }
+        public DateTime ApprovedOn { get; set; }
     }
 }

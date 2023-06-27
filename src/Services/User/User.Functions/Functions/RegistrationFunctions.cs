@@ -41,11 +41,15 @@ namespace User.Functions.Functions
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        [Function("RegisterUser")]
+        [Function("ApproveUser")]
         public async Task<HttpResponseData> ApproveUser(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ApproveUser/{userId}")]
+            HttpRequestData req, 
+            long userId,
+            CancellationToken token)
         {
-            throw new NotImplementedException();
+            await _registrationService.ApproveUser(userId, token);
+            return req.CreateResponse(HttpStatusCode.NoContent);
         }
     }
 }

@@ -13,5 +13,10 @@ namespace User.Application.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BornOn { get; set; }
+
+        /// <summary>
+        /// Keycloak ID in this case
+        /// </summary>
+        public Guid? ExternalId { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Keycloak.Common.Interfaces;
 using Keycloak.Common.Models;
 using Keycloak.Common.Options;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,18 +61,20 @@ namespace Keycloak.Common.Clients
             return await response.HandleResponse<UserResponse>(_logger);
         }
 
-        public async Task<List<UserResponse>> GetUsers(string realm, string accessToken)
+        public async Task<List<UserResponse>> GetUsers(string realm, string accessToken, IReadOnlyDictionary<string, string> searchParams = null)
         {
             ArgumentNullException.ThrowIfNull(realm);
             ArgumentNullException.ThrowIfNull(accessToken);
 
             var http = _factory.CreateClient();
 
-            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
+            string endpointUrl = $"{_options.AdminApiEndpointBase}{realm}/users";
+            var stringUri = searchParams is null 
+                ? endpointUrl
+                : QueryHelpers.AddQueryString(endpointUrl, searchParams);
             http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
 
-            var response = await http.GetAsync($"{realm}/users");
-
+            var response = await http.GetAsync(stringUri);
             return await response.HandleResponse<List<UserResponse>>(_logger);
         }
 
@@ -91,6 +95,22 @@ namespace Keycloak.Common.Clients
             var result = await response.HandleResponse<string>(_logger);
 
             return (result != null) ? true : false;
+        }
+
+        public async Task<bool> UpdateUser(string realm, string accessToken, string userId, UserRepresentation user)
+        {
+            ArgumentNullException.ThrowIfNull(realm);
+            ArgumentNullException.ThrowIfNull(accessToken);
+            ArgumentNullException.ThrowIfNull(userId);
+            ArgumentNullException.ThrowIfNull(user);
+
+            var http = _factory.CreateClient();
+
+            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
+            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
+
+            var response = await http.PutAsJsonAsync($"{realm}/users/{userId}", user);
+            return response.IsSuccessStatusCode;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Functions.Worker;
+﻿using MassTransit.DependencyInjection;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,23 +35,26 @@ namespace User.Functions.Middlewares
 
                 var requestData = await context.GetHttpRequestDataAsync();
 
-                if(ex is PortfolioUserValidationException) 
+                //for some reason all thrown exceptions are wrapped by the AggregateException in azure functions
+                var realException = ex.InnerException is not null ? ex.InnerException : ex;
+
+                if(realException is PortfolioUserValidationException) 
                 { 
-                    var validationException = ex as PortfolioUserValidationException;
+                    var validationException = realException as PortfolioUserValidationException;
                     await requestData.DefineResponseMiddleware(HttpStatusCode.BadRequest, validationException.Errors);
                     return;
                 }
 
-                if(ex is PortfolioUserNotFoundException)
+                if(realException is PortfolioUserNotFoundException)
                 {
-                    var coreException = ex as PortfolioUserNotFoundException;
-                    await requestData.DefineResponseMiddleware(HttpStatusCode.NotFound, coreException.UserMessage);
+                    var notFoundException = realException as PortfolioUserNotFoundException;
+                    await requestData.DefineResponseMiddleware(HttpStatusCode.NotFound, notFoundException.UserMessage);
                     return;
                 }
 
-                if (ex is PortfolioUserCoreException)
+                if (realException is PortfolioUserCoreException)
                 {
-                    var coreException = ex as PortfolioUserCoreException;
+                    var coreException = realException as PortfolioUserCoreException;
                     await requestData.DefineResponseMiddleware(HttpStatusCode.BadRequest, coreException.UserMessage);
                     return;
                 }

@@ -62,7 +62,7 @@ namespace User.Application.UnitTests.Services
                 .Create();
 
             await Assert.ThrowsAsync<PortfolioUserValidationException>(() => service.RegisterUser(invalidRequest, CancellationToken.None));
-            _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
+            _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace User.Application.UnitTests.Services
             var validRequest = _fixture.Create<CreateUserDto>();
 
             await Assert.ThrowsAsync<PortfolioUserCoreException>(() => service.RegisterUser(validRequest, CancellationToken.None));
-            _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
+            _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
 
@@ -110,7 +110,7 @@ namespace User.Application.UnitTests.Services
             var validRequest = _fixture.Create<CreateUserDto>();
 
             await Assert.ThrowsAsync<PortfolioUserCoreException>(() => service.RegisterUser(validRequest, CancellationToken.None));
-            _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
+            _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
         [Fact]
@@ -140,7 +140,7 @@ namespace User.Application.UnitTests.Services
             var validRequest = _fixture.Create<CreateUserDto>();
 
             await Assert.ThrowsAsync<DbUpdateException>(() => service.RegisterUser(validRequest, CancellationToken.None));
-            _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Once());
+            _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Once());
         }
 
 
@@ -170,7 +170,7 @@ namespace User.Application.UnitTests.Services
 
             await service.RegisterUser(validRequest, CancellationToken.None);
 
-            _endpointMock.Verify(x => x.Publish(It.IsAny<UserNotSavedToPersistenceStorage>(), It.IsAny<CancellationToken>()), Times.Never());
+            _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Never());
         }
     }
 }

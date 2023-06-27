@@ -5,11 +5,10 @@ using FluentValidation;
 using Keycloak.Common.Interfaces;
 using Keycloak.Common.Models;
 using MassTransit;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Time.Abstract.Contracts;
 using User.Application.Common.Exceptions;
 using User.Application.Common.Options;
 using User.Application.Entities;
@@ -22,6 +21,7 @@ namespace User.Application.Services
     {
         private readonly UserDbContext _context;
         private readonly IPublishEndpoint _publish;
+        private readonly IDateTimeProvider _timeProvider;
         private readonly KeycloakAdminOptions _options;
         private readonly IValidator<CreateUserDto> _validator;
         private readonly ILogger<RegisterUserService> _logger;
@@ -34,7 +34,8 @@ namespace User.Application.Services
             IAuth0OwnerCredentialFlowService adminTokenService,
             IOptionsSnapshot<KeycloakAdminOptions> options,
             IKeycloakAdminService adminApiService,
-            IPublishEndpoint publish)
+            IPublishEndpoint publish,
+            IDateTimeProvider timeProvider)
         {
             _validator = validator;
             _context = context;
@@ -43,6 +44,7 @@ namespace User.Application.Services
             _adminApiService = adminApiService;
             _options = options.Value;
             _publish = publish;
+            _timeProvider = timeProvider;
         }
 
         /// <summary>
@@ -141,6 +143,24 @@ namespace User.Application.Services
         }
 
         /// <summary>
+        /// Update keycloak user based on userID and UserRepresentation instance
+        /// </summary>
+        /// <param name="keycloakUpdateRequest"></param>
+        /// <param name="userID"></param>
+        /// <param name="accessToken"></param>
+        /// <returns></returns>
+        /// <exception cref="PortfolioUserCoreException"></exception>
+        private async Task UpdateKeyCloakUser(UserRepresentation keycloakUpdateRequest, string userID, string accessToken)
+        {
+            if (!await _adminApiService.UpdateUser(_options.Realm, accessToken, userID, keycloakUpdateRequest).ConfigureAwait(false))
+            {
+                throw new PortfolioUserCoreException(
+                    "Couldn't update existing Keycloak user via admin API",
+                    "An error occurred. Please try again later.");
+            }
+        }
+
+        /// <summary>
         /// Map received DTO model to keycloak model (request keycloak model)
         /// </summary>
         /// <param name="userDto"></param>
@@ -149,7 +169,7 @@ namespace User.Application.Services
         {
             return new UserRepresentation
             {
-                Enabled = true,
+                Enabled = false,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 UserName = userDto.UserName,
@@ -182,6 +202,80 @@ namespace User.Application.Services
                 LastName = userDto.LastName,
                 UserName = userDto.UserName,
             };
+        }
+
+        /// <summary>
+        /// Approve user and add keycloak user id to db user instance 
+        /// If user has externalid value, that means that he is confirmed by the admin
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        /// <exception cref="PortfolioUserNotFoundException"></exception>
+        public async Task ApproveUser(long userId, CancellationToken token = default)
+        {
+            var dbUser = _context.Users.Find(userId);
+            if(dbUser is null)
+            {
+                throw new PortfolioUserNotFoundException("User not found");
+            }
+
+            var adminAuthData = await FetchKeycloakAdminAccessToken();
+
+            var keycloakUser = await FetchKeycloakUserByUniqueUserName(adminAuthData.AccessToken, dbUser.UserName);
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                dbUser.ExternalId = keycloakUser.UserId;
+                await _context.SaveChangesAsync();
+
+                var keycloakUpdateRequest = new UserRepresentation
+                {
+                    Enabled = true,
+                };
+
+                await UpdateKeyCloakUser(keycloakUpdateRequest, keycloakUser.UserId.ToString(), adminAuthData.AccessToken);
+
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+            await _publish.Publish(new PortfolioUserApproved
+            {
+                UserName = dbUser.UserName,
+                ExternalId = keycloakUser.UserId,
+                InternalId = dbUser.Id,
+                ApprovedOn = _timeProvider.Now
+            });
+        }
+
+        /// <summary>
+        /// Fetch keycloak user via ADMIN api. Search criteria is username that is unique
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        /// <exception cref="PortfolioUserNotFoundException"></exception>
+        private async Task<UserResponse> FetchKeycloakUserByUniqueUserName(string accessToken, string userName)
+        {
+            var searchParams = new Dictionary<string, string>()
+            {
+                { "exact", "true" },
+                { "username", userName }
+            };
+
+            var keycloakSearchResult = await _adminApiService.GetUsers(_options.Realm, accessToken, searchParams);
+            if (!keycloakSearchResult.Any())
+            {
+                throw new PortfolioUserNotFoundException("User not found");
+            }
+
+            return keycloakSearchResult.First();
         }
     }
 }
