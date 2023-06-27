@@ -1,4 +1,8 @@
-﻿using System.Data.Entity.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using Moq;
+using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
 
 namespace Tests.Common.EntityFramework
@@ -97,5 +101,16 @@ namespace Tests.Common.EntityFramework
         {
             get { return Current; }
         }
+    }
+
+    public class MockDatabaseFacade : DatabaseFacade
+    {
+        public MockDatabaseFacade(DbContext context) : base(context)
+        {
+        }
+
+        public override Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(Mock.Of<IDbContextTransaction>());
+
     }
 }

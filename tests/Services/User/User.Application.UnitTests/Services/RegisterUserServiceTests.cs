@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MockQueryable.Moq;
 using Moq;
+using Tests.Common.EntityFramework;
+using Time.Abstract.Contracts;
 using User.Application.Common.Exceptions;
 using User.Application.Common.Options;
 using User.Application.Entities;
@@ -27,6 +29,7 @@ namespace User.Application.UnitTests.Services
         private Fixture _fixture = new Fixture();
         private Mock<UserDbContext> _dbContextMock = new Mock<UserDbContext>();
         private Mock<IPublishEndpoint> _endpointMock = new Mock<IPublishEndpoint>();
+        private Mock<IDateTimeProvider> _timeProvider = new Mock<IDateTimeProvider>();
         private Mock<IKeycloakAdminService> _adminApiMock = new Mock<IKeycloakAdminService>();
         private Mock<IValidator<CreateUserDto>> _validatorMock = new Mock<IValidator<CreateUserDto>>();
         private Mock<ILogger<RegisterUserService>> _loggerMock = new Mock<ILogger<RegisterUserService>>();
@@ -42,6 +45,8 @@ namespace User.Application.UnitTests.Services
                 Realm = "testrealm",
                 UserName = "username",
             });
+
+            _timeProvider.Setup(x => x.Now).Returns(DateTime.UtcNow);
         }
 
         [Fact]
@@ -55,7 +60,7 @@ namespace User.Application.UnitTests.Services
 
             var service = new RegisterUserService(_loggerMock.Object, 
                 _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
-                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object, _timeProvider.Object);
 
             var invalidRequest = _fixture.Build<CreateUserDto>()
                 .With(x => x.Email, "invalidmail")
@@ -79,7 +84,7 @@ namespace User.Application.UnitTests.Services
 
             var service = new RegisterUserService(_loggerMock.Object,
                 _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
-                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object, _timeProvider.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
@@ -103,9 +108,13 @@ namespace User.Application.UnitTests.Services
             _adminApiMock.Setup(x => x.CreateUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<UserRepresentation>()))
                 .ReturnsAsync(false);
 
+            var usersDbSetMock = new List<PortfolioUser>().AsQueryable().BuildMockDbSet();
+            _dbContextMock.Setup(x => x.Users).Returns(usersDbSetMock.Object);
+            _dbContextMock.SetupGet(x => x.Database).Returns(new MockDatabaseFacade(_dbContextMock.Object));
+
             var service = new RegisterUserService(_loggerMock.Object,
                 _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
-                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object, _timeProvider.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
@@ -130,17 +139,17 @@ namespace User.Application.UnitTests.Services
 
             var usersDbSetMock = new List<PortfolioUser>().AsQueryable().BuildMockDbSet();
             _dbContextMock.Setup(x => x.Users).Returns(usersDbSetMock.Object);
+            _dbContextMock.SetupGet(x => x.Database).Returns(new MockDatabaseFacade(_dbContextMock.Object));
             _dbContextMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
                 .Throws(new DbUpdateException());
 
             var service = new RegisterUserService(_loggerMock.Object,
                 _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
-                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object, _timeProvider.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
             await Assert.ThrowsAsync<DbUpdateException>(() => service.RegisterUser(validRequest, CancellationToken.None));
-            _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Once());
         }
 
 
@@ -160,11 +169,12 @@ namespace User.Application.UnitTests.Services
                 .ReturnsAsync(true);
 
             var usersDbSetMock = new List<PortfolioUser>().AsQueryable().BuildMockDbSet();
+            _dbContextMock.SetupGet(x => x.Database).Returns(new MockDatabaseFacade(_dbContextMock.Object));
             _dbContextMock.Setup(x => x.Users).Returns(usersDbSetMock.Object);
 
             var service = new RegisterUserService(_loggerMock.Object,
                 _validatorMock.Object, _dbContextMock.Object, _flowServiceMock.Object,
-                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object);
+                _optionsMock.Object, _adminApiMock.Object, _endpointMock.Object, _timeProvider.Object);
 
             var validRequest = _fixture.Create<CreateUserDto>();
 
