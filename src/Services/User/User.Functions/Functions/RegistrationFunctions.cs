@@ -11,10 +11,11 @@ namespace User.Functions.Functions
 {
     public class RegistrationFunctions
     {
-        private readonly IUserService _userService;
+        private readonly ICurrentUserService _userService;
         private readonly IRegisterUserService _registrationService;
 
-        public RegistrationFunctions(IRegisterUserService registrationService, IUserService userService)
+        public RegistrationFunctions(IRegisterUserService registrationService, 
+            ICurrentUserService userService)
         {
             _userService = userService;
             _registrationService = registrationService;
@@ -40,13 +41,11 @@ namespace User.Functions.Functions
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        [Function("UserInfo")]
-        public HttpResponseData GetUserInfo([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+        [Function("RegisterUser")]
+        public async Task<HttpResponseData> ApproveUser(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
         {
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-            response.WriteString($"UserInfo method invoked for user {_userService.GetUserId()}");
-            return response;
+            throw new NotImplementedException();
         }
     }
 }

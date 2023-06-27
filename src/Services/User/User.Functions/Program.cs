@@ -21,7 +21,7 @@ var host = new HostBuilder()
     {
         ApplicationLayer.AddServices(services, context.Configuration);
 
-        services.AddScoped<IUserService, CurrentUserService>(services =>
+        services.AddScoped<ICurrentUserService, CurrentUserService>(services =>
         {
             return new CurrentUserService(Enumerable.Empty<Claim>());
         });

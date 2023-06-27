@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace User.Functions.Services
 {
-    public interface IUserService
+    public interface ICurrentUserService
     {
         void InitializeUser(IEnumerable<Claim> claims);
         Guid GetUserId();
     }
 
-    public class CurrentUserService : IUserService
+    public class CurrentUserService : ICurrentUserService
     {
         public IEnumerable<Claim> Claims { get; private set; }
 

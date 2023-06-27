@@ -41,6 +41,13 @@ namespace User.Functions.Middlewares
                     return;
                 }
 
+                if(ex is PortfolioUserNotFoundException)
+                {
+                    var coreException = ex as PortfolioUserNotFoundException;
+                    await requestData.DefineResponseMiddleware(HttpStatusCode.NotFound, coreException.UserMessage);
+                    return;
+                }
+
                 if (ex is PortfolioUserCoreException)
                 {
                     var coreException = ex as PortfolioUserCoreException;

@@ -8,7 +8,6 @@ using System.Reflection;
 using Time.Abstract.Contracts;
 using Time.Common;
 using User.Application.Common.Options;
-using User.Application.Consumers;
 using User.Application.Interfaces;
 using User.Application.Persistence;
 using User.Application.Services;
@@ -44,8 +43,6 @@ namespace User.Application
             services.AddMassTransit(x =>
             {
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "User", false));
-
-                x.AddConsumer<UserNotSavedToPersistenceStorageConsumer>();
 
                 x.UsingRabbitMq((context, config) =>
                 {

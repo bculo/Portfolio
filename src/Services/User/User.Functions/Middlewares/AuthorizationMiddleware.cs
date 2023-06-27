@@ -47,7 +47,7 @@ namespace User.Functions.Middlewares
                 return;
             }
 
-            var userService = context.InstanceServices.GetService(typeof(IUserService)) as IUserService;
+            var userService = context.InstanceServices.GetService(typeof(ICurrentUserService)) as ICurrentUserService;
             if (userService is null)
             {
                 _logger.LogCritical("IUserService not registered via DI!!!");
