@@ -8,11 +8,13 @@ namespace User.Application.Interfaces
 {
     public interface IUserManagerService
     {
-        Task<UserDetailsDto> GetUserDetails(Guid userId);
+        Task<UserDetailsDto> GetUserDetails(Guid userId, CancellationToken cancellationToken = default);
     }
 
     public class UserDetailsDto
     {
-
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

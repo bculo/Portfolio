@@ -6,10 +6,7 @@ namespace Stock.Application.Features
 {
     public static class FilterList
     {
-        public record Query : PageRequest, IRequest<IEnumerable<Response>>
-        {
-            public string Symbol { get; set; }
-        }
+        public record Query(string Symbol) : PageRequest, IRequest<IEnumerable<Response>>;
 
         public class Validator : PageBaseValidator<Query> { }
 

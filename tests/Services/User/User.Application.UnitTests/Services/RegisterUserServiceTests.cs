@@ -92,7 +92,6 @@ namespace User.Application.UnitTests.Services
             _endpointMock.Verify(x => x.Publish(It.IsAny<PortfolioUserApproved>(), It.IsAny<CancellationToken>()), Times.Never());
         }
 
-
         [Fact]
         public async Task RegisterUser_ShouldThrowException_WhenUserIsNotAddedSuccessfullyToKeycloak()
         {
@@ -151,7 +150,6 @@ namespace User.Application.UnitTests.Services
 
             await Assert.ThrowsAsync<DbUpdateException>(() => service.RegisterUser(validRequest, CancellationToken.None));
         }
-
 
         [Fact]
         public async Task RegisterUser_ShouldExecuteWithoutException_WhenAllInnerServicesExecuteWithoutFailure()

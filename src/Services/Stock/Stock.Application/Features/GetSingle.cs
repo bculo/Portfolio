@@ -17,10 +17,7 @@ namespace Stock.Application.Features
     /// </summary>
     public static class GetSingle
     {
-        public record Query : IRequest<Response>
-        {
-            public string Symbol { get; set; }
-        }
+        public record Query(string Symbol) : IRequest<Response>;
 
         public class Validator : AbstractValidator<Query>
         {

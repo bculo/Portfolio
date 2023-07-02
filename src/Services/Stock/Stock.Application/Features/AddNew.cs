@@ -15,10 +15,7 @@ namespace Stock.Application.Features
     /// </summary>
     public static class AddNew
     {
-        public record Command : IRequest<long>
-        {
-            public string Symbol { get; set; }
-        }
+        public record Command(string Symbol) : IRequest<long>;
 
         public class Validator : AbstractValidator<Command>
         {

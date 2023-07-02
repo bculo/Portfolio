@@ -17,10 +17,8 @@ namespace Stock.Application.Features
     /// </summary>
     public static class UpdateBatch
     {
-        public record Command : IRequest 
-        {
-            public List<string> Symbols { get; set; }
-        }
+        public record Command(List<string> Symbols) : IRequest;
+
 
         public class Validator : AbstractValidator<Command>
         {
@@ -68,7 +66,7 @@ namespace Stock.Application.Features
                     return;
                 }
 
-                var fetchedItemsWithPrice = await ExecuteUpdateProcedure(itemsToUpdate);
+                var fetchedItemsWithPrice = await FetchNewPricesForSymbols(itemsToUpdate);
 
                 if(!fetchedItemsWithPrice.Any())
                 {
@@ -110,7 +108,8 @@ namespace Stock.Application.Features
             /// <returns></returns>
             private async Task<ImmutableDictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
             {
-                return (await _repoStock.GetDictionary(i => symbols.Contains(i.Symbol), x => x.Symbol, y => y.Id)).ToImmutableDictionary();
+                var dictionary = await _repoStock.GetDictionary(i => symbols.Contains(i.Symbol), x => x.Symbol, y => y.Id);
+                return dictionary.ToImmutableDictionary();
             }
 
             /// <summary>
@@ -118,7 +117,7 @@ namespace Stock.Application.Features
             /// </summary>
             /// <param name="items"></param>
             /// <returns></returns>
-            private async Task<ImmutableList<StockPriceDetails>> ExecuteUpdateProcedure(ImmutableDictionary<string, int> items)
+            private async Task<ImmutableList<StockPriceDetails>> FetchNewPricesForSymbols(ImmutableDictionary<string, int> items)
             {
                 int maximumConcurrentRequest = _config.GetValue<int>("MaximumConcurrentHttpRequests");
                 if(maximumConcurrentRequest <= 0)
@@ -127,33 +126,40 @@ namespace Stock.Application.Features
                     maximumConcurrentRequest = 5;
                 }
 
-                var concurrentRequest = new ConcurrentBag<StockPriceDetails>();
                 using var semaphore = new SemaphoreSlim(maximumConcurrentRequest);
-                var tasks = items.Select(async item =>
+                var tasks = items.Select(async item => await FetchPriceForSingleSymbol(item, semaphore)).ToList();
+
+                var priceInfos = await Task.WhenAll(tasks);
+                return priceInfos.ToImmutableList();
+            }
+
+            public async Task<StockPriceDetails> FetchPriceForSingleSymbol(KeyValuePair<string, int> item, SemaphoreSlim semaphore)
+            {
+                try
                 {
                     await semaphore.WaitAsync();
 
-                    try
+                    var fetchedInstance = await FetchAssetPrice(item.Key);
+                    if (fetchedInstance is not null)
                     {
-                        var fetchedInstance = await FetchAssetPrice(item.Key);
-                        if(fetchedInstance is not null)
+                        return new StockPriceDetails
                         {
-                            concurrentRequest.Add(new StockPriceDetails
-                            {
-                                Id = item.Value,
-                                Price = fetchedInstance.Price,
-                                Symbol = item.Key
-                            });
-                        }
+                            Id = item.Value,
+                            Price = fetchedInstance.Price,
+                            Symbol = item.Key
+                        };
                     }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                });
 
-                await Task.WhenAll(tasks);
-                return concurrentRequest.ToImmutableList();
+                    return default;
+                }
+                catch
+                {
+                    return default;
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
             }
 
             /// <summary>
