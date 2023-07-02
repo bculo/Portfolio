@@ -16,10 +16,7 @@ namespace Stock.Infrastructure.Consumers
 
         public async Task Consume(ConsumeContext<BatchForUpdatePrepared> context)
         {
-            await _mediator.Send(new UpdateBatch.Command
-            {
-                Symbols = context.Message.Symbols
-            });
+            await _mediator.Send(new UpdateBatch.Command(context.Message.Symbols));
         }
     }
 }

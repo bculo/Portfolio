@@ -28,7 +28,7 @@ namespace Stock.API.Controllers.v1
         [HttpGet("Single/{symbol}")]
         public async Task<IActionResult> GetSingle([FromRoute] string symbol)
         {
-            return Ok(await _mediator.Send(new GetSingle.Query { Symbol = symbol }));
+            return Ok(await _mediator.Send(new GetSingle.Query(symbol)));
         }
 
         [HttpGet("GetAll")]

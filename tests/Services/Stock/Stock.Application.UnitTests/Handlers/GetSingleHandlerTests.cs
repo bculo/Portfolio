@@ -30,7 +30,7 @@ namespace Stock.Application.UnitTests.Handlers
         [InlineData("AAPL")]
         public async Task Handle_ShouldReturnInstance_WhenSymbolExists(string symbol)
         {
-            var query = new GetSingle.Query { Symbol = symbol };
+            var query = new GetSingle.Query(symbol);
             _cacheMock.Setup(x => x.Get<StockCacheItem>(It.IsAny<string>()))
                     .ReturnsAsync(_fixture.Build<StockCacheItem>().With(x => x.Symbol, symbol).Create());
             var handler = new GetSingle.Handler(_cacheMock.Object, _localeMock.Object, _logger);
@@ -45,7 +45,7 @@ namespace Stock.Application.UnitTests.Handlers
         [Fact]
         public async Task Handle_ShouldThrowException_WhenSymbolDoesntExists()
         {
-            var query = new GetSingle.Query { Symbol = "HELLO" };
+            var query = new GetSingle.Query("HELLO");
             _cacheMock.Setup(x => x.Get<StockCacheItem>(It.IsAny<string>()))
                 .ReturnsAsync((StockCacheItem)null!);
             var handler = new GetSingle.Handler(_cacheMock.Object, _localeMock.Object, _logger);
