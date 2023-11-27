@@ -42,23 +42,23 @@ namespace Trend.Application.Services
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<GoogleSyncResultDto> ExecuteGoogleSync()
+        public async Task<SyncResultDto> ExecuteSync()
         {
             var searchWords = await _syncSettingRepo.GetAll();
 
             if(searchWords.Count == 0)
             {
-                _logger.LogInformation("Array of searchwrods are empty. Sync process is stopped");
-                throw new TrendAppCoreException("Array of searchwrods are empty. Sync process is stopped");
+                _logger.LogInformation("Array of search words is empty. Sync process is stopped");
+                throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
             }
 
-            Dictionary<ContextType, List<string>> googleSyncRequest = searchWords
+            var googleSyncRequest = searchWords
                 .GroupBy(i => i.Type)
                 .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
 
             var syncResult = await _googleSync.Sync(googleSyncRequest);
 
-            var dto = _mapper.Map<GoogleSyncResultDto>(syncResult);
+            var dto = _mapper.Map<SyncResultDto>(syncResult);
 
             await _publishEndpoint.Publish(new NewNewsFetched { });
 
@@ -74,13 +74,9 @@ namespace Trend.Application.Services
             }
 
             var entity = await _syncStatusRepo.FindById(id);
-            if(entity is null)
-            {
-                _logger.LogInformation("Sync with provided ID {0} not found", id);
-                return null;
-            }
-
-            return _mapper.Map<SyncStatusDto>(entity);
+            if (entity is not null) return _mapper.Map<SyncStatusDto>(entity);
+            _logger.LogInformation("Sync with provided ID {0} not found", id);
+            return null;
         }
 
         public async Task<List<SyncStatusDto>> GetSyncStatuses()

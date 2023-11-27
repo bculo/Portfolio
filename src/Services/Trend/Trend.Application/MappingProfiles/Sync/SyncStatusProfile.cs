@@ -29,7 +29,7 @@ namespace Trend.Application.MappingProfiles.Sync
                 .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => (int)src.Type));
 
-            CreateMap<GoogleSyncResult, GoogleSyncResultDto>()
+            CreateMap<GoogleSyncResult, SyncResultDto>()
                 .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.SyncStatus))
                 .ForMember(dst => dst.SearchResult, opt => opt.MapFrom(src => src.GetInstances()));
         }

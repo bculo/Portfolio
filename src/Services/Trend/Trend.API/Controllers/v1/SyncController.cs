@@ -21,11 +21,11 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("Sync")]
-        [ProducesResponseType(typeof(GoogleSyncResultDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SyncResultDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Sync()
         {
-            return Ok(await _syncService.ExecuteGoogleSync());
+            return Ok(await _syncService.ExecuteSync());
         }
 
         [HttpGet("GetSync/{id}")]

@@ -19,10 +19,10 @@ namespace Trend.API.Controllers.v1
             _service = service;
         }
 
-        [HttpGet("GetLatestsNews")]
+        [HttpGet("GetLatestNews")]
         [ProducesResponseType(typeof(List<ArticleTypeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLatestsNews()
+        public async Task<IActionResult> GetLatestNews()
         {
             return Ok(await _service.GetLatestNews());
         }

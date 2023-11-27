@@ -53,7 +53,7 @@ namespace Trend.Application.Services
 
             if(articleTypesToSync.Count == 0)
             {
-                _logger.LogInformation("ArticleTypes to fetch are not defiend");
+                _logger.LogInformation("ArticleTypes to fetch are not defined");
                 return Result;
             }
 
@@ -71,7 +71,6 @@ namespace Trend.Application.Services
 
         private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync)
         {
-            //prepare sync instance
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
             Result.SetSyncInstance(SyncStatus);
@@ -90,14 +89,11 @@ namespace Trend.Application.Services
             AttachSyncStatusIdentifierToArticles();
 
             await _session.StartTransaction();
-
-            //save sync status and new articles
+            
             await PersistSyncStatus();
             await PersistNewArticles();
-
-            //deactivate old articles
             await _articleRepo.DeactivateArticles(oldActiveIds);
-
+            
             await _session.CommitTransaction();
         }
 

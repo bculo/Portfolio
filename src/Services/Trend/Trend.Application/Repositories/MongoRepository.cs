@@ -42,12 +42,12 @@ namespace Trend.Application.Repositories
             await _collection.DeleteOneAsync(filter);
         }
 
-        public virtual async Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression)
+        public virtual Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression)
         {
-            return _collection.Find(filterExpression).SortByDescending(i => i.Created).ToList();
+            return Task.FromResult(_collection.Find(filterExpression).SortByDescending(i => i.Created).ToList());
         }
 
-        public virtual async Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null)
+        public virtual Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null)
         {
             filterExpression ??= i => true;
 
@@ -58,7 +58,7 @@ namespace Trend.Application.Repositories
                 .Limit(take)
                 .ToList();
 
-            return new PageResponse<T>(count, items);
+            return Task.FromResult(new PageResponse<T>(count, items));
         }
 
         public virtual async Task<T> FindById(string id)

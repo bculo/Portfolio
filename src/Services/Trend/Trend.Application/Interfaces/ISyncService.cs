@@ -14,7 +14,7 @@ namespace Trend.Application.Interfaces
     { 
         Task<List<SyncStatusDto>> GetSyncStatuses();
         Task<SyncStatusDto> GetSync(string id);
-        Task<GoogleSyncResultDto> ExecuteGoogleSync();
+        Task<SyncResultDto> ExecuteSync();
         Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId);
         Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request);
     }

@@ -31,7 +31,7 @@ namespace Trend.Application.Services
 
             if (isDuplicate)
             {
-                throw new TrendAppCoreException("Sync setting with given search word and engine needs to be unqiue");
+                throw new TrendAppCoreException("Sync setting with given search word and engine needs to be unique");
             }
 
             var entity = _mapper.Map<SearchWord>(instance);
@@ -40,22 +40,22 @@ namespace Trend.Application.Services
             return response;
         }
 
-        public async Task<List<KeyValueElementDto>> GetAvaiableContextTypes()
+        public Task<List<KeyValueElementDto>> GetAvailableContextTypes()
         {
-            return Enum.GetValues<ContextType>().Select(i => new KeyValueElementDto
+            return Task.FromResult(Enum.GetValues<ContextType>().Select(i => new KeyValueElementDto
             {
                 Key = (int)i,
                 Value = i.ToString()
-            }).ToList();
+            }).ToList());
         }
 
-        public async Task<List<KeyValueElementDto>> GetAvailableSearchEngines()
+        public Task<List<KeyValueElementDto>> GetAvailableSearchEngines()
         {
-            return Enum.GetValues<SearchEngine>().Select(i => new KeyValueElementDto
+            return Task.FromResult(Enum.GetValues<SearchEngine>().Select(i => new KeyValueElementDto
             {
                 Key = (int)i,
                 Value = i.ToString()
-            }).ToList();
+            }).ToList());
         }
 
         public async Task<List<SearchWordDto>> GetSyncSettingsWords()

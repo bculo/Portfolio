@@ -29,20 +29,20 @@ namespace Trend.API.Controllers.v1
             return Ok(await _service.GetSyncSettingsWords());
         }
 
-        [HttpGet("GetAvaiableSearchEngines")]
+        [HttpGet("GetAvailableSearchEngines")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAvaiableSearchEngines()
+        public async Task<IActionResult> GetAvailableSearchEngines()
         {
             return Ok(await _service.GetAvailableSearchEngines());
         }
 
-        [HttpGet("GetAvaiableContextTypes")]
+        [HttpGet("GetAvailableContextTypes")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAvaiableContextTypes()
+        public async Task<IActionResult> GetAvailableContextTypes()
         {
-            return Ok(await _service.GetAvaiableContextTypes());
+            return Ok(await _service.GetAvailableContextTypes());
         }
 
         [HttpPost("AddNewSearchWord")]

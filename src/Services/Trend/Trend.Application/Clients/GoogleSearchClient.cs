@@ -8,13 +8,6 @@ using Trend.Application.Options;
 
 namespace Trend.Application.Clients
 {
-    /// <summary>
-    /// HTTP Client for Programmable Search Engine (JSON API) https://developers.google.com/custom-search/docs/overview
-    /// To use GoogleSearchClient generate API key (JSON API section in above URL) and create Search engine ID (JSON API section - https://programmablesearchengine.google.com/cse/all)
-    /// After configuration add GoogleOptions section in appsettings.json file (check required options in class GoogleSearchOptions)
-    /// NOTE: Its free for 100 queries per day
-    /// API KEY located -> https://console.cloud.google.com/apis/dashboard?project=trendsearcher-1654511636808
-    /// </summary>
     public class GoogleSearchClient : BaseHttpFactoryClient, IGoogleSearchClient
     {
         private readonly GoogleSearchOptions _options;

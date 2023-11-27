@@ -8,10 +8,7 @@ namespace Trend.API.Services
     {
         private readonly IAuth0AccessTokenReader _user;
 
-        public UserService(IAuth0AccessTokenReader user)
-        {
-            _user = user;
-        }
+        public UserService(IAuth0AccessTokenReader user) => _user = user;
 
         public Guid UserId
         {

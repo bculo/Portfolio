@@ -14,6 +14,6 @@ namespace Trend.Application.Interfaces
         Task<List<KeyValueElementDto>> GetAvailableSearchEngines();
         Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance);
         Task RemoveSyncSetting(string id);
-        Task<List<KeyValueElementDto>> GetAvaiableContextTypes();
+        Task<List<KeyValueElementDto>> GetAvailableContextTypes();
     }
 }

@@ -10,23 +10,20 @@ using System.Threading.Tasks;
 
 namespace Http.Common.Abstract
 {
-    /// <summary>
-    /// For HTTP client that use HttpClientFactory
-    /// </summary>
     public abstract class BaseHttpFactoryClient
     {
         private readonly IHttpClientFactory _clientFactory;
         private IDictionary<string, string> _queryParameters;
         private readonly ILogger? _logger;
 
-        public BaseHttpFactoryClient(IHttpClientFactory clientFactory)
+        protected BaseHttpFactoryClient(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
 
             _queryParameters = new Dictionary<string, string>();
         }
 
-        public BaseHttpFactoryClient(IHttpClientFactory clientFactory, ILogger logger) : this(clientFactory)
+        protected BaseHttpFactoryClient(IHttpClientFactory clientFactory, ILogger logger) : this(clientFactory)
         {
             _logger = logger;
         }

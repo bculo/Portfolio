@@ -15,7 +15,7 @@ namespace Trend.Application.Consumers
 
         public async Task Consume(ConsumeContext<ExecuteNewsSync> context)
         {
-            await _syncService.ExecuteGoogleSync();
+            await _syncService.ExecuteSync();
         }
     }
 }
