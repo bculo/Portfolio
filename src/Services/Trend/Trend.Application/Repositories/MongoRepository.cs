@@ -49,10 +49,7 @@ namespace Trend.Application.Repositories
 
         public virtual async Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null)
         {
-            if(filterExpression is null)
-            {
-                filterExpression = i => true;
-            }
+            filterExpression ??= i => true;
 
             var count = _collection.CountDocuments(filterExpression);
             var items = _collection.Find(filterExpression)
@@ -71,26 +68,24 @@ namespace Trend.Application.Repositories
             return result.FirstOrDefault();
         }
 
-        public virtual async Task<List<T>> GetAll()
+        public virtual Task<List<T>> GetAll()
         {
-            return GetQueryable().ToList();
+            return Task.FromResult(GetQueryable().ToList());
         }
 
         public virtual async Task<long> Count()
         {
-            return _collection.CountDocuments(i => true);
+            return await _collection.CountDocumentsAsync(i => true);
         }
 
         public virtual async IAsyncEnumerable<T> GetAllEnumerable()
         {
-            using(var cursor = await _collection.Find(i => true).ToCursorAsync())
+            using var cursor = await _collection.Find(i => true).ToCursorAsync();
+            while (await cursor.MoveNextAsync())
             {
-                while (await cursor.MoveNextAsync())
+                foreach (var current in cursor.Current)
                 {
-                    foreach (var current in cursor.Current)
-                    {
-                        yield return current;
-                    }
+                    yield return current;
                 }
             }
         }

@@ -5,8 +5,7 @@ services:
   trend.mongo:
     container_name: trend_mongo_db
     volumes:
-      - mongodbstore:/data/db
-      - mongodbstore:/data/configdb
+      - ./data/mongo/trend:/data
     ports:
       - "27017:27017"
     environment:
@@ -16,7 +15,7 @@ services:
   trend.redis:
     container_name: trend_redis
     volumes:
-      - redisstore:/data
+      - ./data/redis/data:/data
     ports:
       - "6379:6379"
 
@@ -28,7 +27,10 @@ services:
     ports:
       - 1433:1433
     volumes:
-      - identitysqlvolume:/var/opt/mssql
+      - ./data/identity/data:/var/opt/mssql/data
+      - ./data/identity/log:/var/opt/mssql/log
+      - ./data/identity/secrets:/var/opt/mssql/secrets
+    platform: linux/amd64
 
   sql.server.tools:
     container_name: msql_tools
@@ -41,13 +43,14 @@ services:
     ports:
       - 8080:8080
     environment:
-      - DB_VENDOR=mssql
-      - DB_USER=sa
-      - DB_PASSWORD=pa55w0rd!
-      - DB_ADDR=identity.database
-      - DB_DATABASE=Keycloak
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+      - KC_DB=mssql
+      - KC_TRANSACTION_XA_ENABLED=false
+      - KC_DB_URL=jdbc:sqlserver://identity.database;databaseName=Keycloak;encrypt=false;trustServerCertificate=false;
+      - KC_DB_USERNAME=sa
+      - KC_DB_PASSWORD=pa55w0rd!
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: ["start-dev"]
     depends_on:
       - identity.database
       - sql.server.tools
@@ -61,14 +64,14 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - rabbitmqstore:/var/lib/rabbitmq
+      - ./data/rabbitmq/data:/var/lib/rabbitmq
 
   notification.hub.redis:
     container_name: notification.hub.redis
     ports:
       - "6380:6379"
     volumes:
-      - notification-hub-redis-store:/data
+      - ./data/redis-notification/data:/data
 
   jager:
     container_name: jager
@@ -99,7 +102,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - D:\Persistence\TrackerDB:/var/lib/postgresql/data
+      - ./data/postgre/stock:/var/lib/postgresql/data
 
   stock-postgre-db:
     container_name: stock-postgre-db
@@ -109,7 +112,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - D:\Persistence\StockDB:/var/lib/postgresql/data
+      - ./data/postgre/stock:/var/lib/postgresql/data
 
   user-postgre-db:
     container_name: user-postgre-db
@@ -119,7 +122,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - D:\Persistence\UserDB:/var/lib/postgresql/data
+      - ./data/postgre/user:/var/lib/postgresql/data
         
   pgadmin:
     container_name: pgadmin
@@ -129,6 +132,6 @@ services:
     ports:
       - "5050:80"
     volumes:
-      - pgadmin-volume:/var/lib/pgadmin
+      - ./data/pg-admin/data:/var/lib/pgadmin
     
     

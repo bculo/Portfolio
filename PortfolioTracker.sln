@@ -8,6 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E90508B7-CC3F-45D9-B4EF-0D802BC43B21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend", "Trend", "{A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}"
+	ProjectSection(SolutionItems) = preProject
+		src\Services\Trend\README.md = src\Services\Trend\README.md
+		src\Services\Trend\.gitignore = src\Services\Trend\.gitignore
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.API", "src\Services\Trend\Trend.API\Trend.API.csproj", "{34CD6D56-D325-4591-8ED9-480589F2D7F0}"
 EndProject
@@ -22,11 +26,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Application", "src\Services\Trend\Trend.Application\Trend.Application.csproj", "{C13A0992-4633-41D5-875A-DF47515545E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Domain", "src\Services\Trend\Trend.Domain\Trend.Domain.csproj", "{663D34C1-B5ED-447E-A95D-D6BE562042E5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend.Instructions", "Trend.Instructions", "{404FFD72-92AD-410E-B5D0-3D47F9D90EF8}"
-	ProjectSection(SolutionItems) = preProject
-		src\Services\Trend\Trend.Instructions\Create_Serilog_User.txt = src\Services\Trend\Trend.Instructions\Create_Serilog_User.txt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{05ED715D-48C4-4D36-9649-DD7F6467CADD}"
 EndProject
@@ -426,7 +425,6 @@ Global
 		{677995B9-E076-4C5E-A089-F5279D551BFC} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 		{C13A0992-4633-41D5-875A-DF47515545E3} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 		{663D34C1-B5ED-447E-A95D-D6BE562042E5} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
-		{404FFD72-92AD-410E-B5D0-3D47F9D90EF8} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 		{05ED715D-48C4-4D36-9649-DD7F6467CADD} = {E4CAA80B-5C9A-40EE-9BFF-76A5BD7E193A}
 		{BA912A66-0E67-4290-962B-5F4610B3CADE} = {05ED715D-48C4-4D36-9649-DD7F6467CADD}
 		{4490A7FE-A882-481F-9387-B905385B8C8F} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}

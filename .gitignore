@@ -5,6 +5,9 @@ project.lock.json
 *.pyc
 nupkg/
 
+# Data for persistence storages
+data/*
+
 # Visual Studio Code
 .vscode
 

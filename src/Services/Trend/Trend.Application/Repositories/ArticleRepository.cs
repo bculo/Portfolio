@@ -25,16 +25,14 @@ namespace Trend.Application.Repositories
 
         public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable()
         {
-            using (var cursor = await _collection.Find(i => i.IsActive)
+            using var cursor = await _collection.Find(i => i.IsActive)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync())
+                .ToCursorAsync();
+            while (await cursor.MoveNextAsync())
             {
-                while (await cursor.MoveNextAsync())
+                foreach (var item in cursor.Current)
                 {
-                    foreach (var item in cursor.Current)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }
@@ -50,16 +48,14 @@ namespace Trend.Application.Repositories
 
         public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(ContextType type)
         {
-            using (var cursor = await _collection.Find(i => i.IsActive && i.Type == type)
+            using var cursor = await _collection.Find(i => i.IsActive && i.Type == type)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync())
+                .ToCursorAsync();
+            while (await cursor.MoveNextAsync())
             {
-                while (await cursor.MoveNextAsync())
+                foreach (var item in cursor.Current)
                 {
-                    foreach (var item in cursor.Current)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }
@@ -75,16 +71,14 @@ namespace Trend.Application.Repositories
 
         public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, ContextType type)
         {
-            using (var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
+            using var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync())
+                .ToCursorAsync();
+            while (await cursor.MoveNextAsync())
             {
-                while (await cursor.MoveNextAsync())
+                foreach (var item in cursor.Current)
                 {
-                    foreach (var item in cursor.Current)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }
@@ -100,16 +94,14 @@ namespace Trend.Application.Repositories
 
         public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to)
         {
-            using (var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to)
+            using var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync())
+                .ToCursorAsync();
+            while (await cursor.MoveNextAsync())
             {
-                while (await cursor.MoveNextAsync())
+                foreach (var item in cursor.Current)
                 {
-                    foreach (var item in cursor.Current)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }
