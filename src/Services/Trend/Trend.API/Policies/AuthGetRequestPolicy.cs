@@ -3,7 +3,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Trend.API.Policies;
 
-public abstract class AuthGetRequestPolicy : IOutputCachePolicy
+public class AuthGetRequestPolicy : IOutputCachePolicy
 {
     ValueTask IOutputCachePolicy.CacheRequestAsync(OutputCacheContext context, CancellationToken cancellationToken)
     {
