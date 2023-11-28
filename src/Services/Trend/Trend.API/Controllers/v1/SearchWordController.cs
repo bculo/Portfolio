@@ -25,41 +25,41 @@ namespace Trend.API.Controllers.v1
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSyncSettingsWords()
+        public async Task<IActionResult> GetSyncSettingsWords(CancellationToken token)
         {
-            return Ok(await _service.GetSyncSettingsWords());
+            return Ok(await _service.GetSyncSettingsWords(token));
         }
 
         [HttpGet("GetAvailableSearchEngines")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAvailableSearchEngines()
+        public async Task<IActionResult> GetAvailableSearchEngines(CancellationToken token)
         {
-            return Ok(await _service.GetAvailableSearchEngines());
+            return Ok(await _service.GetAvailableSearchEngines(token));
         }
 
         [HttpGet("GetAvailableContextTypes")]
         [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAvailableContextTypes()
+        public async Task<IActionResult> GetAvailableContextTypes(CancellationToken token)
         {
-            return Ok(await _service.GetAvailableContextTypes());
+            return Ok(await _service.GetAvailableContextTypes(token));
         }
 
         [HttpPost("AddNewSearchWord")]
         [ProducesResponseType(typeof(SearchWordDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordCreateDto request)
+        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordCreateDto request, CancellationToken token)
         {
-            return Ok(await _service.AddNewSyncSetting(request));
+            return Ok(await _service.AddNewSyncSetting(request, token));
         }
 
         [HttpDelete("RemoveSearchWord/{id}")]
         [ProducesResponseType(typeof(SearchWordDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RemoveSearchWord(string id)
+        public async Task<IActionResult> RemoveSearchWord(string id, CancellationToken token)
         {
-            await _service.RemoveSyncSetting(id);
+            await _service.RemoveSyncSetting(id, token);
             return NoContent();
         }
     }

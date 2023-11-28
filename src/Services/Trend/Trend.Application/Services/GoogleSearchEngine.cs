@@ -47,7 +47,7 @@ namespace Trend.Application.Services
             Entities = new List<Article>();
         }
 
-        public async Task Sync(Dictionary<ContextType, List<string>> articleTypesToSync)
+        public async Task Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
             _logger.LogTrace("Sync method called in GoogleSyncService");
 
@@ -64,10 +64,10 @@ namespace Trend.Application.Services
                 await ExecuteSync(articleSync.Key, articleSync.Value);
             }
 
-            await PersistData(articleTypesToSync);
+            await PersistData(articleTypesToSync, token);
         }
 
-        private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync)
+        private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
@@ -75,12 +75,12 @@ namespace Trend.Application.Services
 
             if (Result.TotalSuccess == 0)
             {
-                await PersistSyncStatus();
+                await PersistSyncStatus(token);
                 return;
             }
 
             //fetch current active instances (fetched instances that will be deactivated)
-            var oldActiveArticles = await _articleRepo.GetActiveArticles();
+            var oldActiveArticles = await _articleRepo.GetActiveArticles(token);
             var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
 
             //prepare article instances
@@ -88,9 +88,9 @@ namespace Trend.Application.Services
 
             await _session.StartTransaction();
             
-            await PersistSyncStatus();
-            await PersistNewArticles();
-            await _articleRepo.DeactivateArticles(oldActiveIds);
+            await PersistSyncStatus(token);
+            await PersistNewArticles(token);
+            await _articleRepo.DeactivateArticles(oldActiveIds, token);
             
             await _session.CommitTransaction();
         }
@@ -121,19 +121,19 @@ namespace Trend.Application.Services
             Entities.ForEach(item => item.SyncStatusId = SyncStatus.Id);
         }
 
-        private async Task PersistSyncStatus()
+        private async Task PersistSyncStatus(CancellationToken token)
         {
-            await _syncRepo.Add(SyncStatus);
+            await _syncRepo.Add(SyncStatus, token);
         }
 
-        private async Task PersistNewArticles()
+        private async Task PersistNewArticles(CancellationToken token)
         {
             if (Entities.Count == 0)
             {
                 return;
             }
 
-            await _articleRepo.Add(Entities);
+            await _articleRepo.Add(Entities, token);
         }
 
         private SyncStatus CreateSyncInstance()

@@ -34,7 +34,7 @@ namespace Trend.Grpc.Services
         {
             _logger.LogTrace("GetAllNews method called in NewsService");
             
-            await foreach (var item in _service.GetAllEnumerable())
+            await foreach (var item in _service.GetAllEnumerable(default))
             {
                 var responseItem = _mapper.Map<ArticleTypeItem>(item);
                 await responseStream.WriteAsync(responseItem);
@@ -45,7 +45,7 @@ namespace Trend.Grpc.Services
         {
             _logger.LogTrace("GetLatestNews method called in NewsService");
             
-            await foreach (var item in _service.GetLatestNewsEnumerable())
+            await foreach (var item in _service.GetLatestNewsEnumerable(default))
             {
                 var responseItem = _mapper.Map<ArticleItem>(item);
                 await responseStream.WriteAsync(responseItem);
@@ -58,7 +58,7 @@ namespace Trend.Grpc.Services
 
             var requestType = (ContextType)(int)request.Type;
 
-            await foreach (var item in _service.GetLatestNewsEnumerable(requestType))
+            await foreach (var item in _service.GetLatestNewsEnumerable(requestType, default))
             {
                 var responseItem = _mapper.Map<ArticleItem>(item);
                 await responseStream.WriteAsync(responseItem);
@@ -73,7 +73,7 @@ namespace Trend.Grpc.Services
 
             ValidationUtils.Validate(serviceRequest, new FetchLatestNewsPageDtoValidator());
 
-            var serviceResponse = await _service.GetLatestNewsPage(serviceRequest);
+            var serviceResponse = await _service.GetLatestNewsPage(serviceRequest, default);
 
             var response = new ArticleItemExtendedPageResponse
             { 

@@ -23,7 +23,7 @@ namespace Trend.Grpc.Extensions
                 opt.EnableDetailedErrors = true;
             });
             builder.Services.AddGrpcReflection();
-
+            services.AddOutputCache();
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             AddMessageQueue(services, configuration);

@@ -24,45 +24,45 @@ namespace Trend.API.Controllers.v1
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleTypeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLatestNews()
+        public async Task<IActionResult> GetLatestNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews());
+            return Ok(await _service.GetLatestNews(token));
         }
 
         [HttpGet("GetLatestCryptoNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLastCryptoNews()
+        public async Task<IActionResult> GetLastCryptoNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Crypto));
+            return Ok(await _service.GetLatestNews(token));
         }
         
         [HttpGet("GetLatestStockNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLastStockNews()
+        public async Task<IActionResult> GetLastStockNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Stock));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Stock, token));
         }
         
         [HttpGet("GetLatestEtfNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLastEtfNews()
+        public async Task<IActionResult> GetLastEtfNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Etf));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Etf, token));
         }
         
         [HttpGet("GetLatestEconomyNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLastEconomyNews()
+        public async Task<IActionResult> GetLastEconomyNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Economy));
+            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Economy, token));
         }
     }
 }

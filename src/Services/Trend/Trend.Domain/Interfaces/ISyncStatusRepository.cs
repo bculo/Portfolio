@@ -9,7 +9,7 @@ namespace Trend.Domain.Interfaces
 {
     public interface ISyncStatusRepository : IRepository<SyncStatus>
     {
-        Task<SyncStatus> GetLastValidSync();
-        Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId);
+        Task<SyncStatus> GetLastValidSync(CancellationToken token);
+        Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId, CancellationToken token);
     }
 }

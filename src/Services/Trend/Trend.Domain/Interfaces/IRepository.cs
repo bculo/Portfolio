@@ -11,14 +11,14 @@ namespace Trend.Domain.Interfaces
 {
     public interface IRepository<T> where T : IDocumentRoot
     {
-        Task Add(T entity);
-        IAsyncEnumerable<T> GetAllEnumerable();
-        Task Add(ICollection<T> entities);
-        Task Delete(string id);
-        Task<T> FindById(string id);
-        Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression);
-        Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null);
-        Task<List<T>> GetAll();
-        Task<long> Count();
+        Task Add(T entity, CancellationToken token);
+        IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token);
+        Task Add(ICollection<T> entities, CancellationToken token);
+        Task Delete(string id, CancellationToken token);
+        Task<T> FindById(string id, CancellationToken token);
+        Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token);
+        Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default);
+        Task<List<T>> GetAll(CancellationToken token);
+        Task<long> Count(CancellationToken token);
     }
 }

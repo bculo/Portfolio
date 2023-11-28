@@ -46,9 +46,9 @@ namespace Trend.Application.Services
             _cacheStore = cacheStore;
         }
 
-        public async Task ExecuteSync()
+        public async Task ExecuteSync(CancellationToken token)
         {
-            var searchWords = await _syncSettingRepo.GetAll();
+            var searchWords = await _syncSettingRepo.GetAll(token);
 
             if(searchWords.Count == 0)
             {
@@ -60,12 +60,12 @@ namespace Trend.Application.Services
                 .GroupBy(i => i.Type)
                 .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
 
-            await _searchEngine.Sync(googleSyncRequest);
+            await _searchEngine.Sync(googleSyncRequest, token);
             await _cacheStore.EvictByTagAsync("Sync", default);
-            await _publishEndpoint.Publish(new NewNewsFetched { });
+            await _publishEndpoint.Publish(new NewNewsFetched { }, token);
         }
 
-        public async Task<SyncStatusDto> GetSync(string id)
+        public async Task<SyncStatusDto> GetSync(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -73,15 +73,15 @@ namespace Trend.Application.Services
                 return null;
             }
 
-            var entity = await _syncStatusRepo.FindById(id);
+            var entity = await _syncStatusRepo.FindById(id, token);
             if (entity is not null) return _mapper.Map<SyncStatusDto>(entity);
             _logger.LogInformation("Sync with provided ID {0} not found", id);
             return null;
         }
 
-        public async Task<List<SyncStatusDto>> GetSyncStatuses()
+        public async Task<List<SyncStatusDto>> GetSyncStatuses(CancellationToken token)
         {
-            var entities = await _syncStatusRepo.GetAll();
+            var entities = await _syncStatusRepo.GetAll(token);
 
             if(entities.Count == 0)
             {
@@ -93,23 +93,23 @@ namespace Trend.Application.Services
             return dtos;
         }
 
-        public async Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request)
+        public async Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token)
         {
-            var entitiesPage = await _syncStatusRepo.FilterBy(request.Page, request.Take);
+            var entitiesPage = await _syncStatusRepo.FilterBy(request.Page, request.Take, null, token);
             var dtoPage = _mapper.Map<PageResponseDto<SyncStatusDto>>(entitiesPage);
             return dtoPage;
         }
 
-        public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId)
+        public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token)
         {
-            var syncStatus = await _syncStatusRepo.FindById(syncStatusId);
+            var syncStatus = await _syncStatusRepo.FindById(syncStatusId, token);
             if(syncStatus is null)
             {
                 _logger.LogInformation("Sync status with ID {0} not found", syncStatusId);
                 throw new TrendNotFoundException();
             }
 
-            var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId);
+            var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId, token);
             if(syncWords.Count == 0)
             {
                 _logger.LogTrace("Zero items find in database");

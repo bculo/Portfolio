@@ -29,24 +29,24 @@ namespace Trend.BackgroundSync
             {
                 using (var scope = _provider.CreateScope())
                 {
-                    var lastSync = await GetLastSync(scope);
+                    var lastSync = await GetLastSync(scope, stoppingToken);
 
                     if (CanExecuteSync(scope, lastSync))
                     {
-                        await StartSyncProcess(scope);
+                        await StartSyncProcess(scope, stoppingToken);
                     }
                 }
 
-                await Task.Delay(_options.SleepTimeMiliseconds);
+                await Task.Delay(_options.SleepTimeMiliseconds, stoppingToken);
             }
         }
 
-        private async Task<SyncStatus> GetLastSync(IServiceScope scope)
+        private async Task<SyncStatus> GetLastSync(IServiceScope scope, CancellationToken cancellationToken)
         {
             try
             {
                 var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
-                return await syncRepo.GetLastValidSync();
+                return await syncRepo.GetLastValidSync(cancellationToken);
             }
             catch(Exception e)
             {
@@ -54,13 +54,13 @@ namespace Trend.BackgroundSync
             }
         }
 
-        private async Task StartSyncProcess(IServiceScope scope)
+        private async Task StartSyncProcess(IServiceScope scope, CancellationToken token)
         {
             try
             {
                 var endpointProvider = scope.ServiceProvider.GetRequiredService<ISendEndpointProvider>();
                 var endpoint = await endpointProvider.GetSendEndpoint(new Uri("queue:trend-execute-news-sync"));
-                await endpoint.Send(new ExecuteNewsSync { });             
+                await endpoint.Send(new ExecuteNewsSync { }, token);             
             }
             catch (Exception e)
             {
@@ -68,7 +68,7 @@ namespace Trend.BackgroundSync
             }
         }
 
-        private bool CanExecuteSync(IServiceScope scope, SyncStatus status)
+        private bool CanExecuteSync(IServiceScope scope, SyncStatus? status)
         {
             var time = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
 

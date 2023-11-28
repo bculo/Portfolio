@@ -10,6 +10,6 @@ namespace Trend.Domain.Interfaces
 {
     public interface ISearchWordRepository : IRepository<SearchWord>
     {
-        Task<bool> IsDuplicate(string searchWord, SearchEngine engine);
+        Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token);
     }
 }

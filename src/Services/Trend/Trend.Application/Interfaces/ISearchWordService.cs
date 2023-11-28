@@ -10,10 +10,10 @@ namespace Trend.Application.Interfaces
 {
     public interface ISearchWordService
     {
-        Task<List<SearchWordDto>> GetSyncSettingsWords();
-        Task<List<KeyValueElementDto>> GetAvailableSearchEngines();
-        Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance);
-        Task RemoveSyncSetting(string id);
-        Task<List<KeyValueElementDto>> GetAvailableContextTypes();
+        Task<List<SearchWordDto>> GetSyncSettingsWords(CancellationToken token);
+        Task<List<KeyValueElementDto>> GetAvailableSearchEngines(CancellationToken token);
+        Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance, CancellationToken token);
+        Task RemoveSyncSetting(string id, CancellationToken token);
+        Task<List<KeyValueElementDto>> GetAvailableContextTypes(CancellationToken token);
     }
 }

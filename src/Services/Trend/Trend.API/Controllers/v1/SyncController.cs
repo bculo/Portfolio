@@ -24,9 +24,9 @@ namespace Trend.API.Controllers.v1
         [HttpGet("Sync")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Sync()
+        public async Task<IActionResult> Sync(CancellationToken token)
         {
-            await _syncService.ExecuteSync();
+            await _syncService.ExecuteSync(token);
             return NoContent();
         }
 
@@ -34,36 +34,36 @@ namespace Trend.API.Controllers.v1
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSync(string id)
+        public async Task<IActionResult> GetSync(string id, CancellationToken token)
         {
-            return Ok(await _syncService.GetSync(id));
+            return Ok(await _syncService.GetSync(id, token));
         }
 
         [HttpGet("GetSyncStatuses")]
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSyncStatuses()
+        public async Task<IActionResult> GetSyncStatuses(CancellationToken token)
         {
-            return Ok(await _syncService.GetSyncStatuses());
+            return Ok(await _syncService.GetSyncStatuses(token));
         }
 
         [HttpPost("GetSyncStatusesPage")]
         [ProducesResponseType(typeof(PageResponseDto<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSyncStatusesPage(PageRequestDto page)
+        public async Task<IActionResult> GetSyncStatusesPage(PageRequestDto page, CancellationToken token)
         {
-            return Ok(await _syncService.GetSyncStatusesPage(page));
+            return Ok(await _syncService.GetSyncStatusesPage(page, token));
         }
 
         [HttpGet("GetSyncStatusWords/{id}")]
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusWordDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSyncStatusWords(string id)
+        public async Task<IActionResult> GetSyncStatusWords(string id, CancellationToken token)
         {
-            return Ok(await _syncService.GetSyncStatusSearchWords(id));
+            return Ok(await _syncService.GetSyncStatusSearchWords(id, token));
         }
     }
 }

@@ -21,33 +21,33 @@ namespace Trend.Application.Repositories
             _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
         }
 
-        public virtual IQueryable<T> GetQueryable()
+        protected virtual IQueryable<T> GetQueryable()
         {
             return _collection.AsQueryable();
         }
 
-        public virtual async Task Add(T entity)
+        public virtual async Task Add(T entity, CancellationToken token)
         {
-            await _collection.InsertOneAsync(entity);
+            await _collection.InsertOneAsync(entity, new InsertOneOptions(), token);
         }
 
-        public virtual async Task Add(ICollection<T> entities)
+        public virtual async Task Add(ICollection<T> entities, CancellationToken token)
         {
-            await _collection.InsertManyAsync(entities);
+            await _collection.InsertManyAsync(entities, new InsertManyOptions(), token);
         }
 
-        public virtual async Task Delete(string id)
+        public virtual async Task Delete(string id, CancellationToken token)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
-            await _collection.DeleteOneAsync(filter);
+            await _collection.DeleteOneAsync(filter, token);
         }
 
-        public virtual Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression)
+        public virtual Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token)
         {
             return Task.FromResult(_collection.Find(filterExpression).SortByDescending(i => i.Created).ToList());
         }
 
-        public virtual Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null)
+        public virtual Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default)
         {
             filterExpression ??= i => true;
 
@@ -61,27 +61,27 @@ namespace Trend.Application.Repositories
             return Task.FromResult(new PageResponse<T>(count, items));
         }
 
-        public virtual async Task<T> FindById(string id)
+        public virtual async Task<T> FindById(string id, CancellationToken token)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
-            var result = await _collection.FindAsync(filter);
+            var result = await _collection.FindAsync(filter, new FindOptions<T>(), token);
             return result.FirstOrDefault();
         }
 
-        public virtual Task<List<T>> GetAll()
+        public virtual Task<List<T>> GetAll(CancellationToken token)
         {
             return Task.FromResult(GetQueryable().ToList());
         }
 
-        public virtual async Task<long> Count()
+        public virtual async Task<long> Count(CancellationToken token)
         {
-            return await _collection.CountDocumentsAsync(i => true);
+            return await _collection.CountDocumentsAsync(i => true, new CountOptions(), token);
         }
 
-        public virtual async IAsyncEnumerable<T> GetAllEnumerable()
+        public virtual async IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token)
         {
-            using var cursor = await _collection.Find(i => true).ToCursorAsync();
-            while (await cursor.MoveNextAsync())
+            using var cursor = await _collection.Find(i => true).ToCursorAsync(token);
+            while (await cursor.MoveNextAsync(token))
             {
                 foreach (var current in cursor.Current)
                 {

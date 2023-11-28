@@ -14,7 +14,7 @@ namespace Trend.Application.Repositories
         {
         }
 
-        public Task<List<Article>> GetActiveArticles()
+        public Task<List<Article>> GetActiveArticles(CancellationToken token)
         {
             var result = _collection.Find(i => i.IsActive)
                 .SortByDescending(i => i.Created)
@@ -23,12 +23,12 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable()
+        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.IsActive)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync();
-            while (await cursor.MoveNextAsync())
+                .ToCursorAsync(token);
+            while (await cursor.MoveNextAsync(token))
             {
                 foreach (var item in cursor.Current)
                 {
@@ -37,7 +37,7 @@ namespace Trend.Application.Repositories
             }
         }
 
-        public Task<List<Article>> GetActiveArticles(ContextType type)
+        public Task<List<Article>> GetActiveArticles(ContextType type, CancellationToken token)
         {
             var result = _collection.Find(i => i.IsActive && i.Type == type)
                 .SortByDescending(i => i.Created)
@@ -46,12 +46,12 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(ContextType type)
+        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(ContextType type, CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.IsActive && i.Type == type)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync();
-            while (await cursor.MoveNextAsync())
+                .ToCursorAsync(token);
+            while (await cursor.MoveNextAsync(token))
             {
                 foreach (var item in cursor.Current)
                 {
@@ -60,7 +60,7 @@ namespace Trend.Application.Repositories
             }
         }
 
-        public Task<List<Article>> GetArticles(DateTime from, DateTime to, ContextType type)
+        public Task<List<Article>> GetArticles(DateTime from, DateTime to, ContextType type, CancellationToken token)
         {
             var result = _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
                 .SortByDescending(i => i.Created)
@@ -69,12 +69,12 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, ContextType type)
+        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, ContextType type, CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync();
-            while (await cursor.MoveNextAsync())
+                .ToCursorAsync(token);
+            while (await cursor.MoveNextAsync(token))
             {
                 foreach (var item in cursor.Current)
                 {
@@ -83,7 +83,7 @@ namespace Trend.Application.Repositories
             }
         }
 
-        public Task<List<Article>> GetArticles(DateTime from, DateTime to)
+        public Task<List<Article>> GetArticles(DateTime from, DateTime to, CancellationToken token)
         {
             var result =  _collection.Find(i => i.Created >= from && i.Created <= to)
                 .SortByDescending(i => i.Created)
@@ -92,12 +92,12 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to)
+        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to)
                 .SortByDescending(i => i.Created)
-                .ToCursorAsync();
-            while (await cursor.MoveNextAsync())
+                .ToCursorAsync(token);
+            while (await cursor.MoveNextAsync(token))
             {
                 foreach (var item in cursor.Current)
                 {
@@ -106,10 +106,10 @@ namespace Trend.Application.Repositories
             }
         }
 
-        public async Task DeactivateArticles(List<string> articleIds)
+        public async Task DeactivateArticles(List<string> articleIds, CancellationToken token)
         {
             var update = Builders<Article>.Update.Set(s => s.IsActive, false);
-            await _collection.UpdateManyAsync(i => articleIds.Contains(i.Id), update);
+            await _collection.UpdateManyAsync(i => articleIds.Contains(i.Id), update, new UpdateOptions(), token);
         }
     }
 }

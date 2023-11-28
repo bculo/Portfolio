@@ -12,10 +12,10 @@ namespace Trend.Application.Interfaces
 {
     public interface ISyncService
     { 
-        Task<List<SyncStatusDto>> GetSyncStatuses();
-        Task<SyncStatusDto> GetSync(string id);
-        Task ExecuteSync();
-        Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId);
-        Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request);
+        Task<List<SyncStatusDto>> GetSyncStatuses(CancellationToken token);
+        Task<SyncStatusDto> GetSync(string id, CancellationToken token);
+        Task ExecuteSync(CancellationToken token);
+        Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token);
+        Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token);
     }
 }

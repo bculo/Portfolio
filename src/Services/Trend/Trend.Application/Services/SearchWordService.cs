@@ -29,9 +29,9 @@ namespace Trend.Application.Services
             _cacheStore = cacheStore;
         }
 
-        public async Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance)
+        public async Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance, CancellationToken token)
         {
-            var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine);
+            var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine, token);
 
             if (isDuplicate)
             {
@@ -39,13 +39,13 @@ namespace Trend.Application.Services
             }
 
             var entity = _mapper.Map<SearchWord>(instance);
-            await _wordRepository.Add(entity);
+            await _wordRepository.Add(entity, token);
             await _cacheStore.EvictByTagAsync("SearchWord", default);
             var response = _mapper.Map<SearchWordDto>(entity);
             return response;
         }
 
-        public Task<List<KeyValueElementDto>> GetAvailableContextTypes()
+        public Task<List<KeyValueElementDto>> GetAvailableContextTypes(CancellationToken token)
         {
             return Task.FromResult(Enum.GetValues<ContextType>().Select(i => new KeyValueElementDto
             {
@@ -54,7 +54,7 @@ namespace Trend.Application.Services
             }).ToList());
         }
 
-        public Task<List<KeyValueElementDto>> GetAvailableSearchEngines()
+        public Task<List<KeyValueElementDto>> GetAvailableSearchEngines(CancellationToken token)
         {
             return Task.FromResult(Enum.GetValues<Domain.Enums.SearchEngine>().Select(i => new KeyValueElementDto
             {
@@ -63,14 +63,14 @@ namespace Trend.Application.Services
             }).ToList());
         }
 
-        public async Task<List<SearchWordDto>> GetSyncSettingsWords()
+        public async Task<List<SearchWordDto>> GetSyncSettingsWords(CancellationToken token)
         {
-            var entities = await _wordRepository.GetAll();
+            var entities = await _wordRepository.GetAll(token);
             var dtos = _mapper.Map<List<SearchWordDto>>(entities);
             return dtos;
         }
 
-        public async Task RemoveSyncSetting(string id)
+        public async Task RemoveSyncSetting(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -78,7 +78,7 @@ namespace Trend.Application.Services
                 throw new TrendAppCoreException("Given id is invalid");
             }
 
-            var entity = await _wordRepository.FindById(id);
+            var entity = await _wordRepository.FindById(id, token);
 
             if (entity is null)
             {
@@ -86,7 +86,7 @@ namespace Trend.Application.Services
                 throw new TrendNotFoundException();
             }
 
-            await _wordRepository.Delete(entity.Id);
+            await _wordRepository.Delete(entity.Id, token);
             await _cacheStore.EvictByTagAsync("SearchWord", default);
         }
     }

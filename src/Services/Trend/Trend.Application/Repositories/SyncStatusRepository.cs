@@ -14,7 +14,7 @@ namespace Trend.Application.Repositories
                 
         }
 
-        public Task<SyncStatus> GetLastValidSync()
+        public Task<SyncStatus> GetLastValidSync(CancellationToken token)
         {
             var result = _collection.Find(t => t.TotalRequests > 0 && t.SucceddedRequests > 0)
                             .SortByDescending(i => i.Created)
@@ -23,7 +23,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId)
+        public Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId, CancellationToken token)
         {
             var result = GetQueryable().Where(i => i.Id == syncStatusId)
                 .SelectMany(i => i.UsedSyncWords)
