@@ -8,8 +8,12 @@
 - run 'docker-compose up -d'
 - make sure that Keycloak database is created and that everything is running fine
 
-####
+#### Define new Realm
 
 - visit admin dashboard 'http://localhost:8080'
 - login as admin
 - create new realm PortfolioRealm
+
+### Test Realm endpoint using POSTMAN
+
+- import keycloak-endpoints.json into Postman app and start testing

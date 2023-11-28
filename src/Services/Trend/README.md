@@ -1,6 +1,6 @@
 Trend project is fetching latest news about economy, crypto and stocks
 
-### PREPARE MONGODB DATABASE
+### PREPARE MONGODB DATABASE FOR SERILOG
 
 - Open terminal/cmd window
 - execute 'docker exec -it trend_mongo_db /bin/sh'

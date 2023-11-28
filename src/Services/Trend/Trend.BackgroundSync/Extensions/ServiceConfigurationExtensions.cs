@@ -15,6 +15,13 @@ namespace Trend.BackgroundSync.Extensions
         {
             services.Configure<SyncBackgroundServiceOptions>(configuration.GetSection("SyncBackgroundServiceOptions"));
 
+            services.AddOutputCache();
+            services.AddStackExchangeRedisOutputCache(options =>
+            {
+                options.Configuration = configuration["RedisOptions:ConnectionString"];
+                options.InstanceName = configuration["RedisOptions:InstanceName"];
+            });
+            
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
