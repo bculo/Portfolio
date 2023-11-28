@@ -2,6 +2,7 @@
 using Dtos.Common.v1.Trend.Sync;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 
@@ -21,14 +22,16 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("Sync")]
-        [ProducesResponseType(typeof(SyncResultDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Sync()
         {
-            return Ok(await _syncService.ExecuteSync());
+            await _syncService.ExecuteSync();
+            return NoContent();
         }
 
         [HttpGet("GetSync/{id}")]
+        [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSync(string id)
@@ -37,6 +40,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("GetSyncStatuses")]
+        [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatuses()
@@ -54,6 +58,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("GetSyncStatusWords/{id}")]
+        [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusWordDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatusWords(string id)

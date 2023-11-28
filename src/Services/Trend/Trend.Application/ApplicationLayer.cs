@@ -96,7 +96,7 @@ namespace Trend.Application
         {
             services.AddHttpClient();
             services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
-            services.AddScoped<IGoogleSyncService, GoogleSyncService>();
+            services.AddScoped<ISearchEngine, GoogleSearchEngine>();
             services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
         }
     }

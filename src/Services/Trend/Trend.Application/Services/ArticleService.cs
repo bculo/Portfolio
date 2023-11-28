@@ -2,6 +2,7 @@
 using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
+using Microsoft.AspNetCore.OutputCaching;
 using Trend.Application.Interfaces;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;

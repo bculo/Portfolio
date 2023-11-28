@@ -12,9 +12,9 @@ using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Services
 {
-    public class GoogleSyncService : IGoogleSyncService
+    public class GoogleSearchEngine : ISearchEngine
     {
-        private readonly ILogger<GoogleSyncService> _logger;
+        private readonly ILogger<GoogleSearchEngine> _logger;
         private readonly IGoogleSearchClient _searchService;
         private readonly IDateTimeProvider _time;
         private readonly IMapper _mapper;
@@ -22,12 +22,12 @@ namespace Trend.Application.Services
         private readonly IArticleRepository _articleRepo;
         private readonly ITransaction _session;
 
-        public GoogleSyncResult Result { get; private set; }
-        public SyncStatus SyncStatus { get; private set; }
-        public List<Article> Entities { get; private set; }
+        private GoogleSyncResult Result { get; set; }
+        private SyncStatus SyncStatus { get; set; }
+        private List<Article> Entities { get; set; }
 
-        public GoogleSyncService(
-            ILogger<GoogleSyncService> logger,
+        public GoogleSearchEngine(
+            ILogger<GoogleSearchEngine> logger,
             IGoogleSearchClient searchService,
             IDateTimeProvider time,
             IMapper mapper,
@@ -47,14 +47,14 @@ namespace Trend.Application.Services
             Entities = new List<Article>();
         }
 
-        public async Task<GoogleSyncResult> Sync(Dictionary<ContextType, List<string>> articleTypesToSync)
+        public async Task Sync(Dictionary<ContextType, List<string>> articleTypesToSync)
         {
             _logger.LogTrace("Sync method called in GoogleSyncService");
 
             if(articleTypesToSync.Count == 0)
             {
                 _logger.LogInformation("ArticleTypes to fetch are not defined");
-                return Result;
+                return;
             }
 
             SyncStatus = CreateSyncInstance();
@@ -65,8 +65,6 @@ namespace Trend.Application.Services
             }
 
             await PersistData(articleTypesToSync);
-
-            return Result;
         }
 
         private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync)
@@ -152,7 +150,7 @@ namespace Trend.Application.Services
         {
             if(keyWords is null || keyWords.Count == 0)
             {
-                _logger.LogInformation("Article type {0} does not contain key words", type.ToString());
+                _logger.LogInformation("Article type {0} doesn't contain any key words", type.ToString());
             }
 
             var responses = await FetchData(keyWords!);
@@ -176,7 +174,7 @@ namespace Trend.Application.Services
             .AsReadOnly();
         }
 
-        private async Task CreateResponse(IReadOnlyList<GoogleResponseStatus> responses, ContextType type)
+        private Task CreateResponse(IEnumerable<GoogleResponseStatus> responses, ContextType type)
         {
             foreach(var response in responses)
             {
@@ -190,6 +188,8 @@ namespace Trend.Application.Services
 
                 Result.AddResponse(type, response.SearchWord, response.Succedded, response.Succedded ? response.Result : null);
             }
+
+            return Task.CompletedTask;
         }
 
         private class GoogleResponseStatus

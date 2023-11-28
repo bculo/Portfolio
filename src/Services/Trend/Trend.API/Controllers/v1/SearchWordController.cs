@@ -2,7 +2,7 @@
 using Dtos.Common.v1.Trend.SearchWord;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Trend.API.Filters.Action;
+using Microsoft.AspNetCore.OutputCaching;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 
@@ -22,6 +22,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("GetSearchWords")]
+        [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncSettingsWords()

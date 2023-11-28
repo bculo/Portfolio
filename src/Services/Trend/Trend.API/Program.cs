@@ -40,6 +40,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseOutputCache();
+
 app.Run();
 
 //For testing purpose

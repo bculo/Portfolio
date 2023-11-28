@@ -7,7 +7,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Globalization;
 using Trend.API.Filters;
-using Trend.API.Filters.Action;
+using Trend.API.Policies;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Domain.Interfaces;
@@ -30,8 +30,29 @@ namespace Trend.API.Extensions
             });
 
             services.AddCors();
-            services.AddScoped<CacheActionFilter>();
             services.AddFluentValidationAutoValidation();
+            services.AddOutputCache(opt =>
+            {
+                opt.AddBasePolicy(policy => policy
+                    .Expire(TimeSpan.FromSeconds(30)));
+                
+                opt.AddPolicy("NewsPolicy", policy => policy.AddPolicy<AuthCachePolicy>()
+                    .Expire(TimeSpan.FromDays(1))
+                    .Tag("News"));
+                
+                opt.AddPolicy("SearchWordPolicy", policy => policy.AddPolicy<AuthCachePolicy>()
+                    .Expire(TimeSpan.FromHours(2))
+                    .Tag("SearchWord"));
+                
+                opt.AddPolicy("SyncPolicy", policy => policy.AddPolicy<AuthCachePolicy>()
+                    .Expire(TimeSpan.FromHours(2))
+                    .Tag("Sync"));
+            });
+            builder.Services.AddStackExchangeRedisOutputCache(options =>
+            {
+                options.Configuration = configuration["RedisOptions:ConnectionString"];
+                options.InstanceName = configuration["RedisOptions:InstanceName"];
+            });
 
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services, configuration);

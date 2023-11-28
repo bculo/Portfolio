@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.OutputCaching;
 using Trend.Application.Interfaces;
 using Trend.Application.Models.Service.Intern.Google;
 using Trend.Domain.Entities;
@@ -24,25 +25,28 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _syncSettingRepo;
         private readonly ISyncStatusRepository _syncStatusRepo;
-        private readonly IGoogleSyncService _googleSync;
+        private readonly ISearchEngine _searchEngine;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IOutputCacheStore _cacheStore;
 
         public SyncService(ILogger<SyncService> logger, 
             IMapper mapper,
             ISearchWordRepository syncSettingRepo,
-            IGoogleSyncService googleSync,
+            ISearchEngine searchEngine,
             ISyncStatusRepository syncStatusRepository,
-            IPublishEndpoint publishEndpoint)
+            IPublishEndpoint publishEndpoint,
+            IOutputCacheStore cacheStore)
         {
             _logger = logger;
             _mapper = mapper;
             _syncSettingRepo = syncSettingRepo;
-            _googleSync = googleSync;
+            _searchEngine = searchEngine;
             _syncStatusRepo = syncStatusRepository;
             _publishEndpoint = publishEndpoint;
+            _cacheStore = cacheStore;
         }
 
-        public async Task<SyncResultDto> ExecuteSync()
+        public async Task ExecuteSync()
         {
             var searchWords = await _syncSettingRepo.GetAll();
 
@@ -56,13 +60,9 @@ namespace Trend.Application.Services
                 .GroupBy(i => i.Type)
                 .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
 
-            var syncResult = await _googleSync.Sync(googleSyncRequest);
-
-            var dto = _mapper.Map<SyncResultDto>(syncResult);
-
+            await _searchEngine.Sync(googleSyncRequest);
+            await _cacheStore.EvictByTagAsync("Sync", default);
             await _publishEndpoint.Publish(new NewNewsFetched { });
-
-            return dto;
         }
 
         public async Task<SyncStatusDto> GetSync(string id)

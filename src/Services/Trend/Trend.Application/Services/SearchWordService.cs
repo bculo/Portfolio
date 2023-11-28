@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend.SearchWord;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
@@ -15,14 +16,17 @@ namespace Trend.Application.Services
         private readonly ILogger<SearchWordService> _logger;
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _wordRepository;
+        private readonly IOutputCacheStore _cacheStore;
 
         public SearchWordService(ILogger<SearchWordService> logger,
             IMapper mapper,
-            ISearchWordRepository wordRepository)
+            ISearchWordRepository wordRepository,
+            IOutputCacheStore cacheStore)
         {
             _logger = logger;
             _mapper = mapper;
             _wordRepository = wordRepository;
+            _cacheStore = cacheStore;
         }
 
         public async Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance)
@@ -36,6 +40,7 @@ namespace Trend.Application.Services
 
             var entity = _mapper.Map<SearchWord>(instance);
             await _wordRepository.Add(entity);
+            await _cacheStore.EvictByTagAsync("SearchWord", default);
             var response = _mapper.Map<SearchWordDto>(entity);
             return response;
         }
@@ -51,7 +56,7 @@ namespace Trend.Application.Services
 
         public Task<List<KeyValueElementDto>> GetAvailableSearchEngines()
         {
-            return Task.FromResult(Enum.GetValues<SearchEngine>().Select(i => new KeyValueElementDto
+            return Task.FromResult(Enum.GetValues<Domain.Enums.SearchEngine>().Select(i => new KeyValueElementDto
             {
                 Key = (int)i,
                 Value = i.ToString()
@@ -82,6 +87,7 @@ namespace Trend.Application.Services
             }
 
             await _wordRepository.Delete(entity.Id);
+            await _cacheStore.EvictByTagAsync("SearchWord", default);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Cache.Common
         {
             services.AddScoped<ICacheService, CacheService>();
             services.Configure<RedisOptions>(configuration.GetSection("RedisOptions"));
+            
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration["RedisOptions:ConnectionString"];

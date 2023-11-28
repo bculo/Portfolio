@@ -8,8 +8,8 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces
 {
-    public interface IGoogleSyncService
+    public interface ISearchEngine
     {
-        Task<GoogleSyncResult> Sync(Dictionary<ContextType, List<string>> articleTypesToSync);
+        Task Sync(Dictionary<ContextType, List<string>> articleTypesToSync);
     }
 }
