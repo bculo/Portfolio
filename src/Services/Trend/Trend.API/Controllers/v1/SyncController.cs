@@ -49,6 +49,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpPost("GetSyncStatusesPage")]
+        [OutputCache(PolicyName = "SyncPostPolicy")]
         [ProducesResponseType(typeof(PageResponseDto<SyncStatusDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]

@@ -36,16 +36,31 @@ namespace Trend.API.Extensions
                 opt.AddBasePolicy(policy => policy
                     .Expire(TimeSpan.FromSeconds(30)));
                 
-                opt.AddPolicy("NewsPolicy", policy => policy.AddPolicy<AuthCachePolicy>()
+                opt.AddPolicy("NewsPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromDays(1))
                     .Tag("News"));
                 
-                opt.AddPolicy("SearchWordPolicy", policy => policy.AddPolicy<AuthCachePolicy>()
+                opt.AddPolicy("SearchWordPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromHours(2))
                     .Tag("SearchWord"));
                 
-                opt.AddPolicy("SyncPolicy", policy => policy.AddPolicy<AuthCachePolicy>()
+                opt.AddPolicy("SyncPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromHours(2))
+                    .Tag("Sync"));
+                
+                opt.AddPolicy("SyncPostPolicy", policy => policy.AddPolicy<AuthPostRequestPolicy>()
+                    .Expire(TimeSpan.FromMinutes(30))
+                    .VaryByValue(context =>
+                    {
+                        context.Request.EnableBuffering();
+                        
+                        using var reader = new StreamReader(context.Request.Body, leaveOpen: true);
+                        var body = reader.ReadToEndAsync();
+                        
+                        context.Request.Body.Position = 0;
+                        var keyVal = new KeyValuePair<string, string>("Body", body.Result);
+                        return keyVal;
+                    })
                     .Tag("Sync"));
             });
             builder.Services.AddStackExchangeRedisOutputCache(options =>
