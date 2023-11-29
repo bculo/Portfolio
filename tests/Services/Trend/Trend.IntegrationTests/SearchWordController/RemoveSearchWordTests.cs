@@ -1,16 +1,18 @@
 using FluentAssertions;
+using Trend.Domain.Entities;
+using Trend.Domain.Enums;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-public class RemoveSearchWordTests : BaseTests
+public class RemoveSearchWordTests : TrendControllerTests
 {
     public RemoveSearchWordTests(TrendApiFactory factory) : base(factory)
     {
     }
     
     [Theory]
-    [InlineData("645188e6207b70747e47aea2")]
-    [InlineData("645188f7f6a006554af044d6")]
+    [InlineData("BRB")]
+    [InlineData("ASD")]
     public async Task RemoveSearchWord_ShouldReturnStatusBadRequest_WhenWordWithGivenIdDoesntExist(string id)
     {
         //Arrange
@@ -24,12 +26,20 @@ public class RemoveSearchWordTests : BaseTests
     }
     
     [Theory]
-    [InlineData(MockConstants.EXISTING_SEARCH_WORD_ID)]
+    [InlineData("645188e6207b70747e47aea2")]
     public async Task RemoveSearchWord_ShouldReturnStatusOk_WhenWordWithGivenIdExist(string id)
     {
         //Arrange
         var client = GetAuthInstance(UserAuthType.User);
 
+        await _fixtureService.AddSearchWord(new SearchWord
+        {
+            Id = id,
+            Word = "Word",
+            Engine = SearchEngine.Google,
+            Type = ContextType.Crypto
+        });
+        
         //Act
         var response = await client.DeleteAsync($"{ApiEndpoints.REMOVE_SEARCH_WORD}/{id}");
         

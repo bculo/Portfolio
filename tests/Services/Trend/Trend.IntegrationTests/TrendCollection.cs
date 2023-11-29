@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Trend.IntegrationTests
 {
     [CollectionDefinition("TrendCollection")]
-    public class TrendSharedTestCollection : ICollectionFixture<TrendApiFactory>
+    public class TrendCollection : ICollectionFixture<TrendApiFactory>
     {
     }
 }

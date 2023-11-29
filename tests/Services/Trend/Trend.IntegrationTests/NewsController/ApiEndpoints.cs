@@ -8,7 +8,7 @@ namespace Trend.IntegrationTests.NewsController
 {
     public static class ApiEndpoints
     {
-        public const string LATEST_NEWS = "/api/v1/news/GetLatestsNews";
+        public const string LATEST_NEWS = "/api/v1/news/GetLatestNews";
         public const string LATEST_CRYPTO_NEWS = "/api/v1/news/GetLatestCryptoNews";
         public const string LATEST_ECONOMY_NEWS = "/api/v1/news/GetLatestEconomyNews";
         public const string LATEST_ETF_NEWS = "/api/v1/news/GetLatestEtfNews";

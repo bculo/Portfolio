@@ -2,14 +2,14 @@ using FluentAssertions;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-public class GetAvaiableContextTypesTests : BaseTests
+public class GetAvailableContextTypesTests : TrendControllerTests
 {
-    public GetAvaiableContextTypesTests(TrendApiFactory factory) : base(factory)
+    public GetAvailableContextTypesTests(TrendApiFactory factory) : base(factory)
     {
     }
     
     [Fact]
-    public async Task GetAvaiableContextTypes_ShouldReturnStatusOk_WhenValidRequestSent()
+    public async Task GetAvailableContextTypes_ShouldReturnStatusOk_WhenValidRequestSent()
     {
         //Arrange
         var client = GetAuthInstance(UserAuthType.User);

@@ -9,7 +9,7 @@ using Trend.Domain.Interfaces;
 namespace Trend.IntegrationTests.SearchWordController;
 
 
-public class AddNewSearchWordTests : BaseTests
+public class AddNewSearchWordTests : TrendControllerTests
 {
     public AddNewSearchWordTests(TrendApiFactory factory) : base(factory)
     {
@@ -20,7 +20,7 @@ public class AddNewSearchWordTests : BaseTests
     [InlineData("Secondv2", (int)ContextType.Economy, (int)SearchEngine.Google)]
     [InlineData("Thirdv3", (int)ContextType.Etf, (int)SearchEngine.Google)]
     [InlineData("Fourthv4", (int)ContextType.Stock, (int)SearchEngine.Google)]
-    public async Task AddNewSearchWord_ShouldReturnStatusOk_WhenValidRequestSent(string word, int contextType, int searchEngine)
+    public async Task AddNewSearchWord_ShouldReturnStatusOk_WhenValidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
         var instance = new SearchWordCreateDto
@@ -33,10 +33,10 @@ public class AddNewSearchWordTests : BaseTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARH_WORD, request);
+        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARCH_WORD, request);
         
         //Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        response.EnsureSuccessStatusCode();
     }
     
     [Theory]
@@ -44,7 +44,7 @@ public class AddNewSearchWordTests : BaseTests
     [InlineData("-", (int)ContextType.Economy, (int)SearchEngine.Google)]
     [InlineData("FirstFial", 800, (int)SearchEngine.Google)]
     [InlineData("SecondFail", (int)ContextType.Economy, 100)]
-    public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenInvalidRequestSent(string word, int contextType, int searchEngine)
+    public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenInvalidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
         var instance = new SearchWordCreateDto
@@ -57,27 +57,36 @@ public class AddNewSearchWordTests : BaseTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARH_WORD, request);
+        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARCH_WORD, request);
         
         //Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
     }
 
-    [Fact]
-    public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenWordWithSameEngineAlreadyExists()
+    [Theory]
+    [InlineData("BTC", (int)ContextType.Crypto, (int)SearchEngine.Google)]
+    [InlineData("ETH", (int)ContextType.Crypto, (int)SearchEngine.Google)]
+    public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenWordWithSameEngineAlreadyExists(string word, int contextType, int searchEngine)
     {
         //Arrange
         var instance = new SearchWordCreateDto
         {
-            SearchWord = MockConstants.EXISTING_SEARCH_WORD_TEXT,
-            ContextType = (int)ContextType.Crypto,
-            SearchEngine = (int)SearchEngine.Google
+            SearchWord = word,
+            ContextType = contextType,
+            SearchEngine = searchEngine
         };
         var request = HttpClientUtilities.PrepareJsonRequest(instance);
         var client = GetAuthInstance(UserAuthType.User);
 
-        //Act
-        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARH_WORD, request);
+        await _fixtureService.AddSearchWord(new SearchWord
+        {
+            Word = word,
+            Type = (ContextType)contextType,
+            Engine = (SearchEngine)searchEngine
+        });
+        
+        //Actx
+        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARCH_WORD, request);
         
         //Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System.Security.Claims;
 using Testcontainers.MongoDb;
+using Testcontainers.Redis;
 using Tests.Common.Interfaces;
 using Tests.Common.Services;
 using Trend.Application.Options;
@@ -21,20 +22,26 @@ namespace Trend.IntegrationTests
 {
     public class TrendApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private string _mongoDbName;
         private IMongoClient _mongoClient;
+        
         private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder()
-            .WithImage("mongo:5.0")
-            .WithUsername("testuser")
-            .WithPassword("testuser")
+            .WithImage("mongo:latest")
+            .WithUsername("mongo")
+            .WithPassword("mongo")
             .WithName($"Trend.API.Integration.Mongo.{Guid.NewGuid()}")
+            .Build();
+        
+        private readonly RedisContainer _redisContainer = new RedisBuilder()
+            .WithImage("redis:7.0.2")
+            .WithName($"Trend.API.Integration.Redis.{Guid.NewGuid()}")
+            .WithCleanUp(true)
             .Build();
 
         public HttpClient Client { get; private set; }
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureLogging((context, loggingBuilder) =>
+            builder.ConfigureLogging((_, loggingBuilder) =>
             {
                 loggingBuilder.ClearProviders();
             });
@@ -45,56 +52,42 @@ namespace Trend.IntegrationTests
                 services.AddSingleton<IAuthenticationSchemeProvider, MockJwtSchemeProvider>();
                 
                 services.RemoveAll(typeof(IMongoClient));
-                services.AddSingleton<IMongoClient>(c =>
+                services.AddSingleton<IMongoClient>(_ =>
                 {
                     var options = new MongoOptions
                     {
                         ConnectionString = _mongoDbContainer.GetConnectionString(),
                         UseInterceptor = false,
                     };
-
-                    var configuration = c.GetRequiredService<IConfiguration>();
+                    
                     _mongoClient = TrendMongoUtils.CreateMongoClient(options);
-                    _mongoDbName = configuration.GetValue<string>("MongoOptions:DatabaseName");
-                    
-                    SeedDatabase().GetAwaiter().GetResult();
-                    
                     return _mongoClient;
                 });
+
+                services.AddStackExchangeRedisOutputCache(opt =>
+                {
+                    opt.InstanceName = "TrendIntegrationTest";
+                    opt.Configuration = _redisContainer.GetConnectionString();
+                });
+
+                services.AddScoped<TrendFixtureService>();
             });
         }
         
         public async Task ResetDatabaseState()
         {
-            await _mongoClient.DropDatabaseAsync(_mongoDbName);
-        }
-
-        public Task SeedDatabase()
-        {
-            var db = _mongoClient.GetDatabase(_mongoDbName);
-            var col = db.GetCollection<SearchWord>(nameof(SearchWord).ToLower());
-            
-            col.InsertOne(new SearchWord
-            {
-                Engine = SearchEngine.Google,
-                Word = MockConstants.EXISTING_SEARCH_WORD_TEXT,
-                Type = ContextType.Economy,
-                IsActive = true,
-                Id = MockConstants.EXISTING_SEARCH_WORD_ID,
-            });
-            
-            return Task.CompletedTask;
+            await _mongoClient.DropDatabaseAsync("Trend");
         }
         
         public async Task InitializeAsync()
         {
-            await Task.WhenAll(_mongoDbContainer.StartAsync());
+            await Task.WhenAll(_mongoDbContainer.StartAsync(), _redisContainer.StartAsync());
             Client = CreateClient();
         }
 
-        public async new Task DisposeAsync()
+        public new async Task DisposeAsync()
         {
-            await Task.WhenAll(_mongoDbContainer.StopAsync());
+            await Task.WhenAll(_mongoDbContainer.StopAsync(), _redisContainer.StopAsync());
         }       
     }
     

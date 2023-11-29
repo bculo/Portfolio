@@ -2,7 +2,7 @@ using FluentAssertions;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-public class GetSearchWordsTests : BaseTests
+public class GetSearchWordsTests : TrendControllerTests
 {
     public GetSearchWordsTests(TrendApiFactory factory) : base(factory)
     {
