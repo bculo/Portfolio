@@ -127,6 +127,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.UnitTests", "tests\Services\Tracker\Tracker.UnitTests\Tracker.UnitTests.csproj", "{E68821F4-FC38-4201-980C-C08EC4A009D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stock", "Stock", "{B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}"
+	ProjectSection(SolutionItems) = preProject
+		src\Services\Stock\README.md = src\Services\Stock\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Application", "src\Services\Stock\Stock.Application\Stock.Application.csproj", "{46806C4C-9D03-41FD-80C1-BBD19DACFFF4}"
 EndProject

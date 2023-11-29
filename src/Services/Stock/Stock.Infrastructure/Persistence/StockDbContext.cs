@@ -40,7 +40,7 @@ namespace Stock.Infrastructure.Persistence
         {
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("StockDatabase"));
             optionsBuilder.UseLowerCaseNamingConvention();
-            optionsBuilder.EnableSensitiveDataLogging(true);
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
 

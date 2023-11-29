@@ -51,7 +51,10 @@ namespace Stock.Worker.Configurations
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);
                 config.UseSimpleAssemblyNameTypeSerializer();
                 config.UseRecommendedSerializerSettings();
-                config.UsePostgreSqlStorage(configuration.GetConnectionString("StockDatabase"));
+                config.UsePostgreSqlStorage(opt =>
+                {
+                    opt.UseNpgsqlConnection(configuration.GetConnectionString("StockDatabase"));
+                });
             });
 
             services.AddHangfireServer();

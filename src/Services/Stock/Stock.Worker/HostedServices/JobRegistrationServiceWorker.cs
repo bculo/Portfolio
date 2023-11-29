@@ -34,7 +34,7 @@ namespace Stock.Worker.HostedServices
         /// </summary>
         /// <param name="stoppingToken"></param>
         /// <returns></returns>
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
@@ -54,6 +54,8 @@ namespace Stock.Worker.HostedServices
             {
                 _logger.LogError(e, e.Message);
             }
+
+            return Task.CompletedTask;
         }
     }
 }

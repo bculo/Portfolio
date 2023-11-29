@@ -43,7 +43,7 @@ namespace Stock.Infrastructure
 
         private static void ConfigureMarketWatchClient(IServiceCollection services, IConfiguration configuration)
         {
-            string baseAddress = configuration["MarketWatchOptions:BaseUrl"];
+            string baseAddress = configuration["MarketWatchOptions:BaseUrl"] ?? throw new ArgumentNullException();
             int retryNumber = configuration.GetValue<int>("MarketWatchOptions:RetryNumber");
             int timeout = configuration.GetValue<int>("MarketWatchOptions:Timeout");
 
@@ -52,11 +52,8 @@ namespace Stock.Infrastructure
                 client.BaseAddress = new Uri(baseAddress);
                 client.Timeout = TimeSpan.FromSeconds(timeout);
             })
-            .AddTransientHttpErrorPolicy(policyBuilder =>
-            {
-                return policyBuilder.WaitAndRetryAsync(
-                    Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber));
-            });
+            .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.WaitAndRetryAsync(
+                Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber)));
 
             services.AddTransient<IStockPriceClient, MarketWatchStockPriceClient>();
         }

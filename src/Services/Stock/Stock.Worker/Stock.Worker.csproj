@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Stock.Worker-9bd41679-f65e-4b43-a686-0e05510f2daa</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Hangfire.Core" Version="1.8.2" />
-	<PackageReference Include="Hangfire.AspNetCore" Version="1.8.2" />
-	<PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
-	<PackageReference Include="Hangfire.PostgreSql" Version="1.19.12" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+	<PackageReference Include="Hangfire.Core" Version="1.8.6" />
+	<PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
+	<PackageReference Include="Hangfire.MemoryStorage" Version="1.8.0" />
+	<PackageReference Include="Hangfire.PostgreSql" Version="1.20.4" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
