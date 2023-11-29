@@ -25,14 +25,14 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _syncSettingRepo;
         private readonly ISyncStatusRepository _syncStatusRepo;
-        private readonly ISearchEngine _searchEngine;
+        private readonly IEnumerable<ISearchEngine> _searchEngines;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IOutputCacheStore _cacheStore;
 
         public SyncService(ILogger<SyncService> logger, 
             IMapper mapper,
             ISearchWordRepository syncSettingRepo,
-            ISearchEngine searchEngine,
+            IEnumerable<ISearchEngine> searchEngines,
             ISyncStatusRepository syncStatusRepository,
             IPublishEndpoint publishEndpoint,
             IOutputCacheStore cacheStore)
@@ -40,12 +40,31 @@ namespace Trend.Application.Services
             _logger = logger;
             _mapper = mapper;
             _syncSettingRepo = syncSettingRepo;
-            _searchEngine = searchEngine;
+            _searchEngines = searchEngines;
             _syncStatusRepo = syncStatusRepository;
             _publishEndpoint = publishEndpoint;
             _cacheStore = cacheStore;
         }
 
+        private async Task<bool> FireSearchEngines(Dictionary<ContextType, List<string>> searchWords, CancellationToken token)
+        {
+            var successNum = 0;
+            foreach (var searchEngine in _searchEngines)
+            {
+                try
+                {
+                    await searchEngine.Sync(searchWords, token);
+                    successNum++;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, e.Message);
+                }
+            }
+
+            return successNum > 0;
+        }
+        
         public async Task ExecuteSync(CancellationToken token)
         {
             var searchWords = await _syncSettingRepo.GetAll(token);
@@ -56,13 +75,16 @@ namespace Trend.Application.Services
                 throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
             }
 
-            var googleSyncRequest = searchWords
+            var syncRequest = searchWords
                 .GroupBy(i => i.Type)
                 .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
 
-            await _searchEngine.Sync(googleSyncRequest, token);
-            await _cacheStore.EvictByTagAsync("Sync", default);
-            await _publishEndpoint.Publish(new NewNewsFetched { }, token);
+            var anyUpdates = await FireSearchEngines(syncRequest, token);
+            if (anyUpdates)
+            {
+                await _cacheStore.EvictByTagAsync("Sync", default);
+                await _publishEndpoint.Publish(new NewNewsFetched { }, token);
+            }
         }
 
         public async Task<SyncStatusDto> GetSync(string id, CancellationToken token)

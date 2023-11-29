@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Runtime.CompilerServices;
+using AutoMapper;
 using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
-using Microsoft.AspNetCore.OutputCaching;
 using Trend.Application.Interfaces;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;
@@ -34,7 +34,7 @@ namespace Trend.Application.Services
             return dtos;
         }
 
-        public async IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable(CancellationToken token)
+        public async IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
         {
             await foreach(var entity in _articleRepo.GetAllEnumerable(token))
             {
@@ -42,7 +42,7 @@ namespace Trend.Application.Services
             }
         }
 
-        public async IAsyncEnumerable<ArticleTypeDto> GetLatestNewsEnumerable(CancellationToken token)
+        public async IAsyncEnumerable<ArticleTypeDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token)
         {
             await foreach(var entity in _articleRepo.GetActiveArticlesEnumerable(token))
             {
@@ -50,7 +50,7 @@ namespace Trend.Application.Services
             }
         }
 
-        public async IAsyncEnumerable<ArticleDto> GetLatestNewsEnumerable(ContextType type, CancellationToken token)
+        public async IAsyncEnumerable<ArticleDto> GetLatestNewsEnumerable(ContextType type, [EnumeratorCancellation] CancellationToken token)
         {
             await foreach (var entity in _articleRepo.GetActiveArticlesEnumerable(type, token))
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using Trend.Application.Options;
 using Trend.Domain.Interfaces;
 using Trend.Domain.Queries.Responses.Common;
@@ -78,7 +79,7 @@ namespace Trend.Application.Repositories
             return await _collection.CountDocumentsAsync(i => true, new CountOptions(), token);
         }
 
-        public virtual async IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token)
+        public virtual async IAsyncEnumerable<T> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
         {
             using var cursor = await _collection.Find(i => true).ToCursorAsync(token);
             while (await cursor.MoveNextAsync(token))

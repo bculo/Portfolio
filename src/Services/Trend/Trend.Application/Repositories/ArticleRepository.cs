@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Trend.Application.Options;
 using Trend.Domain.Entities;
@@ -23,7 +24,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(CancellationToken token)
+        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable([EnumeratorCancellation] CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.IsActive)
                 .SortByDescending(i => i.Created)
@@ -46,7 +47,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(ContextType type, CancellationToken token)
+        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(ContextType type, [EnumeratorCancellation] CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.IsActive && i.Type == type)
                 .SortByDescending(i => i.Created)
@@ -69,7 +70,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, ContextType type, CancellationToken token)
+        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, ContextType type, [EnumeratorCancellation]CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to && i.Type == type)
                 .SortByDescending(i => i.Created)
@@ -92,7 +93,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(result);
         }
 
-        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, CancellationToken token)
+        public async IAsyncEnumerable<Article> GetArticlesEnumerable(DateTime from, DateTime to, [EnumeratorCancellation] CancellationToken token)
         {
             using var cursor = await _collection.Find(i => i.Created >= from && i.Created <= to)
                 .SortByDescending(i => i.Created)

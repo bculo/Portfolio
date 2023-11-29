@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Options
 {
-    public class TrendValidatorOptions
+    public sealed class TrendValidatorOptions
     {
 
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Options
 {
-    public class GoogleSearchOptions
+    public sealed class GoogleSearchOptions
     {
         public string Uri { get; set; }
         public string ApiKey { get; set; }

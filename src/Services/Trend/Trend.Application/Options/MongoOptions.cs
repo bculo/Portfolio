@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Options
 {
-    public class MongoOptions
+    public sealed class MongoOptions
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
@@ -17,7 +17,7 @@ namespace Trend.Application.Options
 
     }
 
-    public class MongoInterceptorSettings
+    public sealed class MongoInterceptorSettings
     {
         public string Host { get; set; }
         public string User { get; set; }

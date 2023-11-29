@@ -22,7 +22,7 @@ namespace Trend.Application.Repositories
 
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
         {
-            var instance = _collection.Find(i => i.Word.ToLower() == searchWord.ToLower() && i.Engine == engine).FirstOrDefault();
+            var instance = _collection.Find(i => string.Equals(i.Word, searchWord, StringComparison.CurrentCultureIgnoreCase) && i.Engine == engine).FirstOrDefault();
             return Task.FromResult(instance != null);
         }      
     }

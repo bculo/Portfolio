@@ -70,9 +70,9 @@ namespace Trend.API.Extensions
             });
 
             AddMessageQueue(services, configuration);
-            ConfigureLocalization(services, configuration);
+            ConfigureLocalization(services);
             ConfigureAuthentication(services, configuration);
-            AddOpenTelemetry(services, configuration);
+            AddOpenTelemetry(services);
 
             services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
                 $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
@@ -86,7 +86,7 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddPersistence(configuration, services);
         }
 
-        private static void ConfigureLocalization(IServiceCollection services, IConfiguration configuration)
+        private static void ConfigureLocalization(IServiceCollection services)
         {
             services.AddLocalization();
 
@@ -123,14 +123,14 @@ namespace Trend.API.Extensions
         {
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq((context, config) =>
+                x.UsingRabbitMq((_, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
                 });
             });
         }
 
-        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
+        private static void AddOpenTelemetry(IServiceCollection services)
         {
             services.AddOpenTelemetry()
                 .WithTracing(builder =>

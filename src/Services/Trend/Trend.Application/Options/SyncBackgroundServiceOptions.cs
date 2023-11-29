@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Options
 {
-    public class SyncBackgroundServiceOptions
+    public sealed class SyncBackgroundServiceOptions
     {
         public int SleepTimeMiliseconds { get; set; }
         public int TimeSpanBetweenSyncsHours { get; set; }

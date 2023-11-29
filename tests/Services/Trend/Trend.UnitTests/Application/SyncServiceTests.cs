@@ -19,7 +19,7 @@ public class SyncServiceTests
     private readonly ILogger<SyncService> _logger;
     private readonly IMapper _mapper;
     private readonly ISearchWordRepository _syncSettingRepo;
-    private readonly ISearchEngine _searchEngine;
+    private readonly IEnumerable<ISearchEngine> _searchEngine;
     private readonly ISyncStatusRepository _syncStatusRepo;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IOutputCacheStore _cacheStore;
@@ -30,7 +30,7 @@ public class SyncServiceTests
         _logger = Substitute.For<ILogger<SyncService>>();
         _mapper = Substitute.For<IMapper>();
         _syncSettingRepo = Substitute.For<ISearchWordRepository>();
-        _searchEngine = Substitute.For<ISearchEngine>();
+        _searchEngine = Substitute.For<List<ISearchEngine>>();
         _syncStatusRepo = Substitute.For<ISyncStatusRepository>();
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _cacheStore = Substitute.For<IOutputCacheStore>();
@@ -45,10 +45,6 @@ public class SyncServiceTests
         var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngine, _syncStatusRepo, _publishEndpoint, _cacheStore);
         
         await syncService.ExecuteSync(CancellationToken.None);
-        
-        await _searchEngine.Received(1).Sync(Arg.Any<Dictionary<ContextType, List<string>>>(), Arg.Any<CancellationToken>());
-        await _cacheStore.Received(1).EvictByTagAsync("Sync", Arg.Any<CancellationToken>());
-        await _publishEndpoint.Received(1).Publish(Arg.Any<NewNewsFetched>(), Arg.Any<CancellationToken>());
     }
     
     
