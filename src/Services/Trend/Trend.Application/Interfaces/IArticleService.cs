@@ -7,7 +7,7 @@ namespace Trend.Application.Interfaces
 {
     public interface IArticleService
     {
-        Task<List<ArticleDto>> GetLatestNews(ContextType type, CancellationToken tcs);
+        Task<List<ArticleDto>> GetLatestNewsByContextType(ContextType type, CancellationToken tcs);
         Task<PageResponseDto<ArticleDto>> GetLatestNewsPage(FetchArticleTypePageDto page, CancellationToken tcs);
         Task<List<ArticleTypeDto>> GetLatestNews(CancellationToken tcs);
         Task<PageResponseDto<ArticleTypeDto>> GetLatestNewsPage(FetchLatestNewsPageDto page, CancellationToken tcs);

@@ -20,7 +20,7 @@ namespace Trend.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleDto>> GetLatestNews(ContextType type, CancellationToken token)
+        public async Task<List<ArticleDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
         {
             var articles = await _articleRepo.GetActiveArticles(type, token);
             var dtos = _mapper.Map<List<ArticleDto>>(articles);

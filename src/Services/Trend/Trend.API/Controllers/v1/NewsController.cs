@@ -44,7 +44,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastStockNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Stock, token));
+            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Stock, token));
         }
         
         [HttpGet("GetLatestEtfNews")]
@@ -53,7 +53,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEtfNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Etf, token));
+            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Etf, token));
         }
         
         [HttpGet("GetLatestEconomyNews")]
@@ -62,7 +62,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEconomyNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(Domain.Enums.ContextType.Economy, token));
+            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Economy, token));
         }
     }
 }
