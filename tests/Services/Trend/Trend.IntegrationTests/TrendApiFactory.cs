@@ -22,13 +22,12 @@ namespace Trend.IntegrationTests
 {
     public class TrendApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private IMongoClient _mongoClient;
-        
         private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder()
             .WithImage("mongo:latest")
             .WithUsername("mongo")
             .WithPassword("mongo")
             .WithName($"Trend.API.Integration.Mongo.{Guid.NewGuid()}")
+            .WithCleanUp(true)
             .Build();
         
         private readonly RedisContainer _redisContainer = new RedisBuilder()
@@ -60,8 +59,7 @@ namespace Trend.IntegrationTests
                         UseInterceptor = false,
                     };
                     
-                    _mongoClient = TrendMongoUtils.CreateMongoClient(options);
-                    return _mongoClient;
+                    return TrendMongoUtils.CreateMongoClient(options);
                 });
 
                 services.AddStackExchangeRedisOutputCache(opt =>
@@ -72,11 +70,6 @@ namespace Trend.IntegrationTests
 
                 services.AddScoped<TrendFixtureService>();
             });
-        }
-        
-        public async Task ResetDatabaseState()
-        {
-            await _mongoClient.DropDatabaseAsync("Trend");
         }
         
         public async Task InitializeAsync()
@@ -91,6 +84,7 @@ namespace Trend.IntegrationTests
         }       
     }
     
+
     public class MockClaimSeeder : IMockClaimSeeder
     {
         private Dictionary<UserAuthType, List<Claim>> _claimDict;

@@ -20,5 +20,5 @@ public class MockCookieAuthenticationHandler : MockBaseAuthenticationHandler
     {
     }
 
-    public override string SchemeName => CookieAuthenticationDefaults.AuthenticationScheme;
+    protected override string SchemeName => CookieAuthenticationDefaults.AuthenticationScheme;
 }

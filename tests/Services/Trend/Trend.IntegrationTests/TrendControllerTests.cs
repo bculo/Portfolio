@@ -24,13 +24,8 @@ namespace Trend.IntegrationTests
 
         public virtual async Task DisposeAsync()
         {
-            await _factory.ResetDatabaseState();
-
-            try
-            {
-                _scope.Dispose();
-            }
-            catch { }
+            await _fixtureService.DropDatabase();
+            _scope.Dispose();
         }
 
         public virtual Task InitializeAsync()

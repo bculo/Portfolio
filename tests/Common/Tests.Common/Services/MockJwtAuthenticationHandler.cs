@@ -21,5 +21,5 @@ public class MockJwtAuthenticationHandler : MockBaseAuthenticationHandler
     {
     }
 
-    public override string SchemeName => JwtBearerDefaults.AuthenticationScheme;
+    protected override string SchemeName => JwtBearerDefaults.AuthenticationScheme;
 }

@@ -13,14 +13,14 @@ public abstract class MockBaseAuthenticationHandler : AuthenticationHandler<Auth
 {
     private readonly IMockClaimSeeder _seeder;
     
-    public abstract string SchemeName { get; }
+    protected abstract string SchemeName { get; }
     
     protected MockBaseAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, 
         ILoggerFactory logger, 
         UrlEncoder encoder, 
         ISystemClock clock,
         IMockClaimSeeder seeder) 
-            : base(options, logger, encoder, clock)
+        : base(options, logger, encoder, clock)
     {
         _seeder = seeder;
     }
@@ -42,8 +42,8 @@ public abstract class MockBaseAuthenticationHandler : AuthenticationHandler<Auth
         }
 
         var claims = _seeder.GetClaims(userTypeIdentifier);
-        var claimIndentity = new ClaimsIdentity(claims, SchemeName);
-        var principal = new ClaimsPrincipal(claimIndentity);
+        var claimIdentity = new ClaimsIdentity(claims, SchemeName);
+        var principal = new ClaimsPrincipal(claimIdentity);
         var ticket = new AuthenticationTicket(principal, SchemeName);
         return Task.FromResult(AuthenticateResult.Success(ticket));
     }
