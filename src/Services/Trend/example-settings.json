@@ -1,0 +1,82 @@
+{
+    "RedisOptions": {
+      "ConnectionString": "localhost:6379",
+      "InstanceName": "TrendRedis",
+      "RememberTime": 30
+    },
+    "MongoOptions": {
+      "ServerType": 1,
+      "ConnectionString": "mongodb://root:trendpassword@localhost:27017/?replicaSet=myreplica&authSource=admin",
+      "DatabaseName": "Trend",
+      "ConnectionTimeoutSeconds": 30,
+      "UseInterceptor": false,
+      "InterceptorSettings": {
+        "User": "root",
+        "Password": "trendpassword",
+        "Port": 27017,
+        "Host": "localhost",
+        "AuthMechanisam": "SCRAM-SHA-1",
+        "AuthDatabase": "admin"
+      }
+    },
+    "GoogleSearchOptions": {
+      "Uri": "https://www.googleapis.com/customsearch/v1",
+      "ApiKey": "<your_api_key>",
+      "SearchEngineId": "<your_search_engine_id>"
+    },
+    "SyncBackgroundServiceOptions": {
+      "SleepTimeMiliseconds": 300000,
+      "TimeSpanBetweenSyncsHours": 12
+    },
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+    "Serilog": {
+      "MinimumLevel": {
+        "Default": "Information",
+        "Override": {
+          "Microsoft": "Information",
+          "Microsoft.AspNetCore": "Warning",
+          "MongoDB.Driver": "Warning",
+          "System": "Warning"
+        }
+      },
+      "WriteTo": [
+        { "Name": "Console" }
+      ]
+    },
+    "SerilogMongo": {
+      "UseLogger": true,
+      "AuthMechanisam": "SCRAM-SHA-1",
+      "AuthDatabase": "admin",
+      "UserName": "logger",
+      "Password": "loggerpassword",
+      "BatchPostingLimit": 1,
+      "Database": "TrendLogs",
+      "Host": "localhost",
+      "Port": 27017
+    },
+    "AuthOptions": {
+      "PublicRsaKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1I/GJkuAkASbVGCo9gp48OB3QvA+OZS6Jt7nwjNHe3D63QyAE3Y3oRvi++lvB3l4dW9fzRIMQkLc4sbGwB2fzKqJS3/hxszki3teUZcAq4EaUA6QhW85/NY5aW6vG3/pH4S/mhRzuPeE5t5/KDeBPnPfop15Y+CXHZkrogdYSNWzMKF66RbsBazVBi/+Fq41zOl51+pjq7fXGp3QbJt35qWJ9M1fxbNx2ZHkG+j4CJiUmyHErtnjmxCAtFJ9Uj57ygdRR2VyiST4Z6SQ8ovq0A6v1jxCSFFj6mRe9F/5cSd4dwyaAFq8qSn4OGEp0Q/0yfHMy6wAxDNy0JZquNCydwIDAQAB",
+      "ValidIssuer": "http://localhost:8080/realms/PortfolioRealm",
+      "ValidateAudience": false,
+      "ValidateIssuer": true,
+      "ValidateIssuerSigningKey": true,
+      "ValidateLifetime": true
+    },
+    "KeycloakOptions": {
+      "ApplicationName": "Trend.API",
+      "RealmName": "PortfolioRealm",
+      "AuthorizationServerUrl": "http://localhost:8080/realms/PortfolioRealm"
+    },
+    "ApiVersion": {
+      "MajorVersion": 1,
+      "MinorVersion": 1
+    },
+    "QueueOptions": {
+      "Address": "amqp://rabbitmquser:rabbitmqpassword@localhost:5672"
+    }
+  }

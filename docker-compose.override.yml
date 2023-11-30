@@ -14,7 +14,7 @@ services:
         chmod 400 /data/replica.key
         chown 999:999 /data/replica.key
         exec docker-entrypoint.sh $$@
-    command: "mongod --bind_ip_all --replSet myreplica --keyFile /data/replica.key --port 27017"
+    command: "mongod --bind_ip_all --replSet myreplica --keyFile /data/replica.key"
     ports:
       - "27017:27017"
     environment:
