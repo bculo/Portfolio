@@ -6,15 +6,7 @@ services:
     container_name: trend.mongo
     volumes:
       - ./data/mongo/trend:/data/db
-      - ./ops/mongo/replica.key:/data/replica.key
-    entrypoint:
-      - bash
-      - -c
-      - |
-        chmod 400 /data/replica.key
-        chown 999:999 /data/replica.key
-        exec docker-entrypoint.sh $$@
-    command: "mongod --bind_ip_all --replSet myreplica --keyFile /data/replica.key"
+    command: "mongod --bind_ip_all --replSet myreplica --keyFile /opt/keyfile/mongo-keyfile"
     ports:
       - "27017:27017"
     environment:

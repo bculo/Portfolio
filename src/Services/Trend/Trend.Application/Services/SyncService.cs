@@ -83,6 +83,7 @@ namespace Trend.Application.Services
             if (anyUpdates)
             {
                 await _cacheStore.EvictByTagAsync("Sync", default);
+                await _cacheStore.EvictByTagAsync("News", default);
                 await _publishEndpoint.Publish(new NewNewsFetched { }, token);
             }
         }

@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   trend.mongo:
-    image: mongo:7.0.4
+    image: culix77/mongo-replica
 
   trend.redis:
     image: redis:7.0.2
