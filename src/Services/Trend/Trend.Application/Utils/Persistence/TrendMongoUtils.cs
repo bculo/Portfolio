@@ -17,13 +17,19 @@ namespace Trend.Application.Utils.Persistence
     {
         public static MongoClient CreateMongoClient(MongoOptions options)
         {
-            if(!options.UseInterceptor)
-            {
-                var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(options.ConnectionString));
-                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
-                return new MongoClient(clientSettings);
-            }
+            var mongoClient = !options.UseInterceptor ? GetMongoClientWithoutInterceptor(options) : GetMongoClientWithInterceptor(options);
+            return mongoClient;
+        }
 
+        private static MongoClient GetMongoClientWithoutInterceptor(MongoOptions options)
+        {
+            var clientSettings = MongoClientSettings.FromConnectionString(options.ConnectionString);
+            clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+            return new MongoClient(clientSettings);
+        }
+        
+        private static MongoClient GetMongoClientWithInterceptor(MongoOptions options)
+        {
             var mongoIdentity = new MongoInternalIdentity(options.InterceptorSettings.AuthDatabase, options.InterceptorSettings.User);
             var mongoPassword = new PasswordEvidence(options.InterceptorSettings.Password);
 
@@ -41,7 +47,7 @@ namespace Trend.Application.Utils.Persistence
                     cb.Subscribe<CommandStartedEvent>(e =>
                     {
                         Debug.WriteLine($"{e.CommandName} - {e.Command.ToJson(new JsonWriterSettings { Indent = true })}");
-                        Debug.WriteLine(new String('-', 32));
+                        Debug.WriteLine(new string('-', 32));
                     });
                 }
             });

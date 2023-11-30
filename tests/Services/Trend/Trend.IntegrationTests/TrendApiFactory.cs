@@ -23,7 +23,7 @@ namespace Trend.IntegrationTests
     public class TrendApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder()
-            .WithImage("mongo:latest")
+            .WithImage("mongo:7.0.4")
             .WithUsername("mongo")
             .WithPassword("mongo")
             .WithName($"Trend.API.Integration.Mongo.{Guid.NewGuid()}")
@@ -31,7 +31,7 @@ namespace Trend.IntegrationTests
             .Build();
         
         private readonly RedisContainer _redisContainer = new RedisBuilder()
-            .WithImage("redis:7.0.2")
+            .WithImage("redis:7.2")
             .WithName($"Trend.API.Integration.Redis.{Guid.NewGuid()}")
             .WithCleanUp(true)
             .Build();

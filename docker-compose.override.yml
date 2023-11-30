@@ -3,15 +3,24 @@ version: '3.4'
 services:
 
   trend.mongo:
-    container_name: trend_mongo_db
+    container_name: trend.mongo
     volumes:
-      - ./data/mongo/trend:/data
+      - ./data/mongo/trend:/data/db
+      - ./ops/mongo/replica.key:/data/replica.key
+    entrypoint:
+      - bash
+      - -c
+      - |
+        chmod 400 /data/replica.key
+        chown 999:999 /data/replica.key
+        exec docker-entrypoint.sh $$@
+    command: "mongod --bind_ip_all --replSet myreplica --keyFile /data/replica.key --port 27017"
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: trendpassword
-  
+      
   trend.redis:
     container_name: trend_redis
     volumes:
