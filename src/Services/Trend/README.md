@@ -69,3 +69,10 @@ rs.initiate({
 - set Client ID to Trend.API
 - Enable Client authentication and flows 'Service Accounts' roles and 'Implicit flow'
 - Set Root/Home page URL. For example http://localhost:5276/
+
+
+### Runnable projects
+
+- Trend.API
+- Trend.BackgroundSync
+- Trend.Grpc

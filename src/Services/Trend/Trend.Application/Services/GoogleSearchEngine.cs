@@ -45,14 +45,12 @@ namespace Trend.Application.Services
             Entities = new List<Article>();
         }
 
-        public async Task Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
+        public async Task<bool> Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
-            _logger.LogTrace("Sync method called in GoogleSyncService");
-
             if(articleTypesToSync.Count == 0)
             {
                 _logger.LogInformation("ArticleTypes to fetch are not defined");
-                return;
+                return false;
             }
 
             SyncStatus = CreateSyncInstance();
@@ -63,6 +61,8 @@ namespace Trend.Application.Services
             }
 
             await PersistData(articleTypesToSync, token);
+
+            return Result.TotalSuccess > 0;
         }
 
         private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)

@@ -25,13 +25,11 @@ namespace Trend.Application.Clients
 
         public async Task<GoogleSearchEngineResponseDto> Search(string searchDefinition)
         {
-            _logger.LogTrace("Search method in GoogleSearchClient called");
-
             AddQueryParameter("key", _options.ApiKey);
             AddQueryParameter("cx", _options.SearchEngineId);
             AddQueryParameter("q", searchDefinition);
 
-            var url = BuildUrlWithQueryParameters(_options.Uri);
+            var url = BuildUrlWithQueryParameters($"{_options.Uri}/customsearch/v1");
             var client = CreateNewClient();
             var result = await client.GetAsync(url);
             return await result.HandleResponse<GoogleSearchEngineResponseDto>();

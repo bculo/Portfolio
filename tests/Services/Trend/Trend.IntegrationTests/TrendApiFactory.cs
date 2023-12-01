@@ -13,7 +13,8 @@ using Testcontainers.Redis;
 using Tests.Common.Interfaces;
 using Tests.Common.Services;
 using Trend.Application.Configurations.Options;
-using Trend.Application.Utils.Persistence;
+using Trend.Application.Utils;
+using WireMock.Server;
 
 namespace Trend.IntegrationTests
 {
@@ -34,6 +35,13 @@ namespace Trend.IntegrationTests
             .Build();
 
         public HttpClient Client { get; private set; }
+        
+        public WireMockServer MockServer { get; private set; }
+
+        public TrendApiFactory()
+        {
+            MockServer = WireMockServer.Start();
+        }
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -66,15 +74,18 @@ namespace Trend.IntegrationTests
                 });
 
                 services.AddScoped<TrendFixtureService>();
+                
+                //services.AddSingleton(MockServer);
             });
-
+            
             builder.ConfigureAppConfiguration((_, configBuilder) =>
             {
                 configBuilder.AddInMemoryCollection(new[]
                 {
-                    new KeyValuePair<string, string>("MongoOptions:ServerType", "0"), // use standalone 
+                    new KeyValuePair<string, string>("MongoOptions:ServerType", "0"), // use standalone instance
                     new KeyValuePair<string, string>("MongoOptions:DatabaseName", TrendConstantsTest.DB_NAME),
                     new KeyValuePair<string, string>("MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString()),
+                    new KeyValuePair<string, string>("GoogleSearchOptions:Uri", MockServer.Urls[0]),
                 }!);
             });
         }
@@ -88,6 +99,7 @@ namespace Trend.IntegrationTests
         public new async Task DisposeAsync()
         {
             await Task.WhenAll(_mongoDbContainer.StopAsync(), _redisContainer.StopAsync());
+            MockServer.Stop();
         }       
     }
     

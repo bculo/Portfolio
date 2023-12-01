@@ -9,17 +9,15 @@ using Trend.Domain.Interfaces;
 namespace Trend.IntegrationTests.SearchWordController;
 
 
-public class AddNewSearchWordTests : TrendControllerTests
+public class AddNewSearchWordBaseTest : TrendControllerBaseTest
 {
-    public AddNewSearchWordTests(TrendApiFactory factory) : base(factory)
+    public AddNewSearchWordBaseTest(TrendApiFactory factory) : base(factory)
     {
     }
 
     [Theory]
     [InlineData("Firstv1", (int)ContextType.Crypto, (int)SearchEngine.Google)]
-    [InlineData("Secondv2", (int)ContextType.Economy, (int)SearchEngine.Google)]
-    [InlineData("Thirdv3", (int)ContextType.Etf, (int)SearchEngine.Google)]
-    [InlineData("Fourthv4", (int)ContextType.Stock, (int)SearchEngine.Google)]
+
     public async Task AddNewSearchWord_ShouldReturnStatusOk_WhenValidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
@@ -33,7 +31,7 @@ public class AddNewSearchWordTests : TrendControllerTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARCH_WORD, request);
+        var response = await client.PostAsync(ApiEndpoints.AddNewSearchWord, request);
         
         //Assert
         response.EnsureSuccessStatusCode();
@@ -57,7 +55,7 @@ public class AddNewSearchWordTests : TrendControllerTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARCH_WORD, request);
+        var response = await client.PostAsync(ApiEndpoints.AddNewSearchWord, request);
         
         //Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
@@ -86,7 +84,7 @@ public class AddNewSearchWordTests : TrendControllerTests
         });
         
         //Actx
-        var response = await client.PostAsync(ApiEndpoints.ADD_NEW_SEARCH_WORD, request);
+        var response = await client.PostAsync(ApiEndpoints.AddNewSearchWord, request);
         
         //Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);

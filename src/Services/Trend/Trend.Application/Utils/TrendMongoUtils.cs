@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using Trend.Application.Configurations.Options;
 
-namespace Trend.Application.Utils.Persistence
+namespace Trend.Application.Utils
 {
     public static class TrendMongoUtils
     {
@@ -53,6 +53,11 @@ namespace Trend.Application.Utils.Persistence
             });
         }
 
+        public static string GenerateId()
+        {
+            return ObjectId.GenerateNewId().ToString();
+        }
+        
         public static string GetCollectionName(string className)
         {
             return className?.Trim()?.ToLower() ?? string.Empty;

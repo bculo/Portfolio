@@ -2,9 +2,9 @@ using FluentAssertions;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-public class GetSearchWordsTests : TrendControllerTests
+public class GetSearchWordsBaseTest : TrendControllerBaseTest
 {
-    public GetSearchWordsTests(TrendApiFactory factory) : base(factory)
+    public GetSearchWordsBaseTest(TrendApiFactory factory) : base(factory)
     {
     }
     
@@ -15,9 +15,9 @@ public class GetSearchWordsTests : TrendControllerTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.GetAsync(ApiEndpoints.AVAILABLE_SEARCH_WORDS);
+        var response = await client.GetAsync(ApiEndpoints.GetSearchWords);
         
         //Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        response.EnsureSuccessStatusCode();
     }
 }

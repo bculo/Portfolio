@@ -2,9 +2,9 @@
 
 namespace Trend.IntegrationTests.NewsController
 {
-    public class GetLastEconomyNewsTests : TrendControllerTests
+    public class GetLastEconomyNewsBaseTest : TrendControllerBaseTest
     {
-        public GetLastEconomyNewsTests(TrendApiFactory factory) : base(factory)
+        public GetLastEconomyNewsBaseTest(TrendApiFactory factory) : base(factory)
         {
         }
 
@@ -15,10 +15,10 @@ namespace Trend.IntegrationTests.NewsController
             var client = GetAuthInstance(UserAuthType.User);
 
             //Act
-            var response = await client.GetAsync(ApiEndpoints.LATEST_ECONOMY_NEWS);
+            var response = await client.GetAsync(ApiEndpoints.GetLatestEconomyNews);
 
             //Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Trend.IntegrationTests.NewsController
 {
-    public class GetLastCryptoNewsTests : TrendControllerTests
+    public class GetLastCryptoNewsBaseTest : TrendControllerBaseTest
     {
-        public GetLastCryptoNewsTests(TrendApiFactory factory) : base(factory)
+        public GetLastCryptoNewsBaseTest(TrendApiFactory factory) : base(factory)
         {
         }
 
@@ -20,10 +20,10 @@ namespace Trend.IntegrationTests.NewsController
             var client = GetAuthInstance(UserAuthType.User);
 
             //Act
-            var response = await client.GetAsync(ApiEndpoints.LATEST_CRYPTO_NEWS);
+            var response = await client.GetAsync(ApiEndpoints.GetLatestCryptoNews);
 
             //Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

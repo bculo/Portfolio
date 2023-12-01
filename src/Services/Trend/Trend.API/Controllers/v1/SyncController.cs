@@ -32,7 +32,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpGet("GetSync/{id}")]
         [OutputCache(PolicyName = "SyncPolicy")]
-        [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SyncStatusDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSync(string id, CancellationToken token)
         {

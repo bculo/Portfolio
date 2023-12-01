@@ -9,13 +9,13 @@ using Tests.Common.Extensions;
 namespace Trend.IntegrationTests
 {
     [Collection("TrendCollection")]
-    public abstract class TrendControllerTests : IAsyncLifetime
+    public abstract class TrendControllerBaseTest : IAsyncLifetime
     {
         private readonly IServiceScope _scope;
         protected readonly TrendApiFactory _factory;
         protected readonly TrendFixtureService _fixtureService;
 
-        protected TrendControllerTests(TrendApiFactory factory)
+        protected TrendControllerBaseTest(TrendApiFactory factory)
         {
             _factory = factory;
             _scope = _factory.Services.CreateScope();

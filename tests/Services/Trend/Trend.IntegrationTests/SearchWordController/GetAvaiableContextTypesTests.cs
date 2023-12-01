@@ -2,9 +2,9 @@ using FluentAssertions;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-public class GetAvailableContextTypesTests : TrendControllerTests
+public class GetAvailableContextTypesBaseTest : TrendControllerBaseTest
 {
-    public GetAvailableContextTypesTests(TrendApiFactory factory) : base(factory)
+    public GetAvailableContextTypesBaseTest(TrendApiFactory factory) : base(factory)
     {
     }
     
@@ -15,9 +15,9 @@ public class GetAvailableContextTypesTests : TrendControllerTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.GetAsync(ApiEndpoints.AVAILABLE_CONTEXT_TYPES);
+        var response = await client.GetAsync(ApiEndpoints.GetAvailableContextTypes);
         
         //Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        response.EnsureSuccessStatusCode();
     }
 }

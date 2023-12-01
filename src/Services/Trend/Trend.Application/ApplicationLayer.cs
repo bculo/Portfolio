@@ -13,7 +13,7 @@ using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
-using Trend.Application.Utils.Persistence;
+using Trend.Application.Utils;
 using Trend.Domain.Interfaces;
 
 namespace Trend.Application

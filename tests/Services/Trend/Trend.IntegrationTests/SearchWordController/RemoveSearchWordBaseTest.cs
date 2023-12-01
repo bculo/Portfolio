@@ -4,9 +4,9 @@ using Trend.Domain.Enums;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
-public class RemoveSearchWordTests : TrendControllerTests
+public class RemoveSearchWordBaseTest : TrendControllerBaseTest
 {
-    public RemoveSearchWordTests(TrendApiFactory factory) : base(factory)
+    public RemoveSearchWordBaseTest(TrendApiFactory factory) : base(factory)
     {
     }
     
@@ -19,7 +19,7 @@ public class RemoveSearchWordTests : TrendControllerTests
         var client = GetAuthInstance(UserAuthType.User);
 
         //Act
-        var response = await client.DeleteAsync($"{ApiEndpoints.REMOVE_SEARCH_WORD}/{id}");
+        var response = await client.DeleteAsync($"{ApiEndpoints.RemoveSearchWord}/{id}");
         
         //Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
@@ -31,17 +31,10 @@ public class RemoveSearchWordTests : TrendControllerTests
     {
         //Arrange
         var client = GetAuthInstance(UserAuthType.User);
-
-        await _fixtureService.AddSearchWord(new SearchWord
-        {
-            Id = id,
-            Word = "Word",
-            Engine = SearchEngine.Google,
-            Type = ContextType.Crypto
-        });
+        await _fixtureService.AddSearchWord(id: id);
         
         //Act
-        var response = await client.DeleteAsync($"{ApiEndpoints.REMOVE_SEARCH_WORD}/{id}");
+        var response = await client.DeleteAsync($"{ApiEndpoints.RemoveSearchWord}/{id}");
         
         //Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);

@@ -1,6 +1,7 @@
 using AutoFixture;
 using AutoMapper;
 using Events.Common.Trend;
+using Google.Protobuf.WellKnownTypes;
 using MassTransit;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ public class SyncServiceTests
     private readonly ILogger<SyncService> _logger;
     private readonly IMapper _mapper;
     private readonly ISearchWordRepository _syncSettingRepo;
-    private readonly IEnumerable<ISearchEngine> _searchEngine;
+    private readonly IEnumerable<ISearchEngine> _searchEngines;
     private readonly ISyncStatusRepository _syncStatusRepo;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IOutputCacheStore _cacheStore;
@@ -30,7 +31,8 @@ public class SyncServiceTests
         _logger = Substitute.For<ILogger<SyncService>>();
         _mapper = Substitute.For<IMapper>();
         _syncSettingRepo = Substitute.For<ISearchWordRepository>();
-        _searchEngine = Substitute.For<List<ISearchEngine>>();
+        var engine = Substitute.For<ISearchEngine>();
+        _searchEngines = new[] { engine };
         _syncStatusRepo = Substitute.For<ISyncStatusRepository>();
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _cacheStore = Substitute.For<IOutputCacheStore>();
@@ -41,8 +43,14 @@ public class SyncServiceTests
     {
         var searchWords = _fixture.CreateMany<SearchWord>(5).ToList();
         _syncSettingRepo.GetAll(Arg.Any<CancellationToken>()).Returns(Task.FromResult(searchWords));
-
-        var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngine, _syncStatusRepo, _publishEndpoint, _cacheStore);
+        foreach (var engineMock in _searchEngines)
+        {
+            engineMock.Sync(Arg.Any<Dictionary<ContextType, List<string>>>(), Arg.Any<CancellationToken>())
+                .Returns(true);
+        }
+        
+        
+        var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngines, _syncStatusRepo, _publishEndpoint, _cacheStore);
         
         await syncService.ExecuteSync(CancellationToken.None);
     }
@@ -53,7 +61,7 @@ public class SyncServiceTests
     {
         _syncSettingRepo.GetAll(Arg.Any<CancellationToken>()).Returns(Task.FromResult(new List<SearchWord>()));
 
-        var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngine, _syncStatusRepo, _publishEndpoint, _cacheStore);
+        var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngines, _syncStatusRepo, _publishEndpoint, _cacheStore);
 
         await Assert.ThrowsAsync<TrendAppCoreException>(() => syncService.ExecuteSync(CancellationToken.None));
     }

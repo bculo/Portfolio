@@ -9,6 +9,6 @@ namespace Trend.Application.Interfaces
 {
     public interface ISearchEngine
     {
-        Task Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token);
+        Task<bool> Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token);
     }
 }

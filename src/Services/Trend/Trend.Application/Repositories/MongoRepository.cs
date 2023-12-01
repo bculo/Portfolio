@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Trend.Application.Configurations.Options;
-using Trend.Application.Utils.Persistence;
+using Trend.Application.Utils;
 using Trend.Domain.Interfaces;
 using Trend.Domain.Queries.Responses.Common;
 

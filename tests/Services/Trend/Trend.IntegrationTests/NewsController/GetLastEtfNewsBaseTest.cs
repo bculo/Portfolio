@@ -3,9 +3,9 @@
 namespace Trend.IntegrationTests.NewsController
 {
 
-    public class GetLastEtfNewsTests : TrendControllerTests
+    public class GetLastEtfNewsBaseTest : TrendControllerBaseTest
     {
-        public GetLastEtfNewsTests(TrendApiFactory factory) : base(factory)
+        public GetLastEtfNewsBaseTest(TrendApiFactory factory) : base(factory)
         {
         }
 
@@ -16,10 +16,10 @@ namespace Trend.IntegrationTests.NewsController
             var client = GetAuthInstance(UserAuthType.User);
 
             //Act
-            var response = await client.GetAsync(ApiEndpoints.LATEST_ETF_NEWS);
+            var response = await client.GetAsync(ApiEndpoints.GetLatestEtfNews);
 
             //Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

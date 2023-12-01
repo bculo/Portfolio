@@ -47,8 +47,11 @@ namespace Trend.Application.Services
             {
                 try
                 {
-                    await searchEngine.Sync(searchWords, token);
-                    successNum++;
+                    var success = await searchEngine.Sync(searchWords, token);
+                    if (success)
+                    {
+                        successNum++;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -65,7 +68,6 @@ namespace Trend.Application.Services
 
             if(searchWords.Count == 0)
             {
-                _logger.LogInformation("Array of search words is empty. Sync process is stopped");
                 throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
             }
 
@@ -74,26 +76,28 @@ namespace Trend.Application.Services
                 .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
 
             var anyUpdates = await FireSearchEngines(syncRequest, token);
-            if (anyUpdates)
+            
+            if (!anyUpdates)
             {
-                await _cacheStore.EvictByTagAsync(CacheTags.SYNC, default);
-                await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
-                await _publishEndpoint.Publish(new NewNewsFetched { }, token);
+                throw new TrendAppCoreException("Search engines didn't menage to sync new content");
             }
+            
+            await _cacheStore.EvictByTagAsync(CacheTags.SYNC, default);
+            await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
+            await _publishEndpoint.Publish(new NewNewsFetched { }, token);
         }
 
         public async Task<SyncStatusDto> GetSync(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                _logger.LogInformation("Sync id not provided");
-                return null;
+                throw new TrendNotFoundException($"Sync with {id} not found");
             }
 
             var entity = await _syncStatusRepo.FindById(id, token);
             if (entity is not null) return _mapper.Map<SyncStatusDto>(entity);
             _logger.LogInformation("Sync with provided ID {0} not found", id);
-            return null;
+            throw new TrendNotFoundException($"Sync with {id} not found");
         }
 
         public async Task<List<SyncStatusDto>> GetSyncStatuses(CancellationToken token)
@@ -102,7 +106,6 @@ namespace Trend.Application.Services
 
             if(entities.Count == 0)
             {
-                _logger.LogInformation("No sync statuses");
                 return new List<SyncStatusDto>();
             }
 
@@ -122,14 +125,12 @@ namespace Trend.Application.Services
             var syncStatus = await _syncStatusRepo.FindById(syncStatusId, token);
             if(syncStatus is null)
             {
-                _logger.LogInformation("Sync status with ID {0} not found", syncStatusId);
-                throw new TrendNotFoundException();
+                throw new TrendNotFoundException($"Sync status with ID {syncStatusId} not found");
             }
 
             var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId, token);
             if(syncWords.Count == 0)
             {
-                _logger.LogTrace("Zero items find in database");
                 return new List<SyncStatusWordDto>();
             }
 
