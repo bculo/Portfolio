@@ -26,6 +26,7 @@ namespace Trend.Application.Services
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IOutputCacheStore _cacheStore;
         private readonly IDateTimeProvider _provider;
+        private readonly ITransaction _session;
 
         public SyncService(ILogger<SyncService> logger, 
             IMapper mapper,
@@ -34,7 +35,9 @@ namespace Trend.Application.Services
             ISyncStatusRepository syncStatusRepository,
             IPublishEndpoint publishEndpoint,
             IOutputCacheStore cacheStore, 
-            IDateTimeProvider provider, IArticleRepository articleRepo)
+            IDateTimeProvider provider, 
+            IArticleRepository articleRepo, 
+            ITransaction session)
         {
             _logger = logger;
             _mapper = mapper;
@@ -45,6 +48,7 @@ namespace Trend.Application.Services
             _cacheStore = cacheStore;
             _provider = provider;
             _articleRepo = articleRepo;
+            _session = session;
         }
         
         public async Task ExecuteSync(CancellationToken token)
@@ -62,18 +66,37 @@ namespace Trend.Application.Services
             
             var oldActiveArticles = await _articleRepo.GetActiveArticles(token);
 
-            var anyUpdates = await FireSearchEngines(syncRequest, token);
-            
-            if (!anyUpdates)
+            var (syncs, articles) = await FireSearchEngines(syncRequest, token);
+            var isTotalFailure = syncs.All(x => x.SucceddedRequests == 0);
+            if (isTotalFailure)
             {
                 await _publishEndpoint.Publish(new TotalSyncFailure() { }, token);
-                throw new TrendAppCoreException("Search engines didn't menage to sync new content");
             }
             
-            await DeactivateOldArticles(oldActiveArticles, token);
+            await _session.StartTransaction();
+
+            if (!isTotalFailure)
+            {
+                await DeactivateOldArticles(oldActiveArticles, token);
+            }
+            
+            await PersistSyncStatuses(syncs, token);
+            await PersistNewArticles(articles, token);
+            
+            await _session.CommitTransaction();
             
             await InvalidateCache(token);
             await _publishEndpoint.Publish(new NewNewsFetched { }, token);
+        }
+        
+        private async Task PersistSyncStatuses(List<SyncStatus> syncs, CancellationToken token)
+        {
+            await _syncStatusRepo.Add(syncs, token);
+        }
+
+        private async Task PersistNewArticles(List<Article> articles, CancellationToken token)
+        {
+            await _articleRepo.Add(articles, token);
         }
 
         private async Task DeactivateOldArticles(List<Article> oldActiveArticles, CancellationToken token)
@@ -93,21 +116,22 @@ namespace Trend.Application.Services
             await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
         }
         
-        private async Task<bool> FireSearchEngines(Dictionary<ContextType, List<string>> searchWords, CancellationToken token)
+        private async Task<(List<SyncStatus> syncs, List<Article> articles)> FireSearchEngines(Dictionary<ContextType, List<string>> searchWords, CancellationToken token)
         {
-            var successNum = 0;
+            List<SyncStatus> syncIterations = new();
+            List<Article> articles = new();
             foreach (var searchEngine in _searchEngines)
             {
                 try
                 {
-                    var success = await searchEngine.Sync(searchWords, token);
-                    if (success)
+                    var (syncIteration, syncArticles) = await searchEngine.Sync(searchWords, token);
+                    
+                    syncIterations.Add(syncIteration);
+                    articles.AddRange(syncArticles);
+
+                    if (syncIteration.SucceddedRequests == 0)
                     {
-                        successNum++;
-                    }
-                    else
-                    {
-                        await RaiseFailureEvent(searchEngine.EngineName, token);
+                        await RaiseFailureEvent(searchEngine.EngineName, token);   
                     }
                 }
                 catch (Exception e)
@@ -117,7 +141,7 @@ namespace Trend.Application.Services
                 }
             }
 
-            return successNum > 0;
+            return (syncIterations, articles);
         }
 
         private async Task RaiseFailureEvent(string engineName, CancellationToken token)

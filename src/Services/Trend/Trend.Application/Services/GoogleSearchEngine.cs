@@ -16,12 +16,9 @@ namespace Trend.Application.Services
         private readonly IGoogleSearchClient _searchService;
         private readonly IDateTimeProvider _time;
         private readonly IMapper _mapper;
-        private readonly IRepository<SyncStatus> _syncRepo;
-        private readonly IArticleRepository _articleRepo;
-        private readonly ITransaction _session;
-        
+
         private SyncStatus SyncStatus { get; set; }
-        private List<Article> Entities { get; set; }
+        private List<Article> Articles { get; set; }
 
         public string EngineName => nameof(GoogleSearchEngine);
         
@@ -38,19 +35,17 @@ namespace Trend.Application.Services
             _searchService = searchService;
             _mapper = mapper;
             _time = time;
-            _syncRepo = syncRepo;
-            _articleRepo = articleRepo;
-            _session = session;
-            
-            Entities = new List<Article>();
+
+            Articles = new List<Article>();
         }
 
-        public async Task<bool> Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
+        public async Task<(SyncStatus syncIteration, List<Article> syncArticles)> Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
             if(articleTypesToSync.Count == 0)   
             {
                 _logger.LogInformation("ArticleTypes to fetch are not defined");
-                return false;
+                await StatusSyncFinalTouch(articleTypesToSync, token);
+                return (SyncStatus, new List<Article>());
             }
 
             SyncStatus = CreateSyncInstance();
@@ -60,30 +55,22 @@ namespace Trend.Application.Services
                 await ExecuteSync(articleSync.Key, articleSync.Value);
             }
 
-            await PersistData(articleTypesToSync, token);
+            await StatusSyncFinalTouch(articleTypesToSync, token);
             
-            return SyncStatus.SucceddedRequests > 0;
+            return (SyncStatus, Articles);
         }
 
-        private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
+        private Task StatusSyncFinalTouch(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
 
-            if (SyncStatus.SucceddedRequests == 0)
+            if (SyncStatus.SucceddedRequests > 0)
             {
-                await PersistSyncStatus(token);
-                return;
+                AttachSyncStatusIdentifierToArticles();
             }
-            
-            AttachSyncStatusIdentifierToArticles();
 
-            await _session.StartTransaction();
-            
-            await PersistSyncStatus(token);
-            await PersistNewArticles(token);
-
-            await _session.CommitTransaction();
+            return Task.CompletedTask;
         }
 
         private void MarkSyncStatusAsFinished()
@@ -107,24 +94,9 @@ namespace Trend.Application.Services
 
         private void AttachSyncStatusIdentifierToArticles()
         {
-            Entities.ForEach(item => item.SyncStatusId = SyncStatus.Id);
+            Articles.ForEach(item => item.SyncStatusId = SyncStatus.Id);
         }
-
-        private async Task PersistSyncStatus(CancellationToken token)
-        {
-            await _syncRepo.Add(SyncStatus, token);
-        }
-
-        private async Task PersistNewArticles(CancellationToken token)
-        {
-            if (Entities.Count == 0)
-            {
-                return;
-            }
-
-            await _articleRepo.Add(Entities, token);
-        }
-
+        
         private SyncStatus CreateSyncInstance()
         {
             return new SyncStatus
@@ -172,7 +144,7 @@ namespace Trend.Application.Services
                 if (response.Succedded)
                 {
                     SyncStatus.SucceddedRequests++;
-                    Entities.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
+                    Articles.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
                 }
             }
 

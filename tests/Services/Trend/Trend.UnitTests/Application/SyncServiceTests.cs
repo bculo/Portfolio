@@ -27,6 +27,7 @@ public class SyncServiceTests
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IOutputCacheStore _cacheStore;
     private readonly IDateTimeProvider _timeProvider;
+    private readonly ITransaction _transaction;
     private readonly Fixture _fixture = new();
     
     public SyncServiceTests()
@@ -39,6 +40,7 @@ public class SyncServiceTests
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _cacheStore = Substitute.For<IOutputCacheStore>();
         _timeProvider = Substitute.For<IDateTimeProvider>();
+        _transaction = Substitute.For<ITransaction>();
         
         var engine = Substitute.For<ISearchEngine>();
         _searchEngines = new[] { engine };
@@ -54,11 +56,11 @@ public class SyncServiceTests
         foreach (var engineMock in _searchEngines)
         {
             engineMock.Sync(Arg.Any<Dictionary<ContextType, List<string>>>(), Arg.Any<CancellationToken>())
-                .Returns(true);
+                .Returns((_fixture.Create<SyncStatus>(), _fixture.CreateMany<Article>(5).ToList()));
         }
         
         var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngines, 
-            _syncStatusRepo, _publishEndpoint, _cacheStore, _timeProvider, _articleRepo);
+            _syncStatusRepo, _publishEndpoint, _cacheStore, _timeProvider, _articleRepo, _transaction);
         
         await syncService.ExecuteSync(CancellationToken.None);
     }
@@ -70,7 +72,7 @@ public class SyncServiceTests
         _syncSettingRepo.GetAll(Arg.Any<CancellationToken>()).Returns(Task.FromResult(new List<SearchWord>()));
 
         var syncService = new SyncService(_logger, _mapper, _syncSettingRepo, _searchEngines, _syncStatusRepo, 
-            _publishEndpoint, _cacheStore, _timeProvider, _articleRepo);
+            _publishEndpoint, _cacheStore, _timeProvider, _articleRepo, _transaction);
 
         await Assert.ThrowsAsync<TrendAppCoreException>(() => syncService.ExecuteSync(CancellationToken.None));
     }
