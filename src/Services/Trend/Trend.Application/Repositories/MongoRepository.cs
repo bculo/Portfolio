@@ -2,7 +2,8 @@
 using MongoDB.Driver;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using Trend.Application.Options;
+using Trend.Application.Configurations.Options;
+using Trend.Application.Utils.Persistence;
 using Trend.Domain.Interfaces;
 using Trend.Domain.Queries.Responses.Common;
 
@@ -10,16 +11,14 @@ namespace Trend.Application.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : IDocumentRoot
     {
-        protected readonly IMongoClient _client;
         protected readonly MongoOptions _options;
         protected IMongoCollection<T> _collection;
 
         public MongoRepository(IMongoClient client, IOptions<MongoOptions> options)
         {
-            _client = client;
             _options = options.Value;
             var database = client.GetDatabase(_options.DatabaseName);
-            _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
+            _collection = database.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
         }
 
         protected virtual IQueryable<T> GetQueryable()

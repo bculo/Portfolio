@@ -1,15 +1,7 @@
-﻿using Dtos.Common.v1.Trend.Article;
-using Dtos.Common.v1.Trend.Sync;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trend.Application.Models.Dtos.Google;
-using Trend.Domain.Entities;
+﻿using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
-namespace Trend.Application.Models.Service.Intern.Google
+namespace Trend.Application.Interfaces.Models.Google
 {
     public class GoogleSyncResult
     {
@@ -23,8 +15,8 @@ namespace Trend.Application.Models.Service.Intern.Google
         public int Total => _requests.Count;
         public int TotalSuccess => _requests.Count(i => i.Item3);
 
-        private SyncStatus syncStatus;
-        public SyncStatus SyncStatus => syncStatus;
+        private SyncStatus _syncStatus;
+        public SyncStatus SyncStatus => _syncStatus;
 
 
         public GoogleSyncResult()
@@ -39,7 +31,7 @@ namespace Trend.Application.Models.Service.Intern.Google
 
         public void SetSyncInstance(SyncStatus syncStatusDto)
         {
-            syncStatus = syncStatusDto;
+            _syncStatus = syncStatusDto;
         }
 
         public List<GoogleSearchEngineResponseDto> GetInstances()

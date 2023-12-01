@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
-namespace Trend.Application.Configurations.Persistence
+namespace Trend.Application.Configurations.Initialization
 {
     public static class MongoConfiguration
     {

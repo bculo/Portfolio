@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Trend.Application.Models.Dtos.Google
+namespace Trend.Application.Interfaces.Models.Google
 {
     public class GoogleSearchEngineResponseDto
     {

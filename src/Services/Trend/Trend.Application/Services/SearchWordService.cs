@@ -3,6 +3,7 @@ using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend.SearchWord;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -40,7 +41,7 @@ namespace Trend.Application.Services
 
             var entity = _mapper.Map<SearchWord>(instance);
             await _wordRepository.Add(entity, token);
-            await _cacheStore.EvictByTagAsync("SearchWord", default);
+            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
             var response = _mapper.Map<SearchWordDto>(entity);
             return response;
         }
@@ -87,7 +88,7 @@ namespace Trend.Application.Services
             }
 
             await _wordRepository.Delete(entity.Id, token);
-            await _cacheStore.EvictByTagAsync("SearchWord", default);
+            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
         }
     }
 }

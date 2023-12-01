@@ -12,11 +12,8 @@ using Testcontainers.MongoDb;
 using Testcontainers.Redis;
 using Tests.Common.Interfaces;
 using Tests.Common.Services;
-using Trend.Application.Options;
+using Trend.Application.Configurations.Options;
 using Trend.Application.Utils.Persistence;
-using Trend.Domain.Entities;
-using Trend.Domain.Enums;
-using Trend.IntegrationTests.SearchWordController;
 
 namespace Trend.IntegrationTests
 {
@@ -69,6 +66,16 @@ namespace Trend.IntegrationTests
                 });
 
                 services.AddScoped<TrendFixtureService>();
+            });
+
+            builder.ConfigureAppConfiguration((_, configBuilder) =>
+            {
+                configBuilder.AddInMemoryCollection(new[]
+                {
+                    new KeyValuePair<string, string>("MongoOptions:ServerType", "0"), // use standalone 
+                    new KeyValuePair<string, string>("MongoOptions:DatabaseName", TrendConstantsTest.DB_NAME),
+                    new KeyValuePair<string, string>("MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString()),
+                }!);
             });
         }
         

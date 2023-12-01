@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Trend.Application.Models.Service.Intern.Google;
+using Trend.Application.Interfaces.Models.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Queries.Responses.Common;
 

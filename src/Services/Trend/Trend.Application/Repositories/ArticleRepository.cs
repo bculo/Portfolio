@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Trend.Application.Options;
+using Trend.Application.Configurations.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;

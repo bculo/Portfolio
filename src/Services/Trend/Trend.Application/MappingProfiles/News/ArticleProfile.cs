@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
+using Trend.Application.Interfaces.Models.Google;
 using Trend.Application.MappingProfiles.Actions;
-using Trend.Application.Models.Dtos.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Queries.Requests.Common;

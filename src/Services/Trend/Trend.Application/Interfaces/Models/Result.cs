@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trend.Application.Models.Service
+namespace Trend.Application.Interfaces.Models
 {
     public class Result
     {

@@ -10,6 +10,7 @@ using Trend.API.Filters;
 using Trend.API.Policies;
 using Trend.API.Services;
 using Trend.Application;
+using Trend.Application.Configurations.Constants;
 using Trend.Domain.Interfaces;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
@@ -38,15 +39,15 @@ namespace Trend.API.Extensions
                 
                 opt.AddPolicy("NewsPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromDays(1))
-                    .Tag("News"));
+                    .Tag(CacheTags.NEWS));
                 
                 opt.AddPolicy("SearchWordPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromHours(2))
-                    .Tag("SearchWord"));
+                    .Tag(CacheTags.SEARCH_WORD));
                 
                 opt.AddPolicy("SyncPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromHours(2))
-                    .Tag("Sync"));
+                    .Tag(CacheTags.SYNC));
                 
                 opt.AddPolicy("SyncPostPolicy", policy => policy.AddPolicy<AuthPostRequestPolicy>()
                     .Expire(TimeSpan.FromMinutes(30))
@@ -61,7 +62,7 @@ namespace Trend.API.Extensions
                         var keyVal = new KeyValuePair<string, string>("Body", body.Result);
                         return keyVal;
                     })
-                    .Tag("Sync"));
+                    .Tag(CacheTags.SYNC));
             });
             builder.Services.AddStackExchangeRedisOutputCache(options =>
             {

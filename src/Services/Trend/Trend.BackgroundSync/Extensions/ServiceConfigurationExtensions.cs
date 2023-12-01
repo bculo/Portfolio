@@ -3,8 +3,8 @@ using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Trend.Application;
+using Trend.Application.Configurations.Options;
 using Trend.Application.Consumers;
-using Trend.Application.Options;
 using Trend.Domain.Interfaces;
 
 namespace Trend.BackgroundSync.Extensions

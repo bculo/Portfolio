@@ -2,9 +2,9 @@
 using Http.Common.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Models.Dtos.Google;
-using Trend.Application.Options;
+using Trend.Application.Interfaces.Models.Google;
 
 namespace Trend.Application.Clients
 {

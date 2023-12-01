@@ -17,3 +17,7 @@
 ### Test Realm endpoint using POSTMAN
 
 - import keycloak-endpoints.json into Postman app and start testing
+
+### How to get PUBLIC RSA key that microservices uses?
+
+- go to 'http://localhost:8080/realms/PortfolioRealm' and copy public_key property from JSON resposne

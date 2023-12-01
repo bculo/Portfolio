@@ -4,15 +4,9 @@ using Dtos.Common.v1.Trend.Sync;
 using Events.Common.Trend;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.OutputCaching;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
-using Trend.Application.Models.Service.Intern.Google;
-using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
 using Trend.Domain.Interfaces;
@@ -82,8 +76,8 @@ namespace Trend.Application.Services
             var anyUpdates = await FireSearchEngines(syncRequest, token);
             if (anyUpdates)
             {
-                await _cacheStore.EvictByTagAsync("Sync", default);
-                await _cacheStore.EvictByTagAsync("News", default);
+                await _cacheStore.EvictByTagAsync(CacheTags.SYNC, default);
+                await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
                 await _publishEndpoint.Publish(new NewNewsFetched { }, token);
             }
         }

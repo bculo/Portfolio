@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Interfaces;
-using Trend.Application.Models.Dtos.Google;
-using Trend.Application.Models.Service.Intern.Google;
+using Trend.Application.Interfaces.Models.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;
@@ -78,8 +76,7 @@ namespace Trend.Application.Services
                 await PersistSyncStatus(token);
                 return;
             }
-
-            //fetch current active instances (fetched instances that will be deactivated)
+            
             var oldActiveArticles = await _articleRepo.GetActiveArticles(token);
             var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
 

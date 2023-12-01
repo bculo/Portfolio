@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Trend.Application.Options;
+using Trend.Application.Configurations.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Interfaces;

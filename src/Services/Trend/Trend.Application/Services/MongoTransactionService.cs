@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Options;
 
 namespace Trend.Application.Services
 {

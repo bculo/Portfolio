@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Time.Abstract.Contracts;
-using Trend.Application.Models.Dtos.Google;
+using Trend.Application.Interfaces.Models.Google;
 using Trend.Domain.Entities;
 
 namespace Trend.Application.MappingProfiles.Actions
