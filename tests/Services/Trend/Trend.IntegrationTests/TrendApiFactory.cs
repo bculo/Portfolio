@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System.Security.Claims;
 using Testcontainers.MongoDb;
+using Testcontainers.RabbitMq;
 using Testcontainers.Redis;
 using Tests.Common.Interfaces;
 using Tests.Common.Services;
@@ -34,6 +35,12 @@ namespace Trend.IntegrationTests
             .WithCleanUp(true)
             .Build();
 
+        private readonly RabbitMqContainer _mqContainer = new RabbitMqBuilder()
+            .WithImage("masstransit/rabbitmq")
+            .WithName($"Trend.API.Integration.RabbitMQ.{Guid.NewGuid()}")
+            .WithCleanUp(true)
+            .Build();
+        
         public HttpClient Client { get; private set; }
         
         public WireMockServer MockServer { get; private set; }
@@ -74,8 +81,6 @@ namespace Trend.IntegrationTests
                 });
 
                 services.AddScoped<TrendFixtureService>();
-                
-                //services.AddSingleton(MockServer);
             });
             
             builder.ConfigureAppConfiguration((_, configBuilder) =>
@@ -86,19 +91,20 @@ namespace Trend.IntegrationTests
                     new KeyValuePair<string, string>("MongoOptions:DatabaseName", TrendConstantsTest.DB_NAME),
                     new KeyValuePair<string, string>("MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString()),
                     new KeyValuePair<string, string>("GoogleSearchOptions:Uri", MockServer.Urls[0]),
+                    new KeyValuePair<string, string>("QueueOptions:Address", _mqContainer.GetConnectionString()),
                 }!);
             });
         }
         
         public async Task InitializeAsync()
         {
-            await Task.WhenAll(_mongoDbContainer.StartAsync(), _redisContainer.StartAsync());
+            await Task.WhenAll(_mongoDbContainer.StartAsync(), _redisContainer.StartAsync(), _mqContainer.StartAsync());
             Client = CreateClient();
         }
 
         public new async Task DisposeAsync()
         {
-            await Task.WhenAll(_mongoDbContainer.StopAsync(), _redisContainer.StopAsync());
+            await Task.WhenAll(_mongoDbContainer.StopAsync(), _redisContainer.StopAsync(), _mqContainer.StopAsync());
             MockServer.Stop();
         }       
     }

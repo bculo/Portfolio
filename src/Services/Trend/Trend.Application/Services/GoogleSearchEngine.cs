@@ -19,11 +19,12 @@ namespace Trend.Application.Services
         private readonly IRepository<SyncStatus> _syncRepo;
         private readonly IArticleRepository _articleRepo;
         private readonly ITransaction _session;
-
-        private GoogleSyncResult Result { get; set; }
+        
         private SyncStatus SyncStatus { get; set; }
         private List<Article> Entities { get; set; }
 
+        public string EngineName => nameof(GoogleSearchEngine);
+        
         public GoogleSearchEngine(
             ILogger<GoogleSearchEngine> logger,
             IGoogleSearchClient searchService,
@@ -40,14 +41,13 @@ namespace Trend.Application.Services
             _syncRepo = syncRepo;
             _articleRepo = articleRepo;
             _session = session;
-
-            Result = new GoogleSyncResult();
+            
             Entities = new List<Article>();
         }
 
         public async Task<bool> Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
-            if(articleTypesToSync.Count == 0)
+            if(articleTypesToSync.Count == 0)   
             {
                 _logger.LogInformation("ArticleTypes to fetch are not defined");
                 return false;
@@ -61,42 +61,34 @@ namespace Trend.Application.Services
             }
 
             await PersistData(articleTypesToSync, token);
-
-            return Result.TotalSuccess > 0;
+            
+            return SyncStatus.SucceddedRequests > 0;
         }
 
         private async Task PersistData(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
         {
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
-            Result.SetSyncInstance(SyncStatus);
 
-            if (Result.TotalSuccess == 0)
+            if (SyncStatus.SucceddedRequests == 0)
             {
                 await PersistSyncStatus(token);
                 return;
             }
             
-            var oldActiveArticles = await _articleRepo.GetActiveArticles(token);
-            var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
-
-            //prepare article instances
             AttachSyncStatusIdentifierToArticles();
 
             await _session.StartTransaction();
             
             await PersistSyncStatus(token);
             await PersistNewArticles(token);
-            await _articleRepo.DeactivateArticles(oldActiveIds, token);
-            
+
             await _session.CommitTransaction();
         }
 
         private void MarkSyncStatusAsFinished()
         {
             SyncStatus.Finished = _time.Now;
-            SyncStatus.SucceddedRequests = Result.TotalSuccess;
-            SyncStatus.TotalRequests = Result.Total;
         }
 
         private void AttachSyncWordToSyncStatus(Dictionary<ContextType, List<string>> articleTypesToSync)
@@ -182,8 +174,6 @@ namespace Trend.Application.Services
                     SyncStatus.SucceddedRequests++;
                     Entities.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
                 }
-
-                Result.AddResponse(type, response.SearchWord, response.Succedded, response.Succedded ? response.Result : null);
             }
 
             return Task.CompletedTask;

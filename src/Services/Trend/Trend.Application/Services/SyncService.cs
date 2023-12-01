@@ -5,8 +5,10 @@ using Events.Common.Trend;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.OutputCaching;
+using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
+using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
 using Trend.Domain.Interfaces;
@@ -19,9 +21,11 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _syncSettingRepo;
         private readonly ISyncStatusRepository _syncStatusRepo;
+        private readonly IArticleRepository _articleRepo;
         private readonly IEnumerable<ISearchEngine> _searchEngines;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IOutputCacheStore _cacheStore;
+        private readonly IDateTimeProvider _provider;
 
         public SyncService(ILogger<SyncService> logger, 
             IMapper mapper,
@@ -29,7 +33,8 @@ namespace Trend.Application.Services
             IEnumerable<ISearchEngine> searchEngines,
             ISyncStatusRepository syncStatusRepository,
             IPublishEndpoint publishEndpoint,
-            IOutputCacheStore cacheStore)
+            IOutputCacheStore cacheStore, 
+            IDateTimeProvider provider, IArticleRepository articleRepo)
         {
             _logger = logger;
             _mapper = mapper;
@@ -38,8 +43,56 @@ namespace Trend.Application.Services
             _syncStatusRepo = syncStatusRepository;
             _publishEndpoint = publishEndpoint;
             _cacheStore = cacheStore;
+            _provider = provider;
+            _articleRepo = articleRepo;
+        }
+        
+        public async Task ExecuteSync(CancellationToken token)
+        {
+            var searchWords = await _syncSettingRepo.GetAll(token);
+
+            if(searchWords.Count == 0)
+            {
+                throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
+            }
+            
+            var syncRequest = searchWords
+                .GroupBy(i => i.Type)
+                .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
+            
+            var oldActiveArticles = await _articleRepo.GetActiveArticles(token);
+
+            var anyUpdates = await FireSearchEngines(syncRequest, token);
+            
+            if (!anyUpdates)
+            {
+                await _publishEndpoint.Publish(new TotalSyncFailure() { }, token);
+                throw new TrendAppCoreException("Search engines didn't menage to sync new content");
+            }
+            
+            await DeactivateOldArticles(oldActiveArticles, token);
+            
+            await InvalidateCache(token);
+            await _publishEndpoint.Publish(new NewNewsFetched { }, token);
         }
 
+        private async Task DeactivateOldArticles(List<Article> oldActiveArticles, CancellationToken token)
+        {
+            if (!oldActiveArticles.Any())
+            {
+                return;
+            }
+            
+            var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
+            await _articleRepo.DeactivateArticles(oldActiveIds, token);
+        }
+
+        private async Task InvalidateCache(CancellationToken token)
+        {
+            await _cacheStore.EvictByTagAsync(CacheTags.SYNC, default);
+            await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
+        }
+        
         private async Task<bool> FireSearchEngines(Dictionary<ContextType, List<string>> searchWords, CancellationToken token)
         {
             var successNum = 0;
@@ -52,39 +105,28 @@ namespace Trend.Application.Services
                     {
                         successNum++;
                     }
+                    else
+                    {
+                        await RaiseFailureEvent(searchEngine.EngineName, token);
+                    }
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, e.Message);
+                    await RaiseFailureEvent(searchEngine.EngineName, token);
                 }
             }
 
             return successNum > 0;
         }
-        
-        public async Task ExecuteSync(CancellationToken token)
+
+        private async Task RaiseFailureEvent(string engineName, CancellationToken token)
         {
-            var searchWords = await _syncSettingRepo.GetAll(token);
-
-            if(searchWords.Count == 0)
+            await _publishEndpoint.Publish(new SearchEngineFailure
             {
-                throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
-            }
-
-            var syncRequest = searchWords
-                .GroupBy(i => i.Type)
-                .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
-
-            var anyUpdates = await FireSearchEngines(syncRequest, token);
-            
-            if (!anyUpdates)
-            {
-                throw new TrendAppCoreException("Search engines didn't menage to sync new content");
-            }
-            
-            await _cacheStore.EvictByTagAsync(CacheTags.SYNC, default);
-            await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
-            await _publishEndpoint.Publish(new NewNewsFetched { }, token);
+                Message = $"Engine {engineName} failure. 0 items synced",
+                Time = _provider.Now
+            }, token);
         }
 
         public async Task<SyncStatusDto> GetSync(string id, CancellationToken token)
