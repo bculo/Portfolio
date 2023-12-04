@@ -5,12 +5,17 @@ using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Serilog;
 using System.Diagnostics;
+using Hangfire;
+using Hangfire.Mongo;
+using Hangfire.Mongo.Migration.Strategies;
+using Hangfire.Mongo.Migration.Strategies.Backup;
 using Time.Abstract.Contracts;
 using Time.Common;
 using Trend.Application.Clients;
 using Trend.Application.Configurations.Initialization;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
+using Trend.Application.Jobs;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
 using Trend.Application.Utils;
@@ -98,6 +103,43 @@ namespace Trend.Application
             services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
             services.AddScoped<ISearchEngine, GoogleSearchEngine>();
             services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
+        }
+
+        public static void AddBackgroundTasks(IConfiguration configuration, IServiceCollection services)
+        {
+            var databaseName = configuration["MongoOptions:DatabaseName"];
+            
+            services.AddHangfire((provider, config) => config
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseMongoStorage(provider.GetRequiredService<IMongoClient>(), databaseName, new MongoStorageOptions
+                {
+                    MigrationOptions = new MongoMigrationOptions
+                    {
+                        MigrationStrategy = new MigrateMongoMigrationStrategy(),
+                        BackupStrategy = new CollectionMongoBackupStrategy()
+                    },
+                    
+                    Prefix = "hangfire",
+                    CheckConnection = true
+                })
+            );
+            
+            services.AddHangfireServer(serverOptions =>
+            {
+                serverOptions.ServerName = "Trend.Server";
+            });
+
+            services.AddScoped<ISyncJob, SyncJob>();
+
+            using var provider = services.BuildServiceProvider();
+            using var scope = provider.CreateScope();
+            var manager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+            manager.AddOrUpdate<ISyncJob>(
+                configuration["Jobs:SyncJob:Name"],
+                x => x.Work(default),
+                configuration["Jobs:SyncJob:Cron"]);
         }
     }
 }
