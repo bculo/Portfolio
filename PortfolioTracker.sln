@@ -84,7 +84,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Mock.Common", "tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend", "Trend", "{650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.IntegrationTests", "tests\Services\Trend\Trend.IntegrationTests\Trend.IntegrationTests.csproj", "{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.API.IntegrationTests", "tests\Services\Trend\Trend.API.IntegrationTests\Trend.API.IntegrationTests.csproj", "{4C42E4E5-6EFD-4D20-A794-24F9B16401A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tracker", "Tracker", "{A46B0413-5D9F-46C9-8A9C-2AD0890CA4E7}"
 EndProject

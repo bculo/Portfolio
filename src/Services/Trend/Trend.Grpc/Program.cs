@@ -21,3 +21,5 @@ if (env.IsDevelopment())
 }
 
 app.Run();
+
+public partial class Program { }

@@ -24,7 +24,7 @@ namespace Trend.Grpc.Services
                     throw new TrendAppAuthenticationException("Problem with authentication. User identifier is null");
                 }
 
-                return UserId;
+                return userId;
             }
         }
     }
