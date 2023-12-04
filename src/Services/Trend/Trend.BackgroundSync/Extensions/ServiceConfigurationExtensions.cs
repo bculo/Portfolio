@@ -25,6 +25,7 @@ namespace Trend.BackgroundSync.Extensions
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
+            ApplicationLayer.ConfigureHangfire(configuration, services, true);
 
             AddMessageQueue(services, configuration);
         }

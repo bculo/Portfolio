@@ -140,13 +140,22 @@ namespace Trend.Application
             {
                 opt.ShutdownTimeout = TimeSpan.FromSeconds(5);
             });
+
+            services.AddScoped<LogJob>();
+            
             using var provider = services.BuildServiceProvider();
             using var scope = provider.CreateScope();
             var manager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+            
             manager.AddOrUpdate<ISyncJob>(
                 configuration["Jobs:SyncJob:Name"],
                 s => s.Work(default),
                 configuration["Jobs:SyncJob:Cron"]);
+            
+            manager.AddOrUpdate<LogJob>(
+                "LogJob",
+                s => s.Log(),
+                "* * * * *");
         }
     }
 }

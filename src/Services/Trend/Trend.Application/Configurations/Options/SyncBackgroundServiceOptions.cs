@@ -8,7 +8,6 @@ namespace Trend.Application.Configurations.Options
 {
     public sealed class SyncBackgroundServiceOptions
     {
-        public int SleepTimeMiliseconds { get; set; }
-        public int TimeSpanBetweenSyncsHours { get; set; }
+        public int SleepTimeMilliseconds { get; set; }
     }
 }

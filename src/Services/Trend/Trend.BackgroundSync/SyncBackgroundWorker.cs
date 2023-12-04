@@ -25,73 +25,25 @@ namespace Trend.BackgroundSync
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var serviceIdentifier = Guid.NewGuid().ToString();
             while (!stoppingToken.IsCancellationRequested)
             {
-                using (var scope = _provider.CreateScope())
-                {
-                    var lastSync = await GetLastSync(scope, stoppingToken);
-
-                    if (CanExecuteSync(scope, lastSync))
-                    {
-                        await StartSyncProcess(scope, stoppingToken);
-                    }
-                }
-
-                await Task.Delay(_options.SleepTimeMiliseconds, stoppingToken);
+                using var scope = _provider.CreateScope();
+                var timeProvider = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
+                _logger.LogInformation($"SERVER {serviceIdentifier} PING {timeProvider.Now}");
+                await Task.Delay(_options.SleepTimeMilliseconds, stoppingToken);
             }
         }
 
-        private async Task<SyncStatus> GetLastSync(IServiceScope scope, CancellationToken cancellationToken)
+        public override Task StartAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
-                return await syncRepo.GetLastValidSync(cancellationToken);
-            }
-            catch(Exception e)
-            {
-                return default;
-            }
-        }
-
-        private async Task StartSyncProcess(IServiceScope scope, CancellationToken token)
-        {
-            try
-            {
-                var endpointProvider = scope.ServiceProvider.GetRequiredService<ISendEndpointProvider>();
-                var endpoint = await endpointProvider.GetSendEndpoint(new Uri("queue:trend-execute-news-sync"));
-                await endpoint.Send(new ExecuteNewsSync { }, token);             
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-            }
-        }
-
-        private bool CanExecuteSync(IServiceScope scope, SyncStatus? status)
-        {
-            var time = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
-
-            if (status is null)
-            {
-                return true;
-            }
-
-            var timeSpanFromLastSync = time.Now - status.Finished!.Value;
-
-            if (timeSpanFromLastSync.TotalHours > _options.TimeSpanBetweenSyncsHours)
-            {
-                _logger.LogInformation("Timespan between current time and last sync is greater then {0}", _options.TimeSpanBetweenSyncsHours);
-                return true;
-            }
-
-            return false;
+            _logger.LogInformation("SyncBackgroundService started working!");
+            return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("SyncBackgroundService stopped working!!!");
-
+            _logger.LogInformation("SyncBackgroundService stopped working!");
             return base.StopAsync(cancellationToken);
         }
     }
