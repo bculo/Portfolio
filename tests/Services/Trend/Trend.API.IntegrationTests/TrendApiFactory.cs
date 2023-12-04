@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System.Security.Claims;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Testcontainers.MongoDb;
 using Testcontainers.RabbitMq;
 using Testcontainers.Redis;
@@ -26,19 +28,16 @@ namespace Trend.IntegrationTests
             .WithUsername("mongo")
             .WithPassword("mongo")
             .WithName($"Trend.API.Integration.Mongo.{Guid.NewGuid()}")
-            .WithCleanUp(true)
             .Build();
         
         private readonly RedisContainer _redisContainer = new RedisBuilder()
             .WithImage("redis:7.2")
             .WithName($"Trend.API.Integration.Redis.{Guid.NewGuid()}")
-            .WithCleanUp(true)
             .Build();
 
         private readonly RabbitMqContainer _mqContainer = new RabbitMqBuilder()
             .WithImage("masstransit/rabbitmq")
             .WithName($"Trend.API.Integration.RabbitMQ.{Guid.NewGuid()}")
-            .WithCleanUp(true)
             .Build();
         
         public HttpClient Client { get; private set; }
@@ -57,42 +56,27 @@ namespace Trend.IntegrationTests
                 loggingBuilder.ClearProviders();
             });
             
+            var configurationValues = new Dictionary<string, string>
+            {
+                { "MongoOptions:ServerType", "0"},
+                { "MongoOptions:DatabaseName", TrendConstantsTest.DB_NAME },
+                { "MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString() },
+                { "GoogleSearchOptions:Uri", MockServer.Urls[0] },
+                { "QueueOptions:Address", _mqContainer.GetConnectionString() },
+                { "RedisOptions:ConnectionString", _redisContainer.GetConnectionString() },
+                { "RedisOptions:InstanceName", TrendConstantsTest.REDIS_NAME },
+            };
+            
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(configurationValues!)
+                .Build();
+
+            builder.UseConfiguration(configuration);
             builder.ConfigureTestServices(services =>
             {
                 services.AddSingleton<IMockClaimSeeder, MockClaimSeeder>();
                 services.AddSingleton<IAuthenticationSchemeProvider, MockJwtSchemeProvider>();
-                
-                services.RemoveAll(typeof(IMongoClient));
-                services.AddSingleton<IMongoClient>(_ =>
-                {
-                    var options = new MongoOptions
-                    {
-                        ConnectionString = _mongoDbContainer.GetConnectionString(),
-                        UseInterceptor = false,
-                    };
-                    
-                    return TrendMongoUtils.CreateMongoClient(options);
-                });
-
-                services.AddStackExchangeRedisOutputCache(opt =>
-                {
-                    opt.InstanceName = "TrendIntegrationTest";
-                    opt.Configuration = _redisContainer.GetConnectionString();
-                });
-
                 services.AddScoped<TrendFixtureService>();
-            });
-            
-            builder.ConfigureAppConfiguration((_, configBuilder) =>
-            {
-                configBuilder.AddInMemoryCollection(new[]
-                {
-                    new KeyValuePair<string, string>("MongoOptions:ServerType", "0"), // use standalone instance
-                    new KeyValuePair<string, string>("MongoOptions:DatabaseName", TrendConstantsTest.DB_NAME),
-                    new KeyValuePair<string, string>("MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString()),
-                    new KeyValuePair<string, string>("GoogleSearchOptions:Uri", MockServer.Urls[0]),
-                    new KeyValuePair<string, string>("QueueOptions:Address", _mqContainer.GetConnectionString()),
-                }!);
             });
         }
         

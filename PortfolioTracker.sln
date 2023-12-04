@@ -183,6 +183,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Application.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.UnitTests", "tests\Services\Trend\Trend.UnitTests\Trend.UnitTests.csproj", "{9CEE2F20-E80D-4B82-BEFA-F10D96AE4D65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.gRPC.IntegrationTests", "tests\Services\Trend\Trend.gRPC.IntegrationTests\Trend.gRPC.IntegrationTests.csproj", "{1D97A33C-CE15-4037-85F1-B0030D00BAD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -421,6 +423,10 @@ Global
 		{9CEE2F20-E80D-4B82-BEFA-F10D96AE4D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEE2F20-E80D-4B82-BEFA-F10D96AE4D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CEE2F20-E80D-4B82-BEFA-F10D96AE4D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D97A33C-CE15-4037-85F1-B0030D00BAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D97A33C-CE15-4037-85F1-B0030D00BAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D97A33C-CE15-4037-85F1-B0030D00BAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D97A33C-CE15-4037-85F1-B0030D00BAD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -507,6 +513,7 @@ Global
 		{03394DC0-2427-44C3-A9F2-B37F1B2C9073} = {60521148-9CB9-46A4-98AB-0BBC0E08139D}
 		{A03C65A8-EBC1-4031-BBF8-8F77C8CA26DB} = {03394DC0-2427-44C3-A9F2-B37F1B2C9073}
 		{9CEE2F20-E80D-4B82-BEFA-F10D96AE4D65} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
+		{1D97A33C-CE15-4037-85F1-B0030D00BAD5} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

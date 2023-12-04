@@ -85,7 +85,7 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
-            ApplicationLayer.AddBackgroundTasks(configuration, services);
+            ApplicationLayer.ConfigureHangfire(configuration, services);
         }
 
         private static void ConfigureLocalization(IServiceCollection services)

@@ -105,40 +105,47 @@ namespace Trend.Application
             services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
         }
 
-        public static void AddBackgroundTasks(IConfiguration configuration, IServiceCollection services)
+        public static void ConfigureHangfire(IConfiguration configuration, 
+            IServiceCollection services, 
+            bool addServers = false)
         {
-            var databaseName = configuration["MongoOptions:DatabaseName"];
-            
-            services.AddHangfire((provider, config) => config
-                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseRecommendedSerializerSettings()
-                .UseMongoStorage(provider.GetRequiredService<IMongoClient>(), databaseName, new MongoStorageOptions
-                {
-                    MigrationOptions = new MongoMigrationOptions
-                    {
-                        MigrationStrategy = new MigrateMongoMigrationStrategy(),
-                        BackupStrategy = new CollectionMongoBackupStrategy()
-                    },
-                    
-                    Prefix = "hangfire",
-                    CheckConnection = true
-                })
-            );
-            
-            services.AddHangfireServer(serverOptions =>
+            services.AddHangfire((provider, config) =>
             {
-                serverOptions.ServerName = "Trend.Server";
+                var client = provider.GetRequiredService<IMongoClient>();
+                var databaseName = configuration["MongoOptions:DatabaseName"];
+                
+                config
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseMongoStorage(client, databaseName, new MongoStorageOptions
+                    {
+                        MigrationOptions = new MongoMigrationOptions
+                        {
+                            MigrationStrategy = new MigrateMongoMigrationStrategy(),
+                            BackupStrategy = new CollectionMongoBackupStrategy()
+                        },
+
+                        Prefix = "hangfire",
+                        CheckConnection = true,
+                    });
             });
 
-            services.AddScoped<ISyncJob, SyncJob>();
-
+            if (!addServers)
+            {
+                return;
+            }
+            
+            services.AddHangfireServer(opt =>
+            {
+                opt.ShutdownTimeout = TimeSpan.FromSeconds(5);
+            });
             using var provider = services.BuildServiceProvider();
             using var scope = provider.CreateScope();
             var manager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
             manager.AddOrUpdate<ISyncJob>(
                 configuration["Jobs:SyncJob:Name"],
-                x => x.Work(default),
+                s => s.Work(default),
                 configuration["Jobs:SyncJob:Cron"]);
         }
     }
