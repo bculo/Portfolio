@@ -7,19 +7,19 @@ namespace WebProject.Common.Filters
 {
     public class EnvironmentControllerFilter : TypeFilterAttribute
     {
-        public EnvironmentControllerFilter(params string[] environments) : base(typeof(EnviromentActionFilterImplementation))
+        public EnvironmentControllerFilter(params string[] environments) : base(typeof(EnvironmentActionFilterImplementation))
         {
             Arguments = new object[] { environments };
         }
 
-        private class EnviromentActionFilterImplementation : IAsyncActionFilter
+        private class EnvironmentActionFilterImplementation : IAsyncActionFilter
         {
             private readonly ILogger<EnvironmentControllerFilter> _logger;
             private readonly WebApplication _environment;
 
             private readonly IEnumerable<string> _allowedEnvironments;
 
-            public EnviromentActionFilterImplementation(ILogger<EnvironmentControllerFilter> logger,
+            public EnvironmentActionFilterImplementation(ILogger<EnvironmentControllerFilter> logger,
                 WebApplication environment,
                 string[] allowedEnvironments)
             {
@@ -33,14 +33,14 @@ namespace WebProject.Common.Filters
             {
                 if (!_allowedEnvironments.Any())
                 {
-                    _logger.LogTrace("Executing acction on environment {0}", _environment.Environment.EnvironmentName);
+                    _logger.LogTrace("Executing action on environment {0}", _environment.Environment.EnvironmentName);
                     await next();
                     return;
                 }
 
                 if (_allowedEnvironments.Contains(_environment.Environment.EnvironmentName))
                 {
-                    _logger.LogTrace("Executing acction on environment {0}", _environment.Environment.EnvironmentName);
+                    _logger.LogTrace("Executing action on environment {0}", _environment.Environment.EnvironmentName);
                     await next();
                     return;
                 }

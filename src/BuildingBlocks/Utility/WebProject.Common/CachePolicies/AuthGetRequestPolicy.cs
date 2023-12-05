@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Primitives;
 
-namespace Trend.API.Policies;
+namespace WebProject.Common.CachePolicies;
 
-public class AuthPostRequestPolicy : IOutputCachePolicy
+
+public class AuthGetRequestPolicy : IOutputCachePolicy
 {
     ValueTask IOutputCachePolicy.CacheRequestAsync(OutputCacheContext context, CancellationToken cancellationToken)
     {
@@ -44,7 +46,7 @@ public class AuthPostRequestPolicy : IOutputCachePolicy
     {
         var request = context.HttpContext.Request;
 
-        if (!HttpMethods.IsPost(request.Method))
+        if (!HttpMethods.IsGet(request.Method) && !HttpMethods.IsHead(request.Method))
         {
             return false;
         }

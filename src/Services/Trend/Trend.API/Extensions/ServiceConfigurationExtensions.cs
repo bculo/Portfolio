@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Localization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Globalization;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Trend.API.Filters;
-using Trend.API.Policies;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
 using Trend.Domain.Interfaces;
+using WebProject.Common.CachePolicies;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -56,11 +57,10 @@ namespace Trend.API.Extensions
                         context.Request.EnableBuffering();
                         
                         using var reader = new StreamReader(context.Request.Body, leaveOpen: true);
-                        var body = reader.ReadToEndAsync();
+                        var body = reader.ReadToEnd();
                         
                         context.Request.Body.Position = 0;
-                        var keyVal = new KeyValuePair<string, string>("Body", body.Result);
-                        return keyVal;
+                        return new KeyValuePair<string, string>("Body", body);
                     })
                     .Tag(CacheTags.SYNC));
             });
@@ -86,6 +86,11 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
         private static void ConfigureLocalization(IServiceCollection services)

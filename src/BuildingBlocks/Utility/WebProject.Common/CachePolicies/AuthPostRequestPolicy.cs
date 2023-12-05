@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Primitives;
 
-namespace Trend.API.Policies;
+namespace WebProject.Common.CachePolicies;
 
-public class AuthGetRequestPolicy : IOutputCachePolicy
+public class AuthPostRequestPolicy : IOutputCachePolicy
 {
     ValueTask IOutputCachePolicy.CacheRequestAsync(OutputCacheContext context, CancellationToken cancellationToken)
     {
@@ -15,16 +16,16 @@ public class AuthGetRequestPolicy : IOutputCachePolicy
         context.CacheVaryByRules.QueryKeys = "*";
         return ValueTask.CompletedTask;
     }
-    
+
     ValueTask IOutputCachePolicy.ServeFromCacheAsync(OutputCacheContext context, CancellationToken cancellationToken)
     {
         return ValueTask.CompletedTask;
     }
-    
+
     ValueTask IOutputCachePolicy.ServeResponseAsync(OutputCacheContext context, CancellationToken cancellationToken)
     {
         var response = context.HttpContext.Response;
-        
+
         if (!StringValues.IsNullOrEmpty(response.Headers.SetCookie))
         {
             context.AllowCacheStorage = false;
@@ -44,11 +45,11 @@ public class AuthGetRequestPolicy : IOutputCachePolicy
     {
         var request = context.HttpContext.Request;
 
-        if (!HttpMethods.IsGet(request.Method) && !HttpMethods.IsHead(request.Method))
+        if (!HttpMethods.IsPost(request.Method))
         {
             return false;
         }
-        
+
         return true;
     }
 }

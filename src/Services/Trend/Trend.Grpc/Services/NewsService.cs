@@ -4,6 +4,7 @@ using Dtos.Common.v1.Trend;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.OutputCaching;
 using Trend.Application.Interfaces;
 using Trend.Application.Utils.Validation;
 using Trend.Application.Validators.News;
@@ -29,7 +30,7 @@ namespace Trend.Grpc.Services
             _mapper = mapper;
             _logger = logger;
         }
-
+        
         public override async Task GetAllNews(Empty request, IServerStreamWriter<ArticleTypeItem> responseStream, ServerCallContext context)
         {
             _logger.LogTrace("GetAllNews method called in NewsService");
@@ -40,7 +41,7 @@ namespace Trend.Grpc.Services
                 await responseStream.WriteAsync(responseItem);
             }
         }
-
+        
         public override async Task GetLatestNews(Empty request, IServerStreamWriter<ArticleItem> responseStream, ServerCallContext context)
         {
             _logger.LogTrace("GetLatestNews method called in NewsService");
@@ -51,7 +52,7 @@ namespace Trend.Grpc.Services
                 await responseStream.WriteAsync(responseItem);
             }
         }
-
+        
         public override async Task GetLatestNewsForType(ArticleTypeRequest request, IServerStreamWriter<ArticleItem> responseStream, ServerCallContext context)
         {
             _logger.LogTrace("GetLatestNewsForType method called in NewsService");
@@ -64,7 +65,7 @@ namespace Trend.Grpc.Services
                 await responseStream.WriteAsync(responseItem);
             }
         }
-
+        
         public override async Task<ArticleItemExtendedPageResponse> GetLatestNewsPage(FetchLatestNewsPageRequest request, ServerCallContext context)
         {
             _logger.LogTrace("GetLatestNewsPage method called in NewsService");
