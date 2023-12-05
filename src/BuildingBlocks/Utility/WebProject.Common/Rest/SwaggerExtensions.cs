@@ -63,7 +63,7 @@ public static class SwaggerExtensions
                 }
             });
 
-            opt.CustomSchemaIds(s => s.FullName.Replace("+", "."));
+            opt.SchemaFilter<GenericFilter>();
         });
         
         services.AddOptions<ServiceSwaggerOptions>().Configure(opt =>
@@ -110,6 +110,7 @@ public static class SwaggerExtensions
                 }
             });
             
+            opt.SchemaFilter<GenericFilter>();
             opt.CustomSchemaIds(s => s.FullName.Replace("+", "."));
         });
     }
@@ -153,6 +154,19 @@ public static class SwaggerExtensions
             }
 
             return info;
+        }
+    }
+    
+    public class GenericFilter : ISchemaFilter
+    {
+        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        {
+            var type = context.Type;
+
+            if (type.IsGenericType == false)
+                return;
+
+            schema.Title = $"{type.Name[0..^2]}<{type.GenericTypeArguments[0].Name}>";
         }
     }
 }
