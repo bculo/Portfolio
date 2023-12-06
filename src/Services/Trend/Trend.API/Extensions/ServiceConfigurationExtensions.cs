@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Localization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Globalization;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Trend.API.Filters;
 using Trend.API.Services;
@@ -54,6 +55,12 @@ namespace Trend.API.Extensions
                     .Expire(TimeSpan.FromMinutes(30))
                     .VaryByValue(context =>
                     {
+                        var syncFeature = context.Features.Get<IHttpBodyControlFeature>();
+                        if (syncFeature != null)
+                        {
+                            syncFeature.AllowSynchronousIO = true;
+                        }
+                        
                         context.Request.EnableBuffering();
                         
                         using var reader = new StreamReader(context.Request.Body, leaveOpen: true);
@@ -86,11 +93,6 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
-
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = true;
-            });
         }
 
         private static void ConfigureLocalization(IServiceCollection services)
