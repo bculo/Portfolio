@@ -15,20 +15,19 @@ var host = new HostBuilder()
     })
     .ConfigureAppConfiguration(config =>
     {
-        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        config.SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
     })
     .ConfigureServices((context, services) =>
     {
         ApplicationLayer.AddServices(services, context.Configuration);
 
-        services.AddScoped<ICurrentUserService, CurrentUserService>(services =>
-        {
-            return new CurrentUserService(Enumerable.Empty<Claim>());
-        });
+        services.AddScoped<ICurrentUserService, CurrentUserService>(_ => new CurrentUserService(Enumerable.Empty<Claim>()));
 
         services.AddScoped<ITokenService, JwtTokenService>();
         services.Configure<JwtValidationOptions>(context.Configuration.GetSection("JwtValidationOptions"));
     })
+    .UseDefaultServiceProvider(opt => opt.ValidateScopes = false)
     .Build();
 
-host.Run();
+await host.RunAsync();

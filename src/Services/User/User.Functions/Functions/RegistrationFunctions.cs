@@ -25,7 +25,7 @@ namespace User.Functions.Functions
         public async Task<HttpResponseData> RegisterUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
         {
-            var bodyInstanceJson = req.ReadAsString();
+            var bodyInstanceJson = await req.ReadAsStringAsync();
             if (string.IsNullOrEmpty(bodyInstanceJson))
             {
                 return await req.DefineResponse(HttpStatusCode.BadRequest, "Instance not provided in request body");

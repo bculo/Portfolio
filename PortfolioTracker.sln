@@ -168,6 +168,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.Infrastructure", "src\Services\Tracker\Tracker.Infrastructure\Tracker.Infrastructure.csproj", "{38AE374B-0761-434C-AAE5-23A0CFCCECAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{0E52D23B-4F8E-4120-B7D2-94954BA22A0E}"
+	ProjectSection(SolutionItems) = preProject
+		src\Services\User\README.md = src\Services\User\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.Functions", "src\Services\User\User.Functions\User.Functions.csproj", "{4DA22454-66F7-4AFD-8D1A-E8D27771D0CA}"
 EndProject

@@ -95,8 +95,8 @@ services:
       - "8000:8000"
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal"
 
-  tracker-postgre-db:
-    container_name: tracker-postgre-db
+  postgre-db:
+    container_name: postgre-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=florijan
@@ -104,27 +104,7 @@ services:
       - "5432:5432"
     volumes:
       - ./data/postgre/stock:/var/lib/postgresql/data
-
-  stock-postgre-db:
-    container_name: stock-postgre-db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=florijan
-    ports:
-      - "5433:5432"
-    volumes:
-      - ./data/postgre/stock:/var/lib/postgresql/data
-
-  user-postgre-db:
-    container_name: user-postgre-db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=florijan
-    ports:
-      - "5434:5432"
-    volumes:
-      - ./data/postgre/user:/var/lib/postgresql/data
-        
+     
   pgadmin:
     container_name: pgadmin
     environment:

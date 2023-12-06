@@ -22,7 +22,7 @@ namespace User.Application.Services
 
         public async Task<UserDetailsDto> GetUserDetails(Guid userId, CancellationToken cancellationToken = default)
         {
-            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.ExternalId.HasValue && x.ExternalId.Value == userId);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.ExternalId.HasValue && x.ExternalId.Value == userId, cancellationToken: cancellationToken);
             if (dbUser is null)
             {
                 throw new PortfolioUserNotFoundException("User with given ID doesn't exists");

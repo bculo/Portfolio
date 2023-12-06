@@ -33,7 +33,7 @@ namespace User.Application.Validators
 
             RuleFor(i => i.Born)
                 .Must(IsAdultPerson)
-                .WithMessage("Person must be atleast 18 years old to use this application.")
+                .WithMessage("Person must be at least 18 years old to use this application.")
                 .NotEmpty();
 
             RuleFor(i => i.Email)
@@ -46,7 +46,7 @@ namespace User.Application.Validators
         }
 
         /// <summary>
-        /// Is given username unqiue?
+        /// Is given username unique?
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="token"></param>
@@ -57,7 +57,7 @@ namespace User.Application.Validators
         }
 
         /// <summary>
-        /// Is user adult / is atleast 18 years old ?
+        /// Is user adult / is at least 18 years old ?
         /// </summary>
         /// <param name="bornOn"></param>
         /// <returns></returns>

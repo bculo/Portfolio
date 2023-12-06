@@ -15,7 +15,7 @@ namespace User.Functions.Services
 
     public class CurrentUserService : ICurrentUserService
     {
-        public IEnumerable<Claim> Claims { get; private set; }
+        private IEnumerable<Claim> Claims { get; set; }
 
         public CurrentUserService(IEnumerable<Claim> initialClaims)
         {
@@ -26,11 +26,12 @@ namespace User.Functions.Services
         {
             if(Claims is null || !Claims.Any())
             {
-                throw new ArgumentException("User claims not defiend");
+                throw new ArgumentException("User claims not defined");
             }
 
             var guidAsString = Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            return Guid.Parse(guidAsString);
+            if (guidAsString != null) return Guid.Parse(guidAsString);
+            throw new ArgumentException("User claims not defined");
         }
 
         public void InitializeUser(IEnumerable<Claim> claims)
@@ -42,7 +43,7 @@ namespace User.Functions.Services
 
         private void ValidateClaims()
         {
-            if(!Claims.Any(x => x.Type == ClaimTypes.NameIdentifier))
+            if(Claims.All(x => x.Type != ClaimTypes.NameIdentifier))
             {
                 throw new ArgumentException("Provided claims dont contain user identifier");
             }

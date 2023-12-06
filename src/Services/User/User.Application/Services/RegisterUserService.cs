@@ -59,29 +59,27 @@ namespace User.Application.Services
 
             var adminTokenResponse = await FetchKeycloakAdminAccessToken();
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            await using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
-                //Add user to DB
                 var entity = MapToEntityModel(userDto);
                 _context.Users.Add(entity);
-                await _context.SaveChangesAsync();
-
-                //Add user to keycloak
+                await _context.SaveChangesAsync(token);
+                
                 await AddUserToKeycloak(userDto, adminTokenResponse.AccessToken);
 
-                await transaction.CommitAsync();
+                await transaction.CommitAsync(token);
             }
             catch
             {
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(token);
                 throw;
             }
 
             await _publish.Publish(new NewPorfolioUserRegistered
             {
                 UserName = userDto.UserName,
-            });
+            }, token);
         }
 
         /// <summary>
@@ -150,9 +148,9 @@ namespace User.Application.Services
         /// <param name="accessToken"></param>
         /// <returns></returns>
         /// <exception cref="PortfolioUserCoreException"></exception>
-        private async Task UpdateKeyCloakUser(UserRepresentation keycloakUpdateRequest, string userID, string accessToken)
+        private async Task UpdateKeyCloakUser(UserRepresentation keycloakUpdateRequest, string userId, string accessToken)
         {
-            if (!await _adminApiService.UpdateUser(_options.Realm, accessToken, userID, keycloakUpdateRequest).ConfigureAwait(false))
+            if (!await _adminApiService.UpdateUser(_options.Realm, accessToken, userId, keycloakUpdateRequest).ConfigureAwait(false))
             {
                 throw new PortfolioUserCoreException(
                     "Couldn't update existing Keycloak user via admin API",
@@ -214,7 +212,7 @@ namespace User.Application.Services
         /// <exception cref="PortfolioUserNotFoundException"></exception>
         public async Task ApproveUser(long userId, CancellationToken token = default)
         {
-            var dbUser = _context.Users.Find(userId);
+            var dbUser = await _context.Users.FindAsync(userId);
             if(dbUser is null)
             {
                 throw new PortfolioUserNotFoundException("User not found");
@@ -224,11 +222,11 @@ namespace User.Application.Services
 
             var keycloakUser = await FetchKeycloakUserByUniqueUserName(adminAuthData.AccessToken, dbUser.UserName);
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            await using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
                 dbUser.ExternalId = keycloakUser.UserId;
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(token);
 
                 var keycloakUpdateRequest = new UserRepresentation
                 {
@@ -237,11 +235,11 @@ namespace User.Application.Services
 
                 await UpdateKeyCloakUser(keycloakUpdateRequest, keycloakUser.UserId.ToString(), adminAuthData.AccessToken);
 
-                await transaction.CommitAsync();
+                await transaction.CommitAsync(token);
             }
             catch
             {
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(token);
                 throw;
             }
 
@@ -251,7 +249,7 @@ namespace User.Application.Services
                 ExternalId = keycloakUser.UserId,
                 InternalId = dbUser.Id,
                 ApprovedOn = _timeProvider.Now
-            });
+            }, token);
         }
 
         /// <summary>

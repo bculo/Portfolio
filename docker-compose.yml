@@ -29,15 +29,9 @@ services:
   dynamodb-mailservice-db:
     image: amazon/dynamodb-local:1.21.0
     
-  tracker-postgre-db:
+  postgre-db:
     image: postgres:13
-
-  stock-postgre-db:
-    image: postgres:13
-
-  user-postgre-db:
-    image: postgres:13
-   
+  
   pgadmin:
     image: dpage/pgadmin4:7.1
 
