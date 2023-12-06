@@ -5,8 +5,8 @@ services:
   trend.mongo:
     image: culix77/mongo-replica
 
-  trend.redis:
-    image: redis:7.0.2
+  redis:
+    image: redis:7.2.1
  
   identity.database:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -20,9 +20,6 @@ services:
   rabbitmq:
     image: masstransit/rabbitmq
 
-  notification.hub.redis:
-    image: redis:7.0.7
-
   jager:
     image: jaegertracing/all-in-one:1.43
     
@@ -31,9 +28,7 @@ services:
     
   postgre-db:
     image: postgres:13
-  
-  pgadmin:
-    image: dpage/pgadmin4:7.1
+
 
 volumes:
   mongodbstore:
