@@ -1,7 +1,10 @@
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
+using MassTransit;
+using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using User.Application;
 using User.Functions.Middlewares;
 using User.Functions.Options;
@@ -11,7 +14,11 @@ var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(opt =>
     {
         opt.UseMiddleware<ExceptionMiddleware>();
-        opt.UseMiddleware<AuthorizationMiddleware>();
+        opt.UseWhen<AuthorizationMiddleware>(context =>
+        {
+           return context.FunctionDefinition.InputBindings.Values
+                     .First(a => a.Type.EndsWith("Trigger")).Type == "httpTrigger";
+        });
     })
     .ConfigureAppConfiguration(config =>
     {
@@ -27,7 +34,7 @@ var host = new HostBuilder()
         services.AddScoped<ITokenService, JwtTokenService>();
         services.Configure<JwtValidationOptions>(context.Configuration.GetSection("JwtValidationOptions"));
     })
-    .UseDefaultServiceProvider(opt => opt.ValidateScopes = false)
+    .ConfigureOpenApi()
     .Build();
 
 await host.RunAsync();

@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using User.Application.Interfaces;
@@ -22,6 +23,9 @@ namespace User.Functions.Functions
         }
 
         [Function("RegisterUser")]
+        [OpenApiOperation(operationId: "RegisterUser", tags: new[] { "Manage" })]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateUserDto), Required = true)]
+        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent, Description = "Register user")]
         public async Task<HttpResponseData> RegisterUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Functions.Worker;
+﻿using System.Collections.Frozen;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,17 +14,32 @@ namespace User.Functions.Middlewares
     {
         private readonly IServiceProvider _provider;
         private readonly ILogger<AuthorizationMiddleware> _logger;
+        private readonly FrozenSet<string> _whiteList;
 
         public AuthorizationMiddleware(ILogger<AuthorizationMiddleware> logger, IServiceProvider provider)
         {
             _logger = logger;
             _provider = provider;
+            
+            _whiteList = new List<string>
+            {
+                "RenderOAuth2Redirect",
+                "RenderOpenApiDocument",
+                "RenderSwaggerDocument",
+                "RenderSwaggerUI",
+            }.ToFrozenSet();
         }
 
         public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
         {
+            var functionName = context.FunctionDefinition.Name;
+            if (_whiteList.Contains(functionName))
+            {
+                await next(context);
+                return;
+            }
+            
             var requestData = await context.GetHttpRequestDataAsync();
-
             string bearerToken = GetAuthorizationToken(requestData);
             if(bearerToken is null)
             {

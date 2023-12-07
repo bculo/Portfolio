@@ -1,6 +1,9 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using System.Net;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.OpenApi.Models;
 using User.Application.Interfaces;
 using User.Functions.Extensions;
 using User.Functions.Services;
@@ -20,6 +23,9 @@ namespace User.Functions.Functions
         }
 
         [Function("UserInfo")]
+        [OpenApiOperation(operationId: "GetUserInfo", tags: new[] { "User" })]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, 
+            contentType: "application/json", bodyType: typeof(UserDetailsDto), Description = "Get user information")]
         public async Task<HttpResponseData> GetUserInfo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
