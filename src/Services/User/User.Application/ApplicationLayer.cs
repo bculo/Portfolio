@@ -34,7 +34,7 @@ namespace User.Application
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
             services.UseKeycloakAdminService(configuration["AuthOptions:AdminApiBaseUri"]);
-            services.UseKeycloakOwnerCredentialFlowService(configuration["AuthOptions:TokenBaseUri"]);
+            services.UseKeycloakCredentialFlowService(configuration["AuthOptions:TokenBaseUri"]);
 
             RegisterMessageBroker(services, configuration);
         }

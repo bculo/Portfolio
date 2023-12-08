@@ -49,6 +49,7 @@ namespace Keycloak.Common.Clients
             }
 
             var bodyString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(bodyString);
             var body = JsonConvert.DeserializeObject<CreateUserErrorResponse>(bodyString);
             return (body, false);
         }

@@ -16,7 +16,7 @@
 
 - create new client with name
   - client identifier 'portfolio-admin'
-  - check 'Direct access grants'
+  - Check Client authentication and Service access grant
   - As URL use 'http://localhost/'
 
 #### Create new realm user
@@ -25,7 +25,7 @@
 - set email, first name, last name and password (Save)
 - set email verified to 'True' (Save)
 - Visit 'Credentials' tab and set password. Uncheck temporary password! (Save)
-- visit Role mapping tab, select assign roles. Set filter to 'Filter by clients' and assign PortfolioRealm roles (Save)
+- visit Service account roles tab, select assign roles. Set filter to 'Filter by clients' and assign all PortfolioRealm roles (Save)
 
 
 ### Execute database migrations
@@ -53,8 +53,7 @@
     "TokenBaseUri": "http://localhost:8080/realms/master/",
     "AdminApiBaseUri": "http://localhost:8080/admin/realms/",
     "ClientId": "portfolio-admin",
-    "UserName": "portfolio-admin-user",
-    "Password": "test",
+    "ClientSecert": "<Client_Secret_KEycloak>",
     "Realm": "PortfolioRealm"
   },
   "QueueOptions": {

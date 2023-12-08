@@ -11,8 +11,7 @@ namespace User.Application.Common.Options
     {
         public string Realm { get; set; }
         public string ClientId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string ClientSecret { get; set; }
         public string AuthorizationUrl { get; set; }
         public string TokenBaseUri { get; set; }
         public string AdminApiBaseUri { get; set; }

@@ -23,23 +23,17 @@ namespace User.Application.Services
         private readonly IPublishEndpoint _publish;
         private readonly IDateTimeProvider _timeProvider;
         private readonly AuthOptions _options;
-        private readonly IValidator<CreateUserDto> _validator;
-        private readonly ILogger<RegisterUserService> _logger;
         private readonly IKeycloakAdminService _adminApiService;
-        private readonly IAuth0OwnerCredentialFlowService _adminTokenService;
+        private readonly IAuth0ClientCredentialFlowService _adminTokenService;
 
-        public RegisterUserService(ILogger<RegisterUserService> logger,
-            IValidator<CreateUserDto> validator,
-            UserDbContext context,
-            IAuth0OwnerCredentialFlowService adminTokenService,
+        public RegisterUserService(UserDbContext context,
+            IAuth0ClientCredentialFlowService adminTokenService,
             IOptionsSnapshot<AuthOptions> options,
             IKeycloakAdminService adminApiService,
             IPublishEndpoint publish,
             IDateTimeProvider timeProvider)
         {
-            _validator = validator;
             _context = context;
-            _logger = logger;
             _adminTokenService = adminTokenService;
             _adminApiService = adminApiService;
             _options = options.Value;
@@ -55,10 +49,7 @@ namespace User.Application.Services
         /// <returns></returns>
         public async Task RegisterUser(CreateUserDto userDto, CancellationToken token = default)
         {
-            await ValidateInstance(userDto, token);
-
             var adminTokenResponse = await FetchKeycloakAdminAccessToken();
-
             await using var transaction = await _context.Database.BeginTransactionAsync(token);
             try
             {
@@ -81,41 +72,21 @@ namespace User.Application.Services
                 UserName = userDto.UserName,
             }, token);
         }
-
+        
         /// <summary>
-        /// Validate received DTO with fluent validation
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        /// <exception cref="PortfolioUserValidationException">Method throws exception if dto is invalid</exception>
-        private async Task ValidateInstance(CreateUserDto userDto, CancellationToken token)
-        {
-            var validationResult = await _validator.ValidateAsync(userDto, token)
-                .ConfigureAwait(false);
-
-            if (!validationResult.IsValid)
-            {
-                var errors = validationResult.ToDictionary();
-                _logger.LogTrace(JsonConvert.SerializeObject(errors));
-                throw new PortfolioUserValidationException(errors);
-            }
-        }
-
-        /// <summary>
-        /// Try fetch admin access token that is nedded for admin API usage
+        /// Try fetch admin access token that is needed for admin API usage
         /// </summary>
         /// <returns></returns>
         /// <exception cref="PortfolioUserCoreException"></exception>
-        private async Task<TokenAuthorizationCodeResponse> FetchKeycloakAdminAccessToken()
+        private async Task<TokenClientCredentialResponse> FetchKeycloakAdminAccessToken()
         {
-            var adminTokenResponse = await _adminTokenService.GetToken(_options.ClientId, _options.UserName, _options.Password)
+            var adminTokenResponse = await _adminTokenService.GetToken(_options.ClientId, _options.ClientSecret)
                 .ConfigureAwait(false);
 
             if (adminTokenResponse is null)
             {
                 throw new PortfolioUserCoreException(
-                    "Problem occurrd in process of fetching admin access token from keycloak",
+                    "Problem occurred in process of fetching admin access token from keycloak",
                     "An error occurred. Please try again later.");
             }
 

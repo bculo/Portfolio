@@ -8,8 +8,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.Core.Serialization;
+using FluentValidation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using User.Application.Common.Exceptions;
 using User.Functions.Models;
 using User.Functions.Utilities;
 
@@ -34,6 +36,38 @@ namespace User.Functions.Extensions
             await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create(), statusCode);
             return response;
         }
+
+        public static async Task<T> ToDto<T>(this HttpRequestData request,
+            IValidator<T>? validator,
+            CancellationToken token = default,
+            string bodyIsNullMsg = "Instance not provided in request body",
+            string deserializationErrorMsg = "Invalid instance provided in request body") where T : class
+        {
+            var bodyInstanceJson = await request.ReadAsStringAsync()
+                .ConfigureAwait(false);
+            if (string.IsNullOrEmpty(bodyInstanceJson))
+            {
+                throw new PortfolioUserCoreException(bodyIsNullMsg, bodyIsNullMsg);
+            }
+
+            var instance = JsonConvert.DeserializeObject<T>(bodyInstanceJson);
+            if(instance is null)
+            {
+                throw new PortfolioUserCoreException(deserializationErrorMsg, deserializationErrorMsg);
+            }
+
+            if (validator is null)
+            {
+                return instance;
+            }
+            
+            var validationResult = await validator.ValidateAsync(instance, token)
+                .ConfigureAwait(false);
+
+            if (validationResult.IsValid) return instance;
+            var errors = validationResult.ToDictionary();
+            throw new PortfolioUserValidationException(errors);
+        }
         
         private static object FormResponseBody(object bodyData, bool isValidationFailure)
         {
@@ -51,4 +85,6 @@ namespace User.Functions.Extensions
             };
         }
     }
+
+
 }

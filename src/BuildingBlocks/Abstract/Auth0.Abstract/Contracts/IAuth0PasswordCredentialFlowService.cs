@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Auth0.Abstract.Contracts
 {
-    public interface IAuth0OwnerCredentialFlowService
+    public interface IAuth0PasswordCredentialFlowService
     {
         /// <summary>
         /// Get access token using Resource Owner Password Credentials Grant

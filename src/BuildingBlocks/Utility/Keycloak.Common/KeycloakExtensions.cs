@@ -40,13 +40,13 @@ namespace Keycloak.Common
         /// </summary>
         /// <param name="services"></param>
         /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/</param>
-        public static void UseKeycloakCredentialFlowService(this IServiceCollection services, string aurhoriazionServer)
+        public static void UseKeycloakCredentialFlowService(this IServiceCollection services, string authorizationServer)
         {
-            ArgumentNullException.ThrowIfNull(aurhoriazionServer);
+            ArgumentNullException.ThrowIfNull(authorizationServer);
 
             services.AddOptions<KeycloakClientCredentialFlowOptions>().Configure(opt =>
             {
-                opt.AuthorizationServerUrl = aurhoriazionServer;
+                opt.AuthorizationServerUrl = authorizationServer;
             });
 
             services.AddScoped<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
@@ -56,17 +56,17 @@ namespace Keycloak.Common
         /// </summary>
         /// <param name="services"></param>
         /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ -> usually it is master/</param>
-        public static void UseKeycloakOwnerCredentialFlowService(this IServiceCollection services, string aurhoriazionServerOwner)
+        public static void UseKeycloakOwnerPasswordCredentialFlowService(this IServiceCollection services, string authorizationServer)
         {
-            ArgumentNullException.ThrowIfNull(aurhoriazionServerOwner);
+            ArgumentNullException.ThrowIfNull(authorizationServer);
 
             //Resource owner password credentials flow
             services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
             {
-                opt.AuthorizationServerUrl = aurhoriazionServerOwner;
+                opt.AuthorizationServerUrl = authorizationServer;
             });
 
-            services.AddScoped<IAuth0OwnerCredentialFlowService, KeycloakOwnerCredentialFlowClient>();
+            services.AddScoped<IAuth0PasswordCredentialFlowService, KeycloakPasswordCredentialFlowClient>();
         }
 
         /// <summary>
