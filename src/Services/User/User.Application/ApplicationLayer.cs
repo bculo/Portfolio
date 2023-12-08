@@ -24,7 +24,7 @@ namespace User.Application
                 options.UseLowerCaseNamingConvention();
             });
 
-            services.Configure<KeycloakAdminOptions>(configuration.GetSection(nameof(KeycloakAdminOptions)));
+            services.Configure<AuthOptions>(configuration.GetSection(nameof(AuthOptions)));
 
             services.AddHttpClient();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());    
@@ -32,8 +32,8 @@ namespace User.Application
             services.AddScoped<IRegisterUserService, RegisterUserService>();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
-            services.UseKeycloakAdminService(configuration["KeycloakAdminOptions:AdminApiBaseUri"]);
-            services.UseKeycloakOwnerCredentialFlowService(configuration["KeycloakAdminOptions:TokenBaseUri"]);
+            services.UseKeycloakAdminService(configuration["AuthOptions:AdminApiBaseUri"]);
+            services.UseKeycloakOwnerCredentialFlowService(configuration["AuthOptions:TokenBaseUri"]);
 
             RegisterMessageBroker(services, configuration);
         }

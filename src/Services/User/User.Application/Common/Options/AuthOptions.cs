@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace User.Application.Common.Options
 {
-    public sealed class KeycloakAdminOptions
+    public sealed class AuthOptions
     {
         public string Realm { get; set; }
         public string ClientId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string AuthorizationUrl { get; set; }
+        public string TokenBaseUri { get; set; }
+        public string AdminApiBaseUri { get; set; }
     }
 }

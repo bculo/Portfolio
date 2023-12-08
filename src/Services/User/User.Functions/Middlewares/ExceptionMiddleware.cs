@@ -41,7 +41,7 @@ namespace User.Functions.Middlewares
                 if(realException is PortfolioUserValidationException) 
                 { 
                     var validationException = realException as PortfolioUserValidationException;
-                    await requestData.DefineResponseMiddleware(HttpStatusCode.BadRequest, validationException.Errors);
+                    await requestData.DefineResponseMiddleware(HttpStatusCode.BadRequest, validationException.Errors, true);
                     return;
                 }
 

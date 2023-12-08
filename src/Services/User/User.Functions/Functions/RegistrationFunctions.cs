@@ -9,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using User.Application.Interfaces;
 using User.Functions.Extensions;
+using User.Functions.Models;
+using User.Functions.Options;
 using User.Functions.Services;
 
 namespace User.Functions.Functions
@@ -27,12 +29,11 @@ namespace User.Functions.Functions
 
         [Function("RegisterUser")]
         [OpenApiOperation(operationId: "RegisterUser", tags: new[] { "Manage" })]
-        [OpenApiSecurity("bearer_auth",
-            SecuritySchemeType.Http,
-            Scheme = OpenApiSecuritySchemeType.Bearer,
-            BearerFormat = "JWT")]
+        [OpenApiSecurity("implicit_auth",
+            SecuritySchemeType.OAuth2,
+            Flows = typeof(ImplicitAuthFlow))]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateUserDto), Required = true)]
-        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent, Description = "Register user")]
+        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> RegisterUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
         {
@@ -53,6 +54,11 @@ namespace User.Functions.Functions
         }
 
         [Function("ApproveUser")]
+        [OpenApiOperation(operationId: "ApproveUser", tags: new[] { "Manage" })]
+        [OpenApiSecurity("implicit_auth",
+            SecuritySchemeType.OAuth2,
+            Flows = typeof(ImplicitAuthFlow))]
+        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> ApproveUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ApproveUser/{userId}")]
             HttpRequestData req, 

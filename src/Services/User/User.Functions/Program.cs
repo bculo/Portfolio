@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MassTransit;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using User.Application;

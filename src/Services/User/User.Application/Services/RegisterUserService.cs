@@ -22,7 +22,7 @@ namespace User.Application.Services
         private readonly UserDbContext _context;
         private readonly IPublishEndpoint _publish;
         private readonly IDateTimeProvider _timeProvider;
-        private readonly KeycloakAdminOptions _options;
+        private readonly AuthOptions _options;
         private readonly IValidator<CreateUserDto> _validator;
         private readonly ILogger<RegisterUserService> _logger;
         private readonly IKeycloakAdminService _adminApiService;
@@ -32,7 +32,7 @@ namespace User.Application.Services
             IValidator<CreateUserDto> validator,
             UserDbContext context,
             IAuth0OwnerCredentialFlowService adminTokenService,
-            IOptionsSnapshot<KeycloakAdminOptions> options,
+            IOptionsSnapshot<AuthOptions> options,
             IKeycloakAdminService adminApiService,
             IPublishEndpoint publish,
             IDateTimeProvider timeProvider)

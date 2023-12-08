@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace User.Functions.Models
 {
-    public class FailureResponse<T> where T : notnull
+    public class FailureResponse
     {
-        public T Message { get; set; }
+        public object Message { get; set; }
         public int AppCode { get; set; }
     }
 }

@@ -1,44 +1,54 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Azure.Core.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using User.Functions.Models;
+using User.Functions.Utilities;
 
 namespace User.Functions.Extensions
 {
     public static class HttpRequestDataExtensions
     {
-        public static async Task DefineResponseMiddleware<T>(this HttpRequestData request, HttpStatusCode statusCode, T message) 
-            where T : notnull
+        public static async Task DefineResponseMiddleware(this HttpRequestData request, HttpStatusCode statusCode, 
+            object message, bool isValidationError = false)
         {
-            var responseInfo = new FailureResponse<T>
-            {
-                Message = message,
-            };
-
-            var response = request.CreateResponse();
-            await response.WriteAsJsonAsync(responseInfo, statusCode: statusCode);
-
+            var responseBody = FormResponseBody(message, isValidationError);
+            var response = request.CreateResponse(statusCode: statusCode);
+            await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create());
             request.FunctionContext.GetInvocationResult().Value = response;
         }
 
-        public static async Task<HttpResponseData> DefineResponse<T>(this HttpRequestData request, HttpStatusCode statusCode, T message)
-            where T : notnull
+        public static async Task<HttpResponseData> DefineResponse<T>(this HttpRequestData request, 
+            HttpStatusCode statusCode, T message, bool isValidationError = false) where T : notnull
         {
-            var responseInfo = new FailureResponse<T>
-            {
-                Message = message,
-            };
-
-            var response = request.CreateResponse();
-            await response.WriteAsJsonAsync(responseInfo, statusCode: statusCode);
-
+            var responseBody = FormResponseBody(message, isValidationError);
+            var response = request.CreateResponse(statusCode: statusCode);
+            await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create());
             return response;
+        }
+        
+        private static object FormResponseBody(object bodyData, bool isValidationFailure)
+        {
+            if (!isValidationFailure)
+            {
+                return new FailureResponse
+                {
+                    Message = bodyData
+                };
+            }
+
+            return new FailureValidationResponse
+            {
+                ValidationDict = bodyData
+            };
         }
     }
 }
