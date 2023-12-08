@@ -1,8 +1,11 @@
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using User.Application.Interfaces;
 using User.Functions.Extensions;
@@ -24,6 +27,10 @@ namespace User.Functions.Functions
 
         [Function("RegisterUser")]
         [OpenApiOperation(operationId: "RegisterUser", tags: new[] { "Manage" })]
+        [OpenApiSecurity("bearer_auth",
+            SecuritySchemeType.Http,
+            Scheme = OpenApiSecuritySchemeType.Bearer,
+            BearerFormat = "JWT")]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateUserDto), Required = true)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent, Description = "Register user")]
         public async Task<HttpResponseData> RegisterUser(

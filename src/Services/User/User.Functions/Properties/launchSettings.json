@@ -3,7 +3,10 @@
     "User.Functions": {
       "commandName": "Project",
       "commandLineArgs": "--port 7260",
-      "launchBrowser": false
+      "launchBrowser": false,
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development"
+      }
     }
   }
 }
