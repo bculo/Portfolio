@@ -36,7 +36,7 @@ namespace User.Functions.Middlewares
                 var requestData = await context.GetHttpRequestDataAsync();
 
                 //for some reason all thrown exceptions are wrapped by the AggregateException in azure functions
-                var realException = ex.InnerException is not null ? ex.InnerException : ex;
+                var realException = ex.InnerException ?? ex;
 
                 if(realException is PortfolioUserValidationException) 
                 { 

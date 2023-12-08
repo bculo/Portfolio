@@ -58,6 +58,7 @@ namespace User.Functions.Functions
         [OpenApiSecurity("implicit_auth",
             SecuritySchemeType.OAuth2,
             Flows = typeof(ImplicitAuthFlow))]
+        [OpenApiParameter(name: "userId", Required = true, In = ParameterLocation.Path)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> ApproveUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ApproveUser/{userId}")]

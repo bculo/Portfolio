@@ -30,6 +30,7 @@ namespace User.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());    
 
             services.AddScoped<IRegisterUserService, RegisterUserService>();
+            services.AddScoped<IUserManagerService, UserManagerService>();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
             services.UseKeycloakAdminService(configuration["AuthOptions:AdminApiBaseUri"]);
