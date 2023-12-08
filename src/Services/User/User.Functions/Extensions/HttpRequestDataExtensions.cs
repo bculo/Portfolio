@@ -21,8 +21,8 @@ namespace User.Functions.Extensions
             object message, bool isValidationError = false)
         {
             var responseBody = FormResponseBody(message, isValidationError);
-            var response = request.CreateResponse(statusCode: statusCode);
-            await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create());
+            var response = request.CreateResponse();
+            await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create(), statusCode);
             request.FunctionContext.GetInvocationResult().Value = response;
         }
 
@@ -30,8 +30,8 @@ namespace User.Functions.Extensions
             HttpStatusCode statusCode, T message, bool isValidationError = false) where T : notnull
         {
             var responseBody = FormResponseBody(message, isValidationError);
-            var response = request.CreateResponse(statusCode: statusCode);
-            await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create());
+            var response = request.CreateResponse();
+            await response.WriteAsJsonAsync(responseBody, SerializerUtilities.Create(), statusCode);
             return response;
         }
         

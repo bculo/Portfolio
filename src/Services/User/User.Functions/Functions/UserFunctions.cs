@@ -25,12 +25,10 @@ namespace User.Functions.Functions
 
         [Function("UserInfo")]
         [OpenApiOperation(operationId: "GetUserInfo", tags: new[] { "User" })]
-        [OpenApiSecurity("implicit_auth",
-            SecuritySchemeType.OAuth2,
-            Flows = typeof(ImplicitAuthFlow))]
+        [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiParameter(name: "userId", Required = true, In = ParameterLocation.Path)]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, 
-            contentType: "application/json", bodyType: typeof(UserDetailsDto), Description = "Get user information")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", 
+            bodyType: typeof(UserDetailsDto), Description = "Get user information")]
         public async Task<HttpResponseData> GetUserInfo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {

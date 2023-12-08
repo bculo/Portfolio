@@ -50,8 +50,8 @@
   },
   "AuthOptions": {
     "AuthorizationUrl": "http://localhost:8080/realms/PortfolioRealm/protocol/openid-connect/auth",
-    "TokenBaseUri": "http://localhost:8080/auth/realms/master/",
-    "AdminApiBaseUri": "http://localhost:8080/auth/admin/realms/",
+    "TokenBaseUri": "http://localhost:8080/realms/master/",
+    "AdminApiBaseUri": "http://localhost:8080/admin/realms/",
     "ClientId": "portfolio-admin",
     "UserName": "portfolio-admin-user",
     "Password": "test",

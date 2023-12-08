@@ -29,9 +29,7 @@ namespace User.Functions.Functions
 
         [Function("RegisterUser")]
         [OpenApiOperation(operationId: "RegisterUser", tags: new[] { "Manage" })]
-        [OpenApiSecurity("implicit_auth",
-            SecuritySchemeType.OAuth2,
-            Flows = typeof(ImplicitAuthFlow))]
+        [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateUserDto), Required = true)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> RegisterUser(
@@ -55,9 +53,7 @@ namespace User.Functions.Functions
 
         [Function("ApproveUser")]
         [OpenApiOperation(operationId: "ApproveUser", tags: new[] { "Manage" })]
-        [OpenApiSecurity("implicit_auth",
-            SecuritySchemeType.OAuth2,
-            Flows = typeof(ImplicitAuthFlow))]
+        [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiParameter(name: "userId", Required = true, In = ParameterLocation.Path)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> ApproveUser(

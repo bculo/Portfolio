@@ -70,7 +70,7 @@ namespace User.Application.Services
 
                 await transaction.CommitAsync(token);
             }
-            catch
+            catch(Exception e)
             {
                 await transaction.RollbackAsync(token);
                 throw;
@@ -132,11 +132,13 @@ namespace User.Application.Services
         private async Task AddUserToKeycloak(CreateUserDto userDto, string accessToken)
         {
             var keyCloakModel = MapToKeycloakModel(userDto);
-            if (!await _adminApiService.CreateUser(_options.Realm, accessToken, keyCloakModel).ConfigureAwait(false))
+            var response = await _adminApiService.CreateUser(_options.Realm, accessToken, keyCloakModel)
+                .ConfigureAwait(false);
+            if (!response.Success)
             {
-                throw new PortfolioUserCoreException(
-                    "Couldn't add new user via Keycloak admin API",
-                    "An error occurred. Please try again later.");
+                throw new PortfolioUserKeyCloakIntegrationError(
+                    response.Instance?.ErrorMessage,
+                    response.Instance?.ErrorMessage);
             }
         }
 
@@ -172,8 +174,8 @@ namespace User.Application.Services
                 LastName = userDto.LastName,
                 UserName = userDto.UserName,
                 Id = Guid.NewGuid().ToString(),
-                RealmRoles = new string[] { "User" },
-                Credentials = new CredentialRepresentation[]
+                RealmRoles = new[] { "User" },
+                Credentials = new[]
                 {
                     new CredentialRepresentation
                     {

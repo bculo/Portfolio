@@ -14,8 +14,7 @@ namespace Keycloak.Common.Interfaces
     {
         Task<List<UserResponse>> GetUsers(string realm, string accessToken, IReadOnlyDictionary<string, string> searchParams);
         Task<UserResponse> GetUserById(string realm, string accessToken, Guid userId);
-        Task<bool> ImportRealm(string realmDataJson, string accessToken);
-        Task<bool> CreateUser(string realm, string accessToken, UserRepresentation user);
+        Task<(CreateUserErrorResponse Instance, bool Success)> CreateUser(string realm, string accessToken, UserRepresentation user);
         Task<bool> UpdateUser(string realm, string accessToken, string userId, UserRepresentation user);
     }
 }

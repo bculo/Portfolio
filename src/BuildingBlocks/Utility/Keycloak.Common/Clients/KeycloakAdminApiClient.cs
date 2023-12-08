@@ -31,7 +31,7 @@ namespace Keycloak.Common.Clients
             _logger = logger;
         }
 
-        public async Task<bool> CreateUser(string realm, string accessToken, UserRepresentation user)
+        public async Task<(CreateUserErrorResponse Instance, bool Success)> CreateUser(string realm, string accessToken, UserRepresentation user)
         {
             ArgumentNullException.ThrowIfNull(realm);
             ArgumentNullException.ThrowIfNull(accessToken);
@@ -43,7 +43,14 @@ namespace Keycloak.Common.Clients
             http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
 
             var response = await http.PostAsJsonAsync($"{realm}/users", user);
-            return response.IsSuccessStatusCode;
+            if (response.IsSuccessStatusCode)
+            {
+                return (null, true);
+            }
+
+            var bodyString = await response.Content.ReadAsStringAsync();
+            var body = JsonConvert.DeserializeObject<CreateUserErrorResponse>(bodyString);
+            return (body, false);
         }
 
         public async Task<UserResponse> GetUserById(string realm, string accessToken, Guid userId)
@@ -77,26 +84,7 @@ namespace Keycloak.Common.Clients
             var response = await http.GetAsync(stringUri);
             return await response.HandleResponse<List<UserResponse>>(_logger);
         }
-
-        public async Task<bool> ImportRealm(string realmDataJson, string accessToken)
-        {
-            ArgumentNullException.ThrowIfNull(realmDataJson);
-            ArgumentNullException.ThrowIfNull(accessToken);
-
-            var http = _factory.CreateClient();
-
-            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
-            http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
-
-            var content = new StringContent(realmDataJson, Encoding.UTF8, "application/json");
-
-            var response = await http.PostAsync("", content);
-
-            var result = await response.HandleResponse<string>(_logger);
-
-            return (result != null) ? true : false;
-        }
-
+        
         public async Task<bool> UpdateUser(string realm, string accessToken, string userId, UserRepresentation user)
         {
             ArgumentNullException.ThrowIfNull(realm);
