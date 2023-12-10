@@ -12,11 +12,11 @@ namespace Keycloak.Common.Clients
     internal class KeycloakCredentialFlowClient : IAuth0ClientCredentialFlowService
     {
         private readonly IHttpClientFactory _factory;
-        private readonly KeycloakClientCredentialFlowOptions _options;
+        private readonly KeycloakTokenOptions _options;
         private readonly ILogger<KeycloakCredentialFlowClient> _logger;
 
         public KeycloakCredentialFlowClient(IHttpClientFactory factory, 
-            IOptions<KeycloakClientCredentialFlowOptions> options,
+            IOptions<KeycloakTokenOptions> options,
             ILogger<KeycloakCredentialFlowClient> logger)
         {
             _factory = factory;

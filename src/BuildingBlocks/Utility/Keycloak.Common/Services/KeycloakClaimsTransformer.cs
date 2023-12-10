@@ -19,7 +19,8 @@ namespace Keycloak.Common.Services
         private readonly KeycloakClaimOptions _options;
         private readonly ILogger<KeycloakClaimsTransformer> _logger;
 
-        public KeycloakClaimsTransformer(IOptions<KeycloakClaimOptions> options, ILogger<KeycloakClaimsTransformer> logger)
+        public KeycloakClaimsTransformer(IOptions<KeycloakClaimOptions> options,
+            ILogger<KeycloakClaimsTransformer> logger)
         {
             _options = options.Value;
             _logger = logger;
@@ -27,11 +28,12 @@ namespace Keycloak.Common.Services
 
         public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            _logger.LogTrace("Method {0} in service {1} called", nameof(TransformAsync), nameof(KeycloakClaimsTransformer));
+            _logger.LogTrace("Method {0} in service {1} called", nameof(TransformAsync),
+                nameof(KeycloakClaimsTransformer));
 
             ClaimsIdentity claimsIdentity = principal.Identity as ClaimsIdentity;
 
-            if(claimsIdentity == null) 
+            if (claimsIdentity == null)
             {
                 _logger.LogWarning("ClaimsIdentity instance is null");
 
@@ -47,41 +49,40 @@ namespace Keycloak.Common.Services
 
         private void HandleApplicationRoles(ClaimsIdentity claimsIdentity)
         {
-            _logger.LogTrace("Method {0} in service {1} called", nameof(HandleApplicationRoles), nameof(KeycloakClaimsTransformer));
+            _logger.LogTrace("Method {0} in service {1} called", nameof(HandleApplicationRoles),
+                nameof(KeycloakClaimsTransformer));
 
-            if (claimsIdentity.IsAuthenticated && claimsIdentity.HasClaim((claim) => claim.Type == "resource_access"))
+            if (!claimsIdentity.IsAuthenticated ||
+                !claimsIdentity.HasClaim((claim) => claim.Type == "resource_access")) return;
+
+            var userAppRoles = claimsIdentity.FindFirst((claim) => claim.Type == "resource_access");
+
+            var content = Newtonsoft.Json.Linq.JObject.Parse(userAppRoles!.Value);
+
+            if (!content.ContainsKey(_options.ApplicationName!)) return;
+
+            foreach (var role in content[_options.ApplicationName]!["roles"]!)
             {
-                var userAppRoles = claimsIdentity.FindFirst((claim) => claim.Type == "resource_access");
-
-                var content = Newtonsoft.Json.Linq.JObject.Parse(userAppRoles!.Value);
-
-                if (content.ContainsKey(_options.ApplicationName!))
-                {
-                    foreach (var role in content[_options.ApplicationName]!["roles"]!)
-                    {
-                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
-                    }
-                }
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             }
         }
 
         private void HandleRealmRoles(ClaimsIdentity claimsIdentity)
         {
-            _logger.LogTrace("Method {0} in service {1} called", nameof(HandleRealmRoles), nameof(KeycloakClaimsTransformer));
+            _logger.LogTrace("Method {0} in service {1} called", nameof(HandleRealmRoles),
+                nameof(KeycloakClaimsTransformer));
 
-            if (claimsIdentity.IsAuthenticated && claimsIdentity.HasClaim((claim) => claim.Type == "realm_access"))
+            if (!claimsIdentity.IsAuthenticated ||
+                !claimsIdentity.HasClaim((claim) => claim.Type == "realm_access")) return;
+            
+            var userRealmRoles = claimsIdentity.FindFirst((claim) => claim.Type == "realm_access");
+            var content = Newtonsoft.Json.Linq.JObject.Parse(userRealmRoles!.Value);
+
+            if (!content.ContainsKey("roles")) return;
+            
+            foreach (var role in content["roles"]!)
             {
-                var userRealmRoles = claimsIdentity.FindFirst((claim) => claim.Type == "realm_access");
-
-                var content = Newtonsoft.Json.Linq.JObject.Parse(userRealmRoles!.Value);
-
-                if (content.ContainsKey("roles"))
-                {
-                    foreach (var role in content["roles"]!)
-                    {
-                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
-                    }
-                }
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             }
         }
     }

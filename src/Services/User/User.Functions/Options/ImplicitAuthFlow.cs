@@ -1,9 +1,5 @@
-using MassTransit.Configuration;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using User.Application.Common.Options;
 
 namespace User.Functions.Options;
 

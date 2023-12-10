@@ -32,7 +32,6 @@ var host = new HostBuilder()
         ApplicationLayer.AddServices(services, context.Configuration);
 
         services.AddScoped<ICurrentUserService, CurrentUserService>(_ => new CurrentUserService(Enumerable.Empty<Claim>()));
-
         services.AddScoped<ITokenService, JwtTokenService>();
         services.Configure<JwtValidationOptions>(context.Configuration.GetSection("JwtValidationOptions"));
     })

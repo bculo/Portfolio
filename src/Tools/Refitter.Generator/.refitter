@@ -4,8 +4,14 @@
     "returnIApiResponse": true,
     "multipleInterfaces": "ByTag",
     "dependencyInjectionSettings": {
-      "usePolly": true,
-      "pollyMaxRetryCount": 3,
-      "firstBackoffRetryInSeconds": 0.5
-    }
+        "httpMessageHandlers": [ 
+            "AuthorizationMessageHandler"
+        ],
+        "usePolly": true,
+        "pollyMaxRetryCount": 3,
+        "firstBackoffRetryInSeconds": 0.5
+    },
+    "includeTags": [
+        "Users"
+    ]
 }

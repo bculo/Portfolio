@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Time.Abstract.Contracts;
 using Time.Common;
-using User.Application.Common.Options;
 using User.Application.Interfaces;
 using User.Application.Persistence;
 using User.Application.Services;
@@ -23,9 +22,7 @@ namespace User.Application
                 options.UseNpgsql(configuration.GetConnectionString("UserDb"));
                 options.UseLowerCaseNamingConvention();
             });
-
-            services.Configure<AuthOptions>(configuration.GetSection(nameof(AuthOptions)));
-
+            
             services.AddHttpClient();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());    
 
@@ -33,9 +30,13 @@ namespace User.Application
             services.AddScoped<IUserManagerService, UserManagerService>();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
-            services.UseKeycloakAdminService(configuration["AuthOptions:AdminApiBaseUri"]);
-            services.UseKeycloakCredentialFlowService(configuration["AuthOptions:TokenBaseUri"]);
-
+            services.UseKeycloakAdminService(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"],
+                configuration["KeycloakAdminApiOptions:Realm"],
+                configuration["KeycloakAdminApiOptions:ClientId"],
+                configuration["KeycloakAdminApiOptions:ClientSecret"],
+                configuration["KeycloakAdminApiOptions:AuthorizationUrl"],
+                configuration["KeycloakAdminApiOptions:TokenBaseUri"]);
+            
             RegisterMessageBroker(services, configuration);
         }
 

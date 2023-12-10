@@ -1,10 +1,15 @@
 ﻿using Auth0.Abstract.Contracts;
 using Keycloak.Common.Clients;
-using Keycloak.Common.Interfaces;
 using Keycloak.Common.Options;
+using Keycloak.Common.Refit;
+using Keycloak.Common.Refit.Handlers;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
+using Polly.Extensions.Http;
+using Refit;
 
 namespace Keycloak.Common
 {
@@ -13,94 +18,90 @@ namespace Keycloak.Common
     /// </summary>
     public static class KeycloakExtensions
     {
-        /// <summary>
-        /// Register claims transformation and claim reader services
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="keycloackApplicationName"></param>
-        public static void UseKeycloakClaimServices(this IServiceCollection services, string keycloackApplicationName)
+        public static void UseKeycloakClaimServices(this IServiceCollection services, 
+            string keyCloackApplicationName)
         {
-            ArgumentNullException.ThrowIfNull(keycloackApplicationName);
-
-            //Claim transformation
+            ArgumentNullException.ThrowIfNull(keyCloackApplicationName);
+            
             services.AddOptions<KeycloakClaimOptions>().Configure(opt =>
             {
-                opt.ApplicationName = keycloackApplicationName;
+                opt.ApplicationName = keyCloackApplicationName;
             });
-
-            services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
-
-            //Reading claims
+            
             services.AddHttpContextAccessor();
+            services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
             services.AddScoped<IAuth0AccessTokenReader, KeycloakUserInfo>();
         }
-
-        /// <summary>
-        /// Register keycloak client for oauth flows
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/</param>
-        public static void UseKeycloakCredentialFlowService(this IServiceCollection services, string authorizationServer)
+        
+        public static void UseKeycloakCredentialFlowService(this IServiceCollection services, 
+            string authorizationServer)
         {
             ArgumentNullException.ThrowIfNull(authorizationServer);
 
-            services.AddOptions<KeycloakClientCredentialFlowOptions>().Configure(opt =>
+            services.AddOptions<KeycloakTokenOptions>().Configure(opt =>
             {
                 opt.AuthorizationServerUrl = authorizationServer;
             });
 
             services.AddScoped<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
         }
-        /// <summary>
-        /// Register keycloak client for oauth flows
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="aurhoriazionServer">example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ -> usually it is master/</param>
-        public static void UseKeycloakOwnerPasswordCredentialFlowService(this IServiceCollection services, string authorizationServer)
-        {
-            ArgumentNullException.ThrowIfNull(authorizationServer);
 
-            //Resource owner password credentials flow
-            services.AddOptions<KeycloakOwnerCredentialFlowOptions>().Configure(opt =>
+        public static void UseKeycloakOwnerPasswordCredentialFlowService(this IServiceCollection services,
+            string adminApiBase,
+            string realm,
+            string clientId,
+            string clientSecrets, 
+            string authorizationUrl, 
+            string tokenUrl)
+        {
+            ArgumentNullException.ThrowIfNull(authorizationUrl);
+            
+            services.AddOptions<KeycloakTokenOptions>().Configure(opt =>
             {
-                opt.AuthorizationServerUrl = authorizationServer;
+                opt.AuthorizationServerUrl = authorizationUrl;
             });
 
             services.AddScoped<IAuth0PasswordCredentialFlowService, KeycloakPasswordCredentialFlowClient>();
         }
 
-        /// <summary>
-        /// Register keycloak client for userinfo endpoint
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="aurhoriazionServer"> example: http://KEYCLOACKHOST/auth/realms/-InsertRealmNameHere-/ </param>
-        public static void UseKeycloakUserInfoService(this IServiceCollection services, string aurhoriazionServer)
-        {
-            ArgumentNullException.ThrowIfNull(aurhoriazionServer);
-
-            //Client for userinfo endpoint
-            services.AddOptions<KeycloakUserInfoOptions>().Configure(opt =>
-            {
-                opt.AuthorizationServerUrl = aurhoriazionServer;
-            });
-
-            services.AddScoped<IOpenIdUserInfoService, KeycloakUserInfoClient>();
-        }
-
-        /// <summary>
-        /// Register keycloak client for admin api
-        /// </summary>
-        /// <param name="services"></param>
-        public static void UseKeycloakAdminService(this IServiceCollection services, string adminApiBase)
+        public static void UseKeycloakAdminService(this IServiceCollection services, 
+            string adminApiBase,
+            string realm,
+            string clientId,
+            string clientSecrets, 
+            string authorizationUrl, 
+            string tokenUrl)
         {
             ArgumentNullException.ThrowIfNull(adminApiBase);
-
+            ArgumentNullException.ThrowIfNull(realm);
+            ArgumentNullException.ThrowIfNull(clientId);
+            ArgumentNullException.ThrowIfNull(clientSecrets);
+            ArgumentNullException.ThrowIfNull(authorizationUrl);
+            ArgumentNullException.ThrowIfNull(tokenUrl);
+            
+            services.UseKeycloakCredentialFlowService(tokenUrl);
+            
             services.AddOptions<KeycloakAdminApiOptions>().Configure(opt =>
             {
-                opt.AdminApiEndpointBase = adminApiBase;
+                opt.AdminApiBaseUri = adminApiBase;
+                opt.Realm = realm;
+                opt.AuthorizationUrl = authorizationUrl;
+                opt.ClientId = clientId;
+                opt.ClientSecret = clientSecrets;
+                opt.TokenBaseUri = tokenUrl;
             });
 
-            services.AddScoped<IKeycloakAdminService, KeycloakAdminApiClient>();
+            services.AddScoped<AdminAuthHeaderHandler>();
+            services.AddRefitClient<IUsersApi>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(adminApiBase))
+                .AddHttpMessageHandler<AdminAuthHeaderHandler>()
+                .AddPolicyHandler(
+                    HttpPolicyExtensions
+                        .HandleTransientHttpError()
+                        .WaitAndRetryAsync(
+                            Backoff.DecorrelatedJitterBackoffV2(
+                                TimeSpan.FromSeconds(0.5),
+                                3)));
         }
     }
 }

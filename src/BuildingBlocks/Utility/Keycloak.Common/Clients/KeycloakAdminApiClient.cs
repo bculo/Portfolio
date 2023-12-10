@@ -19,7 +19,7 @@ namespace Keycloak.Common.Clients
     internal class KeycloakAdminApiClient : IKeycloakAdminService
     {
         private readonly IHttpClientFactory _factory;
-        private readonly KeycloakAdminApiOptions _options;
+        private readonly KeycloakAdminApiOptions _adminApiOptions;
         private readonly ILogger<KeycloakAdminApiClient> _logger;
 
         public KeycloakAdminApiClient(IHttpClientFactory factory,
@@ -27,7 +27,7 @@ namespace Keycloak.Common.Clients
             ILogger<KeycloakAdminApiClient> logger)
         {
             _factory = factory;
-            _options = options.Value;
+            _adminApiOptions = options.Value;
             _logger = logger;
         }
 
@@ -39,7 +39,7 @@ namespace Keycloak.Common.Clients
 
             var http = _factory.CreateClient();
 
-            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
+            http.BaseAddress = new Uri(_adminApiOptions.AdminApiBaseUri);
             http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
 
             var response = await http.PostAsJsonAsync($"{realm}/users", user);
@@ -61,7 +61,7 @@ namespace Keycloak.Common.Clients
 
             var http = _factory.CreateClient();
 
-            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
+            http.BaseAddress = new Uri(_adminApiOptions.AdminApiBaseUri);
             http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
 
             var response = await http.GetAsync($"{realm}/users/{userId}");
@@ -76,7 +76,7 @@ namespace Keycloak.Common.Clients
 
             var http = _factory.CreateClient();
 
-            string endpointUrl = $"{_options.AdminApiEndpointBase}{realm}/users";
+            string endpointUrl = $"{_adminApiOptions.AdminApiBaseUri}{realm}/users";
             var stringUri = searchParams is null 
                 ? endpointUrl
                 : QueryHelpers.AddQueryString(endpointUrl, searchParams);
@@ -95,7 +95,7 @@ namespace Keycloak.Common.Clients
 
             var http = _factory.CreateClient();
 
-            http.BaseAddress = new Uri(_options.AdminApiEndpointBase);
+            http.BaseAddress = new Uri(_adminApiOptions.AdminApiBaseUri);
             http.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.Trim()}");
 
             var response = await http.PutAsJsonAsync($"{realm}/users/{userId}", user);
