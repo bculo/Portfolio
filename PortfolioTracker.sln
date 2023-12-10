@@ -190,6 +190,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.gRPC.IntegrationTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Generator", "src\Tools\NSwag.Generator\NSwag.Generator.csproj", "{7A9A6ED2-314D-48A7-8200-2DF46D824D53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refitter.Generator", "src\Tools\Refitter.Generator\Refitter.Generator.csproj", "{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -436,6 +438,10 @@ Global
 		{7A9A6ED2-314D-48A7-8200-2DF46D824D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A9A6ED2-314D-48A7-8200-2DF46D824D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A9A6ED2-314D-48A7-8200-2DF46D824D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -524,6 +530,7 @@ Global
 		{9CEE2F20-E80D-4B82-BEFA-F10D96AE4D65} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
 		{1D97A33C-CE15-4037-85F1-B0030D00BAD5} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
 		{7A9A6ED2-314D-48A7-8200-2DF46D824D53} = {60C08721-EAA5-4405-9610-EE0BC35C8E07}
+		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0} = {60C08721-EAA5-4405-9610-EE0BC35C8E07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
