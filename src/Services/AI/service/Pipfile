@@ -8,6 +8,7 @@ fastapi = {extras = ["all"], version = "*"}
 uvicorn = {extras = ["standard"], version = "*"}
 sentence-transformers = "*"
 torch = "*"
+faststream = {extras = ["rabbit"], version = "*"}
 
 [dev-packages]
 

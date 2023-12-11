@@ -21,9 +21,9 @@ _STAR_MAPPING = {
 class StartClassificationUtility:
     
     def __init__(self, label_val: int, label_name: str, score: float) -> None:
-        self.label_val=label_val
-        self.label_name=label_name
-        self.score=score
+        self.label_val = label_val
+        self.label_name = label_name
+        self.score = score
         
 
 def get_star_classification(text: str) -> StartClassificationUtility:

@@ -8,6 +8,7 @@ using MediatR;
 using Time.Abstract.Contracts;
 using Time.Common;
 using User.Application.Common.Behaviours;
+using User.Application.Consumers;
 using User.Application.Persistence;
 
 namespace User.Application
@@ -49,6 +50,8 @@ namespace User.Application
             {
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "User", false));
 
+                x.AddConsumer<DeleteKeycloakUserConsumer>();
+                
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
