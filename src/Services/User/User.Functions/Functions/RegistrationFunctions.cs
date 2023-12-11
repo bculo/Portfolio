@@ -24,7 +24,6 @@ namespace User.Functions.Functions
         {
             var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
             var dto = await req.ToDto<AddNewUserDto>(token);
-            Console.WriteLine(JsonConvert.SerializeObject(dto));
             await mediator.Send(dto, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }

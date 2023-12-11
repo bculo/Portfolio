@@ -34,7 +34,9 @@
   <ItemGroup>
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Options\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="Persistence\Migrations\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

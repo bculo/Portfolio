@@ -4,14 +4,11 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using MediatR;
 using Time.Abstract.Contracts;
 using Time.Common;
 using User.Application.Common.Behaviours;
-using User.Application.Interfaces;
 using User.Application.Persistence;
-using User.Application.Services;
 
 namespace User.Application
 {
@@ -26,8 +23,6 @@ namespace User.Application
             });
             
             services.AddHttpClient();
-
-            services.AddScoped<IUserManagerService, UserManagerService>();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
             services.AddMediatR(opt =>

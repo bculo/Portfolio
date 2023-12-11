@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using User.Application.Entities;
-using User.Application.Interfaces;
 using User.Application.Persistence;
 
 namespace User.Application.Features;
