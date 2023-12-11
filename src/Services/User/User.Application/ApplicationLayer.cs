@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using MediatR;
 using Time.Abstract.Contracts;
 using Time.Common;
+using User.Application.Common.Behaviours;
 using User.Application.Interfaces;
 using User.Application.Persistence;
 using User.Application.Services;
@@ -24,13 +26,17 @@ namespace User.Application
             });
             
             services.AddHttpClient();
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());    
 
-            services.AddScoped<IRegisterUserService, RegisterUserService>();
             services.AddScoped<IUserManagerService, UserManagerService>();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(opt =>
+            {
+                opt.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+                opt.RegisterServicesFromAssembly(typeof(ApplicationLayer).Assembly);
+            });
+            
+            services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
             
             services.UseKeycloakAdminService(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"],
                 configuration["KeycloakAdminApiOptions:Realm"],

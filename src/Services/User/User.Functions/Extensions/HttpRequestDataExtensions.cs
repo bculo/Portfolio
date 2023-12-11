@@ -38,7 +38,6 @@ namespace User.Functions.Extensions
         }
 
         public static async Task<T> ToDto<T>(this HttpRequestData request,
-            IValidator<T>? validator,
             CancellationToken token = default,
             string bodyIsNullMsg = "Instance not provided in request body",
             string deserializationErrorMsg = "Invalid instance provided in request body") where T : class
@@ -56,17 +55,7 @@ namespace User.Functions.Extensions
                 throw new PortfolioUserCoreException(deserializationErrorMsg, deserializationErrorMsg);
             }
 
-            if (validator is null)
-            {
-                return instance;
-            }
-            
-            var validationResult = await validator.ValidateAsync(instance, token)
-                .ConfigureAwait(false);
-
-            if (validationResult.IsValid) return instance;
-            var errors = validationResult.ToDictionary();
-            throw new PortfolioUserValidationException(errors);
+            return instance;
         }
         
         private static object FormResponseBody(object bodyData, bool isValidationFailure)

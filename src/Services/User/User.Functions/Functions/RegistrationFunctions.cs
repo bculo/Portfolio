@@ -1,20 +1,14 @@
 using System.Net;
-using FluentValidation;
 using MediatR;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using User.Application.Features;
-using User.Application.Interfaces;
 using User.Functions.Extensions;
-using User.Functions.Models;
 using User.Functions.Options;
-using User.Functions.Services;
 
 namespace User.Functions.Functions
 {
@@ -23,13 +17,14 @@ namespace User.Functions.Functions
         [Function("RegisterUser")]
         [OpenApiOperation(operationId: "RegisterUser", tags: new[] { "Manage" })]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
-        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateUserDto), Required = true)]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(AddNewUserDto), Required = true)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> RegisterUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
         {
             var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
-            var dto = await req.ToDto<AddNewUserDto>(validator: null, token: token);
+            var dto = await req.ToDto<AddNewUserDto>(token);
+            Console.WriteLine(JsonConvert.SerializeObject(dto));
             await mediator.Send(dto, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
@@ -45,7 +40,8 @@ namespace User.Functions.Functions
             long userId,
             CancellationToken token)
         {
-            //await _registrationService.ApproveUser(userId, token);
+            var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
+            await mediator.Send(new ApproveNewUserDto { UserId = userId }, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
     }
