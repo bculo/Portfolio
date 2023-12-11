@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.User
 {
-    public class PortfolioUserApproved
+    public class UserApproved
     {
         public string UserName { get; set; }
         public long InternalId { get; set; }

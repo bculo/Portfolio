@@ -35,44 +35,6 @@ namespace User.Application.Services
             _timeProvider = timeProvider;
             _config = config.Value;
         }
-
-        /// <summary>
-        /// Execute registration procedure for a new user
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task RegisterUser(CreateUserDto userDto, CancellationToken token = default)
-        {
-            await using var transaction = await _context.Database.BeginTransactionAsync(token);
-            try
-            {
-                var entity = MapToEntityModel(userDto);
-                _context.Users.Add(entity);
-                await _context.SaveChangesAsync(token).ConfigureAwait(false);
-                
-                var keyCloakModel = MapToKeycloakModel(userDto);
-                var response = await _userClient.PostUsers(_config.Realm, keyCloakModel).ConfigureAwait(false);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    // DO SOMETHING
-                }
-                
-                await transaction.CommitAsync(token);
-            }
-            catch(Exception e)
-            {
-                await transaction.RollbackAsync(token);
-                throw;
-            }
-
-            await _publish.Publish(new NewPorfolioUserRegistered
-            {
-                UserName = userDto.UserName,
-            }, token);
-        }
-        
         
         private async Task UpdateKeyCloakUser(UserRepresentation keycloakUpdateRequest, string userId)
         {
@@ -87,45 +49,6 @@ namespace User.Application.Services
             }
         }
         
-        private UserRepresentation MapToKeycloakModel(CreateUserDto userDto)
-        {
-            return new UserRepresentation
-            {
-                Enabled = false,
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Username = userDto.UserName,
-                Id = Guid.NewGuid().ToString(),
-                RealmRoles = new[] { "User" },
-                Credentials = new[]
-                {
-                    new CredentialRepresentation
-                    {
-                        Temporary = false,
-                        Type = "password",
-                        Value = userDto.Password
-                    }
-                },
-                Email = userDto.Email,
-            };
-        }
-
-        /// <summary>
-        /// Map received DTO model to entity model
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <returns></returns>
-        private PortfolioUser MapToEntityModel(CreateUserDto userDto)
-        {
-            return new PortfolioUser
-            {
-                BornOn = userDto.Born,
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                UserName = userDto.UserName,
-            };
-        }
-
         /// <summary>
         /// Approve user and add keycloak user id to db user instance 
         /// If user has externalid value, that means that he is confirmed by the admin
@@ -149,8 +72,6 @@ namespace User.Application.Services
                 dbUser.ExternalId = Guid.Parse(keycloakUser.Id);
                 await _context.SaveChangesAsync(token);
 
-                Console.WriteLine(JsonConvert.SerializeObject(keycloakUser));
-                
                 var keycloakUpdateRequest = new UserRepresentation
                 {
                     Enabled = true,
@@ -166,7 +87,7 @@ namespace User.Application.Services
                 throw;
             }
 
-            await _publish.Publish(new PortfolioUserApproved
+            await _publish.Publish(new UserApproved
             {
                 UserName = dbUser.UserName,
                 ExternalId = Guid.Parse(keycloakUser.Id),

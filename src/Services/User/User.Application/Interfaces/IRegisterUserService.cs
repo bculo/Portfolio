@@ -7,7 +7,6 @@ namespace User.Application.Interfaces
 {
     public interface IRegisterUserService
     {
-        Task RegisterUser(CreateUserDto userDto, CancellationToken token = default);
         Task ApproveUser(long userId, CancellationToken token = default);
     }
 

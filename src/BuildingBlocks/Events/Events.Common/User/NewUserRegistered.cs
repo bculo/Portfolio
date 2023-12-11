@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Events.Common.User
 {
-    public class NewPorfolioUserRegistered
+    public class NewUserRegistered
     {
         public string UserName { get; set; }
+        public DateTime Time { get; set; }
     }
 }

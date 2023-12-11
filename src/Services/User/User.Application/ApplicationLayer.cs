@@ -30,6 +30,8 @@ namespace User.Application
             services.AddScoped<IUserManagerService, UserManagerService>();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
 
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            
             services.UseKeycloakAdminService(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"],
                 configuration["KeycloakAdminApiOptions:Realm"],
                 configuration["KeycloakAdminApiOptions:ClientId"],
