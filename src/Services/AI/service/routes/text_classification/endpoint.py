@@ -6,7 +6,7 @@ from utilities.models.text_classification_utilities import get_star_classificati
 
 router = APIRouter(
     prefix="/text-classification",
-    tags=["text classification"]
+    tags=["Classification"]
 )
 
 

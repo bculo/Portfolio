@@ -43,5 +43,19 @@ namespace User.Functions.Functions
             await mediator.Send(new ApproveNewUserDto { UserId = userId }, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
+        
+        [Function("UploadImage")]
+        [OpenApiOperation(operationId: "UploadImage", tags: new[] { "Manage" })]
+        [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
+        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
+        public async Task<HttpResponseData> UploadImage(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "UploadImage")]
+            HttpRequestData req,
+            CancellationToken token)
+        {
+            var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
+            await mediator.Send(new UploadVerificationImageDto(), token);  
+            return req.CreateResponse(HttpStatusCode.NoContent);
+        }
     }
 }
