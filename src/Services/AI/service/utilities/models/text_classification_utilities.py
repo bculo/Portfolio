@@ -4,12 +4,8 @@ from transformers import pipeline
 _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def init():
-    print(f"{__file__} initialized")
-
-
-_STAR_CLASSIFICATION_MODEL = "nlptown/bert-base-multilingual-uncased-sentiment"
-_STAR_MAPPING = {
+_start_classification_model = "nlptown/bert-base-multilingual-uncased-sentiment"
+_star_mapping = {
     "5 stars": 5,
     "4 stars": 4,
     "3 stars": 3,
@@ -27,9 +23,9 @@ class StartClassificationUtility:
         
 
 def get_star_classification(text: str) -> StartClassificationUtility:
-    model = pipeline(model=_STAR_CLASSIFICATION_MODEL, device=_DEVICE)
+    model = pipeline(model=_start_classification_model, device=_DEVICE)
     result = model(text)[0]
-    return StartClassificationUtility(_STAR_MAPPING[result['label']],
+    return StartClassificationUtility(_star_mapping[result['label']],
                                       result['label'],
                                       result['score'])
 

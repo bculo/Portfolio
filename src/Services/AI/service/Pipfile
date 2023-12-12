@@ -9,6 +9,7 @@ uvicorn = {extras = ["standard"], version = "*"}
 sentence-transformers = "*"
 torch = "*"
 faststream = {extras = ["rabbit"], version = "*"}
+ultralytics = "*"
 
 [dev-packages]
 
