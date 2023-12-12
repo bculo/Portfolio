@@ -1,0 +1,10 @@
+connection_string: 'amqp://rabbitmquser:rabbitmqpassword@localhost:5672'
+image_uploaded_instance:
+  root_exchange:
+    name: 'Events.Common.User:UserImageUploaded'
+  intermediate_exchange:
+    name: 'user-image-uploaded'
+  queue:
+    name: 'user-image-uploaded'
+
+
