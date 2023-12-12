@@ -5,6 +5,7 @@ using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using User.Application.Interfaces;
 using User.Functions.Extensions;
 using User.Functions.Services;
 

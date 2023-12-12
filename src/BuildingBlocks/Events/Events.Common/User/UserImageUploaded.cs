@@ -34,6 +34,6 @@ public class UserImageUploaded
 
 public class UserImageUploadedBody
 {
-    [JsonProperty("userId")]
-    public long UserId { get; set; }
+    [JsonProperty("user_id")]
+    public Guid UserId { get; set; }
 }

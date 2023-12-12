@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using MassTransit;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using User.Application;
+using User.Application.Interfaces;
 using User.Functions.Middlewares;
 using User.Functions.Options;
 using User.Functions.Services;

@@ -1,4 +1,8 @@
 connection_string: 'amqp://rabbitmquser:rabbitmqpassword@localhost:5672'
+
+default_delivery_mode: 2
+default_content_type: 'application/vnd.masstransit+json'
+
 image_uploaded_instance:
   root_exchange:
     name: 'Events.Common.User:UserImageUploaded'
@@ -6,5 +10,15 @@ image_uploaded_instance:
     name: 'user-image-uploaded'
   queue:
     name: 'user-image-uploaded'
+  dotnet_namespace: 'Events.Common.User:UserImageUploaded'
+  masstransit_type: 'urn:message:Events.Common.User:UserImageUploaded'
 
-
+image_verified_instance:
+  root_exchange:
+    name: 'Events.Common.User:UserImageVerified'
+  intermediate_exchange:
+    name:
+  queue:
+    name:
+  dotnet_namespace: 'Events.Common.User:UserImageVerified'
+  masstransit_type: 'urn:message:Events.Common.User:UserImageVerified'

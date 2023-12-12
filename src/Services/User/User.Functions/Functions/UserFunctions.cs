@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using User.Application.Features;
+using User.Application.Interfaces;
 using User.Functions.Extensions;
 using User.Functions.Options;
 using User.Functions.Services;
