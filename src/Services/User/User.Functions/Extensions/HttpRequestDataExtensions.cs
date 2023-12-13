@@ -9,6 +9,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.Core.Serialization;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using User.Application.Common.Exceptions;
@@ -57,6 +59,43 @@ namespace User.Functions.Extensions
 
             return instance;
         }
+
+        private static HttpContext AsHttpContext(this HttpRequestData req)
+        {
+            var httpContext = new DefaultHttpContext
+            {
+                Request =
+                {
+                    Method = req.Method,
+                    Path = PathString.FromUriComponent(req.Url),
+                    Host = HostString.FromUriComponent(req.Url),
+                    Scheme = req.Url.Scheme,
+                    Query = new QueryCollection(QueryHelpers.ParseQuery(req.Query.ToString()))
+                }
+            };
+            foreach (var header in req.Headers)
+                httpContext.Request.Headers[header.Key] = header.Value.ToArray();
+            httpContext.Request.Body = req.Body;
+            return httpContext;
+        }
+
+        public static IFormFile GetFileFromRequest(this HttpRequestData req, string key)
+        {
+            var files = req.AsHttpContext().Request.Form.Files;
+            if (!files.Any())
+            {
+                throw new ArgumentNullException(nameof(files));
+            }
+
+            var wantedFile = files.GetFile(key);
+            if (wantedFile is null)
+            {
+                throw new ArgumentNullException(nameof(wantedFile));
+            }
+
+            
+            return wantedFile;
+        }
         
         private static object FormResponseBody(object bodyData, bool isValidationFailure)
         {
@@ -74,6 +113,4 @@ namespace User.Functions.Extensions
             };
         }
     }
-
-
 }

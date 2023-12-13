@@ -1,4 +1,5 @@
 using System.Net;
+using MassTransit.Internals;
 using MediatR;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -46,6 +47,7 @@ namespace User.Functions.Functions
         
         [Function("UploadImage")]
         [OpenApiOperation(operationId: "UploadImage", tags: new[] { "Manage" })]
+        [OpenApiRequestBody(contentType: "multipart/form-data", bodyType: typeof(UploadVerificationImageFormData), Required = true)]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> UploadImage(
@@ -53,8 +55,14 @@ namespace User.Functions.Functions
             HttpRequestData req,
             CancellationToken token)
         {
+            var file = req.GetFileFromRequest("Image");
             var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
-            await mediator.Send(new UploadVerificationImageDto(), token);  
+            await mediator.Send(new UploadVerificationImageDto
+            {
+                Name = file.FileName,
+                ContentType = file.ContentType,
+                Image = await file.ToBytes()
+            }, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
     }

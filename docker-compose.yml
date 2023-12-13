@@ -29,6 +29,8 @@ services:
   postgre-db:
     image: postgres:13
 
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
 
 volumes:
   mongodbstore:

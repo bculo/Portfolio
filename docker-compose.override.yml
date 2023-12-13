@@ -98,5 +98,11 @@ services:
     volumes:
       - ./data/postgre/data:/var/lib/postgresql/data
      
-    
+  azurite:
+    container_name: azurite
+    ports:
+      - 10000:10000
+    command: "azurite --loose --skipApiVersionCheck --blobHost 0.0.0.0 --blobPort 10000 --location /workspace --debug /workspace/debug.log" 
+    volumes:
+      - ./data/azurite/:/workspace
     

@@ -36,4 +36,5 @@ public class UserImageUploadedBody
 {
     [JsonProperty("user_id")]
     public Guid UserId { get; set; }
+    public string ImageName { get; set; }
 }
