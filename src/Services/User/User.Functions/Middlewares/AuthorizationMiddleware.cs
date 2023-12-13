@@ -28,6 +28,7 @@ namespace User.Functions.Middlewares
                 "RenderOpenApiDocument",
                 "RenderSwaggerDocument",
                 "RenderSwaggerUI",
+                "sso-logout"
             }.ToFrozenSet();
         }
 

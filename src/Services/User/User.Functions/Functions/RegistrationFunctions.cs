@@ -15,8 +15,8 @@ namespace User.Functions.Functions
 {
     public class RegistrationFunctions
     {
-        [Function("RegisterUser")]
-        [OpenApiOperation(operationId: "RegisterUser", tags: new[] { "Manage" })]
+        [Function("register-user")]
+        [OpenApiOperation(operationId: "register-user", tags: new[] { "Manage" })]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(AddNewUserDto), Required = true)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
@@ -29,13 +29,13 @@ namespace User.Functions.Functions
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
 
-        [Function("ApproveUser")]
-        [OpenApiOperation(operationId: "ApproveUser", tags: new[] { "Manage" })]
+        [Function("approve-user")]
+        [OpenApiOperation(operationId: "approve-user", tags: new[] { "Manage" })]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiParameter(name: "userId", Required = true, In = ParameterLocation.Path)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> ApproveUser(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ApproveUser/{userId}")]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "approve-user/{userId}")]
             HttpRequestData req, 
             long userId,
             CancellationToken token)
@@ -45,13 +45,13 @@ namespace User.Functions.Functions
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
         
-        [Function("UploadImage")]
-        [OpenApiOperation(operationId: "UploadImage", tags: new[] { "Manage" })]
+        [Function("upload-image")]
+        [OpenApiOperation(operationId: "upload-image", tags: new[] { "Manage" })]
         [OpenApiRequestBody(contentType: "multipart/form-data", bodyType: typeof(UploadVerificationImageFormData), Required = true)]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> UploadImage(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "UploadImage")]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")]
             HttpRequestData req,
             CancellationToken token)
         {

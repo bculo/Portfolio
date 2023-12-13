@@ -7,26 +7,24 @@
 #### OTHER OS
 - check https://github.com/Azure/azure-functions-core-tools installation instructions 
 
-### Create user for PortfolioRealm realm management
+### Create new client for managing users
 
 - visit keycloak admin dashboard
 - select master realm (Default one)
-
-#### Create new client
-
-- create new client with name
-  - client identifier 'portfolio-admin'
-  - Check Client authentication and Service access grant
-  - As URL use 'http://localhost/'
-
-#### Create new realm user
-
-- create user 'portfolio-admin-user'
-- set email, first name, last name and password (Save)
-- set email verified to 'True' (Save)
-- Visit 'Credentials' tab and set password. Uncheck temporary password! (Save)
+- create new client with name 'portfolio-admin'
+- Check Client authentication and Service access grant
+- As Url put some random localhost url
 - visit Service account roles tab, select assign roles. Set filter to 'Filter by clients' and assign all PortfolioRealm roles (Save)
 
+
+### Create User.Functions client for swagger OAuth2 implicit flow
+
+- visit keycloak admin dashboard
+- select PortfolioRealm
+- create new client with name 'User.Functions'
+- Uncheck everything except 'Implicit flow' and 'Standard Flow'
+- Valid redirect URI 'http://localhost:7071/*'
+- Backchannel logout URL 'http://localhost:7071/api/sso-logout'
 
 ### Execute database migrations
 

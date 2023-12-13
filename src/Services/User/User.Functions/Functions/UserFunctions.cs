@@ -15,8 +15,8 @@ namespace User.Functions.Functions
 {
     public class UserFunctions
     {
-        [Function("UserInfo")]
-        [OpenApiOperation(operationId: "GetUserInfo", tags: new[] { "User" })]
+        [Function("user-info")]
+        [OpenApiOperation(operationId: "user-info", tags: new[] { "User" })]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiParameter(name: "userId", Required = true, In = ParameterLocation.Path)]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", 
