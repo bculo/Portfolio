@@ -32,16 +32,16 @@ namespace User.Functions.Functions
         [Function("approve-user")]
         [OpenApiOperation(operationId: "approve-user", tags: new[] { "Manage" })]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
-        [OpenApiParameter(name: "userId", Required = true, In = ParameterLocation.Path)]
+        [OpenApiParameter(name: "userName", Required = true, In = ParameterLocation.Path)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> ApproveUser(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "approve-user/{userId}")]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "approve-user/{userName}")]
             HttpRequestData req, 
-            long userId,
+            string userName,
             CancellationToken token)
         {
             var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
-            await mediator.Send(new ApproveNewUserDto { UserId = userId }, token);  
+            await mediator.Send(new ApproveNewUserDto { UserName = userName }, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
         

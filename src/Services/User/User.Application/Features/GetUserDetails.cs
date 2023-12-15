@@ -38,13 +38,7 @@ public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsDto, GetUserD
     
     public async Task<GetUserDetailsResponseDto> Handle(GetUserDetailsDto request, CancellationToken cancellationToken)
     {
-        var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.ExternalId.HasValue && x.ExternalId.Value == request.UserId, cancellationToken: cancellationToken);
-        if (dbUser is null)
-        {
-            throw new PortfolioUserNotFoundException("User with given ID doesn't exists");
-        }
-
-        return MapToDto(dbUser);
+        return null;
     }
     
     private GetUserDetailsResponseDto MapToDto(PortfolioUser user)

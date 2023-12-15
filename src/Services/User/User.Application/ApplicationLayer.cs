@@ -26,11 +26,13 @@ namespace User.Application
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
+            /*
             services.AddDbContext<UserDbContext>(options =>
             {
                 options.UseNpgsql(configuration.GetConnectionString("UserDb"));
                 options.UseLowerCaseNamingConvention();
             });
+            */
             
             services.AddHttpClient();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();

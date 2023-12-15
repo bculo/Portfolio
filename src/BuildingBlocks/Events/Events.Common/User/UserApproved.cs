@@ -9,7 +9,6 @@ namespace Events.Common.User
     public class UserApproved
     {
         public string UserName { get; set; }
-        public long InternalId { get; set; }
         public Guid ExternalId { get; set; }
         public DateTime ApprovedOn { get; set; }
     }

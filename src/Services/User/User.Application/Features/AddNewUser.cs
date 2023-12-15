@@ -1,13 +1,17 @@
+using System.Net;
 using Events.Common.User;
 using FluentValidation;
 using Keycloak.Common.Models;
+using Keycloak.Common.Models.Errors;
 using Keycloak.Common.Options;
 using Keycloak.Common.Refit;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Time.Abstract.Contracts;
+using User.Application.Common.Exceptions;
 using User.Application.Entities;
 using User.Application.Persistence;
 
@@ -25,17 +29,13 @@ public class AddNewUserDto : IRequest
 
 public class AddNewUserDtoValidator : AbstractValidator<AddNewUserDto>
 {
-    private readonly UserDbContext _context;
     private readonly IDateTimeProvider _timeProvider;
 
-    public AddNewUserDtoValidator(IDateTimeProvider timeProvider, UserDbContext context)
+    public AddNewUserDtoValidator(IDateTimeProvider timeProvider)
     {
         _timeProvider = timeProvider;
-        _context = context;
 
         RuleFor(i => i.UserName)
-            .MustAsync(IsUnique)
-            .WithMessage("Given username is already taken.")
             .MinimumLength(5)
             .MaximumLength(50)
             .NotEmpty();
@@ -62,11 +62,6 @@ public class AddNewUserDtoValidator : AbstractValidator<AddNewUserDto>
             .NotEmpty();
     }
     
-    private async Task<bool> IsUnique(string userName, CancellationToken token)
-    {
-        return await _context.Users.AllAsync(i => i.UserName != userName, token);
-    }
-    
     private bool IsAdultPerson(DateTime bornOn)
     {
         if ((_timeProvider.Now.Year - bornOn.Year) < 18)
@@ -80,19 +75,17 @@ public class AddNewUserDtoValidator : AbstractValidator<AddNewUserDto>
 
 public class AddNewUserHandler : IRequestHandler<AddNewUserDto>
 {
-    private readonly UserDbContext _context;
     private readonly IPublishEndpoint _publish;
     private readonly KeycloakAdminApiOptions _config;
     private readonly IDateTimeProvider _timeProvider;
     private readonly IUsersApi _userClient;
 
-    public AddNewUserHandler(UserDbContext context,
+    public AddNewUserHandler(
         IUsersApi userClient,
         IPublishEndpoint publish,
         IDateTimeProvider timeProvider,
         IOptions<KeycloakAdminApiOptions> config)
     {
-        _context = context;
         _userClient = userClient;
         _publish = publish;
         _timeProvider = timeProvider;
@@ -101,42 +94,29 @@ public class AddNewUserHandler : IRequestHandler<AddNewUserDto>
     
     public async Task Handle(AddNewUserDto request, CancellationToken token)
     {
-        await using var transaction = await _context.Database.BeginTransactionAsync(token);
-        try
-        {
-            var entity = MapToEntityModel(request);
-            _context.Users.Add(entity);
-            await _context.SaveChangesAsync(token).ConfigureAwait(false);
-                
-            var keyCloakModel = MapToKeycloakModel(request);
-            var response = await _userClient.PostUsers(_config.Realm, keyCloakModel)
-                .ConfigureAwait(false);
+        var keyCloakModel = MapToKeycloakModel(request);
+        var response = await _userClient.PostUsers(_config.Realm, keyCloakModel)
+            .ConfigureAwait(false);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                // DO SOMETHING
-            }
-                
-            await transaction.CommitAsync(token);
-        }
-        catch(Exception e)
+        if (response.IsSuccessStatusCode)
         {
-            await transaction.RollbackAsync(token);
-
-            await _publish.Publish(new DeleteKeycloakUser
+            await _publish.Publish(new NewUserRegistered
             {
                 UserName = request.UserName,
                 Time = _timeProvider.Now
             }, token);
-                
-            throw;
+            return;
         }
 
-        await _publish.Publish(new NewUserRegistered
+        var errorContent = response.Error?.Content ?? string.Empty;
+        if (response.StatusCode == HttpStatusCode.Conflict && errorContent.Contains("errorMessage"))
         {
-            UserName = request.UserName,
-            Time = _timeProvider.Now
-        }, token);
+            var error = JsonConvert.DeserializeObject<AddNewUserError>(errorContent);
+            throw new PortfolioUserCoreException(error.ErrorMessage, error.ErrorMessage);
+        }
+
+        throw new PortfolioUserCoreException("An problem occured. Try again later",
+            "An problem occured. Try again later");
     }
     
     private UserRepresentation MapToKeycloakModel(AddNewUserDto userDto)
@@ -159,17 +139,6 @@ public class AddNewUserHandler : IRequestHandler<AddNewUserDto>
                 }
             },
             Email = userDto.Email,
-        };
-    }
-    
-    private PortfolioUser MapToEntityModel(AddNewUserDto userDto)
-    {
-        return new PortfolioUser
-        {
-            BornOn = userDto.Born,
-            FirstName = userDto.FirstName,
-            LastName = userDto.LastName,
-            UserName = userDto.UserName,
         };
     }
 }

@@ -14,32 +14,29 @@ namespace User.Application.Features;
 
 public class ApproveNewUserDto : IRequest
 {
-    public long UserId { get; set; }
+    public string UserName { get; set; }
 }
 
 public class ApproveNewUserDtoValidator : AbstractValidator<ApproveNewUserDto>
 {
     public ApproveNewUserDtoValidator()
     {
-        RuleFor(i => i.UserId).GreaterThan(0);
+        RuleFor(i => i.UserName).NotEmpty();
     }
 }
 
 public class ApproveNewUserHandler : IRequestHandler<ApproveNewUserDto>
 {
-    private readonly UserDbContext _context;
     private readonly IPublishEndpoint _publish;
     private readonly KeycloakAdminApiOptions _config;
     private readonly IDateTimeProvider _timeProvider;
     private readonly IUsersApi _userClient;
 
-    public ApproveNewUserHandler(UserDbContext context,
-        IUsersApi userClient,
+    public ApproveNewUserHandler(IUsersApi userClient,
         IPublishEndpoint publish,
         IDateTimeProvider timeProvider,
         IOptions<KeycloakAdminApiOptions> config)
     {
-        _context = context;
         _userClient = userClient;
         _publish = publish;
         _timeProvider = timeProvider;
@@ -48,38 +45,19 @@ public class ApproveNewUserHandler : IRequestHandler<ApproveNewUserDto>
     
     public async Task Handle(ApproveNewUserDto request, CancellationToken token)
     {
-        var dbUser = await _context.Users.FindAsync(request.UserId);
-        if(dbUser is null)
+        var keycloakUser = await FetchKeycloakUserByUniqueUserName(request.UserName);
+        
+        var keycloakUpdateRequest = new UserRepresentation
         {
-            throw new PortfolioUserNotFoundException("User not found");
-        }
-            
-        var keycloakUser = await FetchKeycloakUserByUniqueUserName(dbUser.UserName);
-        await using var transaction = await _context.Database.BeginTransactionAsync(token);
-        try
-        {
-            dbUser.ExternalId = Guid.Parse(keycloakUser.Id);
-            await _context.SaveChangesAsync(token);
+            Enabled = true,
+        };
 
-            var keycloakUpdateRequest = new UserRepresentation
-            {
-                Enabled = true,
-            };
-
-            await UpdateKeyCloakUser(keycloakUpdateRequest, keycloakUser.Id);
-            await transaction.CommitAsync(token);
-        }
-        catch
-        {
-            await transaction.RollbackAsync(token);
-            throw;
-        }
-
+        await UpdateKeyCloakUser(keycloakUpdateRequest, keycloakUser.Id);
+        
         await _publish.Publish(new UserApproved
         {
-            UserName = dbUser.UserName,
+            UserName = keycloakUser.Username,
             ExternalId = Guid.Parse(keycloakUser.Id),
-            InternalId = dbUser.Id,
             ApprovedOn = _timeProvider.Now
         }, token);
     }
