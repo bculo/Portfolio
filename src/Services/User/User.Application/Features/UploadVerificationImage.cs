@@ -4,6 +4,8 @@ using FluentValidation;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using User.Application.Common.Options;
 using User.Application.Common.Serializer;
 using User.Application.Interfaces;
 
@@ -36,22 +38,26 @@ public class UploadVerificationImageHandler : IRequestHandler<UploadVerification
     private readonly IPublishEndpoint _publish;
     private readonly ICurrentUserService _currentUser;
     private readonly IBlobStorage _blobStorage;
+    private readonly BlobStorageOptions _blobStorageOptions;
     
     public UploadVerificationImageHandler(IPublishEndpoint publish, 
         ICurrentUserService currentUser,
-        IBlobStorage blobStorage)
+        IBlobStorage blobStorage,
+        IOptions<BlobStorageOptions> blobStorageOptions)
     {
         _publish = publish;
         _currentUser = currentUser;
         _blobStorage = blobStorage;
+        _blobStorageOptions = blobStorageOptions.Value;
     }
     
     public async Task Handle(UploadVerificationImageDto request, CancellationToken cancellationToken)
     {
         var imageName = GetBlobName();
-        await _blobStorage.UploadBlob(imageName, request.Image, request.ContentType);
+        var uri = await _blobStorage.UploadBlob(_blobStorageOptions.VerificationContainerName, imageName, 
+            request.Image, request.ContentType);
         
-        var message = CreateMessage();
+        var message = CreateMessage(uri);
         await _publish.Publish(message, x =>
         {
             x.Serializer = new SystemTextJsonCustomRawMessageSerializer(RawSerializerOptions.All);
@@ -60,14 +66,15 @@ public class UploadVerificationImageHandler : IRequestHandler<UploadVerification
         }, cancellationToken);
     }
 
-    private UserImageUploaded CreateMessage()
+    private UserImageUploaded CreateMessage(Uri blobUri)
     {
         var imageUploaded = new UserImageUploadedBody
         {
             UserId = _currentUser.GetUserId(),
-            ImageName = GetBlobName()
+            ImageName = GetBlobName(),
+            Uri = blobUri.ToString()
         };
-
+        
         return new UserImageUploaded
         {
             Body = imageUploaded,

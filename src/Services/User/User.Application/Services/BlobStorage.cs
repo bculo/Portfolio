@@ -23,25 +23,25 @@ public class BlobStorage : IBlobStorage
         _options = options.Value;
     }
 
-    public void InitializeContext()
+    public void InitializeContext(string containerName)
     {
         try
         {
-            _blobClient.CreateBlobContainer(_options.ContainerName);
+            _blobClient.CreateBlobContainer(containerName);
         }
         catch
         {
-            _logger.LogWarning("Container {0} already created", _options.ContainerName);
+            _logger.LogWarning("Container {0} already created", containerName);
         }
     }
 
-    private BlobClient GetBlobClient(string blobIdentifier)
+    private BlobClient GetBlobClient(string containerName, string blobIdentifier)
     {
-        return _blobClient.GetBlobContainerClient(_options.ContainerName)
+        return _blobClient.GetBlobContainerClient(containerName)
             .GetBlobClient(blobIdentifier);
     }
 
-    public async Task UploadBlob(string blobIdentifier, byte[] blob, string contentType)
+    public async Task<Uri> UploadBlob(string containerName, string blobIdentifier, byte[] blob, string contentType)
     {
         var httpHeaders = new BlobHttpHeaders
         {
@@ -50,7 +50,8 @@ public class BlobStorage : IBlobStorage
         };
         
         using var stream = new MemoryStream(blob);
-        var blobClient = GetBlobClient(blobIdentifier);
+        var blobClient = GetBlobClient(containerName, blobIdentifier);
         await blobClient.UploadAsync(stream, httpHeaders: httpHeaders);
+        return blobClient.Uri;
     }
 }
