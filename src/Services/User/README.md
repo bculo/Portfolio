@@ -1,3 +1,14 @@
+### INFO
+
+User.Functions is applications responsible for managing portfolio users. Whole microservice is based on Azure functions, mostly
+Http trigger functions.
+
+### What can you see inside this microservice ?
+
+- communication with Keycloak admin API for user management
+- RabbitMQ usage via MassTransit
+- Azure Blob storage usage
+
 ### Install azure-functions-core-tools
 
 #### MAC
@@ -13,7 +24,7 @@
 - select master realm (Default one)
 - create new client with name 'portfolio-admin'
 - Check Client authentication and Service access grant
-- As Url put some random localhost url
+- As Url put random localhost url
 - visit Service account roles tab, select assign roles. Set filter to 'Filter by clients' and assign all PortfolioRealm roles (Save)
 
 
@@ -29,7 +40,11 @@
 ### Execute database migrations
 
 - set User.Functions as startup project
-- execute migrations on database (update-database)
+
+### View and manage azurite/azure storage
+
+- download Microsoft Azure Storage Explorer 'https://azure.microsoft.com/en-us/products/storage/storage-explorer'
+- this projects uses default azure account 'devstoreaccount1'
 
 ### Example of appsettings.json
 
@@ -56,6 +71,11 @@
   },
   "QueueOptions": {
     "Address": "amqp://rabbitmquser:rabbitmqpassword@localhost:5672"
+  },
+  "BlobStorageOptions": {
+    "ConnectionString": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:1002/devstoreaccount1;",
+    "VerificationContainerName": "verification",
+    "ProfileContainerName": "profile"
   }
 }
 ```
