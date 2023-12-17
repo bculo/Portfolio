@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Magick.NET-Q16-arm64" Version="13.5.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
@@ -33,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Extensions\" />
     <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 

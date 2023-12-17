@@ -23,11 +23,12 @@ public class BlobStorage : IBlobStorage
         _options = options.Value;
     }
 
-    public void InitializeContext(string containerName)
+    public void InitializeContext(string containerName, bool isPublic = false)
     {
         try
         {
-            _blobClient.CreateBlobContainer(containerName);
+            var accessType = isPublic ? PublicAccessType.Blob : PublicAccessType.None;
+            _blobClient.CreateBlobContainer(containerName, accessType);
         }
         catch
         {
@@ -41,7 +42,7 @@ public class BlobStorage : IBlobStorage
             .GetBlobClient(blobIdentifier);
     }
 
-    public async Task<Uri> UploadBlob(string containerName, string blobIdentifier, byte[] blob, string contentType)
+    public async Task<Uri> UploadBlob(string containerName, string blobIdentifier, Stream blob, string contentType)
     {
         var httpHeaders = new BlobHttpHeaders
         {
@@ -49,9 +50,8 @@ public class BlobStorage : IBlobStorage
             ContentLanguage = "en"
         };
         
-        using var stream = new MemoryStream(blob);
         var blobClient = GetBlobClient(containerName, blobIdentifier);
-        await blobClient.UploadAsync(stream, httpHeaders: httpHeaders);
+        await blobClient.UploadAsync(blob, httpHeaders: httpHeaders);
         return blobClient.Uri;
     }
 }

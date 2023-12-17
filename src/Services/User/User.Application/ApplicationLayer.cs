@@ -36,6 +36,7 @@ namespace User.Application
             
             services.AddHttpClient();
             services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
+            services.AddScoped<IImageService, MagickImageService>();
             
             services.AddSingleton<IBlobStorage, BlobStorage>((provider) =>
             {

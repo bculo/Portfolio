@@ -1,10 +1,12 @@
 using System.Net.Mime;
 using Events.Common.User;
 using FluentValidation;
+using ImageMagick;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using User.Application.Common.Extensions;
 using User.Application.Common.Options;
 using User.Application.Common.Serializer;
 using User.Application.Interfaces;
@@ -38,24 +40,29 @@ public class UploadVerificationImageHandler : IRequestHandler<UploadVerification
     private readonly IPublishEndpoint _publish;
     private readonly ICurrentUserService _currentUser;
     private readonly IBlobStorage _blobStorage;
+    private readonly IImageService _imageService;
     private readonly BlobStorageOptions _blobStorageOptions;
     
     public UploadVerificationImageHandler(IPublishEndpoint publish, 
         ICurrentUserService currentUser,
         IBlobStorage blobStorage,
-        IOptions<BlobStorageOptions> blobStorageOptions)
+        IOptions<BlobStorageOptions> blobStorageOptions, 
+        IImageService imageService)
     {
         _publish = publish;
         _currentUser = currentUser;
         _blobStorage = blobStorage;
+        _imageService = imageService;
         _blobStorageOptions = blobStorageOptions.Value;
     }
     
     public async Task Handle(UploadVerificationImageDto request, CancellationToken cancellationToken)
     {
+        await using var stream = await _imageService.ResizeImage(request.Image, 720, 480);
+        
         var imageName = GetBlobName();
         var uri = await _blobStorage.UploadBlob(_blobStorageOptions.VerificationContainerName, imageName, 
-            request.Image, request.ContentType);
+            stream, request.ContentType);
         
         var message = CreateMessage(uri);
         await _publish.Publish(message, x =>
