@@ -7,12 +7,12 @@ using User.Application.Persistence;
 
 namespace User.Application.Features;
 
-public class GetUserDetailsDto : IRequest<GetUserDetailsResponseDto>
+public record GetUserDetailsDto : IRequest<GetUserDetailsResponseDto>
 {
     public Guid UserId { get; set; }
 }
 
-public class GetUserDetailsResponseDto
+public record GetUserDetailsResponseDto
 {
     public string UserName { get; set; }
     public string FirstName { get; set; }

@@ -11,12 +11,12 @@ using User.Application.Interfaces;
 
 namespace User.Application.Features;
 
-public class UploadVerificationImageFormData
+public record UploadVerificationImageFormData
 {
     public byte[] Image { get; set; }
 }
 
-public class UploadVerificationImageDto : IRequest
+public record UploadVerificationImageDto : IRequest
 {
     public byte[] Image { get; set; }
     public string ContentType { get; set; }

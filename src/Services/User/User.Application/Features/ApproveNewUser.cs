@@ -12,7 +12,7 @@ using User.Application.Persistence;
 
 namespace User.Application.Features;
 
-public class ApproveNewUserDto : IRequest
+public record ApproveNewUserDto : IRequest
 {
     public string UserName { get; set; }
 }

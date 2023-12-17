@@ -17,7 +17,7 @@ using User.Application.Persistence;
 
 namespace User.Application.Features;
 
-public class AddNewUserDto : IRequest
+public record AddNewUserDto : IRequest
 {
     public DateTime Born { get; set; }
     public string UserName { get; set; }
