@@ -15,9 +15,8 @@ class DetectedFace(BaseModel):
     score: float
 
 
-def detect_faces(image_bytes: bytes) -> list[DetectedFace]:
-    io_bytes = io.BytesIO(image_bytes)
-    image_file = Image.open(io_bytes)
+def detect_faces(image_stream: io.BytesIO) -> list[DetectedFace]:
+    image_file = Image.open(image_stream)
     detections = _model(image_file, conf=.5)[0]
 
     detected_faces: list[DetectedFace] = []
