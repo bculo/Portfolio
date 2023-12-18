@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Net.Mime;
 using Events.Common.User;
 using FluentValidation;
@@ -27,11 +28,31 @@ public record UploadVerificationImageDto : IRequest
 
 public class UploadVerificationImageDtoValidator : AbstractValidator<UploadVerificationImageDto>
 {
+    private static readonly FrozenSet<string> _allowedContentType = new HashSet<string>
+    {
+        "image/jpeg",
+        "image/jpg",
+        "image/png"
+    }.ToFrozenSet();
+
     public UploadVerificationImageDtoValidator()
     {
         RuleFor(i => i.Image).NotEmpty();
-        RuleFor(i => i.ContentType).NotEmpty();
+        RuleFor(i => i.ContentType)
+            .Must(IsAllowedType)
+            .WithMessage("Content type must be 'jpeg' or 'png'")
+            .NotEmpty();
         RuleFor(i => i.Name).NotEmpty();
+    }
+
+    private bool IsAllowedType(string contentType)
+    {
+        if (string.IsNullOrWhiteSpace(contentType))
+        {
+            return false;
+        }
+
+        return _allowedContentType.Contains(contentType);
     }
 }
 
