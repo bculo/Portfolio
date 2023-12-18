@@ -77,7 +77,7 @@ namespace User.Application
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "User", false));
 
                 x.AddConsumer<DeleteKeycloakUserConsumer>();
-                x.AddConsumer<UserImageVerifiedConsumer>();
+                x.AddConsumer<UserImageVerifiedConsumer, UserImageVerifiedConsumerDefinition>();
                 
                 x.UsingRabbitMq((context, config) =>
                 {

@@ -1,36 +1,15 @@
 import os
-from  datetime import datetime
-import uuid
-from typing import TypeVar, Generic
-from uuid import UUID
 
 from faststream.rabbit import RabbitExchange, RabbitQueue, ExchangeType
 from pydantic import BaseModel
 
 from utilities.config_reader_utilities import read_yaml_file
 
-DataT = TypeVar('DataT')
-
-
-class MassTransitMessage(BaseModel, Generic[DataT]):
-    messageId: UUID | None = uuid.uuid4()
-    requestId: UUID | None = None
-    correlationId: UUID | None = uuid.uuid4()
-    conversationId: UUID | None = uuid.uuid4()
-    initiatorId: UUID | None = None
-    sourceAddress: str | None = None
-    faultAddress: str | None = None
-    message: DataT | None = None
-    messageType: list[str] = []
-    expirationTime: datetime | None = None
-    sentTime: datetime = datetime.now()
-    headers: dict = {}
-    host: dict = {}
-
 
 class UserImageVerifiedEvent(BaseModel):
     userId: str
     isPerson: bool
+    userName: str
 
 
 class RabbitMqConsumer:

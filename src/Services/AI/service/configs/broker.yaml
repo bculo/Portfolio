@@ -1,7 +1,7 @@
 connection_string: 'amqp://rabbitmquser:rabbitmqpassword@localhost:5672'
 
 default_delivery_mode: 2
-default_content_type: 'application/vnd.masstransit+json'
+default_content_type: 'application/json'
 
 img_uploaded_con:
   root_exchange:

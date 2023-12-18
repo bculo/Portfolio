@@ -100,7 +100,8 @@ public class UploadVerificationImageHandler : IRequestHandler<UploadVerification
         {
             UserId = _currentUser.GetUserId(),
             ImageName = GetBlobName(),
-            Uri = blobUri.ToString()
+            Uri = blobUri.ToString(),
+            UserName = _currentUser.GetUserName()
         };
         
         return new UserImageUploaded
