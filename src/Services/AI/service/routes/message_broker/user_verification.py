@@ -4,7 +4,7 @@ from faststream.rabbit import RabbitMessage, RabbitRouter
 
 from routes.message_broker.models import UserImageVerifiedEvent, MassTransitMessage, RabbitMqConfig
 from services.BlobStorageService import BlobStorageService
-from utilities.models.face_detection_utilities import detect_faces
+from utilities.face_detection_utilities import detect_faces
 
 
 async def execute_user_verification_procedure(blob_service: BlobStorageService,

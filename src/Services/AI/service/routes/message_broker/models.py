@@ -7,7 +7,7 @@ from uuid import UUID
 from faststream.rabbit import RabbitExchange, RabbitQueue, ExchangeType
 from pydantic import BaseModel
 
-from utilities.helpers.config_reader import read_yaml_file
+from utilities.config_reader_utilities import read_yaml_file
 
 DataT = TypeVar('DataT')
 

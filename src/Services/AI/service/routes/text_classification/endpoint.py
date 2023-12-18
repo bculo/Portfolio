@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Body
 
 from routes.text_classification import models
-from utilities.models.text_classification_utilities import get_star_classification
+from utilities.text_classification_utilities import get_star_classification
 
 router = APIRouter(
     prefix="/text-classification",

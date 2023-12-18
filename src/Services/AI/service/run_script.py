@@ -1,10 +1,8 @@
 import os
-import uuid
 
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.storage.blob import BlobServiceClient
 
-from utilities.helpers.config_reader import read_yaml_file
+from utilities.config_reader_utilities import read_yaml_file
 
 broker_config = read_yaml_file(os.path.join("configs", "azure-blob.yaml"))
 
