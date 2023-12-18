@@ -9,6 +9,7 @@ from utilities.config_reader_utilities import read_yaml_file
 class UserImageVerifiedEvent(BaseModel):
     userId: str
     isPerson: bool
+    isNsfw: bool
     userName: str
 
 

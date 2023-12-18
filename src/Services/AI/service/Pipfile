@@ -12,6 +12,9 @@ faststream = {extras = ["rabbit"], version = "*"}
 ultralytics = "*"
 azure-storage-blob = "*"
 azure-identity = "*"
+transformers = "*"
+decorator = "*"
+cloudpickle = "*"
 
 [dev-packages]
 
