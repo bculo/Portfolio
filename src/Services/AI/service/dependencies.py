@@ -2,6 +2,7 @@ import os
 
 from services.BlobStorageService import BlobStorageService
 from services.BlobStorageServiceConfig import BlobStorageServiceConfig
+from services.UserVerificationService import UserVerificationService
 from utilities.config_reader_utilities import read_yaml_file
 
 _blob_storage_conf_dict = read_yaml_file(os.path.join("configs", "azure-blob.yaml"))
@@ -15,3 +16,7 @@ def di_blob_service() -> BlobStorageService:
 
 def di_blob_conf() -> BlobStorageServiceConfig:
     return _blob_storage_conf
+
+
+def di_verification_service() -> UserVerificationService:
+    return UserVerificationService()
