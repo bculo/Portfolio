@@ -18,13 +18,13 @@ namespace User.Functions.Functions
         [Function("register-user")]
         [OpenApiOperation(operationId: "register-user", tags: new[] { "Manage" })]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
-        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(AddNewUserDto), Required = true)]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(RegisterUserDto), Required = true)]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
         public async Task<HttpResponseData> RegisterUser(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, CancellationToken token)
         {
             var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
-            var dto = await req.ToDto<AddNewUserDto>(token);
+            var dto = await req.ToDto<RegisterUserDto>(token);
             await mediator.Send(dto, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
@@ -41,16 +41,16 @@ namespace User.Functions.Functions
             CancellationToken token)
         {
             var mediator = req.FunctionContext.InstanceServices.GetRequiredService<IMediator>();
-            await mediator.Send(new ApproveNewUserDto { UserName = userName }, token);  
+            await mediator.Send(new VerifyUserDto { UserName = userName }, token);  
             return req.CreateResponse(HttpStatusCode.NoContent);
         }
         
-        [Function("upload-image")]
-        [OpenApiOperation(operationId: "upload-image", tags: new[] { "Manage" })]
+        [Function("upload-verification-image")]
+        [OpenApiOperation(operationId: "upload-verification-image", tags: new[] { "Manage" })]
         [OpenApiRequestBody(contentType: "multipart/form-data", bodyType: typeof(UploadVerificationImageFormData), Required = true)]
         [OpenApiSecurity("implicit_auth", SecuritySchemeType.OAuth2, Flows = typeof(ImplicitAuthFlow))]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
-        public async Task<HttpResponseData> UploadImage(
+        public async Task<HttpResponseData> UploadVerificationImage(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")]
             HttpRequestData req,
             CancellationToken token)

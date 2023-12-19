@@ -17,7 +17,7 @@ using User.Application.Persistence;
 
 namespace User.Application.Features;
 
-public record AddNewUserDto : IRequest
+public record RegisterUserDto : IRequest
 {
     public DateTime Born { get; set; }
     public string UserName { get; set; }
@@ -27,11 +27,11 @@ public record AddNewUserDto : IRequest
     public string Password { get; set; }
 }
 
-public class AddNewUserDtoValidator : AbstractValidator<AddNewUserDto>
+public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
 {
     private readonly IDateTimeProvider _timeProvider;
 
-    public AddNewUserDtoValidator(IDateTimeProvider timeProvider)
+    public RegisterUserDtoValidator(IDateTimeProvider timeProvider)
     {
         _timeProvider = timeProvider;
 
@@ -73,14 +73,14 @@ public class AddNewUserDtoValidator : AbstractValidator<AddNewUserDto>
     }
 }
 
-public class AddNewUserHandler : IRequestHandler<AddNewUserDto>
+public class RegisterUserHandler : IRequestHandler<RegisterUserDto>
 {
     private readonly IPublishEndpoint _publish;
     private readonly KeycloakAdminApiOptions _config;
     private readonly IDateTimeProvider _timeProvider;
     private readonly IUsersApi _userClient;
 
-    public AddNewUserHandler(
+    public RegisterUserHandler(
         IUsersApi userClient,
         IPublishEndpoint publish,
         IDateTimeProvider timeProvider,
@@ -92,7 +92,7 @@ public class AddNewUserHandler : IRequestHandler<AddNewUserDto>
         _config = config.Value;
     }
     
-    public async Task Handle(AddNewUserDto request, CancellationToken token)
+    public async Task Handle(RegisterUserDto request, CancellationToken token)
     {
         var keyCloakModel = MapToKeycloakModel(request);
         var response = await _userClient.PostUsers(_config.Realm, keyCloakModel)
@@ -119,11 +119,11 @@ public class AddNewUserHandler : IRequestHandler<AddNewUserDto>
             "An problem occured. Try again later");
     }
     
-    private UserRepresentation MapToKeycloakModel(AddNewUserDto userDto)
+    private UserRepresentation MapToKeycloakModel(RegisterUserDto userDto)
     {
         return new UserRepresentation
         {
-            Enabled = false,
+            Enabled = true,
             FirstName = userDto.FirstName,
             LastName = userDto.LastName,
             Username = userDto.UserName,

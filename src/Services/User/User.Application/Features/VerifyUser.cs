@@ -12,27 +12,27 @@ using User.Application.Persistence;
 
 namespace User.Application.Features;
 
-public record ApproveNewUserDto : IRequest
+public record VerifyUserDto : IRequest
 {
     public string UserName { get; set; }
 }
 
-public class ApproveNewUserDtoValidator : AbstractValidator<ApproveNewUserDto>
+public class VerifyUserDtoValidator : AbstractValidator<VerifyUserDto>
 {
-    public ApproveNewUserDtoValidator()
+    public VerifyUserDtoValidator()
     {
         RuleFor(i => i.UserName).NotEmpty();
     }
 }
 
-public class ApproveNewUserHandler : IRequestHandler<ApproveNewUserDto>
+public class VerifyUserDtoHandler : IRequestHandler<VerifyUserDto>
 {
     private readonly IPublishEndpoint _publish;
     private readonly KeycloakAdminApiOptions _config;
     private readonly IDateTimeProvider _timeProvider;
     private readonly IUsersApi _userClient;
 
-    public ApproveNewUserHandler(IUsersApi userClient,
+    public VerifyUserDtoHandler(IUsersApi userClient,
         IPublishEndpoint publish,
         IDateTimeProvider timeProvider,
         IOptions<KeycloakAdminApiOptions> config)
@@ -43,13 +43,16 @@ public class ApproveNewUserHandler : IRequestHandler<ApproveNewUserDto>
         _config = config.Value;
     }
     
-    public async Task Handle(ApproveNewUserDto request, CancellationToken token)
+    public async Task Handle(VerifyUserDto request, CancellationToken token)
     {
         var keycloakUser = await FetchKeycloakUserByUniqueUserName(request.UserName);
         
         var keycloakUpdateRequest = new UserRepresentation
         {
-            Enabled = true,
+            Attributes = new Dictionary<string, ICollection<object>>
+            {
+                { "verified", new List<object> { "true" } }
+            } 
         };
 
         await UpdateKeyCloakUser(keycloakUpdateRequest, keycloakUser.Id);

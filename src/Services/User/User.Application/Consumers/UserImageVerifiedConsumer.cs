@@ -1,15 +1,28 @@
 using Events.Common.User;
 using MassTransit;
+using MediatR;
 using Newtonsoft.Json;
+using User.Application.Features;
 
 namespace User.Application.Consumers;
 
 public class UserImageVerifiedConsumer : IConsumer<UserImageVerified>
 {
-    public Task Consume(ConsumeContext<UserImageVerified> context)
+    private readonly IMediator _mediator;
+
+    public UserImageVerifiedConsumer(IMediator mediator)
     {
-        Console.WriteLine(JsonConvert.SerializeObject(context.Message));
-        return Task.CompletedTask;
+        _mediator = mediator;
+    }
+
+
+    public async Task Consume(ConsumeContext<UserImageVerified> context)
+    {
+        var message = context.Message;
+        if (message.IsPerson && !message.IsNsfw)
+        {
+            await _mediator.Send(new VerifyUserDto { UserName = context.Message.UserName });
+        }
     }
 }
 
