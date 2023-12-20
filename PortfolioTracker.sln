@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{05ED71
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos.Common", "src\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj", "{BA912A66-0E67-4290-962B-5F4610B3CADE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Grpc", "src\Services\Trend\Trend.Grpc\Trend.Grpc.csproj", "{4490A7FE-A882-481F-9387-B905385B8C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.gRPC", "src\Services\Trend\Trend.gRPC\Trend.gRPC.csproj", "{4490A7FE-A882-481F-9387-B905385B8C8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DDBB15E6-89C1-4A61-B5CB-813F0AF99A1B}"
 	ProjectSection(SolutionItems) = preProject
@@ -191,6 +191,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwag.Generator", "src\Tools\NSwag.Generator\NSwag.Generator.csproj", "{7A9A6ED2-314D-48A7-8200-2DF46D824D53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refitter.Generator", "src\Tools\Refitter.Generator\Refitter.Generator.csproj", "{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.gRPC.Client", "src\Services\Trend\Trend.gRPC.Client\Trend.gRPC.Client.csproj", "{E486280C-00D2-4D85-8E76-F1CFF2BC1A97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -442,6 +444,10 @@ Global
 		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E486280C-00D2-4D85-8E76-F1CFF2BC1A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E486280C-00D2-4D85-8E76-F1CFF2BC1A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E486280C-00D2-4D85-8E76-F1CFF2BC1A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E486280C-00D2-4D85-8E76-F1CFF2BC1A97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -531,6 +537,7 @@ Global
 		{1D97A33C-CE15-4037-85F1-B0030D00BAD5} = {650F277F-16ED-4CC2-B5DA-CFB8636F7B1D}
 		{7A9A6ED2-314D-48A7-8200-2DF46D824D53} = {60C08721-EAA5-4405-9610-EE0BC35C8E07}
 		{E69FB3EB-EBB5-447C-88B5-6C584830A2C0} = {60C08721-EAA5-4405-9610-EE0BC35C8E07}
+		{E486280C-00D2-4D85-8E76-F1CFF2BC1A97} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

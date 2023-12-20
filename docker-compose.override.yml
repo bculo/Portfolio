@@ -105,4 +105,5 @@ services:
     command: "azurite --loose --skipApiVersionCheck --blobHost 0.0.0.0 --blobPort 10000 --location /workspace --debug /workspace/debug.log" 
     volumes:
       - ./data/azurite/:/workspace
+
     

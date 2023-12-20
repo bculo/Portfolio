@@ -1,4 +1,4 @@
-﻿namespace Trend.Grpc.Interceptors.Models
+﻿namespace Trend.gRPC.Interceptors.Models
 {
     public class ValidationResponse
     {

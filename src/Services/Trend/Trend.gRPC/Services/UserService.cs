@@ -2,7 +2,7 @@
 using Trend.Domain.Exceptions;
 using Trend.Domain.Interfaces;
 
-namespace Trend.Grpc.Services
+namespace Trend.gRPC.Services
 {
     public class UserService : ICurrentUser
     {

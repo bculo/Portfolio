@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
-using Trend.Grpc.Protos.v1;
+using Trend.gRPC.Protos.v1;
 
-namespace Trend.Grpc.GrpcProfiles
+namespace Trend.gRPC.GrpcProfiles
 {
     public class NewsProfile : Profile
     {

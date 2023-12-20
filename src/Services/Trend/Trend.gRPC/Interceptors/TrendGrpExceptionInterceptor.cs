@@ -3,9 +3,9 @@ using Grpc.Core.Interceptors;
 using Newtonsoft.Json;
 using System.Text;
 using Trend.Domain.Exceptions;
-using Trend.Grpc.Interceptors.Models;
+using Trend.gRPC.Interceptors.Models;
 
-namespace Trend.Grpc.Interceptors
+namespace Trend.gRPC.Interceptors
 {
     public class TrendGrpExceptionInterceptor : Interceptor
     {

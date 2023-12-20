@@ -1,8 +1,8 @@
 using Grpc.Core;
-using Trend.Grpc;
-using Trend.Grpc.Protos.v1;
+using Trend.gRPC;
+using Trend.gRPC.Protos.v1;
 
-namespace Trend.Grpc.Services
+namespace Trend.gRPC.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {

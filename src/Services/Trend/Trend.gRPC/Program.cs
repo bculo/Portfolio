@@ -1,5 +1,5 @@
-using Trend.Grpc.Extensions;
-using Trend.Grpc.Services;
+using Trend.gRPC.Extensions;
+using Trend.gRPC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,4 +22,5 @@ if (env.IsDevelopment())
 
 app.Run();
 
+//For testing purpose
 public partial class Program { }

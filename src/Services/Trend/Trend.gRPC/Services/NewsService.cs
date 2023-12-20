@@ -9,10 +9,10 @@ using Trend.Application.Interfaces;
 using Trend.Application.Utils.Validation;
 using Trend.Application.Validators.News;
 using Trend.Domain.Enums;
-using Trend.Grpc.Protos;
-using Trend.Grpc.Protos.v1;
+using Trend.gRPC.Protos;
+using Trend.gRPC.Protos.v1;
 
-namespace Trend.Grpc.Services
+namespace Trend.gRPC.Services
 {
     [Authorize]
     public class NewsService : News.NewsBase

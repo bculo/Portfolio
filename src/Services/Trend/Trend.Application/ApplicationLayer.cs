@@ -135,6 +135,8 @@ namespace Trend.Application
             {
                 return;
             }
+
+            services.AddScoped<ISyncJob, SyncJob>();
             
             services.AddHangfireServer(opt =>
             {

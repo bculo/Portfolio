@@ -3,12 +3,12 @@ using MassTransit;
 using System.Reflection;
 using Trend.Application;
 using Trend.Domain.Interfaces;
-using Trend.Grpc.Interceptors;
-using Trend.Grpc.Services;
+using Trend.gRPC.Interceptors;
+using Trend.gRPC.Services;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 
-namespace Trend.Grpc.Extensions
+namespace Trend.gRPC.Extensions
 {
     public static class ServiceConfigurationExtensions
     {
