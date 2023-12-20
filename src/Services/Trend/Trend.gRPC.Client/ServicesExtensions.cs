@@ -1,7 +1,5 @@
-using Grpc.Net.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Trend.gRPC.Client.Protos.v1;
-using Trend.gRPC.Protos.v1;
 
 namespace Trend.gRPC.Client;
 

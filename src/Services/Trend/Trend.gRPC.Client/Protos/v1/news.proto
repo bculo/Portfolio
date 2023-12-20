@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-option csharp_namespace = "Trend.gRPC.Protos.v1";
+option csharp_namespace = "Trend.gRPC.Client.Protos.v1";
 
 package news.v1;
 
