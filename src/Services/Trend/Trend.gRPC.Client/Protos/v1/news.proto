@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Trend.gRPC.Protos.v1";
+
+package news.v1;
+
+service News {
+	rpc GetAllNews(google.protobuf.Empty) returns (stream ArticleTypeItem);
+	rpc GetLatestNews(google.protobuf.Empty) returns (stream ArticleItem);
+	rpc GetLatestNewsForType(ArticleTypeRequest) returns (stream ArticleItem);
+	rpc GetLatestNewsPage(FetchLatestNewsPageRequest) returns (ArticleItemExtendedPageResponse);
+}
+
+enum ArticleTypeEnum {
+	CRYPTO = 0;
+	STOCK = 1;
+	ETF = 2;
+	ECONOMY = 3;
+}	
+
+message Page {
+	int32 pageNum = 1;
+	int32 take = 2;
+}
+
+message ArticleTypeRequest {
+	ArticleTypeEnum type = 1;
+}
+
+message FetchLatestNewsPageRequest {
+	Page page = 1;
+}
+
+message FetchArticleTypePageRequest {
+	Page page = 1;
+	ArticleTypeEnum type = 2;
+}
+
+message ArticleItemExtendedPageResponse {
+	int64 count = 1;
+	repeated ArticleTypeItem items = 2;
+}
+
+message ArticleTypeItem {
+	string title = 1;
+	string text = 2;
+	string url = 3;
+	string pageSource = 4;
+	string typeName = 5;
+	string typeId = 6;
+}
+
+message ArticleItem {
+	string title = 1;
+	string text = 2;
+	string url = 3;
+	string pageSource = 4;
+}
