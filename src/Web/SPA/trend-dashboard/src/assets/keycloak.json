@@ -1,10 +1,8 @@
 {
   "realm": "PortfolioRealm",
-  "auth-server-url": "http://localhost:8080/auth/",
-  "ssl-required": "external",
+  "auth-server-url": "http://localhost:8080/",
+  "ssl-required": "none",
   "resource": "Trend.Client",
   "public-client": true,
-  "verify-token-audience": true,
-  "use-resource-role-mappings": true,
   "confidential-port": 0
 }

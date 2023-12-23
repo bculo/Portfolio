@@ -9,6 +9,9 @@ import { Store } from "@ngrx/store";
 
 import * as fromRoot from 'src/app/store/index';
 
+import { environment } from "src/environments/environment";
+
+
 import * as syncAction from './sync.actions';
 import * as syncSelectors from './sync.selectors';
 import { handleServerError } from "src/app/shared/utils/error-response";
@@ -26,7 +29,7 @@ export class SyncEffects {
         withLatestFrom(this.store.select(syncSelectors.getNextPageSync)),
         map(([action, page]) => page),
         switchMap((pageRequest) => {       
-            return this.http.post<PaginatedResult<SyncStatus>>("http://localhost:5276/api/Sync/GetSyncStatusesPage", pageRequest).pipe(
+            return this.http.post<PaginatedResult<SyncStatus>>(`${environment.trendApiBaseUrl}/Sync/GetSyncStatusesPage`, pageRequest).pipe(
                 map(response => syncAction.fetchStatusesSuccess({ page: response })),
                 catchError(error => {
                     return of(syncAction.fetchStatusesError({error: handleServerError(error, this.notificationService)}))
@@ -39,7 +42,7 @@ export class SyncEffects {
         ofType(syncAction.fetchSyncItem),
         map((action) => action.id),
         switchMap((id: string) => {
-            return this.http.get<SyncStatus>(`http://localhost:5276/api/Sync/GetSync/${id}`).pipe(
+            return this.http.get<SyncStatus>(`${environment.trendApiBaseUrl}/Sync/GetSync/${id}`).pipe(
                 map(response => syncAction.fetchSyncItemSuccess({status: response})),
                 catchError(error => { 
                     return of(syncAction.fetchStatusesError({error: handleServerError(error, this.notificationService)}))
@@ -51,8 +54,10 @@ export class SyncEffects {
     executeSync$ = createEffect(() => this.actions$.pipe(
         ofType(syncAction.sync),
         switchMap(() => {
-            return this.http.get<SyncExecuted>("http://localhost:5276/api/Sync/Sync").pipe(
-                map((response) => syncAction.syncSuccess({ newSync: response.status })),
+            return this.http.get(`${environment.trendApiBaseUrl}/Sync/Sync`).pipe(
+                map(_ => 
+                    syncAction.syncSuccess()
+                ),
                 catchError(error => { 
                     return of(syncAction.syncError({error: handleServerError(error, this.notificationService)}))
                 })

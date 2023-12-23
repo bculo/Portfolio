@@ -10,6 +10,8 @@ import { SETTINGS_FORM_IDENTIFIER } from "../../constants";
 import * as settingsActions from './settings.actions';
 import * as settingsModels from './settings.models';
 
+import { environment } from "src/environments/environment";
+
 @Injectable()
 export class SettingsEffects {
 
@@ -21,7 +23,7 @@ export class SettingsEffects {
     loadSettings$ = createEffect(() => this.actions$.pipe(
         ofType(settingsActions.settingsFetch),
         switchMap(() => {
-            return this.http.get<settingsModels.Setting[]>("http://localhost:5276/api/SearchWord/GetSearchWords").pipe(
+            return this.http.get<settingsModels.Setting[]>(`${environment.trendApiBaseUrl}/SearchWord/GetSearchWords`).pipe(
                 map((response) => settingsActions.settingsFetchSuccess({items: response})),
                 catchError((error) => {
                     return of(settingsActions.settingsFetchError({message: handleServerError(error, this.notification)}));
@@ -34,7 +36,7 @@ export class SettingsEffects {
         ofType(settingsActions.addSetting),
         map(action => action.setting),
         switchMap((request: settingsModels.CreateSetting) => {
-            return this.http.post<settingsModels.Setting>("http://localhost:5276/api/SearchWord/AddNewSearchWord", request).pipe(
+            return this.http.post<settingsModels.Setting>(`${environment.trendApiBaseUrl}/SearchWord/AddNewSearchWord`, request).pipe(
                 map((response) => settingsActions.addSettingSuccess({ setting: response })),
                 tap(() => this.notification.success("Item successfuly added to collection")),
                 catchError((error) => {

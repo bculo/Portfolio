@@ -8,6 +8,7 @@ import { mapKeyValuePairCollectionToControlItems } from "src/app/shared/utils/ma
 
 import * as DictionariesActions from './dictionaries.actions';
 import { KeyValuePair } from "./dictionaries.models";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class DictionariesEffects {
@@ -18,8 +19,8 @@ export class DictionariesEffects {
         ofType(DictionariesActions.fetchDictionaries),
         switchMap(() => {
             return zip(
-                this.http.get<KeyValuePair[]>("http://localhost:5276/api/SearchWord/GetAvaiableSearchEngines"),
-                this.http.get<KeyValuePair[]>("http://localhost:5276/api/SearchWord/GetAvaiableContextTypes")
+                this.http.get<KeyValuePair[]>(`${environment.trendApiBaseUrl}/SearchWord/GetAvailableSearchEngines`),
+                this.http.get<KeyValuePair[]>(`${environment.trendApiBaseUrl}/SearchWord/GetAvailableContextTypes`)
             ).pipe(
                 map(([engines, types]) => {
                     const enginesFinal = mapKeyValuePairCollectionToControlItems(engines);

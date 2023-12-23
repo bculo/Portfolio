@@ -49,9 +49,6 @@ export const syncError = createAction(
 
 export const syncSuccess = createAction(
     SYNC_SUCCESS,
-    props<{
-        newSync: SyncStatus
-    }>()
 );
 
 const FETCH_SYNC_ITEM = "[Sync] Fetch item: start";

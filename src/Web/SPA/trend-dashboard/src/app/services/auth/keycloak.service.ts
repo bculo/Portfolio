@@ -32,10 +32,11 @@ export class KeycloakService {
   }
 
   private userInValidRole(): boolean {
-    return this.keycloackInstance.hasResourceRole("Admin");
+    return this.keycloackInstance.hasRealmRole("Admin");
   }
 
   private handleAuthentication(authenticated: boolean): void {
+    console.log(this.keycloackInstance)
     if(!authenticated){
       this.store.dispatch(authActions.userAuthenticationFailed());
       return;

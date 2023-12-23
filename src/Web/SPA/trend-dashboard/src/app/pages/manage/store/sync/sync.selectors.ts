@@ -5,13 +5,11 @@ import { adapter } from "./sync.reducer";
 
 export const syncUserModuleState = createFeatureSelector<SyncModuleState>(SYNC_MODULE_STATE);
 
-//ROOT SYNC SELECTOR
 export const syncState = createSelector(
     syncUserModuleState,
     (state) => state.sync
 );
 
-//ADAPTER SELECTORS
 export const {
     selectAll,
     selectEntities,
