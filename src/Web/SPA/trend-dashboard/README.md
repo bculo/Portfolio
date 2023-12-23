@@ -1,27 +1,31 @@
-# TrendDashboard
+### What is Trend Dashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
+Trend dashborad application is reponsible for communication with Trend.API. It helps users with 'Admin' role to mange news. For authentication it uses Keycloak.
 
-## Development server
+### What can we see learn/see here?
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- BEM methodology
+- usage of ngrx for state managment
+- communication with Trend.API microservice
+- authentication via Keycloak
 
-## Code scaffolding
+### Keycloak integration
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- add client 'Trend.Client' to PortfolioRealm.
+- check standard flow
+- set valid redirect URI to 'http://localhost:4200/\*'
+- navigate to Clients and select Trend.Client
+- click on 'Action' select input and than click 'Download adapter config'
+- copy config content to keycloak.json that is located inside assets folder (src/assets/keycloak.json)
 
-## Build
+### Keycloak admin
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- make sure that you have 'Admin' user
+- on keycloak admin dashboard select Users navigation item, then 'Add User' button
+- set username to 'portfolio-admin' and fill up rest of the data. Make sure that created user is enabled.
 
-## Running unit tests
+### How to run it?
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- make sure you are using node version ≈ 16.x.x. Easiest way to manage NODE version is with NVM tool.
+- npm install
+- ng serve -o
