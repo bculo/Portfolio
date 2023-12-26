@@ -8,6 +8,7 @@ using OpenTelemetry.Trace;
 using System.Globalization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using OpenTelemetry.Metrics;
 using Trend.API.Filters;
 using Trend.API.Services;
 using Trend.Application;
@@ -80,7 +81,7 @@ namespace Trend.API.Extensions
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services);
             ConfigureAuthentication(services, configuration);
-            AddOpenTelemetry(services);
+            AddOpenTelemetry(services, configuration);
 
             services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
                 $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
@@ -139,19 +140,30 @@ namespace Trend.API.Extensions
             });
         }
 
-        private static void AddOpenTelemetry(IServiceCollection services)
+        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration config)
         {
+            var otpl = new Uri(config["OpenTelemetry:OtlpExporter"]!);
+            
             services.AddOpenTelemetry()
-                .WithTracing(builder =>
+                .ConfigureResource(resource =>
                 {
-                    builder
-                        .AddSource("MassTransit")
-                        .SetResourceBuilder(ResourceBuilder.CreateDefault()
-                            .AddService("Trend.API"))
-                        .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddMongoDBInstrumentation()
-                        .AddJaegerExporter();
+                    resource.AddService("Trend.API");
+                })
+                .WithMetrics(metrics => metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddMeter("Microsoft.AspNetCore.Hosting")
+                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel"))
+                .WithTracing(tracing =>
+                {
+                    tracing.AddSource("MassTransit");
+                    tracing.AddMongoDBInstrumentation();
+                    tracing.AddAspNetCoreInstrumentation();
+                    tracing.AddHttpClientInstrumentation();
+                    tracing.AddOtlpExporter(opt =>
+                    {
+                        opt.Endpoint = otpl;
+                    });
+                    tracing.AddConsoleExporter();
                 });
         }
     }
