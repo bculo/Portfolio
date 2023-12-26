@@ -20,8 +20,8 @@ services:
   rabbitmq:
     image: masstransit/rabbitmq
 
-  jager:
-    image: jaegertracing/all-in-one:1.43
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:1.51
     
   dynamodb-mailservice-db:
     image: amazon/dynamodb-local:1.21.0
@@ -31,6 +31,7 @@ services:
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
+  
 
 volumes:
   mongodbstore:

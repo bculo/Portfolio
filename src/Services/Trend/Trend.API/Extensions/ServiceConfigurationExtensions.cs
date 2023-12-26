@@ -142,8 +142,6 @@ namespace Trend.API.Extensions
 
         private static void AddOpenTelemetry(IServiceCollection services, IConfiguration config)
         {
-            var otpl = new Uri(config["OpenTelemetry:OtlpExporter"]!);
-            
             services.AddOpenTelemetry()
                 .ConfigureResource(resource =>
                 {
@@ -151,6 +149,8 @@ namespace Trend.API.Extensions
                 })
                 .WithMetrics(metrics => metrics
                     .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation()
                     .AddMeter("Microsoft.AspNetCore.Hosting")
                     .AddMeter("Microsoft.AspNetCore.Server.Kestrel"))
                 .WithTracing(tracing =>
@@ -159,9 +159,11 @@ namespace Trend.API.Extensions
                     tracing.AddMongoDBInstrumentation();
                     tracing.AddAspNetCoreInstrumentation();
                     tracing.AddHttpClientInstrumentation();
+                    tracing.AddRedisInstrumentation();
                     tracing.AddOtlpExporter(opt =>
                     {
-                        opt.Endpoint = otpl;
+                        opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 
+                                               ?? throw new ArgumentNullException());
                     });
                     tracing.AddConsoleExporter();
                 });
