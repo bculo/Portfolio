@@ -12,7 +12,7 @@ using Trend.Application.Configurations.Options;
 using Trend.Application.Consumers;
 using Trend.Domain.Interfaces;
 
-namespace Trend.BackgroundSync.Extensions
+namespace Trend.Worker.Extensions
 {
     public static class ServiceConfigurationExtensions
     {
@@ -57,12 +57,12 @@ namespace Trend.BackgroundSync.Extensions
         
         private static void AddOpenTelemetry(IServiceCollection services, 
             IConfiguration config,
-            IConnectionMultiplexer multiplexer = null)
+            IConnectionMultiplexer multiplexer)
         {
             services.AddOpenTelemetry()
                 .ConfigureResource(resource =>
                 {
-                    resource.AddService("Trend.BackgroundSync");
+                    resource.AddService("Trend.Worker");
                 })
                 .WithMetrics(metrics => metrics
                     .AddAspNetCoreInstrumentation()
@@ -76,12 +76,7 @@ namespace Trend.BackgroundSync.Extensions
                     tracing.AddMongoDBInstrumentation();
                     tracing.AddAspNetCoreInstrumentation();
                     tracing.AddHttpClientInstrumentation();
-
-                    if (multiplexer is not null)
-                    {
-                        tracing.AddRedisInstrumentation(multiplexer);
-                    }
-
+                    tracing.AddRedisInstrumentation(multiplexer);
                     tracing.AddOtlpExporter(opt =>
                     {
                         opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 

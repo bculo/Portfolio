@@ -6,15 +6,15 @@ using Trend.Application.Configurations.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Interfaces;
 
-namespace Trend.BackgroundSync
+namespace Trend.Worker
 {
-    public class SyncBackgroundWorker : BackgroundService
+    public class PingWorker : BackgroundService
     {
-        private readonly ILogger<SyncBackgroundWorker> _logger;
+        private readonly ILogger<PingWorker> _logger;
         private readonly IServiceProvider _provider;
         private readonly SyncBackgroundServiceOptions _options;
 
-        public SyncBackgroundWorker(ILogger<SyncBackgroundWorker> logger,
+        public PingWorker(ILogger<PingWorker> logger,
             IServiceProvider provider,
             IOptions<SyncBackgroundServiceOptions> options)
         {

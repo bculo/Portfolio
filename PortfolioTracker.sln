@@ -64,7 +64,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography.Common", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common", "src\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj", "{EFAC1325-54F7-4C90-B1D6-16E3CF163CDB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.BackgroundSync", "src\Services\Trend\Trend.BackgroundSync\Trend.BackgroundSync.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Worker", "src\Services\Trend\Trend.Worker\Trend.Worker.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.BackgroundService", "src\Services\Crypto\Crypto.BackgroundService\Crypto.BackgroundService.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
 EndProject
