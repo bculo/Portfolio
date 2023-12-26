@@ -9,6 +9,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using OpenTelemetry.Metrics;
+using StackExchange.Redis;
 using Trend.API.Filters;
 using Trend.API.Services;
 using Trend.Application;
@@ -72,16 +73,20 @@ namespace Trend.API.Extensions
                     })
                     .Tag(CacheTags.SYNC));
             });
+            
+            var redisConnectionString = configuration["RedisOptions:ConnectionString"];
+            var multiplexer = CacheConfiguration.AddConnectionMultiplexer(services, redisConnectionString);
             builder.Services.AddStackExchangeRedisOutputCache(options =>
             {
-                options.Configuration = configuration["RedisOptions:ConnectionString"];
+                options.Configuration = redisConnectionString;
                 options.InstanceName = configuration["RedisOptions:InstanceName"];
+                options.ConnectionMultiplexerFactory = () => Task.FromResult(multiplexer);
             });
 
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services);
             ConfigureAuthentication(services, configuration);
-            AddOpenTelemetry(services, configuration);
+            AddOpenTelemetry(services, configuration, multiplexer);
 
             services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
                 $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
@@ -89,7 +94,6 @@ namespace Trend.API.Extensions
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
             ApplicationLayer.AddLogger(builder.Host);
-            CacheConfiguration.AddRedis(services, configuration);
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
@@ -140,7 +144,9 @@ namespace Trend.API.Extensions
             });
         }
 
-        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration config)
+        private static void AddOpenTelemetry(IServiceCollection services, 
+            IConfiguration config,
+            IConnectionMultiplexer multiplexer = null)
         {
             services.AddOpenTelemetry()
                 .ConfigureResource(resource =>
@@ -159,7 +165,12 @@ namespace Trend.API.Extensions
                     tracing.AddMongoDBInstrumentation();
                     tracing.AddAspNetCoreInstrumentation();
                     tracing.AddHttpClientInstrumentation();
-                    tracing.AddRedisInstrumentation();
+
+                    if (multiplexer is not null)
+                    {
+                        tracing.AddRedisInstrumentation(multiplexer);
+                    }
+
                     tracing.AddOtlpExporter(opt =>
                     {
                         opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 
