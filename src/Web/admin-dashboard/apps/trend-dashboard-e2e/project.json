@@ -1,0 +1,30 @@
+{
+  "name": "trend-dashboard-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/trend-dashboard-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/trend-dashboard-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "trend-dashboard:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "trend-dashboard:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "trend-dashboard:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["trend-dashboard"]
+}
