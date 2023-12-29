@@ -29,6 +29,15 @@ dependencies:
   '@angular/router':
     specifier: ~17.0.0
     version: 17.0.8(@angular/common@17.0.8)(@angular/core@17.0.8)(@angular/platform-browser@17.0.8)(rxjs@7.8.1)
+  '@ngrx/component-store':
+    specifier: ^17.0.1
+    version: 17.0.1(@angular/core@17.0.8)(rxjs@7.8.1)
+  '@ngrx/operators':
+    specifier: ^17.0.1
+    version: 17.0.1(rxjs@7.8.1)
+  '@ngrx/signals':
+    specifier: ^17.0.1
+    version: 17.0.1(@angular/core@17.0.8)(rxjs@7.8.1)
   '@nx/angular':
     specifier: 17.2.7
     version: 17.2.7(@angular-devkit/build-angular@17.0.8)(@angular-devkit/core@17.0.8)(@angular-devkit/schematics@17.0.8)(@schematics/angular@17.0.8)(@swc-node/register@1.6.8)(@swc/core@1.3.101)(@types/node@18.16.9)(cypress@13.6.2)(eslint@8.48.0)(nx@17.2.7)(rxjs@7.8.1)(ts-node@10.9.1)(typescript@5.2.2)
@@ -3376,6 +3385,50 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.5
+
+  /@ngrx/component-store@17.0.1(@angular/core@17.0.8)(rxjs@7.8.1):
+    resolution: {integrity: sha512-6A7IXzZHAdFadcCILbljNQzrVMwOlx1opdCV/91h3S3ttY7HrPuatyZJyjau8dSf1ANjnAm1kcoof8lZfwhaHg==}
+    peerDependencies:
+      '@angular/core': ^17.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.14.2)
+      '@ngrx/operators': 17.0.0-beta.0(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/operators@17.0.0-beta.0(rxjs@7.8.1):
+    resolution: {integrity: sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/operators@17.0.1(rxjs@7.8.1):
+    resolution: {integrity: sha512-EgsmFzCx3LrOcHwHIJRLzIt8JrcoPwUxn4GX7A2CxkRaaw8uNsYSqxFmZZPZEbCvhte7AMXs93onKgWmkAoZaw==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/signals@17.0.1(@angular/core@17.0.8)(rxjs@7.8.1):
+    resolution: {integrity: sha512-YxnYoDlm0Q0Wighspwg3mgUqnOuIiGP3jvqcr1R/ZMIQ2e0IyzJR2QhtZ1etFxB6NhyDuGtG8FWU2+0cgc0w/w==}
+    peerDependencies:
+      '@angular/core': ^17.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
+    dependencies:
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.14.2)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
 
   /@ngtools/webpack@17.0.8(@angular/compiler-cli@17.0.8)(typescript@5.2.2)(webpack@5.89.0):
     resolution: {integrity: sha512-wx0XBMrbpDeailK2uIhp/ZVMC3GK3BWwJjUu5SbT4BFrcoi2Zd9/9m0RCBAY54UXLBCqKd+ih7pJ6JSvprZmWw==}
