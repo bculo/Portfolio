@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { KeycloakService } from '../../../shared/services/keycloak.service';
 
 @Component({
   selector: 'admin-dashboard-home-page',
@@ -8,4 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+
+  constructor(public service: KeycloakService) {}
+}

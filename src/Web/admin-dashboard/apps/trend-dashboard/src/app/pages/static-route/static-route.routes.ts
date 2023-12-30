@@ -13,11 +13,6 @@ export const STATIC_ROUTES: Routes = [
         {
           path: '404',
           loadComponent: () => import('./not-found-page/not-found-page.component').then(i => i.NotFoundPageComponent)
-        },
-        {
-          path: '**',
-          pathMatch: 'full',
-          redirectTo: '404'
         }
       ]
     }

@@ -12,6 +12,10 @@ export const APP_ROUTES: Route[] = [
       path: 'static',
       loadChildren: () => import('./pages/static-route/static-route.routes').then(i => i.STATIC_ROUTES),
   },
+  {
+    path: '**',
+    redirectTo: 'static/404'
+  }
 ];
 
 
