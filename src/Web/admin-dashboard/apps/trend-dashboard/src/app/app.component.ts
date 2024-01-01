@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { KeycloakService } from './shared/services/keycloak.service';
 import { NewsService } from './shared/services/open-api';
 import { take } from 'rxjs';
+import { AuthStore } from './store/auth-store';
 
 @Component({
   standalone: true,
@@ -12,17 +13,11 @@ import { take } from 'rxjs';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-
-  constructor(private service: KeycloakService,
-    private newsservice: NewsService) {
-
-  }
+  private keycloak = inject(KeycloakService);
+  public authStore = inject(AuthStore);
 
   ngOnInit(): void {
-    this.service.init()
-
-    this.newsservice.getLastStockNews().pipe(
-      take(1)
-    ).subscribe();
+    console.log("TEST")
+    this.keycloak.init()
   }
 }

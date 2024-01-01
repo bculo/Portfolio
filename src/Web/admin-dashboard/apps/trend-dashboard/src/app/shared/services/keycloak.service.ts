@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import Keycloak, { KeycloakConfig } from 'keycloak-js';
-import { catchError, from, of, take, tap } from 'rxjs';
+import { catchError, finalize, from, of, take, tap } from 'rxjs';
+import { AuthStore } from '../../store/auth-store';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,7 @@ import { catchError, from, of, take, tap } from 'rxjs';
 export class KeycloakService {
 
   private keycloackInstance: Keycloak | null = null;
-
-  constructor() { }
-
+  private authStore = inject(AuthStore);
 
   private getConfig(): KeycloakConfig {
     return {
@@ -23,13 +22,14 @@ export class KeycloakService {
 
   init() {
     this.keycloackInstance = new Keycloak(this.getConfig());
-
     from(this.keycloackInstance.init({ 
       onLoad: 'check-sso', 
-      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
+      silentCheckSsoFallback: false,
+      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
     })).pipe(
       take(1), 
-      tap((auth) => console.log(auth)),
+      tap((auth) => this.authStore.setAuth(auth)),
+      finalize(() => this.authStore.setLoading(false))
     ).subscribe()
   }
 
@@ -48,6 +48,12 @@ export class KeycloakService {
     if(this.isAuthenticated())
       return this.keycloackInstance!.tokenParsed!["preferred_username"];
     return null;
+  }
+
+  isInRole(role: string): boolean {
+    if(!this.isAuthenticated())
+      return false;
+    return this.keycloackInstance!.hasRealmRole(role)
   }
 
   isAuthenticated(): boolean {
