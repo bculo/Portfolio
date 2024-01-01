@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { KeycloakService } from './shared/services/keycloak.service';
+import { NewsService } from './shared/services/open-api';
+import { take } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -11,11 +13,16 @@ import { KeycloakService } from './shared/services/keycloak.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private service: KeycloakService) {
+  constructor(private service: KeycloakService,
+    private newsservice: NewsService) {
 
   }
 
   ngOnInit(): void {
     this.service.init()
+
+    this.newsservice.getLastStockNews().pipe(
+      take(1)
+    ).subscribe();
   }
 }

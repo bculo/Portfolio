@@ -1,6 +1,7 @@
 import { ApplicationConfig } from '@angular/core';
 import { PreloadAllModules, Route, provideRouter, withPreloading } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { BASE_PATH } from './shared/services/open-api';
 
 export const APP_ROUTES: Route[] = [
   {
@@ -24,5 +25,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES,
       withPreloading(PreloadAllModules)), 
     provideHttpClient(),
+    { provide: BASE_PATH, useValue: 'http://localhost:5276' }
   ],
 };
