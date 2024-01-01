@@ -64,6 +64,8 @@ public static class SwaggerExtensions
             });
 
             opt.SchemaFilter<GenericFilter>();
+            
+            opt.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["action"]}");
         });
         
         services.AddOptions<ServiceSwaggerOptions>().Configure(opt =>
