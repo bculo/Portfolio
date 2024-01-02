@@ -1,8 +1,22 @@
 import { Injectable, inject } from '@angular/core';
 
 import Keycloak, { KeycloakConfig } from 'keycloak-js';
-import { catchError, finalize, from, of, take, tap } from 'rxjs';
-import { AuthStore } from '../../store/auth-store';
+import { Observable, catchError, finalize, from, map, of, take, tap } from 'rxjs';
+
+
+export interface ConfigureResponse {
+  isAuthenticated: boolean,
+  userInfo: AuthenticatedUserInfo | null
+}
+
+export interface AuthenticatedUserInfo {
+  userName: string,
+  isAdmin: boolean,
+  token: string,
+  refreshToken: string,
+  idToken: string
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +24,34 @@ import { AuthStore } from '../../store/auth-store';
 export class KeycloakService {
 
   private keycloackInstance: Keycloak | null = null;
-  private authStore = inject(AuthStore);
+
+  configure() : Observable<ConfigureResponse> {
+    this.keycloackInstance = new Keycloak(this.getConfig());
+    return from(this.keycloackInstance.init({ 
+      onLoad: 'check-sso', 
+      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+    })).pipe(
+      tap((authStatus) => console.log("Keycloak instance initialized")),
+      map((authStatus) => {
+        return {
+          isAuthenticated: authStatus,
+          userInfo: {
+            idToken: this.getIdToken(),
+            token: this.getAuthorizationToken(),
+            refreshToken: this.getRefreshToken(),
+            isAdmin: this.isInRole('Admin'),
+            userName: this.getUserName()
+          }
+        } as ConfigureResponse
+      })
+    )
+  }
+
+  public login() {
+    if(this.isAuthenticated())
+      return;
+    this.keycloackInstance!.login();
+  }
 
   private getConfig(): KeycloakConfig {
     return {
@@ -20,61 +61,37 @@ export class KeycloakService {
     }
   }
 
-  init() {
-    this.keycloackInstance = new Keycloak(this.getConfig());
-    from(this.keycloackInstance.init({ 
-      onLoad: 'check-sso', 
-      silentCheckSsoFallback: false,
-      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-    })).pipe(
-      take(1), 
-      tap((auth) => this.authStore.setAuth(auth)),
-      finalize(() => this.authStore.setLoading(false))
-    ).subscribe()
-  }
-
-  log() {
-    console.log(this.keycloackInstance?.tokenParsed)
-  }
-
-  public login() {
-    if(this.isAuthenticated()) {
-      return;
-    }
-    this.keycloackInstance!.login();
-  }
-
-  getUserName(): string | null {
+  private getUserName(): string | null {
     if(this.isAuthenticated())
       return this.keycloackInstance!.tokenParsed!["preferred_username"];
     return null;
   }
 
-  isInRole(role: string): boolean {
+  private isInRole(role: string): boolean {
     if(!this.isAuthenticated())
       return false;
     return this.keycloackInstance!.hasRealmRole(role)
   }
 
-  isAuthenticated(): boolean {
+  private isAuthenticated(): boolean {
     if (this.keycloackInstance)
       return this.keycloackInstance.authenticated ?? false;
     return false;
   }
 
-  getIdToken(): string | null {
+  private getIdToken(): string | null {
     if(this.isAuthenticated())
       return this.keycloackInstance!.idToken ?? null;
     return null;
   }
 
-  getRefreshToken(): string | null {
+  private getRefreshToken(): string | null {
     if(this.isAuthenticated())
       return this.keycloackInstance!.refreshToken ?? null;
     return null;
   }
 
-  getAuthorizationToken(): string | null{
+  private getAuthorizationToken(): string | null{
     if(this.isAuthenticated())
       return this.keycloackInstance!.token ?? null;
     return null;

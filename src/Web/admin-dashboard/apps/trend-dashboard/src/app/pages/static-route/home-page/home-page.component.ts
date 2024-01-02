@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthStore } from '../../../store/auth-store';
 import { KeycloakService } from '../../../shared/services/keycloak.service';
 
 @Component({
@@ -10,6 +11,11 @@ import { KeycloakService } from '../../../shared/services/keycloak.service';
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
+  readonly service = inject(KeycloakService);
+  readonly authStore = inject(AuthStore);
+  
+  isAuth = this.authStore.isAuthenticated
+  userName = this.authStore.userName
 
-  constructor(public service: KeycloakService) {}
+  constructor() {}
 }

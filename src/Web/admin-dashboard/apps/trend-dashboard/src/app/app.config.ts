@@ -25,6 +25,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES,
       withPreloading(PreloadAllModules)), 
     provideHttpClient(),
-    { provide: BASE_PATH, useValue: 'http://localhost:5276' }
+    { provide: BASE_PATH, useValue: 'http://localhost:5276' },
   ],
 };

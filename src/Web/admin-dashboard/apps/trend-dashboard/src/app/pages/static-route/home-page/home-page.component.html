@@ -1,3 +1,3 @@
 <p>home-page works!</p>
-<button class="bg-red-600" (click)="service.login()">LOG IN</button>
-<button class="bg-yellow-800" (click)="service.log()">LOG INFO</button>
+<p>User {{userName()}} is loged in</p>
+<button *ngIf="!isAuth()" class="bg-red-600" (click)="service.login()">LOG IN</button>
