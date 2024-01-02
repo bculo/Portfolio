@@ -10,6 +10,7 @@ import { inject } from '@angular/core';
 import { pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { KeycloakService } from '../shared/services/keycloak.service';
+import { withDevtools } from '@angular-architects/ngrx-toolkit'
 
 interface AuthState {
     isLoading: boolean
@@ -34,6 +35,7 @@ const initialState: AuthState = {
 export const AuthStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
+    withDevtools('auth'),
     withMethods((store, keycloak = inject(KeycloakService)) => ({
         init: rxMethod<void>(
             pipe(

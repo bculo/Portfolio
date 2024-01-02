@@ -1,7 +1,9 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, isDevMode } from '@angular/core';
 import { PreloadAllModules, Route, provideRouter, withPreloading } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { BASE_PATH } from './shared/services/open-api';
+import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const APP_ROUTES: Route[] = [
   {
@@ -26,5 +28,11 @@ export const appConfig: ApplicationConfig = {
       withPreloading(PreloadAllModules)), 
     provideHttpClient(),
     { provide: BASE_PATH, useValue: 'http://localhost:5276' },
+    provideStore(), 
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      connectInZone: true
+    }),
   ],
 };
