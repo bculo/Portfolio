@@ -1,10 +1,11 @@
 import { ApplicationConfig, isDevMode } from '@angular/core';
 import { PreloadAllModules, Route, provideRouter, withPreloading } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BASE_PATH } from './shared/services/open-api';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { roleGuard } from './shared/guards/role.guard';
+import { jwtInterceptor } from './shared/interceptors/jwt.interceptor';
 
 export const APP_ROUTES: Route[] = [
   {
@@ -32,7 +33,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(APP_ROUTES,
       withPreloading(PreloadAllModules)), 
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([jwtInterceptor]),
+    ),
     { provide: BASE_PATH, useValue: 'http://localhost:5276' },
     provideStore(), 
     provideStoreDevtools({
