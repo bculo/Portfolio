@@ -43,6 +43,7 @@ namespace Trend.Application.MappingProfiles.News
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
                 .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl))
                 .ForMember(dst => dst.TypeName, opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.Type));
 
             CreateMap<FetchLatestNewsPageDto, PageRequest>()
