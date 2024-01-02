@@ -62,8 +62,5 @@ export const AuthStore = signalStore(
         onInit({ init }) {
             init();
         },
-        onDestroy() {
-            console.log("ON DESTROY")
-        }
     }),
 );

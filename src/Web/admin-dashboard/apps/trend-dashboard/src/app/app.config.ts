@@ -4,16 +4,22 @@ import { provideHttpClient } from '@angular/common/http';
 import { BASE_PATH } from './shared/services/open-api';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { roleGuard } from './shared/guards/role.guard';
 
 export const APP_ROUTES: Route[] = [
   {
-      path: '',
-      pathMatch: 'full',
-      redirectTo: 'static'
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'static'
   },
   {
-      path: 'static',
-      loadChildren: () => import('./pages/static-route/static-route.routes').then(i => i.STATIC_ROUTES),
+    path: 'static',
+    loadChildren: () => import('./pages/static-route/static-route.routes').then(i => i.STATIC_ROUTES),
+  },
+  {
+    path: 'news',
+    loadChildren: () => import('./pages/news-route/news-route.routes').then(i => i.NEWS_ROUTES),
+    canActivate: [roleGuard]
   },
   {
     path: '**',
