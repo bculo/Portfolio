@@ -17,5 +17,6 @@ namespace Trend.Domain.Entities
         public ContextType Type { get; set; }
         public DateTime? DeactivationDate { get; set; }
         public bool IsActive { get; set; }
+        public string SearchWord { get; set; }
     }
 }

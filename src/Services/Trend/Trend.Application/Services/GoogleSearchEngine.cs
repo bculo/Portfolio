@@ -141,11 +141,16 @@ namespace Trend.Application.Services
             {
                 SyncStatus.TotalRequests++;
 
-                if (response.Succedded)
+                if (!response.Succedded) continue;
+                
+                SyncStatus.SucceddedRequests++;
+                var articles = _mapper.Map<List<Article>>(response.Result.Items);
+                foreach (var article in articles)
                 {
-                    SyncStatus.SucceddedRequests++;
-                    Articles.AddRange(_mapper.Map<List<Article>>(response.Result.Items));
+                    article.SearchWord = response.SearchWord;
                 }
+                
+                Articles.AddRange(articles);
             }
 
             return Task.CompletedTask;
