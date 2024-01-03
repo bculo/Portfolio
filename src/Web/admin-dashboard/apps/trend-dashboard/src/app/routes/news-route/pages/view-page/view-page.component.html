@@ -1,11 +1,13 @@
 <div>
 
-    <p class="mb-2">ViewPage works!</p>
+    <div class="w-3/4 m-auto">
+        @for (article of articles(); track article.id) {
+            <admin-dashboard-article-card 
+                class="m-3 last:mb-0" 
+                [article]="article">
+            </admin-dashboard-article-card>
+        }
+    </div>
 
-    <ul>
-        <li *ngFor="let article of articles(); index as i;">
-            <admin-dashboard-article-card [article]="article"></admin-dashboard-article-card>
-        </li>
-    </ul>
 </div>
 

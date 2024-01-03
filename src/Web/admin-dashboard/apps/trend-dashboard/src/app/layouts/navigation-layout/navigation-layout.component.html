@@ -1,10 +1,10 @@
-<div class="h-screen bg-gradient-to-b from-gray-800 via-gray-900 to-black text-stone-300 flex font-mono">
-    <aside class="w-80 bg-gray-800 bg-opacity-70 pb-8 pt-8">
+<div class="min-h-screen h-full bg-gradient-to-b from-neutral-800 via-neutral-900 to-black text-stone-300 font-mono">
+    <aside class="w-80 bg-neutral-950 bg-opacity-70 pb-8 pt-8 fixed h-screen">
         <h2 class="text-stone-200 text-center font-bold tracking-wider text-xl">Trend dashboard</h2>
         <nav class="mt-10">
             <ul>
                 @for (item of items; track item.name) {
-                    <li class="pb-3 pt-3 flex items-center p-8 transition-all duration-300 hover:bg-gray-700 cursor-pointer">
+                    <li [routerLink]="item.path" routerLinkActive="bg-gray-700" class="pb-3 pt-3 flex items-center p-8 transition-all duration-300 hover:bg-gray-700 cursor-pointer">
                         <ng-icon [name]="item.icon"></ng-icon>
                         <a class="pl-4">{{item.name}}</a>
                     </li>
@@ -12,7 +12,7 @@
             </ul>
         </nav>
     </aside>
-    <main class="p-8 flex-1">
+    <main class="pl-[22rem] p-2">
         <ng-content></ng-content>
     </main>
 </div>

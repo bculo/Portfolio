@@ -39,12 +39,12 @@ export interface NavigationItem {
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
     {
-        path: 'static',
+        path: '/static',
         icon: nameOf(() => APP_ICONS.heroHome),
         name: 'Home'
     },
     {
-        path: 'news',
+        path: '/news',
         icon: nameOf(() => APP_ICONS.heroNewspaper),
         name: 'News'
     },

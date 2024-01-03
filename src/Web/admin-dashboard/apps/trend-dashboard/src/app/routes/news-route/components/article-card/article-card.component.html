@@ -1,5 +1,21 @@
-<div class="pb-2 pt-2 p-4">
-    {{article.id}}
-    {{article.pageSource}}
-    <ng-icon name="heroTrash" color="#fff"></ng-icon>
+<div class="bg-neutral-700 shadow-xl min-w-80 max-w-96 overflow-hidden rounded-md h-[30rem]">
+    <div class="flex flex-col h-full">
+        <div class="flex-initial h-56 relative">
+            <span class="absolute top-4 left-4 bg-red-700 p-1 rounded-md">{{article.typeName}}</span>
+            <img [src]="imageUrl" class="inline-block h-full w-full object-fill">
+        </div>
+        <div class="flex-1 p-3">
+            <div class="text-xs">
+                <span>{{ date | date: 'dd.MM.yyyy' }}</span> 
+                / 
+                <span>{{article.pageSource}}</span>
+            </div>
+            <div class="mt-3 font-bold">{{article.title}}</div>
+            <div class="mt-3 text-xs leading-5">{{article.text}}</div>
+        </div>
+        <div class="flex-1 flex items-end p-3 text-sm cursor-pointer">
+            <p class="text-blue-500 mr-3">Read more</p>
+            <ng-icon name="heroChevronRight" color="#3b83f6"></ng-icon>
+        </div>
+    </div>
 </div>

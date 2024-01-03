@@ -1,6 +1,7 @@
-import { heroNewspaper, heroHome } from '@ng-icons/heroicons/outline';
+import { heroNewspaper, heroHome, heroChevronRight } from '@ng-icons/heroicons/outline';
 
 export const APP_ICONS = {
     heroNewspaper,
-    heroHome
+    heroHome,
+    heroChevronRight
 }
