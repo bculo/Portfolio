@@ -7,6 +7,9 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { roleGuard } from './shared/guards/role.guard';
 import { jwtInterceptor } from './shared/interceptors/jwt.interceptor';
 
+import { provideIcons, provideNgIconsConfig } from '@ng-icons/core';
+import { heroTrash } from '@ng-icons/heroicons/outline';
+
 export const APP_ROUTES: Route[] = [
   {
     path: '',
@@ -37,6 +40,10 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([jwtInterceptor]),
     ),
     { provide: BASE_PATH, useValue: 'http://localhost:5276' },
+    provideIcons({ heroTrash }),
+    provideNgIconsConfig({
+      size: '1.5em',
+    }),
     provideStore(), 
     provideStoreDevtools({
       maxAge: 25,

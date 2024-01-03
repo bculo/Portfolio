@@ -4,7 +4,7 @@
 
     <ul>
         <li *ngFor="let article of articles(); index as i;">
-            <span>{{article.id}}</span><button (click)="deactivate(article.id)">DEACTIVATE</button>
+            <admin-dashboard-article-card [article]="article"></admin-dashboard-article-card>
         </li>
     </ul>
 </div>

@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NewsStore } from '../../store/news-store';
+import { ArticleCardComponent } from '../../components/article-card/article-card.component';
 
 @Component({
   selector: 'admin-dashboard-view-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ArticleCardComponent],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.scss',
 })

@@ -32,6 +32,12 @@ dependencies:
   '@angular/router':
     specifier: ~17.0.0
     version: 17.0.8(@angular/common@17.0.8)(@angular/core@17.0.8)(@angular/platform-browser@17.0.8)(rxjs@7.8.1)
+  '@ng-icons/core':
+    specifier: ^26.3.0
+    version: 26.3.0
+  '@ng-icons/heroicons':
+    specifier: ^26.3.0
+    version: 26.3.0
   '@ngrx/component-store':
     specifier: ^17.0.1
     version: 17.0.1(@angular/core@17.0.8)(rxjs@7.8.1)
@@ -3410,6 +3416,18 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.5
+
+  /@ng-icons/core@26.3.0:
+    resolution: {integrity: sha512-4gUGz8yShbMX/4S2B4DzcQHrZ1+t29NqmYS70LScN0XMgiFmbg3uUW/Sc14fPiwmhHVNrKSMmX248U61uBZzGw==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@ng-icons/heroicons@26.3.0:
+    resolution: {integrity: sha512-rj0Y6lWtQqADtMGx/cipY/ezocSVwSKEFYZEvRMFOrDIvTx80aQKldmnCVl97OQlmBKfefVpT6NQgd3G4ZNGWQ==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /@ngrx/component-store@17.0.1(@angular/core@17.0.8)(rxjs@7.8.1):
     resolution: {integrity: sha512-6A7IXzZHAdFadcCILbljNQzrVMwOlx1opdCV/91h3S3ttY7HrPuatyZJyjau8dSf1ANjnAm1kcoof8lZfwhaHg==}
