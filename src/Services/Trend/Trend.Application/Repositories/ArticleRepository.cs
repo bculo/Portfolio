@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -10,9 +11,14 @@ namespace Trend.Application.Repositories
 {
     public class ArticleRepository : MongoRepository<Article>, IArticleRepository
     {
-        public ArticleRepository(IMongoClient client, IOptions<MongoOptions> options) 
+        private readonly IDateTimeProvider _provider;
+        
+        public ArticleRepository(IMongoClient client, 
+            IOptions<MongoOptions> options,
+            IDateTimeProvider provider) 
             : base(client, options)
         {
+            _provider = provider;
         }
 
         public Task<List<Article>> GetActiveArticles(CancellationToken token)
@@ -109,7 +115,8 @@ namespace Trend.Application.Repositories
 
         public async Task DeactivateArticles(List<string> articleIds, CancellationToken token)
         {
-            var update = Builders<Article>.Update.Set(s => s.IsActive, false);
+            var update = Builders<Article>.Update.Set(s => s.IsActive, false)
+                .Set(s => s.DeactivationDate, _provider.Now);
             await _collection.UpdateManyAsync(i => articleIds.Contains(i.Id), update, new UpdateOptions(), token);
         }
     }
