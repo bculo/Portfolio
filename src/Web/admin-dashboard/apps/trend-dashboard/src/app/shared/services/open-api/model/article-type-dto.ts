@@ -12,6 +12,7 @@
 
 
 export interface ArticleTypeDto { 
+    id?: string | null;
     title?: string | null;
     text?: string | null;
     url?: string | null;

@@ -8,11 +8,11 @@ export const STATIC_ROUTES: Routes = [
       children: [
         {
           path: '',
-          loadComponent: () => import('./home-page/home-page.component').then(i => i.HomePageComponent)
+          loadComponent: () => import('./pages/home-page/home-page.component').then(i => i.HomePageComponent)
         },
         {
           path: '404',
-          loadComponent: () => import('./not-found-page/not-found-page.component').then(i => i.NotFoundPageComponent),
+          loadComponent: () => import('./pages/not-found-page/not-found-page.component').then(i => i.NotFoundPageComponent),
         }
       ]
     }

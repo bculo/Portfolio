@@ -1,66 +1,81 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "User API",
-    "description": "API used for managing users of Portfolio application",
-    "version": "1.0.0"
+    "title": "Trend.API",
+    "version": "1.0"
   },
-  "servers": [
-    {
-      "url": "http://localhost:7071/api"
-    }
-  ],
   "paths": {
-    "/sso-logout": {
-      "post": {
+    "/api/v1/News/GetLatestNews": {
+      "get": {
         "tags": [
-          "Session"
+          "News"
         ],
-        "operationId": "sso-logout",
+        "operationId": "GetLatestNews",
         "responses": {
-          "204": {
-            "description": "No description"
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleTypeDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleTypeDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleTypeDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleTypeDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleTypeDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleTypeDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/register-user": {
-      "post": {
+    "/api/v1/News/Deactivate/{articleId}": {
+      "get": {
         "tags": [
-          "Manage"
+          "News"
         ],
-        "operationId": "register-user",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/registerUserDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "No description"
-          }
-        },
-        "security": [
-          {
-            "implicit_auth": [ ]
-          }
-        ]
-      }
-    },
-    "/approve-user/{userName}": {
-      "post": {
-        "tags": [
-          "Manage"
-        ],
-        "operationId": "approve-user",
+        "operationId": "Deactivate",
         "parameters": [
           {
-            "name": "userName",
+            "name": "articleId",
             "in": "path",
             "required": true,
             "schema": {
@@ -70,53 +85,543 @@
         ],
         "responses": {
           "204": {
-            "description": "No description"
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
           }
-        },
-        "security": [
-          {
-            "implicit_auth": [ ]
-          }
-        ]
+        }
       }
     },
-    "/upload-verification-image": {
-      "post": {
+    "/api/v1/News/GetLatestCryptoNews": {
+      "get": {
         "tags": [
-          "Manage"
+          "News"
         ],
-        "operationId": "upload-verification-image",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/uploadVerificationImageFormData"
+        "operationId": "GetLastCryptoNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
               }
             }
           },
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "No description"
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
           }
-        },
-        "security": [
-          {
-            "implicit_auth": [ ]
-          }
-        ]
+        }
       }
     },
-    "/user-info": {
+    "/api/v1/News/GetLatestStockNews": {
       "get": {
         "tags": [
-          "User"
+          "News"
         ],
-        "operationId": "user-info",
+        "operationId": "GetLastStockNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/GetLatestEtfNews": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "GetLastEtfNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/GetLatestEconomyNews": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "GetLastEconomyNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/GetSearchWords": {
+      "get": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "GetSyncSettingsWords",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<SearchWordDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<SearchWordDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<SearchWordDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/GetAvailableSearchEngines": {
+      "get": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "GetAvailableSearchEngines",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/GetAvailableContextTypes": {
+      "get": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "GetAvailableContextTypes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/AddNewSearchWord": {
+      "post": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "AddNewSearchWord",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchWordCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchWordCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchWordCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/RemoveSearchWord/{id}": {
+      "delete": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "RemoveSearchWord",
         "parameters": [
           {
-            "name": "userId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -126,85 +631,619 @@
         ],
         "responses": {
           "200": {
-            "description": "Get user information",
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordDto"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/getUserDetailsResponseDto"
+                  "$ref": "#/components/schemas/SearchWordDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "implicit_auth": [ ]
+        }
+      }
+    },
+    "/api/v1/Sync/Sync": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "Sync",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
           }
-        ]
+        }
+      }
+    },
+    "/api/v1/Sync/GetSync/{id}": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "GetSync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sync/GetSyncStatuses": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "GetSyncStatuses",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<SyncStatusDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<SyncStatusDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<SyncStatusDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sync/GetSyncStatusesPage": {
+      "post": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "GetSyncStatusesPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PageRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusDtoPageResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusDtoPageResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusDtoPageResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sync/GetSyncStatusWords/{id}": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "GetSyncStatusWords",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<SyncStatusWordDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusWordDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<SyncStatusWordDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusWordDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<SyncStatusWordDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusWordDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
   "components": {
     "schemas": {
-      "getUserDetailsResponseDto": {
+      "ArticleDto": {
         "type": "object",
         "properties": {
-          "userName": {
-            "type": "string"
+          "title": {
+            "type": "string",
+            "nullable": true
           },
-          "firstName": {
-            "type": "string"
+          "text": {
+            "type": "string",
+            "nullable": true
           },
-          "lastName": {
-            "type": "string"
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "pageSource": {
+            "type": "string",
+            "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
       },
-      "registerUserDto": {
+      "ArticleTypeDto": {
         "type": "object",
         "properties": {
-          "born": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "pageSource": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponseModel": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "KeyValueElementDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PageRequestDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "take": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchWordCreateDto": {
+        "type": "object",
+        "properties": {
+          "searchWord": {
+            "type": "string",
+            "nullable": true
+          },
+          "searchEngine": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contextType": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchWordDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "created": {
             "type": "string",
             "format": "date-time"
           },
-          "userName": {
-            "type": "string"
+          "searchWord": {
+            "type": "string",
+            "nullable": true
           },
-          "firstName": {
-            "type": "string"
+          "searchEngineName": {
+            "type": "string",
+            "nullable": true
           },
-          "lastName": {
-            "type": "string"
+          "searchEngineId": {
+            "type": "integer",
+            "format": "int32"
           },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
+          "contextTypeName": {
+            "type": "string",
+            "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
       },
-      "uploadVerificationImageFormData": {
+      "SyncStatusDto": {
         "type": "object",
         "properties": {
-          "image": {
+          "id": {
             "type": "string",
-            "format": "binary"
+            "nullable": true
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalRequests": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "succeddedRequests": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchWords": {
+            "title": "List<SyncStatusWordDto>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SyncStatusWordDto"
+            },
+            "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
+      },
+      "SyncStatusDtoPageResponseDto": {
+        "title": "PageResponseDto<SyncStatusDto>",
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "items": {
+            "title": "List<SyncStatusDto>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SyncStatusDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SyncStatusWordDto": {
+        "type": "object",
+        "properties": {
+          "contextTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contextTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "word": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "title": "Nullable<Int32>",
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "title": "IDictionary<String>",
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
       }
     },
     "securitySchemes": {
-      "implicit_auth": {
+      "Bearer": {
         "type": "oauth2",
         "flows": {
           "implicit": {
             "authorizationUrl": "http://localhost:8080/realms/PortfolioRealm/protocol/openid-connect/auth",
-            "refreshUrl": "http://localhost:8080/realms/PortfolioRealm/protocol/openid-connect/token",
             "scopes": { }
           }
         }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

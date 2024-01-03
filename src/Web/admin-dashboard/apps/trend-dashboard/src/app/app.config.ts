@@ -15,11 +15,11 @@ export const APP_ROUTES: Route[] = [
   },
   {
     path: 'static',
-    loadChildren: () => import('./pages/static-route/static-route.routes').then(i => i.STATIC_ROUTES),
+    loadChildren: () => import('./routes/static-route/static-route.routes').then(i => i.STATIC_ROUTES),
   },
   {
     path: 'news',
-    loadChildren: () => import('./pages/news-route/news-route.routes').then(i => i.NEWS_ROUTES),
+    loadChildren: () => import('./routes/news-route/news-route.routes').then(i => i.NEWS_ROUTES),
     canActivate: [roleGuard]
   },
   {

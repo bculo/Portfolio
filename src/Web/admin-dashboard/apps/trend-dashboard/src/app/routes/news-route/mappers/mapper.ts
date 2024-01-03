@@ -8,6 +8,7 @@ export const mapToArticleArray = (input: ArticleTypeDto[]): Article[] => {
         text: item.text,
         typeId: item.typeId,
         typeName: item.typeName,
-        url: item.url,       
+        url: item.url,    
+        id: item.id   
     } as Article));    
 };

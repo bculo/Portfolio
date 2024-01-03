@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NewsStore } from '../store/news-store';
+import { NewsStore } from '../../store/news-store';
 
 @Component({
   selector: 'admin-dashboard-view-page',
@@ -11,6 +11,9 @@ import { NewsStore } from '../store/news-store';
 })
 export class ViewPageComponent implements OnInit {
   readonly newsStore = inject(NewsStore);
+
+  articles = this.newsStore.entities;
+  deactivate = this.newsStore.deactivate
 
   ngOnInit(): void {
 

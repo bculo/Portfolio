@@ -5,6 +5,7 @@ using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
 using Trend.Application.Interfaces;
 using Trend.Domain.Enums;
+using Trend.Domain.Exceptions;
 using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Services
@@ -32,6 +33,16 @@ namespace Trend.Application.Services
             var articles = await _articleRepo.GetActiveArticles(token);
             var dtos = _mapper.Map<List<ArticleTypeDto>>(articles);
             return dtos;
+        }
+
+        public async Task Deactivate(string articleId, CancellationToken tcs)
+        {
+            var article = await _articleRepo.FindById(articleId, tcs);
+            if (article is null)
+            {
+                throw new TrendNotFoundException("Article not found");
+            }
+            await _articleRepo.DeactivateArticles(new List<string> { articleId }, tcs);
         }
 
         public async IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)

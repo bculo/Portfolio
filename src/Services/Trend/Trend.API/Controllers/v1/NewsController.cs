@@ -28,6 +28,15 @@ namespace Trend.API.Controllers.v1
         {
             return Ok(await _service.GetLatestNews(token));
         }
+        
+        [HttpGet("Deactivate/{articleId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Deactivate(string articleId, CancellationToken token)
+        {
+            await _service.Deactivate(articleId, token);
+            return NoContent();
+        }
 
         [HttpGet("GetLatestCryptoNews")]
         [OutputCache(PolicyName = "NewsPolicy")]

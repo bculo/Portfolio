@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthStore } from '../../../store/auth-store';
-import { KeycloakService } from '../../../shared/services/keycloak.service';
+import { KeycloakService } from 'apps/trend-dashboard/src/app/shared/services/keycloak.service';
+import { AuthStore } from 'apps/trend-dashboard/src/app/store/auth-store';
 
 @Component({
   selector: 'admin-dashboard-home-page',

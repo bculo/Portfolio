@@ -8,7 +8,7 @@ export const NEWS_ROUTES: Routes = [
       children: [
         {
           path: '',
-          loadComponent: () => import('./view-page/view-page.component').then(i => i.ViewPageComponent)
+          loadComponent: () => import('./pages/view-page/view-page.component').then(i => i.ViewPageComponent)
         },
       ]
     }
