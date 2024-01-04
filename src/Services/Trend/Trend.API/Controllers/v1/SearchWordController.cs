@@ -1,4 +1,5 @@
 ﻿using Dtos.Common;
+using Dtos.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -57,10 +58,11 @@ namespace Trend.API.Controllers.v1
         [HttpPost("AttachImageToSearchWord")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AttachImageToSearchWord([FromForm] SearchWordAttachImageReqDto request, 
+        public async Task<IActionResult> AttachImageToSearchWord([FromForm] FileUploadDto request, 
             CancellationToken token)
         {
-            await _service.AttachImageToSearchWord(request, token);
+            var command = await request.File.ToDetailsDto<SearchWordAttachImageReqDto>();
+            await _service.AttachImageToSearchWord(command, token);
             return NoContent();
         }
 

@@ -8,7 +8,7 @@ namespace Dtos.Common
 {
     public class PageResponseDto<T>
     {
-        public long Count { get; set; }
-        public List<T> Items { get; set; }
+        public long Count { get; init; }
+        public List<T> Items { get; init; }
     }
 }
