@@ -1,5 +1,4 @@
-﻿using Trend.Domain.Interfaces;
-
+﻿
 namespace Trend.Domain.Entities
 {
     public class SyncStatus : RootDocument

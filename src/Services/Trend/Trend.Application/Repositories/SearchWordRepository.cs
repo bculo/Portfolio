@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
+using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Repositories
 {

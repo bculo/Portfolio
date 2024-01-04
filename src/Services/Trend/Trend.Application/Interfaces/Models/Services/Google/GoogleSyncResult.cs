@@ -1,7 +1,7 @@
 ﻿using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
-namespace Trend.Application.Interfaces.Models.Google
+namespace Trend.Application.Interfaces.Models.Services.Google
 {
     public class GoogleSyncResult
     {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trend.Application.Interfaces.Models.Google;
+﻿using Trend.Application.Interfaces.Models.Services.Google;
 
 namespace Trend.Application.Interfaces
 {

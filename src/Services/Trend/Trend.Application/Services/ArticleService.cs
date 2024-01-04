@@ -6,7 +6,6 @@ using Dtos.Common.v1.Trend.Article;
 using Trend.Application.Interfaces;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Services
 {
@@ -21,10 +20,10 @@ namespace Trend.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
+        public async Task<List<ArticleTypeDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
         {
             var articles = await _articleRepo.GetActiveArticles(type, token);
-            var response = _mapper.Map<List<ArticleDto>>(articles);
+            var response = _mapper.Map<List<ArticleTypeDto>>(articles);
             return response;
         }
 
@@ -71,8 +70,9 @@ namespace Trend.Application.Services
 
         public async Task<PageResponseDto<ArticleDto>> GetLatestNewsPage(FetchArticleTypePageDto page, CancellationToken token)
         {
-            var repoPage = await _articleRepo.FilterBy(page.Page, page.Take, i => i.Type == (ContextType)page.Type, token);
-            return _mapper.Map<PageResponseDto<ArticleDto>>(repoPage);
+            throw new NotImplementedException();
+            //var repoPage = await _articleRepo.FilterBy(page.Page, page.Take, i => i.Type == (ContextType)page.Type, token);
+            //return _mapper.Map<PageResponseDto<ArticleDto>>(repoPage);
         }
 
         public async Task<PageResponseDto<ArticleTypeDto>> GetLatestNewsPage(FetchLatestNewsPageDto page, CancellationToken token)

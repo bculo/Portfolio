@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trend.Domain.Interfaces
+namespace Trend.Application.Interfaces
 {
     public interface ICurrentUser
     {

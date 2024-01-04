@@ -6,8 +6,6 @@ using Polly;
 using Trend.Application.Repositories;
 using Trend.Application.Utils;
 using Trend.Domain.Entities;
-using Trend.Domain.Enums;
-using Trend.Domain.Interfaces;
 
 namespace Trend.IntegrationTests;
 

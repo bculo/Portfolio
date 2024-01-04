@@ -3,8 +3,6 @@ using MassTransit;
 using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
-using Trend.Domain.Entities;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Worker
 {

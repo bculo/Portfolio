@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Tests.Common.Utilities;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
-using Trend.Domain.Interfaces;
 
 namespace Trend.IntegrationTests.SearchWordController;
 

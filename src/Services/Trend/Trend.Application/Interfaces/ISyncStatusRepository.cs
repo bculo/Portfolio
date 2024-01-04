@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Trend.Domain.Entities;
 
-namespace Trend.Domain.Interfaces
+namespace Trend.Application.Interfaces
 {
     public interface ISyncStatusRepository : IRepository<SyncStatus>
     {

@@ -3,10 +3,9 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Time.Abstract.Contracts;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Google;
+using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Services
 {
@@ -147,7 +146,7 @@ namespace Trend.Application.Services
                 var articles = _mapper.Map<List<Article>>(response.Result.Items);
                 foreach (var article in articles)
                 {
-                    article.SearchWord = response.SearchWord;
+                    //article.SearchWord = response.SearchWord;
                 }
                 
                 Articles.AddRange(articles);

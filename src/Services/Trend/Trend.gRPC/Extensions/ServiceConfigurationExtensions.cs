@@ -2,7 +2,7 @@
 using MassTransit;
 using System.Reflection;
 using Trend.Application;
-using Trend.Domain.Interfaces;
+using Trend.Application.Interfaces;
 using Trend.gRPC.Interceptors;
 using Trend.gRPC.Services;
 using WebProject.Common.Extensions;

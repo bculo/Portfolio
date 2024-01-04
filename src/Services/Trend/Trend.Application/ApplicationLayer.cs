@@ -19,7 +19,6 @@ using Trend.Application.Jobs;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
 using Trend.Application.Utils;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Application
 {

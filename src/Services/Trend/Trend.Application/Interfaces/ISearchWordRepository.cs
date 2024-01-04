@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
-namespace Trend.Domain.Interfaces
+namespace Trend.Application.Interfaces
 {
     public interface ISearchWordRepository : IRepository<SearchWord>
     {

@@ -3,8 +3,8 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
+using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Repositories;
 

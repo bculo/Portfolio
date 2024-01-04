@@ -1,6 +1,6 @@
 ﻿using Auth0.Abstract.Contracts;
+using Trend.Application.Interfaces;
 using Trend.Domain.Exceptions;
-using Trend.Domain.Interfaces;
 
 namespace Trend.API.Services
 {

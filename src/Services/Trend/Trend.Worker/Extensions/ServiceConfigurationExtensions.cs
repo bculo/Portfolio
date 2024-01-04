@@ -10,7 +10,6 @@ using StackExchange.Redis;
 using Trend.Application;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Consumers;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Worker.Extensions
 {

@@ -1,6 +1,8 @@
 ﻿using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
+using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Repositories.Lookups;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
@@ -25,7 +27,7 @@ namespace Trend.Application.Configurations.Initialization
             BsonClassMap.RegisterClassMap<Article>(config =>
             {
                 config.AutoMap();
-                config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
+                //config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
             });
 
             BsonClassMap.RegisterClassMap<SyncStatus>(config =>
@@ -46,6 +48,17 @@ namespace Trend.Application.Configurations.Initialization
                 config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
                 config.MapMember(i => i.Word);
             });
+
+            BsonClassMap.RegisterClassMap<ArticleSearchWordLookup>(config =>
+            {
+                config.AutoMap();
+            });
+            
+            BsonClassMap.RegisterClassMap<ArticleDetailResQuery>(config =>
+            {
+                config.AutoMap();
+            });
+            
         }
     }
 }

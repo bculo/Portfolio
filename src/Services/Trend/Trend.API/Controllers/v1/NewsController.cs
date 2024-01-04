@@ -44,7 +44,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastCryptoNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(token));
+            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Crypto, token));
         }
         
         [HttpGet("GetLatestStockNews")]

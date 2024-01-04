@@ -1,6 +1,6 @@
 using Trend.Domain.Entities;
 
-namespace Trend.Domain.Interfaces;
+namespace Trend.Application.Interfaces;
 
 public interface IMongoAuditableRepository<TEntity> : IRepository<TEntity> where TEntity : AuditableDocument
 {

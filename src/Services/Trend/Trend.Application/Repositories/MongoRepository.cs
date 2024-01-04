@@ -4,16 +4,17 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
+using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Application.Utils;
 using Trend.Domain.Entities;
-using Trend.Domain.Interfaces;
-using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Application.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : RootDocument
     {
         protected readonly MongoOptions _options;
+        private readonly IMongoDatabase _mongoDatabase;
         protected IMongoCollection<T> _collection;
         protected IDateTimeProvider _timeProvider;
 
@@ -21,8 +22,8 @@ namespace Trend.Application.Repositories
         {
             _timeProvider = timeProvider;
             _options = options.Value;
-            var database = client.GetDatabase(_options.DatabaseName);
-            _collection = database.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
+            _mongoDatabase = client.GetDatabase(_options.DatabaseName);
+            _collection = _mongoDatabase.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
         }
 
         protected virtual IQueryable<T> GetQueryable()
@@ -58,7 +59,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(_collection.Find(filterExpression).SortByDescending(i => i.Created).ToList());
         }
 
-        public virtual Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default)
+        public virtual Task<PageResQuery<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default)
         {
             filterExpression ??= i => true;
 
@@ -69,7 +70,7 @@ namespace Trend.Application.Repositories
                 .Limit(take)
                 .ToList();
 
-            return Task.FromResult(new PageResponse<T>(count, items));
+            return Task.FromResult(new PageResQuery<T>(count, items));
         }
 
         public virtual async Task<T> FindById(string id, CancellationToken token)
@@ -99,6 +100,11 @@ namespace Trend.Application.Repositories
                     yield return current;
                 }
             }
+        }
+
+        protected IMongoCollection<TCollection> GetCollection<TCollection>()
+        {
+            return _mongoDatabase.GetCollection<TCollection>(TrendMongoUtils.GetCollectionName(typeof(TCollection).Name));
         }
     }
 }

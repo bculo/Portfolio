@@ -2,7 +2,7 @@ using System.Net;
 using Dtos.Common.v1.Trend.Article;
 using FluentAssertions;
 using Http.Common.Extensions;
-using Trend.Application.Interfaces.Models.Google;
+using Trend.Application.Interfaces.Models.Services.Google;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 

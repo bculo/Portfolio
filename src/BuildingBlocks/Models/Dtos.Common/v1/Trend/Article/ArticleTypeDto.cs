@@ -9,12 +9,15 @@ namespace Dtos.Common.v1.Trend.Article
     public class ArticleTypeDto
     {
         public string Id { get; set; }
+        public DateTime Created { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
         public string Url { get; set; }
         public string PageSource { get; set; }
         public string TypeName { get; set; }
         public int TypeId { get; set; }
+        public string SearchWordId { get; set; }
         public string SearchWord { get; set; }
+        public string SearchWordImage { get; set; }
     }
 }

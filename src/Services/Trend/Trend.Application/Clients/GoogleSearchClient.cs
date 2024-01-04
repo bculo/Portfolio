@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Google;
+using Trend.Application.Interfaces.Models.Services.Google;
 
 namespace Trend.Application.Clients
 {

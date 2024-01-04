@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Trend.Domain.Enums;
 
-namespace Trend.Domain.Queries.Requests.News
+namespace Trend.Application.Interfaces.Models.Repositories
 {
-    public class SearchArticleRequestQuery
+    public class SearchArticleReqQuery
     {
         public ContextType Type { get; set; }
     }

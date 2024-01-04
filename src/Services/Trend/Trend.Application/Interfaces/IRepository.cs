@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
+using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Domain.Entities;
-using Trend.Domain.Queries.Requests.Common;
-using Trend.Domain.Queries.Responses.Common;
 
-namespace Trend.Domain.Interfaces
+namespace Trend.Application.Interfaces
 {
     public interface IRepository<T> where T : RootDocument
     {
@@ -18,7 +12,7 @@ namespace Trend.Domain.Interfaces
         Task Delete(string id, CancellationToken token);
         Task<T> FindById(string id, CancellationToken token);
         Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token);
-        Task<PageResponse<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default);
+        Task<PageResQuery<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default);
         Task<List<T>> GetAll(CancellationToken token);
         Task<long> Count(CancellationToken token);
     }

@@ -1,5 +1,4 @@
 ﻿using Trend.Domain.Enums;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Domain.Entities
 {

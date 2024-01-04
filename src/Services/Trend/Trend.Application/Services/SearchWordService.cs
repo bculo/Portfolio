@@ -8,7 +8,6 @@ using Trend.Application.Interfaces;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
-using Trend.Domain.Interfaces;
 
 namespace Trend.Application.Services
 {

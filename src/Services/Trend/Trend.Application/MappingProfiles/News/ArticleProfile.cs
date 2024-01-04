@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Dtos.Common.v1.Trend;
 using Dtos.Common.v1.Trend.Article;
-using Trend.Application.Interfaces.Models.Google;
+using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Application.MappingProfiles.Actions;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
-using Trend.Domain.Queries.Requests.Common;
 
 namespace Trend.Application.MappingProfiles.News
 {
@@ -42,16 +42,25 @@ namespace Trend.Application.MappingProfiles.News
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
                 .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl))
-                .ForMember(dst => dst.TypeName, opt => opt.MapFrom(src => src.Type.ToString()))
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<ArticleDetailResQuery, ArticleTypeDto>()
+                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
+                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
+                .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl))
+                .ForMember(dst => dst.TypeName, opt => opt.MapFrom(src => src.ContextType.ToString()))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.SearchWord, opt => opt.MapFrom(src => src.SearchWord))
-                .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.Type));
+                .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.ContextType))
+                .ForMember(dst => dst.SearchWordId, opt => opt.MapFrom(src => src.SearchWordId))
+                .ForMember(dst => dst.SearchWordImage, opt => opt.MapFrom(src => src.SearchWordImage));
 
-            CreateMap<FetchLatestNewsPageDto, PageRequest>()
+            CreateMap<FetchLatestNewsPageDto, PageReqQuery>()
                 .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
                 .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page));
 
-            CreateMap<FetchArticleTypePageDto, PageRequest<ContextType>>()
+            CreateMap<FetchArticleTypePageDto, PageReqQuery<ContextType>>()
                 .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
                 .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page))
                 .ForMember(dst => dst.Search, opt => opt.MapFrom(src => (ContextType)src.Type));
