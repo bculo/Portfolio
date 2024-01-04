@@ -6,7 +6,7 @@ using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Services.Google;
 
-namespace Trend.Application.Clients
+namespace Trend.Application.Services
 {
     public class GoogleSearchClient : BaseHttpFactoryClient, IGoogleSearchClient
     {

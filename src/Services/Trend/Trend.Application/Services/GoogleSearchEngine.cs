@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Time.Abstract.Contracts;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Services;
 using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -25,10 +26,7 @@ namespace Trend.Application.Services
             ILogger<GoogleSearchEngine> logger,
             IGoogleSearchClient searchService,
             IDateTimeProvider time,
-            IMapper mapper,
-            IRepository<SyncStatus> syncRepo,
-            IArticleRepository articleRepo,
-            ITransaction session)
+            IMapper mapper)
         {
             _logger = logger;
             _searchService = searchService;
@@ -38,28 +36,35 @@ namespace Trend.Application.Services
             Articles = new List<Article>();
         }
 
-        public async Task<(SyncStatus syncIteration, List<Article> syncArticles)> Sync(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
+        public async Task<SearchEngineResult> Sync(
+            Dictionary<ContextType, List<SearchEngineWord>> articleTypesToSync, 
+            CancellationToken token)
         {
+            SyncStatus = CreateSyncInstance();
+            
             if(articleTypesToSync.Count == 0)   
             {
                 _logger.LogInformation("ArticleTypes to fetch are not defined");
-                await StatusSyncFinalTouch(articleTypesToSync, token);
-                return (SyncStatus, new List<Article>());
+                await MarkSyncStatusAsDone(articleTypesToSync, token);
+                return new SearchEngineResult(SyncStatus, new List<Article>());
             }
-
-            SyncStatus = CreateSyncInstance();
-
-            foreach(var articleSync in articleTypesToSync)
-            {
-                await ExecuteSync(articleSync.Key, articleSync.Value);
-            }
-
-            await StatusSyncFinalTouch(articleTypesToSync, token);
             
-            return (SyncStatus, Articles);
+            foreach(var (contextType, searchWords) in articleTypesToSync)
+            {
+                if(!searchWords.Any())
+                {
+                    continue;
+                }
+                
+                await ScrapeDataFromGoogleEngine(contextType, searchWords);
+            }
+
+            await MarkSyncStatusAsDone(articleTypesToSync, token);
+            
+            return new SearchEngineResult (SyncStatus, Articles);
         }
 
-        private Task StatusSyncFinalTouch(Dictionary<ContextType, List<string>> articleTypesToSync, CancellationToken token)
+        private Task MarkSyncStatusAsDone(Dictionary<ContextType, List<SearchEngineWord>> articleTypesToSync, CancellationToken token)
         {
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
@@ -77,14 +82,14 @@ namespace Trend.Application.Services
             SyncStatus.Finished = _time.Now;
         }
 
-        private void AttachSyncWordToSyncStatus(Dictionary<ContextType, List<string>> articleTypesToSync)
+        private void AttachSyncWordToSyncStatus(Dictionary<ContextType, List<SearchEngineWord>> articleTypesToSync)
         {
             foreach (var dict in articleTypesToSync)
             {
                 var words = dict.Value.Select(item => new SyncStatusWord
                 {
                     Type = dict.Key,
-                    Word = item
+                    Word = item.SearchWord
                 });
 
                 SyncStatus.UsedSyncWords.AddRange(words);
@@ -106,60 +111,55 @@ namespace Trend.Application.Services
             };
         }
 
-        private async Task ExecuteSync(ContextType type, IReadOnlyList<string> keyWords)
+        private async Task ScrapeDataFromGoogleEngine(ContextType type, List<SearchEngineWord> keyWords)
         {
-            if(keyWords is null || keyWords.Count == 0)
-            {
-                _logger.LogInformation("Article type {0} doesn't contain any key words", type.ToString());
-            }
-
             var responses = await FetchData(keyWords!);
-            await CreateResponse(responses, type);
+            await CreateResponse(responses);
         }
 
-        private async Task<IReadOnlyList<GoogleResponseStatus>> FetchData(IReadOnlyList<string> keyWords) 
+        private async Task<IReadOnlyList<GoogleResponseStatus>> FetchData(List<SearchEngineWord> keyWords) 
         {
-            var requestList = keyWords!.Where(searchWord => !string.IsNullOrWhiteSpace(searchWord))
-                                    .Select(searchWord => Tuple.Create(_searchService.Search(searchWord), searchWord))
-                                    .ToList();
+            var requestList = keyWords
+                .Select(word => Tuple.Create(_searchService.Search(word.SearchWord), word.SearchWordId))
+                .ToList();
 
             await Task.WhenAll(requestList.Select(i => i.Item1));
 
             return requestList.Select(item => new GoogleResponseStatus
-            {
-                Result = item.Item1.Result, //search response DTO
-                SearchWord = item.Item2, //search word
-            })
-            .ToList()
-            .AsReadOnly();
+                {
+                    Result = item.Item1.Result, //Google client response DTO
+                    SearchWordId = item.Item2, //Search word ID
+                })
+                .ToList();
         }
 
-        private Task CreateResponse(IEnumerable<GoogleResponseStatus> responses, ContextType type)
+        private Task CreateResponse(IEnumerable<GoogleResponseStatus> responses)
         {
             foreach(var response in responses)
             {
                 SyncStatus.TotalRequests++;
-
-                if (!response.Succedded) continue;
+                if (!response.Success) continue;
                 
-                SyncStatus.SucceddedRequests++;
-                var articles = _mapper.Map<List<Article>>(response.Result.Items);
-                foreach (var article in articles)
-                {
-                    //article.SearchWord = response.SearchWord;
-                }
+                var newArticles = _mapper.Map<List<Article>>(response.Result.Items)
+                    .Take(4)
+                    .Select(i =>
+                    {
+                        i.SearchWordId = response.SearchWordId;
+                        return i;
+                    })
+                    .ToList();
                 
-                Articles.AddRange(articles);
+                Articles.AddRange(newArticles);
             }
 
             return Task.CompletedTask;
         }
-
-        private class GoogleResponseStatus
-        {
-            public GoogleSearchEngineResponseDto Result { get; set; }
-            public string SearchWord { get; set; }
-            public bool Succedded => Result != null;
-        }
+    }
+    
+    public class GoogleResponseStatus
+    {
+        public GoogleSearchEngineResponseDto Result { get; init; }
+        public string SearchWordId { get; init; }
+        public bool Success => Result != null;
     }
 }

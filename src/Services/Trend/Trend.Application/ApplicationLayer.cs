@@ -11,7 +11,6 @@ using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
 using Time.Abstract.Contracts;
 using Time.Common;
-using Trend.Application.Clients;
 using Trend.Application.Configurations.Initialization;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;

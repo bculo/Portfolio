@@ -8,7 +8,7 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces
 {
-    public interface ISearchWordRepository : IRepository<SearchWord>
+    public interface ISearchWordRepository : IMongoAuditableRepository<SearchWord>
     {
         Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token);
     }

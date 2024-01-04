@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Dtos.Common.Shared;
 using Dtos.Common.v1.Trend.Sync;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Domain.Entities;
 

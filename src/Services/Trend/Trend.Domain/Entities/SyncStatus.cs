@@ -8,6 +8,6 @@ namespace Trend.Domain.Entities
         public int TotalRequests { get; set; }
         public int SucceddedRequests { get; set; }
         public int BadRequests => TotalRequests - SucceddedRequests;
-        public List<SyncStatusWord> UsedSyncWords { get; } = new();
+        public List<SyncStatusWord> UsedSyncWords { get; set; } = new();
     }
 }

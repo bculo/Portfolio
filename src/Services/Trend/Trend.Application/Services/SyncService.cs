@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Services;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
@@ -52,42 +53,48 @@ namespace Trend.Application.Services
         
         public async Task ExecuteSync(CancellationToken token)
         {
-            var searchWords = await _syncSettingRepo.GetAll(token);
+            var searchWords = await _syncSettingRepo.GetActiveItems(token);
 
             if(searchWords.Count == 0)
             {
                 throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
             }
             
-            var syncRequest = searchWords
+            var engineRequest = searchWords
                 .GroupBy(i => i.Type)
-                .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
+                .ToDictionary(i => i.Key, y => y.Select(i => new SearchEngineWord
+                {
+                    SearchWord = i.Word,
+                    SearchWordId = i.Id
+                }).ToList());
             
             var oldActiveArticles = await _articleRepo.GetActiveItems(token);
 
-            var (syncs, articles) = await FireSearchEngines(syncRequest, token);
-            var isTotalFailure = syncs.All(x => x.SucceddedRequests == 0);
-            if (isTotalFailure)
-            {
-                await _publishEndpoint.Publish(new TotalSyncFailure() { }, token);
-            }
+            var (syncs, articles) = await FireSearchEngines(engineRequest, token);
+
+            await CheckForTotalFailure(syncs, token);
             
             await _session.StartTransaction();
 
-            if (!isTotalFailure)
-            {
-                await DeactivateOldArticles(oldActiveArticles, token);
-            }
-            
             await PersistSyncStatuses(syncs, token);
             await PersistNewArticles(articles, token);
+            await DeactivateOldArticles(oldActiveArticles, token);
             
             await _session.CommitTransaction();
             
             await InvalidateCache(token);
-            await _publishEndpoint.Publish(new NewNewsFetched { }, token);
+            await _publishEndpoint.Publish<NewNewsFetched>(new(), token);
         }
-        
+
+        private async Task CheckForTotalFailure(List<SyncStatus> syncs, CancellationToken token)
+        {
+            var isTotalFailure = syncs.All(x => x.SucceddedRequests == 0);
+            if (isTotalFailure)
+            {
+                await _publishEndpoint.Publish<TotalSyncFailure>(new(), token);
+            }
+        }
+
         private async Task PersistSyncStatuses(List<SyncStatus> syncs, CancellationToken token)
         {
             await _syncStatusRepo.Add(syncs, token);
@@ -100,11 +107,6 @@ namespace Trend.Application.Services
 
         private async Task DeactivateOldArticles(List<Article> oldActiveArticles, CancellationToken token)
         {
-            if (!oldActiveArticles.Any())
-            {
-                return;
-            }
-            
             var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
             await _articleRepo.DeactivateItems(oldActiveIds, token);
         }
@@ -115,7 +117,9 @@ namespace Trend.Application.Services
             await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
         }
         
-        private async Task<(List<SyncStatus> syncs, List<Article> articles)> FireSearchEngines(Dictionary<ContextType, List<string>> searchWords, CancellationToken token)
+        private async Task<(List<SyncStatus> syncIterations, List<Article> articles)> FireSearchEngines(
+            Dictionary<ContextType, List<SearchEngineWord>> searchWords, 
+            CancellationToken token)
         {
             List<SyncStatus> syncIterations = new();
             List<Article> articles = new();
@@ -123,12 +127,12 @@ namespace Trend.Application.Services
             {
                 try
                 {
-                    var (syncIteration, syncArticles) = await searchEngine.Sync(searchWords, token);
+                    var result = await searchEngine.Sync(searchWords, token);
                     
-                    syncIterations.Add(syncIteration);
-                    articles.AddRange(syncArticles);
+                    syncIterations.Add(result.SyncIteration);
+                    articles.AddRange(result.Articles);
 
-                    if (syncIteration.SucceddedRequests == 0)
+                    if (result.SyncIteration.SucceddedRequests == 0)
                     {
                         await RaiseFailureEvent(searchEngine.EngineName, token);   
                     }
@@ -174,8 +178,8 @@ namespace Trend.Application.Services
                 return new List<SyncStatusDto>();
             }
 
-            var dtos = _mapper.Map<List<SyncStatusDto>>(entities);
-            return dtos;
+            var instances = _mapper.Map<List<SyncStatusDto>>(entities);
+            return instances;
         }
 
         public async Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token)
