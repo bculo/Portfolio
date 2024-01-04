@@ -1,20 +1,14 @@
-﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.Sync;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trend.Domain.Entities;
+﻿using Dtos.Common;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.Application.Interfaces
 {
     public interface ISyncService
     { 
-        Task<List<SyncStatusDto>> GetSyncStatuses(CancellationToken token);
-        Task<SyncStatusDto> GetSync(string id, CancellationToken token);
+        Task<List<SyncStatusResDto>> GetSyncStatuses(CancellationToken token);
+        Task<SyncStatusResDto> GetSync(string id, CancellationToken token);
         Task ExecuteSync(CancellationToken token);
-        Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token);
-        Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token);
+        Task<List<SyncStatusWordResDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token);
+        Task<PageResponseDto<SyncStatusResDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token);
     }
 }

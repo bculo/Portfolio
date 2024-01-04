@@ -1,9 +1,9 @@
-﻿using Dtos.Common.v1.Trend.Article;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.API.Controllers.v1
 {
@@ -22,7 +22,7 @@ namespace Trend.API.Controllers.v1
         
         [HttpGet("GetLatestNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(List<ArticleTypeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLatestNews(CancellationToken token)
         {
@@ -40,7 +40,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpGet("GetLatestCryptoNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastCryptoNews(CancellationToken token)
         {
@@ -49,7 +49,7 @@ namespace Trend.API.Controllers.v1
         
         [HttpGet("GetLatestStockNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastStockNews(CancellationToken token)
         {
@@ -58,7 +58,7 @@ namespace Trend.API.Controllers.v1
         
         [HttpGet("GetLatestEtfNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEtfNews(CancellationToken token)
         {
@@ -67,7 +67,7 @@ namespace Trend.API.Controllers.v1
         
         [HttpGet("GetLatestEconomyNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(List<ArticleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLastEconomyNews(CancellationToken token)
         {

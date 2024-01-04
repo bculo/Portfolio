@@ -1,10 +1,10 @@
-﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.Sync;
+﻿using Dtos.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.API.Controllers.v1
 {
@@ -32,7 +32,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpGet("GetSync/{id}")]
         [OutputCache(PolicyName = "SyncPolicy")]
-        [ProducesResponseType(typeof(SyncStatusDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SyncStatusResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSync(string id, CancellationToken token)
         {
@@ -41,7 +41,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpGet("GetSyncStatuses")]
         [OutputCache(PolicyName = "SyncPolicy")]
-        [ProducesResponseType(typeof(List<SyncStatusDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<SyncStatusResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatuses(CancellationToken token)
         {
@@ -50,7 +50,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpPost("GetSyncStatusesPage")]
         [OutputCache(PolicyName = "SyncPostPolicy")]
-        [ProducesResponseType(typeof(PageResponseDto<SyncStatusDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PageResponseDto<SyncStatusResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatusesPage(PageRequestDto page, CancellationToken token)
@@ -60,7 +60,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpGet("GetSyncStatusWords/{id}")]
         [OutputCache(PolicyName = "SyncPolicy")]
-        [ProducesResponseType(typeof(List<SyncStatusWordDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<SyncStatusWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatusWords(string id, CancellationToken token)
         {

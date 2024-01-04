@@ -1,6 +1,6 @@
-using Dtos.Common.v1.Trend.Sync;
 using FluentAssertions;
 using Http.Common.Extensions;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.IntegrationTests.SyncController;
 
@@ -36,7 +36,7 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
         
         //Assert
         response.EnsureSuccessStatusCode();
-        var body = await response.HandleResponse<List<SyncStatusWordDto>>();
+        var body = await response.HandleResponse<List<SyncStatusWordResDto>>();
         body.Count.Should().Be(existingInstance.UsedSyncWords.Count);
     }
 }

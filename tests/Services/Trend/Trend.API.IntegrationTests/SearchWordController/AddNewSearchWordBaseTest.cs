@@ -1,7 +1,7 @@
-using Dtos.Common.v1.Trend.SearchWord;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Tests.Common.Utilities;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
@@ -20,7 +20,7 @@ public class AddNewSearchWordBaseTest : TrendControllerBaseTest
     public async Task AddNewSearchWord_ShouldReturnStatusOk_WhenValidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
-        var instance = new SearchWordCreateDto
+        var instance = new SearchWordCreateReqDto
         {
             SearchWord = word,
             ContextType = contextType,
@@ -44,7 +44,7 @@ public class AddNewSearchWordBaseTest : TrendControllerBaseTest
     public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenInvalidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
-        var instance = new SearchWordCreateDto
+        var instance = new SearchWordCreateReqDto
         {
             SearchWord = word,
             ContextType = contextType,
@@ -66,7 +66,7 @@ public class AddNewSearchWordBaseTest : TrendControllerBaseTest
     public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenWordWithSameEngineAlreadyExists(string word, int contextType, int searchEngine)
     {
         //Arrange
-        var instance = new SearchWordCreateDto
+        var instance = new SearchWordCreateReqDto
         {
             SearchWord = word,
             ContextType = contextType,

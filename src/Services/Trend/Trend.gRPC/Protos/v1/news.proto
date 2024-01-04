@@ -10,7 +10,6 @@ service News {
 	rpc GetAllNews(google.protobuf.Empty) returns (stream ArticleTypeItem);
 	rpc GetLatestNews(google.protobuf.Empty) returns (stream ArticleItem);
 	rpc GetLatestNewsForType(ArticleTypeRequest) returns (stream ArticleItem);
-	rpc GetLatestNewsPage(FetchLatestNewsPageRequest) returns (ArticleItemExtendedPageResponse);
 }
 
 enum ArticleTypeEnum {

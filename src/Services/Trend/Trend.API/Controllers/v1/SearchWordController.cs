@@ -1,10 +1,10 @@
-﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.SearchWord;
+﻿using Dtos.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.API.Controllers.v1
 {
@@ -23,7 +23,7 @@ namespace Trend.API.Controllers.v1
 
         [HttpGet("GetSearchWords")]
         [OutputCache(PolicyName = "SearchWordPolicy")]
-        [ProducesResponseType(typeof(List<SearchWordDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncSettingsWords(CancellationToken token)
         {
@@ -47,15 +47,15 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpPost("AddNewSearchWord")]
-        [ProducesResponseType(typeof(SearchWordDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordCreateDto request, CancellationToken token)
+        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordCreateReqDto request, CancellationToken token)
         {
             return Ok(await _service.AddNewSyncSetting(request, token));
         }
 
         [HttpDelete("RemoveSearchWord/{id}")]
-        [ProducesResponseType(typeof(SearchWordDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RemoveSearchWord(string id, CancellationToken token)
         {

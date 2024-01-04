@@ -1,19 +1,17 @@
-﻿using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
-using Dtos.Common.v1.Trend.Article;
+﻿using Dtos.Common;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces
 {
     public interface IArticleService
     {
-        Task<List<ArticleTypeDto>> GetLatestNewsByContextType(ContextType type, CancellationToken tcs);
-        Task<PageResponseDto<ArticleDto>> GetLatestNewsPage(FetchArticleTypePageDto page, CancellationToken tcs);
-        Task<List<ArticleTypeDto>> GetLatestNews(CancellationToken tcs);
+        Task<List<ArticleResDto>> GetLatestNewsByContextType(ContextType type, CancellationToken tcs);
+        Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(ArticleFetchPageReqDto page, CancellationToken tcs);
+        Task<List<ArticleResDto>> GetLatestNews(CancellationToken tcs);
         Task Deactivate(string articleId, CancellationToken tcs);
-        Task<PageResponseDto<ArticleTypeDto>> GetLatestNewsPage(FetchLatestNewsPageDto page, CancellationToken tcs);
-        IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable(CancellationToken tcs);
-        IAsyncEnumerable<ArticleTypeDto> GetLatestNewsEnumerable(CancellationToken tcs);
-        IAsyncEnumerable<ArticleDto> GetLatestNewsEnumerable(ContextType type, CancellationToken tcs);
+        IAsyncEnumerable<ArticleResDto> GetAllEnumerable(CancellationToken tcs);
+        IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(CancellationToken tcs);
+        IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, CancellationToken tcs);
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtos.Common.v1.Trend.SearchWord
+namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class SearchWordDto
+    public class SearchWordResDto
     {
         public string Id { get; set; }
         public DateTime Created { get; set; }

@@ -1,15 +1,15 @@
-﻿using Dtos.Common.v1.Trend.SearchWord;
-using FluentValidation;
+﻿using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Validators.Sync
 {
-    public class SyncSettingCreateDtoValidator : AbstractValidator<SearchWordCreateDto>
+    public class SyncSettingCreateDtoValidator : AbstractValidator<SearchWordCreateReqDto>
     {
         public SyncSettingCreateDtoValidator()
         {

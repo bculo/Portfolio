@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtos.Common.Shared
+namespace Dtos.Common
 {
     public class PageRequestDto
     {

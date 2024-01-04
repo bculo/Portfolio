@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.Sync;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Domain.Entities;
 
@@ -10,7 +9,7 @@ namespace Trend.Application.MappingProfiles.Sync
     {
         public SyncStatusProfile()
         {
-            CreateMap<SyncStatus, SyncStatusDto>()
+            CreateMap<SyncStatus, SyncStatusResDto>()
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Finished, opt => opt.MapFrom(src => src.Finished))
                 .ForMember(dst => dst.Started, opt => opt.MapFrom(src => src.Started))
@@ -18,14 +17,10 @@ namespace Trend.Application.MappingProfiles.Sync
                 .ForMember(dst => dst.SucceddedRequests, opt => opt.MapFrom(src => src.SucceddedRequests))
                 .ForMember(dst => dst.SearchWords, opt => opt.MapFrom(src => src.UsedSyncWords));
 
-            CreateMap<SyncStatusWord, SyncStatusWordDto>()
+            CreateMap<SyncStatusWord, SyncStatusWordResDto>()
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.Word))
                 .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => (int)src.Type));
-
-            CreateMap<GoogleSyncResult, SyncResultDto>()
-                .ForMember(dst => dst.Status, opt => opt.MapFrom(src => src.SyncStatus))
-                .ForMember(dst => dst.SearchResult, opt => opt.MapFrom(src => src.GetInstances()));
         }
     }
 }

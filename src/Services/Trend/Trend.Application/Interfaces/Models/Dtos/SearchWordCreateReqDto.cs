@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtos.Common.v1.Trend.SearchWord
+namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class SearchWordCreateDto
+    public class SearchWordCreateReqDto
     {
         public string SearchWord { get; set; }
         public int SearchEngine { get; set; }

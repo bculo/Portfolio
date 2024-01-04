@@ -1,7 +1,7 @@
 using System.Net;
-using Dtos.Common.v1.Trend.Sync;
 using FluentAssertions;
 using Http.Common.Extensions;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.IntegrationTests.SyncController;
 
@@ -36,7 +36,7 @@ public class GetSyncTests : TrendControllerBaseTest
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var body = await response.HandleResponse<SyncStatusDto>();
+        var body = await response.HandleResponse<SyncStatusResDto>();
         body.Id.Should().Be(existingInstance.Id);
     }
 }

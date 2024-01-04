@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtos.Common.v1.Trend.Sync
+namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class SyncStatusWordDto
+    public class SyncStatusWordResDto
     {
         public string ContextTypeName { get; set; }
         public int ContextTypeId { get; set; }

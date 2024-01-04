@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Dtos.Common.v1.Trend;
-using Dtos.Common.v1.Trend.Article;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.gRPC.Protos.v1;
 
 namespace Trend.gRPC.GrpcProfiles
@@ -9,17 +8,13 @@ namespace Trend.gRPC.GrpcProfiles
     {
         public NewsProfile()
         {
-            CreateMap<ArticleTypeDto, ArticleTypeItem>().ReverseMap();
-            CreateMap<ArticleTypeDto, ArticleItem>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleTypeItem>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleItem>().ReverseMap();
 
-            CreateMap<ArticleDto, ArticleItem>().ReverseMap();
-            CreateMap<ArticleDto, ArticleTypeItem>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleItem>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleTypeItem>().ReverseMap();
 
-            CreateMap<FetchLatestNewsPageRequest, FetchLatestNewsPageDto>()
-                .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Page.Take))
-                .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page.PageNum));
-
-            CreateMap<FetchArticleTypePageRequest, FetchArticleTypePageDto>()
+            CreateMap<FetchArticleTypePageRequest, ArticleFetchPageReqDto>()
                 .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Page.Take))
                 .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page.PageNum))
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => (int)src.Type));

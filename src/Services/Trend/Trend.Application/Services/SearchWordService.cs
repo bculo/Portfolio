@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.SearchWord;
+using Dtos.Common;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
@@ -29,7 +29,7 @@ namespace Trend.Application.Services
             _cacheStore = cacheStore;
         }
 
-        public async Task<SearchWordDto> AddNewSyncSetting(SearchWordCreateDto instance, CancellationToken token)
+        public async Task<SearchWordResDto> AddNewSyncSetting(SearchWordCreateReqDto instance, CancellationToken token)
         {
             var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine, token);
 
@@ -41,7 +41,7 @@ namespace Trend.Application.Services
             var entity = _mapper.Map<SearchWord>(instance);
             await _wordRepository.Add(entity, token);
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
-            var response = _mapper.Map<SearchWordDto>(entity);
+            var response = _mapper.Map<SearchWordResDto>(entity);
             return response;
         }
 
@@ -63,10 +63,10 @@ namespace Trend.Application.Services
             }).ToList());
         }
 
-        public async Task<List<SearchWordDto>> GetSyncSettingsWords(CancellationToken token)
+        public async Task<List<SearchWordResDto>> GetSyncSettingsWords(CancellationToken token)
         {
             var entities = await _wordRepository.GetAll(token);
-            var dtos = _mapper.Map<List<SearchWordDto>>(entities);
+            var dtos = _mapper.Map<List<SearchWordResDto>>(entities);
             return dtos;
         }
 

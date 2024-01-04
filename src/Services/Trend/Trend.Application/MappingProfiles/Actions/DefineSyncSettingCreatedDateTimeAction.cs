@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Dtos.Common.v1.Trend.SearchWord;
 using Time.Abstract.Contracts;
+using Trend.Application.Interfaces.Models.Dtos;
 
 namespace Trend.Application.MappingProfiles.Actions
 {
-    public class DefineSyncSettingCreatedDateTimeAction : IMappingAction<SearchWordCreateDto, Domain.Entities.SearchWord>
+    public class DefineSyncSettingCreatedDateTimeAction : IMappingAction<SearchWordCreateReqDto, Domain.Entities.SearchWord>
     {
         private readonly IDateTimeProvider _time;
 
@@ -13,7 +13,7 @@ namespace Trend.Application.MappingProfiles.Actions
             _time = time;
         }
 
-        public void Process(SearchWordCreateDto source, Domain.Entities.SearchWord destination, ResolutionContext context)
+        public void Process(SearchWordCreateReqDto source, Domain.Entities.SearchWord destination, ResolutionContext context)
         {
             destination.Created = _time.Now;
             destination.IsActive = true;

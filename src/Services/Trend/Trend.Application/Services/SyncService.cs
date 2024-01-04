@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend.Sync;
+using Dtos.Common;
 using Events.Common.Trend;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Services;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -156,7 +156,7 @@ namespace Trend.Application.Services
             }, token);
         }
 
-        public async Task<SyncStatusDto> GetSync(string id, CancellationToken token)
+        public async Task<SyncStatusResDto> GetSync(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -164,32 +164,32 @@ namespace Trend.Application.Services
             }
 
             var entity = await _syncStatusRepo.FindById(id, token);
-            if (entity is not null) return _mapper.Map<SyncStatusDto>(entity);
+            if (entity is not null) return _mapper.Map<SyncStatusResDto>(entity);
             _logger.LogInformation("Sync with provided ID {0} not found", id);
             throw new TrendNotFoundException($"Sync with {id} not found");
         }
 
-        public async Task<List<SyncStatusDto>> GetSyncStatuses(CancellationToken token)
+        public async Task<List<SyncStatusResDto>> GetSyncStatuses(CancellationToken token)
         {
             var entities = await _syncStatusRepo.GetAll(token);
 
             if(entities.Count == 0)
             {
-                return new List<SyncStatusDto>();
+                return new List<SyncStatusResDto>();
             }
 
-            var instances = _mapper.Map<List<SyncStatusDto>>(entities);
+            var instances = _mapper.Map<List<SyncStatusResDto>>(entities);
             return instances;
         }
 
-        public async Task<PageResponseDto<SyncStatusDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token)
+        public async Task<PageResponseDto<SyncStatusResDto>> GetSyncStatusesPage(PageRequestDto request, CancellationToken token)
         {
             var entitiesPage = await _syncStatusRepo.FilterBy(request.Page, request.Take, null, token);
-            var dtoPage = _mapper.Map<PageResponseDto<SyncStatusDto>>(entitiesPage);
+            var dtoPage = _mapper.Map<PageResponseDto<SyncStatusResDto>>(entitiesPage);
             return dtoPage;
         }
 
-        public async Task<List<SyncStatusWordDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token)
+        public async Task<List<SyncStatusWordResDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token)
         {
             var syncStatus = await _syncStatusRepo.FindById(syncStatusId, token);
             if(syncStatus is null)
@@ -200,10 +200,10 @@ namespace Trend.Application.Services
             var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId, token);
             if(syncWords.Count == 0)
             {
-                return new List<SyncStatusWordDto>();
+                return new List<SyncStatusWordResDto>();
             }
 
-            var response = _mapper.Map<List<SyncStatusWordDto>>(syncWords);
+            var response = _mapper.Map<List<SyncStatusWordResDto>>(syncWords);
             return response;
         }
     }

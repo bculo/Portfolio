@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Dtos.Common.v1.Trend;
-using Dtos.Common.v1.Trend.Article;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Application.MappingProfiles.Actions;
@@ -13,11 +12,7 @@ namespace Trend.Application.MappingProfiles.News
     {
         public ArticleProfile()
         {
-            CreateMap<GoogleSearchEngineResponseDto, ArticleGroupDto>()
-                .ForMember(dst => dst.Items, opt => opt.MapFrom(src => src.Items))
-                .ReverseMap();
-
-            CreateMap<GoogleSearchEngineItemDto, ArticleDto>()
+            CreateMap<GoogleSearchEngineItemDto, ArticleResDto>()
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Snippet))
                 .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.Link))
@@ -30,21 +25,16 @@ namespace Trend.Application.MappingProfiles.News
                 .ForMember(dst => dst.ArticleUrl, opt => opt.MapFrom(src => src.Link))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .AfterMap<DefineArticleCreatedDateTimeAction>();
-
-            CreateMap<Article, ArticleDto>()
-                .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
-                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
-                .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl));
-
-            CreateMap<Article, ArticleTypeDto>()
+            
+            CreateMap<Article, ArticleResDto>()
                 .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
                 .ForMember(dst => dst.Url, opt => opt.MapFrom(src => src.ArticleUrl))
+                .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<ArticleDetailResQuery, ArticleTypeDto>()
+            CreateMap<ArticleDetailResQuery, ArticleResDto>()
                 .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Text))
@@ -55,16 +45,11 @@ namespace Trend.Application.MappingProfiles.News
                 .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.ContextType))
                 .ForMember(dst => dst.SearchWordId, opt => opt.MapFrom(src => src.SearchWordId))
                 .ForMember(dst => dst.SearchWordImage, opt => opt.MapFrom(src => src.SearchWordImage));
-
-            CreateMap<FetchLatestNewsPageDto, PageReqQuery>()
-                .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
-                .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page));
-
-            CreateMap<FetchArticleTypePageDto, PageReqQuery<ContextType>>()
+            
+            CreateMap<ArticleFetchPageReqDto, PageReqQuery<ContextType>>()
                 .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
                 .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page))
                 .ForMember(dst => dst.Search, opt => opt.MapFrom(src => (ContextType)src.Type));
-
         }
     }
 }

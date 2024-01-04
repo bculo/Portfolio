@@ -1,9 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using AutoMapper;
-using Dtos.Common.Shared;
-using Dtos.Common.v1.Trend;
-using Dtos.Common.v1.Trend.Article;
+using Dtos.Common;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
 
@@ -20,17 +19,17 @@ namespace Trend.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleTypeDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
+        public async Task<List<ArticleResDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
         {
             var articles = await _articleRepo.GetActiveArticles(type, token);
-            var response = _mapper.Map<List<ArticleTypeDto>>(articles);
+            var response = _mapper.Map<List<ArticleResDto>>(articles);
             return response;
         }
 
-        public async Task<List<ArticleTypeDto>> GetLatestNews(CancellationToken token)
+        public async Task<List<ArticleResDto>> GetLatestNews(CancellationToken token)
         {
             var articles = await _articleRepo.GetActiveItems(token);
-            var response = _mapper.Map<List<ArticleTypeDto>>(articles);
+            var response = _mapper.Map<List<ArticleResDto>>(articles);
             return response;
         }
 
@@ -44,41 +43,35 @@ namespace Trend.Application.Services
             await _articleRepo.DeactivateItems(new List<string> { articleId }, tcs);
         }
 
-        public async IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
+        public async IAsyncEnumerable<ArticleResDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
         {
             await foreach(var entity in _articleRepo.GetAllEnumerable(token))
             {
-                yield return _mapper.Map<ArticleTypeDto>(entity);
+                yield return _mapper.Map<ArticleResDto>(entity);
             }
         }
 
-        public async IAsyncEnumerable<ArticleTypeDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token)
+        public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token)
         {
             await foreach(var entity in _articleRepo.GetActiveItemsEnumerable(token))
             {
-                yield return _mapper.Map<ArticleTypeDto>(entity);
+                yield return _mapper.Map<ArticleResDto>(entity);
             }
         }
 
-        public async IAsyncEnumerable<ArticleDto> GetLatestNewsEnumerable(ContextType type, [EnumeratorCancellation] CancellationToken token)
+        public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, [EnumeratorCancellation] CancellationToken token)
         {
             await foreach (var entity in _articleRepo.GetActiveArticlesEnumerable(type, token))
             {
-                yield return _mapper.Map<ArticleDto>(entity);
+                yield return _mapper.Map<ArticleResDto>(entity);
             }
         }
 
-        public async Task<PageResponseDto<ArticleDto>> GetLatestNewsPage(FetchArticleTypePageDto page, CancellationToken token)
+        public async Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(ArticleFetchPageReqDto page, CancellationToken token)
         {
             throw new NotImplementedException();
             //var repoPage = await _articleRepo.FilterBy(page.Page, page.Take, i => i.Type == (ContextType)page.Type, token);
             //return _mapper.Map<PageResponseDto<ArticleDto>>(repoPage);
-        }
-
-        public async Task<PageResponseDto<ArticleTypeDto>> GetLatestNewsPage(FetchLatestNewsPageDto page, CancellationToken token)
-        {
-            var repoPage = await _articleRepo.FilterBy(page.Page, page.Take, null, token);
-            return _mapper.Map<PageResponseDto<ArticleTypeDto>>(repoPage);
         }
     }
 }
