@@ -14,6 +14,7 @@ using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
+using Trend.Application.Utils;
 using WebProject.Common.CachePolicies;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
@@ -97,6 +98,8 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
+
+            BlobStorageSeedUtils.SeedBlobStorage(services);
         }
 
         private static void ConfigureLocalization(IServiceCollection services)

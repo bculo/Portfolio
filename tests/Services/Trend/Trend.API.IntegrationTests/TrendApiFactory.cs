@@ -4,19 +4,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 using System.Security.Claims;
-using Hangfire;
-using Hangfire.MemoryStorage;
+using Testcontainers.Azurite;
 using Testcontainers.MongoDb;
 using Testcontainers.RabbitMq;
 using Testcontainers.Redis;
 using Tests.Common.Interfaces;
 using Tests.Common.Services;
-using Trend.Application.Configurations.Options;
-using Trend.Application.Utils;
 using WireMock.Server;
 
 namespace Trend.IntegrationTests
@@ -35,6 +30,12 @@ namespace Trend.IntegrationTests
             .WithName($"Trend.API.Integration.Redis.{Guid.NewGuid()}")
             .Build();
 
+        private readonly AzuriteContainer _azuriteContainer = new AzuriteBuilder()
+            .WithImage("mcr.microsoft.com/azure-storage/azurite")
+            .WithExposedPort(10010)
+            .WithName($"Trend.API.Integration.Azurite.{Guid.NewGuid()}")
+            .Build();
+        
         private readonly RabbitMqContainer _mqContainer = new RabbitMqBuilder()
             .WithImage("masstransit/rabbitmq")
             .WithName($"Trend.API.Integration.RabbitMQ.{Guid.NewGuid()}")
@@ -65,6 +66,7 @@ namespace Trend.IntegrationTests
                 { "QueueOptions:Address", _mqContainer.GetConnectionString() },
                 { "RedisOptions:ConnectionString", _redisContainer.GetConnectionString() },
                 { "RedisOptions:InstanceName", TrendConstantsTest.REDIS_NAME },
+                { "BlobStorageOptions:ConnectionString", _azuriteContainer.GetConnectionString() }
             };
             
             var configuration = new ConfigurationBuilder()
@@ -82,13 +84,19 @@ namespace Trend.IntegrationTests
         
         public async Task InitializeAsync()
         {
-            await Task.WhenAll(_mongoDbContainer.StartAsync(), _redisContainer.StartAsync(), _mqContainer.StartAsync());
+            await Task.WhenAll(_mongoDbContainer.StartAsync(), 
+                _redisContainer.StartAsync(), 
+                _mqContainer.StartAsync(),
+                _azuriteContainer.StartAsync());
             Client = CreateClient();
         }
 
         public new async Task DisposeAsync()
         {
-            await Task.WhenAll(_mongoDbContainer.StopAsync(), _redisContainer.StopAsync(), _mqContainer.StopAsync());
+            await Task.WhenAll(_mongoDbContainer.StopAsync(), 
+                _redisContainer.StopAsync(), 
+                _mqContainer.StopAsync(),
+                _azuriteContainer.StopAsync());
             MockServer.Stop();
         }       
     }

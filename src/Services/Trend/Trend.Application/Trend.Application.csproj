@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Utility.Common\Http.Common.csproj" />
     <ProjectReference Include="..\Trend.Domain\Trend.Domain.csproj" />
+    <ProjectReference Include="..\Trend.Resources\Trend.Resources.csproj" />
   </ItemGroup>
 
   <ItemGroup>

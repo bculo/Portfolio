@@ -198,6 +198,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.API.Client", "src\Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Functions.Client", "src\Services\User\User.Functions.Client\User.Functions.Client.csproj", "{D1AD3662-D4FE-4494-A0CE-FF99908E6FB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trend.Resources", "src\Services\Trend\Trend.Resources\Trend.Resources.csproj", "{76425617-6F00-47A8-97F7-14C4A949FF04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -460,6 +462,10 @@ Global
 		{D1AD3662-D4FE-4494-A0CE-FF99908E6FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1AD3662-D4FE-4494-A0CE-FF99908E6FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1AD3662-D4FE-4494-A0CE-FF99908E6FB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76425617-6F00-47A8-97F7-14C4A949FF04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76425617-6F00-47A8-97F7-14C4A949FF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76425617-6F00-47A8-97F7-14C4A949FF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76425617-6F00-47A8-97F7-14C4A949FF04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -552,6 +558,7 @@ Global
 		{E486280C-00D2-4D85-8E76-F1CFF2BC1A97} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 		{FE8CFE87-9F5E-4C27-92F5-A1B106C14D23} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 		{D1AD3662-D4FE-4494-A0CE-FF99908E6FB7} = {0E52D23B-4F8E-4120-B7D2-94954BA22A0E}
+		{76425617-6F00-47A8-97F7-14C4A949FF04} = {A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

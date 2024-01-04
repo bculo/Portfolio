@@ -54,4 +54,10 @@ public class BlobStorage : IBlobStorage
         await blobClient.UploadAsync(blob, httpHeaders: httpHeaders);
         return blobClient.Uri;
     }
+
+    public Task<bool> Exists(string containerName, string blobIdentifier)
+    {
+        var blobClient = GetBlobClient(containerName, blobIdentifier);
+        return Task.FromResult(blobClient.Exists().Value);
+    }
 }
