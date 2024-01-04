@@ -10,6 +10,7 @@ namespace Trend.Application.Interfaces
         IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token);
         Task Add(ICollection<T> entities, CancellationToken token);
         Task Delete(string id, CancellationToken token);
+        Task Update(T updatedEntity, CancellationToken token);
         Task<T> FindById(string id, CancellationToken token);
         Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token);
         Task<PageResQuery<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default);

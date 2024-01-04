@@ -3,7 +3,9 @@ using Dtos.Common;
 using MassTransit.Topology;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Trend.Application.Configurations.Constants;
+using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Entities;
@@ -18,16 +20,25 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _wordRepository;
         private readonly IOutputCacheStore _cacheStore;
+        private readonly IImageService _imageService;
+        private readonly IBlobStorage _blobStorage;
+        private readonly BlobStorageOptions _storageOptions;
 
         public SearchWordService(ILogger<SearchWordService> logger,
             IMapper mapper,
             ISearchWordRepository wordRepository,
-            IOutputCacheStore cacheStore)
+            IOutputCacheStore cacheStore, 
+            IImageService imageService, 
+            IBlobStorage blobStorage,
+            IOptions<BlobStorageOptions> storageOptions)
         {
             _logger = logger;
             _mapper = mapper;
             _wordRepository = wordRepository;
             _cacheStore = cacheStore;
+            _imageService = imageService;
+            _blobStorage = blobStorage;
+            _storageOptions = storageOptions.Value;
         }
 
         public async Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token)
@@ -47,9 +58,27 @@ namespace Trend.Application.Services
             return _mapper.Map<SearchWordResDto>(entity);
         }
 
-        public Task AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token)
+        public async Task AttachImageToSearchWord(SearchWordAttachImageReqDto req, CancellationToken token)
         {
-            throw new NotImplementedException();
+            var instance = await _wordRepository.FindById(req.SearchWordId, token);
+            
+            if (instance is null || !instance.IsActive)
+            {
+                throw new TrendNotFoundException();
+            }
+            
+            await using var stream = await _imageService.ResizeImage(req.Content, 720, 480);
+            
+            var uri = await _blobStorage.UploadBlob(_storageOptions.TrendContainerName,
+                instance.Word, 
+                stream, 
+                req.ContentType);
+
+            instance.ImageUrl = uri.ToString();
+
+            await _wordRepository.Update(instance, token);
+            
+            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
         }
 
         public async Task ActivateSearchWord(string id, CancellationToken token)

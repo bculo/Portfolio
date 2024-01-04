@@ -45,7 +45,7 @@ namespace Trend.Application
                 var options = provider.GetRequiredService<IOptions<BlobStorageOptions>>();
                 var logger = provider.GetRequiredService<ILogger<BlobStorage>>();
                 var storage = new BlobStorage(new BlobServiceClient(options.Value.ConnectionString), options, logger);
-                storage.InitializeContext(options.Value.TrendContainerName);
+                storage.InitializeContext(options.Value.TrendContainerName, true);
                 return storage;
             });
             

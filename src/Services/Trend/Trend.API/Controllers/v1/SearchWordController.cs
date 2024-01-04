@@ -55,13 +55,15 @@ namespace Trend.API.Controllers.v1
             return Ok(await _service.AddNewSearchWord(request, token));
         }
         
-        [HttpPost("AttachImageToSearchWord")]
+        [HttpPost("AttachImageToSearchWord/{searchWordId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AttachImageToSearchWord([FromForm] FileUploadDto request, 
+            [FromRoute] string searchWordId,
             CancellationToken token)
         {
             var command = await request.File.ToDetailsDto<SearchWordAttachImageReqDto>();
+            command.SearchWordId = searchWordId;
             await _service.AttachImageToSearchWord(command, token);
             return NoContent();
         }

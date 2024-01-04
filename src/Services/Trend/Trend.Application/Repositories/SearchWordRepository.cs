@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Time.Abstract.Contracts;
@@ -21,7 +22,11 @@ namespace Trend.Application.Repositories
             : base(client, options, timeProvider)
         {
         }
+        
+                
 
+
+        
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
         {
             var instance = _collection

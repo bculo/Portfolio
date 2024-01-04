@@ -16,11 +16,15 @@ public class SearchWordAttachImageReqDtoValidator : AbstractValidator<SearchWord
     public SearchWordAttachImageReqDtoValidator()
     {
         RuleFor(i => i.Content).NotEmpty();
+        
         RuleFor(i => i.ContentType)
             .Must(IsAllowedType)
             .WithMessage("Content type must be 'jpeg' or 'png'")
             .NotEmpty();
+        
         RuleFor(i => i.Name).NotEmpty();
+
+        RuleFor(i => i.SearchWordId).NotEmpty();
     }
     
     private bool IsAllowedType(string contentType)

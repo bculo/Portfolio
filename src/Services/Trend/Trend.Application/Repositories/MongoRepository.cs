@@ -84,6 +84,14 @@ namespace Trend.Application.Repositories
         {
             return Task.FromResult(GetQueryable().ToList());
         }
+        
+        public virtual async Task Update(T updatedEntity, CancellationToken token)
+        {
+            await _collection.ReplaceOneAsync(x => x.Id == updatedEntity.Id, 
+                updatedEntity, 
+                new ReplaceOptions(),
+                token);
+        }
 
         public virtual async Task<long> Count(CancellationToken token)
         {
