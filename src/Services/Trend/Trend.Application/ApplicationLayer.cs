@@ -5,10 +5,13 @@ using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using Serilog;
 using System.Diagnostics;
+using Azure.Storage.Blobs;
 using Hangfire;
 using Hangfire.Mongo;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using Time.Common;
 using Trend.Application.Configurations.Initialization;
@@ -34,6 +37,19 @@ namespace Trend.Application
 
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+            
+            services.AddScoped<IImageService, MagickImageService>();
+            
+            services.AddSingleton<IBlobStorage, BlobStorage>((provider) =>
+            {
+                var options = provider.GetRequiredService<IOptions<BlobStorageOptions>>();
+                var logger = provider.GetRequiredService<ILogger<BlobStorage>>();
+                var storage = new BlobStorage(new BlobServiceClient(options.Value.ConnectionString), options, logger);
+                storage.InitializeContext(options.Value.TrendContainerName);
+                return storage;
+            });
+            
+            services.Configure<BlobStorageOptions>(configuration.GetSection("BlobStorageOptions"));
         }
 
         public static void AddPersistence(IConfiguration configuration, IServiceCollection services)
