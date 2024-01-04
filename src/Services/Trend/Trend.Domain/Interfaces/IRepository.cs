@@ -4,12 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Trend.Domain.Entities;
 using Trend.Domain.Queries.Requests.Common;
 using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Domain.Interfaces
 {
-    public interface IRepository<T> where T : IDocumentRoot
+    public interface IRepository<T> where T : RootDocument
     {
         Task Add(T entity, CancellationToken token);
         IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token);

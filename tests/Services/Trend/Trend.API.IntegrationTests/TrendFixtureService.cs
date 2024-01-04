@@ -24,7 +24,7 @@ public class TrendFixtureService
         _client = _provider.GetRequiredService<IMongoClient>();
     }
 
-    private T GenerateWithMongoId<T>() where T : IDocumentRoot
+    private T GenerateWithMongoId<T>() where T : RootDocument
     {
         return _fixture.Build<T>()
                     .With(x => x.Id, TrendMongoUtils.GenerateId())
@@ -68,6 +68,8 @@ public class TrendFixtureService
     {
         var syncStatus = _fixture.Build<SyncStatus>()
             .With(x => x.Id, ObjectId.GenerateNewId().ToString())
+            .With(x => x.Created, DateTime.Now.AddHours(-2))
+            .With(x => x.Finished, DateTime.Now.AddHours(-2))
             .Create();
         var collection = _client.GetDatabase(TrendConstantsTest.DB_NAME).GetCollection<SyncStatus>(TrendMongoUtils.GetCollectionName(nameof(SyncStatus)));
         await collection.InsertOneAsync(syncStatus, new InsertOneOptions{}, default);

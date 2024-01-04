@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Domain.Entities;
 using Trend.Domain.Interfaces;
@@ -8,10 +9,11 @@ namespace Trend.Application.Repositories
 {
     public class SyncStatusRepository : MongoRepository<SyncStatus>, ISyncStatusRepository
     {
-        public SyncStatusRepository(IMongoClient client, IOptions<MongoOptions> options)
-            : base(client, options)
+        public SyncStatusRepository(IMongoClient client, 
+            IOptions<MongoOptions> options, 
+            IDateTimeProvider timeProvider)
+            : base(client, options, timeProvider)
         {
-                
         }
 
         public Task<SyncStatus> GetLastValidSync(CancellationToken token)

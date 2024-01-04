@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
+using MongoDB.Driver.Linq;
 using Trend.Application.Configurations.Options;
 
 namespace Trend.Application.Utils
@@ -24,6 +25,7 @@ namespace Trend.Application.Utils
         private static MongoClient GetMongoClientWithoutInterceptor(MongoOptions options)
         {
             var clientSettings = MongoClientSettings.FromConnectionString(options.ConnectionString);
+            clientSettings.LinqProvider = LinqProvider.V3;
             clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
             return new MongoClient(clientSettings);
         }

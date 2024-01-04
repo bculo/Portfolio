@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Trend.Domain.Exceptions;
 
-namespace Trend.Application.Utils.Validation
+namespace Trend.Application.Utils
 {
     public static class ValidationUtils
     {

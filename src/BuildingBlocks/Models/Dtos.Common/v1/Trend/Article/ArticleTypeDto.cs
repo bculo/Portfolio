@@ -15,5 +15,6 @@ namespace Dtos.Common.v1.Trend.Article
         public string PageSource { get; set; }
         public string TypeName { get; set; }
         public int TypeId { get; set; }
+        public string SearchWord { get; set; }
     }
 }

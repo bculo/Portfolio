@@ -2,20 +2,24 @@
 using MongoDB.Driver;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Utils;
+using Trend.Domain.Entities;
 using Trend.Domain.Interfaces;
 using Trend.Domain.Queries.Responses.Common;
 
 namespace Trend.Application.Repositories
 {
-    public class MongoRepository<T> : IRepository<T> where T : IDocumentRoot
+    public class MongoRepository<T> : IRepository<T> where T : RootDocument
     {
         protected readonly MongoOptions _options;
         protected IMongoCollection<T> _collection;
+        protected IDateTimeProvider _timeProvider;
 
-        public MongoRepository(IMongoClient client, IOptions<MongoOptions> options)
+        public MongoRepository(IMongoClient client, IOptions<MongoOptions> options, IDateTimeProvider timeProvider)
         {
+            _timeProvider = timeProvider;
             _options = options.Value;
             var database = client.GetDatabase(_options.DatabaseName);
             _collection = database.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
@@ -28,11 +32,18 @@ namespace Trend.Application.Repositories
 
         public virtual async Task Add(T entity, CancellationToken token)
         {
+            entity.Created = _timeProvider.Now;
             await _collection.InsertOneAsync(entity, new InsertOneOptions(), token);
         }
 
         public virtual async Task Add(ICollection<T> entities, CancellationToken token)
         {
+            var date = _timeProvider.Now;
+            foreach (var entity in entities)
+            {
+                entity.Created = date;
+            }
+            
             await _collection.InsertManyAsync(entities, new InsertManyOptions(), token);
         }
 

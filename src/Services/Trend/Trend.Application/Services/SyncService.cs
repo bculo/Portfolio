@@ -64,7 +64,7 @@ namespace Trend.Application.Services
                 .GroupBy(i => i.Type)
                 .ToDictionary(i => i.Key, y => y.Select(i => i.Word).ToList());
             
-            var oldActiveArticles = await _articleRepo.GetActiveArticles(token);
+            var oldActiveArticles = await _articleRepo.GetActiveItems(token);
 
             var (syncs, articles) = await FireSearchEngines(syncRequest, token);
             var isTotalFailure = syncs.All(x => x.SucceddedRequests == 0);
@@ -107,7 +107,7 @@ namespace Trend.Application.Services
             }
             
             var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
-            await _articleRepo.DeactivateArticles(oldActiveIds, token);
+            await _articleRepo.DeactivateItems(oldActiveIds, token);
         }
 
         private async Task InvalidateCache(CancellationToken token)

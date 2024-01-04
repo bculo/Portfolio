@@ -6,7 +6,7 @@ using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OutputCaching;
 using Trend.Application.Interfaces;
-using Trend.Application.Utils.Validation;
+using Trend.Application.Utils;
 using Trend.Application.Validators.News;
 using Trend.Domain.Enums;
 using Trend.gRPC.Protos;

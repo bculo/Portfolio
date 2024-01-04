@@ -24,15 +24,15 @@ namespace Trend.Application.Services
         public async Task<List<ArticleDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
         {
             var articles = await _articleRepo.GetActiveArticles(type, token);
-            var dtos = _mapper.Map<List<ArticleDto>>(articles);
-            return dtos;
+            var response = _mapper.Map<List<ArticleDto>>(articles);
+            return response;
         }
 
         public async Task<List<ArticleTypeDto>> GetLatestNews(CancellationToken token)
         {
-            var articles = await _articleRepo.GetActiveArticles(token);
-            var dtos = _mapper.Map<List<ArticleTypeDto>>(articles);
-            return dtos;
+            var articles = await _articleRepo.GetActiveItems(token);
+            var response = _mapper.Map<List<ArticleTypeDto>>(articles);
+            return response;
         }
 
         public async Task Deactivate(string articleId, CancellationToken tcs)
@@ -42,7 +42,7 @@ namespace Trend.Application.Services
             {
                 throw new TrendNotFoundException("Article not found");
             }
-            await _articleRepo.DeactivateArticles(new List<string> { articleId }, tcs);
+            await _articleRepo.DeactivateItems(new List<string> { articleId }, tcs);
         }
 
         public async IAsyncEnumerable<ArticleTypeDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
@@ -55,7 +55,7 @@ namespace Trend.Application.Services
 
         public async IAsyncEnumerable<ArticleTypeDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token)
         {
-            await foreach(var entity in _articleRepo.GetActiveArticlesEnumerable(token))
+            await foreach(var entity in _articleRepo.GetActiveItemsEnumerable(token))
             {
                 yield return _mapper.Map<ArticleTypeDto>(entity);
             }
