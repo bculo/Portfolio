@@ -21,6 +21,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     public Task<List<TEntity>> GetActiveItems(CancellationToken token)
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
+        
         var result = _collection.Find(i => i.IsActive)
             .Sort(sortFilter)
             .ToList();

@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
@@ -22,17 +21,19 @@ namespace Trend.Application.Repositories
         {
             
         }
-        
-        public async Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, CancellationToken token)
+
+        private IAggregateFluent<ArticleDetailResQuery> BuildAggregateBasedOnContext(ContextType type)
         {
             var wordCollection = GetCollection<SearchWord>();
-            var result = await _collection.Aggregate()
+            
+            var aggregate = _collection.Aggregate()
                 .Match(x => x.IsActive == true)
                 .Lookup<Article, SearchWord, ArticleSearchWordLookup>(wordCollection,
                     x => x.SearchWordId,
                     y => y.Id,
                     y => y.SearchWords)
                 .Unwind<ArticleSearchWordLookup, ArticleSearchWordUnwind>(x => x.SearchWords)
+                .Match(x => x.SearchWords.Type == type)
                 .Project(x => new ArticleDetailResQuery
                 {
                     Id = x.Id,
@@ -46,20 +47,20 @@ namespace Trend.Application.Repositories
                     Title = x.Title,
                     SearchWordImage = x.SearchWords.ImageUrl,
                     ArticleUrl = x.ArticleUrl
-                })
-                .ToListAsync(token);
-
-            return result;
+                });
+            
+            return aggregate;
+        }
+        
+        public async Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, CancellationToken token)
+        {
+            return await BuildAggregateBasedOnContext(type).ToListAsync(token);
         }
 
-        public async IAsyncEnumerable<Article> GetActiveArticlesEnumerable(ContextType type, 
+        public async IAsyncEnumerable<ArticleDetailResQuery> GetActiveArticlesEnumerable(ContextType type, 
             [EnumeratorCancellation] CancellationToken token)
         {
-            yield return null;
-            /*
-            using var cursor = await _collection.Find(i => i.IsActive && i.Type == type)
-                .SortByDescending(i => i.Created)
-                .ToCursorAsync(token);
+            using var cursor = await BuildAggregateBasedOnContext(type).ToCursorAsync(token);
             
             while (await cursor.MoveNextAsync(token))
             {
@@ -68,7 +69,6 @@ namespace Trend.Application.Repositories
                     yield return item;
                 }
             }
-            */
         }
     }
 }
