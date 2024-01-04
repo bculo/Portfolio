@@ -57,7 +57,7 @@ namespace Trend.API.Controllers.v1
         [HttpPost("AttachImageToSearchWord")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AttachImageToSearchWord([FromBody] SearchWordAttachImageReqDto request, 
+        public async Task<IActionResult> AttachImageToSearchWord([FromForm] SearchWordAttachImageReqDto request, 
             CancellationToken token)
         {
             await _service.AttachImageToSearchWord(request, token);

@@ -25,6 +25,8 @@
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
 	<PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2" />
 	<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.1.2" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
+    <PackageReference Include="Magick.NET-Q16-arm64" Version="13.5.0" />
   </ItemGroup>
 
   <ItemGroup>
