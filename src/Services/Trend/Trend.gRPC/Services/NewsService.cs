@@ -15,12 +15,12 @@ namespace Trend.gRPC.Services
     [Authorize]
     public class NewsService : News.NewsBase
     {
-        private readonly IArticleService _service;
+        private readonly IArticleServiceEnumerable _service;
         private readonly ILogger<NewsService> _logger;
         private readonly IMapper _mapper;
 
         public NewsService(
-            IArticleService service, 
+            IArticleServiceEnumerable service, 
             IMapper mapper,
             ILogger<NewsService> logger)
         {

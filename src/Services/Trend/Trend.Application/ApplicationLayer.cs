@@ -27,6 +27,7 @@ namespace Trend.Application
         {
             services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
             services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<IArticleServiceEnumerable, ArticleServiceEnumerable>();
             services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<ISearchWordService, SearchWordService>();
             services.AddScoped(typeof(ILanguageService<>), typeof(LanguageService<>));

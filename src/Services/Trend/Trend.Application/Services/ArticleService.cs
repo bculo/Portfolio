@@ -10,8 +10,8 @@ namespace Trend.Application.Services
 {
     public class ArticleService : IArticleService
     {
-        private readonly IArticleRepository _articleRepo;
-        private readonly IMapper _mapper;
+        protected readonly IArticleRepository _articleRepo;
+        protected readonly IMapper _mapper;
 
         public ArticleService(IArticleRepository articleRepo, IMapper mapper)
         {
@@ -42,31 +42,7 @@ namespace Trend.Application.Services
             }
             await _articleRepo.DeactivateItems(new List<string> { articleId }, tcs);
         }
-
-        public async IAsyncEnumerable<ArticleResDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
-        {
-            await foreach(var entity in _articleRepo.GetAllEnumerable(token))
-            {
-                yield return _mapper.Map<ArticleResDto>(entity);
-            }
-        }
-
-        public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token)
-        {
-            await foreach(var entity in _articleRepo.GetActiveItemsEnumerable(token))
-            {
-                yield return _mapper.Map<ArticleResDto>(entity);
-            }
-        }
-
-        public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, [EnumeratorCancellation] CancellationToken token)
-        {
-            await foreach (var entity in _articleRepo.GetActiveArticlesEnumerable(type, token))
-            {
-                yield return _mapper.Map<ArticleResDto>(entity);
-            }
-        }
-
+        
         public async Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(ArticleFetchPageReqDto page, CancellationToken token)
         {
             throw new NotImplementedException();

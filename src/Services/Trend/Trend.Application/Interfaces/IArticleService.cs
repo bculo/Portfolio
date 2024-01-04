@@ -10,8 +10,5 @@ namespace Trend.Application.Interfaces
         Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(ArticleFetchPageReqDto page, CancellationToken tcs);
         Task<List<ArticleResDto>> GetLatestNews(CancellationToken tcs);
         Task Deactivate(string articleId, CancellationToken tcs);
-        IAsyncEnumerable<ArticleResDto> GetAllEnumerable(CancellationToken tcs);
-        IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(CancellationToken tcs);
-        IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, CancellationToken tcs);
     }
 }
