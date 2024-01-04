@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class SearchWordResDto
+    public record SearchWordResDto
     {
-        public string Id { get; set; }
-        public DateTime Created { get; set; }
-        public string SearchWord { get; set; }
-        public string SearchEngineName { get; set; }
-        public int SearchEngineId { get; set; }
-        public string ContextTypeName { get; set; }
+        public string Id { get; init; }
+        public DateTime Created { get; init; }
+        public string SearchWord { get; init; }
+        public string SearchEngineName { get; init; }
+        public int SearchEngineId { get; init; }
+        public string ContextTypeName { get; init; }
     }
 }

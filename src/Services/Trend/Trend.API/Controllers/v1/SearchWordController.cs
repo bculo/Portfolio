@@ -27,7 +27,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncSettingsWords(CancellationToken token)
         {
-            return Ok(await _service.GetSyncSettingsWords(token));
+            return Ok(await _service.GetSearchWords(token));
         }
 
         [HttpGet("GetAvailableSearchEngines")]
@@ -49,17 +49,36 @@ namespace Trend.API.Controllers.v1
         [HttpPost("AddNewSearchWord")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordCreateReqDto request, CancellationToken token)
+        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordAddReqDto request, CancellationToken token)
         {
-            return Ok(await _service.AddNewSyncSetting(request, token));
+            return Ok(await _service.AddNewSearchWord(request, token));
+        }
+        
+        [HttpPost("AttachImageToSearchWord")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AttachImageToSearchWord([FromBody] SearchWordAttachImageReqDto request, 
+            CancellationToken token)
+        {
+            await _service.AttachImageToSearchWord(request, token);
+            return NoContent();
         }
 
-        [HttpDelete("RemoveSearchWord/{id}")]
-        [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
+        [HttpDelete("Deactivate/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RemoveSearchWord(string id, CancellationToken token)
+        public async Task<IActionResult> Deactivate(string id, CancellationToken token)
         {
-            await _service.RemoveSyncSetting(id, token);
+            await _service.DeactivateSearchWord(id, token);
+            return NoContent();
+        }
+        
+        [HttpGet("Activate/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Activate(string id, CancellationToken token)
+        {
+            await _service.ActivateSearchWord(id, token);
             return NoContent();
         }
     }

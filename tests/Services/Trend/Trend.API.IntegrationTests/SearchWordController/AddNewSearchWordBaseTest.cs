@@ -20,7 +20,7 @@ public class AddNewSearchWordBaseTest : TrendControllerBaseTest
     public async Task AddNewSearchWord_ShouldReturnStatusOk_WhenValidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
-        var instance = new SearchWordCreateReqDto
+        var instance = new SearchWordAddReqDto
         {
             SearchWord = word,
             ContextType = contextType,
@@ -44,7 +44,7 @@ public class AddNewSearchWordBaseTest : TrendControllerBaseTest
     public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenInvalidRequestObjectSent(string word, int contextType, int searchEngine)
     {
         //Arrange
-        var instance = new SearchWordCreateReqDto
+        var instance = new SearchWordAddReqDto
         {
             SearchWord = word,
             ContextType = contextType,
@@ -66,7 +66,7 @@ public class AddNewSearchWordBaseTest : TrendControllerBaseTest
     public async Task AddNewSearchWord_ShouldReturnStatusBadRequest_WhenWordWithSameEngineAlreadyExists(string word, int contextType, int searchEngine)
     {
         //Arrange
-        var instance = new SearchWordCreateReqDto
+        var instance = new SearchWordAddReqDto
         {
             SearchWord = word,
             ContextType = contextType,

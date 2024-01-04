@@ -9,7 +9,7 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Validators.Sync
 {
-    public class SyncSettingCreateDtoValidator : AbstractValidator<SearchWordCreateReqDto>
+    public class SyncSettingCreateDtoValidator : AbstractValidator<SearchWordAddReqDto>
     {
         public SyncSettingCreateDtoValidator()
         {

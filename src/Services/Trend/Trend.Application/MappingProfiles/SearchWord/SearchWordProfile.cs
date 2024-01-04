@@ -10,7 +10,7 @@ namespace Trend.Application.MappingProfiles.SearchWord
     {
         public SearchWordProfile()
         {
-            CreateMap<SearchWordCreateReqDto, Domain.Entities.SearchWord>()
+            CreateMap<SearchWordAddReqDto, Domain.Entities.SearchWord>()
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.SearchWord))
                 .ForMember(dst => dst.Engine, opt => opt.MapFrom(src => (SearchEngine)src.SearchEngine))
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => (SearchEngine)src.ContextType))

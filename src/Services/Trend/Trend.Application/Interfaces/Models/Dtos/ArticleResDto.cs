@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class ArticleResDto
+    public record ArticleResDto
     {
-        public string Id { get; set; }
-        public DateTime Created { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public string Url { get; set; }
-        public string PageSource { get; set; }
-        public string TypeName { get; set; }
-        public int TypeId { get; set; }
-        public string SearchWordId { get; set; }
-        public string SearchWord { get; set; }
-        public string SearchWordImage { get; set; }
+        public string Id { get; init; }
+        public DateTime Created { get; init; }
+        public string Title { get; init; }
+        public string Text { get; init; }
+        public string Url { get; init; }
+        public string PageSource { get; init; }
+        public string TypeName { get; init; }
+        public int TypeId { get; init; }
+        public string SearchWordId { get; init; }
+        public string SearchWord { get; init; }
+        public string SearchWordImage { get; init; }
     }
 }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class SyncStatusWordResDto
+    public record SyncStatusWordResDto
     {
-        public string ContextTypeName { get; set; }
-        public int ContextTypeId { get; set; }
-        public string Word { get; set; }
+        public string ContextTypeName { get; init; }
+        public int ContextTypeId { get; init; }
+        public string Word { get; init; }
     }
 }

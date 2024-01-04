@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Dtos.Common;
+using MassTransit.Topology;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Trend.Application.Configurations.Constants;
@@ -29,7 +30,7 @@ namespace Trend.Application.Services
             _cacheStore = cacheStore;
         }
 
-        public async Task<SearchWordResDto> AddNewSyncSetting(SearchWordCreateReqDto instance, CancellationToken token)
+        public async Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token)
         {
             var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine, token);
 
@@ -40,9 +41,35 @@ namespace Trend.Application.Services
 
             var entity = _mapper.Map<SearchWord>(instance);
             await _wordRepository.Add(entity, token);
+            
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
-            var response = _mapper.Map<SearchWordResDto>(entity);
-            return response;
+            
+            return _mapper.Map<SearchWordResDto>(entity);
+        }
+
+        public Task AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ActivateSearchWord(string id, CancellationToken token)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                _logger.LogInformation("ID {0} is null or empty", id);
+                throw new TrendAppCoreException("Given id is invalid");
+            }
+
+            var entity = await _wordRepository.FindById(id, token);
+
+            if (entity is null || entity.IsActive)
+            {
+                _logger.LogInformation("Item with given id {0} not found", id);
+                throw new TrendNotFoundException();
+            }
+
+            await _wordRepository.ActivateItems(new List<string> { entity.Id }, token);
+            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
         }
 
         public Task<List<KeyValueElementDto>> GetAvailableContextTypes(CancellationToken token)
@@ -56,21 +83,21 @@ namespace Trend.Application.Services
 
         public Task<List<KeyValueElementDto>> GetAvailableSearchEngines(CancellationToken token)
         {
-            return Task.FromResult(Enum.GetValues<Domain.Enums.SearchEngine>().Select(i => new KeyValueElementDto
+            return Task.FromResult(Enum.GetValues<SearchEngine>().Select(i => new KeyValueElementDto
             {
                 Key = (int)i,
                 Value = i.ToString()
             }).ToList());
         }
 
-        public async Task<List<SearchWordResDto>> GetSyncSettingsWords(CancellationToken token)
+        public async Task<List<SearchWordResDto>> GetSearchWords(CancellationToken token)
         {
-            var entities = await _wordRepository.GetAll(token);
-            var dtos = _mapper.Map<List<SearchWordResDto>>(entities);
-            return dtos;
+            var entities = await _wordRepository.GetActiveItems(token);
+            var instances = _mapper.Map<List<SearchWordResDto>>(entities);
+            return instances;
         }
 
-        public async Task RemoveSyncSetting(string id, CancellationToken token)
+        public async Task DeactivateSearchWord(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -80,13 +107,13 @@ namespace Trend.Application.Services
 
             var entity = await _wordRepository.FindById(id, token);
 
-            if (entity is null)
+            if (entity is null || !entity.IsActive)
             {
                 _logger.LogInformation("Item with given id {0} not found", id);
                 throw new TrendNotFoundException();
             }
 
-            await _wordRepository.Delete(entity.Id, token);
+            await _wordRepository.DeactivateItems(new List<string> { entity.Id }, token);
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
         }
     }

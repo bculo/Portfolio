@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dtos.Common
 {
-    public class PageRequestDto
+    public record PageRequestDto
     {
-        public int Page { get; set; }
-        public int Take { get; set; }
+        public int Page { get; init; }
+        public int Take { get; init; }
     }
 }

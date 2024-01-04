@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Interfaces.Models.Dtos
 {
-    public class SyncStatusResDto
+    public record SyncStatusResDto
     {
-        public string Id { get; set; }
-        public DateTime Started { get; set; }
-        public DateTime Finished { get; set; }
-        public int TotalRequests { get; set; }
-        public int SucceddedRequests { get; set; }
-        public List<SyncStatusWordResDto> SearchWords { get; set; }
+        public string Id { get; init; }
+        public DateTime Started { get; init; }
+        public DateTime Finished { get; init; }
+        public int TotalRequests { get; init; }
+        public int SucceddedRequests { get; init; }
+        public List<SyncStatusWordResDto> SearchWords { get; init; }
     }
 }
