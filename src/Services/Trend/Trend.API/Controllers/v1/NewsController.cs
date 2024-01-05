@@ -37,6 +37,15 @@ namespace Trend.API.Controllers.v1
             await _service.Deactivate(articleId, token);
             return NoContent();
         }
+        
+        [HttpGet("Activate/{articleId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Activate(string articleId, CancellationToken token)
+        {
+            await _service.Deactivate(articleId, token);
+            return NoContent();
+        }
 
         [HttpGet("GetLatestCryptoNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
@@ -56,22 +65,13 @@ namespace Trend.API.Controllers.v1
             return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Stock, token));
         }
         
-        [HttpGet("GetLatestEtfNews")]
+        [HttpGet("GetLatestForexNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLastEtfNews(CancellationToken token)
+        public async Task<IActionResult> GetLatestForexNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Etf, token));
-        }
-        
-        [HttpGet("GetLatestEconomyNews")]
-        [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLastEconomyNews(CancellationToken token)
-        {
-            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Economy, token));
+            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Forex, token));
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Trend.Application.Interfaces
         Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(ArticleFetchPageReqDto page, CancellationToken tcs);
         Task<List<ArticleResDto>> GetLatestNews(CancellationToken tcs);
         Task Deactivate(string articleId, CancellationToken tcs);
+        Task Activate(string articleId, CancellationToken tcs);
     }
 }

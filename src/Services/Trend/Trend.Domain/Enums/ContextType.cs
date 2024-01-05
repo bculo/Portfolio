@@ -10,7 +10,8 @@ namespace Trend.Domain.Enums
     {
         Crypto = 0,
         Stock = 1,
-        Etf = 2,
-        Economy = 3
+        Forex = 2,
+        
+        None = -1,
     }
 }

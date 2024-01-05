@@ -10,13 +10,10 @@
       <None Update="BlobDefaultImages\Crypto.jpeg">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="BlobDefaultImages\Economy.jpg">
+      <None Update="BlobDefaultImages\Forex.jpeg">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="BlobDefaultImages\Etf.jpg">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="BlobDefaultImages\Stock.jpg">
+      <None Update="BlobDefaultImages\Stock.jpeg">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

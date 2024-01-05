@@ -5,12 +5,11 @@ public static class ResourceBlobMap
     private static readonly Dictionary<string, string> ImageMap = new()
     {
         { "Crypto", "Crypto.jpeg" },
-        { "Etf", "Etf.jpg" },
-        { "Stock", "Stock.jpg" },
-        { "Economy", "Economy.jpg" },
+        { "Forex", "Forex.jpeg" },
+        { "Stock", "Stock.jpeg" },
     };
 
-    public static DefaultBlobInfo GetImagePath(string keyword)
+    public static DefaultBlobInfo GetImageInfo(string keyword)
     {
         if (!ImageMap.ContainsKey(keyword))
         {
@@ -19,8 +18,7 @@ public static class ResourceBlobMap
 
         var baseDir = AppDomain.CurrentDomain.BaseDirectory;
         var fullPath = Path.Combine(baseDir, "BlobDefaultImages", ImageMap[keyword]);
-        var contentType = ImageMap[keyword].EndsWith(".jpeg") ? "image/jpeg" : "image/jpg";
-        return new DefaultBlobInfo(fullPath, keyword, contentType);
+        return new DefaultBlobInfo(fullPath, keyword, "image/jpeg");
     }
 
     public static bool IsAllowedName(string blobName)

@@ -19,10 +19,9 @@ public static class BlobStorageSeedUtils
 
         List<DefaultBlobInfo> defaultBlobs = new()
         {
-            ResourceBlobMap.GetImagePath(ContextType.Crypto.ToString()),
-            ResourceBlobMap.GetImagePath(ContextType.Stock.ToString()),
-            ResourceBlobMap.GetImagePath(ContextType.Etf.ToString()),
-            ResourceBlobMap.GetImagePath(ContextType.Economy.ToString()),
+            ResourceBlobMap.GetImageInfo(ContextType.Crypto.ToString()),
+            ResourceBlobMap.GetImageInfo(ContextType.Stock.ToString()),
+            ResourceBlobMap.GetImageInfo(ContextType.Forex.ToString()),
         };
 
         foreach (var defaultBlob in defaultBlobs)

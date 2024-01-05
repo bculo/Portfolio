@@ -40,9 +40,21 @@ namespace Trend.Application.Services
             {
                 throw new TrendNotFoundException("Article not found");
             }
+            
             await _articleRepo.DeactivateItems(new List<string> { articleId }, tcs);
         }
-        
+
+        public async Task Activate(string articleId, CancellationToken tcs)
+        {
+            var article = await _articleRepo.FindById(articleId, tcs);
+            if (article is null)
+            {
+                throw new TrendNotFoundException("Article not found");
+            }
+            
+            await _articleRepo.ActivateItems(new List<string> { articleId }, tcs);
+        }
+
         public async Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(ArticleFetchPageReqDto page, CancellationToken token)
         {
             throw new NotImplementedException();
