@@ -18,17 +18,24 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     {
     }
     
-    public Task<List<TEntity>> GetActiveItems(CancellationToken token)
+    public async Task<List<TEntity>> GetActiveItems(CancellationToken token)
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
         
-        var result = _collection.Find(i => i.IsActive)
+        return await _collection.Find(i => i.IsActive)
             .Sort(sortFilter)
-            .ToList();
-
-        return Task.FromResult(result);
+            .ToListAsync(token);
     }
-    
+
+    public async Task<List<TEntity>> GetDeactivatedItems(CancellationToken token)
+    {
+        var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
+        
+        return await _collection.Find(i => !i.IsActive)
+            .Sort(sortFilter)
+            .ToListAsync(token);
+    }
+
     public async IAsyncEnumerable<TEntity> GetActiveItemsEnumerable([EnumeratorCancellation] CancellationToken token)
     {
         using var cursor = await _collection.Find(i => i.IsActive)
@@ -44,9 +51,24 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
         }
     }
 
+    public async IAsyncEnumerable<TEntity> GetDeactivatedItemsEnumerable(CancellationToken token)
+    {
+        using var cursor = await _collection.Find(i => !i.IsActive)
+            .SortByDescending(i => i.Created)
+            .ToCursorAsync(token);
+        
+        while (await cursor.MoveNextAsync(token))
+        {
+            foreach (var item in cursor.Current)
+            {
+                yield return item;
+            }
+        }
+    }
+
     public async Task ActivateItems(IEnumerable<string> itemIds, CancellationToken token)
     {
-        var update = Builders<TEntity>.Update.Set(s => s.IsActive, false)
+        var update = Builders<TEntity>.Update.Set(s => s.IsActive, true)
             .Set(s => s.DeactivationDate, _timeProvider.Now);
             
         await _collection.UpdateManyAsync(i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);

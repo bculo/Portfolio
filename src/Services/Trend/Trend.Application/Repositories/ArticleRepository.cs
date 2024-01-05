@@ -33,7 +33,7 @@ namespace Trend.Application.Repositories
                     y => y.Id,
                     y => y.SearchWords)
                 .Unwind<ArticleSearchWordLookup, ArticleSearchWordUnwind>(x => x.SearchWords)
-                .Match(x => x.SearchWords.Type == type)
+                .Match(x => x.SearchWords.Type.Id == type.Id)
                 .Project(x => new ArticleDetailResQuery
                 {
                     Id = x.Id,

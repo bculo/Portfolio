@@ -24,7 +24,7 @@ namespace Trend.Application.MappingProfiles.News
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Snippet))
                 .ForMember(dst => dst.ArticleUrl, opt => opt.MapFrom(src => src.Link))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
-                .AfterMap<DefineArticleCreatedDateTimeAction>();
+                .AfterMap<AuditableDocumentTimeAction<GoogleSearchEngineItemDto>>();
             
             CreateMap<Article, ArticleResDto>()
                 .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))

@@ -22,13 +22,22 @@ namespace Trend.API.Controllers.v1
             _service = service;
         }
 
-        [HttpGet("GetSearchWords")]
+        [HttpGet("GetActiveSearchWords")]
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSyncSettingsWords(CancellationToken token)
+        public async Task<IActionResult> GetActiveSearchWords(CancellationToken token)
         {
-            return Ok(await _service.GetSearchWords(token));
+            return Ok(await _service.GetActiveSearchWords(token));
+        }
+        
+        [HttpGet("GetDeactivatedSearchWords")]
+        [OutputCache(PolicyName = "SearchWordPolicy")]
+        [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetDeactivatedSearchWords(CancellationToken token)
+        {
+            return Ok(await _service.GetActiveSearchWords(token));
         }
 
         [HttpGet("GetAvailableSearchEngines")]

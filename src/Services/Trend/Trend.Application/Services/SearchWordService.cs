@@ -41,6 +41,13 @@ namespace Trend.Application.Services
             _storageOptions = storageOptions.Value;
         }
 
+        private string GetDefaultSearchWordImageUri(ContextType type)
+        {
+            return Path.Combine(_blobStorage.GetBaseUri.ToString(),
+                _storageOptions.TrendContainerName,
+                type.ShortName);
+        }
+
         public async Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token)
         {
             var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine, token);
@@ -51,6 +58,7 @@ namespace Trend.Application.Services
             }
 
             var entity = _mapper.Map<SearchWord>(instance);
+            entity.ImageUrl = GetDefaultSearchWordImageUri(entity.Type);
             await _wordRepository.Add(entity, token);
             
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
@@ -98,34 +106,49 @@ namespace Trend.Application.Services
             }
 
             await _wordRepository.ActivateItems(new List<string> { entity.Id }, token);
-            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
+            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
         }
 
         public Task<List<KeyValueElementDto>> GetAvailableContextTypes(CancellationToken token)
         {
-            return Task.FromResult(Enum.GetValues<ContextType>().Select(i => new KeyValueElementDto
-            {
-                Key = (int)i,
-                Value = i.ToString()
-            }).ToList());
+            var instances = ContextType
+                .GetContextTypes()
+                .Select(item => new KeyValueElementDto
+                {
+                    Key = item,
+                    Value = item.ToString()
+                }).ToList();
+            
+            return Task.FromResult(instances);
         }
 
         public Task<List<KeyValueElementDto>> GetAvailableSearchEngines(CancellationToken token)
         {
-            return Task.FromResult(Enum.GetValues<SearchEngine>().Select(i => new KeyValueElementDto
-            {
-                Key = (int)i,
-                Value = i.ToString()
-            }).ToList());
+            var instances = SearchEngine
+                .GetContextTypes()
+                .Select(item => new KeyValueElementDto
+                {
+                    Key = item,
+                    Value = item.ToString()
+                }).ToList();
+            
+            return Task.FromResult(instances);
         }
 
-        public async Task<List<SearchWordResDto>> GetSearchWords(CancellationToken token)
+        public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token)
         {
             var entities = await _wordRepository.GetActiveItems(token);
             var instances = _mapper.Map<List<SearchWordResDto>>(entities);
             return instances;
         }
 
+        public async Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token)
+        {
+            var entities = await _wordRepository.GetDeactivatedItems(token);
+            var instances = _mapper.Map<List<SearchWordResDto>>(entities);
+            return instances;
+        }
+        
         public async Task DeactivateSearchWord(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))

@@ -14,8 +14,10 @@ namespace Trend.Application.Validators.News
     {
         public FetchArticleTypePageDtoValidator() : base()
         {
+            /*
             RuleFor(i => i.Type).Must(engine => Enum.GetValues<ContextType>().Cast<int>().Contains(engine))
                 .WithMessage("Selected context type not available");
+                */
         }
     }
 }

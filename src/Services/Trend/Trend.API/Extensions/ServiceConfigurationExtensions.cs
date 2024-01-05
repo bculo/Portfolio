@@ -99,7 +99,7 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
 
-            BlobStorageSeedUtils.SeedBlobStorage(services);
+            StorageSeedUtils.SeedBlobStorage(services);
         }
 
         private static void ConfigureLocalization(IServiceCollection services)

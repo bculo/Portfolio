@@ -27,7 +27,6 @@ namespace Trend.Application.Configurations.Initialization
             BsonClassMap.RegisterClassMap<Article>(config =>
             {
                 config.AutoMap();
-                //config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
             });
 
             BsonClassMap.RegisterClassMap<SyncStatus>(config =>
@@ -39,14 +38,25 @@ namespace Trend.Application.Configurations.Initialization
             BsonClassMap.RegisterClassMap<SearchWord>(config =>
             {
                 config.AutoMap();
-                config.MapMember(c => c.Engine).SetSerializer(new EnumSerializer<SearchEngine>(MongoDB.Bson.BsonType.String));
             });
 
+            BsonClassMap.RegisterClassMap<ContextType>(config =>
+            {
+                config.MapProperty(x => x.Id);
+                config.UnmapMember(x => x.Name);
+                config.MapCreator(m => m.Id);
+            });
+            
+            BsonClassMap.RegisterClassMap<SearchEngine>(config =>
+            {
+                config.MapProperty(x => x.Id);
+                config.UnmapMember(x => x.Name);
+                config.MapCreator(m => m.Id);
+            });
+            
             BsonClassMap.RegisterClassMap<SyncStatusWord>(config =>
             {
                 config.AutoMap();
-                config.MapMember(c => c.Type).SetSerializer(new EnumSerializer<ContextType>(MongoDB.Bson.BsonType.String));
-                config.MapMember(i => i.Word);
             });
 
             BsonClassMap.RegisterClassMap<ArticleSearchWordLookup>(config =>

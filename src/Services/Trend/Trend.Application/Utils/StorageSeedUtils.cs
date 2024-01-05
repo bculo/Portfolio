@@ -7,7 +7,7 @@ using Trend.Resources.BlobDefaultImages;
 
 namespace Trend.Application.Utils;
 
-public static class BlobStorageSeedUtils
+public static class StorageSeedUtils
 {
     public static async Task SeedBlobStorage(IServiceCollection services)
     {
@@ -19,9 +19,9 @@ public static class BlobStorageSeedUtils
 
         List<DefaultBlobInfo> defaultBlobs = new()
         {
-            ResourceBlobMap.GetImageInfo(ContextType.Crypto.ToString()),
-            ResourceBlobMap.GetImageInfo(ContextType.Stock.ToString()),
-            ResourceBlobMap.GetImageInfo(ContextType.Forex.ToString()),
+            ResourceBlobMap.GetImageInfo(ContextType.Crypto.ShortName),
+            ResourceBlobMap.GetImageInfo(ContextType.Stock.ShortName),
+            ResourceBlobMap.GetImageInfo(ContextType.Forex.ShortName),
         };
 
         foreach (var defaultBlob in defaultBlobs)

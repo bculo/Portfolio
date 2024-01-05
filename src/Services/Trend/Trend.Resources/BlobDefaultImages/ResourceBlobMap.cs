@@ -20,7 +20,7 @@ public static class ResourceBlobMap
         var fullPath = Path.Combine(baseDir, "BlobDefaultImages", ImageMap[keyword]);
         return new DefaultBlobInfo(fullPath, keyword, "image/jpeg");
     }
-
+    
     public static bool IsAllowedName(string blobName)
     {
         if (!ImageMap.ContainsKey(blobName))

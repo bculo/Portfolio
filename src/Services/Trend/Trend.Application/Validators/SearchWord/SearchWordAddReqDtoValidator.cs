@@ -10,16 +10,12 @@ public class SearchWordAddReqDtoValidator : AbstractValidator<SearchWordAddReqDt
     {
         RuleFor(i => i.SearchWord).MinimumLength(2).NotEmpty();
 
-        RuleFor(i => i.SearchEngine).Must(engine => 
-                Enum.GetValues<SearchEngine>()
-                    .Cast<int>()
-                    .Contains(engine))
+        RuleFor(i => i.SearchEngine)
+            .Must(SearchEngine.IsValidSearchEngineForSearchWord)
             .WithMessage("Selected search engine type not available");
-
-        RuleFor(i => i.ContextType).Must(type => 
-                Enum.GetValues<ContextType>()
-                    .Cast<int>()
-                    .Contains(type))
-            .WithMessage("Selected context type not available");
+        
+        RuleFor(i => i.ContextType)
+            .Must(ContextType.IsValidContextForSearchWord)
+            .WithMessage("Selected context type not available.");
     }
 }

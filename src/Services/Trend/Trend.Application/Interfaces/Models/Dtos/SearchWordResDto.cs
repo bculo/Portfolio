@@ -14,5 +14,6 @@ namespace Trend.Application.Interfaces.Models.Dtos
         public string SearchEngineName { get; init; }
         public int SearchEngineId { get; init; }
         public string ContextTypeName { get; init; }
+        public int ContextTypeId { get; init; }
     }
 }

@@ -1,6 +1,5 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using MassTransit.Initializers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Trend.Application.Configurations.Options;
@@ -41,6 +40,8 @@ public class BlobStorage : IBlobStorage
         return _blobClient.GetBlobContainerClient(containerName)
             .GetBlobClient(blobIdentifier);
     }
+
+    public Uri GetBaseUri => _blobClient.Uri;
 
     public async Task<Uri> UploadBlob(string containerName, string blobIdentifier, Stream blob, string contentType)
     {

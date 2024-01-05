@@ -9,7 +9,6 @@ public class SearchWordAttachImageReqDtoValidator : AbstractValidator<SearchWord
     private static readonly FrozenSet<string> _allowedContentType = new HashSet<string>
     {
         "image/jpeg",
-        "image/jpg",
         "image/png"
     }.ToFrozenSet();
     
@@ -22,9 +21,11 @@ public class SearchWordAttachImageReqDtoValidator : AbstractValidator<SearchWord
             .WithMessage("Content type must be 'jpeg' or 'png'")
             .NotEmpty();
         
-        RuleFor(i => i.Name).NotEmpty();
+        RuleFor(i => i.Name)
+            .NotEmpty();
 
-        RuleFor(i => i.SearchWordId).NotEmpty();
+        RuleFor(i => i.SearchWordId)
+            .NotEmpty();
     }
     
     private bool IsAllowedType(string contentType)
