@@ -9,15 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SyncStatusWordDto } from './sync-status-word-dto';
+import { SyncStatusWordResDto } from './sync-status-word-res-dto';
 
 
-export interface SyncStatusDto { 
+export interface SyncStatusResDto { 
     id?: string | null;
     started?: string;
     finished?: string;
     totalRequests?: number;
     succeddedRequests?: number;
-    searchWords?: Array<SyncStatusWordDto> | null;
+    searchWords?: Array<SyncStatusWordResDto> | null;
 }
 

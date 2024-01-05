@@ -38,23 +38,21 @@ export const AuthStore = signalStore(
     withDevtools('auth'),
     withMethods((store, keycloak = inject(KeycloakService)) => ({
         init: rxMethod<void>(
-            pipe(
-                switchMap(() =>
-                    keycloak.configure().pipe(
-                        tapResponse({
-                            next: (response) => patchState(store, { 
-                                isAuthenticated: response.isAuthenticated,
-                                idToken: response.userInfo?.idToken,
-                                refreshToken: response.userInfo?.refreshToken,
-                                authToken: response.userInfo?.token,
-                                isAdmin: response.userInfo?.isAdmin ?? false,
-                                userName: response.userInfo?.userName
-                            }),
-                            error: console.error,
-                            finalize: () => patchState(store, { isLoading: false }),
+            switchMap(() =>
+                keycloak.configure().pipe(
+                    tapResponse({
+                        next: (response) => patchState(store, { 
+                            isAuthenticated: response.isAuthenticated,
+                            idToken: response.userInfo?.idToken,
+                            refreshToken: response.userInfo?.refreshToken,
+                            authToken: response.userInfo?.token,
+                            isAdmin: response.userInfo?.isAdmin ?? false,
+                            userName: response.userInfo?.userName
                         }),
-                    )
-                ),
+                        error: console.error,
+                        finalize: () => patchState(store, { isLoading: false }),
+                    }),
+                )
             ),
         ),
     })),

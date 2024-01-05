@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
@@ -21,6 +22,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("GetLatestNews")]
+        [SwaggerOperation(OperationId = "GetLatestNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -30,6 +32,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("Deactivate/{articleId}")]
+        [SwaggerOperation(OperationId = "Deactivate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Deactivate(string articleId, CancellationToken token)
@@ -39,6 +42,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("Activate/{articleId}")]
+        [SwaggerOperation(OperationId = "Activate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Activate(string articleId, CancellationToken token)
@@ -48,6 +52,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("GetLatestCryptoNews")]
+        [SwaggerOperation(OperationId = "GetLatestCryptoNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -57,6 +62,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("GetLatestStockNews")]
+        [SwaggerOperation(OperationId = "GetLatestStockNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -66,6 +72,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("GetLatestForexNews")]
+        [SwaggerOperation(OperationId = "GetLatestForexNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]

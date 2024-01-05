@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIconComponent } from '@ng-icons/core';
 import { NAVIGATION_ITEMS } from '../../app.routes';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { DictionaryStore } from '../../store/dictionary-store';
 
 @Component({
   selector: 'admin-dashboard-navigation-layout',
@@ -13,4 +14,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavigationLayoutComponent {
   items = NAVIGATION_ITEMS
+  readonly store = inject(DictionaryStore)
 }

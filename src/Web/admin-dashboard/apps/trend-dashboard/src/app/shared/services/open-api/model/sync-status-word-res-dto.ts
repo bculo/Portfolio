@@ -11,7 +11,7 @@
  */
 
 
-export interface SyncStatusWordDto { 
+export interface SyncStatusWordResDto { 
     contextTypeName?: string | null;
     contextTypeId?: number;
     word?: string | null;

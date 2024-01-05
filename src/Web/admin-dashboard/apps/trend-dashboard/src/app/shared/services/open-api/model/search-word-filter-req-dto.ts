@@ -11,9 +11,13 @@
  */
 
 
-export interface SearchWordCreateDto { 
-    searchWord?: string | null;
-    searchEngine?: number;
+export interface SearchWordFilterReqDto { 
+    page?: number;
+    take?: number;
+    active?: number;
     contextType?: number;
+    searchEngine?: number;
+    query?: string | null;
+    sort?: number;
 }
 

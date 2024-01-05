@@ -9,11 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SyncStatusDto } from './sync-status-dto';
 
 
-export interface SyncStatusDtoPageResponseDto { 
-    count?: number;
-    items?: Array<SyncStatusDto> | null;
+export interface SearchWordResDto { 
+    id?: string | null;
+    isActive?: boolean;
+    created?: string;
+    searchWord?: string | null;
+    searchEngineName?: string | null;
+    searchEngineId?: number;
+    contextTypeName?: string | null;
+    contextTypeId?: number;
 }
 

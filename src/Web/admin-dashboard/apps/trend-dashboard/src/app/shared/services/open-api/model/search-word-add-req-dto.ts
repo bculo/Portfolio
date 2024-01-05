@@ -11,10 +11,9 @@
  */
 
 
-export interface ArticleDto { 
-    title?: string | null;
-    text?: string | null;
-    url?: string | null;
-    pageSource?: string | null;
+export interface SearchWordAddReqDto { 
+    searchWord?: string | null;
+    searchEngine?: number;
+    contextType?: number;
 }
 

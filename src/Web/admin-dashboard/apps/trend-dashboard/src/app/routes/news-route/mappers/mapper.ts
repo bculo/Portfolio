@@ -1,7 +1,7 @@
-import { ArticleTypeDto } from "../../../shared/services/open-api";
+import { ArticleResDto } from "../../../shared/services/open-api/model/article-res-dto";
 import { Article } from "../models/news.model";
 
-export const mapToArticleArray = (input: ArticleTypeDto[]): Article[] => {
+export const mapToArticleArray = (input: ArticleResDto[]): Article[] => {
     return input.map(item => ({
         pageSource: item.pageSource,
         title: item.title,

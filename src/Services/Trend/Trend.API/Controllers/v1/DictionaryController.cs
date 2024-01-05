@@ -2,6 +2,7 @@ using Dtos.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 
@@ -21,6 +22,7 @@ public class DictionaryController : ControllerBase
     }
     
     [HttpGet("GetSearchEngines")]
+    [SwaggerOperation(OperationId = "GetSearchEngines")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -30,6 +32,7 @@ public class DictionaryController : ControllerBase
     }
 
     [HttpGet("GetContextTypes")]
+    [SwaggerOperation(OperationId = "GetContextTypes")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -39,6 +42,7 @@ public class DictionaryController : ControllerBase
     }
     
     [HttpGet("GetActiveFilterOptions")]
+    [SwaggerOperation(OperationId = "GetActiveFilterOptions")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -48,6 +52,7 @@ public class DictionaryController : ControllerBase
     }
     
     [HttpGet("GetSortFilterOptions")]
+    [SwaggerOperation(OperationId = "GetSortFilterOptions")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]

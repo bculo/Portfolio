@@ -9,15 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SyncStatusResDto } from './sync-status-res-dto';
 
 
-export interface ArticleTypeDto { 
-    id?: string | null;
-    title?: string | null;
-    text?: string | null;
-    url?: string | null;
-    pageSource?: string | null;
-    typeName?: string | null;
-    typeId?: number;
+export interface SyncStatusResDtoPageResponseDto { 
+    count?: number;
+    items?: Array<SyncStatusResDto> | null;
 }
 

@@ -11,12 +11,17 @@
  */
 
 
-export interface SearchWordDto { 
+export interface ArticleResDto { 
     id?: string | null;
     created?: string;
+    title?: string | null;
+    text?: string | null;
+    url?: string | null;
+    pageSource?: string | null;
+    typeName?: string | null;
+    typeId?: number;
+    searchWordId?: string | null;
     searchWord?: string | null;
-    searchEngineName?: string | null;
-    searchEngineId?: number;
-    contextTypeName?: string | null;
+    searchWordImage?: string | null;
 }
 

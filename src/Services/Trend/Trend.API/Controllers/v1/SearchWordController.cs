@@ -3,6 +3,7 @@ using Dtos.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
@@ -23,6 +24,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("GetActiveSearchWords")]
+        [SwaggerOperation(OperationId = "GetActiveSearchWords")]
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -32,6 +34,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("GetDeactivatedSearchWords")]
+        [SwaggerOperation(OperationId = "GetDeactivatedSearchWords")]
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -40,7 +43,8 @@ namespace Trend.API.Controllers.v1
             return Ok(await _service.GetDeactivatedSearchWords(token));
         }
         
-        [HttpPost("AddNewSearchWord")]
+        [HttpPost("AddNew")]
+        [SwaggerOperation(OperationId = "AddNew")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordAddReqDto request, CancellationToken token)
@@ -49,6 +53,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPost("Filter")]
+        [SwaggerOperation(OperationId = "Filter")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Search([FromBody] SearchWordFilterReqDto request, CancellationToken token)
@@ -56,7 +61,8 @@ namespace Trend.API.Controllers.v1
             return Ok(await _service.FilterSearchWords(request, token));
         }
         
-        [HttpPost("AttachImageToSearchWord/{searchWordId}")]
+        [HttpPost("AttachImage/{searchWordId}")]
+        [SwaggerOperation(OperationId = "AttachImage")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AttachImageToSearchWord([FromForm] FileUploadDto request, 
@@ -70,6 +76,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpDelete("Deactivate/{id}")]
+        [SwaggerOperation(OperationId = "Deactivate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Deactivate(string id, CancellationToken token)
@@ -79,6 +86,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpGet("Activate/{id}")]
+        [SwaggerOperation(OperationId = "Activate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Activate(string id, CancellationToken token)
