@@ -12,7 +12,7 @@ namespace Trend.Domain.Enums
         public static ContextType Crypto { get; } = new (0, "Crypto market", "Crypto");
         public static ContextType Stock { get; } = new (1, "Stock market", "Stock");
         public static ContextType Forex { get; } = new (2, "Forex market", "Forex");
-        public static ContextType All { get; } = new (-1, "All market", "All");
+        public static ContextType All { get; } = new (999, "All market", "All");
         
         public static implicit operator int(ContextType context) => context.Id;
         
@@ -24,7 +24,7 @@ namespace Trend.Domain.Enums
                 0 => Crypto,
                 1 => Stock,
                 2 => Forex,
-                -1 => All,
+                999 => All,
                 _ => throw new TrendAppCoreException($"Context type is not supported: {id}")
             };
 

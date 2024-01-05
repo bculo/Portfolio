@@ -33,6 +33,7 @@ namespace Trend.Application
             services.AddScoped<IArticleServiceEnumerable, ArticleServiceEnumerable>();
             services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<ISearchWordService, SearchWordService>();
+            services.AddScoped<IDictionaryService, DictionaryService>();
             services.AddScoped(typeof(ILanguageService<>), typeof(LanguageService<>));
 
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);

@@ -109,32 +109,6 @@ namespace Trend.Application.Services
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
         }
 
-        public Task<List<KeyValueElementDto>> GetAvailableContextTypes(CancellationToken token)
-        {
-            var instances = ContextType
-                .GetContextTypes()
-                .Select(item => new KeyValueElementDto
-                {
-                    Key = item,
-                    Value = item.ToString()
-                }).ToList();
-            
-            return Task.FromResult(instances);
-        }
-
-        public Task<List<KeyValueElementDto>> GetAvailableSearchEngines(CancellationToken token)
-        {
-            var instances = SearchEngine
-                .GetContextTypes()
-                .Select(item => new KeyValueElementDto
-                {
-                    Key = item,
-                    Value = item.ToString()
-                }).ToList();
-            
-            return Task.FromResult(instances);
-        }
-
         public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token)
         {
             var entities = await _wordRepository.GetActiveItems(token);

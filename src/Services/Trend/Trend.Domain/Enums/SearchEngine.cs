@@ -10,7 +10,7 @@ namespace Trend.Domain.Enums
     public record SearchEngine(int Id, string Name)
     {
         public static SearchEngine Google { get; } = new (0, "Google search engine");
-        public static SearchEngine All { get; } = new (-1, "All search engines");
+        public static SearchEngine All { get; } = new (999, "All search engines");
         
         public static implicit operator int(SearchEngine context) => context.Id;
         
@@ -20,7 +20,7 @@ namespace Trend.Domain.Enums
             id switch
             {
                 0 => Google,
-                -1 => All,
+                999 => All,
                 _ => throw new TrendAppCoreException($"Search engine is not supported: {id}")
             };
 
@@ -31,15 +31,15 @@ namespace Trend.Domain.Enums
         
         public static bool IsValidSearchEngineForSearchWord(int id)
         {
-            return GetContextTypes().Where(i => All.Id != id).Any(i => i.Id == id);
+            return GetSearchEngines().Where(i => All.Id != id).Any(i => i.Id == id);
         }
 
         public static bool IsValidContext(int id)
         {
-            return GetContextTypes().Any(i => i.Id == id);
+            return GetSearchEngines().Any(i => i.Id == id);
         }
 
-        public static IEnumerable<SearchEngine> GetContextTypes()
+        public static IEnumerable<SearchEngine> GetSearchEngines()
         {
             yield return Google;
             yield return All;

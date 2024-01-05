@@ -39,27 +39,19 @@ namespace Trend.API.Controllers.v1
         {
             return Ok(await _service.GetActiveSearchWords(token));
         }
-
-        [HttpGet("GetAvailableSearchEngines")]
-        [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAvailableSearchEngines(CancellationToken token)
-        {
-            return Ok(await _service.GetAvailableSearchEngines(token));
-        }
-
-        [HttpGet("GetAvailableContextTypes")]
-        [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAvailableContextTypes(CancellationToken token)
-        {
-            return Ok(await _service.GetAvailableContextTypes(token));
-        }
-
+        
         [HttpPost("AddNewSearchWord")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordAddReqDto request, CancellationToken token)
+        {
+            return Ok(await _service.AddNewSearchWord(request, token));
+        }
+        
+        [HttpPost("Filter")]
+        [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Search([FromBody] SearchWordAddReqDto request, CancellationToken token)
         {
             return Ok(await _service.AddNewSearchWord(request, token));
         }

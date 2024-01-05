@@ -11,7 +11,5 @@ namespace Trend.Application.Interfaces
         Task AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token);
         Task DeactivateSearchWord(string id, CancellationToken token);
         Task ActivateSearchWord(string id, CancellationToken token);
-        Task<List<KeyValueElementDto>> GetAvailableContextTypes(CancellationToken token);
-        Task<List<KeyValueElementDto>> GetAvailableSearchEngines(CancellationToken token);
     }
 }
