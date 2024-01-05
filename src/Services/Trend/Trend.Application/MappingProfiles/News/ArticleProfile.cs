@@ -45,11 +45,6 @@ namespace Trend.Application.MappingProfiles.News
                 .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.ContextType))
                 .ForMember(dst => dst.SearchWordId, opt => opt.MapFrom(src => src.SearchWordId))
                 .ForMember(dst => dst.SearchWordImage, opt => opt.MapFrom(src => src.SearchWordImage));
-            
-            CreateMap<ArticleFetchPageReqDto, PageReqQuery<ContextType>>()
-                .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
-                .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page))
-                .ForMember(dst => dst.Search, opt => opt.MapFrom(src => (ContextType)src.Type));
         }
     }
 }

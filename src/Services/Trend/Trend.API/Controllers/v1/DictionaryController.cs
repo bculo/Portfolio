@@ -15,7 +15,7 @@ public class DictionaryController : ControllerBase
 {
     private readonly IDictionaryService _service;
 
-    private DictionaryController(IDictionaryService service)
+    public DictionaryController(IDictionaryService service)
     {
         _service = service;
     }
@@ -45,5 +45,14 @@ public class DictionaryController : ControllerBase
     public async Task<IActionResult> GetActiveFilterOptions(CancellationToken token)
     {
         return Ok(await _service.GetActiveFilterOptions(token));
+    }
+    
+    [HttpGet("GetSortFilterOptions")]
+    [OutputCache(PolicyName = "DictionaryPolicy")]
+    [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetSortFilterOptions(CancellationToken token)
+    {
+        return Ok(await _service.GetSortFilterOptions(token));
     }
 }

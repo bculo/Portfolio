@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Application.MappingProfiles.Actions;
 using Trend.Domain.Enums;
 
@@ -21,6 +22,8 @@ namespace Trend.Application.MappingProfiles.SearchWord
                 .ForMember(dst => dst.SearchEngineId, opt => opt.MapFrom(src => (int)src.Engine))
                 .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => src.Type));
+
+            CreateMap<SearchWordFilterReqDto, SearchWordFilterReqQuery>();
         }
     }
 }

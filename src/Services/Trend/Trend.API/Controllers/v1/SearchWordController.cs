@@ -37,7 +37,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDeactivatedSearchWords(CancellationToken token)
         {
-            return Ok(await _service.GetActiveSearchWords(token));
+            return Ok(await _service.GetDeactivatedSearchWords(token));
         }
         
         [HttpPost("AddNewSearchWord")]
@@ -51,9 +51,9 @@ namespace Trend.API.Controllers.v1
         [HttpPost("Filter")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Search([FromBody] SearchWordAddReqDto request, CancellationToken token)
+        public async Task<IActionResult> Search([FromBody] SearchWordFilterReqDto request, CancellationToken token)
         {
-            return Ok(await _service.AddNewSearchWord(request, token));
+            return Ok(await _service.FilterSearchWords(request, token));
         }
         
         [HttpPost("AttachImageToSearchWord/{searchWordId}")]

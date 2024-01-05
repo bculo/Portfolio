@@ -8,6 +8,7 @@ using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
@@ -107,6 +108,13 @@ namespace Trend.Application.Services
 
             await _wordRepository.ActivateItems(new List<string> { entity.Id }, token);
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
+        }
+
+        public async Task<List<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token)
+        {
+            var search = _mapper.Map<SearchWordFilterReqQuery>(req);
+            var searchResult = await _wordRepository.Filter(search, token);
+            return _mapper.Map<List<SearchWordResDto>>(searchResult);
         }
 
         public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token)

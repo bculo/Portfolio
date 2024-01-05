@@ -9,6 +9,9 @@ namespace Trend.Application.Interfaces.Models.Dtos
     public record SearchWordResDto
     {
         public string Id { get; init; }
+        
+        public bool IsActive { get; init; }
+        
         public DateTime Created { get; init; }
         public string SearchWord { get; init; }
         public string SearchEngineName { get; init; }

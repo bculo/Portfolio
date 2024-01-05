@@ -33,17 +33,22 @@ namespace Trend.Domain.Enums
             return Name;
         }
         
-        public static bool IsValidContextForSearchWord(int id)
+        public static bool IsValidContextTypeForSearchWord(int id)
         {
-            return GetContextTypes().Where(i => All.Id != id).Any(i => i.Id == id);
+            return GetPossibleOptions().Where(i => All.Id != id).Any(i => i.Id == id);
         }
 
-        public static bool IsValidContext(int id)
+        public static bool IsValidItem(int id)
         {
-            return GetContextTypes().Any(i => i.Id == id);
+            return GetPossibleOptions().Any(i => i.Id == id);
+        }
+        
+        public bool IsRelevantForFilter()
+        {
+            return All.Id != Id;
         }
 
-        public static IEnumerable<ContextType> GetContextTypes()
+        public static IEnumerable<ContextType> GetPossibleOptions()
         {
             yield return Crypto;
             yield return Stock;

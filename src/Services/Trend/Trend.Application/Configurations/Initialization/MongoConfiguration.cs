@@ -44,6 +44,7 @@ namespace Trend.Application.Configurations.Initialization
             {
                 config.MapProperty(x => x.Id);
                 config.UnmapMember(x => x.Name);
+                config.UnmapMember(x => x.ShortName);
                 config.MapCreator(m => m.Id);
             });
             

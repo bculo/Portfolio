@@ -8,14 +8,16 @@ public class SearchWordAddReqDtoValidator : AbstractValidator<SearchWordAddReqDt
 {
     public SearchWordAddReqDtoValidator()
     {
-        RuleFor(i => i.SearchWord).MinimumLength(2).NotEmpty();
+        RuleFor(i => i.SearchWord)
+            .MinimumLength(2)
+            .NotEmpty();
 
         RuleFor(i => i.SearchEngine)
             .Must(SearchEngine.IsValidSearchEngineForSearchWord)
             .WithMessage("Selected search engine type not available");
         
         RuleFor(i => i.ContextType)
-            .Must(ContextType.IsValidContextForSearchWord)
+            .Must(ContextType.IsValidContextTypeForSearchWord)
             .WithMessage("Selected context type not available.");
     }
 }

@@ -9,7 +9,7 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetContextTypes(CancellationToken token)
     {
         var instances = ContextType
-            .GetContextTypes()
+            .GetPossibleOptions()
             .Select(item => new KeyValueElementDto
             {
                 Key = item,
@@ -22,7 +22,7 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetSearchEngines(CancellationToken token)
     {
         var instances = SearchEngine
-            .GetSearchEngines()
+            .GetPossibleOptions()
             .Select(item => new KeyValueElementDto
             {
                 Key = item,
@@ -35,7 +35,20 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetActiveFilterOptions(CancellationToken token)
     {
         var instances = ActiveFilter
-            .GetPossibleFilters()
+            .GetPossibleOptions()
+            .Select(item => new KeyValueElementDto
+            {
+                Key = item,
+                Value = item.ToString()
+            }).ToList();
+            
+        return Task.FromResult(instances);
+    }
+
+    public Task<List<KeyValueElementDto>> GetSortFilterOptions(CancellationToken token)
+    {
+        var instances = SortType
+            .GetPossibleOptions()
             .Select(item => new KeyValueElementDto
             {
                 Key = item,

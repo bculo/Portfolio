@@ -8,4 +8,6 @@ public interface IDictionaryService
     Task<List<KeyValueElementDto>> GetSearchEngines(CancellationToken token);
     
     Task<List<KeyValueElementDto>> GetActiveFilterOptions(CancellationToken token);
+    
+    Task<List<KeyValueElementDto>> GetSortFilterOptions(CancellationToken token);
 }

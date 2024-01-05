@@ -6,9 +6,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
@@ -22,11 +24,7 @@ namespace Trend.Application.Repositories
             : base(client, options, timeProvider)
         {
         }
-        
-                
 
-
-        
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
         {
             var instance = _collection
@@ -34,6 +32,42 @@ namespace Trend.Application.Repositories
                 .FirstOrDefault();
             
             return Task.FromResult(instance != null);
-        }      
+        }
+
+        public async Task<List<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token)
+        {
+            var searchBuilder = Builders<SearchWord>.Filter;
+            var searchFilter = FilterDefinition<SearchWord>.Empty;
+            if (req.SearchEngine.IsRelevantForFilter())
+            {
+                searchFilter &= searchBuilder.Eq(i => i.Engine.Id, req.SearchEngine.Id);
+            }
+            
+            if (req.Active.IsRelevantForFilter())
+            {
+                searchFilter &= searchBuilder.Eq(i => i.IsActive, req.Active.Value);
+            }
+            
+            if (req.ContextType.IsRelevantForFilter())
+            {
+                searchFilter &= searchBuilder.Eq(i => i.Type.Id, req.ContextType.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.Query))
+            {
+                searchFilter &= searchBuilder.Regex(i => i.Word, new BsonRegularExpression(req.Query));
+            }
+            
+            var sortBuilder = Builders<SearchWord>.Sort;
+            var sortFilter = req.Sort == SortType.Asc
+                ? sortBuilder.Ascending(x => x.Created)
+                : sortBuilder.Descending(x => x.Created);
+
+            return await _collection.Find(searchFilter)
+                .Sort(sortFilter)
+                .Skip(req.Skip)
+                .Limit(req.Take)
+                .ToListAsync(token);
+        }
     }
 }

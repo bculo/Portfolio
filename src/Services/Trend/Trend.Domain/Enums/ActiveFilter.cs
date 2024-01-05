@@ -4,8 +4,8 @@ namespace Trend.Domain.Enums;
 
 public record ActiveFilter(int Id, string Name, bool? Value)
 {
-    public static ActiveFilter Active { get; } = new (0, "Stock market", true);
-    public static ActiveFilter Inactive { get; } = new (1, "Forex market", false);
+    public static ActiveFilter Active { get; } = new (0, "Active items", true);
+    public static ActiveFilter Inactive { get; } = new (1, "Inactive items", false);
     public static ActiveFilter All { get; } = new (999, "Show all", default);
 
     public static implicit operator int(ActiveFilter context) => context.Id;
@@ -18,7 +18,7 @@ public record ActiveFilter(int Id, string Name, bool? Value)
             0 => Active,
             1 => Inactive,
             999 => All,
-            _ => throw new TrendAppCoreException($"Context type is not supported: {id}")
+            _ => throw new TrendAppCoreException($"Active filter is not supported: {id}")
         };
 
     public override string ToString()
@@ -31,12 +31,12 @@ public record ActiveFilter(int Id, string Name, bool? Value)
         return All.Id != Id;
     }
 
-    public static bool IsValidContext(int id)
+    public static bool IsValidItem(int id)
     {
-        return GetPossibleFilters().Any(i => i.Id == id);
+        return GetPossibleOptions().Any(i => i.Id == id);
     }
 
-    public static IEnumerable<ActiveFilter> GetPossibleFilters()
+    public static IEnumerable<ActiveFilter> GetPossibleOptions()
     {
         yield return Active;
         yield return Inactive;

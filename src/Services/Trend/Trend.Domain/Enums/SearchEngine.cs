@@ -31,15 +31,20 @@ namespace Trend.Domain.Enums
         
         public static bool IsValidSearchEngineForSearchWord(int id)
         {
-            return GetSearchEngines().Where(i => All.Id != id).Any(i => i.Id == id);
+            return GetPossibleOptions().Where(i => All.Id != id).Any(i => i.Id == id);
         }
 
-        public static bool IsValidContext(int id)
+        public static bool IsValidItem(int id)
         {
-            return GetSearchEngines().Any(i => i.Id == id);
+            return GetPossibleOptions().Any(i => i.Id == id);
+        }
+        
+        public bool IsRelevantForFilter()
+        {
+            return All.Id != Id;
         }
 
-        public static IEnumerable<SearchEngine> GetSearchEngines()
+        public static IEnumerable<SearchEngine> GetPossibleOptions()
         {
             yield return Google;
             yield return All;
