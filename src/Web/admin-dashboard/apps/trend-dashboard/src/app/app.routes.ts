@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { roleGuard } from './shared/guards/role.guard';
+import { nameOf } from './shared/utilities/utilities';
 import { APP_ICONS } from './app.icons';
 
 export const APP_ROUTES: Route[] = [
@@ -27,14 +28,6 @@ export const APP_ROUTES: Route[] = [
       redirectTo: 'static/404'
     }
 ];
-
-const nameOf = (f: () => string) => {
-  const result = (f).toString().replace(/[ |\(\)=>]/g,'')
-  if(result.indexOf('.')) {
-    return result.split(".").pop() ?? ''
-  }
-  return result
-};
 
 export interface NavigationItem {
     path: string,
