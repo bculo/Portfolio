@@ -6,15 +6,12 @@
         </h1>
         <p class="text-right text-lg mt-4 text-stone-300">A Quest for the Ultimate Trends Shaping the Future</p>
         <div class="text-right mt-6">
-            @if(isAuth()) {
-                <button class="bg-cyan-500 px-6 py-3 hover:bg-cyan-700 rounded-md transition-all delay-75 ease-out">Continue</button>
-            }
-            @else {
-                <button class="bg-cyan-500 px-6 py-3 hover:bg-cyan-700 rounded-md transition-all delay-75 ease-out">Login</button>
+            @if(!isAuth()) {
+                <button class="bg-cyan-500 px-6 py-3 hover:bg-cyan-700 rounded-md transition-all delay-75 ease-out" (click)="service.login()">Login</button>
             }
         </div>
     </div>
     <div class="flex-1 flex justify-center items-center p-16">
-        <img class="w-3/4 h-3/4" src="./assets/landing-page.png"/>
+        <img class="w-3/4 h-auto" src="./assets/landing-page.png"/>
     </div>
 </div>

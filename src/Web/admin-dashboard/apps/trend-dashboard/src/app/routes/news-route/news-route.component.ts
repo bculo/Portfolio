@@ -7,10 +7,6 @@ import { RouterOutlet } from '@angular/router';
   selector: 'admin-dashboard-news-route',
   standalone: true,
   imports: [CommonModule, NavigationLayoutComponent, RouterOutlet],
-  template: `
-      <admin-dashboard-navigation-layout>
-        <router-outlet></router-outlet>
-      </admin-dashboard-navigation-layout>
-    `,
+  template: `<router-outlet></router-outlet>`,
 })
 export class NewsRouteComponent {}

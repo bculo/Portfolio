@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgIconComponent } from '@ng-icons/core';
 import { NAVIGATION_ITEMS } from '../../app.routes';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { DictionaryStore } from '../../store/dictionary-store';
+import { AuthStore } from '../../store/auth-store';
 
 @Component({
   selector: 'admin-dashboard-navigation-layout',
@@ -13,5 +13,8 @@ import { DictionaryStore } from '../../store/dictionary-store';
   styleUrl: './navigation-layout.component.scss',
 })
 export class NavigationLayoutComponent {
-  items = NAVIGATION_ITEMS
+  readonly items = [...NAVIGATION_ITEMS];
+  readonly authStore = inject(AuthStore);
+
+  isAuthenticated = this.authStore.isAuthenticated;
 }
