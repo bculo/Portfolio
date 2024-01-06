@@ -4,9 +4,10 @@ import {
     withMethods,
     withState,
     withHooks,
+    withComputed,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { mergeMap, pipe, switchMap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
@@ -29,10 +30,16 @@ const initialState: DictionaryState = {
     contextTypes: [],
 }
 
+const allKeyValue = 999;
+
 export const DictionaryStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
     withDevtools('dictionary'),
+    withComputed(({ searchEngines, contextTypes }) => ({
+        searchEnginesWithoutAll: computed(() => searchEngines().filter(x => x.id !== allKeyValue)),
+        contextTypesWithoutAll: computed(() => contextTypes().filter(x => x.id !== allKeyValue)),
+    })),
     withMethods((store, service = inject(DictionaryService)) => ({
         load: rxMethod<void>(
             switchMap(() => 

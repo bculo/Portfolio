@@ -18,6 +18,11 @@ export const APP_ROUTES: Route[] = [
       canActivate: [roleGuard]
     },
     {
+      path: 'words',
+      loadChildren: () => import('./routes/search-words-route/search-words-route.routes').then(i => i.SEARCH_WORDS_ROUTES),
+      canActivate: [roleGuard]
+    },
+    {
       path: '**',
       redirectTo: 'static/404'
     }
@@ -34,18 +39,27 @@ const nameOf = (f: () => string) => {
 export interface NavigationItem {
     path: string,
     name: string,
-    icon: string
+    icon: string,
+    onlyAdminRole: boolean
 }
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
     {
         path: '/static',
         icon: nameOf(() => APP_ICONS.heroHome),
-        name: 'Home'
+        name: 'Home',
+        onlyAdminRole: false
     },
     {
         path: '/news',
         icon: nameOf(() => APP_ICONS.heroNewspaper),
-        name: 'News'
+        name: 'News',
+        onlyAdminRole: true
     },
+    {
+      path: '/words',
+      icon: nameOf(() => APP_ICONS.heroChatBubbleLeftEllipsis),
+      name: 'Words',
+      onlyAdminRole: true
+  },
 ]

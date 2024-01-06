@@ -14,5 +14,4 @@ import { DictionaryStore } from '../../store/dictionary-store';
 })
 export class NavigationLayoutComponent {
   items = NAVIGATION_ITEMS
-  readonly store = inject(DictionaryStore)
 }
