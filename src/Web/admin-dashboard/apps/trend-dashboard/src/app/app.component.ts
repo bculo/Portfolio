@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AuthStore } from './store/auth-store';
 
 
 @Component({
@@ -10,5 +11,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.component.scss',
 })
 export class AppComponent { 
-
+  readonly authStore = inject(AuthStore);
 }

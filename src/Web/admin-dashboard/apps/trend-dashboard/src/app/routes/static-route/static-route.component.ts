@@ -11,13 +11,10 @@ import { NavigationLayoutComponent } from '../../layouts/navigation-layout/navig
   imports: [CommonModule, RouterOutlet, EmptyLayoutComponent, NavigationLayoutComponent],
   template: `
     <div>
-      <admin-dashboard-navigation-layout>
+      <admin-dashboard-empty-layout>
         <router-outlet></router-outlet>
-      </admin-dashboard-navigation-layout>
+      </admin-dashboard-empty-layout>
     </div>`,
 })
-export class StaticRouteComponent {
-  readonly store = inject(AuthStore);
-  authenticated = this.store.isAuthenticated;
-}
+export class StaticRouteComponent {}
 

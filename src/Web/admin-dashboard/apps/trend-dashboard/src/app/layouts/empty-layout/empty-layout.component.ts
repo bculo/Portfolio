@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthStore } from '../../store/auth-store';
 
 @Component({
   selector: 'admin-dashboard-empty-layout',

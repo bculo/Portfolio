@@ -1,3 +1,20 @@
-<p>home-page works!</p>
-<p>User {{userName()}} is loged in</p>
-<button *ngIf="!isAuth()" class="bg-red-600" (click)="service.login()">LOG IN</button>
+<div class="flex p-16 h-full">
+    <div class="flex-1 flex flex-col justify-center text-white">
+        <h1 class="text-5xl text-right tracking-wide leading-snug">
+            Spotlight on the Major Trends Steering the 
+            <span class="text-cyan-500 font-extrabold underline underline-offset-4">Trading</span> Industry
+        </h1>
+        <p class="text-right text-lg mt-4 text-stone-300">A Quest for the Ultimate Trends Shaping the Future</p>
+        <div class="text-right mt-6">
+            @if(isAuth()) {
+                <button class="bg-cyan-500 px-6 py-3 hover:bg-cyan-700 rounded-md transition-all delay-75 ease-out">Continue</button>
+            }
+            @else {
+                <button class="bg-cyan-500 px-6 py-3 hover:bg-cyan-700 rounded-md transition-all delay-75 ease-out">Login</button>
+            }
+        </div>
+    </div>
+    <div class="flex-1 flex justify-center items-center p-16">
+        <img class="w-3/4 h-3/4" src="./assets/landing-page.png"/>
+    </div>
+</div>
