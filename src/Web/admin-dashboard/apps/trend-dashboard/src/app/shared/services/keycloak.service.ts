@@ -14,7 +14,8 @@ export interface AuthenticatedUserInfo {
   isAdmin: boolean,
   token: string,
   refreshToken: string,
-  idToken: string
+  idToken: string,
+  email: string
 }
 
 
@@ -40,7 +41,8 @@ export class KeycloakService {
             token: this.getAuthorizationToken(),
             refreshToken: this.getRefreshToken(),
             isAdmin: this.isInRole('Admin'),
-            userName: this.getUserName()
+            userName: this.getUserName(),
+            email: this.getEmail()
           }
         } as ConfigureResponse
       })
@@ -51,6 +53,12 @@ export class KeycloakService {
     if(this.isAuthenticated())
       return;
     this.keycloackInstance!.login();
+  }
+
+  public logout() {
+    if(!this.isAuthenticated())
+      return;
+    this.keycloackInstance!.logout();
   }
 
   private getConfig(): KeycloakConfig {
@@ -64,6 +72,12 @@ export class KeycloakService {
   private getUserName(): string | null {
     if(this.isAuthenticated())
       return this.keycloackInstance!.tokenParsed!["preferred_username"];
+    return null;
+  }
+
+  private getEmail(): string | null {
+    if(this.isAuthenticated())
+      return this.keycloackInstance!.tokenParsed!["email"];
     return null;
   }
 
