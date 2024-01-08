@@ -110,11 +110,11 @@ namespace Trend.Application.Services
             await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
         }
 
-        public async Task<List<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token)
+        public async Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token)
         {
             var search = _mapper.Map<SearchWordFilterReqQuery>(req);
             var searchResult = await _wordRepository.Filter(search, token);
-            return _mapper.Map<List<SearchWordResDto>>(searchResult);
+            return _mapper.Map<PageResponseDto<SearchWordResDto>>(searchResult);
         }
 
         public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token)

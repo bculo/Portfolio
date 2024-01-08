@@ -1,5 +1,5 @@
-import { SearchWordResDto } from "../../../shared/services/open-api";
 import { SearchWordFilterReqDto } from "../../../shared/services/open-api/model/search-word-filter-req-dto";
+import { SearchWordResDtoPageResponseDto } from "../../../shared/services/open-api/model/search-word-res-dto-page-response-dto";
 import { SearchWordFilterModel, SearchWordItem } from "../models/search-words.model";
 
 export function mapToFilterReqDto(filter: SearchWordFilterModel) {
@@ -14,8 +14,8 @@ export function mapToFilterReqDto(filter: SearchWordFilterModel) {
     } as SearchWordFilterReqDto
 }
 
-export function mapToFilterViewModel(items: SearchWordResDto[]) {
-    return items.map(x => ({
+export function mapToFilterViewModel(items: SearchWordResDtoPageResponseDto) {
+    return items.items?.map(x => ({
         id: x.id,
         contextTypeId: x.contextTypeId,
         contextTypeName: x.contextTypeName,
@@ -25,5 +25,5 @@ export function mapToFilterViewModel(items: SearchWordResDto[]) {
         searchEngineName: x.searchEngineName,
         searchWord: x.searchWord,
         imageUrl: x.imageUrl
-    } as SearchWordItem))
+    } as SearchWordItem)) ?? []
 }

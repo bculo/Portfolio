@@ -53,9 +53,9 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPost("Filter")]
-        [OutputCache(PolicyName = "WordPostPolicy")]
         [SwaggerOperation(OperationId = "Filter")]
-        [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
+        [OutputCache(PolicyName = "WordPostPolicy")]
+        [ProducesResponseType(typeof(PageResponseDto<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Search([FromBody] SearchWordFilterReqDto request, CancellationToken token)
         {

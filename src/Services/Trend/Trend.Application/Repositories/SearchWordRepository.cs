@@ -34,7 +34,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(instance != null);
         }
 
-        public async Task<List<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token)
+        public async Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token)
         {
             var searchBuilder = Builders<SearchWord>.Filter;
             var searchFilter = FilterDefinition<SearchWord>.Empty;
@@ -63,11 +63,16 @@ namespace Trend.Application.Repositories
                 ? sortBuilder.Ascending(x => x.Created)
                 : sortBuilder.Descending(x => x.Created);
 
-            return await _collection.Find(searchFilter)
+            var countTask = _collection.Find(searchFilter).CountDocumentsAsync(token);
+            var collectionTask =  _collection.Find(searchFilter)
                 .Sort(sortFilter)
                 .Skip(req.Skip)
                 .Limit(req.Take)
                 .ToListAsync(token);
+
+            await Task.WhenAll(countTask, collectionTask);
+            
+            return new PageResQuery<SearchWord>(countTask.Result, collectionTask.Result);
         }
     }
 }

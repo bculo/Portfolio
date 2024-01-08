@@ -12,6 +12,6 @@ namespace Trend.Application.Interfaces
     public interface ISearchWordRepository : IMongoAuditableRepository<SearchWord>
     {
         Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token);
-        Task<List<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token);
+        Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token);
     }
 }

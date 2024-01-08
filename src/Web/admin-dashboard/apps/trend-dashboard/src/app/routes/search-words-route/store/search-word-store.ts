@@ -12,14 +12,16 @@ import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
 import { SearchWordFilterModel, SearchWordItem } from '../models/search-words.model';
 import { mapToFilterReqDto, mapToFilterViewModel } from '../mappers/mapper';
-import { setAllEntities, setEntities, withEntities } from '@ngrx/signals/entities';
+import { setAllEntities, withEntities } from '@ngrx/signals/entities';
 
 interface SearchWordState {
     isLoading: boolean,
+    totalCount: number
 }
 
 const initialState: SearchWordState = {
     isLoading: false,
+    totalCount: 0
 }
 
 
@@ -29,15 +31,17 @@ export const SearchWordStore = signalStore(
     withState(initialState),
     withDevtools('search-word'),
     withMethods((store, service = inject(SearchWordService)) => ({
-        fetch: rxMethod<SearchWordFilterModel>(
+        initialFetch: rxMethod<SearchWordFilterModel>(
             pipe(
                 map(mapToFilterReqDto),
                 tap(dto => patchState(store, { isLoading: true })),
                 switchMap((dto) => 
                     service.filter(dto).pipe(
-                        map(mapToFilterViewModel),
                         tapResponse({
-                            next: (items) => patchState(store, setAllEntities(items)),
+                            next: (response) => {
+                                patchState(store, setAllEntities(mapToFilterViewModel(response)));
+                                patchState(store, { totalCount: response.count })
+                            },
                             error: console.error,
                             finalize: () => patchState(store, { isLoading: false })
                         })

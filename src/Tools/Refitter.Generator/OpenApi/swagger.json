@@ -864,29 +864,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "title": "List<SearchWordResDto>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SearchWordResDto"
-                  }
+                  "$ref": "#/components/schemas/SearchWordResDtoPageResponseDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "title": "List<SearchWordResDto>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SearchWordResDto"
-                  }
+                  "$ref": "#/components/schemas/SearchWordResDtoPageResponseDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "title": "List<SearchWordResDto>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SearchWordResDto"
-                  }
+                  "$ref": "#/components/schemas/SearchWordResDtoPageResponseDto"
                 }
               }
             }
@@ -1537,6 +1525,25 @@
           },
           "imageUrl": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchWordResDtoPageResponseDto": {
+        "title": "PageResponseDto<SearchWordResDto>",
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "items": {
+            "title": "List<SearchWordResDto>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchWordResDto"
+            },
             "nullable": true
           }
         },

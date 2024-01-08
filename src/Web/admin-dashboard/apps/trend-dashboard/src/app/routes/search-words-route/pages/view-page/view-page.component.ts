@@ -25,11 +25,13 @@ export class ViewPageComponent implements OnInit {
   readonly formBuilder = inject(FormBuilder);
 
   searchWords = this.searchWordStore.entities;
+  totalSearchWords = this.searchWordStore.totalCount;
   defaultAllValue = this.dictionaryStore.defaultAllValue;
   activeOptions = this.dictionaryStore.activeFilterItemsOptions;
   sortOptions = this.dictionaryStore.sortFilterItemsOptions;
   contextTypes = this.dictionaryStore.contextTypesFilterItemsOptions;
   searchEngines = this.dictionaryStore.searchEngineFilterItemsOptions;
+
   isLoading$ = toObservable(this.dictionaryStore.isLoading);
 
   form: FormGroup = this.formBuilder.group({
@@ -46,7 +48,7 @@ export class ViewPageComponent implements OnInit {
       take(1),
       tap(() => {
         const request = this.getRequestFilter();
-        this.searchWordStore.fetch(request);
+        this.searchWordStore.initialFetch(request);
       })
     ).subscribe();
   }
@@ -57,6 +59,5 @@ export class ViewPageComponent implements OnInit {
 
   onSubmit() {
     const request = this.getRequestFilter();
-    this.searchWordStore.fetch(request);
   }
 }

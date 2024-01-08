@@ -5,7 +5,7 @@ namespace Trend.Application.Interfaces
 {
     public interface ISearchWordService
     {
-        Task<List<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token);
+        Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token);
         Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token);
         Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token);
         Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token);

@@ -5,6 +5,7 @@ export * from './page-request-dto';
 export * from './search-word-add-req-dto';
 export * from './search-word-filter-req-dto';
 export * from './search-word-res-dto';
+export * from './search-word-res-dto-page-response-dto';
 export * from './sync-status-res-dto';
 export * from './sync-status-res-dto-page-response-dto';
 export * from './sync-status-word-res-dto';
