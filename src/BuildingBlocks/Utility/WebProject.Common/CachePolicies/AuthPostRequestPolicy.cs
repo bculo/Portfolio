@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Primitives;
 
@@ -6,15 +7,25 @@ namespace WebProject.Common.CachePolicies;
 
 public class AuthPostRequestPolicy : IOutputCachePolicy
 {
-    ValueTask IOutputCachePolicy.CacheRequestAsync(OutputCacheContext context, CancellationToken cancellationToken)
+    async ValueTask IOutputCachePolicy.CacheRequestAsync(OutputCacheContext context, CancellationToken cancellationToken)
     {
         var attemptOutputCaching = AttemptOutputCaching(context);
         context.EnableOutputCaching = true;
         context.AllowCacheLookup = attemptOutputCaching;
         context.AllowCacheStorage = attemptOutputCaching;
         context.AllowLocking = true;
+        
         context.CacheVaryByRules.QueryKeys = "*";
-        return ValueTask.CompletedTask;
+        context.CacheVaryByRules.RouteValueNames = "*";
+        
+        var syncFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
+        context.HttpContext.Request.EnableBuffering();
+        using var reader = new StreamReader(context.HttpContext.Request.Body, leaveOpen: true);
+        var body = await reader.ReadToEndAsync(cancellationToken);
+        
+        context.HttpContext.Request.Body.Position = 0;
+        
+        context.CacheVaryByRules.VaryByValues.Add("Content", body);
     }
 
     ValueTask IOutputCachePolicy.ServeFromCacheAsync(OutputCacheContext context, CancellationToken cancellationToken)
