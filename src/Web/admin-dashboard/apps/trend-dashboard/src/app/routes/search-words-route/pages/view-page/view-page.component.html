@@ -1,1 +1,28 @@
-<p>ViewPage works!</p>
+<div class="flex">
+
+    <div class="flex-1">
+        TEXT TEXT
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex-initial glass rounded-md w-96 p-4 sm:max-2xl:w-80">
+        <div class="flex flex-col gap-2 items-center">
+            <h6 class="text-cyan-500 text-xl font-bold mb-5">Filter</h6>
+            <admin-dashboard-form-field label="Search by" [control]="form.controls['query']">
+                <admin-dashboard-input formControlName="query" type="text" [maxLength]="20" placeholder="Search by name"/>
+            </admin-dashboard-form-field>
+            <admin-dashboard-form-field label="Search engine" [control]="form.controls['searchEngine']">
+                <admin-dashboard-select formControlName="searchEngine" [items]="searchEngines()"/>
+            </admin-dashboard-form-field>
+            <admin-dashboard-form-field label="Context type" [control]="form.controls['contextType']">
+                <admin-dashboard-select formControlName="contextType" [items]="contextTypes()"/>
+            </admin-dashboard-form-field>
+            <admin-dashboard-form-field label="Sort" [control]="form.controls['sort']">
+                <admin-dashboard-select formControlName="sort" [items]="sortOptions()"/>
+            </admin-dashboard-form-field>
+            <admin-dashboard-form-field label="Active" [control]="form.controls['active']">
+                <admin-dashboard-select formControlName="active" [items]="activeOptions()"/>
+            </admin-dashboard-form-field>
+        </div>
+    </form>
+
+</div>

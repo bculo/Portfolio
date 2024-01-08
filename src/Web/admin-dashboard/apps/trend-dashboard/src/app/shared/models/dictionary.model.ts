@@ -1,4 +1,4 @@
-export interface KeyValuePair {
-    id: number,
-    value: string
+export interface ControlItem {
+    value: number,
+    displayValue: string
 }

@@ -11,15 +11,15 @@ import { computed, inject } from '@angular/core';
 import { mergeMap, pipe, switchMap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
-import { KeyValuePair } from '../shared/models/dictionary.model';
+import { ControlItem } from '../shared/models/dictionary.model';
 import { DictionaryService } from '../shared/services/open-api/api/dictionary.service';
 
 interface DictionaryState {
     isLoading: boolean
-    sortOptions: KeyValuePair[]
-    activeFilterOptions: KeyValuePair[],
-    searchEngines: KeyValuePair[],
-    contextTypes: KeyValuePair[]
+    sortOptions: ControlItem[]
+    activeFilterOptions: ControlItem[],
+    searchEngines: ControlItem[],
+    contextTypes: ControlItem[]
 }
 
 const initialState: DictionaryState = {
@@ -37,8 +37,8 @@ export const DictionaryStore = signalStore(
     withState(initialState),
     withDevtools('dictionary'),
     withComputed(({ searchEngines, contextTypes }) => ({
-        searchEnginesWithoutAll: computed(() => searchEngines().filter(x => x.id !== allKeyValue)),
-        contextTypesWithoutAll: computed(() => contextTypes().filter(x => x.id !== allKeyValue)),
+        searchEnginesWithoutAll: computed(() => searchEngines().filter(x => x.value !== allKeyValue)),
+        contextTypesWithoutAll: computed(() => contextTypes().filter(x => x.value !== allKeyValue)),
     })),
     withMethods((store, service = inject(DictionaryService)) => ({
         load: rxMethod<void>(
@@ -52,10 +52,10 @@ export const DictionaryStore = signalStore(
                     tapResponse({
                         next: ([activeFilterRes, contextTypesRes, searchEngRes, sortOptionsRes]) => 
                             patchState(store, { 
-                                searchEngines: searchEngRes.map(i => ({id: i.key, value: i.value} as KeyValuePair)),
-                                contextTypes: contextTypesRes.map(i => ({id: i.key, value: i.value} as KeyValuePair)),
-                                activeFilterOptions: activeFilterRes.map(i => ({id: i.key, value: i.value} as KeyValuePair)),
-                                sortOptions: sortOptionsRes.map(i => ({id: i.key, value: i.value} as KeyValuePair)),
+                                searchEngines: searchEngRes.map(i => ({value: i.key, displayValue: i.value} as ControlItem)),
+                                contextTypes: contextTypesRes.map(i => ({value: i.key, displayValue: i.value} as ControlItem)),
+                                activeFilterOptions: activeFilterRes.map(i => ({value: i.key, displayValue: i.value} as ControlItem)),
+                                sortOptions: sortOptionsRes.map(i => ({value: i.key, displayValue: i.value} as ControlItem)),
                             }),
                         error: console.error,
                         finalize: () => patchState(store, {isLoading: false})

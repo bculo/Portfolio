@@ -61,12 +61,12 @@ export const ANIMATED_BACKGROUND = {
       number: {
         density: {
           enable: true,
-          area: 600,
+          area: 100,
         },
-        value: 80,
+        value: 49,
       },
       opacity: {
-        value: 0.5,
+        value: 0.3,
       },
       shape: {
         type: "circle",

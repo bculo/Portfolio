@@ -1,0 +1,5 @@
+<select class="px-4 py-[.6rem] rounded-lg bg-gray-900 opacity-70 border-gray-700 border min-w-60 w-72 placeholder:italic placeholder:text-stone-600 inline-block">
+    @for(item of items; track item.value) {
+        <option [value]="item.value">{{item.displayValue}}</option>
+    }
+</select>
