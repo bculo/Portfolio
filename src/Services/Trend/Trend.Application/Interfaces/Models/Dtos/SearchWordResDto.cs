@@ -18,5 +18,6 @@ namespace Trend.Application.Interfaces.Models.Dtos
         public int SearchEngineId { get; init; }
         public string ContextTypeName { get; init; }
         public int ContextTypeId { get; init; }
+        public string ImageUrl { get; init; }
     }
 }

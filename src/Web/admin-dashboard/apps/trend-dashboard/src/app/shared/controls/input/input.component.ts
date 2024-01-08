@@ -17,7 +17,7 @@ export type InputType = 'text' | 'number'
   ],
   template: `
     <input 
-      class="px-4 py-2 rounded-lg bg-gray-900 opacity-70 border-gray-700 border min-w-60 w-72 placeholder:italic placeholder:text-stone-600 inline-block"
+      class="px-4 py-2 rounded-lg bg-gray-900 opacity-70 border-gray-700 w-full border placeholder:italic placeholder:text-stone-600 inline-block"
       type="text" 
       [disabled]="disabled" 
       [value]="value" 

@@ -1,0 +1,12 @@
+<div class="relative glass p-4 rounded-md h-52 overflow-hidden">
+    @if(!searchWord.isActive) {
+        <div class="absolute bg-red-800 w-2 h-full right-0 top-0"></div>
+    }
+    @else {
+        <div class="absolute bg-green-700 w-2 h-full right-0 top-0"></div>
+    }
+    <div class="flex items-center gap-6">
+        <img [src]="searchWord.imageUrl" class="inline-block w-14 h-14 object-cover rounded-xl border border-stone-700"/>
+        <p class="text-lg font-bold">{{searchWord.searchWord}}</p>
+    </div>   
+</div>

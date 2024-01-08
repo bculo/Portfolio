@@ -412,9 +412,9 @@ export class SearchWordService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<SearchWordResDto>;
-    public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<SearchWordResDto>>;
-    public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<SearchWordResDto>>;
+    public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<SearchWordResDto>>;
+    public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<SearchWordResDto>>>;
+    public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<SearchWordResDto>>>;
     public filter(searchWordFilterReqDto?: SearchWordFilterReqDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -469,7 +469,7 @@ export class SearchWordService {
         }
 
         let localVarPath = `/api/v1/SearchWord/Filter`;
-        return this.httpClient.request<SearchWordResDto>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<SearchWordResDto>>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: searchWordFilterReqDto,

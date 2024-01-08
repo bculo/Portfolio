@@ -1,10 +1,8 @@
-<div>
-
+<div class="w-full">
     <label class="font-bold">
         {{ label }}
         <span *ngIf="required" class="text-red-700">*</span>
     </label>
-
     <div>
         <ng-content></ng-content>
         <div class="min-h-6 h-auto text-sm">
@@ -33,5 +31,4 @@
             }
         </div>
     </div>
-
 </div>

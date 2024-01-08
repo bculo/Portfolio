@@ -6,6 +6,11 @@ namespace Trend.Application.Services;
 
 public class DictionaryService : IDictionaryService
 {
+    public Task<int> GetDefaultAllValue(CancellationToken token)
+    {
+        return Task.FromResult(999);
+    }
+
     public Task<List<KeyValueElementDto>> GetContextTypes(CancellationToken token)
     {
         var instances = ContextType

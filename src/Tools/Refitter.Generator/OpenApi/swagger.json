@@ -5,6 +5,59 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/v1/Dictionary/GetDefaultAllValue": {
+      "get": {
+        "tags": [
+          "Dictionary"
+        ],
+        "operationId": "GetDefaultAllValue",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Dictionary/GetSearchEngines": {
       "get": {
         "tags": [
@@ -811,17 +864,29 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchWordResDto"
+                  "title": "List<SearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordResDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchWordResDto"
+                  "title": "List<SearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordResDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchWordResDto"
+                  "title": "List<SearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordResDto"
+                  }
                 }
               }
             }
@@ -1469,6 +1534,10 @@
           "contextTypeId": {
             "type": "integer",
             "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

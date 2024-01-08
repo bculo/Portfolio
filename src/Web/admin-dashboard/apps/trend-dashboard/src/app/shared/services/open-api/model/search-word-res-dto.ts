@@ -20,5 +20,6 @@ export interface SearchWordResDto {
     searchEngineId?: number;
     contextTypeName?: string | null;
     contextTypeId?: number;
+    imageUrl?: string | null;
 }
 

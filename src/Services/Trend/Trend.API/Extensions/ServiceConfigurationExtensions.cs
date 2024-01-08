@@ -61,7 +61,6 @@ namespace Trend.API.Extensions
                     .Expire(TimeSpan.FromMinutes(30))
                     .Tag(CacheTags.SYNC));
                 
-                
                 opt.AddPolicy("WordPostPolicy", policy => policy.AddPolicy<AuthPostRequestPolicy>()
                     .Expire(TimeSpan.FromMinutes(30))
                     .Tag(CacheTags.SEARCH_WORD));

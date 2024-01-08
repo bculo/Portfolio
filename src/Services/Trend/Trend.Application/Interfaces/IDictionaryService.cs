@@ -4,6 +4,7 @@ namespace Trend.Application.Interfaces;
 
 public interface IDictionaryService
 {
+    Task<int> GetDefaultAllValue(CancellationToken token);
     Task<List<KeyValueElementDto>> GetContextTypes(CancellationToken token);
     Task<List<KeyValueElementDto>> GetSearchEngines(CancellationToken token);
     

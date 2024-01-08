@@ -5,16 +5,17 @@ import {
     withState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { computed, inject } from '@angular/core';
-import { map, mergeMap, pipe, switchMap, tap, zip } from 'rxjs';
+import { inject } from '@angular/core';
+import { map, pipe, switchMap, tap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
-import { SearchWordFilterModel } from '../models/search-words.model';
-import { mapToDto } from '../mappers/mapper';
+import { SearchWordFilterModel, SearchWordItem } from '../models/search-words.model';
+import { mapToFilterReqDto, mapToFilterViewModel } from '../mappers/mapper';
+import { setAllEntities, setEntities, withEntities } from '@ngrx/signals/entities';
 
 interface SearchWordState {
-    isLoading: boolean
+    isLoading: boolean,
 }
 
 const initialState: SearchWordState = {
@@ -24,17 +25,19 @@ const initialState: SearchWordState = {
 
 export const SearchWordStore = signalStore(
     { providedIn: 'root' },
+    withEntities<SearchWordItem>(),
     withState(initialState),
     withDevtools('search-word'),
     withMethods((store, service = inject(SearchWordService)) => ({
-        load: rxMethod<SearchWordFilterModel>(
+        fetch: rxMethod<SearchWordFilterModel>(
             pipe(
-                map(mapToDto),
+                map(mapToFilterReqDto),
                 tap(dto => patchState(store, { isLoading: true })),
                 switchMap((dto) => 
                     service.filter(dto).pipe(
+                        map(mapToFilterViewModel),
                         tapResponse({
-                            next: () => patchState(store, { }),
+                            next: (items) => patchState(store, setAllEntities(items)),
                             error: console.error,
                             finalize: () => patchState(store, { isLoading: false })
                         })

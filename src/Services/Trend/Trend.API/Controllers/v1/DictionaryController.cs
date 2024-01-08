@@ -21,6 +21,16 @@ public class DictionaryController : ControllerBase
         _service = service;
     }
     
+    [HttpGet("GetDefaultAllValue")]
+    [SwaggerOperation(OperationId = "GetDefaultAllValue")]
+    [OutputCache(PolicyName = "DictionaryPolicy")]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetDefaultAllValue(CancellationToken token)
+    {
+        return Ok(await _service.GetDefaultAllValue(token));
+    }
+    
     [HttpGet("GetSearchEngines")]
     [SwaggerOperation(OperationId = "GetSearchEngines")]
     [OutputCache(PolicyName = "DictionaryPolicy")]

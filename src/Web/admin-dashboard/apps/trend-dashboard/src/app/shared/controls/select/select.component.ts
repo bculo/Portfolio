@@ -1,12 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
-
-export interface ControlItem {
-  value: number;
-  displayValue: string
-}
+import { ControlItem } from '../../models/controls.model';
 
 @Component({
   selector: 'admin-dashboard-select',
