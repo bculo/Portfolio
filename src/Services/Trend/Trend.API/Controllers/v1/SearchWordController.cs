@@ -53,6 +53,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPost("Filter")]
+        [OutputCache(PolicyName = "WordPostPolicy")]
         [SwaggerOperation(OperationId = "Filter")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]

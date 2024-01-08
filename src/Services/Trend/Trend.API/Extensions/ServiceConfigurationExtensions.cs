@@ -59,23 +59,12 @@ namespace Trend.API.Extensions
                 
                 opt.AddPolicy("SyncPostPolicy", policy => policy.AddPolicy<AuthPostRequestPolicy>()
                     .Expire(TimeSpan.FromMinutes(30))
-                    .VaryByValue(context =>
-                    {
-                        var syncFeature = context.Features.Get<IHttpBodyControlFeature>();
-                        if (syncFeature != null)
-                        {
-                            syncFeature.AllowSynchronousIO = true;
-                        }
-                        
-                        context.Request.EnableBuffering();
-                        
-                        using var reader = new StreamReader(context.Request.Body, leaveOpen: true);
-                        var body = reader.ReadToEnd();
-                        
-                        context.Request.Body.Position = 0;
-                        return new KeyValuePair<string, string>("Body", body);
-                    })
                     .Tag(CacheTags.SYNC));
+                
+                
+                opt.AddPolicy("WordPostPolicy", policy => policy.AddPolicy<AuthPostRequestPolicy>()
+                    .Expire(TimeSpan.FromMinutes(30))
+                    .Tag(CacheTags.SEARCH_WORD));
             });
             
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
