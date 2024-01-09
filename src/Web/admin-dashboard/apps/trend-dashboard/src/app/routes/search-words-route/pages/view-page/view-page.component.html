@@ -1,27 +1,32 @@
 <div>
-    <div>
-        <h4 class="text-center text-2xl text-cyan-500 font-bold m-auto">Search words</h4>
+    <div class="flex justify-between items-center text-cyan-500">
+        <h4 class="text-xl font-bold py-4">Search words</h4>
+        <div>
+            <button type="button" class="flex items-center gap-2 hover:text-cyan-600">
+                <ng-icon name="heroDocumentPlus"/>
+                <span>Add Search Word</span>
+            </button>
+        </div>
     </div>
 
-    <div class="flex gap-8">
+    <div class="text-sm py-2">
+        <p>Showing 
+            <span class="font-bold text-cyan-500">{{searchWords().length}}</span> 
+            / 
+            <span class="font-bold text-cyan-500">{{totalSearchWords()}}</span> 
+            search results
+        </p>
+    </div>
 
+    <div class="flex gap-4">
         <div class="flex-1">
-            <div class="text-md py-4">
-                <p>Showing 
-                    <span class="font-bold text-cyan-500">{{searchWords().length}}</span> 
-                    / 
-                    <span class="font-bold text-cyan-500">{{totalSearchWords()}}</span> 
-                    search results
-                </p>
-            </div>
-            <div class="flex max-2xl:flex-wrap gap-4">
+            <div class="grid grid-cols-2 max-xl:grid-cols-1 gap-4">
                 @for(searchWord of searchWords(); track searchWord.id) {
-                    <admin-dashboard-search-word-card [searchWord]="searchWord" class="w-1/2 max-2xl:w-full"/>
+                    <admin-dashboard-search-word-card [searchWord]="searchWord" class="col-span-1"/>
                 }
             </div>
         </div>
-
-        <div class="flex-initial w-96 sm:max-2xl:w-80">
+        <div class="flex-none w-80">
             @if(form) {
                 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="glass rounded-md p-6">
                     <div class="flex flex-col gap-2 items-center">
@@ -49,6 +54,7 @@
                 </form>
             }
         </div>
-
     </div>
+
 </div>
+

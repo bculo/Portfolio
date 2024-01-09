@@ -16,11 +16,7 @@ export type ButtonType = 'submit' | 'button';
       <button [type]="type" class="box-border bg-cyan-700 px-4 py-2 hover:bg-cyan-800 rounded-md min-w-32 transition-all delay-75 ease-out">{{text}}</button>
     }
   `,
-  styles: `
-    :host {
-        display: block;
-    }
-  `
+  styles: ``
 })
 export class ButtonComponent {
   @Input() type: ButtonType = 'button';

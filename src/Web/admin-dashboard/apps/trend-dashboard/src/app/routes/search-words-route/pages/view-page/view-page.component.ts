@@ -11,11 +11,16 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take, tap } from 'rxjs';
 import { SearchWordFilterModel } from '../../models/search-words.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
+import { NgIconComponent } from '@ng-icons/core';
 
 @Component({
   selector: 'admin-dashboard-view-page',
   standalone: true,
-  imports: [CommonModule, InputComponent, SelectComponent, FormFieldComponent, ReactiveFormsModule, ButtonComponent, SearchWordCardComponent],
+  imports: [
+    CommonModule, InputComponent, SelectComponent, FormFieldComponent, 
+    ReactiveFormsModule, ButtonComponent, SearchWordCardComponent,
+    NgIconComponent
+  ],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.scss',
 })

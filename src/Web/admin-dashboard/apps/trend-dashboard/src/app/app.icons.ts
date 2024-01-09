@@ -3,7 +3,8 @@ import {
     heroHome, 
     heroChevronRight, 
     heroChatBubbleLeftEllipsis, 
-    heroPower 
+    heroPower,
+    heroDocumentPlus 
 } from '@ng-icons/heroicons/outline';
 
 import {
@@ -16,7 +17,8 @@ export const APP_ICONS = {
     heroHome,
     heroChevronRight,
     heroChatBubbleLeftEllipsis,
-    heroPower
+    heroPower,
+    heroDocumentPlus
 }
 
 export const ANIMATED_BACKGROUND = {
