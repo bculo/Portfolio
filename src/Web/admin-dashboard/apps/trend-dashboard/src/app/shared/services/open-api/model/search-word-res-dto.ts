@@ -14,7 +14,7 @@
 export interface SearchWordResDto { 
     id?: string | null;
     isActive?: boolean;
-    created?: string;
+    created?: Date;
     searchWord?: string | null;
     searchEngineName?: string | null;
     searchEngineId?: number;

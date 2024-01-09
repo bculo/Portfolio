@@ -5,13 +5,15 @@
     }"></div>  
 
     <div class="flex justify-between items-start">
+
         <div class="flex-none flex gap-2">
             <img [src]="searchWord.imageUrl" class="inline-block w-12 h-12 object-cover border rounded-xl border-stone-700"/>
             <div>
                 <h6 class="font-thin text-lg">{{searchWord.searchWord}}</h6>
-                <p class="text-sm text-cyan-500">{{searchWord.contextTypeName}}</p>
+                <p class="text-xs text-cyan-500">{{searchWord.contextTypeName}}</p>
             </div>
         </div>
+
         <div class="flex-1 flex justify-end gap-1">
             @if(searchWord.isActive) {
                 <span (click)="onDelete()" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-red-800 hover:border-red-800">
@@ -22,11 +24,18 @@
                 </span>
             }
             @else {
-                <span class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
+                <span (click)="onActivate()" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
                     <ng-icon name="heroPlusCircle"></ng-icon>
                 </span>
 
             }
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <div class="flex gap-1 items-center text-xs">
+            <ng-icon name="heroCalendarDays"></ng-icon>
+            <p>{{ getDayDiff() }} days ago</p>
         </div>
     </div>
           

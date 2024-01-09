@@ -14,8 +14,8 @@ import { SyncStatusWordResDto } from './sync-status-word-res-dto';
 
 export interface SyncStatusResDto { 
     id?: string | null;
-    started?: string;
-    finished?: string;
+    started?: Date;
+    finished?: Date;
     totalRequests?: number;
     succeddedRequests?: number;
     searchWords?: Array<SyncStatusWordResDto> | null;

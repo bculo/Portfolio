@@ -13,7 +13,7 @@
 
 export interface ArticleResDto { 
     id?: string | null;
-    created?: string;
+    created?: Date;
     title?: string | null;
     text?: string | null;
     url?: string | null;

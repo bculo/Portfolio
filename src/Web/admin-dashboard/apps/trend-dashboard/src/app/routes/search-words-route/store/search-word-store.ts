@@ -63,5 +63,19 @@ export const SearchWordStore = signalStore(
                 )
             )  
         ),
+        activate: rxMethod<string>(
+            pipe(
+                tap(itemId => patchState(store, { isLoading: true })),
+                switchMap((itemId) => 
+                    service.activate(itemId).pipe(
+                        tapResponse({
+                            next: () => patchState(store, updateEntity({ id: itemId, changes: { isActive: true } })),
+                            error: console.error,
+                            finalize: () => patchState(store, { isLoading: false })
+                        })
+                    ),  
+                )
+            )  
+        ),
     }))
 );

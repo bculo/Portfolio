@@ -11,7 +11,7 @@ export interface SearchWordFilterModel {
 export interface SearchWordItem {
     id: string;
     isActive?: boolean;
-    created?: string;
+    created?: Date;
     searchWord?: string | null;
     searchEngineName?: string | null;
     searchEngineId?: number;
