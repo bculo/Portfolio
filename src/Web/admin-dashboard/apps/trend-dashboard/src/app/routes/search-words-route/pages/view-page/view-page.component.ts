@@ -12,6 +12,7 @@ import { filter, take, tap } from 'rxjs';
 import { SearchWordFilterModel } from '../../models/search-words.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
 import { NgIconComponent } from '@ng-icons/core';
+import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
 
 @Component({
   selector: 'admin-dashboard-view-page',
@@ -19,7 +20,7 @@ import { NgIconComponent } from '@ng-icons/core';
   imports: [
     CommonModule, InputComponent, SelectComponent, FormFieldComponent, 
     ReactiveFormsModule, ButtonComponent, SearchWordCardComponent,
-    NgIconComponent
+    NgIconComponent, SideModalComponent
   ],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.scss',

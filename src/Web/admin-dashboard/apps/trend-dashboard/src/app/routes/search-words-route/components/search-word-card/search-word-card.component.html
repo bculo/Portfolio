@@ -9,4 +9,10 @@
         <img [src]="searchWord.imageUrl" class="inline-block w-14 h-14 object-cover rounded-xl border border-stone-700"/>
         <p class="text-lg font-bold">{{searchWord.searchWord}}</p>
     </div>   
+    <button type="button" (click)="modalService.open(searchWord.id)">OPEN MODAL</button>
+
+    <admin-dashboard-side-modal [id]="searchWord.id">
+        <h1>A custom modal popup</h1>
+        <button (click)="modalService.close(searchWord.id);">Close</button>
+    </admin-dashboard-side-modal>
 </div>
