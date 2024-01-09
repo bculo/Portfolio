@@ -1,18 +1,37 @@
-<div class="relative glass p-4 rounded-md h-52 overflow-hidden">
-    @if(!searchWord.isActive) {
-        <div class="absolute bg-red-800 w-2 h-full right-0 top-0"></div>
-    }
-    @else {
-        <div class="absolute bg-green-700 w-2 h-full right-0 top-0"></div>
-    }
-    <div class="flex items-center gap-6">
-        <img [src]="searchWord.imageUrl" class="inline-block w-14 h-14 object-cover rounded-xl border border-stone-700"/>
-        <p class="text-lg font-bold">{{searchWord.searchWord}}</p>
-    </div>   
-    <button type="button" (click)="modalService.open(searchWord.id)">OPEN MODAL</button>
+<div class="relative glass rounded-md p-4">
+    <div class="absolute bg-red-800 w-2 h-full right-0 top-0" [ngClass]="{
+        'bg-red-800': !searchWord.isActive,
+        'bg-green-700': searchWord.isActive,
+    }"></div>  
 
+    <div class="flex justify-between items-start">
+        <div class="flex-none flex gap-2">
+            <img [src]="searchWord.imageUrl" class="inline-block w-12 h-12 object-cover border rounded-xl border-stone-700"/>
+            <div>
+                <h6 class="font-thin text-lg">{{searchWord.searchWord}}</h6>
+                <p class="text-sm text-cyan-500">{{searchWord.contextTypeName}}</p>
+            </div>
+        </div>
+        <div class="flex-1 flex justify-end gap-1">
+            @if(searchWord.isActive) {
+                <span (click)="onDelete()" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-red-800 hover:border-red-800">
+                    <ng-icon name="heroTrash"/>
+                </span>
+                <span (click)="modalService.open(searchWord.id)" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
+                    <ng-icon name="heroCog6Tooth"/>
+                </span>
+            }
+            @else {
+                <span class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
+                    <ng-icon name="heroPlusCircle"></ng-icon>
+                </span>
+
+            }
+        </div>
+    </div>
+          
     <admin-dashboard-side-modal [id]="searchWord.id">
         <h1>A custom modal popup</h1>
-        <button (click)="modalService.close(searchWord.id);">Close</button>
+        <button (click)="modalService.close(searchWord.id)">Close</button>
     </admin-dashboard-side-modal>
 </div>

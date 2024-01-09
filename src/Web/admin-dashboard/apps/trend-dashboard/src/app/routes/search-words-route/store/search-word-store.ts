@@ -12,7 +12,7 @@ import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
 import { SearchWordFilterModel, SearchWordItem } from '../models/search-words.model';
 import { mapToFilterReqDto, mapToFilterViewModel } from '../mappers/mapper';
-import { setAllEntities, withEntities } from '@ngrx/signals/entities';
+import { removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 
 interface SearchWordState {
     isLoading: boolean,
@@ -42,6 +42,20 @@ export const SearchWordStore = signalStore(
                                 patchState(store, setAllEntities(mapToFilterViewModel(response)));
                                 patchState(store, { totalCount: response.count })
                             },
+                            error: console.error,
+                            finalize: () => patchState(store, { isLoading: false })
+                        })
+                    ),  
+                )
+            )  
+        ),
+        deactivate: rxMethod<string>(
+            pipe(
+                tap(itemId => patchState(store, { isLoading: true })),
+                switchMap((itemId) => 
+                    service.deactivate(itemId).pipe(
+                        tapResponse({
+                            next: () => patchState(store, updateEntity({ id: itemId, changes: { isActive: false } })),
                             error: console.error,
                             finalize: () => patchState(store, { isLoading: false })
                         })

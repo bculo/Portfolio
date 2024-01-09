@@ -4,7 +4,10 @@ import {
     heroChevronRight, 
     heroChatBubbleLeftEllipsis, 
     heroPower,
-    heroDocumentPlus 
+    heroDocumentPlus,
+    heroCog6Tooth,
+    heroTrash,
+    heroPlusCircle 
 } from '@ng-icons/heroicons/outline';
 
 import {
@@ -18,7 +21,10 @@ export const APP_ICONS = {
     heroChevronRight,
     heroChatBubbleLeftEllipsis,
     heroPower,
-    heroDocumentPlus
+    heroDocumentPlus,
+    heroCog6Tooth,
+    heroTrash,
+    heroPlusCircle
 }
 
 export const ANIMATED_BACKGROUND = {
