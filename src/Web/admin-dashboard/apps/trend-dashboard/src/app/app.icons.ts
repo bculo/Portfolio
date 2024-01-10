@@ -8,7 +8,8 @@ import {
     heroCog6Tooth,
     heroTrash,
     heroPlusCircle ,
-    heroCalendarDays
+    heroCalendarDays,
+    heroMagnifyingGlassCircle
 } from '@ng-icons/heroicons/outline';
 
 import {
@@ -26,7 +27,8 @@ export const APP_ICONS = {
     heroCog6Tooth,
     heroTrash,
     heroPlusCircle,
-    heroCalendarDays
+    heroCalendarDays,
+    heroMagnifyingGlassCircle
 }
 
 export const ANIMATED_BACKGROUND = {
