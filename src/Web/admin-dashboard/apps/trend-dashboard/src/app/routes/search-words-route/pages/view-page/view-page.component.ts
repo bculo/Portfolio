@@ -9,7 +9,7 @@ import { SelectComponent } from 'apps/trend-dashboard/src/app/shared/controls/se
 import { ButtonComponent } from 'apps/trend-dashboard/src/app/shared/components/button/button.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take, tap } from 'rxjs';
-import { SearchWordFilterModel } from '../../models/search-words.model';
+import { SearchWordFilterModel, SearchWordItem } from '../../models/search-words.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
 import { NgIconComponent } from '@ng-icons/core';
 import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
@@ -72,5 +72,19 @@ export class ViewPageComponent implements OnInit {
 
   onSubmit() {
     const request = this.getRequestFilter();
+  }
+
+  onModalOpen(selectedItem: SearchWordItem | null) {
+    if(selectedItem) {
+      this.searchWordStore.activateUpdateMode(selectedItem);
+    }
+    this.modalService.open('search-word-modal');
+  }
+
+  onModalClose() {
+    if(this.searchWordStore.isUpdateMode()) {
+      this.searchWordStore.deactivateUpdateMode();
+    }
+    this.modalService.close('search-word-modal');
   }
 }

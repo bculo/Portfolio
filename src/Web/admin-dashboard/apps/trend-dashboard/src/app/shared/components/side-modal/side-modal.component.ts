@@ -24,25 +24,25 @@ export class SideModalComponent implements OnInit, OnDestroy, ModalInstance {
   private element: any = this.elRef.nativeElement;
 
   ngOnInit(): void {
-      this.modalService.add(this);
-      document.body.appendChild(this.element);
-      this.addListeners();
+    this.modalService.add(this);
+    document.body.appendChild(this.element);
+    this.addListeners();
   }
 
   ngOnDestroy(): void {
-      this.removeListeners();
-      this.modalService.remove(this);
-      this.element.remove();
+    this.removeListeners();
+    this.modalService.remove(this);
+    this.element.remove();
   }
 
   open() {
-      this.isOpen = true;
-      this.onOpen.emit();
+    this.isOpen = true;
+    this.onOpen.emit();
   }
 
   close() {
-      this.isOpen = false;
-      this.onClose.emit();
+    this.isOpen = false;
+    this.onClose.emit();
   }
 
   private addListeners(): void {

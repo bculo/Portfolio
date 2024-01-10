@@ -1,27 +1,30 @@
 import {
     patchState,
     signalStore,
+    withComputed,
     withMethods,
     withState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { map, pipe, switchMap, tap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
 import { SearchWordFilterModel, SearchWordItem } from '../models/search-words.model';
 import { mapToFilterReqDto, mapToFilterViewModel } from '../mappers/mapper';
-import { removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
+import { setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 
 interface SearchWordState {
+    updateItem: SearchWordItem | null,
     isLoading: boolean,
     totalCount: number
 }
 
 const initialState: SearchWordState = {
     isLoading: false,
-    totalCount: 0
+    totalCount: 0,
+    updateItem: null
 }
 
 
@@ -30,7 +33,11 @@ export const SearchWordStore = signalStore(
     withEntities<SearchWordItem>(),
     withState(initialState),
     withDevtools('search-word'),
+    withComputed(({ updateItem }) => ({
+        isUpdateMode: computed(() => updateItem),
+    })),
     withMethods((store, service = inject(SearchWordService)) => ({
+
         initialFetch: rxMethod<SearchWordFilterModel>(
             pipe(
                 map(mapToFilterReqDto),
@@ -49,6 +56,7 @@ export const SearchWordStore = signalStore(
                 )
             )  
         ),
+
         deactivate: rxMethod<string>(
             pipe(
                 tap(itemId => patchState(store, { isLoading: true })),
@@ -77,5 +85,13 @@ export const SearchWordStore = signalStore(
                 )
             )  
         ),
+
+        activateUpdateMode(item: SearchWordItem) {
+            patchState(store, { updateItem: item });
+        },
+
+        deactivateUpdateMode() {
+            patchState(store, { updateItem: null });
+        }
     }))
 );

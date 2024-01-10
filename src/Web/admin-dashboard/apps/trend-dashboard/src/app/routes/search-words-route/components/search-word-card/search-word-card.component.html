@@ -19,7 +19,7 @@
                 <span (click)="onDelete()" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-red-800 hover:border-red-800">
                     <ng-icon name="heroTrash"/>
                 </span>
-                <span (click)="modalService.open(searchWord.id)" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
+                <span (click)="onDetails()" class="flex justify-center p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
                     <ng-icon name="heroCog6Tooth"/>
                 </span>
             }
@@ -42,10 +42,4 @@
             <p class="text-xs">{{ searchWord.searchEngineName }}</p>
         </div>
     </div>
-          
-    <admin-dashboard-side-modal [id]="searchWord.id" (onClose)="modalClosed()">
-        @if(modalService.visible('searchWord.id')) {
-            <admin-dashboard-search-word-detail [item]="searchWord"/>
-        }
-    </admin-dashboard-side-modal>
 </div>

@@ -10,13 +10,15 @@ import { SearchWordStore } from '../../store/search-word-store';
   templateUrl: './search-word-detail.component.html',
   styleUrl: './search-word-detail.component.scss',
 })
-export class SearchWordDetailComponent implements OnInit {
+export class SearchWordDetailComponent implements OnInit, OnDestroy {
   readonly searchWordStore = inject(SearchWordStore);
 
   @Input() item: SearchWordItem | null = null;
 
 
   ngOnInit(): void {
-    console.log("ngOnInit")
+  }
+
+  ngOnDestroy(): void {
   }
 }
