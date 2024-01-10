@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalInstance } from '../../models/modals.model';
 import { ModalService } from '../../services/modal.service';
@@ -18,6 +18,8 @@ export class SideModalComponent implements OnInit, OnDestroy, ModalInstance {
 
   isOpen: boolean = false;
   @Input() id: string = ''; 
+  @Output() onClose = new EventEmitter();  
+  @Output() onOpen = new EventEmitter();  
 
   private element: any = this.elRef.nativeElement;
 
@@ -35,10 +37,12 @@ export class SideModalComponent implements OnInit, OnDestroy, ModalInstance {
 
   open() {
       this.isOpen = true;
+      this.onOpen.emit();
   }
 
   close() {
       this.isOpen = false;
+      this.onClose.emit();
   }
 
   private addListeners(): void {

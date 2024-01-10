@@ -6,11 +6,12 @@ import { ModalService } from 'apps/trend-dashboard/src/app/shared/services/modal
 import { NgIconComponent } from '@ng-icons/core';
 import { SearchWordStore } from '../../store/search-word-store';
 import { dateDiffInDays } from 'apps/trend-dashboard/src/app/shared/utilities/utilities';
+import { SearchWordDetailComponent } from '../search-word-detail/search-word-detail.component';
 
 @Component({
   selector: 'admin-dashboard-search-word-card',
   standalone: true,
-  imports: [CommonModule, SideModalComponent, NgIconComponent],
+  imports: [CommonModule, SideModalComponent, NgIconComponent, SearchWordDetailComponent],
   templateUrl: './search-word-card.component.html',
   styleUrl: './search-word-card.component.scss',
 })
@@ -35,4 +36,8 @@ export class SearchWordCardComponent implements OnInit {
   getDayDiff(): number {
     return dateDiffInDays(this.searchWord!.created!, new Date());
   } 
+
+  modalClosed(): void {
+    console.log("modalClosed")
+  }
 }

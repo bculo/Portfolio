@@ -13,6 +13,8 @@ import { SearchWordFilterModel } from '../../models/search-words.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
 import { NgIconComponent } from '@ng-icons/core';
 import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
+import { SearchWordDetailComponent } from '../../components/search-word-detail/search-word-detail.component';
+import { ModalService } from 'apps/trend-dashboard/src/app/shared/services/modal.service';
 
 @Component({
   selector: 'admin-dashboard-view-page',
@@ -20,7 +22,7 @@ import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/componen
   imports: [
     CommonModule, InputComponent, SelectComponent, FormFieldComponent, 
     ReactiveFormsModule, ButtonComponent, SearchWordCardComponent,
-    NgIconComponent, SideModalComponent
+    NgIconComponent, SideModalComponent, SearchWordDetailComponent
   ],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.scss',
@@ -29,6 +31,7 @@ export class ViewPageComponent implements OnInit {
   readonly searchWordStore = inject(SearchWordStore);
   readonly dictionaryStore = inject(DictionaryStore);
   readonly formBuilder = inject(FormBuilder);
+  readonly modalService = inject(ModalService);
 
   searchWords = this.searchWordStore.entities;
   totalSearchWords = this.searchWordStore.totalCount;
@@ -61,6 +64,10 @@ export class ViewPageComponent implements OnInit {
 
   private getRequestFilter(): SearchWordFilterModel {
     return {...this.form!.value, page: 1, take: 50} as SearchWordFilterModel
+  }
+
+  modalClosed(): void {
+    console.log("modalClosed")
   }
 
   onSubmit() {

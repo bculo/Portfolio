@@ -43,8 +43,9 @@
         </div>
     </div>
           
-    <admin-dashboard-side-modal [id]="searchWord.id">
-        <h1>A custom modal popup</h1>
-        <button (click)="modalService.close(searchWord.id)">Close</button>
+    <admin-dashboard-side-modal [id]="searchWord.id" (onClose)="modalClosed()">
+        @if(modalService.visible('searchWord.id')) {
+            <admin-dashboard-search-word-detail [item]="searchWord"/>
+        }
     </admin-dashboard-side-modal>
 </div>

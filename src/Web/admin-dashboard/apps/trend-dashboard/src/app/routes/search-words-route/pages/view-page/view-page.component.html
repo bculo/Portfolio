@@ -2,7 +2,7 @@
     <div class="flex justify-between items-center text-cyan-500">
         <h4 class="text-xl font-bold py-4">Search words</h4>
         <div>
-            <button type="button" class="flex items-center gap-2 hover:text-cyan-600">
+            <button (click)="modalService.open('add-new-word')" type="button" class="flex items-center gap-2 hover:text-cyan-600">
                 <ng-icon name="heroDocumentPlus"/>
                 <span>Add Search Word</span>
             </button>
@@ -56,5 +56,10 @@
         </div>
     </div>
 
-</div>
 
+        <admin-dashboard-side-modal id="add-new-word">
+            @if(modalService.visible('add-new-word')) {
+                <admin-dashboard-search-word-detail/>
+            }
+        </admin-dashboard-side-modal>
+</div>
