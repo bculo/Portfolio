@@ -14,10 +14,10 @@ import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { KeyValuePair } from '../shared/models/dictionary.model';
 import { DictionaryService } from '../shared/services/open-api/api/dictionary.service';
 import { ControlItem } from '../shared/models/controls.model';
+import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions } from '../shared/enums/enums';
 
 interface DictionaryState {
     isLoading: boolean,
-    defaultAllValue: number,
     sortOptions: KeyValuePair[]
     activeOptions: KeyValuePair[],
     searchEngines: KeyValuePair[],
@@ -26,7 +26,6 @@ interface DictionaryState {
 
 const initialState: DictionaryState = {
     isLoading: true,
-    defaultAllValue: 999,
     sortOptions: [],
     activeOptions: [],
     searchEngines: [],
@@ -37,26 +36,24 @@ export const DictionaryStore = signalStore(
     { providedIn: 'root' },
     withState(initialState),
     withDevtools('dictionary'),
-    withComputed(({ searchEngines, contextTypes, sortOptions, activeOptions, defaultAllValue }) => ({
-        contextTypesFilterItemsOptions: computed(() => contextTypes().map(x => ({...x, isDefault: x.value === defaultAllValue()} as ControlItem))),
-        searchEngineFilterItemsOptions: computed(() => searchEngines().map(x => ({...x, isDefault: x.value === defaultAllValue()} as ControlItem))),
-        activeFilterItemsOptions: computed(() => activeOptions().map(x => ({...x, isDefault: x.value === defaultAllValue()} as ControlItem))),
+    withComputed(({ searchEngines, contextTypes, sortOptions, activeOptions }) => ({
+        contextTypesFilterItemsOptions: computed(() => contextTypes().map(x => ({...x, isDefault: x.value === ContextTypeEnumOptions.All} as ControlItem))),
+        searchEngineFilterItemsOptions: computed(() => searchEngines().map(x => ({...x, isDefault: x.value === SearchEngineEnumOptions.All} as ControlItem))),
+        activeFilterItemsOptions: computed(() => activeOptions().map(x => ({...x, isDefault: x.value === ActiveEnumOptions.All} as ControlItem))),
         sortFilterItemsOptions: computed(() => sortOptions().map(x => ({...x} as ControlItem))),
     })),
     withMethods((store, service = inject(DictionaryService)) => ({
         load: rxMethod<void>(
             switchMap(() => 
                 zip(
-                    service.getDefaultAllValue(),
                     service.getActiveFilterOptions(), 
                     service.getContextTypes(),
                     service.getSearchEngines(),
                     service.getSortFilterOptions(),
                 ).pipe(
                     tapResponse({
-                        next: ([defaultAllValueRes, activeFilterRes, contextTypesRes, searchEngRes, sortOptionsRes]) => 
+                        next: ([activeFilterRes, contextTypesRes, searchEngRes, sortOptionsRes]) => 
                             patchState(store, { 
-                                defaultAllValue: defaultAllValueRes,
                                 searchEngines: searchEngRes.map(i => ({value: i.key, displayValue: i.value} as KeyValuePair)),
                                 contextTypes: contextTypesRes.map(i => ({value: i.key, displayValue: i.value} as KeyValuePair)),
                                 activeOptions: activeFilterRes.map(i => ({value: i.key, displayValue: i.value} as KeyValuePair)),

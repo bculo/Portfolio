@@ -15,6 +15,7 @@ import { NgIconComponent } from '@ng-icons/core';
 import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
 import { SearchWordDetailComponent } from '../../components/search-word-detail/search-word-detail.component';
 import { ModalService } from 'apps/trend-dashboard/src/app/shared/services/modal.service';
+import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions, SortEnumOptions } from 'apps/trend-dashboard/src/app/shared/enums/enums';
 
 @Component({
   selector: 'admin-dashboard-view-page',
@@ -35,30 +36,29 @@ export class ViewPageComponent implements OnInit {
 
   searchWords = this.searchWordStore.entities;
   totalSearchWords = this.searchWordStore.totalCount;
-  defaultAllValue = this.dictionaryStore.defaultAllValue;
   activeOptions = this.dictionaryStore.activeFilterItemsOptions;
   sortOptions = this.dictionaryStore.sortFilterItemsOptions;
   contextTypes = this.dictionaryStore.contextTypesFilterItemsOptions;
   searchEngines = this.dictionaryStore.searchEngineFilterItemsOptions;
+  searchWordModalId = this.searchWordStore.searchWordModal;
 
   isLoading$ = toObservable(this.dictionaryStore.isLoading);
 
+  formSnapshotValue: any = null;
   form: FormGroup = this.formBuilder.group({
     query: new FormControl<string | null>(null, { updateOn: 'change' }),
-    active: new FormControl<number>(this.defaultAllValue(), { updateOn: 'change', validators: [Validators.required] }),
-    searchEngine: new FormControl<number>(this.defaultAllValue(), { updateOn: 'change', validators: [Validators.required] }),
-    contextType: new FormControl<number>(this.defaultAllValue(), { updateOn: 'change', validators: [Validators.required] }),
-    sort: new FormControl<number>(0, { updateOn: 'change', validators: [Validators.required] }),
+    active: new FormControl<number>(ActiveEnumOptions.All, { updateOn: 'change', validators: [Validators.required] }),
+    searchEngine: new FormControl<number>(SearchEngineEnumOptions.All, { updateOn: 'change', validators: [Validators.required] }),
+    contextType: new FormControl<number>(ContextTypeEnumOptions.All, { updateOn: 'change', validators: [Validators.required] }),
+    sort: new FormControl<number>(SortEnumOptions.Asc, { updateOn: 'change', validators: [Validators.required] }),
   });
 
   ngOnInit(): void {
+    this.formSnapshotValue = this.form.value;
     this.isLoading$.pipe(
       filter(isLoading => !isLoading),
       take(1),
-      tap(() => {
-        const request = this.getRequestFilter();
-        this.searchWordStore.initialFetch(request);
-      })
+      tap(() => this.searchWordStore.fetch(this.getRequestFilter()))
     ).subscribe();
   }
 
@@ -66,25 +66,20 @@ export class ViewPageComponent implements OnInit {
     return {...this.form!.value, page: 1, take: 50} as SearchWordFilterModel
   }
 
-  modalClosed(): void {
-    console.log("modalClosed")
+  onSubmit() {
+    this.searchWordStore.fetch(this.getRequestFilter());
   }
 
-  onSubmit() {
-    const request = this.getRequestFilter();
+  resetForm() {
+    this.form.patchValue(this.formSnapshotValue);
+    this.onSubmit();
   }
 
   onModalOpen(selectedItem: SearchWordItem | null) {
-    if(selectedItem) {
-      this.searchWordStore.activateUpdateMode(selectedItem);
-    }
-    this.modalService.open('search-word-modal');
+    this.searchWordStore.activateEditMode(selectedItem);
   }
 
   onModalClose() {
-    if(this.searchWordStore.isUpdateMode()) {
-      this.searchWordStore.deactivateUpdateMode();
-    }
-    this.modalService.close('search-word-modal');
+    this.searchWordStore.deactivateEditMode();
   }
 }

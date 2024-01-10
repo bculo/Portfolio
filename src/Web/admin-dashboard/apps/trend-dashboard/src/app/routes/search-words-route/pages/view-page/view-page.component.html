@@ -48,7 +48,7 @@
                         </admin-dashboard-form-field>
                     </div>
                     <div class="flex justify-end gap-2 items-center">
-                        <admin-dashboard-button type="button" styleType="empty" text="Clear"/>
+                        <admin-dashboard-button (click)="resetForm()" type="button" styleType="empty" text="Reset"/>
                         <admin-dashboard-button type="submit" styleType="full" text="Submit"/>
                     </div>
                 </form>
@@ -57,7 +57,7 @@
     </div>
 
 
-    <admin-dashboard-side-modal id="search-word-modal" (onClose)="onModalClose()">
+    <admin-dashboard-side-modal [id]="searchWordModalId()" (onClose)="onModalClose()">
         <admin-dashboard-search-word-detail/>
     </admin-dashboard-side-modal>
 </div>

@@ -1,11 +1,13 @@
+import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions, SortEnumOptions } from "../../../shared/enums/enums";
+
 export interface SearchWordFilterModel { 
     page?: number;
     take?: number;
-    active?: number;
-    contextType?: number;
-    searchEngine?: number;
+    active?: ActiveEnumOptions;
+    contextType?: ContextTypeEnumOptions;
+    searchEngine?: SearchEngineEnumOptions;
     query?: string | null;
-    sort?: number;
+    sort?: SortEnumOptions;
 }
 
 export interface SearchWordItem {

@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, forwardRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, SelectControlValueAccessor } from '@angular/forms';
 import { ControlItem } from '../../models/controls.model';
 
 @Component({
@@ -16,22 +16,21 @@ import { ControlItem } from '../../models/controls.model';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: SelectComponent,
+      useExisting: forwardRef(() => SelectComponent),
       multi: true,
     }
   ]
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() items: ControlItem[] = [];
-  @Input() placeholder: string = '';
   
-  value!: string;
+  value?: number;
   disabled: boolean = false;
 
   onChangeFun: any = () => {};
   onTouchedFun: any = () => {};
 
-  writeValue(obj: string): void {
+  writeValue(obj: number): void {
     this.value = obj;
   }
   
@@ -43,11 +42,16 @@ export class SelectComponent implements ControlValueAccessor {
     this.onTouchedFun = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
+  setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
   ngOnInit(): void {
+  }
+
+  onChange(value: number){
+    this.value = +value;
+    this.onChangeFun(this.value);
   }
 
   onBlur(){
