@@ -21,6 +21,7 @@ public class DictionaryController : ControllerBase
         _service = service;
     }
     
+    
     [HttpGet("GetDefaultAllValue")]
     [SwaggerOperation(OperationId = "GetDefaultAllValue")]
     [OutputCache(PolicyName = "DictionaryPolicy")]

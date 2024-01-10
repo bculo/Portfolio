@@ -18,7 +18,7 @@ namespace Trend.Application.MappingProfiles.Sync
                 .ForMember(dst => dst.SearchWords, opt => opt.MapFrom(src => src.UsedSyncWords));
 
             CreateMap<SyncStatusWord, SyncStatusWordResDto>()
-                .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.Word))
+                .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.WordId))
                 .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => (int)src.Type));
         }

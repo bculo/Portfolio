@@ -68,11 +68,7 @@ namespace Trend.Application.Services
         {
             AttachSyncWordToSyncStatus(articleTypesToSync);
             MarkSyncStatusAsFinished();
-
-            if (SyncStatus.SucceddedRequests > 0)
-            {
-                AttachSyncStatusIdentifierToArticles();
-            }
+            AttachSyncStatusIdentifierToArticles();
 
             return Task.CompletedTask;
         }
@@ -89,7 +85,7 @@ namespace Trend.Application.Services
                 var words = dict.Value.Select(item => new SyncStatusWord
                 {
                     Type = dict.Key,
-                    Word = item.SearchWord
+                    WordId = item.SearchWordId
                 });
 
                 SyncStatus.UsedSyncWords.AddRange(words);
@@ -149,6 +145,7 @@ namespace Trend.Application.Services
                     })
                     .ToList();
                 
+                SyncStatus.SucceddedRequests++;
                 Articles.AddRange(newArticles);
             }
 

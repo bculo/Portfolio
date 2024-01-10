@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Application.Repositories.Lookups;
+using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
@@ -69,7 +70,24 @@ namespace Trend.Application.Configurations.Initialization
             {
                 config.AutoMap();
             });
+
+            BsonClassMap.RegisterClassMap<SyncStatusUnwind>(config =>
+            {
+                config.AutoMap();
+                config.SetIgnoreExtraElements(true);
+            });
+
+            BsonClassMap.RegisterClassMap<SearchWordSyncStatusLookup>(config =>
+            {
+                config.AutoMap();
+                config.SetIgnoreExtraElements(true);
+            });
             
+            BsonClassMap.RegisterClassMap<SearchWordSyncStatusUnwind>(config =>
+            {
+                config.AutoMap();
+                config.SetIgnoreExtraElements(true);
+            });
         }
     }
 }

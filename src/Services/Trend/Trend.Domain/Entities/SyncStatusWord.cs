@@ -10,6 +10,6 @@ namespace Trend.Domain.Entities
     public class SyncStatusWord
     {
         public ContextType Type { get; set; }
-        public string Word { get; set; }
+        public string WordId { get; set; }
     }
 }

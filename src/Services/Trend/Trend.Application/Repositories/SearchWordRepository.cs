@@ -1,16 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Repositories.Lookups;
+using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
@@ -23,6 +19,28 @@ namespace Trend.Application.Repositories
             IDateTimeProvider timeProvider) 
             : base(client, options, timeProvider)
         {
+        }
+
+        public async Task<SearchWordSyncDetailResQuery> GetSearchWordSyncInfo(string searchWordId)
+        {
+            var syncStatusCollection = GetCollection<SyncStatus>();
+            
+            var item = await syncStatusCollection.Aggregate()
+                .Unwind<SyncStatus, SyncStatusUnwind>(x => x.UsedSyncWords)
+                .Match(x => x.UsedSyncWords.WordId == searchWordId)
+                .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(_collection,
+                    x => x.UsedSyncWords.WordId,
+                    y => y.Id,
+                    z => z.SearchWords)
+                .Unwind<SearchWordSyncStatusLookup, SearchWordSyncStatusUnwind>(x => x.SearchWords)
+                .Group(x => x.SearchWords.Id, item => new SearchWordSyncDetailResQuery
+                {
+                    WordId = item.Key,
+                    Count = item.Count()
+                })
+                .FirstOrDefaultAsync();
+
+            return item;
         }
 
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
@@ -62,7 +80,7 @@ namespace Trend.Application.Repositories
             var sortFilter = req.Sort == SortType.Asc
                 ? sortBuilder.Ascending(x => x.Created)
                 : sortBuilder.Descending(x => x.Created);
-
+            
             var countTask = _collection.Find(searchFilter).CountDocumentsAsync(token);
             var collectionTask =  _collection.Find(searchFilter)
                 .Sort(sortFilter)
