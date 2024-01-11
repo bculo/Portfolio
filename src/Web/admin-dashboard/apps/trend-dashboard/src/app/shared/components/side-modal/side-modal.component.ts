@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ModalInstance } from '../../models/modals.model';
 import { ModalService } from '../../services/modal.service';
 import { NgIconComponent } from '@ng-icons/core';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -17,20 +18,23 @@ export class SideModalComponent implements OnInit, OnDestroy, ModalInstance {
   readonly elRef = inject(ElementRef);
 
   isOpen: boolean = false;
+
   @Input() id: string = ''; 
+
   @Output() onClose = new EventEmitter();  
   @Output() onOpen = new EventEmitter();  
 
   private element: any = this.elRef.nativeElement;
 
   ngOnInit(): void {
+
+
     this.modalService.add(this);
     document.body.appendChild(this.element);
     this.addListeners();
   }
 
   ngOnDestroy(): void {
-    this.removeListeners();
     this.modalService.remove(this);
     this.element.remove();
   }
@@ -51,9 +55,5 @@ export class SideModalComponent implements OnInit, OnDestroy, ModalInstance {
           this.close();
       }
     });
-  }
-
-  private removeListeners(): void {
-    this.element.removeListeners('click');
   }
 }
