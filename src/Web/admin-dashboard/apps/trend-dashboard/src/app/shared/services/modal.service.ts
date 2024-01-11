@@ -8,10 +8,10 @@ export class ModalService {
   private modals: ModalInstance[] = [];
 
   add(modal: ModalInstance) {
-      if (!modal.id || this.modals.find(x => x.id === modal.id)) {
-          throw new Error('modal must have a unique id attribute');
-      }
-      this.modals.push(modal);
+    if (!modal.id || this.modals.find(x => x.id === modal.id)) {
+      this.remove(modal);
+    }
+    this.modals.push(modal);
   }
 
   remove(modal: ModalInstance) {
@@ -30,6 +30,7 @@ export class ModalService {
 
   visible(id: string): boolean {
     const modal = this.modals.find(x => x.isOpen && x.id);
+
     return modal?.isOpen ?? false;
   }
 }

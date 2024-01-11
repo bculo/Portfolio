@@ -32,7 +32,6 @@ export class ViewPageComponent implements OnInit {
   readonly searchWordStore = inject(SearchWordStore);
   readonly dictionaryStore = inject(DictionaryStore);
   readonly formBuilder = inject(FormBuilder);
-  readonly modalService = inject(ModalService);
 
   searchWords = this.searchWordStore.entities;
   totalSearchWords = this.searchWordStore.totalCount;
@@ -41,6 +40,7 @@ export class ViewPageComponent implements OnInit {
   contextTypes = this.dictionaryStore.contextTypesFilterItemsOptions;
   searchEngines = this.dictionaryStore.searchEngineFilterItemsOptions;
   searchWordModalId = this.searchWordStore.searchWordModal;
+  sideNavigationVisible = this.searchWordStore.sideNavigationVisible;
 
   isLoading$ = toObservable(this.dictionaryStore.isLoading);
 

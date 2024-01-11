@@ -7,7 +7,7 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { computed, inject } from '@angular/core';
-import { map, pipe, switchMap, tap, zip } from 'rxjs';
+import { filter, map, pipe, switchMap, tap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
@@ -18,14 +18,18 @@ import { ModalService } from '../../../shared/services/modal.service';
 import { ActiveEnumOptions } from '../../../shared/enums/enums';
 
 interface SearchWordState {
+    filterHash: string | null,
     filter: SearchWordFilterModel | null,
     searchWordModal: string,
     updateItem: SearchWordItem | null,
+    sideNavigationVisible: boolean,
     isLoading: boolean,
     totalCount: number
 }
 
 const initialState: SearchWordState = {
+    sideNavigationVisible: false,
+    filterHash: null,
     filter: null,
     searchWordModal: 'search-word-modal',
     isLoading: false,
@@ -39,16 +43,13 @@ export const SearchWordStore = signalStore(
     withEntities<SearchWordItem>(),
     withState(initialState),
     withDevtools('search-word'),
-    withComputed(({ updateItem }) => ({
-        isUpdateMode: computed(() => updateItem),
-    })),
     withMethods((store, wordService = inject(SearchWordService), modalService = inject(ModalService)) => ({
 
         fetch: rxMethod<SearchWordFilterModel>(
             pipe(
-                tap((filter) => patchState(store, {filter: filter})),
+                filter((filter) => JSON.stringify(filter) !== store.filterHash()),
+                tap((filter) => patchState(store, {filter: filter, filterHash: JSON.stringify(filter), isLoading: true })),
                 map(mapToFilterReqDto),
-                tap(dto => patchState(store, { isLoading: true })),
                 switchMap((dto) => 
                 wordService.filter(dto).pipe(
                         tapResponse({
@@ -111,11 +112,11 @@ export const SearchWordStore = signalStore(
 
         activateEditMode(item: SearchWordItem | null) {
             modalService.open(store.searchWordModal());
-            patchState(store, { updateItem: item });
+            patchState(store, { updateItem: item, sideNavigationVisible: true });
         },
 
         deactivateEditMode() {
-            patchState(store, { updateItem: null });
+            patchState(store, { updateItem: null, sideNavigationVisible: false });
             modalService.close(store.searchWordModal());
         }
     }))

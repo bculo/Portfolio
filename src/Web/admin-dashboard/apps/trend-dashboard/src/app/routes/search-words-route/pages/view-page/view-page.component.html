@@ -58,6 +58,8 @@
 
 
     <admin-dashboard-side-modal [id]="searchWordModalId()" (onClose)="onModalClose()">
-        <admin-dashboard-search-word-detail/>
+        @if(sideNavigationVisible()) {
+            <admin-dashboard-search-word-detail/>
+        }
     </admin-dashboard-side-modal>
 </div>
