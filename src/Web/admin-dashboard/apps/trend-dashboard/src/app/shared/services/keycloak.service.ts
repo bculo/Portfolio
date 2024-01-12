@@ -1,38 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 
 import Keycloak, { KeycloakConfig } from 'keycloak-js';
-import { Observable, catchError, finalize, from, map, of, take, tap } from 'rxjs';
-
-
-export interface ConfigureResponse {
-  isAuthenticated: boolean,
-  userInfo: AuthenticatedUserInfo | null
-}
-
-export interface AuthenticatedUserInfo {
-  userName: string,
-  isAdmin: boolean,
-  token: string,
-  refreshToken: string,
-  idToken: string,
-  email: string
-}
+import { catchError, finalize, from, map, of, take, tap, throwError } from 'rxjs';
+import { AuthStore } from '../../store/auth-store';
+import { AuthWrapper } from '../models/auth.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class KeycloakService {
-
+  readonly authStore = inject(AuthStore);
   private keycloackInstance: Keycloak | null = null;
 
-  configure() : Observable<ConfigureResponse> {
+  init(): void {
     this.keycloackInstance = new Keycloak(this.getConfig());
-    return from(this.keycloackInstance.init({ 
+
+    from(this.keycloackInstance.init({ 
       onLoad: 'check-sso', 
       silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
     })).pipe(
-      tap((authStatus) => console.log("Keycloak instance initialized")),
+      take(1),
       map((authStatus) => {
         return {
           isAuthenticated: authStatus,
@@ -44,9 +32,14 @@ export class KeycloakService {
             userName: this.getUserName(),
             email: this.getEmail()
           }
-        } as ConfigureResponse
+        } as AuthWrapper
+      }),
+      tap((authInfo) => this.authStore.set(authInfo)),
+      finalize(() => {
+        this.authStore.setLoadingFlag(false);
+        this.addEventListeners();
       })
-    )
+    ).subscribe();
   }
 
   public login() {
@@ -67,6 +60,27 @@ export class KeycloakService {
       realm: "PortfolioRealm",
       clientId: "Trend.Client"
     }
+  }
+
+  private addEventListeners(){
+    if(!this.isAuthenticated()) {
+      return;
+    }
+
+    this.keycloackInstance!.onTokenExpired = () => {
+      this.refreshToken();
+    }
+  }
+
+  private refreshToken() {
+    from(this.keycloackInstance!.updateToken(5)).pipe(
+      take(1),
+      tap((refreshed) => console.log("REFRESHED")),
+      catchError((error) => {
+        this.keycloackInstance?.clearToken(); 
+        return throwError(() => error);
+      })
+    ).subscribe();
   }
 
   private getUserName(): string | null {

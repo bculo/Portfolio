@@ -27,8 +27,6 @@ export class SideModalComponent implements OnInit, OnDestroy, ModalInstance {
   private element: any = this.elRef.nativeElement;
 
   ngOnInit(): void {
-
-
     this.modalService.add(this);
     document.body.appendChild(this.element);
     this.addListeners();

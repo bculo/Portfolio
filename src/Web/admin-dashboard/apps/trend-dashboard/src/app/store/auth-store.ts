@@ -12,6 +12,7 @@ import { pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { KeycloakService } from '../shared/services/keycloak.service';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
+import { AuthWrapper } from '../shared/models/auth.model';
 
 interface AuthState {
     isLoading: boolean
@@ -42,7 +43,29 @@ export const AuthStore = signalStore(
     withComputed(({ userName }) => ({
         userNameFirstChar: computed(() => userName() && userName()!.length > 0 ?  userName()![0].toUpperCase() : 'A'),
     })),
-    withMethods((store, keycloak = inject(KeycloakService)) => ({
+    withMethods((store) => ({
+        setLoadingFlag(status: boolean) {
+            patchState(store, { isLoading: status })
+        },
+        set(status: AuthWrapper) {
+            patchState(store, {
+                isAuthenticated: status.isAuthenticated,
+                idToken: status.userInfo?.idToken,
+                refreshToken: status.userInfo?.refreshToken,
+                authToken: status.userInfo?.token,
+                isAdmin: status.userInfo?.isAdmin ?? false,
+                userName: status.userInfo?.userName,
+                email: status.userInfo?.email,
+            })
+        }
+    })),
+    withHooks({
+
+    }),
+);
+
+/*
+
         init: rxMethod<void>(
             switchMap(() =>
                 keycloak.configure().pipe(
@@ -62,10 +85,4 @@ export const AuthStore = signalStore(
                 )
             ),
         ),
-    })),
-    withHooks({
-        onInit({ init }) {
-            init();
-        },
-    }),
-);
+        */
