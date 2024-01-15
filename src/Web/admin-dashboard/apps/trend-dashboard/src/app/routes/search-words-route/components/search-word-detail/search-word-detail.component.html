@@ -1,7 +1,7 @@
 <div>
     <form [formGroup]="form">
         <div class="flex flex-col gap-2 items-center">
-            <h6 class="text-cyan-500 text-xl font-bold mb-5">Edit</h6>
+            <h6 class="text-cyan-500 text-xl font-bold mb-5">{{ updateItem() != null ? 'Edit' : 'New' }}</h6>
             <admin-dashboard-form-field label="Search word text" class="w-full" [control]="form.controls['searchWord']">
                 <admin-dashboard-input formControlName="searchWord" type="text" [maxLength]="20" placeholder="Search word"/>
             </admin-dashboard-form-field>

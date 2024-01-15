@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthStore } from './store/auth-store';
 import { NavigationLayoutComponent } from './layouts/navigation-layout/navigation-layout.component';
+import { KeycloakService } from './shared/services/keycloak.service';
 
 
 @Component({
@@ -11,6 +11,10 @@ import { NavigationLayoutComponent } from './layouts/navigation-layout/navigatio
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent { 
-  readonly authStore = inject(AuthStore);
+export class AppComponent implements OnInit {
+  readonly authService = inject(KeycloakService);
+
+  ngOnInit(): void {
+    this.authService.init();
+  } 
 }

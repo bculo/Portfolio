@@ -21,11 +21,11 @@ namespace Trend.Application.Repositories
         {
         }
 
-        public async Task<SearchWordSyncDetailResQuery> GetSearchWordSyncInfo(string searchWordId)
+        public async Task<SearchWordSyncDetailResQuery> GetSearchWordSyncInfo(string searchWordId, CancellationToken token)
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
-            var item = await syncStatusCollection.Aggregate()
+            var itemTask = syncStatusCollection.Aggregate()
                 .Unwind<SyncStatus, SyncStatusUnwind>(x => x.UsedSyncWords)
                 .Match(x => x.UsedSyncWords.WordId == searchWordId)
                 .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(_collection,
@@ -38,9 +38,15 @@ namespace Trend.Application.Repositories
                     WordId = item.Key,
                     Count = item.Count()
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(token);
 
-            return item;
+            var totalCountTask = syncStatusCollection.CountDocumentsAsync(x => true, new CountOptions(), token);
+
+            await Task.WhenAll(itemTask, totalCountTask);
+
+            var response = itemTask.Result;
+            response.TotalCount = totalCountTask.Result;
+            return response;
         }
 
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)

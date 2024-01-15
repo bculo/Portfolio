@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.OutputCaching;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
+using Trend.Application.Consumers;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Services;
@@ -83,7 +84,8 @@ namespace Trend.Application.Services
             await _session.CommitTransaction();
             
             await InvalidateCache(token);
-            await _publishEndpoint.Publish<NewNewsFetched>(new(), token);
+            
+            await _publishEndpoint.Publish<SyncExecuted>(new(), token);
         }
 
         private async Task CheckForTotalFailure(List<SyncStatus> syncs, CancellationToken token)
@@ -154,6 +156,11 @@ namespace Trend.Application.Services
                 Message = $"Engine {engineName} failure. 0 items synced",
                 Time = _provider.Now
             }, token);
+        }
+
+        public async Task<long> GetSyncCount(CancellationToken token)
+        {
+            return await _syncStatusRepo.Count(token);
         }
 
         public async Task<SyncStatusResDto> GetSync(string id, CancellationToken token)

@@ -1,4 +1,4 @@
-﻿using Cache.Common;
+﻿using Cache.Redis.Common;
 using FluentValidation.AspNetCore;
 using Keycloak.Common;
 using MassTransit;
@@ -36,6 +36,11 @@ namespace Trend.API.Extensions
 
             services.AddCors();
             services.AddFluentValidationAutoValidation();
+            
+            var redisConnection = configuration["RedisOptions:ConnectionString"];
+            var redisInstanceName = configuration["RedisOptions:InstanceName"];
+            var multiplexer = services.AddRedisConnectionMultiplexer(redisConnection!);
+            services.AddRedisOutputCache(redisConnection!, redisInstanceName!, multiplexer);
             services.AddOutputCache(opt =>
             {
                 opt.AddBasePolicy(policy => policy
@@ -66,15 +71,6 @@ namespace Trend.API.Extensions
                     .Tag(CacheTags.SEARCH_WORD));
             });
             
-            var redisConnectionString = configuration["RedisOptions:ConnectionString"];
-            var multiplexer = CacheConfiguration.AddConnectionMultiplexer(services, redisConnectionString);
-            builder.Services.AddStackExchangeRedisOutputCache(options =>
-            {
-                options.Configuration = redisConnectionString;
-                options.InstanceName = configuration["RedisOptions:InstanceName"];
-                options.ConnectionMultiplexerFactory = () => Task.FromResult(multiplexer);
-            });
-
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services);
             ConfigureAuthentication(services, configuration);

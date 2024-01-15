@@ -9,9 +9,9 @@ namespace Trend.Application.Utils;
 
 public static class StorageSeedUtils
 {
-    public static async Task SeedBlobStorage(IServiceCollection services)
+    public static void SeedBlobStorage(IServiceCollection services)
     {
-        await using var provider = services.BuildServiceProvider();
+        using var provider = services.BuildServiceProvider();
         using var scope = provider.CreateScope();
 
         var blobStorage = scope.ServiceProvider.GetRequiredService<IBlobStorage>();
@@ -31,21 +31,20 @@ public static class StorageSeedUtils
                 continue;
             }
             
-            if (await blobStorage.Exists(blobOptions.Value.TrendContainerName, defaultBlob.BlobName))
+            if (blobStorage.Exists(blobOptions.Value.TrendContainerName, defaultBlob.BlobName))
             {
                 continue;
             }
 
             using var stream = new MemoryStream();
-            await using var fStream = new FileStream(defaultBlob.FullPath, FileMode.Open);
+            using var fStream = new FileStream(defaultBlob.FullPath, FileMode.Open);
             
-            await fStream.CopyToAsync(stream);
+            fStream.CopyTo(stream);
             stream.Seek(0, SeekOrigin.Begin);
-            await blobStorage.UploadBlob(blobOptions.Value.TrendContainerName,
+            blobStorage.UploadBlob(blobOptions.Value.TrendContainerName,
                 defaultBlob.BlobName,
                 stream,
                 defaultBlob.ContentType);
- 
         }
     }
 }

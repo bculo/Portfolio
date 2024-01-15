@@ -21,3 +21,9 @@ export interface SearchWordItem {
     contextTypeId?: number;
     imageUrl: string | null
 }
+
+export interface SearchWordStats {
+    wordId?: string | null;
+    count?: number;
+    totalCount?: number;
+}

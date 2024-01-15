@@ -155,7 +155,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Time.Abstract", "src\Buildi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cache.Abstract", "src\BuildingBlocks\Abstract\Cache.Abstract\Cache.Abstract.csproj", "{AC0E5630-EFD9-4331-A901-C97E5DCFD7E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cache.Common", "src\BuildingBlocks\Utility\Cache.Common\Cache.Common.csproj", "{15589300-19C0-4D65-BCF3-19FF4A9968A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cache.Redis.Common", "src\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj", "{15589300-19C0-4D65-BCF3-19FF4A9968A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Infrastructure", "src\Services\Stock\Stock.Infrastructure\Stock.Infrastructure.csproj", "{6282F11B-C692-4CD5-A907-7517A9B79D00}"
 EndProject

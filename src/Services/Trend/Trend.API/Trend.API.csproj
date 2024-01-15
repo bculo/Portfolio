@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Common\Cache.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj" />
     <ProjectReference Include="..\Trend.Application\Trend.Application.csproj" />

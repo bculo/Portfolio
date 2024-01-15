@@ -25,6 +25,7 @@ namespace Trend.Application.MappingProfiles.SearchWord
                 .ForMember(dst => dst.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
 
             CreateMap<SearchWordFilterReqDto, SearchWordFilterReqQuery>();
+            CreateMap<SearchWordSyncDetailResQuery, SearchWordSyncDetailResDto>();
         }
     }
 }

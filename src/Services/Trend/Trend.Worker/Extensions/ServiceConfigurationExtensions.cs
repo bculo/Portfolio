@@ -2,7 +2,7 @@
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Cache.Common;
+using Cache.Redis.Common;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -21,7 +21,7 @@ namespace Trend.Worker.Extensions
 
             services.AddOutputCache();
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
-            var multiplexer = CacheConfiguration.AddConnectionMultiplexer(services, redisConnectionString);
+            var multiplexer = RedisCacheConfiguration.AddRedisConnectionMultiplexer(services, redisConnectionString);
             services.AddStackExchangeRedisOutputCache(options =>
             {
                 options.Configuration = redisConnectionString;
@@ -44,7 +44,7 @@ namespace Trend.Worker.Extensions
             {
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Trend", false));
 
-                x.AddConsumer<ExecuteNewsSyncConsumer>();
+                x.AddConsumer<SyncExecutedConsumer>();
 
                 x.UsingRabbitMq((context, config) =>
                 {

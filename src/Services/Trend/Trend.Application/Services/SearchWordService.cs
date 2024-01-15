@@ -51,7 +51,7 @@ namespace Trend.Application.Services
 
         public async Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token)
         {
-            var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, (SearchEngine)instance.SearchEngine, token);
+            var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, instance.SearchEngine, token);
 
             if (isDuplicate)
             {
@@ -67,6 +67,18 @@ namespace Trend.Application.Services
             return _mapper.Map<SearchWordResDto>(entity);
         }
 
+        public async Task<SearchWordSyncDetailResDto> GetSearchWordSyncStatistic(string wordId, CancellationToken token)
+        {
+            var result = await _wordRepository.GetSearchWordSyncInfo(wordId, token);
+            
+            if (result is null)
+            {
+                throw new TrendNotFoundException();
+            }
+            
+            return _mapper.Map<SearchWordSyncDetailResDto>(result);
+        }
+
         public async Task AttachImageToSearchWord(SearchWordAttachImageReqDto req, CancellationToken token)
         {
             var instance = await _wordRepository.FindById(req.SearchWordId, token);
@@ -78,7 +90,7 @@ namespace Trend.Application.Services
             
             await using var stream = await _imageService.ResizeImage(req.Content, 720, 480);
             
-            var uri = await _blobStorage.UploadBlob(_storageOptions.TrendContainerName,
+            var uri = await _blobStorage.UploadBlobAsync(_storageOptions.TrendContainerName,
                 instance.Word, 
                 stream, 
                 req.ContentType);

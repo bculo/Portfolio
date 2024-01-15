@@ -1,6 +1,7 @@
+import { SearchWordSyncDetailResDto } from "../../../shared/services/open-api";
 import { SearchWordFilterReqDto } from "../../../shared/services/open-api/model/search-word-filter-req-dto";
 import { SearchWordResDtoPageResponseDto } from "../../../shared/services/open-api/model/search-word-res-dto-page-response-dto";
-import { SearchWordFilterModel, SearchWordItem } from "../models/search-words.model";
+import { SearchWordFilterModel, SearchWordItem, SearchWordStats } from "../models/search-words.model";
 
 export function mapToFilterReqDto(filter: SearchWordFilterModel) {
     return {
@@ -26,4 +27,13 @@ export function mapToFilterViewModel(items: SearchWordResDtoPageResponseDto) {
         searchWord: x.searchWord,
         imageUrl: x.imageUrl
     } as SearchWordItem)) ?? []
+}
+
+
+export function mapToSyncStatsViewModel(filter: SearchWordSyncDetailResDto) {
+    return {
+        count: filter.count,
+        totalCount: filter.totalCount,
+        wordId: filter.wordId
+    } as SearchWordStats
 }

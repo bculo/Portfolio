@@ -11,8 +11,8 @@ import { filter, map, pipe, switchMap, tap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
-import { SearchWordFilterModel, SearchWordItem } from '../models/search-words.model';
-import { mapToFilterReqDto, mapToFilterViewModel } from '../mappers/mapper';
+import { SearchWordFilterModel, SearchWordItem, SearchWordStats } from '../models/search-words.model';
+import { mapToFilterReqDto, mapToFilterViewModel, mapToSyncStatsViewModel } from '../mappers/mapper';
 import { removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ActiveEnumOptions } from '../../../shared/enums/enums';
@@ -21,6 +21,7 @@ interface SearchWordState {
     filterHash: string | null,
     filter: SearchWordFilterModel | null,
     searchWordModal: string,
+    searchWordModalSyncStats: SearchWordStats | null,
     updateItem: SearchWordItem | null,
     sideNavigationVisible: boolean,
     isLoading: boolean,
@@ -28,6 +29,7 @@ interface SearchWordState {
 }
 
 const initialState: SearchWordState = {
+    searchWordModalSyncStats: null,
     sideNavigationVisible: false,
     filterHash: null,
     filter: null,
@@ -91,7 +93,7 @@ export const SearchWordStore = signalStore(
             pipe(
                 tap(itemId => patchState(store, { isLoading: true })),
                 switchMap((itemId) => 
-                wordService.activate(itemId).pipe(
+                    wordService.activate(itemId).pipe(
                         tapResponse({
                             next: () => {
                                 const activeCode = store.filter()?.active ?? ActiveEnumOptions.All
@@ -110,13 +112,29 @@ export const SearchWordStore = signalStore(
             )  
         ),
 
-        activateEditMode(item: SearchWordItem | null) {
-            modalService.open(store.searchWordModal());
-            patchState(store, { updateItem: item, sideNavigationVisible: true });
-        },
+        activateEditMode: rxMethod<SearchWordItem | null>(
+            pipe(
+                tap((item) => {
+                    modalService.open(store.searchWordModal());
+                    patchState(store, { updateItem: item, sideNavigationVisible: true, isLoading: true });
+                }),
+                filter(item => item != null),
+                switchMap((item) => 
+                    wordService.getSearchWordSyncStatistic(item!.id).pipe(
+                        map(mapToSyncStatsViewModel),
+                        tapResponse({
+                            next: (res) => { patchState(store, {searchWordModalSyncStats: res})},
+                            error: console.error,
+                            finalize: () => patchState(store, { isLoading: false })
+                        })
+                    ),  
+                )
+            )
+        ),
+
 
         deactivateEditMode() {
-            patchState(store, { updateItem: null, sideNavigationVisible: false });
+            patchState(store, { updateItem: null, sideNavigationVisible: false, searchWordModalSyncStats: null });
             modalService.close(store.searchWordModal());
         }
     }))

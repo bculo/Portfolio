@@ -23,6 +23,16 @@ namespace Trend.API.Controllers.v1
             _service = service;
         }
 
+        [HttpGet("GetSearchWordSyncStatistic/{wordId}")]
+        [SwaggerOperation(OperationId = "GetSearchWordSyncStatistic")]
+        [OutputCache(PolicyName = "SearchWordPolicy")]
+        [ProducesResponseType(typeof(SearchWordSyncDetailResDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSearchWordSyncStatistic([FromRoute] string wordId, CancellationToken token)
+        {
+            return Ok(await _service.GetSearchWordSyncStatistic(wordId, token));
+        }
+        
         [HttpGet("GetActiveSearchWords")]
         [SwaggerOperation(OperationId = "GetActiveSearchWords")]
         [OutputCache(PolicyName = "SearchWordPolicy")]

@@ -43,7 +43,7 @@ public class BlobStorage : IBlobStorage
 
     public Uri GetBaseUri => _blobClient.Uri;
 
-    public async Task<Uri> UploadBlob(string containerName, string blobIdentifier, Stream blob, string contentType)
+    public async Task<Uri> UploadBlobAsync(string containerName, string blobIdentifier, Stream blob, string contentType)
     {
         var httpHeaders = new BlobHttpHeaders
         {
@@ -56,9 +56,28 @@ public class BlobStorage : IBlobStorage
         return blobClient.Uri;
     }
 
-    public Task<bool> Exists(string containerName, string blobIdentifier)
+    public Uri UploadBlob(string containerName, string blobIdentifier, Stream blob, string contentType)
+    {
+        var httpHeaders = new BlobHttpHeaders
+        {
+            ContentType = contentType,
+            ContentLanguage = "en"
+        };
+        
+        var blobClient = GetBlobClient(containerName, blobIdentifier);
+        blobClient.Upload(blob, httpHeaders: httpHeaders);
+        return blobClient.Uri;
+    }
+
+    public Task<bool> ExistsAsync(string containerName, string blobIdentifier)
     {
         var blobClient = GetBlobClient(containerName, blobIdentifier);
         return Task.FromResult(blobClient.Exists().Value);
+    }
+
+    public bool Exists(string containerName, string blobIdentifier)
+    {
+        var blobClient = GetBlobClient(containerName, blobIdentifier);
+        return blobClient.Exists().Value;
     }
 }

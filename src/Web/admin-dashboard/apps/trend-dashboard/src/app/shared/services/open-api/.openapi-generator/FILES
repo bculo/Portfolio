@@ -19,6 +19,7 @@ model/search-word-add-req-dto.ts
 model/search-word-filter-req-dto.ts
 model/search-word-res-dto-page-response-dto.ts
 model/search-word-res-dto.ts
+model/search-word-sync-detail-res-dto.ts
 model/sync-status-res-dto-page-response-dto.ts
 model/sync-status-res-dto.ts
 model/sync-status-word-res-dto.ts

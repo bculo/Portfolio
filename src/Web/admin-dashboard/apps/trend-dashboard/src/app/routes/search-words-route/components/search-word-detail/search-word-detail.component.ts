@@ -28,6 +28,7 @@ export class SearchWordDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const item = this.updateItem();
+    
     if(item) {
       this.form.patchValue(item);
     }

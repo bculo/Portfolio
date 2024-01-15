@@ -9,6 +9,7 @@ namespace Trend.Application.Interfaces
         Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token);
         Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token);
         Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token);
+        Task<SearchWordSyncDetailResDto> GetSearchWordSyncStatistic(string wordId, CancellationToken token);
         Task AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token);
         Task DeactivateSearchWord(string id, CancellationToken token);
         Task ActivateSearchWord(string id, CancellationToken token);

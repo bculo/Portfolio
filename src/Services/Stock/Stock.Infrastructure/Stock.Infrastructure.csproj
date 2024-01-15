@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Common\Cache.Common.csproj" />
+        <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj" />
         <ProjectReference Include="..\Stock.Application\Stock.Application.csproj" />
     </ItemGroup>
 

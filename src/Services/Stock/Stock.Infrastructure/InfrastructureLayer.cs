@@ -1,4 +1,4 @@
-﻿using Cache.Common;
+﻿using Cache.Redis.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -33,7 +33,7 @@ namespace Stock.Infrastructure
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IStockRepository, StockRepository>();
 
-            CacheConfiguration.AddRedis(services, configuration);
+            //RedisCacheConfiguration.AddRedisCacheService(services, configuration);
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)
