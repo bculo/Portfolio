@@ -6,13 +6,18 @@ using Microsoft.AspNetCore.Localization;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Globalization;
+using Cache.Abstract.Contracts;
+using Events.Common.Trend;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Options;
 using OpenTelemetry.Metrics;
 using StackExchange.Redis;
 using Trend.API.Filters;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
+using Trend.Application.Configurations.Options;
+using Trend.Application.Consumers;
 using Trend.Application.Interfaces;
 using Trend.Application.Utils;
 using WebProject.Common.CachePolicies;
@@ -37,10 +42,46 @@ namespace Trend.API.Extensions
             services.AddCors();
             services.AddFluentValidationAutoValidation();
             
-            var redisConnection = configuration["RedisOptions:ConnectionString"];
-            var redisInstanceName = configuration["RedisOptions:InstanceName"];
-            var multiplexer = services.AddRedisConnectionMultiplexer(redisConnection!);
-            services.AddRedisOutputCache(redisConnection!, redisInstanceName!, multiplexer);
+            var multiplexer = ConfigureCache(services, configuration);
+            AddMessageQueue(services, configuration);
+            ConfigureLocalization(services);
+            ConfigureAuthentication(services, configuration);
+
+            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
+                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
+                configuration.GetValue<int>("ApiVersion:MajorVersion"),
+                configuration.GetValue<int>("ApiVersion:MinorVersion"));
+
+            ApplicationLayer.AddLogger(builder.Host);
+            ApplicationLayer.AddClients(configuration, services);
+            ApplicationLayer.AddServices(configuration, services);
+            ApplicationLayer.AddPersistence(configuration, services);
+            ApplicationLayer.ConfigureHangfire(configuration, services);
+            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.API", multiplexer);
+        }
+
+        private static void ConfigureLocalization(IServiceCollection services)
+        {
+            services.AddLocalization();
+
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var hrCulture = new CultureInfo("hr");
+                var enCulture = new CultureInfo("en");
+                var supportedCultures = new[]
+                {
+                    hrCulture,
+                    enCulture
+                };
+                opts.DefaultRequestCulture = new RequestCulture(enCulture, enCulture);
+                opts.SupportedCultures = supportedCultures;
+                opts.SupportedUICultures = supportedCultures;
+            });
+        }
+
+        private static IConnectionMultiplexer ConfigureCache(IServiceCollection services, IConfiguration configuration)
+        {
+            var multiplexer = ApplicationLayer.ConfigureCache(configuration, services);
             services.AddOutputCache(opt =>
             {
                 opt.AddBasePolicy(policy => policy
@@ -70,43 +111,8 @@ namespace Trend.API.Extensions
                     .Expire(TimeSpan.FromMinutes(30))
                     .Tag(CacheTags.SEARCH_WORD));
             });
-            
-            AddMessageQueue(services, configuration);
-            ConfigureLocalization(services);
-            ConfigureAuthentication(services, configuration);
-            AddOpenTelemetry(services, configuration, multiplexer);
 
-            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
-                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
-                configuration.GetValue<int>("ApiVersion:MajorVersion"),
-                configuration.GetValue<int>("ApiVersion:MinorVersion"));
-
-            ApplicationLayer.AddLogger(builder.Host);
-            ApplicationLayer.AddClients(configuration, services);
-            ApplicationLayer.AddServices(configuration, services);
-            ApplicationLayer.AddPersistence(configuration, services);
-            ApplicationLayer.ConfigureHangfire(configuration, services);
-
-            StorageSeedUtils.SeedBlobStorage(services);
-        }
-
-        private static void ConfigureLocalization(IServiceCollection services)
-        {
-            services.AddLocalization();
-
-            services.Configure<RequestLocalizationOptions>(opts =>
-            {
-                var hrCulture = new CultureInfo("hr");
-                var enCulture = new CultureInfo("en");
-                var supportedCultures = new[]
-                {
-                    hrCulture,
-                    enCulture
-                };
-                opts.DefaultRequestCulture = new RequestCulture(enCulture, enCulture);
-                opts.SupportedCultures = supportedCultures;
-                opts.SupportedUICultures = supportedCultures;
-            });
+            return multiplexer;
         }
 
         private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -133,41 +139,20 @@ namespace Trend.API.Extensions
                 });
             });
         }
-
-        private static void AddOpenTelemetry(IServiceCollection services, 
-            IConfiguration config,
-            IConnectionMultiplexer multiplexer = null)
+        
+        public static async Task SeedAll(this WebApplicationBuilder builder)
         {
-            services.AddOpenTelemetry()
-                .ConfigureResource(resource =>
-                {
-                    resource.AddService("Trend.API");
-                })
-                .WithMetrics(metrics => metrics
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation()
-                    .AddMeter("Microsoft.AspNetCore.Hosting")
-                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel"))
-                .WithTracing(tracing =>
-                {
-                    tracing.AddSource("MassTransit");
-                    tracing.AddMongoDBInstrumentation();
-                    tracing.AddAspNetCoreInstrumentation();
-                    tracing.AddHttpClientInstrumentation();
+            var services = builder.Services;
+            await using var provider = services.BuildServiceProvider();
+            await using var scope = provider.CreateAsyncScope();
 
-                    if (multiplexer is not null)
-                    {
-                        tracing.AddRedisInstrumentation(multiplexer);
-                    }
-
-                    tracing.AddOtlpExporter(opt =>
-                    {
-                        opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 
-                                               ?? throw new ArgumentNullException());
-                    });
-                    tracing.AddConsoleExporter();
-                });
+            var blobStorage = scope.ServiceProvider.GetRequiredService<IBlobStorage>();
+            var blobOptions = scope.ServiceProvider.GetRequiredService<IOptions<BlobStorageOptions>>();
+            await StorageSeedUtils.SeedBlobStorage(blobStorage, blobOptions);
+            
+            var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
+            var cacheService = scope.ServiceProvider.GetRequiredService<ICacheService>();
+            await StorageSeedUtils.SeedCacheStorage(syncRepo, cacheService);
         }
     }
 }

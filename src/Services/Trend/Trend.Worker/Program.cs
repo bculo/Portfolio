@@ -3,9 +3,9 @@ using Trend.Worker;
 using Trend.Worker.Extensions;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostcontext, services) =>
+    .ConfigureServices((context, services) =>
     {
-        IConfiguration configuration = hostcontext.Configuration;
+        var configuration = context.Configuration;
         services.ConfigureBackgroundService(configuration);
         services.AddHostedService<PingWorker>();
     });

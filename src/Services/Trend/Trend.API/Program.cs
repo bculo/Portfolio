@@ -6,6 +6,7 @@ using Trend.API.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureApiProject();
+await builder.SeedAll();
 
 var app = builder.Build();
 

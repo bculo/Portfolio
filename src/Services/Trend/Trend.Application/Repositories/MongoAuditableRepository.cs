@@ -51,7 +51,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
         }
     }
 
-    public async IAsyncEnumerable<TEntity> GetDeactivatedItemsEnumerable(CancellationToken token)
+    public async IAsyncEnumerable<TEntity> GetDeactivatedItemsEnumerable([EnumeratorCancellation] CancellationToken token)
     {
         using var cursor = await _collection.Find(i => !i.IsActive)
             .SortByDescending(i => i.Created)

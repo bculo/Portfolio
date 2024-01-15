@@ -1,6 +1,7 @@
 ﻿using Keycloak.Common;
 using MassTransit;
 using System.Reflection;
+using Cache.Redis.Common;
 using Trend.Application;
 using Trend.Application.Interfaces;
 using Trend.gRPC.Interceptors;
@@ -23,7 +24,6 @@ namespace Trend.gRPC.Extensions
                 opt.EnableDetailedErrors = true;
             });
             builder.Services.AddGrpcReflection();
-            services.AddOutputCache(); 
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             AddMessageQueue(services, configuration);
@@ -33,6 +33,8 @@ namespace Trend.gRPC.Extensions
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
+            var multiplexer = ApplicationLayer.ConfigureCache(configuration, services);
+            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.gRPC", multiplexer);
         }
 
         private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -53,7 +55,7 @@ namespace Trend.gRPC.Extensions
         {
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq((context, config) =>
+                x.UsingRabbitMq((_, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
                 });

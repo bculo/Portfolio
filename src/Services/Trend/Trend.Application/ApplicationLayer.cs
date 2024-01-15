@@ -6,12 +6,17 @@ using MongoDB.Driver;
 using Serilog;
 using System.Diagnostics;
 using Azure.Storage.Blobs;
+using Cache.Redis.Common;
 using Hangfire;
 using Hangfire.Mongo;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using StackExchange.Redis;
 using Time.Abstract.Contracts;
 using Time.Common;
 using Trend.Application.Configurations.Initialization;
@@ -21,6 +26,7 @@ using Trend.Application.Jobs;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
 using Trend.Application.Utils;
+using ITransaction = Trend.Application.Interfaces.ITransaction;
 
 namespace Trend.Application
 {
@@ -168,6 +174,48 @@ namespace Trend.Application
                 configuration["Jobs:SyncJob:Name"],
                 s => s.Work(default),
                 configuration["Jobs:SyncJob:Cron"]);
+        }
+
+        public static IConnectionMultiplexer ConfigureCache(IConfiguration configuration, IServiceCollection services)
+        {
+            var redisConnectionString = configuration["RedisOptions:ConnectionString"];
+            var redisInstanceName = configuration["RedisOptions:InstanceName"];
+            var multiplexer = services.AddRedisConnectionMultiplexer(redisConnectionString!);
+            services.AddRedisCacheService(redisConnectionString, redisInstanceName!, multiplexer);
+            services.AddRedisOutputCache(redisConnectionString, redisInstanceName!, multiplexer);
+            return multiplexer;
+        }
+        
+        public static void AddOpenTelemetry(IConfiguration config, 
+            IServiceCollection services,
+            string appName,
+            IConnectionMultiplexer multiplexer)
+        {
+            services.AddOpenTelemetry()
+                .ConfigureResource(resource =>
+                {
+                    resource.AddService(appName);
+                })
+                .WithMetrics(metrics => metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddMeter("Microsoft.AspNetCore.Hosting")
+                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel"))
+                .WithTracing(tracing =>
+                {
+                    tracing.AddSource("MassTransit");
+                    tracing.AddMongoDBInstrumentation();
+                    tracing.AddAspNetCoreInstrumentation();
+                    tracing.AddHttpClientInstrumentation();
+                    tracing.AddRedisInstrumentation(multiplexer);
+                    tracing.AddOtlpExporter(opt =>
+                    {
+                        opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 
+                                               ?? throw new ArgumentNullException());
+                    });
+                    tracing.AddConsoleExporter();
+                });
         }
     }
 }

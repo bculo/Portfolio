@@ -1,3 +1,4 @@
+using Cache.Abstract.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Trend.Application.Configurations.Options;
@@ -9,14 +10,8 @@ namespace Trend.Application.Utils;
 
 public static class StorageSeedUtils
 {
-    public static void SeedBlobStorage(IServiceCollection services)
+    public static async Task SeedBlobStorage(IBlobStorage blobStorage, IOptions<BlobStorageOptions> blobOptions)
     {
-        using var provider = services.BuildServiceProvider();
-        using var scope = provider.CreateScope();
-
-        var blobStorage = scope.ServiceProvider.GetRequiredService<IBlobStorage>();
-        var blobOptions = scope.ServiceProvider.GetRequiredService<IOptions<BlobStorageOptions>>();
-
         List<DefaultBlobInfo> defaultBlobs = new()
         {
             ResourceBlobMap.GetImageInfo(ContextType.Crypto.ShortName),
@@ -31,20 +26,26 @@ public static class StorageSeedUtils
                 continue;
             }
             
-            if (blobStorage.Exists(blobOptions.Value.TrendContainerName, defaultBlob.BlobName))
+            if (await blobStorage.ExistsAsync(blobOptions.Value.TrendContainerName, defaultBlob.BlobName))
             {
                 continue;
             }
 
             using var stream = new MemoryStream();
-            using var fStream = new FileStream(defaultBlob.FullPath, FileMode.Open);
+            await using var fStream = new FileStream(defaultBlob.FullPath, FileMode.Open);
             
-            fStream.CopyTo(stream);
+            await fStream.CopyToAsync(stream);
             stream.Seek(0, SeekOrigin.Begin);
-            blobStorage.UploadBlob(blobOptions.Value.TrendContainerName,
+            await blobStorage.UploadBlobAsync(blobOptions.Value.TrendContainerName,
                 defaultBlob.BlobName,
                 stream,
                 defaultBlob.ContentType);
         }
+    }
+
+    public static async Task SeedCacheStorage(ISyncStatusRepository service, ICacheService cacheService)
+    {
+        var countNum = await service.Count(default);
+        await cacheService.AddWithAbsoluteExp("sync:count", countNum, TimeSpan.FromDays(1));
     }
 }
