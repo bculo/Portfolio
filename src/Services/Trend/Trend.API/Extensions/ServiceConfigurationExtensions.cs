@@ -42,7 +42,7 @@ namespace Trend.API.Extensions
             services.AddCors();
             services.AddFluentValidationAutoValidation();
             
-            var multiplexer = ConfigureCache(services, configuration);
+            ConfigureCache(services, configuration);
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services);
             ConfigureAuthentication(services, configuration);
@@ -57,7 +57,7 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
-            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.API", multiplexer);
+            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.API");
         }
 
         private static void ConfigureLocalization(IServiceCollection services)
@@ -79,9 +79,9 @@ namespace Trend.API.Extensions
             });
         }
 
-        private static IConnectionMultiplexer ConfigureCache(IServiceCollection services, IConfiguration configuration)
+        private static void ConfigureCache(IServiceCollection services, IConfiguration configuration)
         {
-            var multiplexer = ApplicationLayer.ConfigureCache(configuration, services);
+            ApplicationLayer.ConfigureCache(configuration, services);
             services.AddOutputCache(opt =>
             {
                 opt.AddBasePolicy(policy => policy
@@ -111,8 +111,6 @@ namespace Trend.API.Extensions
                     .Expire(TimeSpan.FromMinutes(30))
                     .Tag(CacheTags.SEARCH_WORD));
             });
-
-            return multiplexer;
         }
 
         private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)

@@ -176,20 +176,17 @@ namespace Trend.Application
                 configuration["Jobs:SyncJob:Cron"]);
         }
 
-        public static IConnectionMultiplexer ConfigureCache(IConfiguration configuration, IServiceCollection services)
+        public static void ConfigureCache(IConfiguration configuration, IServiceCollection services)
         {
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
             var redisInstanceName = configuration["RedisOptions:InstanceName"];
-            var multiplexer = services.AddRedisConnectionMultiplexer(redisConnectionString!);
-            services.AddRedisCacheService(redisConnectionString, redisInstanceName!, multiplexer);
-            services.AddRedisOutputCache(redisConnectionString, redisInstanceName!, multiplexer);
-            return multiplexer;
+            services.AddRedisCacheService(redisConnectionString!, redisInstanceName!);
+            services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
         }
         
         public static void AddOpenTelemetry(IConfiguration config, 
             IServiceCollection services,
-            string appName,
-            IConnectionMultiplexer multiplexer)
+            string appName)
         {
             services.AddOpenTelemetry()
                 .ConfigureResource(resource =>
@@ -208,7 +205,7 @@ namespace Trend.Application
                     tracing.AddMongoDBInstrumentation();
                     tracing.AddAspNetCoreInstrumentation();
                     tracing.AddHttpClientInstrumentation();
-                    tracing.AddRedisInstrumentation(multiplexer);
+                    //tracing.AddRedisInstrumentation(multiplexer);
                     tracing.AddOtlpExporter(opt =>
                     {
                         opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 

@@ -8,10 +8,9 @@ namespace Cache.Redis.Common
 {
     public static class RedisCacheConfiguration
     {
-        public static IConnectionMultiplexer AddRedisCacheService(this IServiceCollection services, 
+        public static void AddRedisCacheService(this IServiceCollection services, 
             string connectionString, 
-            string instanceName,
-            IConnectionMultiplexer? multiplexer = null)
+            string instanceName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(instanceName);
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
@@ -28,28 +27,20 @@ namespace Cache.Redis.Common
             {
                 options.Configuration = connectionString;
                 options.InstanceName = instanceName;
-                if (multiplexer is not null)
-                {
-                    options.ConnectionMultiplexerFactory = () => Task.FromResult(multiplexer);
-                }
             });
-            
-            return multiplexer;
         }
 
-        public static IConnectionMultiplexer AddRedisConnectionMultiplexer(this IServiceCollection services,
+        public static IConnectionMultiplexer GetRedisConnectionMultiplexer(this IServiceCollection services,
             string connectionString)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
             var multiplexer = ConnectionMultiplexer.Connect(connectionString) as IConnectionMultiplexer;
-            services.AddSingleton(multiplexer);
             return multiplexer;
         }
 
         public static void AddRedisOutputCache(this IServiceCollection services, 
             string connectionString, 
-            string instanceName,
-            IConnectionMultiplexer? multiplexer = null)
+            string instanceName)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(instanceName);
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
@@ -58,10 +49,6 @@ namespace Cache.Redis.Common
             {
                 options.Configuration = connectionString;
                 options.InstanceName = instanceName;
-                if (multiplexer is not null)
-                {
-                    options.ConnectionMultiplexerFactory = () => Task.FromResult(multiplexer);
-                }
             });
 
             services.AddOutputCache();

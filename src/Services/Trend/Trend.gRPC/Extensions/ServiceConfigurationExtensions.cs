@@ -33,8 +33,8 @@ namespace Trend.gRPC.Extensions
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
-            var multiplexer = ApplicationLayer.ConfigureCache(configuration, services);
-            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.gRPC", multiplexer);
+            ApplicationLayer.ConfigureCache(configuration, services);
+            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.gRPC");
         }
 
         private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)

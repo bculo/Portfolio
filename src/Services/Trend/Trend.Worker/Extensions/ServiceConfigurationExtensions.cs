@@ -23,8 +23,8 @@ namespace Trend.Worker.Extensions
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services, true);
-            var multiplexer = ApplicationLayer.ConfigureCache(configuration, services);
-            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.Worker", multiplexer);
+            ApplicationLayer.ConfigureCache(configuration, services);
+            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.Worker");
 
             AddMessageQueue(services, configuration);
         }
