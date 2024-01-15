@@ -1,6 +1,6 @@
 <div class="stepper">
 
-    <div class="flex justify-between">
+    <div class="flex justify-between pt-6">
         @for(step of steps(); track step.key; let index = $index) {
             <div class="flex gap-2" [ngClass]="{
                 'text-cyan-500': step.key == activeStep()?.key,
@@ -16,15 +16,19 @@
         }
     </div>
 
-    <div>
+    <div class="py-12">
         <ng-content></ng-content>
     </div>
 
     @if(activeStep()) {
-        <div class="flex gap-3">
-            <button class="app-button" *ngIf="!isFirstStep()" (click)="onPrev()">&#8592;</button>
-            <button class="app-button" *ngIf="!isLastStep() "(click)="onNext()">&#8594;</button>
-            <button class="app-button" *ngIf="isLastStep()" (click)="onComplete()">Complete</button>
+        <div class="flex gap-3 justify-between">
+            <div>
+                <admin-dashboard-button text="Back" [styleType]="'empty'" *ngIf="!isFirstStep()" (click)="onPrev()"/>
+            </div>
+            <div>
+                <admin-dashboard-button text="Next" *ngIf="!isLastStep()" (click)="onNext()"/>
+                <admin-dashboard-button text="Complete" *ngIf="isLastStep()" (click)="onComplete()"/>
+            </div>
         </div>
     }
 

@@ -1,15 +1,17 @@
-import { Component, OnDestroy, computed, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StepperService } from './stepper.service';
+import { ButtonComponent } from '../button/button.component';
+import { Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'admin-dashboard-stepper',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.scss',
 })
-export class StepperComponent implements OnDestroy {
+export class StepperComponent implements OnInit, OnDestroy {
   readonly stepperService = inject(StepperService);
 
   steps = this.stepperService.steps;
@@ -18,19 +20,31 @@ export class StepperComponent implements OnDestroy {
   isLastStep = computed(() => this.activeStep()!.index === this.steps().length - 1);
   isFirstStep = computed(() => this.activeStep()!.index === 0);
 
+  private lifeCycle = new Subject<void>();
+
   onNext() {
-    this.stepperService.next();
+    this.stepperService.onCheck();
   }
 
   onComplete() {
-    this.stepperService.complete();
+    this.stepperService.onComplete();
   }
 
   onPrev() {
-    this.stepperService.previous();
+    this.stepperService.onPrevious();
+  }
+
+  ngOnInit(): void {
+    this.stepperService.next$.pipe(
+      takeUntil(this.lifeCycle),
+      tap(x => this.stepperService.onNext())
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
     this.stepperService.clear();
+
+    this.lifeCycle.next();
+    this.lifeCycle.complete();
   }
 }

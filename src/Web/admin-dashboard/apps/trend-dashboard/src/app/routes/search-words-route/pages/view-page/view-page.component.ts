@@ -9,7 +9,7 @@ import { SelectComponent } from 'apps/trend-dashboard/src/app/shared/controls/se
 import { ButtonComponent } from 'apps/trend-dashboard/src/app/shared/components/button/button.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take, tap } from 'rxjs';
-import { SearchWordFilterModel } from '../../models/search-words.model';
+import { SearchWordFilterModel } from '../../store/search-words.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
 import { NgIconComponent } from '@ng-icons/core';
 import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
@@ -41,7 +41,6 @@ export class ViewPageComponent implements OnInit {
   contextTypes = this.dictionaryStore.contextTypesFilterItemsOptions;
   searchEngines = this.dictionaryStore.searchEngineFilterItemsOptions;
   searchWordModalId = this.searchWordStore.searchWordModal;
-  sideNavigationVisible = this.searchWordStore.sideNavigationVisible;
 
   isLoading$ = toObservable(this.dictionaryStore.isLoading);
 

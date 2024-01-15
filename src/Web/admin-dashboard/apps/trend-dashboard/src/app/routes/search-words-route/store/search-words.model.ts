@@ -10,6 +10,12 @@ export interface SearchWordFilterModel {
     sort?: SortEnumOptions;
 }
 
+export interface SearchWordNewItem {
+    searchEngine?: number;
+    contextType?: number;
+    searchWord: string | null
+}
+
 export interface SearchWordItem {
     id: string;
     isActive?: boolean;

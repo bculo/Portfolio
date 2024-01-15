@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchWordItem } from '../../models/search-words.model';
+import { SearchWordItem } from '../../store/search-words.model';
 import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
 import { NgIconComponent } from '@ng-icons/core';
 import { SearchWordStore } from '../../store/search-word-store';

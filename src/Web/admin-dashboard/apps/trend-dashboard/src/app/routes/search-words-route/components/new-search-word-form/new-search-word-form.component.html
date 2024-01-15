@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col gap-2 items-center">
+        <h6 class="text-cyan-500 text-xl font-bold mb-5 self-start">New search word</h6>
+        <admin-dashboard-form-field label="Search word text" class="w-full" [control]="form.controls['searchWord']">
+            <admin-dashboard-input formControlName="searchWord" type="text" [maxLength]="20" placeholder="Search word"/>
+        </admin-dashboard-form-field>
+        <admin-dashboard-form-field label="Search word text" class="w-full" [control]="form.controls['searchEngine']">
+            <admin-dashboard-select formControlName="searchEngine" [items]="searchEngines()" type="text" placeholder="Search word"/>
+        </admin-dashboard-form-field>
+        <admin-dashboard-form-field label="Search word text" class="w-full" [control]="form.controls['contextType']">
+            <admin-dashboard-select formControlName="contextType" [items]="contextTypes()" type="text" placeholder="Search word"/>
+        </admin-dashboard-form-field>
+    </div>
+</form>

@@ -11,7 +11,7 @@ import { filter, map, pipe, switchMap, tap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
-import { SearchWordFilterModel, SearchWordItem, SearchWordStats } from '../models/search-words.model';
+import { SearchWordFilterModel, SearchWordItem, SearchWordNewItem, SearchWordStats } from './search-words.model';
 import { mapToFilterReqDto, mapToFilterViewModel, mapToSyncStatsViewModel } from '../mappers/mapper';
 import { removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { ActiveEnumOptions } from '../../../shared/enums/enums';
@@ -22,15 +22,15 @@ interface SearchWordState {
     filter: SearchWordFilterModel | null,
     searchWordModal: string,
     searchWordModalSyncStats: SearchWordStats | null,
+    newItem: SearchWordNewItem | null,
     updateItem: SearchWordItem | null,
-    sideNavigationVisible: boolean,
     isLoading: boolean,
     totalCount: number
 }
 
 const initialState: SearchWordState = {
+    newItem: null,
     searchWordModalSyncStats: null,
-    sideNavigationVisible: false,
     filterHash: null,
     filter: null,
     searchWordModal: 'search-word-modal',
@@ -89,6 +89,15 @@ export const SearchWordStore = signalStore(
                 )
             )  
         ),
+
+        setNewItem(newItem: SearchWordNewItem) {
+            patchState(store, { newItem: newItem} );
+        },
+
+        removeNewItem() {
+            patchState(store, { newItem: null} );
+        },
+
         activate: rxMethod<string>(
             pipe(
                 tap(itemId => patchState(store, { isLoading: true })),
@@ -116,7 +125,7 @@ export const SearchWordStore = signalStore(
             pipe(
                 tap((item) => {
                     modalService.open(store.searchWordModal());
-                    patchState(store, { updateItem: item, sideNavigationVisible: true, isLoading: true });
+                    patchState(store, { updateItem: item, isLoading: true });
                 }),
                 filter(item => item != null),
                 switchMap((item) => 
@@ -134,7 +143,7 @@ export const SearchWordStore = signalStore(
 
 
         deactivateEditMode() {
-            patchState(store, { updateItem: null, sideNavigationVisible: false, searchWordModalSyncStats: null });
+            patchState(store, { updateItem: null, searchWordModalSyncStats: null });
             modalService.close(store.searchWordModal());
         }
     }))
