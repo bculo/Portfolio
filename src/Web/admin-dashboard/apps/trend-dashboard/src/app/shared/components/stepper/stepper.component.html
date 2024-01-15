@@ -1,0 +1,31 @@
+<div class="stepper">
+
+    <div class="flex justify-between">
+        @for(step of steps(); track step.key; let index = $index) {
+            <div class="flex gap-2" [ngClass]="{
+                'text-cyan-500': step.key == activeStep()?.key,
+                'font-extrabold': step.key == activeStep()?.key
+            }">
+                <div>
+                    <span>{{ index + 1 }}.</span>
+                </div>
+                <div class="step__label">
+                    {{ step.label }}
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        <ng-content></ng-content>
+    </div>
+
+    @if(activeStep()) {
+        <div class="flex gap-3">
+            <button class="app-button" *ngIf="!isFirstStep()" (click)="onPrev()">&#8592;</button>
+            <button class="app-button" *ngIf="!isLastStep() "(click)="onNext()">&#8594;</button>
+            <button class="app-button" *ngIf="isLastStep()" (click)="onComplete()">Complete</button>
+        </div>
+    }
+
+</div>
