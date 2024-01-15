@@ -75,12 +75,30 @@ export class KeycloakService {
   private refreshToken() {
     from(this.keycloackInstance!.updateToken(5)).pipe(
       take(1),
-      tap((refreshed) => console.log("REFRESHED")),
+      tap((authStatus) => console.log("Refresh token")),
+      map((authStatus) => {
+        return {
+          isAuthenticated: authStatus,
+          userInfo: {
+            idToken: this.getIdToken(),
+            token: this.getAuthorizationToken(),
+            refreshToken: this.getRefreshToken(),
+            isAdmin: this.isInRole('Admin'),
+            userName: this.getUserName(),
+            email: this.getEmail()
+          }
+        } as AuthWrapper
+      }),
+      tap((info) => this.authStore.set(info)),
       catchError((error) => {
         this.keycloackInstance?.clearToken(); 
         return throwError(() => error);
       })
     ).subscribe();
+  }
+
+  private onRefreshSuccess() {
+
   }
 
   private getUserName(): string | null {
