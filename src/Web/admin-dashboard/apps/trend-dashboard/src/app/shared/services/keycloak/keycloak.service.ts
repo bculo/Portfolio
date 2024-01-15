@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 
 import Keycloak, { KeycloakConfig } from 'keycloak-js';
 import { catchError, finalize, from, map, of, take, tap, throwError } from 'rxjs';
-import { AuthStore } from '../../store/auth-store';
-import { AuthWrapper } from '../models/auth.model';
+import { AuthStore } from '../../../store/auth/auth-store';
+import { AuthWrapper } from '../../../store/auth/auth-store.model';
 
 
 @Injectable({
@@ -95,10 +95,6 @@ export class KeycloakService {
         return throwError(() => error);
       })
     ).subscribe();
-  }
-
-  private onRefreshSuccess() {
-
   }
 
   private getUserName(): string | null {

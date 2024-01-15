@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NavigationLayoutComponent } from '../../layouts/navigation-layout/navigation-layout.component';
+import { NavigationLayoutComponent } from '../../shared/components/navigation-layout/navigation-layout.component';
 import { SearchWordStore } from './store/search-word-store';
 
 @Component({

@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIconComponent } from '@ng-icons/core';
-import { NAVIGATION_ITEMS } from '../../app.routes';
+import { NAVIGATION_ITEMS } from '../../../app.routes';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthStore } from '../../store/auth-store';
-import { nameOf } from '../../shared/utilities/utilities';
-import { ANIMATED_BACKGROUND, APP_ICONS } from '../../app.icons';
-import { KeycloakService } from '../../shared/services/keycloak.service';
+import { AuthStore } from '../../../store/auth/auth-store';
+import { nameOf } from '../../utilities/utilities';
+import { ANIMATED_BACKGROUND, APP_ICONS } from '../../../app.icons';
+import { KeycloakService } from '../../services/keycloak/keycloak.service';
 import { NgxParticlesModule, NgParticlesService } from "@tsparticles/angular";
 import { loadSlim } from "@tsparticles/slim"; 
 

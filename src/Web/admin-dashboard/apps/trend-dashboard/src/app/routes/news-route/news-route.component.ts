@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationLayoutComponent } from '../../layouts/navigation-layout/navigation-layout.component';
+import { NavigationLayoutComponent } from '../../shared/components/navigation-layout/navigation-layout.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({

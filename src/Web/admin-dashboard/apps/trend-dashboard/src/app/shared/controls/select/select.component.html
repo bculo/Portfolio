@@ -1,5 +1,16 @@
-<select class="px-4 py-[.6rem] rounded-lg bg-gray-900 opacity-70 w-full border-gray-700 border placeholder:italic placeholder:text-stone-600 inline-block" (change)="onChange($any($event).target.value)">
-    @for(item of items; track item.value) {
-        <option [value]="item.value" [selected]="item.value === value">{{item.displayValue}}</option>
-    }
-</select>
+<div class="relative">
+    <div [ngClass]="{
+        'absolute': disabled || readonly,
+        'opacity-0': disabled || readonly,
+        'top-0': disabled || readonly,
+        'left-0': disabled || readonly,
+        'w-full': disabled || readonly,
+        'h-full': disabled || readonly,
+        'z-10': disabled || readonly
+    }"></div>
+    <select [tabIndex]="disabled || readonly ? -1 : 0" class="px-4 py-[.6rem] rounded-lg bg-gray-900 opacity-70 w-full border-gray-700 border placeholder:italic placeholder:text-stone-600 inline-block" (change)="onChange($any($event).target.value)">
+        @for(item of items; track item.value) {
+            <option [value]="item.value" [selected]="item.value === value">{{item.displayValue}}</option>
+        }
+    </select>
+</div>

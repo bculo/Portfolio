@@ -2,7 +2,7 @@
     <div class="flex justify-between items-center text-cyan-500">
         <h4 class="text-xl font-bold py-4">Search words</h4>
         <div>
-            <button (click)="onModalOpen(null)" type="button" class="flex items-center gap-2 hover:text-cyan-600">
+            <button (click)="onAddNew()" type="button" class="flex items-center gap-2 hover:text-cyan-600">
                 <ng-icon name="heroDocumentPlus"/>
                 <span>Add Search Word</span>
             </button>
@@ -22,7 +22,7 @@
         <div class="flex-1">
             <div class="grid grid-cols-2 max-xl:grid-cols-1 gap-4">
                 @for(searchWord of searchWords(); track searchWord.id) {
-                    <admin-dashboard-search-word-card [searchWord]="searchWord" class="col-span-1" (onDetailsClick)="onModalOpen($event)"/>
+                    <admin-dashboard-search-word-card [searchWord]="searchWord" class="col-span-1"/>
                 }
             </div>
         </div>
@@ -55,11 +55,4 @@
             }
         </div>
     </div>
-
-
-    <admin-dashboard-side-modal [id]="searchWordModalId()" (onClose)="onModalClose()">
-        @if(sideNavigationVisible()) {
-            <admin-dashboard-search-word-detail/>
-        }
-    </admin-dashboard-side-modal>
 </div>

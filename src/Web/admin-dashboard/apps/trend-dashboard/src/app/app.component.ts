@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NavigationLayoutComponent } from './layouts/navigation-layout/navigation-layout.component';
-import { KeycloakService } from './shared/services/keycloak.service';
+import { NavigationLayoutComponent } from './shared/components/navigation-layout/navigation-layout.component';
+import { KeycloakService } from './shared/services/keycloak/keycloak.service';
 
 
 @Component({

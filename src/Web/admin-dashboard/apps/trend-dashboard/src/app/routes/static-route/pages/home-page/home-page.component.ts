@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KeycloakService } from 'apps/trend-dashboard/src/app/shared/services/keycloak.service';
-import { AuthStore } from 'apps/trend-dashboard/src/app/store/auth-store';
+import { KeycloakService } from 'apps/trend-dashboard/src/app/shared/services/keycloak/keycloak.service';
+import { AuthStore } from 'apps/trend-dashboard/src/app/store/auth/auth-store';
 import { Router } from '@angular/router';
 
 @Component({

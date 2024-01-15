@@ -7,8 +7,12 @@ export const SEARCH_WORDS_ROUTES: Routes = [
       component: SearchWordsRouteComponent,
       children: [
         {
-            path: '',
-            loadComponent: () => import('./pages/view-page/view-page.component').then(i => i.ViewPageComponent),
+          path: '',
+          loadComponent: () => import('./pages/view-page/view-page.component').then(i => i.ViewPageComponent),
+        },
+        {
+          path: 'new',
+          loadComponent: () => import('./pages/create-new/create-new.component').then(i => i.CreateNewComponent),
         }
       ]
     }

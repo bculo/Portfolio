@@ -11,10 +11,10 @@ import { computed, inject } from '@angular/core';
 import { switchMap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
-import { KeyValuePair } from '../shared/models/dictionary.model';
-import { DictionaryService } from '../shared/services/open-api/api/dictionary.service';
-import { ControlItem } from '../shared/models/controls.model';
-import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions } from '../shared/enums/enums';
+import { KeyValuePair } from './dictionary-store.model';
+import { DictionaryService } from '../../shared/services/open-api/api/dictionary.service';
+import { ControlItem } from '../../shared/controls/controls.model';
+import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions } from '../../shared/enums/enums';
 
 interface DictionaryState {
     isLoading: boolean,
@@ -37,10 +37,15 @@ export const DictionaryStore = signalStore(
     withState(initialState),
     withDevtools('dictionary'),
     withComputed(({ searchEngines, contextTypes, sortOptions, activeOptions }) => ({
-        contextTypesFilterItemsOptions: computed(() => contextTypes().map(x => ({...x, isDefault: x.value === ContextTypeEnumOptions.All} as ControlItem))),
-        searchEngineFilterItemsOptions: computed(() => searchEngines().map(x => ({...x, isDefault: x.value === SearchEngineEnumOptions.All} as ControlItem))),
-        activeFilterItemsOptions: computed(() => activeOptions().map(x => ({...x, isDefault: x.value === ActiveEnumOptions.All} as ControlItem))),
+        contextTypesFilterItemsOptions: computed(() => contextTypes().map(x => ({...x} as ControlItem))),
+        searchEngineFilterItemsOptions: computed(() => searchEngines().map(x => ({...x} as ControlItem))),
+        activeFilterItemsOptions: computed(() => activeOptions().map(x => ({...x} as ControlItem))),
         sortFilterItemsOptions: computed(() => sortOptions().map(x => ({...x} as ControlItem))),
+        
+        contextTypeEditItemsOptions: computed(() => 
+            contextTypes().filter(x => x.value !== ContextTypeEnumOptions.All).map(x => ({...x} as ControlItem))),
+        searchEngineEditItemsOptions: computed(() => 
+            searchEngines().filter(x => x.value !== SearchEngineEnumOptions.All).map(x => ({...x} as ControlItem))),
     })),
     withMethods((store, service = inject(DictionaryService)) => ({
         load: rxMethod<void>(

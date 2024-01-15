@@ -17,9 +17,10 @@ export type InputType = 'text' | 'number'
   ],
   template: `
     <input 
-      class="px-4 py-2 rounded-lg bg-gray-900 opacity-70 border-gray-700 w-full border placeholder:italic placeholder:text-stone-600 inline-block"
+      [readOnly]="disabled"
+      [tabIndex]="disabled ? -1 : 0"
+      class="px-4 py-2 rounded-lg bg-gray-900 opacity-70 border-gray-700 w-full border placeholder:italic placeholder:text-stone-600 inline-block read-only:outline-0"
       type="text" 
-      [disabled]="disabled" 
       [value]="value" 
       [type]="type"
       [maxLength]="maxLength"

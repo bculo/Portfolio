@@ -8,11 +8,8 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { computed, inject } from '@angular/core';
-import { pipe, switchMap, tap } from 'rxjs';
-import { tapResponse } from '@ngrx/operators';
-import { KeycloakService } from '../shared/services/keycloak.service';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
-import { AuthWrapper } from '../shared/models/auth.model';
+import { AuthWrapper } from './auth-store.model';
 
 interface AuthState {
     isLoading: boolean
@@ -63,26 +60,3 @@ export const AuthStore = signalStore(
 
     }),
 );
-
-/*
-
-        init: rxMethod<void>(
-            switchMap(() =>
-                keycloak.configure().pipe(
-                    tapResponse({
-                        next: (response) => patchState(store, { 
-                            isAuthenticated: response.isAuthenticated,
-                            idToken: response.userInfo?.idToken,
-                            refreshToken: response.userInfo?.refreshToken,
-                            authToken: response.userInfo?.token,
-                            isAdmin: response.userInfo?.isAdmin ?? false,
-                            userName: response.userInfo?.userName,
-                            email: response.userInfo?.email
-                        }),
-                        error: console.error,
-                        finalize: () => patchState(store, { isLoading: false }),
-                    }),
-                )
-            ),
-        ),
-        */

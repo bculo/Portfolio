@@ -14,8 +14,8 @@ import { SearchWordService } from '../../../shared/services/open-api';
 import { SearchWordFilterModel, SearchWordItem, SearchWordStats } from '../models/search-words.model';
 import { mapToFilterReqDto, mapToFilterViewModel, mapToSyncStatsViewModel } from '../mappers/mapper';
 import { removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
-import { ModalService } from '../../../shared/services/modal.service';
 import { ActiveEnumOptions } from '../../../shared/enums/enums';
+import { SideModalService } from '../../../shared/components/side-modal/side-modal.service';
 
 interface SearchWordState {
     filterHash: string | null,
@@ -45,7 +45,7 @@ export const SearchWordStore = signalStore(
     withEntities<SearchWordItem>(),
     withState(initialState),
     withDevtools('search-word'),
-    withMethods((store, wordService = inject(SearchWordService), modalService = inject(ModalService)) => ({
+    withMethods((store, wordService = inject(SearchWordService), modalService = inject(SideModalService)) => ({
 
         fetch: rxMethod<SearchWordFilterModel>(
             pipe(

@@ -1,4 +1,4 @@
-export interface ModalInstance {
+export interface SideModalInstance {
     open(): void;
     close(): void;
     isOpen: boolean;

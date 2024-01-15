@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ModalInstance } from '../models/modals.model';
+import { SideModalInstance } from './side-modal.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModalService {
-  private modals: ModalInstance[] = [];
+export class SideModalService {
+  private modals: SideModalInstance[] = [];
 
-  add(modal: ModalInstance) {
+  add(modal: SideModalInstance) {
     if (!modal.id || this.modals.find(x => x.id === modal.id)) {
       this.remove(modal);
     }
     this.modals.push(modal);
   }
 
-  remove(modal: ModalInstance) {
+  remove(modal: SideModalInstance) {
       this.modals = this.modals.filter(x => x === modal);
   }
 
@@ -30,7 +30,6 @@ export class ModalService {
 
   visible(id: string): boolean {
     const modal = this.modals.find(x => x.isOpen && x.id);
-
     return modal?.isOpen ?? false;
   }
 }

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, forwardRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, SelectControlValueAccessor } from '@angular/forms';
-import { ControlItem } from '../../models/controls.model';
+import { ControlItem } from '../controls.model';
 
 @Component({
   selector: 'admin-dashboard-select',
@@ -23,10 +23,11 @@ import { ControlItem } from '../../models/controls.model';
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() items: ControlItem[] = [];
-  
+  @Input() readonly: boolean = false;
+
   value?: number;
   disabled: boolean = false;
-
+  
   onChangeFun: any = () => {};
   onTouchedFun: any = () => {};
 
