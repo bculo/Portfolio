@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cache.Abstract.Contracts;
 using Dtos.Common;
 using MassTransit.Topology;
 using Microsoft.AspNetCore.OutputCaching;
@@ -20,7 +21,8 @@ namespace Trend.Application.Services
         private readonly ILogger<SearchWordService> _logger;
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _wordRepository;
-        private readonly IOutputCacheStore _cacheStore;
+        private readonly IOutputCacheStore _cacheOutStore;
+        private readonly ICacheService _cacheService;
         private readonly IImageService _imageService;
         private readonly IBlobStorage _blobStorage;
         private readonly BlobStorageOptions _storageOptions;
@@ -31,14 +33,16 @@ namespace Trend.Application.Services
             IOutputCacheStore cacheStore, 
             IImageService imageService, 
             IBlobStorage blobStorage,
-            IOptions<BlobStorageOptions> storageOptions)
+            IOptions<BlobStorageOptions> storageOptions, 
+            ICacheService cacheService)
         {
             _logger = logger;
             _mapper = mapper;
             _wordRepository = wordRepository;
-            _cacheStore = cacheStore;
+            _cacheOutStore = cacheStore;
             _imageService = imageService;
             _blobStorage = blobStorage;
+            _cacheService = cacheService;
             _storageOptions = storageOptions.Value;
         }
 
@@ -62,7 +66,7 @@ namespace Trend.Application.Services
             entity.ImageUrl = GetDefaultSearchWordImageUri(entity.Type);
             await _wordRepository.Add(entity, token);
             
-            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
+            await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
             
             return _mapper.Map<SearchWordResDto>(entity);
         }
@@ -75,14 +79,21 @@ namespace Trend.Application.Services
             {
                 throw new TrendNotFoundException();
             }
+
+            var responseInst = _mapper.Map<SearchWordSyncDetailResDto>(result);
             
-            return _mapper.Map<SearchWordSyncDetailResDto>(result);
+            var cacheSyncCountInfo = await _cacheService.Get("sync:count");
+            if (cacheSyncCountInfo is not null && long.TryParse(cacheSyncCountInfo, out var numberOfSyncs))
+            {
+                responseInst.TotalCount = numberOfSyncs;
+            }
+            
+            return responseInst;
         }
 
         public async Task AttachImageToSearchWord(SearchWordAttachImageReqDto req, CancellationToken token)
         {
             var instance = await _wordRepository.FindById(req.SearchWordId, token);
-            
             if (instance is null || !instance.IsActive)
             {
                 throw new TrendNotFoundException();
@@ -99,7 +110,7 @@ namespace Trend.Application.Services
 
             await _wordRepository.Update(instance, token);
             
-            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
+            await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
         }
 
         public async Task ActivateSearchWord(string id, CancellationToken token)
@@ -119,7 +130,7 @@ namespace Trend.Application.Services
             }
 
             await _wordRepository.ActivateItems(new List<string> { entity.Id }, token);
-            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
+            await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
         }
 
         public async Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token)
@@ -160,7 +171,7 @@ namespace Trend.Application.Services
             }
 
             await _wordRepository.DeactivateItems(new List<string> { entity.Id }, token);
-            await _cacheStore.EvictByTagAsync(CacheTags.SEARCH_WORD, default);
+            await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
         }
     }
 }

@@ -4,6 +4,4 @@ public class SearchWordSyncDetailResQuery
 {
     public string WordId { get; set; }
     public int Count { get; set; }
-    
-    public long TotalCount { get; set; }
 }

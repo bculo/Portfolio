@@ -25,7 +25,7 @@ namespace Trend.Application.Repositories
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
-            var itemTask = syncStatusCollection.Aggregate()
+            var groupItem  = await syncStatusCollection.Aggregate()
                 .Unwind<SyncStatus, SyncStatusUnwind>(x => x.UsedSyncWords)
                 .Match(x => x.UsedSyncWords.WordId == searchWordId)
                 .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(_collection,
@@ -40,13 +40,11 @@ namespace Trend.Application.Repositories
                 })
                 .FirstOrDefaultAsync(token);
 
-            var totalCountTask = syncStatusCollection.CountDocumentsAsync(x => true, new CountOptions(), token);
-
-            await Task.WhenAll(itemTask, totalCountTask);
-
-            var response = itemTask.Result;
-            response.TotalCount = totalCountTask.Result;
-            return response;
+            return new SearchWordSyncDetailResQuery
+            {
+                WordId = searchWordId,
+                Count = groupItem.Count
+            };
         }
 
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
