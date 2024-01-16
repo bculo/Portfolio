@@ -23,6 +23,9 @@ services:
   jaeger-all-in-one:
     image: jaegertracing/all-in-one:1.51
     
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    
   dynamodb-mailservice-db:
     image: amazon/dynamodb-local:1.21.0
     

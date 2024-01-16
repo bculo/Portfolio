@@ -66,19 +66,24 @@ services:
       - "15672:15672"
     volumes:
       - ./data/rabbitmq/data:/var/lib/rabbitmq
-
+      
   jaeger-all-in-one:
     ports:
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
       - "16686:16686"
-      - "4318:4318"
-      - "4317:4317"
-      - "14250:14250"
-      - "14268:14268"
-      - "14269:14269"
-      - "9411:9411"
+      - "4318:4317"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+        
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./data/otelcollector/config/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - ./data/otelcollector/output:/etc/output:rw 
+    ports:
+      - "4317:4317" 
+    depends_on:
+      - jaeger-all-in-one
         
   dynamodb-mailservice-db:
     container_name: dynamodb-mailservice-db

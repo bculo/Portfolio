@@ -89,8 +89,6 @@ namespace Trend.Application
                 cl.Enrich.FromLogContext();
                 cl.Enrich.WithProperty("Environment", ctx.HostingEnvironment.EnvironmentName);
                 cl.Enrich.WithProperty("Application", ctx.HostingEnvironment.ApplicationName);
-
-                var exporter = ctx.Configuration["OpenTelemetry:OtlpExporter"] ?? throw new ArgumentNullException();
             });
 
             Serilog.Debugging.SelfLog.Enable(msg => {

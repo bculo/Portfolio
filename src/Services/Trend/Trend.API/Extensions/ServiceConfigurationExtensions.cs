@@ -47,7 +47,7 @@ namespace Trend.API.Extensions
                 configuration.GetValue<int>("ApiVersion:MajorVersion"),
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
-            //ApplicationLayer.AddLogger(builder.Host);
+            ApplicationLayer.AddLogger(builder.Host);
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
