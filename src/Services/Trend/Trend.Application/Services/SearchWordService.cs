@@ -13,6 +13,7 @@ using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Trend.Application.Services
 {
@@ -22,7 +23,8 @@ namespace Trend.Application.Services
         private readonly IMapper _mapper;
         private readonly ISearchWordRepository _wordRepository;
         private readonly IOutputCacheStore _cacheOutStore;
-        private readonly ICacheService _cacheService;
+        private readonly IFusionCache _cacheService;
+        private readonly ISyncStatusRepository _statusRepository;
         private readonly IImageService _imageService;
         private readonly IBlobStorage _blobStorage;
         private readonly BlobStorageOptions _storageOptions;
@@ -33,8 +35,8 @@ namespace Trend.Application.Services
             IOutputCacheStore cacheStore, 
             IImageService imageService, 
             IBlobStorage blobStorage,
-            IOptions<BlobStorageOptions> storageOptions, 
-            ICacheService cacheService)
+            IOptions<BlobStorageOptions> storageOptions,
+            IFusionCache fusionCache, ISyncStatusRepository statusRepository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -42,7 +44,8 @@ namespace Trend.Application.Services
             _cacheOutStore = cacheStore;
             _imageService = imageService;
             _blobStorage = blobStorage;
-            _cacheService = cacheService;
+            _cacheService = fusionCache;
+            _statusRepository = statusRepository;
             _storageOptions = storageOptions.Value;
         }
 
@@ -81,13 +84,15 @@ namespace Trend.Application.Services
             }
 
             var responseInst = _mapper.Map<SearchWordSyncDetailResDto>(result);
+
+            var numberOfSyncs = await _cacheService.GetOrSetAsync(
+                "sync:count",
+                _ => _statusRepository.Count(token),
+                TimeSpan.FromSeconds(30),
+                token
+            );
             
-            var cacheSyncCountInfo = await _cacheService.Get("sync:count");
-            if (cacheSyncCountInfo is not null && long.TryParse(cacheSyncCountInfo, out var numberOfSyncs))
-            {
-                responseInst.TotalCount = numberOfSyncs;
-            }
-            
+            responseInst.TotalCount = numberOfSyncs;
             return responseInst;
         }
 

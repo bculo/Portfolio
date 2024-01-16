@@ -11,6 +11,7 @@ using Hangfire;
 using Hangfire.Mongo;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Metrics;
@@ -26,6 +27,8 @@ using Trend.Application.Jobs;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
 using Trend.Application.Utils;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 using ITransaction = Trend.Application.Interfaces.ITransaction;
 
 namespace Trend.Application
@@ -92,7 +95,7 @@ namespace Trend.Application
                 {
                     return;
                 }
-
+                
                 cl.WriteTo.MongoDBBson(cfg =>
                 {
                     var identity = new MongoInternalIdentity(
@@ -180,7 +183,31 @@ namespace Trend.Application
         {
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
             var redisInstanceName = configuration["RedisOptions:InstanceName"];
-            services.AddRedisCacheService(redisConnectionString!, redisInstanceName!);
+
+            services.AddMemoryCache();
+            services.AddFusionCache()
+                .WithDefaultEntryOptions(opt =>
+                {
+                    opt.IsFailSafeEnabled = true;
+                    opt.FailSafeMaxDuration = TimeSpan.FromHours(3);
+                    opt.FailSafeThrottleDuration = TimeSpan.FromSeconds(30);
+
+                    opt.FactorySoftTimeout = TimeSpan.FromMilliseconds(200);
+                    opt.FactoryHardTimeout = TimeSpan.FromMilliseconds(2000);
+
+                    opt.DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1);
+                    opt.DistributedCacheHardTimeout = TimeSpan.FromSeconds(2);
+                    opt.AllowBackgroundDistributedCacheOperations = true;
+                })
+                .WithSerializer(new FusionCacheSystemTextJsonSerializer())
+                .WithDistributedCache(
+                    new RedisCache(new RedisCacheOptions
+                    {
+                        Configuration = redisConnectionString, 
+                        InstanceName = redisInstanceName
+                    })
+                );
+            
             services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
         }
         
@@ -205,7 +232,6 @@ namespace Trend.Application
                     tracing.AddMongoDBInstrumentation();
                     tracing.AddAspNetCoreInstrumentation();
                     tracing.AddHttpClientInstrumentation();
-                    //tracing.AddRedisInstrumentation(multiplexer);
                     tracing.AddOtlpExporter(opt =>
                     {
                         opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 

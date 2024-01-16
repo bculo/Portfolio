@@ -147,10 +147,6 @@ namespace Trend.API.Extensions
             var blobStorage = scope.ServiceProvider.GetRequiredService<IBlobStorage>();
             var blobOptions = scope.ServiceProvider.GetRequiredService<IOptions<BlobStorageOptions>>();
             await StorageSeedUtils.SeedBlobStorage(blobStorage, blobOptions);
-            
-            var syncRepo = scope.ServiceProvider.GetRequiredService<ISyncStatusRepository>();
-            var cacheService = scope.ServiceProvider.GetRequiredService<ICacheService>();
-            await StorageSeedUtils.SeedCacheStorage(syncRepo, cacheService);
         }
     }
 }
