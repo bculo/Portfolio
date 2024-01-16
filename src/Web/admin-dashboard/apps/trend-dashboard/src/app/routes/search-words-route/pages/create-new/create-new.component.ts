@@ -4,11 +4,12 @@ import { BackButtonComponent } from 'apps/trend-dashboard/src/app/shared/compone
 import { StepperComponent } from 'apps/trend-dashboard/src/app/shared/components/stepper/stepper.component';
 import { StepperService } from 'apps/trend-dashboard/src/app/shared/components/stepper/stepper.service';
 import { NewSearchWordFormComponent } from '../../components/new-search-word-form/new-search-word-form.component';
+import { NewSearchWordImageFormComponent } from '../../components/new-search-word-image-form/new-search-word-image-form.component';
 
 @Component({
   selector: 'admin-dashboard-create-new',
   standalone: true,
-  imports: [CommonModule, BackButtonComponent, StepperComponent, NewSearchWordFormComponent],
+  imports: [CommonModule, BackButtonComponent, StepperComponent, NewSearchWordFormComponent, NewSearchWordImageFormComponent],
   templateUrl: './create-new.component.html',
   styleUrl: './create-new.component.scss',
 })

@@ -47,9 +47,6 @@ export class SelectComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  ngOnInit(): void {
-  }
-
   onChange(value: number){
     this.value = +value;
     this.onChangeFun(this.value);

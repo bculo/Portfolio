@@ -1,0 +1,7 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h6 class="text-cyan-500 text-xl font-bold mb-5 self-start">Upload image for <span class="underline">{{newItem()?.searchWord | uppercase}}</span></h6>
+    <admin-dashboard-form-field label="Search word image" class="w-full" [control]="form.controls['image']">
+        <admin-dashboard-file-upload formControlName="image"></admin-dashboard-file-upload>
+    </admin-dashboard-form-field>
+    <button type="submit">CLICK</button>
+</form>

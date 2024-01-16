@@ -1,0 +1,10 @@
+<div adminDashboardDragAndDrop class="relative p-8 justify-center border border-stone-700 rounded-md" 
+        (fileDropped)="onFileDropped($event)">
+    <input type="file" class="" 
+        #fileDropRef 
+        id="file-upload" 
+        (change)="onFileSelected($any($event.target).files)" />
+    <p>Drag and drop file here</p>
+    <p>or</p>
+    <label for="file-upload">Browse for file</label>
+</div>

@@ -4,12 +4,14 @@
     <admin-dashboard-stepper class="w-3/6 m-auto">
         @switch (activeStep()?.key ?? '') {
             @case ('Information') {
-                <div class="glass w-96 py-8 px-8 rounded-md m-auto">
+                <div class="glass w-96 py-14 px-8 rounded-md m-auto">
                     <admin-dashboard-new-search-word-form></admin-dashboard-new-search-word-form>
                 </div>
             }
             @case ('Picture') {
-                "PICTURE COMPONENT"
+                <div class="glass w-[30rem] py-14 px-8 rounded-md m-auto">
+                    <admin-dashboard-new-search-word-image-form></admin-dashboard-new-search-word-image-form>
+                </div>
             }
             @default {
                 <div class="text-cyan-500">Loading...</div>
