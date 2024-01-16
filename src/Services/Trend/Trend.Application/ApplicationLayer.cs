@@ -13,11 +13,10 @@ using Hangfire.Mongo.Migration.Strategies.Backup;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
-using Serilog.Sinks.OpenTelemetry;
+using StackExchange.Redis;
 using Time.Abstract.Contracts;
 using Time.Common;
 using Trend.Application.Configurations.Initialization;
@@ -181,12 +180,12 @@ namespace Trend.Application
                     })
                 );
             
+            services.AddRedisConnectionMultiplexer(redisConnectionString!);
             services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
         }
         
         public static void AddOpenTelemetry(IConfiguration config, 
             IServiceCollection services,
-            ILoggingBuilder builder,
             string appName)
         {
             var resourceBuilder = ResourceBuilder.CreateDefault()
@@ -203,6 +202,12 @@ namespace Trend.Application
                     .SetErrorStatusOnException()
                     .AddHttpClientInstrumentation()
                     .AddMongoDBInstrumentation()
+                    .AddRedisInstrumentation()
+                    .ConfigureRedisInstrumentation((provider, instrumentation) =>
+                    {
+                        var multiplexer = provider.GetRequiredService<IConnectionMultiplexer>();
+                        instrumentation.AddConnection(multiplexer);
+                    })
                     .SetResourceBuilder(resourceBuilder)
                     .AddSource(Telemetry.TrendActivity.Name)
                     .AddSource(Telemetry.MassTransit)

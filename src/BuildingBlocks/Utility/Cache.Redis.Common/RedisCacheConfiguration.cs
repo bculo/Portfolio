@@ -45,10 +45,15 @@ namespace Cache.Redis.Common
             ArgumentException.ThrowIfNullOrWhiteSpace(instanceName);
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
             
+            using var provider = services.BuildServiceProvider();
+            using var scope = provider.CreateScope(); 
+            var multiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+            
             services.AddStackExchangeRedisOutputCache(options =>
             {
                 options.Configuration = connectionString;
                 options.InstanceName = instanceName;
+                options.ConnectionMultiplexerFactory = () => Task.FromResult(multiplexer);
             });
 
             services.AddOutputCache();

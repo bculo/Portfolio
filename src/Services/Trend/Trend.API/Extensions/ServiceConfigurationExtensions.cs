@@ -52,7 +52,7 @@ namespace Trend.API.Extensions
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
-            ApplicationLayer.AddOpenTelemetry(configuration, services, builder.Logging, "Trend.API");
+            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.API");
         }
 
         private static void ConfigureLocalization(IServiceCollection services)
@@ -143,19 +143,5 @@ namespace Trend.API.Extensions
             var blobOptions = scope.ServiceProvider.GetRequiredService<IOptions<BlobStorageOptions>>();
             await StorageSeedUtils.SeedBlobStorage(blobStorage, blobOptions);
         }
-    }
-}
-
-public static class RedisCacheExtensions
-{
-    public static ConnectionMultiplexer GetConnection(this RedisCache cache)
-    {
-        //ensure connection is established
-        typeof(RedisCache).InvokeMember("Connect", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, cache, new object[] { });
-
-        //get connection multiplexer
-        var fi = typeof(RedisCache).GetField("_connection", BindingFlags.Instance | BindingFlags.NonPublic);
-        var connection = (ConnectionMultiplexer)fi.GetValue(cache);
-        return connection;
     }
 }
