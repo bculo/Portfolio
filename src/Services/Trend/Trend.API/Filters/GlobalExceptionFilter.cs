@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
+using OpenTelemetry.Trace;
 using Trend.API.Filters.Models;
 using Trend.Application.Interfaces;
 using Trend.Domain.Exceptions;
@@ -21,6 +23,7 @@ namespace Trend.API.Filters
         public void OnException(ExceptionContext context)
         {
             _logger.LogError(context.Exception, context.Exception.Message);
+            Activity.Current?.RecordException(context.Exception);
 
             HandleSession();
 
@@ -29,14 +32,8 @@ namespace Trend.API.Filters
                 HandleCustomException(context);
                 return;
             }
-
-            var errorResponse = new ErrorResponseModel
-            {
-                Message = "Unknown exception",
-                StatusCode = StatusCodes.Status400BadRequest
-            };
-
-            context.Result = new BadRequestObjectResult(errorResponse);
+            
+            context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
             context.ExceptionHandled = true;
         }
 

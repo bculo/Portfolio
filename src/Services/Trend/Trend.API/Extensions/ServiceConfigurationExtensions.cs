@@ -1,23 +1,18 @@
-﻿using Cache.Redis.Common;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using System.Globalization;
-using Cache.Abstract.Contracts;
-using Events.Common.Trend;
-using Microsoft.AspNetCore.Http.Features;
+using System.Reflection;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Options;
-using OpenTelemetry.Metrics;
+using OpenTelemetry.Logs;
 using StackExchange.Redis;
 using Trend.API.Filters;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Options;
-using Trend.Application.Consumers;
 using Trend.Application.Interfaces;
 using Trend.Application.Utils;
 using WebProject.Common.CachePolicies;
@@ -52,12 +47,12 @@ namespace Trend.API.Extensions
                 configuration.GetValue<int>("ApiVersion:MajorVersion"),
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
-            ApplicationLayer.AddLogger(builder.Host);
+            //ApplicationLayer.AddLogger(builder.Host);
             ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
-            ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.API");
+            ApplicationLayer.AddOpenTelemetry(configuration, services, builder.Logging, "Trend.API");
         }
 
         private static void ConfigureLocalization(IServiceCollection services)
@@ -148,5 +143,19 @@ namespace Trend.API.Extensions
             var blobOptions = scope.ServiceProvider.GetRequiredService<IOptions<BlobStorageOptions>>();
             await StorageSeedUtils.SeedBlobStorage(blobStorage, blobOptions);
         }
+    }
+}
+
+public static class RedisCacheExtensions
+{
+    public static ConnectionMultiplexer GetConnection(this RedisCache cache)
+    {
+        //ensure connection is established
+        typeof(RedisCache).InvokeMember("Connect", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, cache, new object[] { });
+
+        //get connection multiplexer
+        var fi = typeof(RedisCache).GetField("_connection", BindingFlags.Instance | BindingFlags.NonPublic);
+        var connection = (ConnectionMultiplexer)fi.GetValue(cache);
+        return connection;
     }
 }

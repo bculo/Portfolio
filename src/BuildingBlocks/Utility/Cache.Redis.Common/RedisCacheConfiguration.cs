@@ -30,12 +30,12 @@ namespace Cache.Redis.Common
             });
         }
 
-        public static IConnectionMultiplexer GetRedisConnectionMultiplexer(this IServiceCollection services,
+        public static void AddRedisConnectionMultiplexer(this IServiceCollection services,
             string connectionString)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
             var multiplexer = ConnectionMultiplexer.Connect(connectionString) as IConnectionMultiplexer;
-            return multiplexer;
+            services.AddSingleton(multiplexer);
         }
 
         public static void AddRedisOutputCache(this IServiceCollection services, 

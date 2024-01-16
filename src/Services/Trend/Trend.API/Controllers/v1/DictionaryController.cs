@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using Dtos.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Filters.Models;
+using Trend.Application;
 using Trend.Application.Interfaces;
 
 namespace Trend.API.Controllers.v1;
@@ -15,13 +17,12 @@ namespace Trend.API.Controllers.v1;
 public class DictionaryController : ControllerBase
 {
     private readonly IDictionaryService _service;
-
+    
     public DictionaryController(IDictionaryService service)
     {
         _service = service;
     }
-    
-    
+
     [HttpGet("GetDefaultAllValue")]
     [SwaggerOperation(OperationId = "GetDefaultAllValue")]
     [OutputCache(PolicyName = "DictionaryPolicy")]

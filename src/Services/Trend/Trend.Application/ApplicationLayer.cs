@@ -1,10 +1,9 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
-using Serilog;
-using System.Diagnostics;
 using Azure.Storage.Blobs;
 using Cache.Redis.Common;
 using Hangfire;
@@ -14,10 +13,11 @@ using Hangfire.Mongo.Migration.Strategies.Backup;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OpenTelemetry.Metrics;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using StackExchange.Redis;
+using Serilog;
+using Serilog.Sinks.OpenTelemetry;
 using Time.Abstract.Contracts;
 using Time.Common;
 using Trend.Application.Configurations.Initialization;
@@ -86,36 +86,11 @@ namespace Trend.Application
             host.UseSerilog((ctx, cl) =>
             {
                 cl.ReadFrom.Configuration(ctx.Configuration);
-
                 cl.Enrich.FromLogContext();
                 cl.Enrich.WithProperty("Environment", ctx.HostingEnvironment.EnvironmentName);
                 cl.Enrich.WithProperty("Application", ctx.HostingEnvironment.ApplicationName);
 
-                if(!ctx.Configuration.GetValue<bool>("SerilogMongo:UseLogger"))
-                {
-                    return;
-                }
-                
-                cl.WriteTo.MongoDBBson(cfg =>
-                {
-                    var identity = new MongoInternalIdentity(
-                        ctx.Configuration["SerilogMongo:AuthDatabase"], 
-                        ctx.Configuration["SerilogMongo:UserName"]);
-                    var evidence = new PasswordEvidence(ctx.Configuration["SerilogMongo:Password"]);
-
-                    var mongoDbSettings = new MongoClientSettings
-                    {
-                        UseTls = false,
-                        Credential = new MongoCredential(ctx.Configuration["SerilogMongo:AuthMechanisam"], identity, evidence),
-                        Server = new MongoServerAddress(
-                            ctx.Configuration["SerilogMongo:Host"], 
-                            ctx.Configuration.GetValue<int>("SerilogMongo:Port")),
-                    };
-
-                    var mongoDbInstance = new MongoClient(mongoDbSettings).GetDatabase(ctx.Configuration["SerilogMongo:Database"]);
-
-                    cfg.SetMongoDatabase(mongoDbInstance);
-                });
+                var exporter = ctx.Configuration["OpenTelemetry:OtlpExporter"] ?? throw new ArgumentNullException();
             });
 
             Serilog.Debugging.SelfLog.Enable(msg => {
@@ -213,32 +188,31 @@ namespace Trend.Application
         
         public static void AddOpenTelemetry(IConfiguration config, 
             IServiceCollection services,
+            ILoggingBuilder builder,
             string appName)
         {
+            var resourceBuilder = ResourceBuilder.CreateDefault()
+                .AddService(serviceName: appName);
+
+            var exporterUri = new Uri(config["OpenTelemetry:OtlpExporter"] ?? throw new ArgumentNullException());
+           
             services.AddOpenTelemetry()
-                .ConfigureResource(resource =>
-                {
-                    resource.AddService(appName);
-                })
-                .WithMetrics(metrics => metrics
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation()
-                    .AddMeter("Microsoft.AspNetCore.Hosting")
-                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel"))
-                .WithTracing(tracing =>
-                {
-                    tracing.AddSource("MassTransit");
-                    tracing.AddMongoDBInstrumentation();
-                    tracing.AddAspNetCoreInstrumentation();
-                    tracing.AddHttpClientInstrumentation();
-                    tracing.AddOtlpExporter(opt =>
+                .WithTracing(tracing => tracing
+                    .AddAspNetCoreInstrumentation(opt =>
                     {
-                        opt.Endpoint = new Uri(config["OpenTelemetry:OtlpExporter"] 
-                                               ?? throw new ArgumentNullException());
-                    });
-                    tracing.AddConsoleExporter();
-                });
+                        opt.RecordException = true;
+                    })
+                    .SetErrorStatusOnException()
+                    .AddHttpClientInstrumentation()
+                    .AddMongoDBInstrumentation()
+                    .SetResourceBuilder(resourceBuilder)
+                    .AddSource(Telemetry.TrendActivity.Name)
+                    .AddSource(Telemetry.MassTransit)
+                    .AddOtlpExporter(opt =>
+                    {
+                        opt.Endpoint = exporterUri;
+                    })
+                );
         }
     }
 }

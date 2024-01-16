@@ -1,6 +1,5 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Serilog;
 using Trend.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +33,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRequestLocalization();
 
-app.UseSerilogRequestLogging();
+//app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 
