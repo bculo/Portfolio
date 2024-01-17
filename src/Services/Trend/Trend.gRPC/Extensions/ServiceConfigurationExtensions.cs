@@ -30,7 +30,6 @@ namespace Trend.gRPC.Extensions
             ConfigureAuthentication(services, configuration);
 
             ApplicationLayer.AddLogger(builder.Host);
-            ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureCache(configuration, services);

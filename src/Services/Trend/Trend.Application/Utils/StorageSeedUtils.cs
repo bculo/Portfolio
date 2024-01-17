@@ -42,10 +42,4 @@ public static class StorageSeedUtils
                 defaultBlob.ContentType);
         }
     }
-
-    public static async Task SeedCacheStorage(ISyncStatusRepository service, ICacheService cacheService)
-    {
-        var countNum = await service.Count(default);
-        await cacheService.AddWithAbsoluteExp("sync:count", countNum, TimeSpan.FromDays(1));
-    }
 }

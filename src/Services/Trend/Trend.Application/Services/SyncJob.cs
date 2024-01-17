@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Trend.Application.Interfaces;
-using Exception = System.Exception;
 
-namespace Trend.Application.Jobs;
+namespace Trend.Application.Services;
 
 public class SyncJob : ISyncJob
 {

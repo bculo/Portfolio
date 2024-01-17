@@ -3,16 +3,13 @@ using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using System.Reflection;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Options;
-using OpenTelemetry.Logs;
-using StackExchange.Redis;
 using Trend.API.Filters;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Options;
+using Trend.Application.Consumers;
 using Trend.Application.Interfaces;
 using Trend.Application.Utils;
 using WebProject.Common.CachePolicies;
@@ -48,7 +45,6 @@ namespace Trend.API.Extensions
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
             ApplicationLayer.AddLogger(builder.Host);
-            ApplicationLayer.AddClients(configuration, services);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
@@ -126,9 +122,14 @@ namespace Trend.API.Extensions
         {
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq((_, config) =>
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Trend", false));
+
+                x.AddConsumer<SyncExecutedConsumer>();
+                
+                x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
+                    config.ConfigureEndpoints(context);
                 });
             });
         }

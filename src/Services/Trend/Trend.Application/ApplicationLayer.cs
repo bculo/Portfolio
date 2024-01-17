@@ -15,14 +15,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
+using Polly.Extensions.Http;
 using Serilog;
 using StackExchange.Redis;
 using Time.Abstract.Contracts;
 using Time.Common;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Initialization;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Jobs;
 using Trend.Application.Repositories;
 using Trend.Application.Services;
 using Trend.Application.Utils;
@@ -78,6 +81,25 @@ namespace Trend.Application
             services.AddScoped<ISearchWordRepository, SearchWordRepository>();
             
             services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
+            
+            services.AddHttpClient();
+            services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
+            
+            services.AddHttpClient(HttpClientNames.GOOGLE_CLIENT)
+                .ConfigureHttpClient(c =>
+                {
+                    c.BaseAddress = 
+                        new Uri(configuration["GoogleSearchOptions:Uri"] ?? throw new ArgumentNullException());
+                })
+                .AddPolicyHandler(
+                    HttpPolicyExtensions
+                        .HandleTransientHttpError()
+                        .WaitAndRetryAsync(
+                            Backoff.DecorrelatedJitterBackoffV2(
+                                TimeSpan.FromSeconds(0.5),
+                                3)));
+            
+            services.AddScoped<ISearchEngine, GoogleSearchEngine>();
         }
 
         public static void AddLogger(IHostBuilder host)
@@ -94,15 +116,7 @@ namespace Trend.Application
                 Debug.WriteLine(msg);
             });
         }
-
-        public static void AddClients(IConfiguration configuration, IServiceCollection services)
-        {
-            services.AddHttpClient();
-            services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
-            services.AddScoped<ISearchEngine, GoogleSearchEngine>();
-            services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
-        }
-
+        
         public static void ConfigureHangfire(IConfiguration configuration, 
             IServiceCollection services, 
             bool addServers = false)
