@@ -177,7 +177,7 @@ namespace Trend.Application.Services
 
             var entity = await _syncStatusRepo.FindById(id, token);
             if (entity is not null) return _mapper.Map<SyncStatusResDto>(entity);
-            _logger.LogInformation("Sync with provided ID {0} not found", id);
+            _logger.LogInformation("Sync with provided ID {SyncStatusId} not found", id);
             throw new TrendNotFoundException($"Sync with {id} not found");
         }
 

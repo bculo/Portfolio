@@ -122,7 +122,7 @@ namespace Trend.Application.Services
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                _logger.LogInformation("ID {0} is null or empty", id);
+                _logger.LogInformation("Search word {SearchWordId} is null or empty", id);
                 throw new TrendAppCoreException("Given id is invalid");
             }
 
@@ -130,7 +130,7 @@ namespace Trend.Application.Services
 
             if (entity is null || entity.IsActive)
             {
-                _logger.LogInformation("Item with given id {0} not found", id);
+                _logger.LogInformation("Search word with given id {SearchWordId} not found", id);
                 throw new TrendNotFoundException();
             }
 
@@ -163,7 +163,7 @@ namespace Trend.Application.Services
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                _logger.LogInformation("ID {0} is null or empty", id);
+                _logger.LogInformation("Search word {SearchWordId} is null or empty", id);
                 throw new TrendAppCoreException("Given id is invalid");
             }
 
@@ -171,7 +171,7 @@ namespace Trend.Application.Services
 
             if (entity is null || !entity.IsActive)
             {
-                _logger.LogInformation("Item with given id {0} not found", id);
+                _logger.LogInformation("Item with given id {SearchWordId} not found", id);
                 throw new TrendNotFoundException();
             }
 

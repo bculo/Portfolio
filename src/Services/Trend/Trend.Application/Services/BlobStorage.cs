@@ -31,7 +31,7 @@ public class BlobStorage : IBlobStorage
         }
         catch
         {
-            _logger.LogWarning("Container {0} already created", containerName);
+            _logger.LogInformation("Container {ContainerName} already created", containerName);
         }
     }
 
