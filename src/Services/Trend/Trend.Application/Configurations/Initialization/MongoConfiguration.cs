@@ -44,16 +44,15 @@ namespace Trend.Application.Configurations.Initialization
             BsonClassMap.RegisterClassMap<ContextType>(config =>
             {
                 config.MapProperty(x => x.Id);
-                config.UnmapMember(x => x.Name);
-                config.UnmapMember(x => x.ShortName);
                 config.MapCreator(m => m.Id);
+                config.SetIgnoreExtraElements(true);
             });
             
             BsonClassMap.RegisterClassMap<SearchEngine>(config =>
             {
                 config.MapProperty(x => x.Id);
-                config.UnmapMember(x => x.Name);
                 config.MapCreator(m => m.Id);
+                config.SetIgnoreExtraElements(true);
             });
             
             BsonClassMap.RegisterClassMap<SyncStatusWord>(config =>

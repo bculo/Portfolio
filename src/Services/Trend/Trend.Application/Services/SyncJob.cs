@@ -17,13 +17,6 @@ public class SyncJob : ISyncJob
 
     public async Task Work(CancellationToken token)
     {
-        try
-        {
-            await _syncService.ExecuteSync(token);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, e.Message);
-        }
+        await _syncService.ExecuteSync(token);
     }
 }

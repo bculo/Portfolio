@@ -59,7 +59,7 @@ namespace Trend.Application.Services
                     continue;
                 }
                 
-                await ScrapeDataFromGoogleEngine(contextType, searchWords);
+                await ScrapeDataUsingGoogleClient(contextType, searchWords);
             }
 
             await MarkSyncStatusAsDone(articleTypesToSync, token);
@@ -110,7 +110,7 @@ namespace Trend.Application.Services
             };
         }
 
-        private async Task ScrapeDataFromGoogleEngine(ContextType type, List<SearchEngineWord> keyWords)
+        private async Task ScrapeDataUsingGoogleClient(ContextType type, List<SearchEngineWord> keyWords)
         {
             var responses = await FetchData(keyWords!);
             await CreateResponse(responses);

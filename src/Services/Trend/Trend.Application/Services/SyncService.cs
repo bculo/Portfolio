@@ -4,15 +4,16 @@ using Events.Common.Trend;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.OutputCaching;
+using OpenTelemetry.Trace;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
-using Trend.Application.Consumers;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Services;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Exceptions;
+using Activity = System.Diagnostics.Activity;
 
 namespace Trend.Application.Services
 {
@@ -57,10 +58,8 @@ namespace Trend.Application.Services
             using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_SRV);
             
             var searchWords = await _syncSettingRepo.GetActiveItems(token);
-
             if(searchWords.Count == 0)
             {
-                span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, 0);
                 throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
             }
             
@@ -71,25 +70,34 @@ namespace Trend.Application.Services
                     SearchWord = i.Word,
                     SearchWordId = i.Id
                 }).ToList());
-
+            
             span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, engineRequest.Keys.Count);
             
-            var oldActiveArticles = await _articleRepo.GetActiveItems(token);
-
             var (syncs, articles) = await FireSearchEngines(engineRequest, token);
-
-            await CheckForTotalFailure(syncs, token);
             
-            await _session.StartTransaction();
+            try
+            {
+                await _session.StartTransaction();
 
-            await PersistSyncStatuses(syncs, token);
-            await PersistNewArticles(articles, token);
-            await DeactivateOldArticles(oldActiveArticles, token);
-            
-            await _session.CommitTransaction();
+                var oldActiveArticles = await _articleRepo.GetActiveItems(token);
+                await DeactivateOldArticles(oldActiveArticles, token);
+                await PersistSyncStatuses(syncs, token);
+                await PersistNewArticles(articles, token);
+
+                await _session.CommitTransaction();
+            }
+            catch
+            {
+                await _session.AbortTransaction();
+                throw;
+            }
             
             await InvalidateCache(token);
-            
+            await PublishSyncExecutedEvent(token);
+        }
+
+        private async Task PublishSyncExecutedEvent(CancellationToken token)
+        {
             await _publishEndpoint.Publish<SyncExecuted>(new(), token);
         }
 
@@ -147,10 +155,12 @@ namespace Trend.Application.Services
                 catch (Exception e)
                 {
                     _logger.LogError(e, e.Message);
+                    Activity.Current?.RecordException(e);
                     await RaiseFailureEvent(searchEngine.EngineName, token);
                 }
             }
 
+            await CheckForTotalFailure(syncIterations, token);
             return (syncIterations, articles);
         }
 

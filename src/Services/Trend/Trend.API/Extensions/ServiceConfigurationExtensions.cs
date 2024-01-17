@@ -4,7 +4,6 @@ using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.Extensions.Options;
-using Trend.API.Filters;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
@@ -25,13 +24,10 @@ namespace Trend.API.Extensions
         {
             var services = builder.Services;
             var configuration = builder.Configuration;
-
-            services.AddControllers(opt =>
-            {
-                opt.Filters.Add<GlobalExceptionFilter>();
-            });
-
+            
             services.AddCors();
+            services.AddControllers();
+            services.AddProblemDetails();
             services.AddFluentValidationAutoValidation();
             
             ConfigureCache(services, configuration);
@@ -43,7 +39,7 @@ namespace Trend.API.Extensions
                 $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
                 configuration.GetValue<int>("ApiVersion:MajorVersion"),
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
-
+            
             ApplicationLayer.AddLogger(builder.Host);
             ApplicationLayer.AddServices(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);

@@ -51,7 +51,7 @@ namespace Trend.Application.Services
 
         public Task StartTransaction()
         {
-            if (_options.ServerType == ServerType.Replica)
+            if (_options.ServerType == ServerType.Replica && !_session.IsInTransaction)
             {
                 _session.StartTransaction();
             }

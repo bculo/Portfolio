@@ -40,6 +40,11 @@ namespace Trend.Application.Repositories
                 })
                 .FirstOrDefaultAsync(token);
 
+            if (groupItem is null)
+            {
+                return null;
+            }
+            
             return new SearchWordSyncDetailResQuery
             {
                 WordId = searchWordId,

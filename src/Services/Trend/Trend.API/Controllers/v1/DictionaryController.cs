@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
-using Trend.API.Filters.Models;
 using Trend.Application;
 using Trend.Application.Interfaces;
 
@@ -27,7 +26,7 @@ public class DictionaryController : ControllerBase
     [SwaggerOperation(OperationId = "GetDefaultAllValue")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetDefaultAllValue(CancellationToken token)
     {
         return Ok(await _service.GetDefaultAllValue(token));
@@ -37,7 +36,7 @@ public class DictionaryController : ControllerBase
     [SwaggerOperation(OperationId = "GetSearchEngines")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAvailableSearchEngines(CancellationToken token)
     {
         return Ok(await _service.GetSearchEngines(token));
@@ -47,7 +46,7 @@ public class DictionaryController : ControllerBase
     [SwaggerOperation(OperationId = "GetContextTypes")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAvailableContextTypes(CancellationToken token)
     {
         return Ok(await _service.GetContextTypes(token));
@@ -57,7 +56,7 @@ public class DictionaryController : ControllerBase
     [SwaggerOperation(OperationId = "GetActiveFilterOptions")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetActiveFilterOptions(CancellationToken token)
     {
         return Ok(await _service.GetActiveFilterOptions(token));
@@ -67,7 +66,7 @@ public class DictionaryController : ControllerBase
     [SwaggerOperation(OperationId = "GetSortFilterOptions")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetSortFilterOptions(CancellationToken token)
     {
         return Ok(await _service.GetSortFilterOptions(token));

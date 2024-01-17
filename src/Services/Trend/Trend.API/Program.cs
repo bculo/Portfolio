@@ -2,6 +2,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Trend.API.Extensions;
+using Trend.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,9 +33,6 @@ if (app.Environment.IsDevelopment())
         .AllowAnyOrigin());
 }
 
-app.UseRequestLocalization();
-
-app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 
@@ -42,9 +40,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseRequestLocalization();
+
+app.UseSerilogRequestLogging();
+
 app.UseHangfireDashboard();
 
 app.UseOutputCache();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();
 
