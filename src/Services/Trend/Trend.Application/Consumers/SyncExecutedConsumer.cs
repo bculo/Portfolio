@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cache.Abstract.Contracts;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
 using ZiggyCreatures.Caching.Fusion;
 
@@ -29,10 +30,9 @@ namespace Trend.Application.Consumers
 
         public async Task Consume(ConsumeContext<SyncExecuted> context)
         {
-            var countNum = _syncService.GetSyncCount(default);
-
-            await _cacheService.SetAsync("sync:count",
+            await _cacheService.SetAsync(CacheKeys.SYNC_TOTAL_COUNT,
                 () => _syncService.GetSyncCount(default),
+                TimeSpan.FromHours(12),
                 default);
         }
     }

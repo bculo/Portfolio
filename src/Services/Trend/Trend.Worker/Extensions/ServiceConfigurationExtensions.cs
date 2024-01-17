@@ -20,7 +20,6 @@ namespace Trend.Worker.Extensions
             services.Configure<SyncBackgroundServiceOptions>(configuration.GetSection("SyncBackgroundServiceOptions"));
             
             ApplicationLayer.AddServices(configuration, services);
-            ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services, true);
             ApplicationLayer.ConfigureCache(configuration, services);
             ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.Worker");

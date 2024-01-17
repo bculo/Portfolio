@@ -31,7 +31,6 @@ namespace Trend.gRPC.Extensions
 
             ApplicationLayer.AddLogger(builder.Host);
             ApplicationLayer.AddServices(configuration, services);
-            ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureCache(configuration, services);
             ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.gRPC");
         }

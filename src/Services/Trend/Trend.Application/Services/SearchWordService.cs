@@ -36,7 +36,8 @@ namespace Trend.Application.Services
             IImageService imageService, 
             IBlobStorage blobStorage,
             IOptions<BlobStorageOptions> storageOptions,
-            IFusionCache fusionCache, ISyncStatusRepository statusRepository)
+            IFusionCache fusionCache, 
+            ISyncStatusRepository statusRepository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -86,9 +87,9 @@ namespace Trend.Application.Services
             var responseInst = _mapper.Map<SearchWordSyncDetailResDto>(result);
 
             var numberOfSyncs = await _cacheService.GetOrSetAsync(
-                "sync:count",
+                CacheKeys.SYNC_TOTAL_COUNT,
                 _ => _statusRepository.Count(token),
-                TimeSpan.FromSeconds(30),
+                TimeSpan.FromHours(12),
                 token
             );
             
