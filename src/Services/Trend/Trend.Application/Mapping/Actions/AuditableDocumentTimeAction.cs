@@ -3,7 +3,7 @@ using Time.Abstract.Contracts;
 using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Domain.Entities;
 
-namespace Trend.Application.MappingProfiles.Actions
+namespace Trend.Application.Mapping.Actions
 {
     public class AuditableDocumentTimeAction<T> 
         : IMappingAction<T, AuditableDocument> where T : notnull

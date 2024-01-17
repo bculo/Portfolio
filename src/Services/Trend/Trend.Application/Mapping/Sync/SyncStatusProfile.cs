@@ -3,7 +3,7 @@ using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Services.Google;
 using Trend.Domain.Entities;
 
-namespace Trend.Application.MappingProfiles.Sync
+namespace Trend.Application.Mapping.Sync
 {
     public class SyncStatusProfile : Profile
     {

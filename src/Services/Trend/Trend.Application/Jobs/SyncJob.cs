@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using Trend.Application.Interfaces;
-using Trend.Application.Services;
 using Exception = System.Exception;
 
 namespace Trend.Application.Jobs;

@@ -54,10 +54,13 @@ namespace Trend.Application.Services
         
         public async Task ExecuteSync(CancellationToken token)
         {
+            using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_SRV);
+            
             var searchWords = await _syncSettingRepo.GetActiveItems(token);
 
             if(searchWords.Count == 0)
             {
+                span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, 0);
                 throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
             }
             
@@ -68,6 +71,8 @@ namespace Trend.Application.Services
                     SearchWord = i.Word,
                     SearchWordId = i.Id
                 }).ToList());
+
+            span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, engineRequest.Keys.Count);
             
             var oldActiveArticles = await _articleRepo.GetActiveItems(token);
 

@@ -129,11 +129,8 @@ namespace Trend.Application
                     });
             });
 
-            if (!addServers)
-            {
-                return;
-            }
-            
+            if (!addServers) return;
+
             services.AddHangfireServer(opt =>
             {
                 opt.ShutdownTimeout = TimeSpan.FromSeconds(5);
@@ -195,10 +192,7 @@ namespace Trend.Application
            
             services.AddOpenTelemetry()
                 .WithTracing(tracing => tracing
-                    .AddAspNetCoreInstrumentation(opt =>
-                    {
-                        opt.RecordException = true;
-                    })
+                    .AddAspNetCoreInstrumentation()
                     .SetErrorStatusOnException()
                     .AddHttpClientInstrumentation()
                     .AddMongoDBInstrumentation()
@@ -209,8 +203,8 @@ namespace Trend.Application
                         instrumentation.AddConnection(multiplexer);
                     })
                     .SetResourceBuilder(resourceBuilder)
-                    .AddSource(Telemetry.TrendActivity.Name)
-                    .AddSource(Telemetry.MassTransit)
+                    .AddSource(Telemetry.Trend.Name)
+                    .AddSource("MassTransit")
                     .AddOtlpExporter(opt =>
                     {
                         opt.Endpoint = exporterUri;

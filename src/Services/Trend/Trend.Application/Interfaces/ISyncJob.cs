@@ -1,4 +1,4 @@
-namespace Trend.Application.Services;
+namespace Trend.Application.Interfaces;
 
 public interface ISyncJob
 {

@@ -2,7 +2,7 @@
 using Dtos.Common;
 using Trend.Application.Interfaces.Models.Repositories;
 
-namespace Trend.Application.MappingProfiles.Common
+namespace Trend.Application.Mapping.Common
 {
     public class PageProfile : Profile
     {

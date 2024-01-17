@@ -2,11 +2,11 @@
 using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Application.Interfaces.Models.Services.Google;
-using Trend.Application.MappingProfiles.Actions;
+using Trend.Application.Mapping.Actions;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 
-namespace Trend.Application.MappingProfiles.News
+namespace Trend.Application.Mapping.News
 {
     public class ArticleProfile : Profile
     {

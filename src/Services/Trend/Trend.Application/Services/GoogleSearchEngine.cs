@@ -40,6 +40,9 @@ namespace Trend.Application.Services
             Dictionary<ContextType, List<SearchEngineWord>> articleTypesToSync, 
             CancellationToken token)
         {
+            using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_ENGINE);
+            span?.SetTag(Telemetry.SYNC_ENGINE_NAME_TAG, EngineName);
+            
             SyncStatus = CreateSyncInstance();
             
             if(articleTypesToSync.Count == 0)   

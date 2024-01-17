@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Repositories;
-using Trend.Application.MappingProfiles.Actions;
+using Trend.Application.Mapping.Actions;
 using Trend.Domain.Enums;
 
-namespace Trend.Application.MappingProfiles.SearchWord
+namespace Trend.Application.Mapping.SearchWord
 {
     public class SearchWordProfile : Profile
     {
