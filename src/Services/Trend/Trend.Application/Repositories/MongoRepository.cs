@@ -13,7 +13,7 @@ namespace Trend.Application.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : RootDocument
     {
-        protected readonly MongoOptions _options;
+        private readonly MongoOptions _options;
         private readonly IMongoDatabase _mongoDatabase;
         protected IMongoCollection<T> _collection;
         protected IDateTimeProvider _timeProvider;

@@ -10,7 +10,7 @@ namespace Http.Common.Extensions
 {
     public static class HttpResponseMessageExtensions
     {
-        public static async Task<T> HandleResponse<T>(this HttpResponseMessage? response, ILogger logger = null)
+        public static async Task<T> HandleResponse<T>(this HttpResponseMessage? response, ILogger? logger = null)
         {
             if (response == null)
             {
@@ -19,46 +19,34 @@ namespace Http.Common.Extensions
 
             if (!response.IsSuccessStatusCode)
             {
-                logger?.LogWarning("Request failed with status code {0}, Reason: {1}", response.StatusCode, response?.ReasonPhrase);
+                logger?.LogWarning("Request failed with status code {StatusCode}, Reason: {Reason}", response.StatusCode, response?.ReasonPhrase);
                 return default!;
             }
 
             var stringResponse = await response.Content.ReadAsStringAsync();
-
             return JsonConvert.DeserializeObject<T>(stringResponse)!;
         }
 
-        public static async Task<string> HandleResponse(this HttpResponseMessage response, ILogger logger = null)
+        public static async Task<string> HandleResponse(this HttpResponseMessage response, ILogger? logger = null)
         {
-            if (response == null)
-            {
-                return default!;
-            }
-
             if (!response.IsSuccessStatusCode)
             {
-                logger?.LogWarning("Request failed with status code {0}", response.StatusCode);
+                logger?.LogWarning("Request failed with status code {StatusCode}", response.StatusCode);
                 return default!;
             }
-
+            
             return await response.Content.ReadAsStringAsync();
         }
 
-        public static async Task<T> HandleResponseWithException<T, TException>(this HttpResponseMessage response, ILogger logger = null) where TException : Exception, new()
+        public static async Task<T> HandleResponseWithException<T, TException>(this HttpResponseMessage response, ILogger? logger = null) where TException : Exception, new()
         {
-            if (response == null)
-            {
-                throw new TException();
-            }
-
             if (!response.IsSuccessStatusCode)
             {
-                logger?.LogWarning("Request failed with status code {0}", response.StatusCode);
+                logger?.LogWarning("Request failed with status code {StatusCode}", response.StatusCode);
                 throw new TException();
             }
 
             var stringResponse = await response.Content.ReadAsStringAsync();
-
             return JsonConvert.DeserializeObject<T>(stringResponse)!;
         }
     }

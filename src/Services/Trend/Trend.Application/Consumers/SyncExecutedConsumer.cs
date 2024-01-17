@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cache.Abstract.Contracts;
 using Trend.Application.Interfaces;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Trend.Application.Consumers
 {
@@ -15,11 +16,11 @@ namespace Trend.Application.Consumers
     {
         private readonly ISyncService _syncService;
         private readonly ILogger<SyncExecutedConsumer> _logger;
-        private readonly ICacheService _cacheService;
+        private readonly IFusionCache _cacheService;
 
         public SyncExecutedConsumer(ILogger<SyncExecutedConsumer> logger, 
             ISyncService syncService, 
-            ICacheService cacheService)
+            IFusionCache cacheService)
         {
             _logger = logger;
             _syncService = syncService;
@@ -29,7 +30,10 @@ namespace Trend.Application.Consumers
         public async Task Consume(ConsumeContext<SyncExecuted> context)
         {
             var countNum = _syncService.GetSyncCount(default);
-            await _cacheService.AddWithAbsoluteExp("sync:count", countNum, TimeSpan.FromDays(1));
+
+            await _cacheService.SetAsync("sync:count",
+                () => _syncService.GetSyncCount(default),
+                default);
         }
     }
 }

@@ -63,24 +63,6 @@ namespace Trend.Application
             });
             
             services.Configure<BlobStorageOptions>(configuration.GetSection("BlobStorageOptions"));
-        }
-
-        public static void AddPersistence(IConfiguration configuration, IServiceCollection services)
-        {
-            MongoConfiguration.Configure();
-
-            services.Configure<MongoOptions>(configuration.GetSection("MongoOptions"));
-            var mongoDbOptions = configuration.GetSection("MongoOptions").Get<MongoOptions>();
-            services.AddSingleton<IMongoClient>(_ => TrendMongoUtils.CreateMongoClient(mongoDbOptions));
-            services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
-            services.AddScoped<ITransaction, MongoTransactionService>();
-
-            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
-            services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
-            services.AddScoped<IArticleRepository, ArticleRepository>();
-            services.AddScoped<ISearchWordRepository, SearchWordRepository>();
-            
-            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
             
             services.AddHttpClient();
             services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
@@ -98,10 +80,26 @@ namespace Trend.Application
                             Backoff.DecorrelatedJitterBackoffV2(
                                 TimeSpan.FromSeconds(0.5),
                                 3)));
-            
-            services.AddScoped<ISearchEngine, GoogleSearchEngine>();
-        }
 
+            services.AddScoped<IGoogleSearchClient, GoogleSearchClient>();
+            services.AddScoped<ISearchEngine, GoogleSearchEngine>();
+            
+            MongoConfiguration.Configure();
+
+            services.Configure<MongoOptions>(configuration.GetSection("MongoOptions"));
+            var mongoDbOptions = configuration.GetSection("MongoOptions").Get<MongoOptions>();
+            services.AddSingleton<IMongoClient>(_ => TrendMongoUtils.CreateMongoClient(mongoDbOptions));
+            services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
+            services.AddScoped<ITransaction, MongoTransactionService>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+            services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<ISearchWordRepository, SearchWordRepository>();
+            
+            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
+        }
+        
         public static void AddLogger(IHostBuilder host)
         {
             host.UseSerilog((ctx, cl) =>

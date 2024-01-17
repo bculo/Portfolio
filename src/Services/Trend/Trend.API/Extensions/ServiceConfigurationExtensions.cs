@@ -46,7 +46,6 @@ namespace Trend.API.Extensions
 
             ApplicationLayer.AddLogger(builder.Host);
             ApplicationLayer.AddServices(configuration, services);
-            ApplicationLayer.AddPersistence(configuration, services);
             ApplicationLayer.ConfigureHangfire(configuration, services);
             ApplicationLayer.AddOpenTelemetry(configuration, services, "Trend.API");
         }
