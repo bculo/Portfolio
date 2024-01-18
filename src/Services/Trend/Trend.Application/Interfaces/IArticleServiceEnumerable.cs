@@ -3,7 +3,7 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces;
 
-public interface IArticleServiceEnumerable : IArticleService
+public interface IArticleServiceEnumerable
 {
     IAsyncEnumerable<ArticleResDto> GetAllEnumerable(CancellationToken tcs = default);
     IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(CancellationToken tcs = default);

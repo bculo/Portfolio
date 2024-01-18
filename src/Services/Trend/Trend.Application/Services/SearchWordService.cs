@@ -56,7 +56,7 @@ namespace Trend.Application.Services
                 type.ShortName);
         }
 
-        public async Task<Either<TrendError, SearchWordResDto>> AddNewSearchWord(
+        public async Task<Either<CoreError, SearchWordResDto>> AddNewSearchWord(
             SearchWordAddReqDto instance, 
             CancellationToken token = default)
         {
@@ -78,7 +78,7 @@ namespace Trend.Application.Services
             return response;
         }
 
-        public async Task<Either<TrendError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(
+        public async Task<Either<CoreError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(
             string wordId, 
             CancellationToken token = default)
         {
@@ -102,7 +102,7 @@ namespace Trend.Application.Services
             return responseInst;
         }
 
-        public async Task<Either<TrendError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto req, 
+        public async Task<Either<CoreError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto req, 
             CancellationToken token = default)
         {
             var instance = await _wordRepository.FindById(req.SearchWordId, token);
@@ -112,18 +112,18 @@ namespace Trend.Application.Services
                 return SearchWordErrors.NotFound;
             }
             
-            await using var stream = await _imageService.ResizeImage(req.Content, 720, 480);
+            await using var stream = await _imageService.ResizeImage(req.Content, 720, 480, token);
             instance.ImageUrl = (await _blobStorage.UploadBlobAsync(_storageOptions.TrendContainerName,
                 instance.Word, 
                 stream, 
-                req.ContentType))?.ToString();
+                req.ContentType, token)).ToString();
             
             await _wordRepository.Update(instance, token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
             return Unit.Default;
         }
 
-        public async Task<Either<TrendError, Unit>> ActivateSearchWord(string id, 
+        public async Task<Either<CoreError, Unit>> ActivateSearchWord(string id, 
             CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -166,7 +166,7 @@ namespace Trend.Application.Services
             return instances;
         }
         
-        public async Task<Either<TrendError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default)
+        public async Task<Either<CoreError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default)
         {
             if (string.IsNullOrWhiteSpace(id))
             {

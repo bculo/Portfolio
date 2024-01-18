@@ -1,7 +1,5 @@
-using System.Diagnostics;
 using Dtos.Common;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry.Trace;
 using Trend.Application.Interfaces;
 using Trend.Domain.Enums;
 

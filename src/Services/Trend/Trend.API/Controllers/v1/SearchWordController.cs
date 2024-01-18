@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
+using Trend.API.Extensions;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models.Dtos;
 
@@ -30,7 +31,8 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSearchWordSyncStatistic([FromRoute] string wordId, CancellationToken token)
         {
-            return Ok(await _service.GetSearchWordSyncStatistic(wordId, token));
+            var result = await _service.GetSearchWordSyncStatistic(wordId, token);
+            return result.ToActionResult();
         }
         
         [HttpGet("GetActiveSearchWords")]
@@ -63,7 +65,7 @@ namespace Trend.API.Controllers.v1
         public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordAddReqDto request, CancellationToken token)
         {
             var result = await _service.AddNewSearchWord(request, token);
-            return result.Match<IActionResult>(Ok, exc => BadRequest(exc.Description));
+            return result.ToActionResult();
         }
         
         [HttpPost("Filter")]
@@ -77,7 +79,7 @@ namespace Trend.API.Controllers.v1
             return Ok(await _service.FilterSearchWords(request, token));
         }
         
-        [HttpPost("AttachImage/{searchWordId}")]
+        [HttpPut("AttachImage/{searchWordId}")]
         [SwaggerOperation(OperationId = "AttachImage")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -88,11 +90,11 @@ namespace Trend.API.Controllers.v1
         {
             var command = await request.File.ToDetailsDto<SearchWordAttachImageReqDto>();
             command.SearchWordId = searchWordId;
-            await _service.AttachImageToSearchWord(command, token);
-            return NoContent();
+            var result = await _service.AttachImageToSearchWord(command, token);
+            return result.ToActionResult();
         }
 
-        [HttpDelete("Deactivate/{id}")]
+        [HttpPut("Deactivate/{id}")]
         [SwaggerOperation(OperationId = "Deactivate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -100,18 +102,18 @@ namespace Trend.API.Controllers.v1
         public async Task<IActionResult> Deactivate(string id, CancellationToken token)
         {
             var result = await _service.DeactivateSearchWord(id, token);
-            return result.Match<IActionResult>(u => NoContent(), (exc) => BadRequest(exc.Description));
+            return result.ToActionResult();
         }
         
-        [HttpGet("Activate/{id}")]
+        [HttpPut("Activate/{id}")]
         [SwaggerOperation(OperationId = "Activate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Activate(string id, CancellationToken token)
         {
-            await _service.ActivateSearchWord(id, token);
-            return NoContent();
+            var result = await _service.ActivateSearchWord(id, token);
+            return result.ToActionResult();
         }
     }
 }

@@ -34,7 +34,6 @@ namespace Trend.Worker.Extensions
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
-                    config.ConfigureEndpoints(context);
                 });
             });
         }

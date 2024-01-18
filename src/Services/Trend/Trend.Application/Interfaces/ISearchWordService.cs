@@ -11,10 +11,10 @@ namespace Trend.Application.Interfaces
         Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token = default);
         Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token = default);
         Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token = default);
-        Task<Either<TrendError, SearchWordResDto>> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token = default);
-        Task<Either<TrendError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(string wordId, CancellationToken token = default);
-        Task<Either<TrendError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token = default);
-        Task<Either<TrendError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default);
-        Task<Either<TrendError, Unit>> ActivateSearchWord(string id, CancellationToken token = default);
+        Task<Either<CoreError, SearchWordResDto>> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token = default);
+        Task<Either<CoreError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(string wordId, CancellationToken token = default);
+        Task<Either<CoreError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token = default);
+        Task<Either<CoreError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default);
+        Task<Either<CoreError, Unit>> ActivateSearchWord(string id, CancellationToken token = default);
     }
 }

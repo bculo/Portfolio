@@ -6,11 +6,15 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Services;
 
-public class ArticleServiceEnumerable : ArticleService, IArticleServiceEnumerable
+public class ArticleServiceEnumerable : IArticleServiceEnumerable
 {
-    public ArticleServiceEnumerable(IArticleRepository articleRepo, IMapper mapper) 
-        : base(articleRepo, mapper)
+    private readonly IArticleRepository _articleRepo;
+    private readonly IMapper _mapper;
+
+    public ArticleServiceEnumerable(IArticleRepository articleRepo, IMapper mapper)
     {
+        _articleRepo = articleRepo;
+        _mapper = mapper;
     }
     
     public async IAsyncEnumerable<ArticleResDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token = default)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dtos.Common;
 using Events.Common.Trend;
+using LanguageExt;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.OutputCaching;
@@ -12,6 +13,7 @@ using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Services;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
+using Trend.Domain.Errors;
 using Trend.Domain.Exceptions;
 using Activity = System.Diagnostics.Activity;
 
@@ -53,7 +55,7 @@ namespace Trend.Application.Services
             _session = session;
         }
         
-        public async Task ExecuteSync(CancellationToken token = default)
+        public async Task<Either<CoreError, Unit>> ExecuteSync(CancellationToken token = default)
         {
             using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_SRV);
             span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, _searchEngines.Count());
@@ -61,7 +63,8 @@ namespace Trend.Application.Services
             var searchWords = await _syncSettingRepo.GetActiveItems(token);
             if(searchWords.Count == 0)
             {
-                throw new TrendAppCoreException("Array of search words is empty. Sync process is stopped");
+                _logger.LogInformation("Array of search words is empty. Sync process is stopped");
+                return SyncErrors.NoSearchWords;
             }
 
             var searchEngineRequest = MapToSearchEngineRequest(searchWords);
@@ -86,6 +89,7 @@ namespace Trend.Application.Services
             
             await InvalidateCache(token);
             await PublishSyncExecutedEvent(token);
+            return Unit.Default;
         }
 
         private Dictionary<ContextType, List<SearchEngineWord>> MapToSearchEngineRequest(List<SearchWord> searchWords)
@@ -184,46 +188,41 @@ namespace Trend.Application.Services
             return await _syncStatusRepo.Count(token);
         }
 
-        public async Task<SyncStatusResDto> GetSync(string id, CancellationToken token = default)
+        public async Task<Either<CoreError, SyncStatusResDto>> GetSync(string id, CancellationToken token = default)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                throw new TrendNotFoundException($"Sync with {id} not found");
+                _logger.LogInformation("Search word is null or empty");
+                return SyncErrors.EmptyId;
             }
 
             var entity = await _syncStatusRepo.FindById(id, token);
-            if (entity is not null) return _mapper.Map<SyncStatusResDto>(entity);
-            _logger.LogInformation("Sync with provided ID {SyncStatusId} not found", id);
-            throw new TrendNotFoundException($"Sync with {id} not found");
+            if (entity is null)
+            {
+                _logger.LogInformation("Sync with provided ID {SyncStatusId} not found", id);
+                return SyncErrors.NotFound;
+            } 
+            
+            return _mapper.Map<SyncStatusResDto>(entity);
         }
 
         public async Task<List<SyncStatusResDto>> GetSyncStatuses(CancellationToken token = default)
         {
             var entities = await _syncStatusRepo.GetAll(token);
-
-            if(entities.Count == 0)
-            {
-                return new List<SyncStatusResDto>();
-            }
-
             var instances = _mapper.Map<List<SyncStatusResDto>>(entities);
             return instances;
         }
         
-        public async Task<List<SyncStatusWordResDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token = default)
+        public async Task<Either<CoreError, List<SyncStatusWordResDto>>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token = default)
         {
             var syncStatus = await _syncStatusRepo.FindById(syncStatusId, token);
             if(syncStatus is null)
             {
-                throw new TrendNotFoundException($"Sync status with ID {syncStatusId} not found");
+                _logger.LogInformation("Sync {ArticleId} not found", syncStatusId);
+                return SyncErrors.NotFound;
             }
 
             var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId, token);
-            if(syncWords.Count == 0)
-            {
-                return new List<SyncStatusWordResDto>();
-            }
-
             var response = _mapper.Map<List<SyncStatusWordResDto>>(syncWords);
             return response;
         }

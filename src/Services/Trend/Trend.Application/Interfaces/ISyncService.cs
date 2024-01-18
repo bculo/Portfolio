@@ -1,5 +1,7 @@
 ﻿using Dtos.Common;
+using LanguageExt;
 using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Domain.Errors;
 
 namespace Trend.Application.Interfaces
 {
@@ -7,8 +9,8 @@ namespace Trend.Application.Interfaces
     { 
         Task<List<SyncStatusResDto>> GetSyncStatuses(CancellationToken token = default);
         Task<long> GetSyncCount(CancellationToken token = default);
-        Task<SyncStatusResDto> GetSync(string id, CancellationToken token = default);
-        Task ExecuteSync(CancellationToken token = default);
-        Task<List<SyncStatusWordResDto>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token = default);
+        Task<Either<CoreError, SyncStatusResDto>> GetSync(string id, CancellationToken token = default);
+        Task<Either<CoreError, Unit>> ExecuteSync(CancellationToken token = default);
+        Task<Either<CoreError, List<SyncStatusWordResDto>>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token = default);
     }
 }
