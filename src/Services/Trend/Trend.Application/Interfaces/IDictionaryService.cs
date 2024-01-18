@@ -4,11 +4,11 @@ namespace Trend.Application.Interfaces;
 
 public interface IDictionaryService
 {
-    Task<int> GetDefaultAllValue(CancellationToken token);
-    Task<List<KeyValueElementDto>> GetContextTypes(CancellationToken token);
-    Task<List<KeyValueElementDto>> GetSearchEngines(CancellationToken token);
+    Task<int> GetDefaultAllValue(CancellationToken token = default);
+    Task<List<KeyValueElementDto>> GetContextTypes(CancellationToken token = default);
+    Task<List<KeyValueElementDto>> GetSearchEngines(CancellationToken token = default);
     
-    Task<List<KeyValueElementDto>> GetActiveFilterOptions(CancellationToken token);
+    Task<List<KeyValueElementDto>> GetActiveFilterOptions(CancellationToken token = default);
     
-    Task<List<KeyValueElementDto>> GetSortFilterOptions(CancellationToken token);
+    Task<List<KeyValueElementDto>> GetSortFilterOptions(CancellationToken token = default);
 }

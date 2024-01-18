@@ -19,7 +19,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     {
     }
     
-    public async Task<List<TEntity>> GetActiveItems(CancellationToken token)
+    public async Task<List<TEntity>> GetActiveItems(CancellationToken token = default)
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
         
@@ -28,7 +28,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
             .ToListAsync(token);
     }
 
-    public async Task<List<TEntity>> GetDeactivatedItems(CancellationToken token)
+    public async Task<List<TEntity>> GetDeactivatedItems(CancellationToken token = default)
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
         
@@ -37,7 +37,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
             .ToListAsync(token);
     }
 
-    public async IAsyncEnumerable<TEntity> GetActiveItemsEnumerable([EnumeratorCancellation] CancellationToken token)
+    public async IAsyncEnumerable<TEntity> GetActiveItemsEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
         using var cursor = await Collection.Find(ClientSession, i => i.IsActive)
             .SortByDescending(i => i.Created)
@@ -52,7 +52,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
         }
     }
 
-    public async IAsyncEnumerable<TEntity> GetDeactivatedItemsEnumerable([EnumeratorCancellation] CancellationToken token)
+    public async IAsyncEnumerable<TEntity> GetDeactivatedItemsEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
         using var cursor = await Collection.Find(i => !i.IsActive)
             .SortByDescending(i => i.Created)
@@ -67,7 +67,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
         }
     }
 
-    public async Task ActivateItems(IEnumerable<string> itemIds, CancellationToken token)
+    public async Task ActivateItems(IEnumerable<string> itemIds, CancellationToken token = default)
     {
         var update = Builders<TEntity>.Update.Set(s => s.IsActive, true)
             .Set(s => s.DeactivationDate, TimeProvider.Now);
@@ -75,7 +75,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
         await Collection.UpdateManyAsync(ClientSession, i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
     }
 
-    public async Task DeactivateItems(IEnumerable<string> itemIds, CancellationToken token)
+    public async Task DeactivateItems(IEnumerable<string> itemIds, CancellationToken token = default)
     {
         var update = Builders<TEntity>.Update.Set(s => s.IsActive, false)
             .Set(s => s.DeactivationDate, TimeProvider.Now);

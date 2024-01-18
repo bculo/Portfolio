@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
@@ -17,22 +18,20 @@ namespace Trend.Application.Repositories
         {
         }
 
-        public Task<SyncStatus> GetLastValidSync(CancellationToken token)
+        public async Task<SyncStatus?> GetLastValidSync(CancellationToken token = default)
         {
-            var result = Collection.Find(ClientSession, t => t.TotalRequests > 0 && t.SucceddedRequests > 0)
+            return await Collection.Find(ClientSession, t => t.TotalRequests > 0 && t.SucceddedRequests > 0)
                             .SortByDescending(i => i.Created)
-                            .FirstOrDefault();
-
-            return Task.FromResult(result);
+                            .FirstOrDefaultAsync(token);
         }
 
-        public Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId, CancellationToken token)
+        public async Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId, CancellationToken token = default)
         {
-            var result = GetQueryable().Where(i => i.Id == syncStatusId)
+            var result = await GetQueryable().Where(i => i.Id == syncStatusId)
                 .SelectMany(i => i.UsedSyncWords)
-                .ToList();
+                .ToListAsync(token);
 
-            return Task.FromResult(result);
+            return result;
         }
     }
 }

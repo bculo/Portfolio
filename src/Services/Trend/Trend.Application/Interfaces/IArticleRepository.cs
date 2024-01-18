@@ -6,7 +6,7 @@ namespace Trend.Application.Interfaces
 {
     public interface IArticleRepository : IMongoAuditableRepository<Article>
     {
-        Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, CancellationToken token);
-        IAsyncEnumerable<ArticleDetailResQuery> GetActiveArticlesEnumerable(ContextType type, CancellationToken token);
+        Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, CancellationToken token = default);
+        IAsyncEnumerable<ArticleDetailResQuery> GetActiveArticlesEnumerable(ContextType type, CancellationToken token = default);
     }
 }

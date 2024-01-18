@@ -5,7 +5,7 @@ namespace Trend.Application.Interfaces;
 
 public interface IArticleServiceEnumerable : IArticleService
 {
-    IAsyncEnumerable<ArticleResDto> GetAllEnumerable(CancellationToken tcs);
-    IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(CancellationToken tcs);
-    IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, CancellationToken tcs);
+    IAsyncEnumerable<ArticleResDto> GetAllEnumerable(CancellationToken tcs = default);
+    IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(CancellationToken tcs = default);
+    IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, CancellationToken tcs = default);
 }

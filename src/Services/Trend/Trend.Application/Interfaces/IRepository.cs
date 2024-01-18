@@ -6,15 +6,14 @@ namespace Trend.Application.Interfaces
 {
     public interface IRepository<T> where T : RootDocument
     {
-        Task Add(T entity, CancellationToken token);
-        IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token);
-        Task Add(ICollection<T> entities, CancellationToken token);
-        Task Delete(string id, CancellationToken token);
-        Task Update(T updatedEntity, CancellationToken token);
-        Task<T> FindById(string id, CancellationToken token);
-        Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token);
-        Task<PageResQuery<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default);
-        Task<List<T>> GetAll(CancellationToken token);
-        Task<long> Count(CancellationToken token);
+        Task Add(T entity, CancellationToken token = default);
+        IAsyncEnumerable<T> GetAllEnumerable(CancellationToken token = default);
+        Task Add(ICollection<T> entities, CancellationToken token = default);
+        Task Delete(string id, CancellationToken token = default);
+        Task Update(T updatedEntity, CancellationToken token = default);
+        Task<T?> FindById(string id, CancellationToken token = default);
+        Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token = default);
+        Task<List<T>> GetAll(CancellationToken token = default);
+        Task<long> Count(CancellationToken token = default);
     }
 }

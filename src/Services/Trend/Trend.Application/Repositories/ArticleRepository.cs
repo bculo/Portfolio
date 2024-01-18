@@ -18,10 +18,7 @@ namespace Trend.Application.Repositories
             IOptions<MongoOptions> options,
             IDateTimeProvider provider,
             IClientSessionHandle clientSession) 
-            : base(client, options, provider, clientSession)
-        {
-            
-        }
+            : base(client, options, provider, clientSession) {}
 
         private IAggregateFluent<ArticleDetailResQuery> BuildAggregateBasedOnContext(ContextType type)
         {
@@ -53,13 +50,14 @@ namespace Trend.Application.Repositories
             return aggregate;
         }
         
-        public async Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, CancellationToken token)
+        public async Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, 
+            CancellationToken token = default)
         {
             return await BuildAggregateBasedOnContext(type).ToListAsync(token);
         }
 
         public async IAsyncEnumerable<ArticleDetailResQuery> GetActiveArticlesEnumerable(ContextType type, 
-            [EnumeratorCancellation] CancellationToken token)
+            [EnumeratorCancellation] CancellationToken token = default)
         {
             using var cursor = await BuildAggregateBasedOnContext(type).ToCursorAsync(token);
             

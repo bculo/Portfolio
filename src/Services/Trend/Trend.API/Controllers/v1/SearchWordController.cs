@@ -27,6 +27,7 @@ namespace Trend.API.Controllers.v1
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(SearchWordSyncDetailResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSearchWordSyncStatistic([FromRoute] string wordId, CancellationToken token)
         {
             return Ok(await _service.GetSearchWordSyncStatistic(wordId, token));
@@ -37,6 +38,7 @@ namespace Trend.API.Controllers.v1
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetActiveSearchWords(CancellationToken token)
         {
             return Ok(await _service.GetActiveSearchWords(token));
@@ -47,6 +49,7 @@ namespace Trend.API.Controllers.v1
         [OutputCache(PolicyName = "SearchWordPolicy")]
         [ProducesResponseType(typeof(List<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDeactivatedSearchWords(CancellationToken token)
         {
             return Ok(await _service.GetDeactivatedSearchWords(token));
@@ -56,15 +59,18 @@ namespace Trend.API.Controllers.v1
         [SwaggerOperation(OperationId = "AddNew")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordAddReqDto request, CancellationToken token)
         {
-            return Ok(await _service.AddNewSearchWord(request, token));
+            var result = await _service.AddNewSearchWord(request, token);
+            return result.Match<IActionResult>(Ok, exc => BadRequest(exc.Description));
         }
         
         [HttpPost("Filter")]
         [SwaggerOperation(OperationId = "Filter")]
         [OutputCache(PolicyName = "WordPostPolicy")]
         [ProducesResponseType(typeof(PageResponseDto<SearchWordResDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Search([FromBody] SearchWordFilterReqDto request, CancellationToken token)
         {
@@ -75,6 +81,7 @@ namespace Trend.API.Controllers.v1
         [SwaggerOperation(OperationId = "AttachImage")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AttachImageToSearchWord([FromForm] FileUploadDto request, 
             [FromRoute] string searchWordId,
             CancellationToken token)
@@ -89,16 +96,18 @@ namespace Trend.API.Controllers.v1
         [SwaggerOperation(OperationId = "Deactivate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Deactivate(string id, CancellationToken token)
         {
-            await _service.DeactivateSearchWord(id, token);
-            return NoContent();
+            var result = await _service.DeactivateSearchWord(id, token);
+            return result.Match<IActionResult>(u => NoContent(), (exc) => BadRequest(exc.Description));
         }
         
         [HttpGet("Activate/{id}")]
         [SwaggerOperation(OperationId = "Activate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Activate(string id, CancellationToken token)
         {
             await _service.ActivateSearchWord(id, token);

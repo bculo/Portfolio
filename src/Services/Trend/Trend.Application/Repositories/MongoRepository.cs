@@ -14,7 +14,6 @@ namespace Trend.Application.Repositories
     public class MongoRepository<T> : IRepository<T> where T : RootDocument
     {
         private readonly IMongoDatabase _mongoDatabase;
-        
         public IDateTimeProvider TimeProvider { get; }
         public IMongoCollection<T> Collection { get; }
         public IClientSessionHandle ClientSession { get; }
@@ -38,61 +37,48 @@ namespace Trend.Application.Repositories
         }
 
         
-        public virtual async Task Add(T entity, CancellationToken token)
+        public virtual async Task Add(T entity, CancellationToken token = default)
         {
             entity.Created = TimeProvider.Now;
             await Collection.InsertOneAsync(ClientSession, entity, new InsertOneOptions(), token);
         }
 
-        public virtual async Task Add(ICollection<T> entities, CancellationToken token)
+        public virtual async Task Add(ICollection<T> entities, CancellationToken token = default)
         {
             var date = TimeProvider.Now;
             foreach (var entity in entities)
             {
                 entity.Created = date;
             }
-            
             await Collection.InsertManyAsync(ClientSession, entities, new InsertManyOptions(), token);
         }
 
-        public virtual async Task Delete(string id, CancellationToken token)
+        public virtual async Task Delete(string id, CancellationToken token = default)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
             await Collection.DeleteOneAsync(ClientSession, filter, new DeleteOptions(), token);
         }
 
-        public virtual Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token)
+        public virtual async Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token = default)
         {
-            return Task.FromResult(Collection.Find(ClientSession, filterExpression).SortByDescending(i => i.Created).ToList());
-        }
-
-        public virtual Task<PageResQuery<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default)
-        {
-            filterExpression ??= i => true;
-
-            var count = Collection.CountDocuments(ClientSession,filterExpression);
-            var items = Collection.Find(ClientSession, filterExpression)
+            return await Collection.Find(ClientSession, filterExpression)
                 .SortByDescending(i => i.Created)
-                .Skip((page - 1) * take)
-                .Limit(take)
-                .ToList();
-
-            return Task.FromResult(new PageResQuery<T>(count, items));
+                .ToListAsync(token);
         }
-
-        public virtual async Task<T> FindById(string id, CancellationToken token)
+        
+        public virtual async Task<T?> FindById(string id, CancellationToken token = default)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
             var result = await Collection.FindAsync(ClientSession, filter, new FindOptions<T>(), token);
             return result.FirstOrDefault();
         }
 
-        public virtual Task<List<T>> GetAll(CancellationToken token)
+        public virtual Task<List<T>> GetAll(CancellationToken token = default)
         {
-            return Task.FromResult(GetQueryable().ToList());
+            return Collection.Find(ClientSession, i => true).ToListAsync(token);
         }
         
-        public virtual async Task Update(T updatedEntity, CancellationToken token)
+        public virtual async Task Update(T updatedEntity, CancellationToken token = default)
         {
             await Collection.ReplaceOneAsync(ClientSession, x => x.Id == updatedEntity.Id, 
                 updatedEntity, 
@@ -100,12 +86,12 @@ namespace Trend.Application.Repositories
                 token);
         }
 
-        public virtual async Task<long> Count(CancellationToken token)
+        public virtual async Task<long> Count(CancellationToken token = default)
         {
             return await Collection.CountDocumentsAsync(ClientSession, i => true, new CountOptions(), token);
         }
 
-        public virtual async IAsyncEnumerable<T> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
+        public virtual async IAsyncEnumerable<T> GetAllEnumerable([EnumeratorCancellation] CancellationToken token = default)
         {
             using var cursor = await Collection.Find(ClientSession, i => true).ToCursorAsync(token);
             while (await cursor.MoveNextAsync(token))

@@ -22,7 +22,7 @@ namespace Trend.Application.Repositories
         {
         }
 
-        public async Task<SearchWordSyncDetailResQuery> GetSearchWordSyncInfo(string searchWordId, CancellationToken token)
+        public async Task<SearchWordSyncDetailResQuery?> GetSearchWordSyncInfo(string searchWordId, CancellationToken token = default)
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
@@ -53,7 +53,7 @@ namespace Trend.Application.Repositories
             };
         }
 
-        public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
+        public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token = default)
         {
             var instance = Collection
                 .Find(i => string.Equals(i.Word, searchWord, StringComparison.CurrentCultureIgnoreCase) && i.Engine == engine)
@@ -62,7 +62,7 @@ namespace Trend.Application.Repositories
             return Task.FromResult(instance != null);
         }
 
-        public async Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token)
+        public async Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token = default)
         {
             var searchBuilder = Builders<SearchWord>.Filter;
             var searchFilter = FilterDefinition<SearchWord>.Empty;

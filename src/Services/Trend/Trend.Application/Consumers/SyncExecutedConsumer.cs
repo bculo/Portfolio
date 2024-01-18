@@ -32,8 +32,7 @@ namespace Trend.Application.Consumers
         {
             await _cacheService.SetAsync(CacheKeys.SYNC_TOTAL_COUNT,
                 () => _syncService.GetSyncCount(default),
-                TimeSpan.FromHours(12),
-                default);
+                TimeSpan.FromHours(12));
         }
     }
 }

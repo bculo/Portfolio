@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Cache.Abstract.Contracts;
 using Dtos.Common;
-using MassTransit.Topology;
+using LanguageExt;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,7 +11,7 @@ using Trend.Application.Interfaces.Models.Dtos;
 using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
-using Trend.Domain.Exceptions;
+using Trend.Domain.Errors;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Trend.Application.Services
@@ -57,36 +56,39 @@ namespace Trend.Application.Services
                 type.ShortName);
         }
 
-        public async Task<SearchWordResDto> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token)
+        public async Task<Either<TrendError, SearchWordResDto>> AddNewSearchWord(
+            SearchWordAddReqDto instance, 
+            CancellationToken token)
         {
             var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, instance.SearchEngine, token);
-
             if (isDuplicate)
             {
-                throw new TrendAppCoreException("Sync setting with given search word and engine needs to be unique");
+                _logger.LogInformation("Search word {SearchWord} already exists", instance.SearchWord);
+                return SearchWordErrors.Exists;
             }
 
             var entity = _mapper.Map<SearchWord>(instance);
             entity.ImageUrl = GetDefaultSearchWordImageUri(entity.Type);
             entity.IsActive = false;
+            
             await _wordRepository.Add(entity, token);
-            
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
-            
-            return _mapper.Map<SearchWordResDto>(entity);
+
+            var response = _mapper.Map<SearchWordResDto>(entity);
+            return response;
         }
 
-        public async Task<SearchWordSyncDetailResDto> GetSearchWordSyncStatistic(string wordId, CancellationToken token)
+        public async Task<Either<TrendError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(
+            string wordId, 
+            CancellationToken token)
         {
             var result = await _wordRepository.GetSearchWordSyncInfo(wordId, token);
-            
             if (result is null)
             {
-                throw new TrendNotFoundException();
+                _logger.LogInformation("Search word {SearchWordId} not found", wordId);
+                return SearchWordErrors.NotFound;
             }
-
-            var responseInst = _mapper.Map<SearchWordSyncDetailResDto>(result);
-
+            
             var numberOfSyncs = await _cacheService.GetOrSetAsync(
                 CacheKeys.SYNC_TOTAL_COUNT,
                 _ => _statusRepository.Count(token),
@@ -94,53 +96,56 @@ namespace Trend.Application.Services
                 token
             );
             
+            var responseInst = _mapper.Map<SearchWordSyncDetailResDto>(result);
             responseInst.TotalCount = numberOfSyncs;
+            
             return responseInst;
         }
 
-        public async Task AttachImageToSearchWord(SearchWordAttachImageReqDto req, CancellationToken token)
+        public async Task<Either<TrendError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto req, 
+            CancellationToken token)
         {
             var instance = await _wordRepository.FindById(req.SearchWordId, token);
-            if (instance is null || !instance.IsActive)
+            if (instance is null)
             {
-                throw new TrendNotFoundException();
+                _logger.LogInformation("Search word {SearchWordId} not found", req.SearchWordId);
+                return SearchWordErrors.NotFound;
             }
             
             await using var stream = await _imageService.ResizeImage(req.Content, 720, 480);
-            
-            var uri = await _blobStorage.UploadBlobAsync(_storageOptions.TrendContainerName,
+            instance.ImageUrl = (await _blobStorage.UploadBlobAsync(_storageOptions.TrendContainerName,
                 instance.Word, 
                 stream, 
-                req.ContentType);
-
-            instance.ImageUrl = uri.ToString();
-
-            await _wordRepository.Update(instance, token);
+                req.ContentType))?.ToString();
             
+            await _wordRepository.Update(instance, token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
+            return Unit.Default;
         }
 
-        public async Task ActivateSearchWord(string id, CancellationToken token)
+        public async Task<Either<TrendError, Unit>> ActivateSearchWord(string id, 
+            CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                _logger.LogInformation("Search word {SearchWordId} is null or empty", id);
-                throw new TrendAppCoreException("Given id is invalid");
+                _logger.LogInformation("Search word is null or empty");
+                return SearchWordErrors.EmptyId;
             }
 
             var entity = await _wordRepository.FindById(id, token);
-
             if (entity is null || entity.IsActive)
             {
-                _logger.LogInformation("Search word with given id {SearchWordId} not found", id);
-                throw new TrendNotFoundException();
+                _logger.LogInformation("Item with given id {SearchWordId} not found", id);
+                return SearchWordErrors.NotFound;
             }
 
             await _wordRepository.ActivateItems(new List<string> { entity.Id }, token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
+            return Unit.Default;
         }
 
-        public async Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token)
+        public async Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, 
+            CancellationToken token)
         {
             var search = _mapper.Map<SearchWordFilterReqQuery>(req);
             var searchResult = await _wordRepository.Filter(search, token);
@@ -161,24 +166,24 @@ namespace Trend.Application.Services
             return instances;
         }
         
-        public async Task DeactivateSearchWord(string id, CancellationToken token)
+        public async Task<Either<TrendError, Unit>> DeactivateSearchWord(string id, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                _logger.LogInformation("Search word {SearchWordId} is null or empty", id);
-                throw new TrendAppCoreException("Given id is invalid");
+                _logger.LogInformation("Search word is null or empty");
+                return SearchWordErrors.EmptyId;
             }
 
             var entity = await _wordRepository.FindById(id, token);
-
             if (entity is null || !entity.IsActive)
             {
                 _logger.LogInformation("Item with given id {SearchWordId} not found", id);
-                throw new TrendNotFoundException();
+                return SearchWordErrors.NotFound;
             }
 
             await _wordRepository.DeactivateItems(new List<string> { entity.Id }, token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
+            return Unit.Default;
         }
     }
 }

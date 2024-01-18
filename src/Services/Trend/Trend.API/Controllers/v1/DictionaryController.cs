@@ -1,10 +1,8 @@
-using System.Diagnostics;
 using Dtos.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
-using Trend.Application;
 using Trend.Application.Interfaces;
 
 namespace Trend.API.Controllers.v1;
