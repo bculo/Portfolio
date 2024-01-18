@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;
@@ -119,7 +120,7 @@ namespace Trend.API.Extensions
             {
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Trend", false));
 
-                x.AddConsumer<SyncExecutedConsumer>();
+                x.AddConsumer<SyncExecutedConsumer, SyncExecutedConsumerDefinition>();
                 
                 x.UsingRabbitMq((context, config) =>
                 {

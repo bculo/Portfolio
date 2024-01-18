@@ -17,8 +17,9 @@ namespace Trend.Application.Repositories
         public ArticleRepository(IMongoClient client, 
             IOptions<MongoOptions> options,
             IDateTimeProvider provider,
-            IClientSessionHandle clientSession) 
-            : base(client, options, provider, clientSession) {}
+            IClientSessionHandle clientSession,
+            IMongoDatabase database) 
+            : base(client, options, provider, clientSession, database) {}
 
         private IAggregateFluent<ArticleDetailResQuery> BuildAggregateBasedOnContext(ContextType type)
         {

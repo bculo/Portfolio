@@ -22,12 +22,12 @@ namespace Trend.Application.Repositories
         public MongoRepository(IMongoClient client, 
             IOptions<MongoOptions> options, 
             IDateTimeProvider timeProvider,
-            IClientSessionHandle clientSession)
+            IClientSessionHandle clientSession,
+            IMongoDatabase mongoDatabase)
         {
             ClientSession = clientSession;
             TimeProvider = timeProvider;
-
-            _mongoDatabase = client.GetDatabase(options.Value.DatabaseName);
+            _mongoDatabase = mongoDatabase;
             Collection = _mongoDatabase.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
         }
 

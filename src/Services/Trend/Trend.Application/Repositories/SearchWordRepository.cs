@@ -17,8 +17,9 @@ namespace Trend.Application.Repositories
         public SearchWordRepository(IMongoClient client, 
             IOptions<MongoOptions> options,
             IDateTimeProvider timeProvider,
-            IClientSessionHandle clientSession) 
-            : base(client, options, timeProvider, clientSession)
+            IClientSessionHandle clientSession,
+            IMongoDatabase database) 
+            : base(client, options, timeProvider, clientSession, database)
         {
         }
 

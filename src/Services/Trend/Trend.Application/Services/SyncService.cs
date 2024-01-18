@@ -79,6 +79,8 @@ namespace Trend.Application.Services
                 await PersistSyncStatuses(syncs, token);
                 await PersistNewArticles(articles, token);
 
+                await PublishSyncExecutedEvent(token);
+                
                 await _session.CommitTransaction(token);
             }
             catch
@@ -88,7 +90,6 @@ namespace Trend.Application.Services
             }
             
             await InvalidateCache(token);
-            await PublishSyncExecutedEvent(token);
             return Unit.Default;
         }
 

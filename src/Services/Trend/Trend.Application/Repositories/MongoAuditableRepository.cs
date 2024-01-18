@@ -14,8 +14,9 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     public MongoAuditableRepository(IMongoClient client, 
         IOptions<MongoOptions> options,
         IDateTimeProvider timeProvider,
-        IClientSessionHandle clientSession) 
-        : base(client, options, timeProvider, clientSession)
+        IClientSessionHandle clientSession, 
+        IMongoDatabase database) 
+        : base(client, options, timeProvider, clientSession, database)
     {
     }
     

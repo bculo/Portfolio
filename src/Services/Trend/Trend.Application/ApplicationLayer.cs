@@ -90,6 +90,11 @@ namespace Trend.Application
             var mongoDbOptions = configuration.GetSection("MongoOptions").Get<MongoOptions>();
             services.AddSingleton<IMongoClient>(_ => TrendMongoUtils.CreateMongoClient(mongoDbOptions));
             services.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
+            services.AddSingleton<IMongoDatabase>(provider =>
+            {
+                var options = provider.GetRequiredService<IOptions<MongoOptions>>();
+                return provider.GetRequiredService<IMongoClient>().GetDatabase(options.Value.DatabaseName);
+            });
             services.AddScoped<ITransaction, MongoTransactionService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
@@ -169,7 +174,7 @@ namespace Trend.Application
             services.AddFusionCache()
                 .WithDefaultEntryOptions(opt =>
                 {
-                    opt.IsFailSafeEnabled = true;
+                    opt.IsFailSafeEnabled = false;
                     opt.FailSafeMaxDuration = TimeSpan.FromHours(3);
                     opt.FailSafeThrottleDuration = TimeSpan.FromSeconds(30);
 
