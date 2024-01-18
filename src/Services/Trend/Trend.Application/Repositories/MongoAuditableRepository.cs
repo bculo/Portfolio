@@ -13,8 +13,9 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
 {
     public MongoAuditableRepository(IMongoClient client, 
         IOptions<MongoOptions> options,
-        IDateTimeProvider timeProvider) 
-        : base(client, options, timeProvider)
+        IDateTimeProvider timeProvider,
+        IClientSessionHandle clientSession) 
+        : base(client, options, timeProvider, clientSession)
     {
     }
     
@@ -22,7 +23,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
         
-        return await _collection.Find(i => i.IsActive)
+        return await Collection.Find(ClientSession, i => i.IsActive)
             .Sort(sortFilter)
             .ToListAsync(token);
     }
@@ -31,14 +32,14 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);
         
-        return await _collection.Find(i => !i.IsActive)
+        return await Collection.Find(ClientSession, i => !i.IsActive)
             .Sort(sortFilter)
             .ToListAsync(token);
     }
 
     public async IAsyncEnumerable<TEntity> GetActiveItemsEnumerable([EnumeratorCancellation] CancellationToken token)
     {
-        using var cursor = await _collection.Find(i => i.IsActive)
+        using var cursor = await Collection.Find(ClientSession, i => i.IsActive)
             .SortByDescending(i => i.Created)
             .ToCursorAsync(token);
         
@@ -53,7 +54,7 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
 
     public async IAsyncEnumerable<TEntity> GetDeactivatedItemsEnumerable([EnumeratorCancellation] CancellationToken token)
     {
-        using var cursor = await _collection.Find(i => !i.IsActive)
+        using var cursor = await Collection.Find(i => !i.IsActive)
             .SortByDescending(i => i.Created)
             .ToCursorAsync(token);
         
@@ -69,16 +70,16 @@ public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMong
     public async Task ActivateItems(IEnumerable<string> itemIds, CancellationToken token)
     {
         var update = Builders<TEntity>.Update.Set(s => s.IsActive, true)
-            .Set(s => s.DeactivationDate, _timeProvider.Now);
+            .Set(s => s.DeactivationDate, TimeProvider.Now);
             
-        await _collection.UpdateManyAsync(i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
+        await Collection.UpdateManyAsync(ClientSession, i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
     }
 
     public async Task DeactivateItems(IEnumerable<string> itemIds, CancellationToken token)
     {
         var update = Builders<TEntity>.Update.Set(s => s.IsActive, false)
-            .Set(s => s.DeactivationDate, _timeProvider.Now);
+            .Set(s => s.DeactivationDate, TimeProvider.Now);
             
-        await _collection.UpdateManyAsync(i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
+        await Collection.UpdateManyAsync(ClientSession, i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
     }
 }

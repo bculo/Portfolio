@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Interfaces
 {
-    public interface ITransaction
+    public interface ITransaction : IDisposable
     {
         Task StartTransaction();
         Task AbortTransaction();

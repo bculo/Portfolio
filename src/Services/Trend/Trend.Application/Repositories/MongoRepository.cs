@@ -13,58 +13,65 @@ namespace Trend.Application.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : RootDocument
     {
-        private readonly MongoOptions _options;
         private readonly IMongoDatabase _mongoDatabase;
-        protected IMongoCollection<T> _collection;
-        protected IDateTimeProvider _timeProvider;
+        
+        public IDateTimeProvider TimeProvider { get; }
+        public IMongoCollection<T> Collection { get; }
+        public IClientSessionHandle ClientSession { get; }
 
-        public MongoRepository(IMongoClient client, IOptions<MongoOptions> options, IDateTimeProvider timeProvider)
+        
+        public MongoRepository(IMongoClient client, 
+            IOptions<MongoOptions> options, 
+            IDateTimeProvider timeProvider,
+            IClientSessionHandle clientSession)
         {
-            _timeProvider = timeProvider;
-            _options = options.Value;
-            _mongoDatabase = client.GetDatabase(_options.DatabaseName);
-            _collection = _mongoDatabase.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
+            ClientSession = clientSession;
+            TimeProvider = timeProvider;
+
+            _mongoDatabase = client.GetDatabase(options.Value.DatabaseName);
+            Collection = _mongoDatabase.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
         }
 
-        protected virtual IQueryable<T> GetQueryable()
+        protected IQueryable<T> GetQueryable()
         {
-            return _collection.AsQueryable();
+            return Collection.AsQueryable();
         }
 
+        
         public virtual async Task Add(T entity, CancellationToken token)
         {
-            entity.Created = _timeProvider.Now;
-            await _collection.InsertOneAsync(entity, new InsertOneOptions(), token);
+            entity.Created = TimeProvider.Now;
+            await Collection.InsertOneAsync(ClientSession, entity, new InsertOneOptions(), token);
         }
 
         public virtual async Task Add(ICollection<T> entities, CancellationToken token)
         {
-            var date = _timeProvider.Now;
+            var date = TimeProvider.Now;
             foreach (var entity in entities)
             {
                 entity.Created = date;
             }
             
-            await _collection.InsertManyAsync(entities, new InsertManyOptions(), token);
+            await Collection.InsertManyAsync(ClientSession, entities, new InsertManyOptions(), token);
         }
 
         public virtual async Task Delete(string id, CancellationToken token)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
-            await _collection.DeleteOneAsync(filter, token);
+            await Collection.DeleteOneAsync(ClientSession, filter, new DeleteOptions(), token);
         }
 
         public virtual Task<List<T>> FilterBy(Expression<Func<T, bool>> filterExpression, CancellationToken token)
         {
-            return Task.FromResult(_collection.Find(filterExpression).SortByDescending(i => i.Created).ToList());
+            return Task.FromResult(Collection.Find(ClientSession, filterExpression).SortByDescending(i => i.Created).ToList());
         }
 
         public virtual Task<PageResQuery<T>> FilterBy(int page, int take, Expression<Func<T, bool>> filterExpression = null, CancellationToken token = default)
         {
             filterExpression ??= i => true;
 
-            var count = _collection.CountDocuments(filterExpression);
-            var items = _collection.Find(filterExpression)
+            var count = Collection.CountDocuments(ClientSession,filterExpression);
+            var items = Collection.Find(ClientSession, filterExpression)
                 .SortByDescending(i => i.Created)
                 .Skip((page - 1) * take)
                 .Limit(take)
@@ -76,7 +83,7 @@ namespace Trend.Application.Repositories
         public virtual async Task<T> FindById(string id, CancellationToken token)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);
-            var result = await _collection.FindAsync(filter, new FindOptions<T>(), token);
+            var result = await Collection.FindAsync(ClientSession, filter, new FindOptions<T>(), token);
             return result.FirstOrDefault();
         }
 
@@ -87,7 +94,7 @@ namespace Trend.Application.Repositories
         
         public virtual async Task Update(T updatedEntity, CancellationToken token)
         {
-            await _collection.ReplaceOneAsync(x => x.Id == updatedEntity.Id, 
+            await Collection.ReplaceOneAsync(ClientSession, x => x.Id == updatedEntity.Id, 
                 updatedEntity, 
                 new ReplaceOptions(),
                 token);
@@ -95,12 +102,12 @@ namespace Trend.Application.Repositories
 
         public virtual async Task<long> Count(CancellationToken token)
         {
-            return await _collection.CountDocumentsAsync(i => true, new CountOptions(), token);
+            return await Collection.CountDocumentsAsync(ClientSession, i => true, new CountOptions(), token);
         }
 
         public virtual async IAsyncEnumerable<T> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
         {
-            using var cursor = await _collection.Find(i => true).ToCursorAsync(token);
+            using var cursor = await Collection.Find(ClientSession, i => true).ToCursorAsync(token);
             while (await cursor.MoveNextAsync(token))
             {
                 foreach (var current in cursor.Current)

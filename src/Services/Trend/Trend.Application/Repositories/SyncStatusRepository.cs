@@ -11,14 +11,15 @@ namespace Trend.Application.Repositories
     {
         public SyncStatusRepository(IMongoClient client, 
             IOptions<MongoOptions> options, 
-            IDateTimeProvider timeProvider)
-            : base(client, options, timeProvider)
+            IDateTimeProvider timeProvider,
+            IClientSessionHandle clientSession)
+            : base(client, options, timeProvider, clientSession)
         {
         }
 
         public Task<SyncStatus> GetLastValidSync(CancellationToken token)
         {
-            var result = _collection.Find(t => t.TotalRequests > 0 && t.SucceddedRequests > 0)
+            var result = Collection.Find(ClientSession, t => t.TotalRequests > 0 && t.SucceddedRequests > 0)
                             .SortByDescending(i => i.Created)
                             .FirstOrDefault();
 

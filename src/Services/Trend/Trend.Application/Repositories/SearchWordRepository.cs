@@ -16,8 +16,9 @@ namespace Trend.Application.Repositories
     {
         public SearchWordRepository(IMongoClient client, 
             IOptions<MongoOptions> options,
-            IDateTimeProvider timeProvider) 
-            : base(client, options, timeProvider)
+            IDateTimeProvider timeProvider,
+            IClientSessionHandle clientSession) 
+            : base(client, options, timeProvider, clientSession)
         {
         }
 
@@ -25,10 +26,10 @@ namespace Trend.Application.Repositories
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
-            var groupItem  = await syncStatusCollection.Aggregate()
+            var groupItem  = await syncStatusCollection.Aggregate(ClientSession)
                 .Unwind<SyncStatus, SyncStatusUnwind>(x => x.UsedSyncWords)
                 .Match(x => x.UsedSyncWords.WordId == searchWordId)
-                .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(_collection,
+                .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(Collection,
                     x => x.UsedSyncWords.WordId,
                     y => y.Id,
                     z => z.SearchWords)
@@ -54,7 +55,7 @@ namespace Trend.Application.Repositories
 
         public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token)
         {
-            var instance = _collection
+            var instance = Collection
                 .Find(i => string.Equals(i.Word, searchWord, StringComparison.CurrentCultureIgnoreCase) && i.Engine == engine)
                 .FirstOrDefault();
             
@@ -90,8 +91,8 @@ namespace Trend.Application.Repositories
                 ? sortBuilder.Ascending(x => x.Created)
                 : sortBuilder.Descending(x => x.Created);
             
-            var countTask = _collection.Find(searchFilter).CountDocumentsAsync(token);
-            var collectionTask =  _collection.Find(searchFilter)
+            var countTask = Collection.Find(ClientSession, searchFilter).CountDocumentsAsync(token);
+            var collectionTask =  Collection.Find(ClientSession, searchFilter)
                 .Sort(sortFilter)
                 .Skip(req.Skip)
                 .Limit(req.Take)

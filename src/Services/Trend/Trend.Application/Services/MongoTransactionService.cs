@@ -10,30 +10,20 @@ namespace Trend.Application.Services
     public class MongoTransactionService : ITransaction
     {
         private readonly IClientSessionHandle _session;
-        private readonly ILogger<MongoTransactionService> _logger;
         private readonly MongoOptions _options;
 
         public MongoTransactionService(IClientSessionHandle session,
-            ILogger<MongoTransactionService> logger,
             IOptions<MongoOptions> options)
         {
             _session = session;
-            _logger = logger;
             _options = options.Value;
         }
 
         public Task AbortTransaction()
         {
-            try
+            if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
             {
-                if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
-                {
-                    _session.AbortTransaction();
-                }
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e.Message, e);
+                _session.AbortTransaction();
             }
 
             return Task.CompletedTask;
@@ -41,13 +31,15 @@ namespace Trend.Application.Services
 
         public Task CommitTransaction()
         {
-            if (_options.ServerType == ServerType.Replica)
+            if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
             {
                 _session.CommitTransaction();
             }
 
             return Task.CompletedTask;
         }
+
+        public bool InTransaction => _session.IsInTransaction;
 
         public Task StartTransaction()
         {
@@ -57,6 +49,11 @@ namespace Trend.Application.Services
             }
 
             return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _session?.Dispose();
         }
     }
 }

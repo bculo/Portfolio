@@ -16,8 +16,9 @@ namespace Trend.Application.Repositories
     {
         public ArticleRepository(IMongoClient client, 
             IOptions<MongoOptions> options,
-            IDateTimeProvider provider) 
-            : base(client, options, provider)
+            IDateTimeProvider provider,
+            IClientSessionHandle clientSession) 
+            : base(client, options, provider, clientSession)
         {
             
         }
@@ -26,7 +27,7 @@ namespace Trend.Application.Repositories
         {
             var wordCollection = GetCollection<SearchWord>();
             
-            var aggregate = _collection.Aggregate()
+            var aggregate = Collection.Aggregate(ClientSession)
                 .Match(x => x.IsActive == true)
                 .Lookup<Article, SearchWord, ArticleSearchWordLookup>(wordCollection,
                     x => x.SearchWordId,
