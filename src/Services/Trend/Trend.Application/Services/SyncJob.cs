@@ -15,7 +15,7 @@ public class SyncJob : ISyncJob
     }
 
 
-    public async Task Work(CancellationToken token)
+    public async Task Work(CancellationToken token = default)
     {
         await _syncService.ExecuteSync(token);
     }

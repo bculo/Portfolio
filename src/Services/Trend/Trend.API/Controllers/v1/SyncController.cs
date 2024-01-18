@@ -46,17 +46,7 @@ namespace Trend.API.Controllers.v1
         {
             return Ok(await _syncService.GetSyncStatuses(token));
         }
-
-        [HttpPost("GetSyncStatusesPage")]
-        [OutputCache(PolicyName = "SyncPostPolicy")]
-        [ProducesResponseType(typeof(PageResponseDto<SyncStatusResDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetSyncStatusesPage(PageRequestDto page, CancellationToken token)
-        {
-            return Ok(await _syncService.GetSyncStatusesPage(page, token));
-        }
-
+        
         [HttpGet("GetSyncStatusWords/{id}")]
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusWordResDto>), StatusCodes.Status200OK)]

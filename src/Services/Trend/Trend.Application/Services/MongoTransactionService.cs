@@ -19,29 +19,28 @@ namespace Trend.Application.Services
             _options = options.Value;
         }
 
-        public Task AbortTransaction()
+        public Task AbortTransaction(CancellationToken token = default)
         {
             if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
             {
-                _session.AbortTransaction();
+                _session.AbortTransactionAsync(token);
             }
 
             return Task.CompletedTask;
         }
 
-        public Task CommitTransaction()
+        public Task CommitTransaction(CancellationToken token = default)
         {
             if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
             {
-                _session.CommitTransaction();
+                _session.CommitTransactionAsync(token);
             }
 
             return Task.CompletedTask;
         }
+        
 
-        public bool InTransaction => _session.IsInTransaction;
-
-        public Task StartTransaction()
+        public Task StartTransaction(CancellationToken token = default)
         {
             if (_options.ServerType == ServerType.Replica && !_session.IsInTransaction)
             {
@@ -49,11 +48,6 @@ namespace Trend.Application.Services
             }
 
             return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            _session?.Dispose();
         }
     }
 }

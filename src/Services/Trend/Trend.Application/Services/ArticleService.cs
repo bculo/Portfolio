@@ -19,21 +19,21 @@ namespace Trend.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleResDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token)
+        public async Task<List<ArticleResDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token = default)
         {
             var articles = await _articleRepo.GetActiveArticles(type, token);
             var response = _mapper.Map<List<ArticleResDto>>(articles);
             return response;
         }
 
-        public async Task<List<ArticleResDto>> GetLatestNews(CancellationToken token)
+        public async Task<List<ArticleResDto>> GetLatestNews(CancellationToken token = default)
         {
             var articles = await _articleRepo.GetActiveItems(token);
             var response = _mapper.Map<List<ArticleResDto>>(articles);
             return response;
         }
 
-        public async Task Deactivate(string articleId, CancellationToken tcs)
+        public async Task Deactivate(string articleId, CancellationToken tcs = default)
         {
             var article = await _articleRepo.FindById(articleId, tcs);
             if (article is null)
@@ -44,7 +44,7 @@ namespace Trend.Application.Services
             await _articleRepo.DeactivateItems(new List<string> { articleId }, tcs);
         }
 
-        public async Task Activate(string articleId, CancellationToken tcs)
+        public async Task Activate(string articleId, CancellationToken tcs = default)
         {
             var article = await _articleRepo.FindById(articleId, tcs);
             if (article is null)

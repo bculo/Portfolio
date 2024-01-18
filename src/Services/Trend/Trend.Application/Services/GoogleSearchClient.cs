@@ -25,7 +25,7 @@ namespace Trend.Application.Services
             _logger = logger;
         }
 
-        public async Task<GoogleSearchEngineResponseDto> Search(string searchDefinition)
+        public async Task<GoogleSearchEngineResponseDto> Search(string searchDefinition, CancellationToken token = default)
         {
             var client = _clientFactory.CreateClient(HttpClientNames.GOOGLE_CLIENT);
 
@@ -35,7 +35,7 @@ namespace Trend.Application.Services
             builder.Add("q", searchDefinition);
             
             var queryPart = builder.Build();
-            var result = await client.GetAsync($"/customsearch/v1{queryPart}");
+            var result = await client.GetAsync($"/customsearch/v1{queryPart}", token);
             return await result.HandleResponse<GoogleSearchEngineResponseDto>();
         }
     }

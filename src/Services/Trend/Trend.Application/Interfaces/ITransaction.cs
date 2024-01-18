@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Trend.Application.Interfaces
 {
-    public interface ITransaction : IDisposable
+    public interface ITransaction
     {
-        Task StartTransaction();
-        Task AbortTransaction();
-        Task CommitTransaction();
+        Task StartTransaction(CancellationToken token = default);
+        Task AbortTransaction(CancellationToken token = default);
+        Task CommitTransaction(CancellationToken token = default);
     }
 }

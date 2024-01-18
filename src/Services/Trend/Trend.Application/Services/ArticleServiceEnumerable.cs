@@ -13,7 +13,7 @@ public class ArticleServiceEnumerable : ArticleService, IArticleServiceEnumerabl
     {
     }
     
-    public async IAsyncEnumerable<ArticleResDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token)
+    public async IAsyncEnumerable<ArticleResDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
         await foreach(var entity in _articleRepo.GetAllEnumerable(token))
         {
@@ -21,7 +21,7 @@ public class ArticleServiceEnumerable : ArticleService, IArticleServiceEnumerabl
         }
     }
 
-    public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token)
+    public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
         await foreach(var entity in _articleRepo.GetActiveItemsEnumerable(token))
         {
@@ -30,7 +30,7 @@ public class ArticleServiceEnumerable : ArticleService, IArticleServiceEnumerabl
     }
 
     public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, 
-        [EnumeratorCancellation] CancellationToken token)
+        [EnumeratorCancellation] CancellationToken token = default)
     {
         await foreach (var entity in _articleRepo.GetActiveArticlesEnumerable(type, token))
         {

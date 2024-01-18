@@ -58,7 +58,7 @@ namespace Trend.Application.Services
 
         public async Task<Either<TrendError, SearchWordResDto>> AddNewSearchWord(
             SearchWordAddReqDto instance, 
-            CancellationToken token)
+            CancellationToken token = default)
         {
             var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, instance.SearchEngine, token);
             if (isDuplicate)
@@ -80,7 +80,7 @@ namespace Trend.Application.Services
 
         public async Task<Either<TrendError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(
             string wordId, 
-            CancellationToken token)
+            CancellationToken token = default)
         {
             var result = await _wordRepository.GetSearchWordSyncInfo(wordId, token);
             if (result is null)
@@ -103,7 +103,7 @@ namespace Trend.Application.Services
         }
 
         public async Task<Either<TrendError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto req, 
-            CancellationToken token)
+            CancellationToken token = default)
         {
             var instance = await _wordRepository.FindById(req.SearchWordId, token);
             if (instance is null)
@@ -145,28 +145,28 @@ namespace Trend.Application.Services
         }
 
         public async Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, 
-            CancellationToken token)
+            CancellationToken token = default)
         {
             var search = _mapper.Map<SearchWordFilterReqQuery>(req);
             var searchResult = await _wordRepository.Filter(search, token);
             return _mapper.Map<PageResponseDto<SearchWordResDto>>(searchResult);
         }
 
-        public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token)
+        public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token = default)
         {
             var entities = await _wordRepository.GetActiveItems(token);
             var instances = _mapper.Map<List<SearchWordResDto>>(entities);
             return instances;
         }
 
-        public async Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token)
+        public async Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token = default)
         {
             var entities = await _wordRepository.GetDeactivatedItems(token);
             var instances = _mapper.Map<List<SearchWordResDto>>(entities);
             return instances;
         }
         
-        public async Task<Either<TrendError, Unit>> DeactivateSearchWord(string id, CancellationToken token)
+        public async Task<Either<TrendError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default)
         {
             if (string.IsNullOrWhiteSpace(id))
             {

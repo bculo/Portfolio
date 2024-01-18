@@ -43,7 +43,7 @@ public class BlobStorage : IBlobStorage
 
     public Uri GetBaseUri => _blobClient.Uri;
 
-    public async Task<Uri> UploadBlobAsync(string containerName, string blobIdentifier, Stream blob, string contentType)
+    public async Task<Uri> UploadBlobAsync(string containerName, string blobIdentifier, Stream blob, string contentType, CancellationToken token = default)
     {
         var httpHeaders = new BlobHttpHeaders
         {
@@ -52,7 +52,7 @@ public class BlobStorage : IBlobStorage
         };
         
         var blobClient = GetBlobClient(containerName, blobIdentifier);
-        await blobClient.UploadAsync(blob, httpHeaders: httpHeaders);
+        await blobClient.UploadAsync(blob, httpHeaders: httpHeaders, cancellationToken: token);
         return blobClient.Uri;
     }
 
@@ -69,7 +69,7 @@ public class BlobStorage : IBlobStorage
         return blobClient.Uri;
     }
 
-    public Task<bool> ExistsAsync(string containerName, string blobIdentifier)
+    public Task<bool> ExistsAsync(string containerName, string blobIdentifier, CancellationToken token = default)
     {
         var blobClient = GetBlobClient(containerName, blobIdentifier);
         return Task.FromResult(blobClient.Exists().Value);

@@ -12,6 +12,6 @@ namespace Trend.Application.Interfaces
     public interface ISearchEngine
     {
         string EngineName { get;  }
-        Task<SearchEngineResult> Sync(Dictionary<ContextType, List<SearchEngineWord>> articleTypesToSync, CancellationToken token);
+        Task<SearchEngineResult> Sync(Dictionary<ContextType, List<SearchEngineWord>> searchWordsByCategory, CancellationToken token = default);
     }
 }
