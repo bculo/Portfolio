@@ -5,10 +5,12 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Validators.SearchWord;
 
-public class SearchWordFilterReqDtoValidator : PageRequestDtoBaseValidator<SearchWordFilterReqDto>
+public class FilterSearchWordsReqDtoValidator : AbstractValidator<FilterSearchWordsReqDto>
 {
-    public SearchWordFilterReqDtoValidator()
+    public FilterSearchWordsReqDtoValidator()
     {
+        Include(new PageRequestDtoBaseValidator());
+        
         RuleFor(i => i.SearchEngine)
             .Must(SearchEngine.IsValidItem)
             .WithMessage("Selected search engine type not available");

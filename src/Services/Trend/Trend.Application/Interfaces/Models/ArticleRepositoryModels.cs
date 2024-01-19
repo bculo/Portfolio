@@ -2,11 +2,18 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces.Models;
 
+public class FilterArticlesReqQuery : PageReqQuery
+{
+    public ContextType Context { get; set; }
+    public ActiveFilter Activity { get; set; }
+}
+
 public class ArticleDetailResQuery
 {
     public string Id { get; set; }
     public DateTime Created { get; set; }
     public string Title { get; set; }
+    public bool IsActive { get; set; }
     public string Content { get; set; }
     public string PageSource { get; set; }
     public string ArticleUrl { get; set; }

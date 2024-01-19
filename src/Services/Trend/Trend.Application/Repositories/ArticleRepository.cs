@@ -21,18 +21,16 @@ namespace Trend.Application.Repositories
             IMongoDatabase database) 
             : base(client, options, provider, clientSession, database) {}
 
-        private IAggregateFluent<ArticleDetailResQuery> BuildAggregateBasedOnContext(ContextType type)
+        private IAggregateFluent<ArticleDetailResQuery> BuildAggregateBasedOnContext()
         {
             var wordCollection = GetCollection<SearchWord>();
             
             var aggregate = Collection.Aggregate(ClientSession)
-                .Match(x => x.IsActive == true)
                 .Lookup<Article, SearchWord, ArticleSearchWordLookup>(wordCollection,
                     x => x.SearchWordId,
                     y => y.Id,
                     y => y.SearchWords)
                 .Unwind<ArticleSearchWordLookup, ArticleSearchWordUnwind>(x => x.SearchWords)
-                .Match(x => x.SearchWords.Type.Id == type.Id)
                 .Project(x => new ArticleDetailResQuery
                 {
                     Id = x.Id,
@@ -45,22 +43,27 @@ namespace Trend.Application.Repositories
                     PageSource = x.PageSource,
                     Title = x.Title,
                     SearchWordImage = x.SearchWords.ImageUrl,
-                    ArticleUrl = x.ArticleUrl
+                    ArticleUrl = x.ArticleUrl,
+                    IsActive = x.IsActive
                 });
             
             return aggregate;
         }
         
-        public async Task<List<ArticleDetailResQuery>> GetActiveArticles(ContextType type, 
+        public async Task<List<ArticleDetailResQuery>> GetActive(ContextType type, 
             CancellationToken token = default)
         {
-            return await BuildAggregateBasedOnContext(type).ToListAsync(token);
+            return await BuildAggregateBasedOnContext()
+                .Match(x => x.IsActive == true && x.ContextType == type.Id)
+                .ToListAsync(token);
         }
 
-        public async IAsyncEnumerable<ArticleDetailResQuery> GetActiveArticlesEnumerable(ContextType type, 
+        public async IAsyncEnumerable<ArticleDetailResQuery> GetActiveEnumerable(ContextType type, 
             [EnumeratorCancellation] CancellationToken token = default)
         {
-            using var cursor = await BuildAggregateBasedOnContext(type).ToCursorAsync(token);
+            using var cursor = await BuildAggregateBasedOnContext()
+                .Match(x => x.IsActive == true && x.ContextType == type.Id)
+                .ToCursorAsync(token);
             
             while (await cursor.MoveNextAsync(token))
             {
@@ -69,6 +72,31 @@ namespace Trend.Application.Repositories
                     yield return item;
                 }
             }
+        }
+
+        public async Task<PageResQuery<ArticleDetailResQuery>> Filter(FilterArticlesReqQuery search, CancellationToken token)
+        {
+            var searchBuilder = Builders<ArticleDetailResQuery>.Filter;
+            var searchFilter = FilterDefinition<ArticleDetailResQuery>.Empty;
+            if (search.Activity.IsRelevantForFilter())
+            {
+                searchFilter &= searchBuilder.Eq(i => i.IsActive, search.Activity.Value);
+            }
+            
+            if (search.Context.IsRelevantForFilter())
+            {
+                searchFilter &= searchBuilder.Eq(i => i.ContextType.Id, search.Context.Id);
+            }
+
+
+            var query = BuildAggregateBasedOnContext().Match(searchFilter);
+
+            var count = query.Count().FirstOrDefault()?.Count ?? 0;
+            var collection = await query.Skip(search.Skip)
+                .Limit(search.Take)
+                .ToListAsync(token);
+            
+            return new PageResQuery<ArticleDetailResQuery>(count, collection);
         }
     }
 }

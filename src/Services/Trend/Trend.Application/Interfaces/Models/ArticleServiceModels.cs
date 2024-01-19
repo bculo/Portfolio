@@ -2,21 +2,15 @@ using Dtos.Common;
 
 namespace Trend.Application.Interfaces.Models;
 
-public record FetchArticlePageReqDto : PageRequestDto
+public record FilterArticlesReqDto : PageRequestDto
 {
-    public int Type { get; set; }
-    public bool IsActive { get; set; }
+    public int Context { get; set; }
+    public int Activity { get; set; }
 }
 
-public record ActivateArticleReqDto
-{
-    public string ArticleId { get; set; }
-}
+public record ActivateArticleReqDto(string Id) : GetItemByStringIdReqDto(Id);
 
-public record DeactivateArticleReqDto
-{
-    public string ArticleId { get; set; }
-}
+public record DeactivateArticleReqDto(string Id) : GetItemByStringIdReqDto(Id);
 
 public record ArticleResDto
 {

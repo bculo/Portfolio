@@ -7,10 +7,12 @@ namespace Trend.Application.Interfaces
 {
     public interface ISyncService
     { 
-        Task<List<SyncStatusResDto>> GetSyncStatuses(CancellationToken token = default);
-        Task<long> GetSyncCount(CancellationToken token = default);
-        Task<Either<CoreError, SyncStatusResDto>> GetSync(string id, CancellationToken token = default);
+        Task<List<SyncStatusResDto>> GetAll(CancellationToken token = default);
+        Task<long> GetAllCount(CancellationToken token = default);
+        Task<Either<CoreError, SyncStatusResDto>> Get(GetSyncStatusReqDto req, CancellationToken token = default);
         Task<Either<CoreError, Unit>> ExecuteSync(CancellationToken token = default);
-        Task<Either<CoreError, List<SyncStatusWordResDto>>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token = default);
+        Task<Either<CoreError, List<SyncSearchWordResDto>>> GetSyncSearchWords(
+            SyncSearchWordsReqDto req, 
+            CancellationToken token = default);
     }
 }

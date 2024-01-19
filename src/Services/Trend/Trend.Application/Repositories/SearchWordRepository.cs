@@ -28,7 +28,7 @@ namespace Trend.Application.Repositories
         {
         }
 
-        public async Task<SearchWordSyncDetailResQuery?> GetSearchWordSyncInfo(string searchWordId, CancellationToken token = default)
+        public async Task<SearchWordSyncDetailResQuery?> GetSyncStatisticInfo(string searchWordId, CancellationToken token = default)
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
@@ -67,8 +67,8 @@ namespace Trend.Application.Repositories
 
         public async Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token = default)
         {
-            var searchBuilder = MongoDB.Driver.Builders<SearchWord>.Filter;
-            var searchFilter = MongoDB.Driver.FilterDefinition<SearchWord>.Empty;
+            var searchBuilder = Builders<SearchWord>.Filter;
+            var searchFilter = FilterDefinition<SearchWord>.Empty;
             if (req.SearchEngine.IsRelevantForFilter())
             {
                 searchFilter &= searchBuilder.Eq(i => i.Engine.Id, req.SearchEngine.Id);

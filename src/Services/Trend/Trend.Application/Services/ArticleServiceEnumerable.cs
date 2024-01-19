@@ -25,7 +25,7 @@ public class ArticleServiceEnumerable : IArticleServiceEnumerable
         }
     }
 
-    public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable([EnumeratorCancellation] CancellationToken token = default)
+    public async IAsyncEnumerable<ArticleResDto> GetLatestEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
         await foreach(var entity in _articleRepo.GetActiveItemsEnumerable(token))
         {
@@ -33,10 +33,10 @@ public class ArticleServiceEnumerable : IArticleServiceEnumerable
         }
     }
 
-    public async IAsyncEnumerable<ArticleResDto> GetLatestNewsEnumerable(ContextType type, 
+    public async IAsyncEnumerable<ArticleResDto> GetLatestByContextEnumerable(ContextType type, 
         [EnumeratorCancellation] CancellationToken token = default)
     {
-        await foreach (var entity in _articleRepo.GetActiveArticlesEnumerable(type, token))
+        await foreach (var entity in _articleRepo.GetActiveEnumerable(type, token))
         {
             yield return _mapper.Map<ArticleResDto>(entity);
         }

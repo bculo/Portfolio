@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using LanguageExt;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Trend.Domain.Errors;
 
 namespace Trend.API.Extensions;
 
-public static class ProblemDetailsExtensions
+public static class ActionResultExtensions
 {
     public static IActionResult ToProblemDetails(this CoreError errors)
     {
@@ -27,17 +28,14 @@ public static class ProblemDetailsExtensions
         {
             problemDetails.Title = "One or more validation errors occurred.";
             problemDetails.Extensions = new Dictionary<string, object?>();
-            foreach (var (property, errMessages) in validationError.Errors)
-            {
-                problemDetails.Extensions.Add(property, errMessages);
-            }
+            problemDetails.Extensions.Add("errors", validationError.Errors);
         }
         
         problemDetails.Title = "Bad request";
         problemDetails.Status = StatusCodes.Status400BadRequest;
         return new BadRequestObjectResult(problemDetails);
     }
-
+    
     public static IActionResult ToActionResult<T>(this Either<CoreError, T> t)
     {
         return t.Match(x =>

@@ -40,6 +40,8 @@ namespace Trend.Application.Mapping
                 .ForMember(dst => dst.TypeId, opt => opt.MapFrom(src => (int)src.ContextType))
                 .ForMember(dst => dst.SearchWordId, opt => opt.MapFrom(src => src.SearchWordId))
                 .ForMember(dst => dst.SearchWordImage, opt => opt.MapFrom(src => src.SearchWordImage));
+
+            CreateMap<FilterArticlesReqDto, FilterArticlesReqQuery>();
         }
     }
 }

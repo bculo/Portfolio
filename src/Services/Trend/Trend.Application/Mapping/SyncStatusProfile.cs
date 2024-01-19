@@ -16,7 +16,7 @@ namespace Trend.Application.Mapping
                 .ForMember(dst => dst.SucceddedRequests, opt => opt.MapFrom(src => src.SucceddedRequests))
                 .ForMember(dst => dst.SearchWords, opt => opt.MapFrom(src => src.UsedSyncWords));
 
-            CreateMap<SyncStatusWord, SyncStatusWordResDto>()
+            CreateMap<SyncStatusWord, SyncSearchWordResDto>()
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.WordId))
                 .ForMember(dst => dst.ContextTypeName, opt => opt.MapFrom(src => src.Type.ToString()))
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => (int)src.Type));

@@ -6,7 +6,7 @@ namespace Trend.Application.Interfaces
 {
     public interface ISearchWordRepository : IMongoAuditableRepository<SearchWord>
     {
-        Task<SearchWordSyncDetailResQuery?> GetSearchWordSyncInfo(string searchWordId, CancellationToken token = default);
+        Task<SearchWordSyncDetailResQuery?> GetSyncStatisticInfo(string searchWordId, CancellationToken token = default);
         Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token = default);
         Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token = default);
     }

@@ -2,19 +2,23 @@ using Dtos.Common;
 
 namespace Trend.Application.Interfaces.Models;
 
-public record SearchWordAddReqDto
+public record AddWordReqDto
 {
     public string SearchWord { get; set; }
     public int SearchEngine { get; set; }
     public int ContextType { get; set; }
 }
 
-public record SearchWordAttachImageReqDto : FileDetailsDto
+public record AttachImageToSearchWordReqDto : FileDetailsDto
 {
-    public string SearchWordId { get; set; }
+    public string Id { get; set; }
 }
 
-public record SearchWordFilterReqDto : PageRequestDto
+public record DeactivateSearchWordReqDto(string Id) : GetItemByStringIdReqDto(Id);
+
+public record ActivateSearchWordReqDto(string Id) : GetItemByStringIdReqDto(Id);
+
+public record FilterSearchWordsReqDto : PageRequestDto
 {
     public int Active { get; set; }
     public int ContextType { get; set; }
@@ -38,13 +42,16 @@ public record SearchWordResDto
     public string ImageUrl { get; set; }
 }
 
-public class SearchWordSyncDetailResDto
+public record SearchWordSyncStatisticReqDto(string Id) : GetItemByStringIdReqDto(Id);
+
+public record SearchWordSyncStatisticResDto
 {
     public string WordId { get; set; }
     public int Count { get; set; }
-    
     public long TotalCount { get; set; }
 }
+
+public record GetSyncStatusReqDto(string Id) : GetItemByStringIdReqDto(Id);
 
 public record SyncStatusResDto
 {
@@ -53,10 +60,12 @@ public record SyncStatusResDto
     public DateTime Finished { get; set; }
     public int TotalRequests { get; set; }
     public int SucceddedRequests { get; set; }
-    public List<SyncStatusWordResDto> SearchWords { get; set; }
+    public List<SyncSearchWordResDto> SearchWords { get; set; }
 }
 
-public record SyncStatusWordResDto
+public record SyncSearchWordsReqDto(string Id) : GetItemByStringIdReqDto(Id);
+
+public record SyncSearchWordResDto
 {
     public string ContextTypeName { get; set; }
     public int ContextTypeId { get; set; }

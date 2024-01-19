@@ -8,9 +8,11 @@ namespace Trend.Application.Interfaces
 {
     public interface IArticleService
     {
-        Task<List<ArticleResDto>> GetLatestNewsByContextType(ContextType type, CancellationToken tcs = default);
-        Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(FetchArticlePageReqDto page, CancellationToken tcs = default);
-        Task<List<ArticleResDto>> GetLatestNews(CancellationToken tcs = default);
+        Task<List<ArticleResDto>> GetLatestByContext(ContextType type, CancellationToken tcs = default);
+        Task<Either<CoreError, PageResponseDto<ArticleResDto>>> Filter(
+            FilterArticlesReqDto page, 
+            CancellationToken tcs = default);
+        Task<List<ArticleResDto>> GetLatest(CancellationToken tcs = default);
         Task<Either<CoreError, Unit>> Deactivate(DeactivateArticleReqDto articleId, CancellationToken tcs = default);
         Task<Either<CoreError, Unit>> Activate(ActivateArticleReqDto req, CancellationToken tcs = default);
     }

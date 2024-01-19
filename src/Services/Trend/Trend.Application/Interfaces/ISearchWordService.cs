@@ -7,13 +7,23 @@ namespace Trend.Application.Interfaces
 {
     public interface ISearchWordService
     {
-        Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, CancellationToken token = default);
-        Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token = default);
-        Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token = default);
-        Task<Either<CoreError, SearchWordResDto>> AddNewSearchWord(SearchWordAddReqDto instance, CancellationToken token = default);
-        Task<Either<CoreError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(string wordId, CancellationToken token = default);
-        Task<Either<CoreError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto instance, CancellationToken token = default);
-        Task<Either<CoreError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default);
-        Task<Either<CoreError, Unit>> ActivateSearchWord(string id, CancellationToken token = default);
+        Task<Either<CoreError, PageResponseDto<SearchWordResDto>>> Filter(
+            FilterSearchWordsReqDto req, 
+            CancellationToken token = default);
+        Task<List<SearchWordResDto>> GetActiveItems(CancellationToken token = default);
+        Task<List<SearchWordResDto>> GetDeactivatedItems(CancellationToken token = default);
+        Task<Either<CoreError, SearchWordResDto>> CreateNew(
+            AddWordReqDto instance, 
+            CancellationToken token = default);
+        Task<Either<CoreError, SearchWordSyncStatisticResDto>> GetSyncStatistic(
+            SearchWordSyncStatisticReqDto req, 
+            CancellationToken token = default);
+        Task<Either<CoreError, Unit>> AttachImage(
+            AttachImageToSearchWordReqDto instance, 
+            CancellationToken token = default);
+        Task<Either<CoreError, Unit>> Deactivate(DeactivateSearchWordReqDto req, CancellationToken token = default);
+        Task<Either<CoreError, Unit>> Activate(ActivateSearchWordReqDto req, CancellationToken token = default);
     }
 }
+
+

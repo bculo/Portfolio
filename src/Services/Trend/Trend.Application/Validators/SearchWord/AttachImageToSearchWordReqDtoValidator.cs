@@ -4,7 +4,7 @@ using Trend.Application.Interfaces.Models;
 
 namespace Trend.Application.Validators.SearchWord;
 
-public class SearchWordAttachImageReqDtoValidator : AbstractValidator<SearchWordAttachImageReqDto>
+public class AttachImageToSearchWordReqDtoValidator : AbstractValidator<AttachImageToSearchWordReqDto>
 {
     private static readonly FrozenSet<string> _allowedContentType = new HashSet<string>
     {
@@ -12,19 +12,22 @@ public class SearchWordAttachImageReqDtoValidator : AbstractValidator<SearchWord
         "image/png"
     }.ToFrozenSet();
     
-    public SearchWordAttachImageReqDtoValidator()
+    public AttachImageToSearchWordReqDtoValidator()
     {
-        RuleFor(i => i.Content).NotEmpty();
+        RuleLevelCascadeMode = CascadeMode.Stop;
         
-        RuleFor(i => i.ContentType)
-            .Must(IsAllowedType)
-            .WithMessage("Content type must be 'jpeg' or 'png'")
+        RuleFor(i => i.Content)
             .NotEmpty();
-        
+
+        RuleFor(i => i.ContentType)
+            .NotEmpty()
+            .Must(IsAllowedType)
+            .WithMessage("Content type must be 'jpeg' or 'png'");
+
         RuleFor(i => i.Name)
             .NotEmpty();
 
-        RuleFor(i => i.SearchWordId)
+        RuleFor(i => i.Id)
             .NotEmpty();
     }
     

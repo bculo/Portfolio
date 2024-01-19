@@ -37,7 +37,8 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSync(string id, CancellationToken token)
         {
-            var result = await _syncService.GetSync(id, token);
+            var request = new GetSyncStatusReqDto(id);
+            var result = await _syncService.Get(request, token);
             return result.ToActionResult();
         }
 
@@ -48,17 +49,18 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSyncStatuses(CancellationToken token)
         {
-            return Ok(await _syncService.GetSyncStatuses(token));
+            return Ok(await _syncService.GetAll(token));
         }
         
         [HttpGet("GetSyncStatusWords/{id}")]
         [OutputCache(PolicyName = "SyncPolicy")]
-        [ProducesResponseType(typeof(List<SyncStatusWordResDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<SyncSearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSyncStatusWords(string id, CancellationToken token)
         {
-            var result = await _syncService.GetSyncStatusSearchWords(id, token);
+            var request = new SyncSearchWordsReqDto(id);
+            var result = await _syncService.GetSyncSearchWords(request, token);
             return result.ToActionResult();
         }
     }

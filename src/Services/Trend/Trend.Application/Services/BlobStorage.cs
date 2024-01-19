@@ -43,7 +43,7 @@ public class BlobStorage : IBlobStorage
 
     public Uri GetBaseUri => _blobClient.Uri;
 
-    public async Task<Uri> UploadBlobAsync(string containerName, string blobIdentifier, Stream blob, string contentType, CancellationToken token = default)
+    public async Task<Uri> Upload(string containerName, string blobIdentifier, Stream blob, string contentType, CancellationToken token = default)
     {
         var httpHeaders = new BlobHttpHeaders
         {
@@ -55,29 +55,10 @@ public class BlobStorage : IBlobStorage
         await blobClient.UploadAsync(blob, httpHeaders: httpHeaders, cancellationToken: token);
         return blobClient.Uri;
     }
-
-    public Uri UploadBlob(string containerName, string blobIdentifier, Stream blob, string contentType)
-    {
-        var httpHeaders = new BlobHttpHeaders
-        {
-            ContentType = contentType,
-            ContentLanguage = "en"
-        };
-        
-        var blobClient = GetBlobClient(containerName, blobIdentifier);
-        blobClient.Upload(blob, httpHeaders: httpHeaders);
-        return blobClient.Uri;
-    }
-
-    public Task<bool> ExistsAsync(string containerName, string blobIdentifier, CancellationToken token = default)
+    
+    public Task<bool> Exists(string containerName, string blobIdentifier, CancellationToken token = default)
     {
         var blobClient = GetBlobClient(containerName, blobIdentifier);
         return Task.FromResult(blobClient.Exists().Value);
-    }
-
-    public bool Exists(string containerName, string blobIdentifier)
-    {
-        var blobClient = GetBlobClient(containerName, blobIdentifier);
-        return blobClient.Exists().Value;
     }
 }

@@ -26,7 +26,7 @@ public static class StorageSeedUtils
                 continue;
             }
             
-            if (await blobStorage.ExistsAsync(blobOptions.Value.TrendContainerName, defaultBlob.BlobName))
+            if (await blobStorage.Exists(blobOptions.Value.TrendContainerName, defaultBlob.BlobName))
             {
                 continue;
             }
@@ -36,7 +36,7 @@ public static class StorageSeedUtils
             
             await fStream.CopyToAsync(stream);
             stream.Seek(0, SeekOrigin.Begin);
-            await blobStorage.UploadBlobAsync(blobOptions.Value.TrendContainerName,
+            await blobStorage.Upload(blobOptions.Value.TrendContainerName,
                 defaultBlob.BlobName,
                 stream,
                 defaultBlob.ContentType);

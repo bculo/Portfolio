@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Options;
+using Trend.Application.Extensions;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
@@ -16,7 +17,7 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Trend.Application.Services
 {
-    public class SearchWordService : ISearchWordService
+    public class SearchWordService : ServiceBase, ISearchWordService
     {
         private readonly ILogger<SearchWordService> _logger;
         private readonly IMapper _mapper;
@@ -38,7 +39,9 @@ namespace Trend.Application.Services
             IOptions<BlobStorageOptions> storageOptions,
             IFusionCache fusionCache, 
             ISyncStatusRepository statusRepository, 
-            IDateTimeProvider time)
+            IDateTimeProvider time,
+            IServiceProvider provider)
+            : base(provider)
         {
             _logger = logger;
             _mapper = mapper;
@@ -59,17 +62,17 @@ namespace Trend.Application.Services
                 type.ShortName);
         }
 
-        public async Task<Either<CoreError, SearchWordResDto>> AddNewSearchWord(
-            SearchWordAddReqDto instance, 
+        public async Task<Either<CoreError, SearchWordResDto>> CreateNew(
+            AddWordReqDto instance, 
             CancellationToken token = default)
         {
-            var isDuplicate = await _wordRepository.IsDuplicate(instance.SearchWord, instance.SearchEngine, token);
-            if (isDuplicate)
+            var validationResult = await Validate(instance, token);
+            if (!validationResult.IsValid)
             {
-                _logger.LogInformation("Search word {SearchWord} already exists", instance.SearchWord);
-                return SearchWordErrors.Exists;
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SearchWordErrors.ValidationError(validationResult.Errors);
             }
-
+            
             var entity = _mapper.Map<SearchWord>(instance);
             entity.ImageUrl = GetDefaultSearchWordImageUri(entity.Type);
             entity.IsActive = false;
@@ -78,46 +81,63 @@ namespace Trend.Application.Services
             await _wordRepository.Add(entity, token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
 
-            var response = _mapper.Map<SearchWordResDto>(entity);
-            return response;
+            return _mapper.Map<SearchWordResDto>(entity);
         }
 
-        public async Task<Either<CoreError, SearchWordSyncDetailResDto>> GetSearchWordSyncStatistic(
-            string wordId, 
+        public async Task<Either<CoreError, SearchWordSyncStatisticResDto>> GetSyncStatistic(
+            SearchWordSyncStatisticReqDto req, 
             CancellationToken token = default)
         {
-            var result = await _wordRepository.GetSearchWordSyncInfo(wordId, token);
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
+            {
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SearchWordErrors.ValidationError(validationResult.Errors);
+            }
+            
+            var result = await _wordRepository.GetSyncStatisticInfo(req.Id, token);
             if (result is null)
             {
-                _logger.LogInformation("Search word {SearchWordId} not found", wordId);
+                _logger.LogInformation("Search word {SearchWordId} not found", req.Id);
                 return SearchWordErrors.NotFound;
             }
             
             var numberOfSyncs = await _cacheService.GetOrSetAsync(
                 CacheKeys.SYNC_TOTAL_COUNT,
                 _ => _statusRepository.Count(token),
-                TimeSpan.FromHours(12),
+                opt => opt
+                    .SetDuration(TimeSpan.FromHours(12))
+                    .SetFailSafe(true, TimeSpan.FromHours(13))
+                    .SetFactoryTimeouts(TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(1500)),
                 token
             );
             
-            var responseInst = _mapper.Map<SearchWordSyncDetailResDto>(result);
+            var responseInst = _mapper.Map<SearchWordSyncStatisticResDto>(result);
             responseInst.TotalCount = numberOfSyncs;
             
             return responseInst;
         }
 
-        public async Task<Either<CoreError, Unit>> AttachImageToSearchWord(SearchWordAttachImageReqDto req, 
+        public async Task<Either<CoreError, Unit>> AttachImage(
+            AttachImageToSearchWordReqDto req, 
             CancellationToken token = default)
         {
-            var instance = await _wordRepository.FindById(req.SearchWordId, token);
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
+            {
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SearchWordErrors.ValidationError(validationResult.Errors);
+            }
+            
+            var instance = await _wordRepository.FindById(req.Id, token);
             if (instance is null)
             {
-                _logger.LogInformation("Search word {SearchWordId} not found", req.SearchWordId);
+                _logger.LogInformation("Search word {SearchWordId} not found", req.Id);
                 return SearchWordErrors.NotFound;
             }
             
             await using var stream = await _imageService.ResizeImage(req.Content, 720, 480, token);
-            instance.ImageUrl = (await _blobStorage.UploadBlobAsync(_storageOptions.TrendContainerName,
+            instance.ImageUrl = (await _blobStorage.Upload(_storageOptions.TrendContainerName,
                 instance.Word, 
                 stream, 
                 req.ContentType, token)).ToString();
@@ -127,65 +147,76 @@ namespace Trend.Application.Services
             return Unit.Default;
         }
 
-        public async Task<Either<CoreError, Unit>> ActivateSearchWord(string id, 
+        public async Task<Either<CoreError, Unit>> Activate(
+            ActivateSearchWordReqDto req, 
             CancellationToken token)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
             {
-                _logger.LogInformation("Search word is null or empty");
-                return SearchWordErrors.EmptyId;
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SearchWordErrors.ValidationError(validationResult.Errors);
             }
-
-            var entity = await _wordRepository.FindById(id, token);
+            
+            var entity = await _wordRepository.FindById(req.Id, token);
             if (entity is null || entity.IsActive)
             {
-                _logger.LogInformation("Item with given id {SearchWordId} not found", id);
+                _logger.LogInformation("Item with given id {SearchWordId} not found", req.Id);
                 return SearchWordErrors.NotFound;
             }
 
-            await _wordRepository.ActivateItems(new List<string> { entity.Id }, token);
+            await _wordRepository.ActivateItems(req.Id.ToEnumerable(), token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
             return Unit.Default;
         }
 
-        public async Task<PageResponseDto<SearchWordResDto>> FilterSearchWords(SearchWordFilterReqDto req, 
+        public async Task<Either<CoreError, PageResponseDto<SearchWordResDto>>> Filter(
+            FilterSearchWordsReqDto req, 
             CancellationToken token = default)
         {
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
+            {
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SearchWordErrors.ValidationError(validationResult.Errors);
+            }
+            
             var search = _mapper.Map<SearchWordFilterReqQuery>(req);
             var searchResult = await _wordRepository.Filter(search, token);
             return _mapper.Map<PageResponseDto<SearchWordResDto>>(searchResult);
         }
 
-        public async Task<List<SearchWordResDto>> GetActiveSearchWords(CancellationToken token = default)
+        public async Task<List<SearchWordResDto>> GetActiveItems(CancellationToken token = default)
         {
             var entities = await _wordRepository.GetActiveItems(token);
-            var instances = _mapper.Map<List<SearchWordResDto>>(entities);
-            return instances;
+            return _mapper.Map<List<SearchWordResDto>>(entities);
         }
 
-        public async Task<List<SearchWordResDto>> GetDeactivatedSearchWords(CancellationToken token = default)
+        public async Task<List<SearchWordResDto>> GetDeactivatedItems(CancellationToken token = default)
         {
             var entities = await _wordRepository.GetDeactivatedItems(token);
-            var instances = _mapper.Map<List<SearchWordResDto>>(entities);
-            return instances;
+            return _mapper.Map<List<SearchWordResDto>>(entities);
         }
         
-        public async Task<Either<CoreError, Unit>> DeactivateSearchWord(string id, CancellationToken token = default)
+        public async Task<Either<CoreError, Unit>> Deactivate(
+            DeactivateSearchWordReqDto req, 
+            CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
             {
-                _logger.LogInformation("Search word is null or empty");
-                return SearchWordErrors.EmptyId;
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SearchWordErrors.ValidationError(validationResult.Errors);
             }
 
-            var entity = await _wordRepository.FindById(id, token);
+            var entity = await _wordRepository.FindById(req.Id, token);
             if (entity is null || !entity.IsActive)
             {
-                _logger.LogInformation("Item with given id {SearchWordId} not found", id);
+                _logger.LogInformation("Item with given id {SearchWordId} not found", req.Id);
                 return SearchWordErrors.NotFound;
             }
 
-            await _wordRepository.DeactivateItems(new List<string> { entity.Id }, token);
+            await _wordRepository.DeactivateItems(req.Id.ToEnumerable(), token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);
             return Unit.Default;
         }

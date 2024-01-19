@@ -1,5 +1,6 @@
 using FluentValidation;
 using Trend.Application.Interfaces.Models;
+using Trend.Application.Validators.Common;
 
 namespace Trend.Application.Validators.News;
 
@@ -7,6 +8,6 @@ public class ActivateArticleReqDtoValidator : AbstractValidator<ActivateArticleR
 {
     public ActivateArticleReqDtoValidator()
     {
-        RuleFor(i => i.ArticleId).NotEmpty();
+        Include(new GetItemByStringIdReqDtoBaseValidator());
     }
 }

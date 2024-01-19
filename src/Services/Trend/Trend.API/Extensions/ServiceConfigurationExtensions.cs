@@ -81,7 +81,7 @@ namespace Trend.API.Extensions
                 opt.AddPolicy("DictionaryPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromDays(1))
                     .Tag(CacheTags.DICTIONARY));
-                
+
                 opt.AddPolicy("SearchWordPolicy", policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromHours(2))
                     .Tag(CacheTags.SEARCH_WORD));

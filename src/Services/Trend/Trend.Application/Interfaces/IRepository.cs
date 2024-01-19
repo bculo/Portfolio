@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
 
 namespace Trend.Application.Interfaces

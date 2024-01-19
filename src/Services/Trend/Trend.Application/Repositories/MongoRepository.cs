@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
+using Trend.Application.Interfaces.Models;
 using Trend.Application.Utils;
 using Trend.Domain.Entities;
 
@@ -64,7 +65,7 @@ namespace Trend.Application.Repositories
                 .SortByDescending(i => i.Created)
                 .ToListAsync(token);
         }
-        
+
         public virtual async Task<T?> FindById(string id, CancellationToken token = default)
         {
             var filter = Builders<T>.Filter.Eq(t => t.Id, id);

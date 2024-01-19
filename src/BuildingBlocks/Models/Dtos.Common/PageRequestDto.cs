@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtos.Common
+namespace Dtos.Common;
+
+public record PageRequestDto
 {
-    public record PageRequestDto
-    {
-        public int Page { get; init; }
-        public int Take { get; init; }
-    }
+    public int Page { get; set; }
+    public int Take { get; set; }
 }
+

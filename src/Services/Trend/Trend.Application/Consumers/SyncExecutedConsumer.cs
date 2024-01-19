@@ -31,7 +31,7 @@ public class SyncExecutedConsumer : IConsumer<SyncExecuted>
 
     public async Task Consume(ConsumeContext<SyncExecuted> context)
     {
-        var count = await _syncService.GetSyncCount(default);
+        var count = await _syncService.GetAllCount(default);
 
         await _cacheService.SetAsync(CacheKeys.SYNC_TOTAL_COUNT,
             count,

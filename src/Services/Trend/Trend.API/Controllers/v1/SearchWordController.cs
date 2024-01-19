@@ -26,12 +26,13 @@ namespace Trend.API.Controllers.v1
         [HttpGet("GetSearchWordSyncStatistic/{wordId}")]
         [SwaggerOperation(OperationId = "GetSearchWordSyncStatistic")]
         [OutputCache(PolicyName = "SearchWordPolicy")]
-        [ProducesResponseType(typeof(SearchWordSyncDetailResDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SearchWordSyncStatisticResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSearchWordSyncStatistic([FromRoute] string wordId, CancellationToken token)
         {
-            var result = await _service.GetSearchWordSyncStatistic(wordId, token);
+            var request = new SearchWordSyncStatisticReqDto(wordId);
+            var result = await _service.GetSyncStatistic(request, token);
             return result.ToActionResult();
         }
         
@@ -43,7 +44,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetActiveSearchWords(CancellationToken token)
         {
-            return Ok(await _service.GetActiveSearchWords(token));
+            return Ok(await _service.GetActiveItems(token));
         }
         
         [HttpGet("GetDeactivatedSearchWords")]
@@ -54,7 +55,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetDeactivatedSearchWords(CancellationToken token)
         {
-            return Ok(await _service.GetDeactivatedSearchWords(token));
+            return Ok(await _service.GetDeactivatedItems(token));
         }
         
         [HttpPost("AddNew")]
@@ -62,9 +63,9 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddNewSearchWord([FromBody] SearchWordAddReqDto request, CancellationToken token)
+        public async Task<IActionResult> AddNewSearchWord([FromBody] AddWordReqDto request, CancellationToken token)
         {
-            var result = await _service.AddNewSearchWord(request, token);
+            var result = await _service.CreateNew(request, token);
             return result.ToActionResult();
         }
         
@@ -74,9 +75,10 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(PageResponseDto<SearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Search([FromBody] SearchWordFilterReqDto request, CancellationToken token)
+        public async Task<IActionResult> Search([FromBody] FilterSearchWordsReqDto request, CancellationToken token)
         {
-            return Ok(await _service.FilterSearchWords(request, token));
+            var result = await _service.Filter(request, token);
+            return result.ToActionResult();
         }
         
         [HttpPut("AttachImage/{searchWordId}")]
@@ -88,9 +90,9 @@ namespace Trend.API.Controllers.v1
             [FromRoute] string searchWordId,
             CancellationToken token)
         {
-            var command = await request.File.ToDetailsDto<SearchWordAttachImageReqDto>();
-            command.SearchWordId = searchWordId;
-            var result = await _service.AttachImageToSearchWord(command, token);
+            var command = await request.File.ToDetailsDto<AttachImageToSearchWordReqDto>();
+            command.Id = searchWordId;
+            var result = await _service.AttachImage(command, token);
             return result.ToActionResult();
         }
 
@@ -101,7 +103,8 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Deactivate(string id, CancellationToken token)
         {
-            var result = await _service.DeactivateSearchWord(id, token);
+            var request = new DeactivateSearchWordReqDto(id);
+            var result = await _service.Deactivate(request, token);
             return result.ToActionResult();
         }
         
@@ -112,7 +115,8 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Activate(string id, CancellationToken token)
         {
-            var result = await _service.ActivateSearchWord(id, token);
+            var request = new ActivateSearchWordReqDto(id);
+            var result = await _service.Activate(request, token);
             return result.ToActionResult();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Dtos.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
@@ -30,7 +31,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLatestNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNews(token));
+            return Ok(await _service.GetLatest(token));
         }
         
         [HttpPut("Deactivate/{articleId}")]
@@ -40,7 +41,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Deactivate(string articleId, CancellationToken token)
         {
-            var request = new DeactivateArticleReqDto { ArticleId = articleId };
+            var request = new DeactivateArticleReqDto(articleId);
             var result = await _service.Deactivate(request, token);
             return result.ToActionResult();
         }
@@ -52,7 +53,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Activate(string articleId, CancellationToken token)
         {
-            var request = new ActivateArticleReqDto { ArticleId = articleId };
+            var request = new ActivateArticleReqDto(articleId);
             var result = await _service.Activate(request, token);
             return result.ToActionResult();
         }
@@ -61,33 +62,42 @@ namespace Trend.API.Controllers.v1
         [SwaggerOperation(OperationId = "GetLatestCryptoNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLastCryptoNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(ContextType.Crypto, token));
+            return Ok(await _service.GetLatestByContext(ContextType.Crypto, token));
         }
         
         [HttpGet("GetLatestStockNews")]
         [SwaggerOperation(OperationId = "GetLatestStockNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLastStockNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(ContextType.Stock, token));
+            return Ok(await _service.GetLatestByContext(ContextType.Stock, token));
         }
         
         [HttpGet("GetLatestForexNews")]
         [SwaggerOperation(OperationId = "GetLatestForexNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
         [ProducesResponseType(typeof(List<ArticleResDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLatestForexNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(ContextType.Forex, token));
+            return Ok(await _service.GetLatestByContext(ContextType.Forex, token));
+        }
+        
+        [HttpPost("Filter")]
+        [SwaggerOperation(OperationId = "Filter")]
+        [OutputCache(PolicyName = "NewsPolicy")]
+        [ProducesResponseType(typeof(PageResponseDto<FilterArticlesReqDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Search([FromBody] FilterArticlesReqDto request, CancellationToken token)
+        {
+            var result = await _service.Filter(request, token);
+            return result.ToActionResult();
         }
     }
 }

@@ -16,7 +16,7 @@ using Trend.Domain.Errors;
 
 namespace Trend.Application.Services
 {
-    public class SyncService : ISyncService
+    public class SyncService : ServiceBase, ISyncService
     {
         private readonly ILogger<SyncService> _logger;
         private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace Trend.Application.Services
         private readonly IEnumerable<ISearchEngine> _searchEngines;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IOutputCacheStore _cacheStore;
-        private readonly IDateTimeProvider _provider;
+        private readonly IDateTimeProvider _timeProvider;
         private readonly ITransaction _session;
 
         public SyncService(ILogger<SyncService> logger, 
@@ -36,9 +36,11 @@ namespace Trend.Application.Services
             ISyncStatusRepository syncStatusRepository,
             IPublishEndpoint publishEndpoint,
             IOutputCacheStore cacheStore, 
-            IDateTimeProvider provider, 
+            IDateTimeProvider timeProvider, 
             IArticleRepository articleRepo, 
-            ITransaction session)
+            ITransaction session,
+            IServiceProvider provider)
+            : base(provider)
         {
             _logger = logger;
             _mapper = mapper;
@@ -47,7 +49,7 @@ namespace Trend.Application.Services
             _syncStatusRepo = syncStatusRepository;
             _publishEndpoint = publishEndpoint;
             _cacheStore = cacheStore;
-            _provider = provider;
+            _timeProvider = timeProvider;
             _articleRepo = articleRepo;
             _session = session;
         }
@@ -177,52 +179,60 @@ namespace Trend.Application.Services
             await _publishEndpoint.Publish(new SearchEngineFailure
             {
                 Message = $"Engine {engineName} failure. 0 items synced",
-                Time = _provider.Now
+                Time = _timeProvider.Now
             }, token);
         }
 
-        public async Task<long> GetSyncCount(CancellationToken token)
+        public async Task<long> GetAllCount(CancellationToken token)
         {
             return await _syncStatusRepo.Count(token);
         }
 
-        public async Task<Either<CoreError, SyncStatusResDto>> GetSync(string id, CancellationToken token = default)
+        public async Task<Either<CoreError, SyncStatusResDto>> Get(GetSyncStatusReqDto req, CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
             {
-                _logger.LogInformation("Search word is null or empty");
-                return SyncErrors.EmptyId;
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SyncErrors.ValidationError(validationResult.Errors);
             }
 
-            var entity = await _syncStatusRepo.FindById(id, token);
+            var entity = await _syncStatusRepo.FindById(req.Id, token);
             if (entity is null)
             {
-                _logger.LogInformation("Sync with provided ID {SyncStatusId} not found", id);
+                _logger.LogInformation("Sync with provided ID {SyncStatusId} not found", req.Id);
                 return SyncErrors.NotFound;
             } 
             
             return _mapper.Map<SyncStatusResDto>(entity);
         }
 
-        public async Task<List<SyncStatusResDto>> GetSyncStatuses(CancellationToken token = default)
+        public async Task<List<SyncStatusResDto>> GetAll(CancellationToken token = default)
         {
             var entities = await _syncStatusRepo.GetAll(token);
-            var instances = _mapper.Map<List<SyncStatusResDto>>(entities);
-            return instances;
+            return _mapper.Map<List<SyncStatusResDto>>(entities);
         }
         
-        public async Task<Either<CoreError, List<SyncStatusWordResDto>>> GetSyncStatusSearchWords(string syncStatusId, CancellationToken token = default)
+        public async Task<Either<CoreError, List<SyncSearchWordResDto>>> GetSyncSearchWords(
+            SyncSearchWordsReqDto req, 
+            CancellationToken token = default)
         {
-            var syncStatus = await _syncStatusRepo.FindById(syncStatusId, token);
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
+            {
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return SyncErrors.ValidationError(validationResult.Errors);
+            }
+            
+            var syncStatus = await _syncStatusRepo.FindById(req.Id, token);
             if(syncStatus is null)
             {
-                _logger.LogInformation("Sync {ArticleId} not found", syncStatusId);
+                _logger.LogInformation("Sync {SyncId} not found", req.Id);
                 return SyncErrors.NotFound;
             }
 
-            var syncWords = await _syncStatusRepo.GetSyncStatusWords(syncStatusId, token);
-            var response = _mapper.Map<List<SyncStatusWordResDto>>(syncWords);
-            return response;
+            var syncWords = await _syncStatusRepo.GetSyncStatusWords(req.Id, token);
+            return _mapper.Map<List<SyncSearchWordResDto>>(syncWords);
         }
     }
 }

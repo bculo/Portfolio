@@ -28,13 +28,13 @@ namespace Trend.Application.Services
             _logger = logger;
         }
         
-        public async Task<List<ArticleResDto>> GetLatestNewsByContextType(ContextType type, CancellationToken token = default)
+        public async Task<List<ArticleResDto>> GetLatestByContext(ContextType type, CancellationToken token = default)
         {
-            var articles = await _articleRepo.GetActiveArticles(type, token);
+            var articles = await _articleRepo.GetActive(type, token);
             return _mapper.Map<List<ArticleResDto>>(articles);
         }
 
-        public async Task<List<ArticleResDto>> GetLatestNews(CancellationToken token = default)
+        public async Task<List<ArticleResDto>> GetLatest(CancellationToken token = default)
         {
             var articles = await _articleRepo.GetActiveItems(token);
             return _mapper.Map<List<ArticleResDto>>(articles);
@@ -49,14 +49,14 @@ namespace Trend.Application.Services
                 return ArticleErrors.ValidationError(validationResult.Errors);
             }
             
-            var article = await _articleRepo.FindById(req.ArticleId, tcs);
+            var article = await _articleRepo.FindById(req.Id, tcs);
             if (article is null)
             {
-                _logger.LogInformation("Article {ArticleId} not found", req.ArticleId);
+                _logger.LogInformation("Article {ArticleId} not found", req.Id);
                 return ArticleErrors.NotFound;
             }
             
-            await _articleRepo.DeactivateItems(req.ArticleId.ToEnumerable(), tcs);
+            await _articleRepo.DeactivateItems(req.Id.ToEnumerable(), tcs);
             return Unit.Default;
         }
 
@@ -69,22 +69,31 @@ namespace Trend.Application.Services
                 return ArticleErrors.ValidationError(validationResult.Errors);
             }
             
-            var article = await _articleRepo.FindById(req.ArticleId, tcs);
+            var article = await _articleRepo.FindById(req.Id, tcs);
             if (article is null)
             {
-                _logger.LogInformation("Article {ArticleId} not found", req.ArticleId);
+                _logger.LogInformation("Article {ArticleId} not found", req.Id);
                 return ArticleErrors.NotFound;
             }
             
-            await _articleRepo.ActivateItems(req.ArticleId.ToEnumerable(), tcs);
+            await _articleRepo.ActivateItems(req.Id.ToEnumerable(), tcs);
             return Unit.Default;
         }
 
-        public async Task<PageResponseDto<ArticleResDto>> GetLatestNewsPage(FetchArticlePageReqDto page, CancellationToken token)
+        public async Task<Either<CoreError, PageResponseDto<ArticleResDto>>> Filter(
+            FilterArticlesReqDto req, 
+            CancellationToken token = default)
         {
-            throw new NotImplementedException();
-            //var repoPage = await _articleRepo.FilterBy(page.Page, page.Take, i => i.Type == (ContextType)page.Type, token);
-            //return _mapper.Map<PageResponseDto<ArticleDto>>(repoPage);
+            var validationResult = await Validate(req, token);
+            if (!validationResult.IsValid)
+            {
+                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                return ArticleErrors.ValidationError(validationResult.Errors);
+            }
+            
+            var search = _mapper.Map<FilterArticlesReqQuery>(req);
+            var searchResult = await _articleRepo.Filter(search, token);
+            return _mapper.Map<PageResponseDto<ArticleResDto>>(searchResult);
         }
     }
 }

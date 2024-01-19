@@ -7,7 +7,7 @@ namespace Trend.Application.Mapping
     {
         public SearchWordProfile()
         {
-            CreateMap<SearchWordAddReqDto, Domain.Entities.SearchWord>()
+            CreateMap<AddWordReqDto, Domain.Entities.SearchWord>()
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.SearchWord))
                 .ForMember(dst => dst.Engine, opt => opt.MapFrom(src => src.SearchEngine))
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.ContextType));
@@ -20,8 +20,8 @@ namespace Trend.Application.Mapping
                 .ForMember(dst => dst.ContextTypeId, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dst => dst.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
 
-            CreateMap<SearchWordFilterReqDto, SearchWordFilterReqQuery>();
-            CreateMap<SearchWordSyncDetailResQuery, SearchWordSyncDetailResDto>();
+            CreateMap<FilterSearchWordsReqDto, SearchWordFilterReqQuery>();
+            CreateMap<SearchWordSyncDetailResQuery, SearchWordSyncStatisticResDto>();
         }
     }
 }

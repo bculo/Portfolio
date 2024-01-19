@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dtos.Common
 {
-    public class PageResponseDto<T>
+    public record PageResponseDto<T>
     {
         public long Count { get; init; }
         public List<T> Items { get; init; }

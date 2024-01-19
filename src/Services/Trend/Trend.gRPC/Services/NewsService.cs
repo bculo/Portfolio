@@ -44,7 +44,7 @@ namespace Trend.gRPC.Services
         {
             _logger.LogTrace("GetLatestNews method called in NewsService");
             
-            await foreach (var item in _service.GetLatestNewsEnumerable(default))
+            await foreach (var item in _service.GetLatestEnumerable(default))
             {
                 var responseItem = _mapper.Map<ArticleItem>(item);
                 await responseStream.WriteAsync(responseItem);
@@ -57,7 +57,7 @@ namespace Trend.gRPC.Services
 
             var requestType = (ContextType)(int)request.Type;
 
-            await foreach (var item in _service.GetLatestNewsEnumerable(requestType, default))
+            await foreach (var item in _service.GetLatestByContextEnumerable(requestType, default))
             {
                 var responseItem = _mapper.Map<ArticleItem>(item);
                 await responseStream.WriteAsync(responseItem);
