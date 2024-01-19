@@ -1,4 +1,4 @@
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces;

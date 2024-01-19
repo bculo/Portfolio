@@ -4,8 +4,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Time.Abstract.Contracts;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Services;
-using Trend.Application.Interfaces.Models.Services.Google;
+using Trend.Application.Interfaces.Models;
 using Trend.Application.Services.Models;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
@@ -24,7 +23,7 @@ namespace Trend.Application.Services
         private readonly List<Article> _articles;
         
         public string EngineName => nameof(GoogleSearchEngine);
-        public Dictionary<ContextType, List<SearchEngineWord>>? SearchWordsByCategory { get; set; }
+        public Dictionary<ContextType, List<SearchEngineReq>>? SearchWordsByCategory { get; set; }
         
         public GoogleSearchEngine(
             ILogger<GoogleSearchEngine> logger,
@@ -46,8 +45,8 @@ namespace Trend.Application.Services
             };
         }
         
-        public async Task<SearchEngineResult> Sync(
-            Dictionary<ContextType, List<SearchEngineWord>> searchWordsByCategory, 
+        public async Task<SearchEngineRes> Sync(
+            Dictionary<ContextType, List<SearchEngineReq>> searchWordsByCategory, 
             CancellationToken token = default)
         {
             using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_ENGINE);
@@ -58,7 +57,7 @@ namespace Trend.Application.Services
             {
                 _logger.LogInformation("ArticleTypes to fetch are not defined");
                 MarkSyncStatusAsDone();
-                return new SearchEngineResult(_syncStatus, new List<Article>());
+                return new SearchEngineRes(_syncStatus, new List<Article>());
             }
             
             foreach(var (contextType, searchWords) in SearchWordsByCategory)
@@ -67,7 +66,7 @@ namespace Trend.Application.Services
             }
 
             MarkSyncStatusAsDone();
-            return new SearchEngineResult (_syncStatus, _articles);
+            return new SearchEngineRes (_syncStatus, _articles);
         }
 
         private void MarkSyncStatusAsDone()
@@ -102,14 +101,14 @@ namespace Trend.Application.Services
         }
         
         private async Task ScrapeDataUsingGoogleClient(ContextType type, 
-            List<SearchEngineWord> keyWords,
+            List<SearchEngineReq> keyWords,
             CancellationToken token = default)
         {
             var responses = await FetchDataViaGoogleClient(keyWords, token);
             StoreClientResponseInMemory(responses);
         }
 
-        private async Task<List<GoogleClientResponse>> FetchDataViaGoogleClient(List<SearchEngineWord> keyWords, 
+        private async Task<List<GoogleClientResponse>> FetchDataViaGoogleClient(List<SearchEngineReq> keyWords, 
             CancellationToken token = default) 
         {
             var requestList = keyWords

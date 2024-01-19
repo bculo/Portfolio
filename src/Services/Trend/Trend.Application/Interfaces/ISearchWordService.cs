@@ -1,7 +1,6 @@
 ﻿using Dtos.Common;
 using LanguageExt;
-using LanguageExt.Common;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Errors;
 
 namespace Trend.Application.Interfaces

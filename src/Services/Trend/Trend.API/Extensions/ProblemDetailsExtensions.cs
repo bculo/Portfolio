@@ -22,6 +22,16 @@ public static class ProblemDetailsExtensions
             problemDetails.Status = StatusCodes.Status404NotFound;
             return new NotFoundObjectResult(problemDetails);
         }
+
+        if (errors is ValidationError validationError)
+        {
+            problemDetails.Title = "One or more validation errors occurred.";
+            problemDetails.Extensions = new Dictionary<string, object?>();
+            foreach (var (property, errMessages) in validationError.Errors)
+            {
+                problemDetails.Extensions.Add(property, errMessages);
+            }
+        }
         
         problemDetails.Title = "Bad request";
         problemDetails.Status = StatusCodes.Status400BadRequest;

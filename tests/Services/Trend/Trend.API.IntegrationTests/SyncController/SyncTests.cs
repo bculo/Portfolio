@@ -1,6 +1,6 @@
 using System.Net;
 using FluentAssertions;
-using Trend.Application.Interfaces.Models.Services.Google;
+using Trend.Application.Interfaces.Models;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 

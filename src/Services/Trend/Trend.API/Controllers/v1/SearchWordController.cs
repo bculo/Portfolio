@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Extensions;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 
 namespace Trend.API.Controllers.v1
 {

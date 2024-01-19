@@ -1,14 +1,19 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Interfaces.Models;
 using Trend.Application.Repositories.Lookups;
 using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
+using IAggregateFluentExtensions = MongoDB.Driver.IAggregateFluentExtensions;
+using IClientSessionHandle = MongoDB.Driver.IClientSessionHandle;
+using IMongoClient = MongoDB.Driver.IMongoClient;
+using IMongoCollectionExtensions = MongoDB.Driver.IMongoCollectionExtensions;
+using IMongoDatabase = MongoDB.Driver.IMongoDatabase;
 
 namespace Trend.Application.Repositories
 {
@@ -27,10 +32,7 @@ namespace Trend.Application.Repositories
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
-            var groupItem  = await syncStatusCollection.Aggregate(ClientSession)
-                .Unwind<SyncStatus, SyncStatusUnwind>(x => x.UsedSyncWords)
-                .Match(x => x.UsedSyncWords.WordId == searchWordId)
-                .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(Collection,
+            var groupItem  = await IAggregateFluentExtensions.Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(IAggregateFluentExtensions.Match(IAggregateFluentExtensions.Unwind<SyncStatus, SyncStatusUnwind>(IMongoCollectionExtensions.Aggregate(syncStatusCollection, ClientSession), x => x.UsedSyncWords), x => x.UsedSyncWords.WordId == searchWordId), Collection,
                     x => x.UsedSyncWords.WordId,
                     y => y.Id,
                     z => z.SearchWords)
@@ -65,8 +67,8 @@ namespace Trend.Application.Repositories
 
         public async Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token = default)
         {
-            var searchBuilder = Builders<SearchWord>.Filter;
-            var searchFilter = FilterDefinition<SearchWord>.Empty;
+            var searchBuilder = MongoDB.Driver.Builders<SearchWord>.Filter;
+            var searchFilter = MongoDB.Driver.FilterDefinition<SearchWord>.Empty;
             if (req.SearchEngine.IsRelevantForFilter())
             {
                 searchFilter &= searchBuilder.Eq(i => i.Engine.Id, req.SearchEngine.Id);
@@ -87,7 +89,7 @@ namespace Trend.Application.Repositories
                 searchFilter &= searchBuilder.Regex(i => i.Word, new BsonRegularExpression(req.Query));
             }
             
-            var sortBuilder = Builders<SearchWord>.Sort;
+            var sortBuilder = MongoDB.Driver.Builders<SearchWord>.Sort;
             var sortFilter = req.Sort == SortType.Asc
                 ? sortBuilder.Ascending(x => x.Created)
                 : sortBuilder.Descending(x => x.Created);

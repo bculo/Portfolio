@@ -1,6 +1,6 @@
 using Trend.Domain.Enums;
 
-namespace Trend.Application.Interfaces.Models.Repositories;
+namespace Trend.Application.Interfaces.Models;
 
 public class ArticleDetailResQuery
 {

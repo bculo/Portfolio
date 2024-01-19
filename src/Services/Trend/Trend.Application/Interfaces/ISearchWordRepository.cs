@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trend.Application.Interfaces.Models.Repositories;
+﻿using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 

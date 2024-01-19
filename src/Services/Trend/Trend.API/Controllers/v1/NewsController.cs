@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Extensions;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
+using Trend.Domain.Enums;
 
 namespace Trend.API.Controllers.v1
 {
@@ -39,7 +40,8 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Deactivate(string articleId, CancellationToken token)
         {
-            var result = await _service.Deactivate(articleId, token);
+            var request = new DeactivateArticleReqDto { ArticleId = articleId };
+            var result = await _service.Deactivate(request, token);
             return result.ToActionResult();
         }
         
@@ -50,7 +52,8 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Activate(string articleId, CancellationToken token)
         {
-            var result = await _service.Activate(articleId, token);
+            var request = new ActivateArticleReqDto { ArticleId = articleId };
+            var result = await _service.Activate(request, token);
             return result.ToActionResult();
         }
 
@@ -62,7 +65,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLastCryptoNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Crypto, token));
+            return Ok(await _service.GetLatestNewsByContextType(ContextType.Crypto, token));
         }
         
         [HttpGet("GetLatestStockNews")]
@@ -73,7 +76,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLastStockNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Stock, token));
+            return Ok(await _service.GetLatestNewsByContextType(ContextType.Stock, token));
         }
         
         [HttpGet("GetLatestForexNews")]
@@ -84,7 +87,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetLatestForexNews(CancellationToken token)
         {
-            return Ok(await _service.GetLatestNewsByContextType(Domain.Enums.ContextType.Forex, token));
+            return Ok(await _service.GetLatestNewsByContextType(ContextType.Forex, token));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Trend.Application.Interfaces.Models.Services.Google;
+﻿using Trend.Application.Interfaces.Models;
 
 namespace Trend.Application.Interfaces
 {

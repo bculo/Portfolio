@@ -1,21 +1,18 @@
-﻿using AutoMapper;
-using Dtos.Common;
+﻿using System.Diagnostics;
+using AutoMapper;
 using Events.Common.Trend;
 using LanguageExt;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Logging;
 using OpenTelemetry.Trace;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Dtos;
-using Trend.Application.Interfaces.Models.Services;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Errors;
-using Trend.Domain.Exceptions;
-using Activity = System.Diagnostics.Activity;
 
 namespace Trend.Application.Services
 {
@@ -93,13 +90,13 @@ namespace Trend.Application.Services
             return Unit.Default;
         }
 
-        private Dictionary<ContextType, List<SearchEngineWord>> MapToSearchEngineRequest(List<SearchWord> searchWords)
+        private Dictionary<ContextType, List<SearchEngineReq>> MapToSearchEngineRequest(List<SearchWord> searchWords)
         {
             return searchWords
                 .GroupBy(i => i.Type)
                 .ToDictionary(
                     i => i.Key, 
-                    y => y.Select(i => new SearchEngineWord
+                    y => y.Select(i => new SearchEngineReq
                     {
                         SearchWord = i.Word,
                         SearchWordId = i.Id
@@ -144,7 +141,7 @@ namespace Trend.Application.Services
         }
         
         private async Task<(List<SyncStatus> syncIterations, List<Article> articles)> FireSearchEngines(
-            Dictionary<ContextType, List<SearchEngineWord>> searchWords, 
+            Dictionary<ContextType, List<SearchEngineReq>> searchWords, 
             CancellationToken token = default)
         {
             List<SyncStatus> syncIterations = new();

@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Trend.Application.Interfaces.Models.Dtos;
-using Trend.Application.Interfaces.Models.Repositories;
-using Trend.Application.Mapping.Actions;
-using Trend.Domain.Enums;
+using Trend.Application.Interfaces.Models;
 
-namespace Trend.Application.Mapping.SearchWord
+namespace Trend.Application.Mapping
 {
     public class SearchWordProfile : Profile
     {
@@ -13,8 +10,7 @@ namespace Trend.Application.Mapping.SearchWord
             CreateMap<SearchWordAddReqDto, Domain.Entities.SearchWord>()
                 .ForMember(dst => dst.Word, opt => opt.MapFrom(src => src.SearchWord))
                 .ForMember(dst => dst.Engine, opt => opt.MapFrom(src => src.SearchEngine))
-                .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.ContextType))
-                .AfterMap<AuditableDocumentTimeAction<SearchWordAddReqDto>>();
+                .ForMember(dst => dst.Type, opt => opt.MapFrom(src => src.ContextType));
 
             CreateMap<Domain.Entities.SearchWord, SearchWordResDto>()
                 .ForMember(dst => dst.SearchEngineName, opt => opt.MapFrom(src => src.Engine.ToString()))

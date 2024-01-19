@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Dtos.Common;
-using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Interfaces.Models;
 
-namespace Trend.Application.Mapping.Common
+namespace Trend.Application.Mapping
 {
     public class PageProfile : Profile
     {

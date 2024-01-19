@@ -1,7 +1,7 @@
 using System.Net;
 using FluentAssertions;
 using Http.Common.Extensions;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 
 namespace Trend.IntegrationTests.SyncController;
 

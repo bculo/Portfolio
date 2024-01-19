@@ -1,6 +1,7 @@
+using System.Net;
 using FluentAssertions;
 using Http.Common.Extensions;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 
 namespace Trend.IntegrationTests.SyncController;
 
@@ -21,7 +22,7 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
         var response = await client.GetAsync($"{ApiEndpoints.GetSyncStatusWords}/{id}");
         
         //Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
     
     [Fact]

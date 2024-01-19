@@ -1,7 +1,8 @@
-﻿using MongoDB.Bson.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
-using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Interfaces.Models;
 using Trend.Application.Repositories.Lookups;
 using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
@@ -17,7 +18,7 @@ namespace Trend.Application.Configurations.Initialization
             {
                 config.AutoMap();
                 config.MapIdMember(m => m.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
-                config.IdMemberMap.SetSerializer(new StringSerializer(MongoDB.Bson.BsonType.String));
+                config.IdMemberMap.SetSerializer(new StringSerializer(BsonType.String));
             });
 
             BsonClassMap.RegisterClassMap<AuditableDocument>(config =>

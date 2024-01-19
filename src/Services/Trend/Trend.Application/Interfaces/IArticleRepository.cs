@@ -1,4 +1,4 @@
-﻿using Trend.Application.Interfaces.Models.Repositories;
+﻿using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 

@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using AutoMapper;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Services;

@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.Options;
-using MongoDB.Driver;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Repositories;
 using Trend.Application.Utils;
 using Trend.Domain.Entities;
 

@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using Trend.Application.Interfaces.Models.Dtos;
-using Trend.Application.Interfaces.Models.Repositories;
-using Trend.Application.Interfaces.Models.Services.Google;
-using Trend.Application.Mapping.Actions;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
-using Trend.Domain.Enums;
 
-namespace Trend.Application.Mapping.News
+namespace Trend.Application.Mapping
 {
     public class ArticleProfile : Profile
     {
@@ -23,9 +19,8 @@ namespace Trend.Application.Mapping.News
                 .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.DisplayLink))
                 .ForMember(dst => dst.Text, opt => opt.MapFrom(src => src.Snippet))
                 .ForMember(dst => dst.ArticleUrl, opt => opt.MapFrom(src => src.Link))
-                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))
-                .AfterMap<AuditableDocumentTimeAction<GoogleSearchEngineItemDto>>();
-            
+                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title));
+
             CreateMap<Article, ArticleResDto>()
                 .ForMember(dst => dst.PageSource, opt => opt.MapFrom(src => src.PageSource))
                 .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.Title))

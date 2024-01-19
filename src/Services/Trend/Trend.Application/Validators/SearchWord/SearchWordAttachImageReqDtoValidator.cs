@@ -1,6 +1,6 @@
 using System.Collections.Frozen;
 using FluentValidation;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 
 namespace Trend.Application.Validators.SearchWord;
 

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 using Trend.gRPC.Protos.v1;
 
 namespace Trend.gRPC.GrpcProfiles
@@ -14,7 +14,7 @@ namespace Trend.gRPC.GrpcProfiles
             CreateMap<ArticleResDto, ArticleItem>().ReverseMap();
             CreateMap<ArticleResDto, ArticleTypeItem>().ReverseMap();
 
-            CreateMap<FetchArticleTypePageRequest, ArticleFetchPageReqDto>()
+            CreateMap<FetchArticleTypePageRequest, FetchArticlePageReqDto>()
                 .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Page.Take))
                 .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page.PageNum))
                 .ForMember(dst => dst.Type, opt => opt.MapFrom(src => (int)src.Type));

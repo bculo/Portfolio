@@ -4,11 +4,11 @@ using LanguageExt;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Dtos;
-using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Errors;
@@ -27,6 +27,7 @@ namespace Trend.Application.Services
         private readonly IImageService _imageService;
         private readonly IBlobStorage _blobStorage;
         private readonly BlobStorageOptions _storageOptions;
+        private readonly IDateTimeProvider _time;
 
         public SearchWordService(ILogger<SearchWordService> logger,
             IMapper mapper,
@@ -36,7 +37,8 @@ namespace Trend.Application.Services
             IBlobStorage blobStorage,
             IOptions<BlobStorageOptions> storageOptions,
             IFusionCache fusionCache, 
-            ISyncStatusRepository statusRepository)
+            ISyncStatusRepository statusRepository, 
+            IDateTimeProvider time)
         {
             _logger = logger;
             _mapper = mapper;
@@ -46,6 +48,7 @@ namespace Trend.Application.Services
             _blobStorage = blobStorage;
             _cacheService = fusionCache;
             _statusRepository = statusRepository;
+            _time = time;
             _storageOptions = storageOptions.Value;
         }
 
@@ -70,6 +73,7 @@ namespace Trend.Application.Services
             var entity = _mapper.Map<SearchWord>(instance);
             entity.ImageUrl = GetDefaultSearchWordImageUri(entity.Type);
             entity.IsActive = false;
+            entity.Created = _time.Now;
             
             await _wordRepository.Add(entity, token);
             await _cacheOutStore.EvictByTagAsync(CacheTags.SEARCH_WORD, token);

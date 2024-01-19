@@ -3,6 +3,7 @@ using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using FluentValidation;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Trend.API.Services;
@@ -29,8 +30,7 @@ namespace Trend.API.Extensions
             services.AddCors();
             services.AddControllers();
             services.AddProblemDetails();
-            services.AddFluentValidationAutoValidation();
-            
+
             ConfigureCache(services, configuration);
             AddMessageQueue(services, configuration);
             ConfigureLocalization(services);

@@ -4,7 +4,7 @@ using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Repositories;
+using Trend.Application.Interfaces.Models;
 using Trend.Application.Repositories.Lookups;
 using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;

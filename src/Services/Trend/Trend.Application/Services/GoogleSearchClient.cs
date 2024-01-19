@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
-using Trend.Application.Interfaces.Models.Services.Google;
+using Trend.Application.Interfaces.Models;
 
 namespace Trend.Application.Services
 {

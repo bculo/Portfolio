@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trend.Application.Interfaces.Models.Services;
-using Trend.Domain.Entities;
+﻿using Trend.Application.Interfaces.Models;
 using Trend.Domain.Enums;
 
 namespace Trend.Application.Interfaces
@@ -12,6 +6,8 @@ namespace Trend.Application.Interfaces
     public interface ISearchEngine
     {
         string EngineName { get;  }
-        Task<SearchEngineResult> Sync(Dictionary<ContextType, List<SearchEngineWord>> searchWordsByCategory, CancellationToken token = default);
+        Task<SearchEngineRes> Sync(
+            Dictionary<ContextType, List<SearchEngineReq>> searchWordsByCategory, 
+            CancellationToken token = default);
     }
 }

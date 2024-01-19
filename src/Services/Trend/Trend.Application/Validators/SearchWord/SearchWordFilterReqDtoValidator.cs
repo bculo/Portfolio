@@ -1,5 +1,5 @@
 using FluentValidation;
-using Trend.Application.Interfaces.Models.Dtos;
+using Trend.Application.Interfaces.Models;
 using Trend.Application.Validators.Common;
 using Trend.Domain.Enums;
 
