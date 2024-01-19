@@ -8,6 +8,6 @@ namespace Notification.Application.Constants
 {
     public static class GroupPrefixConstants
     {
-        public readonly static string CRYPTO = "crypto";
+        public const string CRYPTO = "crypto";
     }
 }

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.SignalR;
 using Notification.Hub.Interfaces;
 
 namespace Notification.Hub
 {
-    public class PortfolioHub : Microsoft.AspNetCore.SignalR.Hub<ISignalRClient>
+    public class PortfolioHub : Hub<ISignalRClient>
     {
         private readonly ILogger<PortfolioHub> _logger;
 

@@ -1,20 +1,13 @@
-using Notification.Application;
-using Notification.Application.Interfaces;
 using Notification.Hub;
 using Notification.Hub.Extensions;
-using Notification.Hub.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.ConfigureSignalRHubApp();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
-
-builder.Services.ConfigureAuthentication(builder.Configuration);
-builder.Services.ConfigureSignalR(builder.Configuration);
-
-ApplicationLayer.ConfigureMessageQueue(builder.Services, builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
