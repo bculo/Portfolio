@@ -23,7 +23,7 @@ namespace Notification.Application.EventHandlers.Crypto
 
             public async Task Handle(Notification notification, CancellationToken cancellationToken)
             {
-                var groupId = $"{GroupPrefixConstants.CRYPTO}-{notification.Symbol.ToLower()}";
+                var groupId = $"{WebSocketConstants.CRYPTO}-{notification.Symbol.ToLower()}";
 
                 await _notification.NotifyGroup(groupId, notification);
             }

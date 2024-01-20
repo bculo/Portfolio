@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Notification.Application.Constants
 {
-    public static class GroupPrefixConstants
+    public static class WebSocketConstants
     {
         public const string CRYPTO = "crypto";
     }

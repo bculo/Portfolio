@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cryptography.Common\Cryptography.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\WebProject.Common\WebProject.Common.csproj" />
     <ProjectReference Include="..\Notification.Application\Notification.Application.csproj" />
   </ItemGroup>
 

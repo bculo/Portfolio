@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Notification.Hub.Interfaces;
+
 
 namespace Notification.Hub
 {
+    [Authorize]
     public class PortfolioHub : Hub<ISignalRClient>
     {
         private readonly ILogger<PortfolioHub> _logger;
@@ -14,14 +17,17 @@ namespace Notification.Hub
 
         public override Task OnConnectedAsync()
         {
-            _logger.LogTrace("OnConnectedAsync called");
-
+            _logger.LogInformation("OnConnectedAsync called");
+            
+            _logger.LogInformation(Context.ConnectionId);
+            _logger.LogInformation(Context.UserIdentifier);
+            
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            _logger.LogTrace("OnDisconnectedAsync called");
+            _logger.LogInformation("OnDisconnectedAsync called");
 
             return base.OnDisconnectedAsync(exception);
         }
