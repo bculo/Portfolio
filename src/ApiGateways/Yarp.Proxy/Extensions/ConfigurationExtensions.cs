@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Yarp.Common.Options;
+using Yarp.Proxy.Common.Options;
 
-namespace Yarp.Common;
+namespace Yarp.Proxy.Extensions;
 
 public static class ConfigurationExtensions
 {

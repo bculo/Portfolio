@@ -143,6 +143,8 @@ namespace Trend.Application
 
                         Prefix = "hangfire",
                         CheckConnection = true,
+                        InvisibilityTimeout = TimeSpan.FromMinutes(3),
+                        DistributedLockLifetime = TimeSpan.FromMinutes(1)
                     });
             });
 

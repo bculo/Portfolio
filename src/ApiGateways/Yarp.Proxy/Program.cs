@@ -1,11 +1,6 @@
-using Yarp.Common;
-using Yarp.Common.Options;
+using Yarp.Proxy.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.ConfigureYarpProxy();
 

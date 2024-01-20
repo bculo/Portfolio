@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Yarp.Common.Options;
+using Yarp.Proxy.Common.Options;
 
-namespace Yarp.Client.Controllers;
+namespace Yarp.Proxy.Controllers;
 
 [ApiController]
 [Route("[controller]")]
