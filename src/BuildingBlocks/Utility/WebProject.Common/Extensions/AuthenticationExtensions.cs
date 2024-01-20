@@ -11,7 +11,9 @@ namespace WebProject.Common.Extensions
     {
         public static void ConfigureDefaultAuthentication(this IServiceCollection services, 
             AuthOptions options,
-            Func<AuthenticationFailedContext, Task> onTokenValidationFail = null)
+            Func<AuthenticationFailedContext, Task>? onTokenValidationFail = null,
+            Func<TokenValidatedContext, Task>? onTokenValidated = null,
+            Func<MessageReceivedContext, Task>? onMessageReceived = null)
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
             ArgumentNullException.ThrowIfNull(nameof(options));
@@ -36,7 +38,9 @@ namespace WebProject.Common.Extensions
 
                 opt.Events = new JwtBearerEvents()
                 {
-                    OnAuthenticationFailed = (onTokenValidationFail is null) ? OnTokenValidationFailDefault : onTokenValidationFail,
+                    OnAuthenticationFailed = onTokenValidationFail ?? OnTokenValidationFailDefault,
+                    OnTokenValidated = onTokenValidated ?? OnTokenValidatedDefault,
+                    OnMessageReceived = onMessageReceived ?? OnMessageReceivedDefault,
                 };
             });
         }
@@ -44,7 +48,21 @@ namespace WebProject.Common.Extensions
         private static Task OnTokenValidationFailDefault(AuthenticationFailedContext context)
         {
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
-            logger?.LogTrace(context.Exception, context.Exception.Message);
+            logger?.LogTrace(context.Exception, "Exception occurred: {ExceptionMessage}", context.Exception.Message);
+            return Task.CompletedTask;
+        }
+
+        private static Task OnTokenValidatedDefault(TokenValidatedContext context)
+        {
+            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+            logger?.LogTrace("Token validated");
+            return Task.CompletedTask;
+        }
+        
+        private static Task OnMessageReceivedDefault(MessageReceivedContext context)
+        {
+            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+            logger?.LogTrace("Message received");
             return Task.CompletedTask;
         }
     }

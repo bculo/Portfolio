@@ -11,12 +11,12 @@ namespace WebProject.Common.Extensions
         {
             services.AddAuthorization(opt =>
             {
-                var policyName = "BearerPolicy";
                 opt.AddPolicy(policyName, new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
-                opt.DefaultPolicy = opt.GetPolicy(policyName);
+                
+                opt.DefaultPolicy = opt.GetPolicy(policyName) ?? throw new ArgumentNullException(nameof(policyName));
             });
         }
     }
