@@ -1,3 +1,14 @@
+Notification.Hub microservice is responsible for receiving and processing events from other microservices via message broker.
+When event is/are received, corresponding messages are created and pushed to connected client/clients via SignalR. It's relatively easy
+to scale horizontally because Redis is used.  
+
+### How to run it?
+Project doesn't need any additional configuration. Just run it via Rider, Visual Studio or Terminal using command 'dotnet run'
+
+
+### Example of appsettings.json
+
+```json
 {
   "Logging": {
     "LogLevel": {
@@ -29,3 +40,4 @@
   }
 }
  
+```

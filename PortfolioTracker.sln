@@ -89,6 +89,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.API", "src\Services\Tracker\Tracker.API\Tracker.API.csproj", "{29B01F1C-A7FA-443D-ABD3-CAF3AE17CC7E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{EC05BAFF-44FB-410F-84CF-2AA201FE5A8C}"
+	ProjectSection(SolutionItems) = preProject
+		src\Services\Notification\README.md = src\Services\Notification\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.Hub", "src\Services\Notification\Notification.Hub\Notification.Hub.csproj", "{2B3A8A7D-0055-46CA-98F1-225022C5F85B}"
 EndProject
