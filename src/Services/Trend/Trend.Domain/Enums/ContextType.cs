@@ -7,53 +7,25 @@ using Trend.Domain.Exceptions;
 
 namespace Trend.Domain.Enums
 {
-    public record ContextType(int Id, string Name, string ShortName)
+    public record ContextType(int Value, string DisplayValue) : Enumeration<ContextType>(Value, DisplayValue)
     {
-        public static ContextType Crypto { get; } = new (0, "Crypto market", "Crypto");
-        public static ContextType Stock { get; } = new (1, "Stock market", "Stock");
-        public static ContextType Forex { get; } = new (2, "Forex market", "Forex");
-        public static ContextType All { get; } = new (999, "All market", "All");
+        public static readonly ContextType Crypto = new (0, "Crypto market");
+        public static readonly ContextType Stock = new (1, "Stock market");
+        public static readonly ContextType Forex = new (2, "Forex market");
+        public static readonly ContextType All = new (999, "All market");
         
-        public static implicit operator int(ContextType context) => context.Id;
+        public static implicit operator int(ContextType context) => context.Value;
         
-        public static implicit operator ContextType(int id) => Create(id);
+        public static implicit operator ContextType(int value) => Create(value);
         
-        private static ContextType Create(int id) =>
-            id switch
-            {
-                0 => Crypto,
-                1 => Stock,
-                2 => Forex,
-                999 => All,
-                _ => throw new TrendAppCoreException($"Context type is not supported: {id}")
-            };
-
-        public override string ToString()
+        public static bool IsValidForNewSearchWord(int value)
         {
-            return Name;
+            return All.Value != value;
         }
         
-        public static bool IsValidContextTypeForSearchWord(int id)
+        public static bool IsValidForNewSearchWord(ContextType type)
         {
-            return GetPossibleOptions().Where(i => All.Id != id).Any(i => i.Id == id);
-        }
-
-        public static bool IsValidItem(int id)
-        {
-            return GetPossibleOptions().Any(i => i.Id == id);
-        }
-        
-        public bool IsRelevantForFilter()
-        {
-            return All.Id != Id;
-        }
-
-        public static IEnumerable<ContextType> GetPossibleOptions()
-        {
-            yield return Crypto;
-            yield return Stock;
-            yield return Forex;
-            yield return All;
+            return All != type;
         }
     }
 }

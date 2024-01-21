@@ -4,9 +4,9 @@ public static class ResourceBlobMap
 {
     private static readonly Dictionary<string, string> ImageMap = new()
     {
-        { "Crypto", "Crypto.jpeg" },
-        { "Forex", "Forex.jpeg" },
-        { "Stock", "Stock.jpeg" },
+        { "Crypto market", "Crypto.jpeg" },
+        { "Forex market", "Forex.jpeg" },
+        { "Stock market", "Stock.jpeg" },
     };
 
     public static DefaultBlobInfo GetImageInfo(string keyword)

@@ -22,11 +22,11 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetContextTypes(CancellationToken token)
     {
         var instances = ContextType
-            .GetPossibleOptions()
+            .GetAll()
             .Select(item => new KeyValueElementDto
             {
-                Key = item,
-                Value = item.ToString()
+                Key = item.Value,
+                Value = item.DisplayValue
             }).ToList();
             
         return Task.FromResult(instances);
@@ -35,11 +35,11 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetSearchEngines(CancellationToken token)
     {
         var instances = SearchEngine
-            .GetPossibleOptions()
+            .GetAll()
             .Select(item => new KeyValueElementDto
             {
-                Key = item,
-                Value = item.ToString()
+                Key = item.Value,
+                Value = item.DisplayValue
             }).ToList();
             
         return Task.FromResult(instances);
@@ -48,11 +48,11 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetActiveFilterOptions(CancellationToken token)
     {
         var instances = ActiveFilter
-            .GetPossibleOptions()
+            .GetAll()
             .Select(item => new KeyValueElementDto
             {
-                Key = item,
-                Value = item.ToString()
+                Key = item.Value,
+                Value = item.DisplayValue
             }).ToList();
             
         return Task.FromResult(instances);
@@ -61,11 +61,11 @@ public class DictionaryService : IDictionaryService
     public Task<List<KeyValueElementDto>> GetSortFilterOptions(CancellationToken token)
     {
         var instances = SortType
-            .GetPossibleOptions()
+            .GetAll()
             .Select(item => new KeyValueElementDto
             {
-                Key = item,
-                Value = item.ToString()
+                Key = item.Value,
+                Value = item.DisplayValue
             }).ToList();
             
         return Task.FromResult(instances);

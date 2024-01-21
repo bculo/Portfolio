@@ -14,9 +14,9 @@ public static class StorageSeedUtils
     {
         List<DefaultBlobInfo> defaultBlobs = new()
         {
-            ResourceBlobMap.GetImageInfo(ContextType.Crypto.ShortName),
-            ResourceBlobMap.GetImageInfo(ContextType.Stock.ShortName),
-            ResourceBlobMap.GetImageInfo(ContextType.Forex.ShortName),
+            ResourceBlobMap.GetImageInfo(ContextType.Crypto.DisplayValue),
+            ResourceBlobMap.GetImageInfo(ContextType.Stock.DisplayValue),
+            ResourceBlobMap.GetImageInfo(ContextType.Forex.DisplayValue),
         };
 
         foreach (var defaultBlob in defaultBlobs)

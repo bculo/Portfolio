@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
@@ -31,7 +32,7 @@ namespace Trend.Application.Repositories
             Collection = _mongoDatabase.GetCollection<T>(TrendMongoUtils.GetCollectionName(typeof(T).Name));
         }
 
-        protected IQueryable<T> GetQueryable()
+        protected IMongoQueryable<T> GetQueryable()
         {
             return Collection.AsQueryable();
         }

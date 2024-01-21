@@ -54,7 +54,7 @@ namespace Trend.Application.Repositories
             CancellationToken token = default)
         {
             return await BuildAggregateBasedOnContext()
-                .Match(x => x.IsActive == true && x.ContextType == type.Id)
+                .Match(x => x.IsActive == true && x.ContextType == type.Value)
                 .ToListAsync(token);
         }
 
@@ -62,7 +62,7 @@ namespace Trend.Application.Repositories
             [EnumeratorCancellation] CancellationToken token = default)
         {
             using var cursor = await BuildAggregateBasedOnContext()
-                .Match(x => x.IsActive == true && x.ContextType == type.Id)
+                .Match(x => x.IsActive == true && x.ContextType == type.Value)
                 .ToCursorAsync(token);
             
             while (await cursor.MoveNextAsync(token))
@@ -78,17 +78,17 @@ namespace Trend.Application.Repositories
         {
             var searchBuilder = Builders<ArticleDetailResQuery>.Filter;
             var searchFilter = FilterDefinition<ArticleDetailResQuery>.Empty;
-            if (search.Activity.IsRelevantForFilter())
+            if (search.Activity != ActiveFilter.All)
             {
-                searchFilter &= searchBuilder.Eq(i => i.IsActive, search.Activity.Value);
+                var value = search.Activity == ActiveFilter.Active;
+                searchFilter &= searchBuilder.Eq(i => i.IsActive, value);
             }
             
-            if (search.Context.IsRelevantForFilter())
+            if (search.Context != ContextType.All)
             {
-                searchFilter &= searchBuilder.Eq(i => i.ContextType.Id, search.Context.Id);
+                searchFilter &= searchBuilder.Eq(i => i.ContextType.Value, search.Context.Value);
             }
-
-
+            
             var query = BuildAggregateBasedOnContext().Match(searchFilter);
 
             var count = query.Count().FirstOrDefault()?.Count ?? 0;

@@ -26,13 +26,14 @@ namespace Trend.Application.Repositories
                             .FirstOrDefaultAsync(token);
         }
 
-        public async Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId, CancellationToken token = default)
+        public Task<List<SyncStatusWord>> GetSyncStatusWords(string syncStatusId, CancellationToken token = default)
         {
-            var result = await GetQueryable().Where(i => i.Id == syncStatusId)
+            var result = Collection.AsQueryable()
+                .Where(i => i.Id == syncStatusId)
                 .SelectMany(i => i.UsedSyncWords)
-                .ToListAsync(token);
-
-            return result;
+                .ToList();
+            
+            return Task.FromResult(result);
         }
     }
 }

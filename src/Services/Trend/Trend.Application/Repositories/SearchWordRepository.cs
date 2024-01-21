@@ -9,11 +9,6 @@ using Trend.Application.Repositories.Lookups;
 using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
-using IAggregateFluentExtensions = MongoDB.Driver.IAggregateFluentExtensions;
-using IClientSessionHandle = MongoDB.Driver.IClientSessionHandle;
-using IMongoClient = MongoDB.Driver.IMongoClient;
-using IMongoCollectionExtensions = MongoDB.Driver.IMongoCollectionExtensions;
-using IMongoDatabase = MongoDB.Driver.IMongoDatabase;
 
 namespace Trend.Application.Repositories
 {
@@ -32,7 +27,10 @@ namespace Trend.Application.Repositories
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             
-            var groupItem  = await IAggregateFluentExtensions.Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(IAggregateFluentExtensions.Match(IAggregateFluentExtensions.Unwind<SyncStatus, SyncStatusUnwind>(IMongoCollectionExtensions.Aggregate(syncStatusCollection, ClientSession), x => x.UsedSyncWords), x => x.UsedSyncWords.WordId == searchWordId), Collection,
+            var groupItem  = await syncStatusCollection.Aggregate(ClientSession)
+                .Unwind<SyncStatus, SyncStatusUnwind>(x => x.UsedSyncWords)
+                .Match(x => x.UsedSyncWords.WordId == searchWordId)
+                .Lookup<SyncStatusUnwind, SearchWord, SearchWordSyncStatusLookup>(Collection,
                     x => x.UsedSyncWords.WordId,
                     y => y.Id,
                     z => z.SearchWords)
@@ -56,32 +54,34 @@ namespace Trend.Application.Repositories
             };
         }
 
-        public Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token = default)
+        public async Task<bool> IsDuplicate(string searchWord, SearchEngine engine, CancellationToken token = default)
         {
-            var instance = Collection
-                .Find(i => string.Equals(i.Word, searchWord, StringComparison.CurrentCultureIgnoreCase) && i.Engine == engine)
-                .FirstOrDefault();
-            
-            return Task.FromResult(instance != null);
+            var instance = await Collection
+                .Find(i => string.Equals(i.Word, searchWord, StringComparison.CurrentCultureIgnoreCase) 
+                           && i.Engine == engine)
+                .FirstOrDefaultAsync(token);
+
+            return instance != null;
         }
 
         public async Task<PageResQuery<SearchWord>> Filter(SearchWordFilterReqQuery req, CancellationToken token = default)
         {
             var searchBuilder = Builders<SearchWord>.Filter;
             var searchFilter = FilterDefinition<SearchWord>.Empty;
-            if (req.SearchEngine.IsRelevantForFilter())
+            if (req.SearchEngine != SearchEngine.All)
             {
-                searchFilter &= searchBuilder.Eq(i => i.Engine.Id, req.SearchEngine.Id);
+                searchFilter &= searchBuilder.Eq(i => i.Engine, req.SearchEngine);
             }
             
-            if (req.Active.IsRelevantForFilter())
+            if (req.Active != ActiveFilter.All)
             {
-                searchFilter &= searchBuilder.Eq(i => i.IsActive, req.Active.Value);
+                var value = req.Active == ActiveFilter.Active;
+                searchFilter &= searchBuilder.Eq(i => i.IsActive,value);
             }
             
-            if (req.ContextType.IsRelevantForFilter())
+            if (req.ContextType != ContextType.All)
             {
-                searchFilter &= searchBuilder.Eq(i => i.Type.Id, req.ContextType.Id);
+                searchFilter &= searchBuilder.Eq(i => i.Type, req.ContextType);
             }
 
             if (!string.IsNullOrWhiteSpace(req.Query))
@@ -89,7 +89,7 @@ namespace Trend.Application.Repositories
                 searchFilter &= searchBuilder.Regex(i => i.Word, new BsonRegularExpression(req.Query));
             }
             
-            var sortBuilder = MongoDB.Driver.Builders<SearchWord>.Sort;
+            var sortBuilder = Builders<SearchWord>.Sort;
             var sortFilter = req.Sort == SortType.Asc
                 ? sortBuilder.Ascending(x => x.Created)
                 : sortBuilder.Descending(x => x.Created);

@@ -59,7 +59,7 @@ namespace Trend.Application.Services
         {
             return Path.Combine(_blobStorage.GetBaseUri.ToString(),
                 _storageOptions.TrendContainerName,
-                type.ShortName);
+                "Crypto");
         }
 
         public async Task<Either<CoreError, SearchWordResDto>> CreateNew(

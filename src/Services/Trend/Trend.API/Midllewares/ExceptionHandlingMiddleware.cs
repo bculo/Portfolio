@@ -25,12 +25,6 @@ public class ExceptionHandlingMiddleware
         catch (Exception exception)
         {
             _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
-
-            if (exception is TrendAppCoreException trendException)
-            {
-                await HandleCustomException(context, trendException);
-                return;
-            }
             
             var problemDetails = new ProblemDetails
             {
@@ -38,33 +32,9 @@ public class ExceptionHandlingMiddleware
                 Title = "Server Error",
                 Detail = "An server error occurred"
             };
+            
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(problemDetails);
         }
-    }
-
-    private async Task HandleCustomException(HttpContext context, TrendAppCoreException trendException)
-    {
-        if (trendException is TrendNotFoundException)
-        {
-            context.Response.StatusCode = StatusCodes.Status404NotFound;
-            await context.Response.WriteAsJsonAsync(new ProblemDetails
-            {
-                Status = StatusCodes.Status500InternalServerError,
-                Title = "Not found",
-                Detail = trendException.Message,
-                Type = trendException.GetType().Name
-            });
-            return;
-        }
-        
-        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-        await context.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Title = "Bad request",
-            Detail = trendException.Message,
-            Type = trendException.GetType().Name
-        });
     }
 }

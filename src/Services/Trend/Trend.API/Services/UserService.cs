@@ -16,12 +16,14 @@ namespace Trend.API.Services
             {
                 var userId = _user.GetIdentifier();
 
-                if(userId == Guid.Empty)
+                if(userId != Guid.Empty)
                 {
-                    throw new TrendAppAuthenticationException("Problem with authentication. User identifier is null");
+                    return userId;
                 }
 
-                return userId;
+                var msg =
+                    "Problem with authentication. User identifier is null. Check if [Aurhorize] attribute is provided";
+                throw new TrendAppCoreException(msg);
             }
         }
     }

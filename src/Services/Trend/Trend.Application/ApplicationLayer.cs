@@ -1,32 +1,33 @@
 ﻿using System.Diagnostics;
-using FluentValidation;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MongoDB.Driver;
 using Azure.Storage.Blobs;
 using Cache.Redis.Common;
+using FluentValidation;
 using Hangfire;
 using Hangfire.Mongo;
 using Hangfire.Mongo.Migration.Strategies;
 using Hangfire.Mongo.Migration.Strategies.Backup;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using Serilog;
+using Serilog.Debugging;
 using StackExchange.Redis;
 using Time.Abstract.Contracts;
 using Time.Common;
 using Trend.Application.Configurations.Constants;
-using Trend.Application.Configurations.Initialization;
 using Trend.Application.Configurations.Options;
 using Trend.Application.Interfaces;
 using Trend.Application.Repositories;
+using Trend.Application.Repositories.Initialization;
 using Trend.Application.Services;
 using Trend.Application.Utils;
 using ZiggyCreatures.Caching.Fusion;
@@ -115,7 +116,7 @@ namespace Trend.Application
                 cl.Enrich.WithProperty("Application", ctx.HostingEnvironment.ApplicationName);
             });
 
-            Serilog.Debugging.SelfLog.Enable(msg => {
+            SelfLog.Enable(msg => {
                 Debug.WriteLine(msg);
             });
         }
