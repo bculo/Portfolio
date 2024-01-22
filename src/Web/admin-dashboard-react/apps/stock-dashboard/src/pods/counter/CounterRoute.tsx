@@ -1,10 +1,7 @@
 import { useAppSelector } from '../../stores/hooks';
 import { Coutner } from './components/Counter';
 
-/* eslint-disable-next-line */
-export interface CounterRouteProps {}
-
-export function CounterRoute(props: CounterRouteProps) {
+export const CounterRoute = () => {
   const count = useAppSelector((state) => state.counter.value);
 
   return (
@@ -15,6 +12,4 @@ export function CounterRoute(props: CounterRouteProps) {
       <Coutner />
     </div>
   );
-}
-
-export default CounterRoute;
+};

@@ -1,11 +1,21 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import CounterRoute from '../pods/counter/CounterRoute';
-import { StockOverviewRoute } from '../pods/stock/StockOverviewRoute';
+import { NavLink } from 'react-router-dom';
+import { AppNavigation } from './app-navigation';
+import { Outlet } from 'react-router-dom';
 
 export function App() {
   return (
-    <div className="min-h-10 bg-red-100">
-      <StockOverviewRoute />
+    <div>
+      <ul>
+        {AppNavigation.map((item) => (
+          <li key={item.name}>
+            <NavLink to={item.path}>{item.text}</NavLink>
+          </li>
+        ))}
+      </ul>
+      <main>
+        {' '}
+        <Outlet />
+      </main>
     </div>
   );
 }

@@ -67,6 +67,8 @@ export type FilterListQuery = {
 export const {
   useAddNewMutation,
   useGetSingleQuery,
+  useLazyGetSingleQuery,
   useGetAllQuery,
+  useLazyGetAllQuery,
   useFilterListMutation,
 } = injectedRtkApi;

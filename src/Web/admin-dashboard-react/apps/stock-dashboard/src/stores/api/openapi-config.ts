@@ -6,7 +6,11 @@ const config: ConfigFile = {
   apiImport: 'stockApi',
   outputFile: './generated.ts',
   exportName: 'generated',
-  hooks: true,
+  hooks: {
+    lazyQueries: true,
+    mutations: true,
+    queries: true
+  }
 }
 
 export default config
