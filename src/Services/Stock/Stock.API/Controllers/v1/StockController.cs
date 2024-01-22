@@ -16,26 +16,30 @@ namespace Stock.API.Controllers.v1
         {
             _mediator = mediator;
         }
-
-        [HttpPost("AddNew")]
+        
+        [HttpPost(nameof(AddNew), Name = nameof(AddNew))]
+        [ProducesResponseType(typeof(long), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddNew([FromBody] AddNewStockCommand addNewStockCommand)
         {
             return Ok(await _mediator.Send(addNewStockCommand));
         }
 
-        [HttpGet("Single/{symbol}")]
+        [HttpGet("Single/{symbol}", Name = nameof(GetSingle))]
+        [ProducesResponseType(typeof(GetSingleResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSingle([FromRoute] string symbol)
         {
             return Ok(await _mediator.Send(new GetSingleQuery(symbol)));
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("GetAll", Name = nameof(GetAll))]
+        [ProducesResponseType(typeof(IEnumerable<GetAllResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _mediator.Send(new GetAllQuery()));
         }
 
-        [HttpPost("FilterList")]
+        [HttpPost("FilterList", Name = nameof(FilterList))]
+        [ProducesResponseType(typeof(IEnumerable<FilterListResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> FilterList([FromBody] FilterListQuery filterListQuery)
         {
             return Ok(await _mediator.Send(filterListQuery));

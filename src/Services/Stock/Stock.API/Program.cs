@@ -42,7 +42,7 @@ if (app.Environment.IsDevelopment())
     });
 
     app.UseHangfireDashboard();
-    app.UseCors();
+    app.UseCors("CorsPolicy");
 }
 
 app.UseSerilogRequestLogging();

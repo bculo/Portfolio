@@ -22,7 +22,14 @@ namespace Stock.API.Configurations
     {
         public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policyBuilder => policyBuilder
+                    .WithOrigins("http://127.0.0.1:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
             services.AddControllers(opt =>
             {
                 opt.Filters.Add<GlobalExceptionFilter>();

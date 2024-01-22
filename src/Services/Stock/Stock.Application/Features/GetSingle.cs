@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace Stock.Application.Features;
 
-public record GetSingleQuery(string Symbol) : IRequest<Response>;
+public record GetSingleQuery(string Symbol) : IRequest<GetSingleResponse>;
 
 public class GetSingleValidator : AbstractValidator<GetSingleQuery>
 {
@@ -27,7 +27,7 @@ public class GetSingleValidator : AbstractValidator<GetSingleQuery>
     }
 }
 
-public class GetSingleHandler : IRequestHandler<GetSingleQuery, Response>
+public class GetSingleHandler : IRequestHandler<GetSingleQuery, GetSingleResponse>
 {
     private readonly ICacheService _cache;
     private readonly IStockRepository _stockRepository;
@@ -45,7 +45,7 @@ public class GetSingleHandler : IRequestHandler<GetSingleQuery, Response>
         _stockRepository = stockRepository;
     }
 
-    public async Task<Response> Handle(GetSingleQuery request, CancellationToken cancellationToken)
+    public async Task<GetSingleResponse> Handle(GetSingleQuery request, CancellationToken cancellationToken)
     {
         var item = await _stockRepository.First(x => x.Symbol == request.Symbol);
         if(item is not null)
@@ -58,9 +58,9 @@ public class GetSingleHandler : IRequestHandler<GetSingleQuery, Response>
         throw new StockCoreNotFoundException(excMessage);
     }
 
-    private Response ToResponse(long id, string symbol, decimal price)
+    private GetSingleResponse ToResponse(long id, string symbol, decimal price)
     {
-        return new Response
+        return new GetSingleResponse
         {
             Id = id,
             Symbol = symbol,
@@ -69,7 +69,7 @@ public class GetSingleHandler : IRequestHandler<GetSingleQuery, Response>
     }
 }
 
-public class Response
+public class GetSingleResponse
 {
     public long Id { get; set; }
     public string Symbol { get; set; }
