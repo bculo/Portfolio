@@ -2,47 +2,40 @@
 using Stock.Application.Interfaces;
 using Stock.Core.Queries;
 
-namespace Stock.Application.Features
+namespace Stock.Application.Features;
+
+public record GetAllQuery : IRequest<IEnumerable<GetAllResponse>> { }
+
+public class GetAllHandler : IRequestHandler<GetAllQuery, IEnumerable<GetAllResponse>>
 {
-    /// <summary>
-    /// Fetch all crypto items with last price tag
-    /// </summary>
-    public static class GetAll
+    private readonly IStockRepository _repo;
+
+    public GetAllHandler(IStockRepository repo)
     {
-        public record Query : IRequest<IEnumerable<Response>> { }
-
-        public class Handler : IRequestHandler<Query, IEnumerable<Response>>
-        {
-            private readonly IStockRepository _repo;
-
-            public Handler(IStockRepository repo)
-            {
-                _repo = repo;
-            }
-
-            public async Task<IEnumerable<Response>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var items = await _repo.GetAllWithPrice();
-
-                return MapToResponse(items);
-            }
-
-            private IEnumerable<Response> MapToResponse(List<StockPriceTagQuery> items)
-            {
-                return items.Select(i => new Response
-                {
-                    Id = i.Id,
-                    Symbol = i.Symbol,
-                    Price = i.Price
-                });
-            }
-        }
-
-        public class Response
-        {
-            public int Id { get; set; }
-            public string Symbol { get; set; }
-            public decimal Price { get; set; }
-        }
+        _repo = repo;
     }
+
+    public async Task<IEnumerable<GetAllResponse>> Handle(GetAllQuery request, CancellationToken cancellationToken)
+    {
+        var items = await _repo.GetAllWithPrice();
+
+        return MapToResponse(items);
+    }
+
+    private IEnumerable<GetAllResponse> MapToResponse(List<StockPriceTagQuery> items)
+    {
+        return items.Select(i => new GetAllResponse
+        {
+            Id = i.Id,
+            Symbol = i.Symbol,
+            Price = i.Price
+        });
+    }
+}
+
+public class GetAllResponse
+{
+    public int Id { get; set; }
+    public string Symbol { get; set; }
+    public decimal Price { get; set; }
 }

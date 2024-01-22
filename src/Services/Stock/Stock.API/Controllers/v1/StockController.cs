@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stock.Application.Features;
-using System.Collections.Immutable;
 
 namespace Stock.API.Controllers.v1
 {
-    [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -20,27 +18,27 @@ namespace Stock.API.Controllers.v1
         }
 
         [HttpPost("AddNew")]
-        public async Task<IActionResult> AddNew([FromBody] AddNew.Command command)
+        public async Task<IActionResult> AddNew([FromBody] AddNewStockCommand addNewStockCommand)
         {
-            return Ok(await _mediator.Send(command));
+            return Ok(await _mediator.Send(addNewStockCommand));
         }
 
         [HttpGet("Single/{symbol}")]
         public async Task<IActionResult> GetSingle([FromRoute] string symbol)
         {
-            return Ok(await _mediator.Send(new GetSingle.Query(symbol)));
+            return Ok(await _mediator.Send(new GetSingleQuery(symbol)));
         }
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _mediator.Send(new GetAll.Query { }));
+            return Ok(await _mediator.Send(new GetAllQuery()));
         }
 
         [HttpPost("FilterList")]
-        public async Task<IActionResult> FilterList([FromBody] FilterList.Query query)
+        public async Task<IActionResult> FilterList([FromBody] FilterListQuery filterListQuery)
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(filterListQuery));
         }
     }
 }

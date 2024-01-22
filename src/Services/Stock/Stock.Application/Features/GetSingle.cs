@@ -10,74 +10,72 @@ using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
 using System.Text.RegularExpressions;
 
-namespace Stock.Application.Features
+namespace Stock.Application.Features;
+
+public record GetSingleQuery(string Symbol) : IRequest<Response>;
+
+public class GetSingleValidator : AbstractValidator<GetSingleQuery>
 {
-    /// <summary>
-    /// Fetch single stock item for given symbol with a price tag
-    /// </summary>
-    public static class GetSingle
+    public GetSingleValidator(IStringLocalizer<ValidationShared> localizer)
     {
-        public record Query(string Symbol) : IRequest<Response>;
+        RuleFor(i => i.Symbol)
+            .Matches(new Regex("^[a-zA-Z]{1,10}$",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled,
+                TimeSpan.FromSeconds(1)))
+            .WithMessage(localizer.GetString("Symbol pattern not valid"))
+            .NotEmpty();
+    }
+}
 
-        public class Validator : AbstractValidator<Query>
-        {
-            public Validator(IStringLocalizer<ValidationShared> localizer)
-            {
-                RuleFor(i => i.Symbol)
-                    .Matches(new Regex("^[a-zA-Z]{1,10}$",
-                        RegexOptions.IgnoreCase | RegexOptions.Compiled,
-                        TimeSpan.FromSeconds(1)))
-                    .WithMessage(localizer.GetString("Symbol pattern not valid"))
-                    .NotEmpty();
-            }
-        }
+public class GetSingleHandler : IRequestHandler<GetSingleQuery, Response>
+{
+    private readonly ICacheService _cache;
+    private readonly IStockRepository _stockRepository;
+    private readonly ILogger<GetSingleHandler> _logger;
+    private readonly IStringLocalizer<GetSingleLocale> _localizer;
 
-        public class Handler : IRequestHandler<Query, Response>
-        {
-            private readonly ICacheService _cache;
-            private readonly ILogger<Handler> _logger;
-            private readonly IStringLocalizer<GetSingleLocale> _localizer;
-
-            public Handler(ICacheService cache,
-                IStringLocalizer<GetSingleLocale> localizer,
-                ILogger<Handler> logger)
-            {
-                _localizer = localizer;
-                _cache = cache;
-                _logger = logger;
-            }
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var cacheItem = await _cache.Get<StockCacheItem>(StringUtilities.AddStockPrefix(request.Symbol));
-                if(cacheItem is not null)
-                {
-                    _logger.LogTrace("Requested symbol {item} fetched from cache", request.Symbol);
-                    return ToResponse(cacheItem.Id, cacheItem.Symbol, cacheItem.Price);
-                }
-
-                string excMessage = string.Format(_localizer.GetString("Symbol not found"), request.Symbol);
-                throw new StockCoreNotFoundException(excMessage);
-            }
-
-            private Response ToResponse(long id, string symbol, decimal price)
-            {
-                return new Response
-                {
-                    Id = id,
-                    Symbol = symbol,
-                    Price = price
-                };
-            }
-        }
-
-        public class Response
-        {
-            public long Id { get; set; }
-            public string Symbol { get; set; }
-            public decimal Price { get; set; }
-        }
+    public GetSingleHandler(ICacheService cache,
+        IStringLocalizer<GetSingleLocale> localizer,
+        ILogger<GetSingleHandler> logger, 
+        IStockRepository stockRepository)
+    {
+        _localizer = localizer;
+        _cache = cache;
+        _logger = logger;
+        _stockRepository = stockRepository;
     }
 
-    public class GetSingleLocale { }
+    public async Task<Response> Handle(GetSingleQuery request, CancellationToken cancellationToken)
+    {
+        var item = await _stockRepository.First(x => x.Symbol == request.Symbol);
+        if(item is not null)
+        {
+            _logger.LogTrace("Requested symbol {item} fetched from cache", request.Symbol);
+            return ToResponse(item.Id, item.Symbol, 0);
+        }
+
+        string excMessage = string.Format(_localizer.GetString("Symbol not found"), request.Symbol);
+        throw new StockCoreNotFoundException(excMessage);
+    }
+
+    private Response ToResponse(long id, string symbol, decimal price)
+    {
+        return new Response
+        {
+            Id = id,
+            Symbol = symbol,
+            Price = price
+        };
+    }
 }
+
+public class Response
+{
+    public long Id { get; set; }
+    public string Symbol { get; set; }
+    public decimal Price { get; set; }
+}
+
+
+public class GetSingleLocale { }
+

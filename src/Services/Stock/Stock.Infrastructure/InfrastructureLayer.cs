@@ -33,7 +33,9 @@ namespace Stock.Infrastructure
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IStockRepository, StockRepository>();
 
-            //RedisCacheConfiguration.AddRedisCacheService(services, configuration);
+            var instanceName = configuration["RedisOptions:InstanceName"];
+            var connection = configuration["RedisOptions:ConnectionString"];
+            services.AddRedisCacheService(connection!, instanceName!);
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)

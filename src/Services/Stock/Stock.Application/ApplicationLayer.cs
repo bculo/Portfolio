@@ -18,6 +18,8 @@ namespace Stock.Application
             });
 
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+            
+            
         }
    }
 }
