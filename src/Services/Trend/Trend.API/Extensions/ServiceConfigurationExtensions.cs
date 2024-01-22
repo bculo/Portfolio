@@ -105,7 +105,7 @@ namespace Trend.API.Extensions
             services.AddScoped<ICurrentUser, UserService>();
 
             services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+            services.UseKeycloakClientCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
             var authOptions = new AuthOptions();
             configuration.GetSection("AuthOptions").Bind(authOptions);

@@ -33,7 +33,7 @@ namespace Keycloak.Common
             services.AddScoped<IAuth0AccessTokenReader, KeycloakUserInfo>();
         }
         
-        public static void UseKeycloakCredentialFlowService(this IServiceCollection services, 
+        public static void UseKeycloakClientCredentialFlowService(this IServiceCollection services, 
             string authorizationServer)
         {
             ArgumentNullException.ThrowIfNull(authorizationServer);
@@ -43,7 +43,7 @@ namespace Keycloak.Common
                 opt.AuthorizationServerUrl = authorizationServer;
             });
 
-            services.AddScoped<IAuth0ClientCredentialFlowService, KeycloakCredentialFlowClient>();
+            services.AddScoped<IAuth0ClientCredentialFlowService, KeycloakClientCredentialFlowClient>();
         }
 
         public static void UseKeycloakOwnerPasswordCredentialFlowService(this IServiceCollection services,
@@ -61,16 +61,16 @@ namespace Keycloak.Common
                 opt.AuthorizationServerUrl = authorizationUrl;
             });
 
-            services.AddScoped<IAuth0PasswordCredentialFlowService, KeycloakPasswordCredentialFlowClient>();
+            services.AddScoped<IAuth0PasswordCredentialFlowService, KeycloakResourceOwnerPasswordFlowClient>();
         }
 
-        public static void UseKeycloakAdminService(this IServiceCollection services, 
+        public static void UseKeycloakAdminService<TAuthHandler>(this IServiceCollection services, 
             string adminApiBase,
             string realm,
             string clientId,
             string clientSecrets, 
             string authorizationUrl, 
-            string tokenUrl)
+            string tokenUrl) where TAuthHandler : DelegatingHandler
         {
             ArgumentNullException.ThrowIfNull(adminApiBase);
             ArgumentNullException.ThrowIfNull(realm);
@@ -79,7 +79,7 @@ namespace Keycloak.Common
             ArgumentNullException.ThrowIfNull(authorizationUrl);
             ArgumentNullException.ThrowIfNull(tokenUrl);
             
-            services.UseKeycloakCredentialFlowService(tokenUrl);
+            services.UseKeycloakClientCredentialFlowService(tokenUrl);
             
             services.AddOptions<KeycloakAdminApiOptions>().Configure(opt =>
             {
@@ -91,10 +91,10 @@ namespace Keycloak.Common
                 opt.TokenBaseUri = tokenUrl;
             });
 
-            services.AddScoped<AdminAuthHeaderHandler>();
+            services.AddScoped<TAuthHandler>();
             services.AddRefitClient<IUsersApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(adminApiBase))
-                .AddHttpMessageHandler<AdminAuthHeaderHandler>()
+                .AddHttpMessageHandler<TAuthHandler>()
                 .AddPolicyHandler(
                     HttpPolicyExtensions
                         .HandleTransientHttpError()

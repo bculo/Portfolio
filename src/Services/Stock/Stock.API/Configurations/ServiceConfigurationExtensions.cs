@@ -70,7 +70,7 @@ namespace Stock.API.Configurations
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
         {
             services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+            services.UseKeycloakClientCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
             var authOptions = new AuthOptions();
             configuration.GetSection("AuthOptions").Bind(authOptions);

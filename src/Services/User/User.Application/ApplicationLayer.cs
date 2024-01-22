@@ -3,6 +3,7 @@ using System.Text.Json;
 using Azure.Storage.Blobs;
 using FluentValidation;
 using Keycloak.Common;
+using Keycloak.Common.Refit.Handlers;
 using MassTransit;
 using MassTransit.Serialization.JsonConverters;
 using Microsoft.EntityFrameworkCore;
@@ -60,7 +61,7 @@ namespace User.Application
             
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
             
-            services.UseKeycloakAdminService(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"],
+            services.UseKeycloakAdminService<AdminAuthHeaderHandler>(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"],
                 configuration["KeycloakAdminApiOptions:Realm"],
                 configuration["KeycloakAdminApiOptions:ClientId"],
                 configuration["KeycloakAdminApiOptions:ClientSecret"],

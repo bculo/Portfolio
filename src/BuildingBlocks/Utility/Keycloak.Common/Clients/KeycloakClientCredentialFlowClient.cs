@@ -9,15 +9,15 @@ using Microsoft.Extensions.Options;
 
 namespace Keycloak.Common.Clients
 {
-    internal class KeycloakCredentialFlowClient : IAuth0ClientCredentialFlowService
+    internal class KeycloakClientCredentialFlowClient : IAuth0ClientCredentialFlowService
     {
         private readonly IHttpClientFactory _factory;
         private readonly KeycloakTokenOptions _options;
-        private readonly ILogger<KeycloakCredentialFlowClient> _logger;
+        private readonly ILogger<KeycloakClientCredentialFlowClient> _logger;
 
-        public KeycloakCredentialFlowClient(IHttpClientFactory factory, 
+        public KeycloakClientCredentialFlowClient(IHttpClientFactory factory, 
             IOptions<KeycloakTokenOptions> options,
-            ILogger<KeycloakCredentialFlowClient> logger)
+            ILogger<KeycloakClientCredentialFlowClient> logger)
         {
             _factory = factory;
             _options = options.Value;

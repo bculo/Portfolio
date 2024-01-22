@@ -14,15 +14,15 @@ using System.Threading.Tasks;
 
 namespace Keycloak.Common.Clients
 {
-    internal class KeycloakPasswordCredentialFlowClient : IAuth0PasswordCredentialFlowService
+    internal class KeycloakResourceOwnerPasswordFlowClient : IAuth0PasswordCredentialFlowService
     {
         private readonly KeycloakTokenOptions _options;
-        private readonly ILogger<KeycloakPasswordCredentialFlowClient> _logger;
+        private readonly ILogger<KeycloakResourceOwnerPasswordFlowClient> _logger;
         private readonly IHttpClientFactory _factory;
 
-        public KeycloakPasswordCredentialFlowClient(IHttpClientFactory factory,
+        public KeycloakResourceOwnerPasswordFlowClient(IHttpClientFactory factory,
             IOptions<KeycloakTokenOptions> options,
-            ILogger<KeycloakPasswordCredentialFlowClient> logger)
+            ILogger<KeycloakResourceOwnerPasswordFlowClient> logger)
         {
             _options = options.Value;
             _logger = logger;
