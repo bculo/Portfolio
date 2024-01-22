@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Trend.API.Extensions;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models;
 
@@ -21,6 +22,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpGet("Sync")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

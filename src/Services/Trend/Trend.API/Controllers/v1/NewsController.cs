@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Extensions;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models;
 using Trend.Domain.Enums;
@@ -35,6 +36,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPut("Deactivate/{articleId}")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [SwaggerOperation(OperationId = "Deactivate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -47,6 +49,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPut("Activate/{articleId}")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [SwaggerOperation(OperationId = "Activate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Extensions;
+using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;
 using Trend.Application.Interfaces.Models;
 
@@ -59,6 +60,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPost("AddNew")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [SwaggerOperation(OperationId = "AddNew")]
         [ProducesResponseType(typeof(SearchWordResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -82,6 +84,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPut("AttachImage/{searchWordId}")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [SwaggerOperation(OperationId = "AttachImage")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -97,6 +100,7 @@ namespace Trend.API.Controllers.v1
         }
 
         [HttpPut("Deactivate/{id}")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [SwaggerOperation(OperationId = "Deactivate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -109,6 +113,7 @@ namespace Trend.API.Controllers.v1
         }
         
         [HttpPut("Activate/{id}")]
+        [Authorize(Roles = AppRoles.ADMIN)]
         [SwaggerOperation(OperationId = "Activate")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
