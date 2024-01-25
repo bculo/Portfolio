@@ -93,8 +93,8 @@ namespace Trend.Application.Repositories
             var sortFilter = req.Sort == SortType.Asc
                 ? sortBuilder.Ascending(x => x.Created)
                 : sortBuilder.Descending(x => x.Created);
-            
-            var countTask = Collection.Find(ClientSession, searchFilter).CountDocumentsAsync(token);
+
+            var countTask = Collection.CountDocumentsAsync(ClientSession, searchFilter, new CountOptions(), token);
             var collectionTask =  Collection.Find(ClientSession, searchFilter)
                 .Sort(sortFilter)
                 .Skip(req.Skip)
