@@ -21,22 +21,20 @@ namespace Trend.API.Controllers.v1
             _syncService = syncService;
         }
 
-        [HttpGet("Sync")]
+        [HttpGet("Sync", Name = "Sync")]
         [Authorize(Roles = AppRoles.ADMIN)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Sync(CancellationToken token)
         {
             var result = await _syncService.ExecuteSync(token);
             return result.ToActionResult();
         }
 
-        [HttpGet("GetSync/{id}")]
+        [HttpGet("GetSync/{id}", Name = "GetSync")]
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(SyncStatusResDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSync(string id, CancellationToken token)
         {
             var request = new GetSyncStatusReqDto(id);
@@ -44,24 +42,21 @@ namespace Trend.API.Controllers.v1
             return result.ToActionResult();
         }
 
-        [HttpGet("GetSyncStatuses")]
+        [HttpGet("GetSyncStatuses", Name = "GetSyncStatuses")]
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncStatusResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSyncStatuses(CancellationToken token)
         {
             return Ok(await _syncService.GetAll(token));
         }
         
-        [HttpGet("GetSyncStatusWords/{id}")]
+        [HttpGet("GetSyncStatusWords/{id}", Name = "SyncPolicy")]
         [OutputCache(PolicyName = "SyncPolicy")]
         [ProducesResponseType(typeof(List<SyncSearchWordResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetSyncStatusWords(string id, CancellationToken token)
+        public async Task<IActionResult> GetSyncStatusWords(SyncSearchWordsReqDto request, CancellationToken token)
         {
-            var request = new SyncSearchWordsReqDto(id);
             var result = await _syncService.GetSyncSearchWords(request, token);
             return result.ToActionResult();
         }

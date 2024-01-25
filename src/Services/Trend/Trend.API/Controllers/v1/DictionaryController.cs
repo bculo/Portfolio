@@ -20,8 +20,7 @@ public class DictionaryController : ControllerBase
         _service = service;
     }
 
-    [HttpGet("GetDefaultAllValue")]
-    [SwaggerOperation(OperationId = "GetDefaultAllValue")]
+    [HttpGet("GetDefaultAllValue", Name = "GetDefaultAllValue")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -30,8 +29,7 @@ public class DictionaryController : ControllerBase
         return Ok(await _service.GetDefaultAllValue(token));
     }
     
-    [HttpGet("GetSearchEngines")]
-    [SwaggerOperation(OperationId = "GetSearchEngines")]
+    [HttpGet("GetSearchEngines", Name = "GetSearchEngines")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -40,8 +38,7 @@ public class DictionaryController : ControllerBase
         return Ok(await _service.GetSearchEngines(token));
     }
 
-    [HttpGet("GetContextTypes")]
-    [SwaggerOperation(OperationId = "GetContextTypes")]
+    [HttpGet("GetContextTypes", Name = "GetContextTypes")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -50,8 +47,7 @@ public class DictionaryController : ControllerBase
         return Ok(await _service.GetContextTypes(token));
     }
     
-    [HttpGet("GetActiveFilterOptions")]
-    [SwaggerOperation(OperationId = "GetActiveFilterOptions")]
+    [HttpGet("GetActiveFilterOptions", Name = "GetActiveFilterOptions")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -60,8 +56,7 @@ public class DictionaryController : ControllerBase
         return Ok(await _service.GetActiveFilterOptions(token));
     }
     
-    [HttpGet("GetSortFilterOptions")]
-    [SwaggerOperation(OperationId = "GetSortFilterOptions")]
+    [HttpGet("GetSortFilterOptions", Name = "GetSortFilterOptions")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(List<KeyValueElementDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
