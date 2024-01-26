@@ -1,46 +1,48 @@
-import { NavLink } from 'react-router-dom';
-import { AppNavigation } from './app-navigation';
-import { Outlet } from 'react-router-dom';
-import { useAuth } from 'react-oidc-context';
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { hasAuthParams, useAuth } from 'react-oidc-context';
+import { useDispatch } from 'react-redux';
+import authSlice, { setToken } from '../stores/auth/auth-slice';
 
 export function App() {
+  const dispatch = useDispatch();
   const auth = useAuth();
-  const [loginAttempted, setLoginAttempted] = useState(false);
+  const [hasTriedSignin, setHasTriedSignin] = React.useState(false);
 
-  useEffect(() => {
+  // automatically sign-in
+  React.useEffect(() => {
     if (
-      !loginAttempted &&
+      !hasAuthParams() &&
       !auth.isAuthenticated &&
       !auth.activeNavigator &&
-      !auth.isLoading
+      !auth.isLoading &&
+      !hasTriedSignin
     ) {
-      setLoginAttempted(true);
       auth.signinSilent();
+      setHasTriedSignin(true);
     }
-  }, [auth, loginAttempted]);
+  }, [auth, hasTriedSignin]);
 
   useEffect(() => {
-    if (auth.user) {
-      console.log(auth.user);
+    console.log(auth);
+    if (auth.isAuthenticated) {
+      dispatch(setToken(auth.user!.access_token));
     }
-  }, [auth.user]);
+  }, [auth, dispatch]);
 
-  return (
-    <div>
-      <ul>
-        {AppNavigation.map((item) => (
-          <li key={item.name}>
-            <NavLink to={item.path}>{item.text}</NavLink>
-          </li>
-        ))}
-      </ul>
-      <main>
+  if (auth.isLoading) {
+    return <div>LOADING.......</div>;
+  }
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div>
         {' '}
-        <Outlet />
-      </main>
-    </div>
-  );
+        <button onClick={() => auth.signinRedirect()}>Log in</button>
+      </div>
+    );
+  }
+
+  return <button onClick={() => auth.signoutPopup()}>Log out</button>;
 }
 
 export default App;

@@ -2,52 +2,30 @@ import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import * as ReactDOM from 'react-dom/client';
 import { store } from './stores/store';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-
-import App from './app/app';
-import { ErrorRoute } from './pods/static/ErrorRoute';
-import { HomeRoute } from './pods/static/HomeRoute';
-import { CounterRoute } from './pods/counter/CounterRoute';
-import { StockOverviewRoute } from './pods/stock/StockOverviewRoute';
 import { AuthProvider } from 'react-oidc-context';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <HomeRoute />,
-      },
-      {
-        path: '/counter',
-        element: <CounterRoute />,
-      },
-      {
-        path: '/stock',
-        element: <StockOverviewRoute />,
-      },
-    ],
-    errorElement: <ErrorRoute />,
-  },
-]);
+import App from './app/app';
+import { User, WebStorageStateStore } from 'oidc-client-ts';
 
 const oidcConfig = {
   authority: 'http://localhost:8080/realms/PortfolioRealm/',
   client_id: 'Stock.Client',
-  redirect_uri: 'http://localhost:4200',
+  redirect_uri: 'http://localhost:4200/callback',
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
+};
+
+const onSigninCallback = (user: User | void) => {
+  console.log(user);
+  window.history.replaceState({}, document.title, window.location.pathname);
 };
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
 root.render(
   <StrictMode>
-    <AuthProvider {...oidcConfig}>
+    <AuthProvider {...oidcConfig} onSigninCallback={onSigninCallback}>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <App />
       </Provider>
     </AuthProvider>
   </StrictMode>

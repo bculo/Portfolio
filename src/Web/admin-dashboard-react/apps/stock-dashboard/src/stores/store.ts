@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from './counter/counter-slice'
+import authReducer from './auth/auth-slice'
 import { stockApi } from './api/stock-api-slice';
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
+        auth: authReducer,
         [stockApi.reducerPath]: stockApi.reducer
     },
     middleware: (geDefaultMiddleware) => {
