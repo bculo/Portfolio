@@ -3,7 +3,9 @@ using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Azure.Storage.Blobs;
 using FluentValidation;
+using HealthChecks.Redis;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Trend.API.Services;
@@ -30,6 +32,11 @@ namespace Trend.API.Extensions
             services.AddCors();
             services.AddControllers();
             services.AddProblemDetails();
+
+            services.AddHealthChecks()
+                .AddRedis(configuration["RedisOptions:ConnectionString"])
+                .AddMongoDb(configuration["MongoOptions:ConnectionString"])
+                .AddRabbitMQ(new Uri(configuration["QueueOptions:Address"]));
 
             ConfigureCache(services, configuration);
             AddMessageQueue(services, configuration);

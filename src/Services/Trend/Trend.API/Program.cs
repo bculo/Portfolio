@@ -1,4 +1,6 @@
 using Hangfire;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Trend.API.Extensions;
@@ -10,6 +12,8 @@ builder.ConfigureApiProject();
 await builder.SeedAll();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -33,12 +37,9 @@ if (app.Environment.IsDevelopment())
         .AllowAnyOrigin());
 }
 
-
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.MapControllers();
 
 app.UseRequestLocalization();
 
@@ -46,9 +47,14 @@ app.UseSerilogRequestLogging();
 
 app.UseHangfireDashboard();
 
+app.UseHealthChecks("/_health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
 app.UseOutputCache();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.MapControllers();
 
 app.Run();
 
