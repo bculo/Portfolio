@@ -47,10 +47,10 @@ app.UseSerilogRequestLogging();
 
 app.UseHangfireDashboard();
 
-app.UseHealthChecks("/_health", new HealthCheckOptions
+app.MapHealthChecks("/_health", new HealthCheckOptions
 {
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+}).RequireAuthorization();
 
 app.UseOutputCache();
 
