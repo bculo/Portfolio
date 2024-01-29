@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
-using Stock.Application.Interfaces;
 using Stock.Application.Interfaces.User;
-using Stock.Core.Entities;
-using Stock.Core.Queries;
+using Stock.Core.Models;
+using Stock.Core.Models.Base;
+using Stock.Core.Models.Stock;
 using Time.Abstract.Contracts;
 
 namespace Stock.Infrastructure.Persistence
@@ -14,26 +13,19 @@ namespace Stock.Infrastructure.Persistence
         private readonly IConfiguration _configuration;
         private readonly IStockUser _currentUser;
         private readonly IDateTimeProvider _timeProvider;
-
-        #region ENTITIES
-
-        public virtual DbSet<Core.Entities.Stock> Stocks { get; set; }
-        public virtual DbSet<StockPrice> Prices { get; set; }
-
-        #endregion
-
-        #region VIEWS
-
-        public virtual DbSet<StockPriceTagQuery> StockWithPriceTag { get; set; }
-
-        #endregion
+        
+        public virtual DbSet<StockEntity> Stocks { get; set; }
+        public virtual DbSet<StockPriceEntity> Prices { get; set; }
+        
+        public virtual DbSet<StockWithPriceTagReadModel> StockWithPriceTag { get; set; }
+        
 
         public StockDbContext(IConfiguration configuration,
-            IDateTimeProvider timeprovider,
+            IDateTimeProvider timeProvider,
             IStockUser currentUser)
         {
             _configuration = configuration;
-            _timeProvider = timeprovider;
+            _timeProvider = timeProvider;
             _currentUser = currentUser;
         }
 

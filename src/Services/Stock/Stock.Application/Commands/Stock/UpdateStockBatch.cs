@@ -5,10 +5,11 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Interfaces.Persistence;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Price.Models;
-using Stock.Core.Entities;
+using Stock.Application.Interfaces.Repositories;
+using Stock.Core.Models;
+using Stock.Core.Models.Stock;
 using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
@@ -35,15 +36,15 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
     private readonly IDateTimeProvider _provider;
     private readonly ILogger<UpdateStockBatchHandler> _logger;
     private readonly IStockPriceClient _client;
-    private readonly IBaseRepository<StockPrice> _repoPrice;
-    private readonly IBaseRepository<Core.Entities.Stock> _repoStock;
+    private readonly IBaseRepository<StockPriceEntity> _repoPrice;
+    private readonly IBaseRepository<StockEntity> _repoStock;
 
     public UpdateStockBatchHandler(IStockPriceClient client,
         ILogger<UpdateStockBatchHandler> logger,
         IPublishEndpoint endpoint,
         IDateTimeProvider provider,
-        IBaseRepository<StockPrice> repoPrice,
-        IBaseRepository<Core.Entities.Stock> repoStock,
+        IBaseRepository<StockPriceEntity> repoPrice,
+        IBaseRepository<StockEntity> repoStock,
         IConfiguration config)
     {
         _client = client;
@@ -177,7 +178,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
     /// <param name="fetchedItemsWithPrice"></param>
     /// <param name="itemsToUpdate"></param>
     /// <returns></returns>
-    private IEnumerable<StockPrice> MapToPriceInstances(
+    private IEnumerable<StockPriceEntity> MapToPriceInstances(
         ImmutableList<StockPriceDetails> fetchedItemsWithPrice,
         ImmutableDictionary<string, int> itemsToUpdate)
     {
@@ -188,7 +189,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
                 continue;
             }
 
-            yield return new StockPrice
+            yield return new StockPriceEntity
             {
                 Price = fetchedItem.Price,
                 StockId = itemsToUpdate[fetchedItem.Symbol]
@@ -201,7 +202,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
     /// </summary>
     /// <param name="priceEntities"></param>
     /// <returns></returns>
-    private async Task Save(IEnumerable<StockPrice> priceEntities)
+    private async Task Save(IEnumerable<StockPriceEntity> priceEntities)
     {
         await _repoPrice.Add(priceEntities.ToArray());
         await _repoPrice.SaveChanges();

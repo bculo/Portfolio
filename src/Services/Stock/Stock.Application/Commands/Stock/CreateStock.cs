@@ -4,10 +4,12 @@ using FluentValidation;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using Stock.Application.Interfaces.Persistence;
 using Stock.Application.Interfaces.Price;
+using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
+using Stock.Core.Models;
+using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Commands.Stock;
 
@@ -31,11 +33,11 @@ public class CreateStockHandler : IRequestHandler<CreateStock, long>
     private readonly IStockPriceClient _client;
     private readonly IPublishEndpoint _publish;
     private readonly IStringLocalizer<CreateStockLocale> _locale;
-    private readonly IBaseRepository<Core.Entities.Stock> _repo;
+    private readonly IBaseRepository<StockEntity> _repo;
 
     public CreateStockHandler(IStockPriceClient client,
         IPublishEndpoint publish,
-        IBaseRepository<Core.Entities.Stock> repo,
+        IBaseRepository<StockEntity> repo,
         IStringLocalizer<CreateStockLocale> locale)
     {
         _repo = repo;
@@ -60,7 +62,7 @@ public class CreateStockHandler : IRequestHandler<CreateStock, long>
             throw new StockCoreException(exceptionMessage);
         }
 
-        var newItem = new Core.Entities.Stock { Symbol = request.Symbol };
+        var newItem = new StockEntity { Symbol = request.Symbol };
         await _repo.Add(newItem);
         await _repo.SaveChanges();
 

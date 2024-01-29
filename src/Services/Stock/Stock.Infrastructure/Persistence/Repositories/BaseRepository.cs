@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Stock.Application.Interfaces;
-using System.Linq;
-using System.Linq.Expressions;
-using Stock.Application.Interfaces.Persistence;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using Stock.Application.Interfaces.Repositories;
 
 namespace Stock.Infrastructure.Persistence.Repositories
 {

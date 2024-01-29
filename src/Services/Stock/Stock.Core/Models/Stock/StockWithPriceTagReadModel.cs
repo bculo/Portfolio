@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stock.Core.Models.Base;
 
-namespace Stock.Core.Queries
+namespace Stock.Core.Models.Stock
 {
-    public class StockPriceTagQuery
+    public class StockWithPriceTagReadModel : IReadModel
     {
-        public int Id { get; set; }
+        public int StockId { get; set; }
         public string Symbol { get; set; }
         public decimal Price { get; set; }
     }

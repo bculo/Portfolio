@@ -7,17 +7,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Stock.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "assets");
-
             migrationBuilder.CreateTable(
-                name: "stock",
-                schema: "assets",
+                name: "stocks",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -30,12 +26,11 @@ namespace Stock.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_stock", x => x.id);
+                    table.PrimaryKey("pk_stocks", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "stockprice",
-                schema: "assets",
+                name: "stocks_prices",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
@@ -49,27 +44,24 @@ namespace Stock.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_stockprice", x => x.id);
+                    table.PrimaryKey("pk_stocks_prices", x => x.id);
                     table.ForeignKey(
-                        name: "fk_stockprice_stock_stockid",
+                        name: "fk_stocks_prices_stocks_stockid",
                         column: x => x.stockid,
-                        principalSchema: "assets",
-                        principalTable: "stock",
+                        principalTable: "stocks",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_stock_symbol",
-                schema: "assets",
-                table: "stock",
+                name: "ix_stocks_symbol",
+                table: "stocks",
                 column: "symbol",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_stockprice_stockid",
-                schema: "assets",
-                table: "stockprice",
+                name: "ix_stocks_prices_stockid",
+                table: "stocks_prices",
                 column: "stockid");
         }
 
@@ -77,12 +69,10 @@ namespace Stock.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "stockprice",
-                schema: "assets");
+                name: "stocks_prices");
 
             migrationBuilder.DropTable(
-                name: "stock",
-                schema: "assets");
+                name: "stocks");
         }
     }
 }

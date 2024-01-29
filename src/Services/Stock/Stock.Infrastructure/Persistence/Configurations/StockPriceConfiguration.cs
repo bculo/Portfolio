@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Stock.Core.Entities;
-using Stock.Infrastructure.Persistence.Constants;
+using Stock.Core.Models;
+using Stock.Core.Models.Stock;
 
 namespace Stock.Infrastructure.Persistence.Configurations
 {
-    public class StockPriceConfiguration : IEntityTypeConfiguration<StockPrice>
+    public class StockPriceConfiguration : IEntityTypeConfiguration<StockPriceEntity>
     {
-        public void Configure(EntityTypeBuilder<StockPrice> builder)
+        public void Configure(EntityTypeBuilder<StockPriceEntity> builder)
         {
             builder.HasKey(i => i.Id);
 
@@ -15,13 +15,13 @@ namespace Stock.Infrastructure.Persistence.Configurations
                 .HasPrecision(18, 2)
                 .IsRequired();
 
-            builder.HasOne(i => i.Stock)
+            builder.HasOne(i => i.StockEntity)
                 .WithMany(i => i.Prices)
                 .HasForeignKey(i => i.StockId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            builder.ToTable(nameof(StockPrice).ToLower(), SchemaConstants.STOCK_SCHEMA);
+            builder.ToTable("stocks_prices");
         }
     }
 }

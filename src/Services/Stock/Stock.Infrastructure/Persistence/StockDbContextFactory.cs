@@ -3,12 +3,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Stock.Infrastructure.Persistence
 {
+    /*
     public class StockDbContextFactory : IDesignTimeDbContextFactory<StockDbContext>
     {
         public StockDbContext CreateDbContext(string[] args)
         {
-            //Debugger.Launch(); Uncomment for debug feature
-
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             IConfiguration config = new ConfigurationBuilder()
@@ -20,4 +19,5 @@ namespace Stock.Infrastructure.Persistence
             return new StockDbContext(config, null, null);
         }
     }
+    */
 }

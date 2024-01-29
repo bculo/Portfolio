@@ -4,8 +4,9 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stock.Application.Common.Options;
-using Stock.Application.Interfaces;
-using Stock.Application.Interfaces.Persistence;
+using Stock.Application.Interfaces.Repositories;
+using Stock.Core.Models;
+using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Commands.Stock;
 
@@ -15,12 +16,12 @@ public class CreateStockUpdateBatchesHandler : IRequestHandler<CreateStockUpdate
 {
     private readonly IPublishEndpoint _endpoint;
     private readonly ILogger<CreateStockUpdateBatchesHandler> _logger;
-    private readonly IBaseRepository<Core.Entities.Stock> _repo;
+    private readonly IBaseRepository<StockEntity> _repo;
     private readonly IOptionsSnapshot<BatchUpdateOptions> _options;
 
     public CreateStockUpdateBatchesHandler(IPublishEndpoint endpoint,
         ILogger<CreateStockUpdateBatchesHandler> logger,
-        IBaseRepository<Core.Entities.Stock> repo,
+        IBaseRepository<StockEntity> repo,
         IOptionsSnapshot<BatchUpdateOptions> options)
     {
         _logger = logger;

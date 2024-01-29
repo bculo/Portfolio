@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using Stock.Core.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Stock.Application.Interfaces.Persistence
+namespace Stock.Application.Interfaces.Repositories
 {
     public interface IBaseRepository<T> where T : class
     {

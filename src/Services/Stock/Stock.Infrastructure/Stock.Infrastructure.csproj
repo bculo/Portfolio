@@ -28,4 +28,8 @@
         <ProjectReference Include="..\Stock.Application\Stock.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Persistence\Migrations\" />
+    </ItemGroup>
+
 </Project>

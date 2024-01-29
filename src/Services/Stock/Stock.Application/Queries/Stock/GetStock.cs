@@ -4,8 +4,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Interfaces;
-using Stock.Application.Interfaces.Persistence;
+using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
 

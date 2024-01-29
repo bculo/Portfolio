@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Stock.Core.Entities
+namespace Stock.Core.Models.Base
 {
     public interface IEntity
     {

@@ -1,17 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Stock.Infrastructure.Persistence.Constants;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Stock.Core.Models.Stock;
 
 namespace Stock.Infrastructure.Persistence.Configurations
 {
-    public class StockConfiguration : IEntityTypeConfiguration<Core.Entities.Stock>
+    public class StockConfiguration : IEntityTypeConfiguration<StockEntity>
     {
-        public void Configure(EntityTypeBuilder<Core.Entities.Stock> builder)
+        public void Configure(EntityTypeBuilder<StockEntity> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -30,7 +25,7 @@ namespace Stock.Infrastructure.Persistence.Configurations
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.ToTable(nameof(Core.Entities.Stock).ToLower(), SchemaConstants.STOCK_SCHEMA);
+            builder.ToTable("stocks");
         }
     }
 }

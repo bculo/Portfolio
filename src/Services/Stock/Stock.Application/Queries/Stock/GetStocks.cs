@@ -1,7 +1,7 @@
 using MediatR;
-using Stock.Application.Interfaces;
-using Stock.Application.Interfaces.Persistence;
-using Stock.Core.Queries;
+using Stock.Application.Interfaces.Repositories;
+using Stock.Core.Models;
+using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
@@ -18,16 +18,17 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
 
     public async Task<IEnumerable<GetStocksResponse>> Handle(GetStocks request, CancellationToken cancellationToken)
     {
-        var items = await _repo.GetAllWithPrice();
+        throw new NotImplementedException();
+        //var items = await _repo.GetAllWithPrice();
 
-        return MapToResponse(items);
+        //return MapToResponse(items);
     }
 
-    private IEnumerable<GetStocksResponse> MapToResponse(List<StockPriceTagQuery> items)
+    private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTagReadModel> items)
     {
         return items.Select(i => new GetStocksResponse
         {
-            Id = i.Id,
+            Id = i.StockId,
             Symbol = i.Symbol,
             Price = i.Price
         });

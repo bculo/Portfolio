@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Stock.Core.Queries;
-using Stock.Infrastructure.Persistence.Constants;
+using Stock.Core.Models;
+using Stock.Core.Models.Stock;
 
 namespace Stock.Infrastructure.Persistence.Configurations
 {
-    public class StockPriceTagQueryConfiguration : IEntityTypeConfiguration<StockPriceTagQuery>
+    public class StockPriceTagQueryConfiguration : IEntityTypeConfiguration<StockWithPriceTagReadModel>
     {
-        public void Configure(EntityTypeBuilder<StockPriceTagQuery> builder)
+        public void Configure(EntityTypeBuilder<StockWithPriceTagReadModel> builder)
         {
-            builder.ToView("stockwithpricetag", SchemaConstants.STOCK_SCHEMA).HasNoKey();
+            builder.ToView("stock_with_price_tag")
+                .HasNoKey();
         }
     }
 }

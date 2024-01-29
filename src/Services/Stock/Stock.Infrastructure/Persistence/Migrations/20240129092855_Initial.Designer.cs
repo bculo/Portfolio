@@ -12,20 +12,20 @@ using Stock.Infrastructure.Persistence;
 namespace Stock.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20230619154227_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240129092855_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Stock.Core.Entities.Stock", b =>
+            modelBuilder.Entity("Stock.Core.Models.Stock.StockEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,16 +61,16 @@ namespace Stock.Infrastructure.Persistence.Migrations
                         .HasColumnName("symbol");
 
                     b.HasKey("Id")
-                        .HasName("pk_stock");
+                        .HasName("pk_stocks");
 
                     b.HasIndex("Symbol")
                         .IsUnique()
-                        .HasDatabaseName("ix_stock_symbol");
+                        .HasDatabaseName("ix_stocks_symbol");
 
-                    b.ToTable("stock", "assets");
+                    b.ToTable("stocks", (string)null);
                 });
 
-            modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>
+            modelBuilder.Entity("Stock.Core.Models.Stock.StockPriceEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,27 +105,46 @@ namespace Stock.Infrastructure.Persistence.Migrations
                         .HasColumnName("stockid");
 
                     b.HasKey("Id")
-                        .HasName("pk_stockprice");
+                        .HasName("pk_stocks_prices");
 
                     b.HasIndex("StockId")
-                        .HasDatabaseName("ix_stockprice_stockid");
+                        .HasDatabaseName("ix_stocks_prices_stockid");
 
-                    b.ToTable("stockprice", "assets");
+                    b.ToTable("stocks_prices", (string)null);
                 });
 
-            modelBuilder.Entity("Stock.Core.Entities.StockPrice", b =>
+            modelBuilder.Entity("Stock.Core.Models.Stock.StockWithPriceTagReadModel", b =>
                 {
-                    b.HasOne("Stock.Core.Entities.Stock", "Stock")
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("integer")
+                        .HasColumnName("stockid");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("stock_with_price_tag", (string)null);
+                });
+
+            modelBuilder.Entity("Stock.Core.Models.Stock.StockPriceEntity", b =>
+                {
+                    b.HasOne("Stock.Core.Models.Stock.StockEntity", "StockEntity")
                         .WithMany("Prices")
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_stockprice_stock_stockid");
+                        .HasConstraintName("fk_stocks_prices_stocks_stockid");
 
-                    b.Navigation("Stock");
+                    b.Navigation("StockEntity");
                 });
 
-            modelBuilder.Entity("Stock.Core.Entities.Stock", b =>
+            modelBuilder.Entity("Stock.Core.Models.Stock.StockEntity", b =>
                 {
                     b.Navigation("Prices");
                 });
