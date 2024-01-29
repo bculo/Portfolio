@@ -1,4 +1,4 @@
-﻿using Cache.Redis.Common;
+﻿using System.Globalization;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Keycloak.Common;
@@ -9,9 +9,8 @@ using OpenTelemetry.Trace;
 using Stock.API.Filters;
 using Stock.API.Services;
 using Stock.Application;
-using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.User;
 using Stock.Infrastructure;
-using System.Globalization;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.User;
 using Stock.Core.Entities;
 using Stock.Core.Queries;
 using Time.Abstract.Contracts;

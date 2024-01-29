@@ -1,15 +1,15 @@
-﻿using Hangfire;
+﻿using System.Globalization;
+using Hangfire;
 using Hangfire.PostgreSql;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Stock.Application;
-using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.User;
 using Stock.Infrastructure;
 using Stock.Infrastructure.Consumers;
 using Stock.Worker.Jobs;
 using Stock.Worker.Services;
-using System.Globalization;
 
 namespace Stock.Worker.Configurations
 {

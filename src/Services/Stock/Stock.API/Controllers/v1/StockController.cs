@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Stock.Application.Features;
+using Stock.Application.Commands.Stock;
+using Stock.Application.Queries.Stock;
 
 namespace Stock.API.Controllers.v1
 {
@@ -17,30 +18,34 @@ namespace Stock.API.Controllers.v1
             _mediator = mediator;
         }
         
-        [HttpPost(nameof(AddNew), Name = nameof(AddNew))]
+        [HttpPost("Create", Name = "CreateStock")]
         [ProducesResponseType(typeof(long), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddNew([FromBody] AddNewStockCommand addNewStockCommand)
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateStock createStock)
         {
-            return Ok(await _mediator.Send(addNewStockCommand));
+            return Ok(await _mediator.Send(createStock));
         }
 
-        [HttpGet("Single/{symbol}", Name = nameof(GetSingle))]
-        [ProducesResponseType(typeof(GetSingleResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetSingle([FromRoute] string symbol)
+        [HttpGet("Single/{symbol}", Name = "GetStock")]
+        [ProducesResponseType(typeof(GetStockResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetStock([FromRoute] string symbol)
         {
-            return Ok(await _mediator.Send(new GetSingleQuery(symbol)));
+            return Ok(await _mediator.Send(new GetStock(symbol)));
         }
 
-        [HttpGet("GetAll", Name = nameof(GetAll))]
-        [ProducesResponseType(typeof(IEnumerable<GetAllResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("All", Name = "GetStocks")]
+        [ProducesResponseType(typeof(IEnumerable<GetStocksResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetStocks()
         {
-            return Ok(await _mediator.Send(new GetAllQuery()));
+            return Ok(await _mediator.Send(new GetStocks()));
         }
 
-        [HttpPost("FilterList", Name = nameof(FilterList))]
-        [ProducesResponseType(typeof(IEnumerable<FilterListResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> FilterList([FromBody] FilterListQuery filterListQuery)
+        [HttpPost("Filter", Name = "FilterStocks")]
+        [ProducesResponseType(typeof(IEnumerable<FilterStocks>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> FilterStocks([FromBody] FilterStocks filterListQuery)
         {
             return Ok(await _mediator.Send(filterListQuery));
         }

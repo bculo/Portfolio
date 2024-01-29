@@ -2,7 +2,7 @@
 using Stock.Core.Entities;
 using System.Linq.Expressions;
 
-namespace Stock.Application.Interfaces
+namespace Stock.Application.Interfaces.Persistence
 {
     public interface IBaseRepository<T> where T : class
     {

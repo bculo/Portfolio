@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Stock.Application.Features;
+using Stock.Application.Commands.Stock;
 
 namespace Stock.Worker.Jobs
 {
@@ -23,7 +23,7 @@ namespace Stock.Worker.Jobs
         public async Task InitializeUpdateProcedure()
         {
             _logger.LogTrace("PrepareBatchesForUpdate.Command");
-            await _mediator.Send(new PrepareBatchesForUpdate.Command { }, CancellationToken.None);
+            await _mediator.Send(new CreateStockUpdateBatches(), CancellationToken.None);
         }
     }
 }

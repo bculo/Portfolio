@@ -1,4 +1,4 @@
-﻿namespace Stock.Application.Interfaces
+﻿namespace Stock.Application.Interfaces.User
 {
     public interface IStockUser
     {

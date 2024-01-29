@@ -1,7 +1,7 @@
 ﻿using Events.Common.Stock;
 using MassTransit;
 using MediatR;
-using Stock.Application.Features;
+using Stock.Application.Commands.Stock;
 
 namespace Stock.Infrastructure.Consumers
 {
@@ -16,7 +16,7 @@ namespace Stock.Infrastructure.Consumers
 
         public async Task Consume(ConsumeContext<BatchForUpdatePrepared> context)
         {
-            await _mediator.Send(new UpdateBatch.Command(context.Message.Symbols));
+            await _mediator.Send(new UpdateStockBatch(context.Message.Symbols));
         }
     }
 }

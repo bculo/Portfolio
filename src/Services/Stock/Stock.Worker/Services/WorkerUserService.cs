@@ -1,4 +1,5 @@
 ﻿using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.User;
 
 namespace Stock.Worker.Services
 {

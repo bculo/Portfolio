@@ -5,11 +5,13 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Stock.Application.Common.Constants;
-using Stock.Application.Interfaces;
-using Stock.Infrastructure.Clients;
+using Stock.Application.Interfaces.Html;
+using Stock.Application.Interfaces.Persistence;
+using Stock.Application.Interfaces.Price;
+using Stock.Infrastructure.Html;
 using Stock.Infrastructure.Persistence;
 using Stock.Infrastructure.Persistence.Repositories;
-using Stock.Infrastructure.Services;
+using Stock.Infrastructure.Price;
 using Time.Abstract.Contracts;
 using Time.Common;
 

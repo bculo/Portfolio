@@ -3,9 +3,12 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.Html;
+using Stock.Application.Interfaces.Price;
+using Stock.Application.Interfaces.Price.Models;
 using Time.Abstract.Contracts;
 
-namespace Stock.Infrastructure.Clients
+namespace Stock.Infrastructure.Price
 {
     public class MarketWatchStockPriceClient : IStockPriceClient
     {
@@ -25,7 +28,7 @@ namespace Stock.Infrastructure.Clients
             _timeProvider = timeProvider;
         }
 
-        public async Task<StockPriceInfo> GetPriceForSymbol(string symbol)
+        public async Task<StockPriceInfo> GetPrice(string symbol)
         {
             ArgumentException.ThrowIfNullOrEmpty(symbol);
 

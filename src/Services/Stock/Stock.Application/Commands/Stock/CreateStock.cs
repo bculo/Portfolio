@@ -1,20 +1,21 @@
-﻿using Events.Common.Stock;
+﻿using System.Text.RegularExpressions;
+using Events.Common.Stock;
 using FluentValidation;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.Persistence;
+using Stock.Application.Interfaces.Price;
 using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
-using System.Text.RegularExpressions;
 
-namespace Stock.Application.Features;
+namespace Stock.Application.Commands.Stock;
 
-public record AddNewStockCommand(string Symbol) : IRequest<long>;
+public record CreateStock(string Symbol) : IRequest<long>;
 
-public class AddNewStockValidator : AbstractValidator<AddNewStockCommand>
+public class CreateStockValidator : AbstractValidator<CreateStock>
 {
-    public AddNewStockValidator(IStringLocalizer<ValidationShared> localizer)
+    public CreateStockValidator(IStringLocalizer<ValidationShared> localizer)
     {
         RuleFor(i => i.Symbol)
             .Matches(new Regex("^[a-zA-Z]{1,10}$",
@@ -25,37 +26,37 @@ public class AddNewStockValidator : AbstractValidator<AddNewStockCommand>
     }
 }
 
-public class AddNewStockHandler : IRequestHandler<AddNewStockCommand, long>
+public class CreateStockHandler : IRequestHandler<CreateStock, long>
 {
     private readonly IStockPriceClient _client;
-    private readonly IPublishEndpoint _publishEndpoint;
-    private readonly IStringLocalizer<AddNewLocale> _localizer;
+    private readonly IPublishEndpoint _publish;
+    private readonly IStringLocalizer<CreateStockLocale> _locale;
     private readonly IBaseRepository<Core.Entities.Stock> _repo;
 
-    public AddNewStockHandler(IStockPriceClient client,
-        IPublishEndpoint publishEndpoint,
+    public CreateStockHandler(IStockPriceClient client,
+        IPublishEndpoint publish,
         IBaseRepository<Core.Entities.Stock> repo,
-        IStringLocalizer<AddNewLocale> localizer)
+        IStringLocalizer<CreateStockLocale> locale)
     {
         _repo = repo;
         _client = client;
-        _publishEndpoint = publishEndpoint;
-        _localizer = localizer;
+        _publish = publish;
+        _locale = locale;
     }
 
-    public async Task<long> Handle(AddNewStockCommand request, CancellationToken cancellationToken)
+    public async Task<long> Handle(CreateStock request, CancellationToken cancellationToken)
     {
         var existingInstance = await _repo.First(i => i.Symbol.ToLower() == request.Symbol.ToLower());
         if (existingInstance is not null)
         {
-            string exceptionMessage = string.Format(_localizer.GetString("Symbol already exists"), request.Symbol);
+            string exceptionMessage = string.Format(_locale.GetString("Symbol already exists"), request.Symbol);
             throw new StockCoreException(exceptionMessage);
         }
 
-        var clientResult = await _client.GetPriceForSymbol(request.Symbol);
+        var clientResult = await _client.GetPrice(request.Symbol);
         if (clientResult is null)
         {
-            string exceptionMessage = string.Format(_localizer.GetString("Symbol not supported"), request.Symbol);
+            string exceptionMessage = string.Format(_locale.GetString("Symbol not supported"), request.Symbol);
             throw new StockCoreException(exceptionMessage);
         }
 
@@ -63,7 +64,7 @@ public class AddNewStockHandler : IRequestHandler<AddNewStockCommand, long>
         await _repo.Add(newItem);
         await _repo.SaveChanges();
 
-        await _publishEndpoint.Publish(new NewStockItemAdded
+        await _publish.Publish(new NewStockItemAdded
         {
             Created = newItem.CreatedAt,
             Symbol = newItem.Symbol
@@ -73,5 +74,5 @@ public class AddNewStockHandler : IRequestHandler<AddNewStockCommand, long>
     }
 }
 
-public class AddNewLocale { }
+public class CreateStockLocale { }
 

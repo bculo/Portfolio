@@ -1,22 +1,22 @@
-﻿using Cache.Abstract.Contracts;
+using System.Text.RegularExpressions;
+using Cache.Abstract.Contracts;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Common.Models;
-using Stock.Application.Common.Utilities;
 using Stock.Application.Interfaces;
+using Stock.Application.Interfaces.Persistence;
 using Stock.Application.Resources.Shared;
 using Stock.Core.Exceptions;
-using System.Text.RegularExpressions;
 
-namespace Stock.Application.Features;
+namespace Stock.Application.Queries.Stock;
 
-public record GetSingleQuery(string Symbol) : IRequest<GetSingleResponse>;
 
-public class GetSingleValidator : AbstractValidator<GetSingleQuery>
+public record GetStock(string Symbol) : IRequest<GetStockResponse>;
+
+public class GetStockValidator : AbstractValidator<GetStock>
 {
-    public GetSingleValidator(IStringLocalizer<ValidationShared> localizer)
+    public GetStockValidator(IStringLocalizer<ValidationShared> localizer)
     {
         RuleFor(i => i.Symbol)
             .Matches(new Regex("^[a-zA-Z]{1,10}$",
@@ -27,16 +27,16 @@ public class GetSingleValidator : AbstractValidator<GetSingleQuery>
     }
 }
 
-public class GetSingleHandler : IRequestHandler<GetSingleQuery, GetSingleResponse>
+public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
 {
     private readonly ICacheService _cache;
     private readonly IStockRepository _stockRepository;
-    private readonly ILogger<GetSingleHandler> _logger;
-    private readonly IStringLocalizer<GetSingleLocale> _localizer;
+    private readonly ILogger<GetStockHandler> _logger;
+    private readonly IStringLocalizer<GetStockLocale> _localizer;
 
-    public GetSingleHandler(ICacheService cache,
-        IStringLocalizer<GetSingleLocale> localizer,
-        ILogger<GetSingleHandler> logger, 
+    public GetStockHandler(ICacheService cache,
+        IStringLocalizer<GetStockLocale> localizer,
+        ILogger<GetStockHandler> logger, 
         IStockRepository stockRepository)
     {
         _localizer = localizer;
@@ -45,7 +45,7 @@ public class GetSingleHandler : IRequestHandler<GetSingleQuery, GetSingleRespons
         _stockRepository = stockRepository;
     }
 
-    public async Task<GetSingleResponse> Handle(GetSingleQuery request, CancellationToken cancellationToken)
+    public async Task<GetStockResponse> Handle(GetStock request, CancellationToken cancellationToken)
     {
         var item = await _stockRepository.First(x => x.Symbol == request.Symbol);
         if(item is not null)
@@ -58,9 +58,9 @@ public class GetSingleHandler : IRequestHandler<GetSingleQuery, GetSingleRespons
         throw new StockCoreNotFoundException(excMessage);
     }
 
-    private GetSingleResponse ToResponse(long id, string symbol, decimal price)
+    private GetStockResponse ToResponse(long id, string symbol, decimal price)
     {
-        return new GetSingleResponse
+        return new GetStockResponse
         {
             Id = id,
             Symbol = symbol,
@@ -69,7 +69,7 @@ public class GetSingleHandler : IRequestHandler<GetSingleQuery, GetSingleRespons
     }
 }
 
-public class GetSingleResponse
+public class GetStockResponse
 {
     public long Id { get; set; }
     public string Symbol { get; set; }
@@ -77,5 +77,4 @@ public class GetSingleResponse
 }
 
 
-public class GetSingleLocale { }
-
+public class GetStockLocale { }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stock.Application.Interfaces.Persistence;
 
 namespace Stock.Infrastructure.Persistence.Repositories
 {

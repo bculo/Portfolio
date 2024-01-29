@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stock.Application.Interfaces.Html;
+using Stock.Application.Interfaces.Html.Models;
 
-namespace Stock.Infrastructure.Services
+namespace Stock.Infrastructure.Html
 {
     public class HtmlParserService : IHtmlParser
     {

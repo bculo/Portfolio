@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Stock.Application.Interfaces
+namespace Stock.Application.Interfaces.Persistence
 {
     public interface IStockRepository : IBaseRepository<Core.Entities.Stock> 
     {
