@@ -10,7 +10,7 @@ namespace Stock.Core.Models.Stock
     public class StockWithPriceTagReadModel : IReadModel
     {
         public int StockId { get; set; }
-        public string Symbol { get; set; }
+        public string Symbol { get; set; } = default!;
         public decimal Price { get; set; }
     }
 }

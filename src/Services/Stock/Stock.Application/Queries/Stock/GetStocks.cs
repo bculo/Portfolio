@@ -1,22 +1,26 @@
+using LanguageExt;
 using MediatR;
 using Stock.Application.Interfaces.Repositories;
+using Stock.Core.Errors;
 using Stock.Core.Models;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
-public record GetStocks : IRequest<IEnumerable<GetStocksResponse>> { }
+public record GetStocks : IRequest<IEnumerable<GetStocksResponse>>;
 
 public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocksResponse>>
 {
-    private readonly IStockRepository _repo;
+    private readonly IUnitOfWork _work;
 
-    public GetStocksHandler(IStockRepository repo)
+    public GetStocksHandler(IUnitOfWork work)
     {
-        _repo = repo;
+        _work = work;
     }
 
-    public async Task<IEnumerable<GetStocksResponse>> Handle(GetStocks request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetStocksResponse>> Handle(
+        GetStocks request, 
+        CancellationToken ct)
     {
         throw new NotImplementedException();
         //var items = await _repo.GetAllWithPrice();

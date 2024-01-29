@@ -2,7 +2,6 @@
 using Events.Common.Stock;
 using MassTransit;
 using Stock.Application.Common.Models;
-using Stock.Application.Common.Utilities;
 
 namespace Stock.Infrastructure.Consumers
 {
@@ -18,7 +17,7 @@ namespace Stock.Infrastructure.Consumers
         public Task Consume(ConsumeContext<StockPriceUpdated> context)
         {
             var cacheItem = ToCacheItem(context.Message);
-            _cache.Add(StringUtilities.AddStockPrefix(cacheItem.Symbol), cacheItem);
+            //_cache.Add(StringUtilities.AddStockPrefix(cacheItem.Symbol), cacheItem);
             return Task.CompletedTask;
         }
 

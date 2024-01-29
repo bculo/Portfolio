@@ -42,10 +42,10 @@ namespace Stock.API.Controllers.v1
             return Ok(await _mediator.Send(new GetStocks()));
         }
 
-        [HttpPost("Filter", Name = "FilterStocks")]
+        [HttpGet("Filter", Name = "FilterStocks")]
         [ProducesResponseType(typeof(IEnumerable<FilterStocks>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> FilterStocks([FromBody] FilterStocks filterListQuery)
+        public async Task<IActionResult> FilterStocks([FromQuery] FilterStocks filterListQuery)
         {
             return Ok(await _mediator.Send(filterListQuery));
         }

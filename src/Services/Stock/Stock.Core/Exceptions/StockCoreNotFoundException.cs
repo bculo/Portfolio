@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Stock.Core.Errors;
 
 namespace Stock.Core.Exceptions
 {
     public class StockCoreNotFoundException : StockCoreException
     {
-        public StockCoreNotFoundException(string message)
-            : base(message)
+        public StockCoreNotFoundException(NotFoundErrorCode errorCode)
+            : base(errorCode.Code, errorCode.Message)
         {
-
         }
 
-        public StockCoreNotFoundException(string userMessage, string devMessage)
-            : base(userMessage, devMessage)
-        {
-
-        }
+        public static implicit operator StockCoreNotFoundException(NotFoundErrorCode errorCode) => new(errorCode);
     }
 }

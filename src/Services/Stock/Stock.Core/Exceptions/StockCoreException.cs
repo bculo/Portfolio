@@ -3,37 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stock.Core.Errors;
 
 namespace Stock.Core.Exceptions
 {
     public class StockCoreException : Exception
     {
-        public string UserMessage { get; set; }
+        public string Code { get; }
 
-        public StockCoreException(string message) : base(message)
+        protected StockCoreException(string errorIdentifier, string message)
+            : base(message)
         {
-            UserMessage = message;
+            Code = errorIdentifier;
         }
-
-        public StockCoreException(string userMessage, string devMessage) : base(devMessage)
+        
+        public StockCoreException(ErrorCode errorCode)
+            : this(errorCode.Code, errorCode.Message)
         {
-            UserMessage = userMessage;
-        }
-
-        public static void ThrowIfNull(object instance, string message)
-        {
-            if (instance is null)
-            {
-                throw new StockCoreException(message);
-            }
-        }
-
-        public static void ThrowIfEmpty<TType>(IEnumerable<TType> values, string message)
-        {
-            if (values is null || !values.Any())
-            {
-                throw new StockCoreException(message);
-            }
         }
     }
 }

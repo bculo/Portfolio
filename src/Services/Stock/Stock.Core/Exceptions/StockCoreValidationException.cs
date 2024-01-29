@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stock.Core.Exceptions
 {
-    public class StockCoreValidationException : StockCoreException
+    public class StockCoreValidationException : Exception
     {
         public Dictionary<string, string[]> Errors { get; set; }
 

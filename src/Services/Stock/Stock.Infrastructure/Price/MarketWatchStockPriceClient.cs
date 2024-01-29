@@ -43,7 +43,7 @@ namespace Stock.Infrastructure.Price
             var htmlParser = _provider.GetService(typeof(IHtmlParser)) as IHtmlParser;
 
             var htmlAsString = await response.Content.ReadAsStringAsync();
-            await htmlParser.InitializeHtmlContent(htmlAsString);
+            await htmlParser.Initialize(htmlAsString);
 
             var priceSectionNode = await htmlParser.FindFirstElement("//div[@class='intraday__data']/h2/bg-quote");
             if (priceSectionNode is null)

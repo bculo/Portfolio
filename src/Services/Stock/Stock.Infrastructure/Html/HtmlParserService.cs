@@ -31,7 +31,7 @@ namespace Stock.Infrastructure.Html
 
         public string HtmlContent { get; private set; }
 
-        public Task<bool> InitializeHtmlContent(string htmlContent)
+        public Task<bool> Initialize(string htmlContent)
         {
             _initialized = !string.IsNullOrWhiteSpace(htmlContent);
             if (!_initialized)

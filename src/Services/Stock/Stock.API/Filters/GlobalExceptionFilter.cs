@@ -16,36 +16,36 @@ namespace Stock.API.Filters
 
         public void OnException(ExceptionContext context)
         {
-            _logger.LogError(context.Exception, context.Exception.Message);
-
-            if (context.Exception is StockCoreException)
+            if (context.Exception is StockCoreException stockException)
             {
-                HandleCustomException(context);
+                HandleCustomException(context, stockException);
                 return;
             }
-
+            
             var errorResponse = new ErrorResponseModel
             {
                 Message = "Unknown exception",
                 StatusCode = StatusCodes.Status400BadRequest
             };
 
+            _logger.LogError("Exception occurred: {Exception}", context.Exception);
+            
             context.Result = new BadRequestObjectResult(errorResponse);
             context.ExceptionHandled = true;
         }
 
-        private void HandleCustomException(ExceptionContext context)
+        private void HandleCustomException(ExceptionContext context, StockCoreException exception)
         {
-            var trendException = context.Exception as StockCoreException;
-
-            if (trendException is StockCoreNotFoundException)
+            _logger.LogError("Custom exception with code {Code} occurred: {Exception} ", exception.Code, exception);
+            
+            if (exception is StockCoreNotFoundException notFoundException)
             {
-                context.Result = new NotFoundObjectResult(trendException.UserMessage);
+                context.Result = new NotFoundObjectResult(notFoundException.Message);
                 context.ExceptionHandled = true;
                 return;
             }
 
-            if (trendException is StockCoreValidationException)
+            if (exception is StockCoreValidationException)
             {
                 var validationException = context.Exception as StockCoreValidationException;
 

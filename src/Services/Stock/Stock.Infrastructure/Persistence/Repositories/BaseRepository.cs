@@ -1,67 +1,138 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Stock.Application.Interfaces.Repositories;
+using Stock.Core.Models.Common;
+using Stock.Infrastructure.Persistence.Extensions;
 
 namespace Stock.Infrastructure.Persistence.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected readonly StockDbContext _dbContext;
+        public StockDbContext Context { get; }
+        public DbSet<T> Set => Context.Set<T>();
 
         public BaseRepository(StockDbContext dbContext)
         {
-            _dbContext = dbContext;
+            Context = dbContext;
         }
 
-        public virtual Task Add(params T[] entities)
+        public async Task<List<T>> GetAll(CancellationToken ct = default)
         {
-            _dbContext.Set<T>().AddRange(entities);
-            return Task.CompletedTask;
+            return await Set.ToListAsync(ct);
+        }
+        
+        public async Task<T> Find(object id, CancellationToken ct = default)
+        {
+            return await Set.FindAsync(id, ct);
         }
 
-        public virtual async Task<List<T>> Filter(Expression<Func<T, bool>> filter)
+        public async Task<T?> First(Expression<Func<T, bool>> predicate,
+            CancellationToken ct = default)
         {
-            return await _dbContext.Set<T>().Where(filter).ToListAsync();
+            return await Set
+                .Where(predicate)
+                .ApplyTracking(true)
+                .FirstOrDefaultAsync(ct);
+        }
+        
+        public async Task<T?> First(Expression<Func<T, bool>> predicate, 
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default, 
+            CancellationToken ct = default)
+        {
+            return await Set
+                .Where(predicate)
+                .ApplyInclude(include)
+                .ApplyTracking(true)
+                .FirstOrDefaultAsync(ct);
         }
 
-        public virtual async Task<List<TType>> Filter<TType>(Expression<Func<T, bool>> filter, Expression<Func<T, TType>> select) where TType : class
+        public async Task Add(T entity, CancellationToken ct = default)
         {
-            return await _dbContext.Set<T>().Where(filter).Select(select).ToListAsync();
+            await Set.AddAsync(entity, ct);
         }
 
-        public virtual async Task<T> Find(object id)
+        public async Task AddRange(IEnumerable<T> entities, CancellationToken ct = default)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            await Set.AddRangeAsync(entities, ct);
         }
 
-        public virtual async Task<T> First(Expression<Func<T, bool>> filter)
+        public async Task<List<T>> Filter(
+            Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = default, 
+            bool asTracking = false,
+            CancellationToken ct = default)
         {
-            return await _dbContext.Set<T>().AsTracking().FirstOrDefaultAsync(filter);
+            return await Set
+                .Where(predicate)
+                .ApplyInclude(include)
+                .ApplyOrderBy(orderBy)
+                .ApplyTracking(asTracking)
+                .ToListAsync(ct);
         }
 
-        public virtual async Task<List<T>> GetAll()
+        public async Task<List<T>> Filter(
+            Expression<Func<T, bool>> predicate, 
+            CancellationToken ct = default)
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            return await Set
+                .Where(predicate)
+                .ToListAsync(ct);
         }
 
-        public virtual async Task<Dictionary<KeyType, ValueT>> GetDictionary<KeyType, ValueT>(Expression<Func<T, bool>> filter, 
-            Func<T, KeyType> key, 
-            Func<T, ValueT> elementSelector)
+        public async Task<PageReadModel<T>> Page(Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
+            PageQuery pageQuery,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
+            CancellationToken ct = default)
         {
-            return await _dbContext.Set<T>().Where(filter).ToDictionaryAsync(key, elementSelector);
+            var query = Set.Where(predicate);
+            
+            var totalCount = await query.CountAsync(ct);
+            var items = await query
+                .ApplyInclude(include)
+                .ApplyOrderBy(orderBy)
+                .ApplyPagination(pageQuery)
+                .ToListAsync(ct);
+
+            return new PageReadModel<T>(totalCount, pageQuery.Page, items);
         }
 
-        public virtual async Task<(int count, List<T> page)> Page(Expression<Func<T, bool>> filter, int page, int take)
+        public async Task<PageReadModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
+            PageQuery pageQuery,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
+            CancellationToken ct = default)
         {
-            var query = _dbContext.Set<T>().Where(filter);
-            var count = await query.CountAsync();
-            var items = await query.Skip((page - 1) * take).Take(take).ToListAsync();
-            return (count, items);
+            var query = Set.ApplyWhereAll(predicates);
+            
+            var totalCount = await query.CountAsync(ct);
+            var items = await query
+                .ApplyInclude(include)
+                .ApplyOrderBy(orderBy)
+                .ApplyPagination(pageQuery)
+                .ToListAsync(ct);
+            
+            return new PageReadModel<T>(totalCount, pageQuery.Page, items);
         }
 
-        public virtual async Task SaveChanges()
+        public async Task<PageReadModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
+            PageQuery pageQuery,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
+            CancellationToken ct = default)
         {
-            await _dbContext.SaveChangesAsync();
+            var query = Set.ApplyWhereAny(predicates);
+            
+            var totalCount = await query.CountAsync(ct);
+            var items = await query
+                .ApplyInclude(include)
+                .ApplyOrderBy(orderBy)
+                .ApplyPagination(pageQuery)
+                .ToListAsync(ct);
+            
+            return new PageReadModel<T>(totalCount, pageQuery.Page, items);
         }
     }
 }

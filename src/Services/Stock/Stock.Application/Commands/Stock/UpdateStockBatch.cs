@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using Events.Common.Stock;
+﻿using Events.Common.Stock;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -8,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Price.Models;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Core.Models;
 using Stock.Core.Models.Stock;
 using Time.Abstract.Contracts;
 
@@ -36,24 +34,21 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
     private readonly IDateTimeProvider _provider;
     private readonly ILogger<UpdateStockBatchHandler> _logger;
     private readonly IStockPriceClient _client;
-    private readonly IBaseRepository<StockPriceEntity> _repoPrice;
-    private readonly IBaseRepository<StockEntity> _repoStock;
+    private readonly IUnitOfWork _work;
 
     public UpdateStockBatchHandler(IStockPriceClient client,
         ILogger<UpdateStockBatchHandler> logger,
         IPublishEndpoint endpoint,
         IDateTimeProvider provider,
-        IBaseRepository<StockPriceEntity> repoPrice,
-        IBaseRepository<StockEntity> repoStock,
-        IConfiguration config)
+        IConfiguration config,
+        IUnitOfWork work)
     {
         _client = client;
         _logger = logger;
         _endpoint = endpoint;
         _provider = provider;
-        _repoPrice = repoPrice;
-        _repoStock = repoStock;
         _config = config;
+        _work = work;
     }
 
     public async Task Handle(UpdateStockBatch request, CancellationToken cancellationToken)
@@ -80,13 +75,8 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
 
         await PublishEvents(fetchedItemsWithPrice);
     }
-
-    /// <summary>
-    /// Publish events to message broker
-    /// </summary>
-    /// <param name="priceEntities"></param>
-    /// <returns></returns>
-    private async Task PublishEvents(ImmutableList<StockPriceDetails> itemsWithPrice)
+    
+    private async Task PublishEvents(List<StockPriceDetails> itemsWithPrice)
     {
         var timeStamp = _provider.Now;
 
@@ -101,23 +91,14 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
             });
         }
     }
-
-    /// <summary>
-    /// Fetch financal assets from database in dictionary form where Key presents Stock symbol and value presents database ID (unique)
-    /// </summary>
-    /// <returns></returns>
-    private async Task<ImmutableDictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
+    
+    private async Task<Dictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
     {
-        var dictionary = await _repoStock.GetDictionary(i => symbols.Contains(i.Symbol), x => x.Symbol, y => y.Id);
-        return dictionary.ToImmutableDictionary();
+        var stocks = await _work.StockRepo.GetAll();
+        return stocks.ToDictionary(x => x.Symbol, y => y.Id);
     }
-
-    /// <summary>
-    /// For each item of dictionary, try to fetch new price
-    /// </summary>
-    /// <param name="items"></param>
-    /// <returns></returns>
-    private async Task<ImmutableList<StockPriceDetails>> FetchNewPricesForSymbols(ImmutableDictionary<string, int> items)
+    
+    private async Task<List<StockPriceDetails>> FetchNewPricesForSymbols(Dictionary<string, int> items)
     {
         int maximumConcurrentRequest = _config.GetValue<int>("MaximumConcurrentHttpRequests");
         if(maximumConcurrentRequest <= 0)
@@ -130,10 +111,12 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
         var tasks = items.Select(async item => await FetchPriceForSingleSymbol(item, semaphore)).ToList();
 
         var priceInfos = await Task.WhenAll(tasks);
-        return priceInfos.ToImmutableList();
+        return priceInfos.ToList();
     }
 
-    public async Task<StockPriceDetails> FetchPriceForSingleSymbol(KeyValuePair<string, int> item, SemaphoreSlim semaphore)
+    public async Task<StockPriceDetails> FetchPriceForSingleSymbol(
+        KeyValuePair<string, int> item, 
+        SemaphoreSlim semaphore)
     {
         try
         {
@@ -161,26 +144,15 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
             semaphore.Release();
         }
     }
-
-    /// <summary>
-    /// Fetch price for given symbol using IStockPriceClient
-    /// </summary>
-    /// <param name="symbol"></param>
-    /// <returns></returns>
+    
     private async Task<StockPriceInfo> FetchAssetPrice(string symbol)
     {
         return await _client.GetPrice(symbol);
     }
-
-    /// <summary>
-    /// Combine fetched prices and stock dictionary to entites of type Price
-    /// </summary>
-    /// <param name="fetchedItemsWithPrice"></param>
-    /// <param name="itemsToUpdate"></param>
-    /// <returns></returns>
+    
     private IEnumerable<StockPriceEntity> MapToPriceInstances(
-        ImmutableList<StockPriceDetails> fetchedItemsWithPrice,
-        ImmutableDictionary<string, int> itemsToUpdate)
+        List<StockPriceDetails> fetchedItemsWithPrice,
+        Dictionary<string, int> itemsToUpdate)
     {
         foreach (var fetchedItem in fetchedItemsWithPrice)
         {
@@ -196,17 +168,13 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
             };
         }
     }
-
-    /// <summary>
-    /// Persist new price instances to database
-    /// </summary>
-    /// <param name="priceEntities"></param>
-    /// <returns></returns>
+    
     private async Task Save(IEnumerable<StockPriceEntity> priceEntities)
     {
-        await _repoPrice.Add(priceEntities.ToArray());
-        await _repoPrice.SaveChanges();
+        await _work.StockPriceRepo.AddRange(priceEntities);
+        await _work.Save(default);
     }
+    
 }
 
 public class StockPriceDetails

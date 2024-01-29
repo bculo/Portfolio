@@ -1,52 +1,51 @@
+using FluentValidation;
 using MediatR;
+using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Core.Models;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
-public record FilterStocks(string Symbol) : PageRequest, IRequest<IEnumerable<FilterStocksResponse>>;
+public record FilterStocks(string Symbol) : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
-public class FilterStocksValidator : PageBaseValidator<FilterStocks> { }
-
-public class FilterStocksHandler : IRequestHandler<FilterStocks, IEnumerable<FilterStocksResponse>>
+public class FilterStocksValidator : AbstractValidator<FilterStocks>
 {
-    private readonly IBaseRepository<StockEntity> _repo;
-
-    public FilterStocksHandler(IBaseRepository<StockEntity> repo)
+    public FilterStocksValidator()
     {
-        _repo = repo;
-    }
-
-    public async Task<IEnumerable<FilterStocksResponse>> Handle(FilterStocks request, CancellationToken cancellationToken)
-    {
-        var items = await FilterItems(request);
-        return MapToResponse(items);
-    }
-
-    private async Task<List<StockEntity>> FilterItems(FilterStocks request)
-    {
-        var (count, page) = await _repo.Page(
-            i => string.IsNullOrWhiteSpace(request.Symbol) || i.Symbol.Contains(request.Symbol),
-            request.Page,
-            request.Take);
-
-        return page;
-    }
-
-    private IEnumerable<FilterStocksResponse> MapToResponse(List<StockEntity> items)
-    {
-        return items.Select(i => new FilterStocksResponse
-        {
-            Id = i.Id,
-            Symbol = i.Symbol,
-        });
+        Include(new PageRequestDtoValidator());
+        
+        RuleFor(i => i.Symbol)
+            .NotNull();
     }
 }
 
-public record FilterStocksResponse
+public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
 {
-    public int Id { get; set; }
-    public string Symbol { get; set; }
+    private readonly IUnitOfWork _work;
+
+    public FilterStocksHandler(IUnitOfWork work)
+    {
+        _work = work;
+    }
+
+    public async Task<PageResultDto<FilterStockResponseItem>> Handle(
+        FilterStocks request, 
+        CancellationToken ct)
+    {
+        var page = await _work.StockRepo.Page(
+            i => i.Symbol.Contains(request.Symbol),
+            i => i.OrderBy(x => x.CreatedAt),
+            request.ToPageQuery(),
+            ct: ct);
+
+        return page.MapToDto(Projection);
+    }
+
+    public FilterStockResponseItem Projection(StockEntity entity)
+    {
+        return new FilterStockResponseItem(entity.Id, entity.Symbol);
+    }
 }
+
+public record FilterStockResponseItem(int Id, string Symbol);

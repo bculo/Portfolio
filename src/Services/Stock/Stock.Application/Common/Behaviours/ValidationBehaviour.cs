@@ -1,10 +1,15 @@
 ﻿using FluentValidation;
+using LanguageExt;
 using MediatR;
+using Stock.Application.Common.Models;
+using Stock.Application.Queries.Stock;
+using Stock.Core.Errors;
 using Stock.Core.Exceptions;
 
 namespace Stock.Application.Common.Behaviours
 {
-    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+        where TRequest : notnull
     {
 
         private readonly IEnumerable<IValidator<TRequest>> _validators;
@@ -37,7 +42,7 @@ namespace Stock.Application.Common.Behaviours
                 var errors = failures
                     .GroupBy(e => e.PropertyName)
                     .ToDictionary(x => x.Key, y => y.Select(i => i.ErrorMessage).ToArray());
-
+                
                 throw new StockCoreValidationException(errors);
             }
 
