@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Sqids;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Expressions;
@@ -28,13 +29,16 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
 public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
 {
     private readonly IUnitOfWork _work;
+    private readonly SqidsEncoder<int> _sqids;
     private readonly IExpressionBuilderFactory _factory;
 
     public FilterStocksHandler(IUnitOfWork work, 
-        IExpressionBuilderFactory factory)
+        IExpressionBuilderFactory factory, 
+        SqidsEncoder<int> sqids)
     {
         _work = work;
         _factory = factory;
+        _sqids = sqids;
     }
 
     public async Task<PageResultDto<FilterStockResponseItem>> Handle(
@@ -66,8 +70,8 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
 
     public FilterStockResponseItem Projection(StockWithPriceTagReadModel entity)
     {
-        return new FilterStockResponseItem(entity.StockId, entity.Symbol, entity.Price);
+        return new FilterStockResponseItem(_sqids.Encode(entity.StockId), entity.Symbol, entity.Price);
     }
 }
 
-public record FilterStockResponseItem(int Id, string Symbol, decimal Price);
+public record FilterStockResponseItem(string Id, string Symbol, decimal Price);

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stock.Application.Common.Behaviours;
 using System.Reflection;
+using Sqids;
 
 namespace Stock.Application
 {
@@ -17,9 +18,14 @@ namespace Stock.Application
                 opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
 
+            services.AddSingleton(new SqidsEncoder<int>(new()
+            {
+                MinLength = 20,
+                Alphabet = configuration["Encoder:Alphabet"] 
+                           ?? throw new ArgumentException("Encoder:Alphabet property is null")
+            }));
+            
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
-            
-            
         }
    }
 }

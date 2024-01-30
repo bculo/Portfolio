@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Sqids;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
@@ -14,16 +15,14 @@ using Stock.Core.Models.Stock;
 namespace Stock.Application.Queries.Stock;
 
 
-public record GetStock(string Symbol) : IRequest<GetStockResponse>;
+public record GetStock(string Id) : IRequest<GetStockResponse>;
 
 public class GetStockValidator : AbstractValidator<GetStock>
 {
     public GetStockValidator(ILocale locale)
     {
-        RuleFor(i => i.Symbol)
-            .NotEmpty()
-            .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
-            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
+        RuleFor(i => i.Id)
+            .NotEmpty();
     }
 }
 
@@ -31,26 +30,27 @@ public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
 {
     private readonly ICacheService _cache;
     private readonly IUnitOfWork _work;
+    private readonly SqidsEncoder<int> _sqids;
     private readonly ILogger<GetStockHandler> _logger;
 
     public GetStockHandler(ICacheService cache,
         ILogger<GetStockHandler> logger, 
-        IUnitOfWork work)
+        IUnitOfWork work, 
+        SqidsEncoder<int> sqids)
     {
         _cache = cache;
         _logger = logger;
         _work = work;
+        _sqids = sqids;
     }
     
     public async Task<GetStockResponse> Handle(GetStock request, CancellationToken ct)
     {
-        var entity = await _work.StockRepo.First(
-            x => x.Symbol.ToLower() == request.Symbol.ToLower(),
-            ct: ct);
-        
+        var entityId = _sqids.DecodeSingle(request.Id);
+        var entity = await _work.StockRepo.Find(entityId, ct);
         if(entity is null)
         {
-            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundBySymbol(request.Symbol));
+            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(entityId));
         }
         
         return Map(entity);

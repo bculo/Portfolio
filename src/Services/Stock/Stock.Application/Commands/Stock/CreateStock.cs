@@ -2,6 +2,7 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Sqids;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
@@ -13,7 +14,7 @@ using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Commands.Stock;
 
-public record CreateStock(string Symbol) : IRequest<long>;
+public record CreateStock(string Symbol) : IRequest<string>;
 
 public class CreateStockValidator : AbstractValidator<CreateStock>
 {
@@ -26,27 +27,29 @@ public class CreateStockValidator : AbstractValidator<CreateStock>
     }
 }
 
-public class CreateStockHandler : IRequestHandler<CreateStock, long>
+public class CreateStockHandler : IRequestHandler<CreateStock, string>
 {
     private readonly IStockPriceClient _client;
     private readonly IPublishEndpoint _publish;
     private readonly IUnitOfWork _work;
+    private readonly SqidsEncoder<int> _sqids;
 
     public CreateStockHandler(IStockPriceClient client,
         IPublishEndpoint publish,
-        IUnitOfWork work)
+        IUnitOfWork work, 
+        SqidsEncoder<int> sqids)
     {
         _work = work;
+        _sqids = sqids;
         _client = client;
         _publish = publish;
     }
 
-    public async Task<long> Handle(CreateStock request, CancellationToken ct)
+    public async Task<string> Handle(CreateStock request, CancellationToken ct)
     {
         var instance = await _work.StockRepo.First(
             i => i.Symbol.ToLower() == request.Symbol.ToLower(),
             ct: ct);
-        
         if (instance is not null)
         {
             throw new StockCoreException(StockErrorCodes.Duplicate(request.Symbol));
@@ -71,6 +74,6 @@ public class CreateStockHandler : IRequestHandler<CreateStock, long>
             Symbol = newItem.Symbol
         }, ct);
 
-        return newItem.Id;
+        return _sqids.Encode(newItem.Id);
     }
 }

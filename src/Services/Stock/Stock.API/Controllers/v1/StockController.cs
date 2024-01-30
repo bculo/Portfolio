@@ -19,20 +19,20 @@ namespace Stock.API.Controllers.v1
         }
         
         [HttpPost("Create", Name = "CreateStock")]
-        [ProducesResponseType(typeof(long), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateStock createStock)
         {
             return Ok(await _mediator.Send(createStock));
         }
 
-        [HttpGet("Single/{symbol}", Name = "GetStock")]
+        [HttpGet("Single/{id}", Name = "GetStock")]
         [ProducesResponseType(typeof(GetStockResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetStock([FromRoute] string symbol)
+        public async Task<IActionResult> GetStock([FromRoute] string id)
         {
-            return Ok(await _mediator.Send(new GetStock(symbol)));
+            return Ok(await _mediator.Send(new GetStock(id)));
         }
 
         [HttpGet("All", Name = "GetStocks")]

@@ -1,4 +1,5 @@
 using MediatR;
+using Sqids;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Stock;
 
@@ -9,10 +10,12 @@ public record GetStocks : IRequest<IEnumerable<GetStocksResponse>>;
 public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocksResponse>>
 {
     private readonly IUnitOfWork _work;
+    private readonly SqidsEncoder<int> _sqids;
 
-    public GetStocksHandler(IUnitOfWork work)
+    public GetStocksHandler(IUnitOfWork work, SqidsEncoder<int> sqids)
     {
         _work = work;
+        _sqids = sqids;
     }
 
     public async Task<IEnumerable<GetStocksResponse>> Handle(
@@ -25,8 +28,8 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
 
     private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTagReadModel> items)
     {
-        return items.Select(i => new GetStocksResponse(Id: i.StockId, Symbol: i.Symbol, Price: i.Price));
+        return items.Select(i => new GetStocksResponse(_sqids.Encode(i.StockId), i.Symbol, i.Price));
     }
 }
 
-public record GetStocksResponse(long Id, string Symbol, decimal Price);
+public record GetStocksResponse(string Id, string Symbol, decimal Price);

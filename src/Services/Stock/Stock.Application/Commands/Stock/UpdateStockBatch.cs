@@ -155,7 +155,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
     }
 }
 
-public record StockPriceDetails(string Symbol, decimal Price, long Id);
+public record StockPriceDetails(string Symbol, decimal Price, int Id);
 
 public record UpdateStockBatchResponse(int BatchSize, int PriceUpdates);
 

@@ -12,8 +12,8 @@ using Stock.Infrastructure.Persistence;
 namespace Stock.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20240129094444_Add_Stock_Price_Tag_View")]
-    partial class Add_Stock_Price_Tag_View
+    [Migration("20240130134220_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,14 @@ namespace Stock.Infrastructure.Persistence.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("createdby");
 
+                    b.Property<DateTime?>("Deactivated")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deactivated");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isactive");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modifiedat");
@@ -72,26 +80,36 @@ namespace Stock.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Stock.Core.Models.Stock.StockPriceEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("createdat");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("createdby");
+
+                    b.Property<DateTime?>("Deactivated")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deactivated");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("isactive");
 
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modifiedat");
 
                     b.Property<string>("ModifiedBy")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("modifiedby");
 
@@ -124,6 +142,7 @@ namespace Stock.Infrastructure.Persistence.Migrations
                         .HasColumnName("stockid");
 
                     b.Property<string>("Symbol")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("symbol");
 

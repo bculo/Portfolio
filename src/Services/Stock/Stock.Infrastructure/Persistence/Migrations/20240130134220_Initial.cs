@@ -22,7 +22,9 @@ namespace Stock.Infrastructure.Persistence.Migrations
                     createdby = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     modifiedby = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     createdat = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modifiedat = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    modifiedat = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    isactive = table.Column<bool>(type: "boolean", nullable: false),
+                    deactivated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,14 +35,16 @@ namespace Stock.Infrastructure.Persistence.Migrations
                 name: "stocks_prices",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     price = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     stockid = table.Column<int>(type: "integer", nullable: false),
-                    createdby = table.Column<string>(type: "text", nullable: true),
-                    modifiedby = table.Column<string>(type: "text", nullable: true),
+                    createdby = table.Column<string>(type: "text", nullable: false),
+                    modifiedby = table.Column<string>(type: "text", nullable: false),
                     createdat = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modifiedat = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    modifiedat = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    isactive = table.Column<bool>(type: "boolean", nullable: false),
+                    deactivated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

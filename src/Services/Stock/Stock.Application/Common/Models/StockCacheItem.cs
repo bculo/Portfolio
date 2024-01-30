@@ -8,7 +8,7 @@ namespace Stock.Application.Common.Models
 {
     public class StockCacheItem
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Symbol { get; set; }
         public decimal Price { get;set; }
     }
