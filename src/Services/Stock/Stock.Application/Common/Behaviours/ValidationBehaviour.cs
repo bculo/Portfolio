@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Globalization;
+using FluentValidation;
 using MediatR;
 using Stock.Core.Exceptions;
 
@@ -21,7 +22,9 @@ namespace Stock.Application.Common.Behaviours
             {
                 return await next();
             }
-
+            
+            ValidatorOptions.Global.LanguageManager.Culture = CultureInfo.CurrentCulture;
+            
             var context = new ValidationContext<TRequest>(request);
 
             var validationTasks = _validators.Select(v => v.ValidateAsync(context, cancellationToken));

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Localization;
 using Stock.Application.Interfaces.Localization;
-using Stock.Application.Resources.Shared;
+using Stock.Application.Resources;
 using Stock.Core.Exceptions.Codes;
 
 namespace Stock.Infrastructure.Localization;

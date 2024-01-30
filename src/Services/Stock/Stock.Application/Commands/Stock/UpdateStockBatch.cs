@@ -12,7 +12,6 @@ using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
 
-
 public record UpdateStockBatch(List<string> Symbols) : IRequest<UpdateStockBatchResponse>;
 
 public class UpdateStockBatchValidator : AbstractValidator<UpdateStockBatch>
@@ -123,12 +122,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
             await semaphore.WaitAsync();
             var fetchedInstance = await _client.GetPrice(item.Key);
             return fetchedInstance is not null
-                ? new StockPriceDetails
-                {
-                    Id = item.Value,
-                    Price = fetchedInstance.Price,
-                    Symbol = item.Key
-                }
+                ? new StockPriceDetails(Id: item.Value, Price: fetchedInstance.Price, Symbol: item.Key)
                 : default;
         }
         catch
@@ -161,12 +155,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
     }
 }
 
-public class StockPriceDetails
-{
-    public string Symbol { get; set; } = default!;
-    public decimal Price { get; set; }
-    public long Id { get; set; }
-}
+public record StockPriceDetails(string Symbol, decimal Price, long Id);
 
 public record UpdateStockBatchResponse(int BatchSize, int PriceUpdates);
 

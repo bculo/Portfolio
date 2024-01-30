@@ -27,18 +27,8 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
 
     private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTagReadModel> items)
     {
-        return items.Select(i => new GetStocksResponse
-        {
-            Id = i.StockId,
-            Symbol = i.Symbol,
-            Price = i.Price
-        });
+        return items.Select(i => new GetStocksResponse(Id: i.StockId, Symbol: i.Symbol, Price: i.Price));
     }
 }
 
-public class GetStocksResponse
-{
-    public int Id { get; set; }
-    public string Symbol { get; set; }
-    public decimal Price { get; set; }
-}
+public record GetStocksResponse(long Id, string Symbol, decimal Price);

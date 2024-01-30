@@ -4,7 +4,7 @@ using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Application.Resources.Shared;
+using Stock.Application.Resources;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
@@ -18,9 +18,8 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
         Include(new PageRequestDtoValidator());
 
         RuleFor(i => i.Symbol)
-            .NotNull()
-            .When(i => !string.IsNullOrEmpty(i.Symbol))
-            .MatchesStockSymbol()
+            .NotEmpty()
+            .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
             .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
     }
 }

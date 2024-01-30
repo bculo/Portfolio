@@ -13,8 +13,17 @@ public static class ValidationRegex
 
 public static class StockFluentValidationExtensions
 {
-    public static IRuleBuilderOptions<T, string> MatchesStockSymbol<T>(this IRuleBuilder<T, string> builder)
+    public static IRuleBuilderOptions<T, string> MatchesStockSymbol<T>(
+        this IRuleBuilder<T, string> builder)
     {
         return builder.Matches(ValidationRegex.SymbolRegex);
+    }
+    
+    public static IRuleBuilderOptions<T, string> MatchesStockSymbolWhen<T>(
+        this IRuleBuilder<T, string> builder,
+        Func<T, bool> predicate)
+    {
+        return builder.Matches(ValidationRegex.SymbolRegex)
+            .When(predicate);
     }
 }

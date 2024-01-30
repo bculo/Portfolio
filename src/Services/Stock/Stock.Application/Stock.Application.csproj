@@ -41,20 +41,10 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Features.AddNewLocale.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Features.AddNewLocale.resx">
       <Generator></Generator>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Features.AddNewLocale.hr.resx">
-      <Generator></Generator>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Features.GetSingleLocale.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Resources.Shared.ValidationShared.resx">
+    <EmbeddedResource Update="Resources\Resources.ValidationShared.resx">
       <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
