@@ -44,7 +44,10 @@ public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
     
     public async Task<GetStockResponse> Handle(GetStock request, CancellationToken ct)
     {
-        var entity = await _work.StockRepo.First(x => x.Symbol == request.Symbol, ct);
+        var entity = await _work.StockRepo.First(
+            x => x.Symbol.ToLower() == request.Symbol.ToLower(),
+            ct: ct);
+        
         if(entity is null)
         {
             throw new StockCoreNotFoundException(StockErrorCodes.NotFoundBySymbol(request.Symbol));

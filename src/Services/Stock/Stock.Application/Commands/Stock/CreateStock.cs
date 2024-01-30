@@ -2,7 +2,6 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
-using Microsoft.Extensions.Localization;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
@@ -45,8 +44,9 @@ public class CreateStockHandler : IRequestHandler<CreateStock, long>
     public async Task<long> Handle(CreateStock request, CancellationToken ct)
     {
         var instance = await _work.StockRepo.First(
-            i => i.Symbol.ToLower() == request.Symbol.ToLower(), 
-            ct);
+            i => i.Symbol.ToLower() == request.Symbol.ToLower(),
+            ct: ct);
+        
         if (instance is not null)
         {
             throw new StockCoreException(StockErrorCodes.Duplicate(request.Symbol));

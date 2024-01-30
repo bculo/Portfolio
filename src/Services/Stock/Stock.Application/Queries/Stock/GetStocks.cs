@@ -19,10 +19,8 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
         GetStocks request, 
         CancellationToken ct)
     {
-        throw new NotImplementedException();
-        //var items = await _repo.GetAllWithPrice();
-
-        //return MapToResponse(items);
+        var stocks = await _work.StockWithPriceTag.GetAll(ct);
+        return MapToResponse(stocks);
     }
 
     private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTagReadModel> items)

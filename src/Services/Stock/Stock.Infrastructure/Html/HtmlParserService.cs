@@ -15,7 +15,7 @@ namespace Stock.Infrastructure.Html
     {
         private readonly ILogger<HtmlParserService> _logger;
 
-        public HtmlParserService(ILogger<HtmlParserService> logger, HtmlDocument document)
+        public HtmlParserService(ILogger<HtmlParserService> logger, HtmlDocument? document)
         {
             _logger = logger;
             _document = document;
@@ -85,13 +85,15 @@ namespace Stock.Infrastructure.Html
                 return null;
             }
 
-            return Task.FromResult(new HtmlNodeElement
+            var nodeInfo = new HtmlNodeElement
             {
                 Text = node.InnerHtml,
                 Attributes = node.Attributes.ToDictionary(x => x.Name, y => y.Value),
                 HtmlElementType = node.OriginalName,
                 Html = node.OuterHtml
-            });
+            };
+            
+            return Task.FromResult(nodeInfo)!;
         }
     }
 }

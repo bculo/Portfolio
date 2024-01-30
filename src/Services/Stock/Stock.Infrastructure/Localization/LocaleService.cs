@@ -16,21 +16,19 @@ public class LocaleService : ILocale
         _factory = factory;
     }
 
-    public IStringLocalizer? GetLocalizer(string code)
+    private IStringLocalizer? GetLocalizer(string code)
     {
         var codePrefix = code.Split(".").FirstOrDefault();
         if (codePrefix is null)
         {
             return null;
         }
-        
-        switch (codePrefix)
+
+        return codePrefix switch
         {
-            case "Validation":
-                return _factory.Create(typeof(ValidationShared));
-            default:
-                return null;
-        }
+            "Validation" => _factory.Create(typeof(ValidationShared)),
+            _ => null
+        };
     } 
     
     public string Get(string code)

@@ -9,6 +9,8 @@ public class UnitOfWork : IUnitOfWork
     
     public IStockRepository StockRepo { get; }
     public IStockPriceRepository StockPriceRepo { get; }
+    
+    public IStockWithPriceTagReadRepository StockWithPriceTag { get; }
 
     
     public UnitOfWork(IServiceProvider provider, StockDbContext context)
@@ -17,6 +19,7 @@ public class UnitOfWork : IUnitOfWork
 
         StockRepo = provider.GetRequiredService<IStockRepository>();
         StockPriceRepo = provider.GetRequiredService<IStockPriceRepository>();
+        StockWithPriceTag = provider.GetRequiredService<IStockWithPriceTagReadRepository>();
     }
     
     public async Task Save(CancellationToken cls)

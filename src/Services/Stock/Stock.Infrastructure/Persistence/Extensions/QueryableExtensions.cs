@@ -34,7 +34,7 @@ public static class QueryableExtensions
     }
 
     public static IQueryable<T> ApplyInclude<T>(this IQueryable<T> source,
-        Func<IQueryable<T>, IIncludableQueryable<T, object>> includes)
+        Func<IQueryable<T>, IIncludableQueryable<T, object>>? includes = default)
     {
         if (includes is null)
         {
@@ -45,7 +45,7 @@ public static class QueryableExtensions
     }
     
     public static IQueryable<T> ApplyOrderBy<T>(this IQueryable<T> source,
-        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy)
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default)
     {
         if (orderBy is null)
         {
@@ -64,5 +64,10 @@ public static class QueryableExtensions
     public static IQueryable<T> ApplyTracking<T>(this IQueryable<T> source, bool tracking) where T : class
     {
         return tracking ? source.AsTracking() : source.AsNoTracking();
+    }
+    
+    public static IQueryable<T> ApplySplitQuery<T>(this IQueryable<T> source, bool splitQuery) where T : class
+    {
+        return splitQuery ? source.AsSplitQuery() : source;
     }
 }

@@ -13,11 +13,11 @@ namespace Stock.Infrastructure.Persistence
         private readonly IConfiguration _configuration;
         private readonly IStockUser _currentUser;
         private readonly IDateTimeProvider _timeProvider;
+
+        public virtual DbSet<StockEntity> Stocks => Set<StockEntity>();
+        public virtual DbSet<StockPriceEntity> Prices => Set<StockPriceEntity>();
         
-        public virtual DbSet<StockEntity> Stocks { get; set; }
-        public virtual DbSet<StockPriceEntity> Prices { get; set; }
-        
-        public virtual DbSet<StockWithPriceTagReadModel> StockWithPriceTag { get; set; }
+        public virtual DbSet<StockWithPriceTagReadModel> StockWithPriceTag => Set<StockWithPriceTagReadModel>();
         
 
         public StockDbContext(IConfiguration configuration,
@@ -46,10 +46,10 @@ namespace Stock.Infrastructure.Persistence
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries<AuditableEntity>()
-                       .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
+                       .Where(x => x.State is EntityState.Added or EntityState.Modified);
 
             foreach (var entry in entries)
-            {
+            {   
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedAt = _timeProvider.Now;
