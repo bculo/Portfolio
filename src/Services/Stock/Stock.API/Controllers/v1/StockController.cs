@@ -1,7 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
+using Stock.API.Common.Constants;
 using Stock.Application.Commands.Stock;
+using Stock.Application.Common.Models;
 using Stock.Application.Queries.Stock;
 
 namespace Stock.API.Controllers.v1
@@ -27,6 +29,7 @@ namespace Stock.API.Controllers.v1
         }
 
         [HttpGet("Single/{id}", Name = "GetStock")]
+        [OutputCache(PolicyName = CachePolicies.STOCK_GET_SINGLE)]
         [ProducesResponseType(typeof(GetStockResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -36,6 +39,7 @@ namespace Stock.API.Controllers.v1
         }
 
         [HttpGet("All", Name = "GetStocks")]
+        [OutputCache(PolicyName = CachePolicies.STOCK_GET_FILTER)]
         [ProducesResponseType(typeof(IEnumerable<GetStocksResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetStocks()
         {
@@ -43,7 +47,8 @@ namespace Stock.API.Controllers.v1
         }
 
         [HttpGet("Filter", Name = "FilterStocks")]
-        [ProducesResponseType(typeof(IEnumerable<FilterStocks>), StatusCodes.Status200OK)]
+        [OutputCache(PolicyName = CachePolicies.STOCK_GET_FILTER)]
+        [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> FilterStocks([FromQuery] FilterStocks filterListQuery)
         {

@@ -23,7 +23,7 @@ namespace Stock.Worker.Jobs
         public async Task InitializeUpdateProcedure()
         {
             _logger.LogTrace("PrepareBatchesForUpdate.Command");
-            await _mediator.Send(new CreateStockUpdateBatches(), CancellationToken.None);
+            await _mediator.Send(new CreateStockUpdateBatches(), default);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Cache.Redis.Common.Redis;
 using Cache.Redis.Common.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using StackExchange.Redis;
 
 namespace Cache.Redis.Common
@@ -35,7 +36,7 @@ namespace Cache.Redis.Common
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
             var multiplexer = ConnectionMultiplexer.Connect(connectionString) as IConnectionMultiplexer;
-            services.AddSingleton(multiplexer);
+            services.TryAddSingleton(multiplexer);
         }
 
         public static void AddRedisOutputCache(this IServiceCollection services, 
@@ -44,6 +45,8 @@ namespace Cache.Redis.Common
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(instanceName);
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
+
+            services.AddRedisConnectionMultiplexer(connectionString);
             
             using var provider = services.BuildServiceProvider();
             using var scope = provider.CreateScope(); 

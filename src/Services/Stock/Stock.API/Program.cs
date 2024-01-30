@@ -1,12 +1,10 @@
+using System.Diagnostics;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
-using NpgsqlTypes;
 using Serilog;
-using Serilog.Sinks.PostgreSQL.ColumnWriters;
-using Serilog.Sinks.PostgreSQL;
+using Serilog.Debugging;
 using Stock.API.Configurations;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +13,7 @@ builder.Host.UseSerilog((host, log) =>
     log.ReadFrom.Configuration(host.Configuration);
 });
 
-Serilog.Debugging.SelfLog.Enable(msg => 
+SelfLog.Enable(msg => 
 {
     Trace.WriteLine(msg);
 });
@@ -24,7 +22,6 @@ builder.Services.ConfigureApiProject(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -47,9 +44,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
-app.UseAuthorization();
+app.UseOutputCache();
 
 app.MapControllers();
 

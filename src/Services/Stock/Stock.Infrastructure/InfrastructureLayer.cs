@@ -1,4 +1,5 @@
 ﻿using Cache.Redis.Common;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,8 @@ using Stock.Infrastructure.Persistence.Repositories.Read;
 using Stock.Infrastructure.Price;
 using Time.Abstract.Contracts;
 using Time.Common;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace Stock.Infrastructure
 {
@@ -34,6 +37,7 @@ namespace Stock.Infrastructure
             });
 
             AddClients(services, configuration);
+            AddCache(services, configuration);
 
             services.AddDbContext<StockDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -44,15 +48,38 @@ namespace Stock.Infrastructure
             services.AddScoped<ILocale, LocaleService>();
             services.AddScoped(typeof(IExpressionBuilder<>), typeof(ExpressionBuilder<>));
             services.AddScoped<IExpressionBuilderFactory, ExpressionBuilderFactory>();
-
-            var instanceName = configuration["RedisOptions:InstanceName"];
-            var connection = configuration["RedisOptions:ConnectionString"];
-            services.AddRedisCacheService(connection!, instanceName!);
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)
         {
             ConfigureMarketWatchClient(services, configuration);
+        }
+        
+        public static void AddCache(IServiceCollection services, IConfiguration configuration)
+        {
+            var redisConnectionString = configuration["RedisOptions:ConnectionString"];
+            var redisInstanceName = configuration["RedisOptions:InstanceName"];
+            
+            services.AddFusionCache()
+                .WithDefaultEntryOptions(opt =>
+                {
+                    opt.FactorySoftTimeout = TimeSpan.FromMilliseconds(200);
+                    opt.FactoryHardTimeout = TimeSpan.FromMilliseconds(2000);
+
+                    opt.DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1);
+                    opt.DistributedCacheHardTimeout = TimeSpan.FromSeconds(2);
+                    opt.AllowBackgroundDistributedCacheOperations = true;
+                })
+                .WithSerializer(new FusionCacheSystemTextJsonSerializer())
+                .WithDistributedCache(
+                    new RedisCache(new RedisCacheOptions
+                    {
+                        Configuration = redisConnectionString, 
+                        InstanceName = redisInstanceName
+                    })
+                );
+            
+            services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
         }
 
         private static void ConfigureMarketWatchClient(IServiceCollection services, IConfiguration configuration)

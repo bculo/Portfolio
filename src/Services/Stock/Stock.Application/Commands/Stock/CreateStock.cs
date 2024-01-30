@@ -2,7 +2,9 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
 using Sqids;
+using Stock.Application.Common.Constants;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
@@ -33,14 +35,17 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
     private readonly IPublishEndpoint _publish;
     private readonly IUnitOfWork _work;
     private readonly SqidsEncoder<int> _sqids;
+    private readonly IOutputCacheStore _outputCache;
 
     public CreateStockHandler(IStockPriceClient client,
         IPublishEndpoint publish,
         IUnitOfWork work, 
-        SqidsEncoder<int> sqids)
+        SqidsEncoder<int> sqids, 
+        IOutputCacheStore outputCache)
     {
         _work = work;
         _sqids = sqids;
+        _outputCache = outputCache;
         _client = client;
         _publish = publish;
     }
@@ -74,6 +79,8 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
             Symbol = newItem.Symbol
         }, ct);
 
+        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
+        
         return _sqids.Encode(newItem.Id);
     }
 }

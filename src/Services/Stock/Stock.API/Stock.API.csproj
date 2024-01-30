@@ -35,4 +35,8 @@
     <ProjectReference Include="..\Stock.Infrastructure\Stock.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\CahcePolicies\" />
+  </ItemGroup>
+
 </Project>

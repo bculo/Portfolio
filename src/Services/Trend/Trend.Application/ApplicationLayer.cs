@@ -172,8 +172,7 @@ namespace Trend.Application
         {
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
             var redisInstanceName = configuration["RedisOptions:InstanceName"];
-
-            services.AddMemoryCache();
+            
             services.AddFusionCache()
                 .WithDefaultEntryOptions(opt =>
                 {

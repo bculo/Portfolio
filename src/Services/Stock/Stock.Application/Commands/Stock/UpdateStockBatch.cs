@@ -2,8 +2,12 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Sqids;
+using Stock.Application.Common.Constants;
+using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Price.Models;
 using Stock.Application.Interfaces.Repositories;
@@ -36,13 +40,17 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
     private readonly ILogger<UpdateStockBatchHandler> _logger;
     private readonly IStockPriceClient _client;
     private readonly IUnitOfWork _work;
+    private readonly SqidsEncoder<int> _sqids;
+    private readonly IOutputCacheStore _outputCache;
 
     public UpdateStockBatchHandler(IStockPriceClient client,
         ILogger<UpdateStockBatchHandler> logger,
         IPublishEndpoint endpoint,
         IDateTimeProvider provider,
         IConfiguration config,
-        IUnitOfWork work)
+        IUnitOfWork work,
+        IOutputCacheStore outputCache, 
+        SqidsEncoder<int> sqids)
     {
         _client = client;
         _logger = logger;
@@ -50,6 +58,8 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         _provider = provider;
         _config = config;
         _work = work;
+        _outputCache = outputCache;
+        _sqids = sqids;
     }
 
     public async Task<UpdateStockBatchResponse> Handle(UpdateStockBatch request, CancellationToken ct)
@@ -73,9 +83,20 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         await _work.Save(ct);
 
         await PublishEvents(assetsWithFreshPriceTag, ct);
+        await EvictCacheEntries(assetsWithFreshPriceTag, ct);
+        
         return new UpdateStockBatchResponse(assetsToUpdate.Count, assetsWithFreshPriceTag.Count);
     }
-    
+
+    private async Task EvictCacheEntries(List<StockPriceDetails> assetsWithFreshPriceTag, CancellationToken ct)
+    {
+        foreach (var asset in assetsWithFreshPriceTag)
+        {
+            var evictTag = _sqids.Encode(asset.Id);
+            await _outputCache.EvictByTagAsync(evictTag, ct);
+        }
+    }
+
     private async Task PublishEvents(List<StockPriceDetails> assets, CancellationToken ct)
     {
         var timeStamp = _provider.Now;

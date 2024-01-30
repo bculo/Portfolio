@@ -28,17 +28,14 @@ public class GetStockValidator : AbstractValidator<GetStock>
 
 public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
 {
-    private readonly ICacheService _cache;
     private readonly IUnitOfWork _work;
     private readonly SqidsEncoder<int> _sqids;
     private readonly ILogger<GetStockHandler> _logger;
 
-    public GetStockHandler(ICacheService cache,
-        ILogger<GetStockHandler> logger, 
+    public GetStockHandler(ILogger<GetStockHandler> logger, 
         IUnitOfWork work, 
         SqidsEncoder<int> sqids)
     {
-        _cache = cache;
         _logger = logger;
         _work = work;
         _sqids = sqids;
