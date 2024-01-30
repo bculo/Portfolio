@@ -6,6 +6,6 @@ namespace Stock.Application.Interfaces.Html
     {
         Task<bool> Initialize(string htmlContent);
         Task<IEnumerable<HtmlNodeElement>> FindElements(string xPathQuery);
-        Task<HtmlNodeElement> FindFirstElement(string xPathQuery);
+        Task<HtmlNodeElement?> FindFirstElement(string xPathQuery);
     }
 }

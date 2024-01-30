@@ -72,7 +72,7 @@ namespace Stock.Infrastructure.Html
             return Task.FromResult(elements);
         }
 
-        public Task<HtmlNodeElement> FindFirstElement(string xPathQuery)
+        public Task<HtmlNodeElement?> FindFirstElement(string xPathQuery)
         {
             if (string.IsNullOrWhiteSpace(xPathQuery) || !_initialized)
             {

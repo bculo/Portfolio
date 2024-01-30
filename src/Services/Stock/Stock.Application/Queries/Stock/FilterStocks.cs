@@ -2,7 +2,9 @@ using FluentValidation;
 using MediatR;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
+using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
+using Stock.Application.Resources.Shared;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
@@ -11,12 +13,15 @@ public record FilterStocks(string Symbol) : PageRequestDto, IRequest<PageResultD
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
 {
-    public FilterStocksValidator()
+    public FilterStocksValidator(ILocale locale)
     {
         Include(new PageRequestDtoValidator());
-        
+
         RuleFor(i => i.Symbol)
-            .NotNull();
+            .NotNull()
+            .When(i => !string.IsNullOrEmpty(i.Symbol))
+            .MatchesStockSymbol()
+            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
     }
 }
 

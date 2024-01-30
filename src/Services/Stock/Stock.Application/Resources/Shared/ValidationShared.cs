@@ -8,5 +8,6 @@ namespace Stock.Application.Resources.Shared
 {
     public class ValidationShared
     {
+        public const string STOCK_SYMBOL_PATTERN = "Validation.SymbolPatternNotValid";
     }
 }

@@ -6,9 +6,11 @@ using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces.Html;
+using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Infrastructure.Html;
+using Stock.Infrastructure.Localization;
 using Stock.Infrastructure.Persistence;
 using Stock.Infrastructure.Persistence.Repositories;
 using Stock.Infrastructure.Price;
@@ -36,6 +38,7 @@ namespace Stock.Infrastructure
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockPriceRepository, StockPriceRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ILocale, LocaleService>();
 
             var instanceName = configuration["RedisOptions:InstanceName"];
             var connection = configuration["RedisOptions:ConnectionString"];

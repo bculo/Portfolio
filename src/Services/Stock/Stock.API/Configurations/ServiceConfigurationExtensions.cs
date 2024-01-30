@@ -64,12 +64,14 @@ namespace Stock.API.Configurations
             {
                 var supportedCultures = new List<CultureInfo> 
                 {
-                    new CultureInfo("en-US"),
-                    new CultureInfo("hr-HR")
+                    new("en-US"),
+                    new("hr-HR")
                 };
                 options.DefaultRequestCulture = new RequestCulture(culture: "en-US");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+                options.ApplyCurrentCultureToResponseHeaders = true;
+                options.AddInitialRequestCultureProvider(new AcceptLanguageHeaderRequestCultureProvider());
             });
         }
 

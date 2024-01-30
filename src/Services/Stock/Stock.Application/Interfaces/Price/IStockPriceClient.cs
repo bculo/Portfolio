@@ -9,6 +9,6 @@ namespace Stock.Application.Interfaces.Price
 {
     public interface IStockPriceClient
     {
-        Task<StockPriceInfo> GetPrice(string symbol);
+        Task<StockPriceInfo?> GetPrice(string symbol, CancellationToken ct = default);
     }
 }

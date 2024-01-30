@@ -1,17 +1,15 @@
-﻿using System.Text.RegularExpressions;
-using Events.Common.Stock;
+﻿using Events.Common.Stock;
 using FluentValidation;
-using LanguageExt;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Stock.Application.Common.Extensions;
+using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources.Shared;
-using Stock.Core.Errors;
 using Stock.Core.Exceptions;
-using Stock.Core.Models;
+using Stock.Core.Exceptions.Codes;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Commands.Stock;
@@ -20,11 +18,11 @@ public record CreateStock(string Symbol) : IRequest<long>;
 
 public class CreateStockValidator : AbstractValidator<CreateStock>
 {
-    public CreateStockValidator(IStringLocalizer<ValidationShared> locale)
+    public CreateStockValidator(ILocale locale)
     {
         RuleFor(i => i.Symbol)
             .MatchesStockSymbol()
-            .WithMessage(locale.GetString("Symbol pattern not valid"))
+            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN))
             .NotEmpty();
     }
 }
@@ -57,7 +55,7 @@ public class CreateStockHandler : IRequestHandler<CreateStock, long>
             throw new StockCoreException(StockErrorCodes.Duplicate(request.Symbol));
         }
 
-        var clientResult = await _client.GetPrice(request.Symbol);
+        var clientResult = await _client.GetPrice(request.Symbol, ct);
         if (clientResult is null)
         {
             throw new StockCoreException(StockErrorCodes.NotSupported(request.Symbol));

@@ -1,15 +1,14 @@
-using System.Text.RegularExpressions;
 using Cache.Abstract.Contracts;
 using FluentValidation;
-using LanguageExt;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Common.Extensions;
+using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources.Shared;
-using Stock.Core.Errors;
 using Stock.Core.Exceptions;
+using Stock.Core.Exceptions.Codes;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
@@ -19,11 +18,11 @@ public record GetStock(string Symbol) : IRequest<GetStockResponse>;
 
 public class GetStockValidator : AbstractValidator<GetStock>
 {
-    public GetStockValidator(IStringLocalizer<ValidationShared> locale)
+    public GetStockValidator(ILocale locale)
     {
         RuleFor(i => i.Symbol)
             .MatchesStockSymbol()
-            .WithMessage(locale.GetString("Symbol pattern not valid"))
+            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN))
             .NotEmpty();
     }
 }

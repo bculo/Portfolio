@@ -22,27 +22,27 @@ namespace Stock.Application.Interfaces.Repositories
         Task AddRange(IEnumerable<T> entities, CancellationToken ct = default);
 
         Task<List<T>> Filter(Expression<Func<T, bool>> predicate,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = default,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default,
             bool asTracking = false,
             CancellationToken ct = default);
 
         Task<PageReadModel<T>> Page(Expression<Func<T, bool>> predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             CancellationToken ct = default);
         
         Task<PageReadModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             CancellationToken ct = default);
         
         Task<PageReadModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = default,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             CancellationToken ct = default);
     }
 }

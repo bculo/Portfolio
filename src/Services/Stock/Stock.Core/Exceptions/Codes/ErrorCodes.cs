@@ -1,6 +1,6 @@
 using Stock.Core.Models.Common;
 
-namespace Stock.Core.Errors;
+namespace Stock.Core.Exceptions.Codes;
 
 public record ErrorCode(string Code, string Message);
 

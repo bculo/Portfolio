@@ -8,10 +8,13 @@ using Stock.Application.Interfaces.Repositories;
 
 namespace Stock.Application.Commands.Stock;
 
-public record CreateStockUpdateBatches : IRequest;
+public record CreateStockUpdateBatches : IRequest<CreateStockUpdateBatchesResponse>;
 
-public class CreateStockUpdateBatchesHandler : IRequestHandler<CreateStockUpdateBatches>
+public class CreateStockUpdateBatchesHandler 
+    : IRequestHandler<CreateStockUpdateBatches, CreateStockUpdateBatchesResponse>
 {
+    private const int DEFAULT_BATCH_SIZE = 10;
+    
     private readonly IPublishEndpoint _endpoint;
     private readonly ILogger<CreateStockUpdateBatchesHandler> _logger;
     private readonly IUnitOfWork _work;
@@ -28,52 +31,67 @@ public class CreateStockUpdateBatchesHandler : IRequestHandler<CreateStockUpdate
         _work = work;
     }
 
-    public async Task Handle(CreateStockUpdateBatches request, CancellationToken ct)
+    public async Task<CreateStockUpdateBatchesResponse> Handle(
+        CreateStockUpdateBatches request, 
+        CancellationToken ct)
     {
-        var symbols = await GetStockItems();
-
+        var symbols = await GetSymbols();
         if (!symbols.Any())
         {
-            _logger.LogTrace("Zero symbols found in storage");
+            _logger.LogTrace("Stock symbols not found");
+            return new CreateStockUpdateBatchesResponse(0);
         }
 
         var batches = CreateBatches(symbols);
         _logger.LogTrace("{NumberOfBatches} prepared for update", batches.Count);
 
-        foreach (var batch in batches)
+        await PublishBatches(batches, ct);
+        return new CreateStockUpdateBatchesResponse(batches.Count);
+    }
+
+    private async Task PublishBatches(Dictionary<int, List<string>> batches, CancellationToken ct)
+    {
+        foreach (var (_, symbols) in batches)
         {
             await _endpoint.Publish(new BatchForUpdatePrepared
             {
-                Symbols = batch
-            });
+                Symbols = symbols
+            }, ct);
         }
     }
 
-    private List<List<string>> CreateBatches(List<string> symbols)
+    private Dictionary<int, List<string>> CreateBatches(List<string> symbols)
     {
-        int batchSize = _options.Value.BatchSize;
+        var batchSize = _options.Value.BatchSize;
         if (batchSize <= 0)
         {
-            _logger.LogWarning("BatchSize option is less or equal to zero. Check application settings!!!");
-            batchSize = 10;
+            _logger.LogWarning("BatchSize option is less or equal to zero. Check application settings!");
+            batchSize = DEFAULT_BATCH_SIZE;
         }
 
-        var batches = new List<List<string>>();
+        var batches = new Dictionary<int, List<string>>();
         var numberOfBatches = (int)Math.Ceiling((decimal)symbols.Count / batchSize);
         foreach (var batchIndex in Enumerable.Range(0, numberOfBatches))
         {
-            var singleBatchItems = symbols.Skip(batchIndex * batchSize)
+            var batchItems = symbols.Skip(batchIndex * batchSize)
                 .Take(batchSize)
                 .ToList();
-            batches.Add(singleBatchItems);
+            
+            batches.Add(batchIndex, batchItems);
         }
 
         return batches;
     }
 
-    private async Task<List<string>> GetStockItems()
+    private async Task<List<string>> GetSymbols()
     {
-        return (await _work.StockRepo.Filter(i => true)).Select(i => i.Symbol).ToList();
+        var stockItems = await _work.StockRepo.Filter(i => true);
+        
+        return stockItems
+            .Select(i => i.Symbol)
+            .ToList();
     }
 }
+
+public record CreateStockUpdateBatchesResponse(int NumberOfBatches);
     

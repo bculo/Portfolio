@@ -1,8 +1,5 @@
-using LanguageExt;
 using MediatR;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Core.Errors;
-using Stock.Core.Models;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;

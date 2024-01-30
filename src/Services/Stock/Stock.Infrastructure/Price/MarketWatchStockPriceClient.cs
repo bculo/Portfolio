@@ -1,4 +1,5 @@
 ﻿using BultInTypes.Common.Decimal;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Stock.Application.Common.Constants;
@@ -28,21 +29,19 @@ namespace Stock.Infrastructure.Price
             _timeProvider = timeProvider;
         }
 
-        public async Task<StockPriceInfo> GetPrice(string symbol)
+        public async Task<StockPriceInfo?> GetPrice(string symbol, CancellationToken ct = default)
         {
             ArgumentException.ThrowIfNullOrEmpty(symbol);
 
             var client = _factory.CreateClient(HttpClientNames.MARKET_WATCH);
-
-            var response = await client.GetAsync($"investing/stock/{symbol}?mod=mw_quote_tab");
+            var response = await client.GetAsync($"investing/stock/{symbol}?mod=mw_quote_tab", ct);
             if (!response.IsSuccessStatusCode)
             {
                 return default;
             }
 
-            var htmlParser = _provider.GetService(typeof(IHtmlParser)) as IHtmlParser;
-
-            var htmlAsString = await response.Content.ReadAsStringAsync();
+            var htmlParser = _provider.GetRequiredService<IHtmlParser>();
+            var htmlAsString = await response.Content.ReadAsStringAsync(ct);
             await htmlParser.Initialize(htmlAsString);
 
             var priceSectionNode = await htmlParser.FindFirstElement("//div[@class='intraday__data']/h2/bg-quote");
@@ -55,7 +54,9 @@ namespace Stock.Infrastructure.Price
             var conversionResult = priceSectionNode.Text.ToNullableDecimal();
             if (!conversionResult.HasValue)
             {
-                _logger.LogWarning("Problem occured when parsing string to decimal number. String is {0}", priceSectionNode.Text);
+                _logger.LogWarning(
+                    "Problem occured when parsing string {ValueToParse} to decimal number.",
+                    priceSectionNode.Text);
                 return default;
             }
 

@@ -13,7 +13,7 @@ using Time.Abstract.Contracts;
 namespace Stock.Application.Commands.Stock;
 
 
-public record UpdateStockBatch(List<string> Symbols) : IRequest;
+public record UpdateStockBatch(List<string> Symbols) : IRequest<UpdateStockBatchResponse>;
 
 public class UpdateStockBatchValidator : AbstractValidator<UpdateStockBatch>
 {
@@ -27,8 +27,10 @@ public class UpdateStockBatchValidator : AbstractValidator<UpdateStockBatch>
     }
 }
 
-public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
+public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateStockBatchResponse>
 {
+    private const int MAXIMUM_CONCURRENT_REQUESTS = 5;
+    
     private readonly IPublishEndpoint _endpoint;
     private readonly IConfiguration _config;
     private readonly IDateTimeProvider _provider;
@@ -51,89 +53,83 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
         _work = work;
     }
 
-    public async Task Handle(UpdateStockBatch request, CancellationToken cancellationToken)
+    public async Task<UpdateStockBatchResponse> Handle(UpdateStockBatch request, CancellationToken ct)
     {
-        var itemsToUpdate = await GetAssetsForPriceUpdate(request.Symbols);
-
-        if (!itemsToUpdate.Any())
+        var assetsToUpdate = await GetStocksForUpdate(request.Symbols);
+        if (!assetsToUpdate.Any())
         {
-            _logger.LogTrace("Zero items for update fetched");
-            return;
+            _logger.LogWarning("Given batch is empty");
+            return new UpdateStockBatchResponse(0, 0);
         }
 
-        var fetchedItemsWithPrice = await FetchNewPricesForSymbols(itemsToUpdate);
-
-        if(!fetchedItemsWithPrice.Any())
+        var assetsWithFreshPriceTag = await FetchSymbolsPrices(assetsToUpdate);
+        if(!assetsWithFreshPriceTag.Any())
         {
-            _logger.LogTrace("Items not found via client usage");
-            return;
+            _logger.LogWarning("Items not found via client usage");
+            return new UpdateStockBatchResponse(assetsToUpdate.Count, 0);
         }
 
-        var priceEntities = MapToPriceInstances(fetchedItemsWithPrice, itemsToUpdate);
+        var priceEntities = ToEntities(assetsWithFreshPriceTag, assetsToUpdate);
+        await _work.StockPriceRepo.AddRange(priceEntities, ct);
+        await _work.Save(ct);
 
-        await Save(priceEntities);
-
-        await PublishEvents(fetchedItemsWithPrice);
+        await PublishEvents(assetsWithFreshPriceTag, ct);
+        return new UpdateStockBatchResponse(assetsToUpdate.Count, assetsWithFreshPriceTag.Count);
     }
     
-    private async Task PublishEvents(List<StockPriceDetails> itemsWithPrice)
+    private async Task PublishEvents(List<StockPriceDetails> assets, CancellationToken ct)
     {
         var timeStamp = _provider.Now;
-
-        foreach (var item in itemsWithPrice)
+        foreach (var asset in assets)
         {
             await _endpoint.Publish(new StockPriceUpdated
             {
-                Id = item.Id,
-                Price = item.Price,
-                Symbol = item.Symbol,
+                Id = asset.Id,
+                Price = asset.Price,
+                Symbol = asset.Symbol,
                 UpdatedOn = timeStamp
-            });
+            }, ct);
         }
     }
     
-    private async Task<Dictionary<string, int>> GetAssetsForPriceUpdate(List<string> symbols)
+    private async Task<Dictionary<string, int>> GetStocksForUpdate(List<string> symbols)
     {
-        var stocks = await _work.StockRepo.GetAll();
+        var stocks = await _work.StockRepo.Filter(i => symbols.Contains(i.Symbol));
         return stocks.ToDictionary(x => x.Symbol, y => y.Id);
     }
     
-    private async Task<List<StockPriceDetails>> FetchNewPricesForSymbols(Dictionary<string, int> items)
+    private async Task<List<StockPriceDetails>> FetchSymbolsPrices(Dictionary<string, int> items)
     {
-        int maximumConcurrentRequest = _config.GetValue<int>("MaximumConcurrentHttpRequests");
+        var maximumConcurrentRequest = _config.GetValue<int>("MaximumConcurrentHttpRequests");
         if(maximumConcurrentRequest <= 0)
         {
             _logger.LogWarning("Maximum number of concurrent is less or equal to 0. Check application settings");
-            maximumConcurrentRequest = 5;
+            maximumConcurrentRequest = MAXIMUM_CONCURRENT_REQUESTS;
         }
 
         using var semaphore = new SemaphoreSlim(maximumConcurrentRequest);
-        var tasks = items.Select(async item => await FetchPriceForSingleSymbol(item, semaphore)).ToList();
+        var tasks = items.Select(item => FetchSymbolPrice(item, semaphore)).ToList();
 
         var priceInfos = await Task.WhenAll(tasks);
         return priceInfos.ToList();
     }
 
-    public async Task<StockPriceDetails> FetchPriceForSingleSymbol(
+    private async Task<StockPriceDetails> FetchSymbolPrice(
         KeyValuePair<string, int> item, 
         SemaphoreSlim semaphore)
     {
         try
         {
             await semaphore.WaitAsync();
-
-            var fetchedInstance = await FetchAssetPrice(item.Key);
-            if (fetchedInstance is not null)
-            {
-                return new StockPriceDetails
+            var fetchedInstance = await _client.GetPrice(item.Key);
+            return fetchedInstance is not null
+                ? new StockPriceDetails
                 {
                     Id = item.Value,
                     Price = fetchedInstance.Price,
                     Symbol = item.Key
-                };
-            }
-
-            return default;
+                }
+                : default;
         }
         catch
         {
@@ -145,12 +141,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
         }
     }
     
-    private async Task<StockPriceInfo> FetchAssetPrice(string symbol)
-    {
-        return await _client.GetPrice(symbol);
-    }
-    
-    private IEnumerable<StockPriceEntity> MapToPriceInstances(
+    private IEnumerable<StockPriceEntity> ToEntities(
         List<StockPriceDetails> fetchedItemsWithPrice,
         Dictionary<string, int> itemsToUpdate)
     {
@@ -160,7 +151,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
             {
                 continue;
             }
-
+            
             yield return new StockPriceEntity
             {
                 Price = fetchedItem.Price,
@@ -168,20 +159,15 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch>
             };
         }
     }
-    
-    private async Task Save(IEnumerable<StockPriceEntity> priceEntities)
-    {
-        await _work.StockPriceRepo.AddRange(priceEntities);
-        await _work.Save(default);
-    }
-    
 }
 
 public class StockPriceDetails
 {
-    public string Symbol { get; set; }
+    public string Symbol { get; set; } = default!;
     public decimal Price { get; set; }
     public long Id { get; set; }
 }
+
+public record UpdateStockBatchResponse(int BatchSize, int PriceUpdates);
 
 

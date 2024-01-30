@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
-using LanguageExt;
 using MediatR;
-using Stock.Application.Common.Models;
-using Stock.Application.Queries.Stock;
-using Stock.Core.Errors;
 using Stock.Core.Exceptions;
 
 namespace Stock.Application.Common.Behaviours
