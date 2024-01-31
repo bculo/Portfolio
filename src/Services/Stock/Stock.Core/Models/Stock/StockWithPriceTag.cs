@@ -7,7 +7,7 @@ using Stock.Core.Models.Base;
 
 namespace Stock.Core.Models.Stock
 {
-    public class StockWithPriceTagReadModel : IReadModel
+    public class StockWithPriceTag : IReadModel
     {
         public int StockId { get; set; }
         public string Symbol { get; set; } = default!;

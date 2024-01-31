@@ -17,7 +17,7 @@ namespace Stock.Infrastructure.Persistence
         public virtual DbSet<StockEntity> Stocks => Set<StockEntity>();
         public virtual DbSet<StockPriceEntity> Prices => Set<StockPriceEntity>();
         
-        public virtual DbSet<StockWithPriceTagReadModel> StockWithPriceTag => Set<StockWithPriceTagReadModel>();
+        public virtual DbSet<StockWithPriceTag> StockWithPriceTag => Set<StockWithPriceTag>();
         
 
         public StockDbContext(IConfiguration configuration,

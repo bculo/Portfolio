@@ -22,7 +22,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
             return await Set.ApplyTracking(track).ToListAsync(ct);
         }
         
-        public async Task<T> Find(object id, CancellationToken ct = default)
+        public async Task<T?> Find(object id, CancellationToken ct = default)
         {
             return await Set.FindAsync(id, ct);
         }
@@ -104,7 +104,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
                 .ToListAsync(ct);
         }
         
-        public async Task<PageReadModel<T>> Page(Expression<Func<T, bool>> predicate,
+        public async Task<PageModel<T>> Page(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -123,10 +123,10 @@ namespace Stock.Infrastructure.Persistence.Repositories
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
 
-            return new PageReadModel<T>(totalCount, pageQuery.Page, items);
+            return new PageModel<T>(totalCount, pageQuery.Page, items);
         }
 
-        public async Task<PageReadModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates,
+        public async Task<PageModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -145,10 +145,10 @@ namespace Stock.Infrastructure.Persistence.Repositories
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
             
-            return new PageReadModel<T>(totalCount, pageQuery.Page, items);
+            return new PageModel<T>(totalCount, pageQuery.Page, items);
         }
 
-        public async Task<PageReadModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates,
+        public async Task<PageModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -167,7 +167,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
             
-            return new PageReadModel<T>(totalCount, pageQuery.Page, items);
+            return new PageModel<T>(totalCount, pageQuery.Page, items);
         }
     }
 }

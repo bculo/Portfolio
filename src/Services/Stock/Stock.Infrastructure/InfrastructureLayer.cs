@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
-using Stock.Application.Common.Constants;
+using Stock.Application.Common.Configurations;
 using Stock.Application.Interfaces.Expressions;
 using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Localization;

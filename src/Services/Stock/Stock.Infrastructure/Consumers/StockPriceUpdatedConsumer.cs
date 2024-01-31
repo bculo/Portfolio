@@ -1,34 +1,44 @@
-﻿using Cache.Abstract.Contracts;
-using Events.Common.Stock;
+﻿using Events.Common.Stock;
 using MassTransit;
-using Stock.Application.Common.Models;
+using Microsoft.AspNetCore.OutputCaching;
+using Sqids;
+using Stock.Application.Common.Configurations;
+using Stock.Application.Interfaces.Repositories;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Stock.Infrastructure.Consumers
 {
     public class StockPriceUpdatedConsumer : IConsumer<StockPriceUpdated>
     {
-        private readonly ICacheService _cache;
+        private readonly IFusionCache _cache;
+        private readonly SqidsEncoder<int> _sqids;
+        private readonly IOutputCacheStore _outputCache;
+        private readonly IUnitOfWork _work;
 
-        public StockPriceUpdatedConsumer(ICacheService cache)
+        public StockPriceUpdatedConsumer(IFusionCache cache, 
+            SqidsEncoder<int> sqids, 
+            IOutputCacheStore outputCache, 
+            IUnitOfWork work)
         {
             _cache = cache;
+            _sqids = sqids;
+            _outputCache = outputCache;
+            _work = work;
         }
 
-        public Task Consume(ConsumeContext<StockPriceUpdated> context)
+        public async Task Consume(ConsumeContext<StockPriceUpdated> context)
         {
-            var cacheItem = ToCacheItem(context.Message);
-            //_cache.Add(StringUtilities.AddStockPrefix(cacheItem.Symbol), cacheItem);
-            return Task.CompletedTask;
-        }
+            var stockItem = context.Message;
+            var evictTag = _sqids.Encode(stockItem.Id);
 
-        public StockCacheItem ToCacheItem(StockPriceUpdated item)
-        {
-            return new StockCacheItem
-            {
-                Symbol = item.Symbol,
-                Id = item.Id,
-                Price = item.Price,
-            };
+            var entity = _work.StockRepo.Find(stockItem.Id);
+                
+            await _cache.SetAsync(CacheKeys.StockItemKey(stockItem.Id),
+                entity,
+                CacheKeys.StockItemKeyOptions(),
+                default);
+            
+            await _outputCache.EvictByTagAsync(evictTag, default);
         }
     }
 }

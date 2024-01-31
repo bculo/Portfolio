@@ -10,12 +10,12 @@ namespace Stock.Infrastructure.Persistence.Repositories
         {
         }
 
-        public async Task<List<StockWithPriceTagReadModel>> GetAllWithPrice()
+        public async Task<List<StockWithPriceTag>> GetAllWithPrice()
         {
             return await Context.StockWithPriceTag.ToListAsync();
         }
 
-        public async Task<StockWithPriceTagReadModel> GetCurrentPrice(string symbol)
+        public async Task<StockWithPriceTag> GetCurrentPrice(string symbol)
         {
             return await Context.StockWithPriceTag.Where(i => i.Symbol == symbol).FirstOrDefaultAsync();
         }

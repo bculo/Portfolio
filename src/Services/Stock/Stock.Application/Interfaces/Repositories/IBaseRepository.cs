@@ -8,7 +8,7 @@ namespace Stock.Application.Interfaces.Repositories
     {
         Task<List<T>> GetAll(bool track = false, CancellationToken ct = default);
         
-        Task<T> Find(object id, CancellationToken ct = default);
+        Task<T?> Find(object id, CancellationToken ct = default);
         
         Task<T?> First(Expression<Func<T, bool>> predicate,
             bool track = false, 
@@ -42,7 +42,7 @@ namespace Stock.Application.Interfaces.Repositories
             bool splitQuery = false,
             CancellationToken ct = default);
 
-        Task<PageReadModel<T>> Page(Expression<Func<T, bool>> predicates,
+        Task<PageModel<T>> Page(Expression<Func<T, bool>> predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -50,7 +50,7 @@ namespace Stock.Application.Interfaces.Repositories
             bool splitQuery = false,
             CancellationToken ct = default);
         
-        Task<PageReadModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
+        Task<PageModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -58,7 +58,7 @@ namespace Stock.Application.Interfaces.Repositories
             bool splitQuery = false,
             CancellationToken ct = default);
         
-        Task<PageReadModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
+        Task<PageModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,

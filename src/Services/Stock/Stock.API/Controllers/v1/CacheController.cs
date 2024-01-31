@@ -1,6 +1,6 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using Stock.Application.Common.Constants;
+using Stock.Application.Commands.Cache;
 
 namespace Stock.API.Controllers.v1;
 
@@ -9,19 +9,18 @@ namespace Stock.API.Controllers.v1;
 [Route("api/v{version:apiVersion}/[controller]")]
 public class CacheController : ControllerBase
 {
-    private readonly IOutputCacheStore _outputCache;
+    private readonly IMediator _mediator;
 
-    public CacheController(IOutputCacheStore outputCache)
+    public CacheController(IMediator mediator)
     {
-        _outputCache = outputCache;
+        _mediator = mediator;
     }
     
-    [HttpGet("Evict", Name = "Evict")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Evict(CancellationToken ct)
+    [HttpDelete("EvictAll", Name = "EvictAll")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> EvictAll(CancellationToken ct)
     {
-        await _outputCache.EvictByTagAsync(CacheTags.STOCK_SINGLE, ct);
-
+        await _mediator.Send(new EvictAllOutputCache(), ct);
         return NoContent();
     }
 }

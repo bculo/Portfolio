@@ -26,7 +26,7 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
         return MapToResponse(stocks);
     }
 
-    private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTagReadModel> items)
+    private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTag> items)
     {
         return items.Select(i => new GetStocksResponse(_sqids.Encode(i.StockId), i.Symbol, i.Price));
     }

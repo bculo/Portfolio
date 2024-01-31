@@ -49,16 +49,16 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
         
         var page = await _work.StockWithPriceTag.PageMatchAll(
             expressionTree.Expressions,
-            i => i.OrderBy(x => x.StockId),
+            i => i.OrderBy(x => x.Symbol),
             request.ToPageQuery(),
             ct: ct);
 
         return page.MapToDto(Projection);
     }
 
-    private ExpressionBuildResult<StockWithPriceTagReadModel> BuildExpressionTree(FilterStocks request)
+    private ExpressionBuildResult<StockWithPriceTag> BuildExpressionTree(FilterStocks request)
     {
-        var builder = _factory.Create<StockWithPriceTagReadModel>();
+        var builder = _factory.Create<StockWithPriceTag>();
         
         if (!string.IsNullOrEmpty(request.Symbol))
         {
@@ -68,7 +68,7 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
         return builder.Build();
     }
 
-    public FilterStockResponseItem Projection(StockWithPriceTagReadModel entity)
+    public FilterStockResponseItem Projection(StockWithPriceTag entity)
     {
         return new FilterStockResponseItem(_sqids.Encode(entity.StockId), entity.Symbol, entity.Price);
     }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Primitives;
-using Stock.Application.Common.Constants;
+using Stock.Application.Common.Configurations;
 
 namespace Stock.API.Common.Constants;
 

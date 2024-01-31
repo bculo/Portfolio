@@ -4,7 +4,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Sqids;
-using Stock.Application.Common.Constants;
+using Stock.Application.Common.Configurations;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;

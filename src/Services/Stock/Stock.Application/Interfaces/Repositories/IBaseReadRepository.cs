@@ -15,21 +15,21 @@ public interface IBaseReadRepository<T> where T : class, IReadModel
         bool splitQuery = false,
         CancellationToken ct = default);
 
-    Task<PageReadModel<T>> Page(Expression<Func<T, bool>> predicates,
+    Task<PageModel<T>> Page(Expression<Func<T, bool>> predicates,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
         
-    Task<PageReadModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
+    Task<PageModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
         
-    Task<PageReadModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
+    Task<PageModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
