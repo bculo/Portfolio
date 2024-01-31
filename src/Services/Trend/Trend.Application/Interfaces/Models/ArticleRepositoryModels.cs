@@ -4,22 +4,22 @@ namespace Trend.Application.Interfaces.Models;
 
 public class FilterArticlesReqQuery : PageReqQuery
 {
-    public ContextType Context { get; set; }
-    public ActiveFilter Activity { get; set; }
+    public ContextType Context { get; set; } = default!;
+    public ActiveFilter Activity { get; set; } = default!;
 }
 
 public class ArticleDetailResQuery
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = default!;
     public DateTime Created { get; set; }
-    public string Title { get; set; }
-    public bool IsActive { get; set; }
-    public string Content { get; set; }
-    public string PageSource { get; set; }
-    public string ArticleUrl { get; set; }
-    public string Text { get; set; }
-    public string SearchWordId { get; set; }
-    public string SearchWord { get; set; }
-    public string SearchWordImage { get; set; }
-    public ContextType ContextType { get; set; }
+    public string Title { get; set; } = default!;
+    public bool IsActive { get; set; } = default!;
+    public string Content { get; set; } = default!;
+    public string PageSource { get; set; } = default!;
+    public string ArticleUrl { get; set; } = default!;
+    public string Text { get; set; } = default!;
+    public string SearchWordId { get; set; } = default!;
+    public string SearchWord { get; set; } = default!;
+    public string SearchWordImage { get; set; } = default!;
+    public ContextType ContextType { get; set; } = default!;
 }

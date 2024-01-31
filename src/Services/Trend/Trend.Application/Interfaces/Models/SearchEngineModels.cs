@@ -4,8 +4,8 @@ namespace Trend.Application.Interfaces.Models;
 
 public class SearchEngineReq
 {
-    public string SearchWordId { get; set; }
-    public string SearchWord { get; set; }
+    public string SearchWordId { get; set; } = default!;
+    public string SearchWord { get; set; } = default!;
 }
 
 public class SearchEngineRes

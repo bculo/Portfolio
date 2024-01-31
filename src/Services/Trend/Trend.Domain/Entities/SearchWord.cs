@@ -4,9 +4,9 @@ namespace Trend.Domain.Entities
 {
     public class SearchWord : AuditableDocument
     {
-        public string Word { get; set; }
-        public SearchEngine Engine { get; set; }
-        public ContextType Type { get; set; }
-        public string ImageUrl { get; set; }
+        public string Word { get; set; } = default!;
+        public SearchEngine Engine { get; set; } = default!;
+        public ContextType Type { get; set; } = default!;
+        public string ImageUrl { get; set; } = default!;
     }
 }
