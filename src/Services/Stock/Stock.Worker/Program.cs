@@ -1,10 +1,10 @@
 using Stock.Worker.Configurations;
 using Stock.Worker.HostedServices;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostcontext, services) =>
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((hostContext, services) =>
     {
-        IConfiguration configuration = hostcontext.Configuration;
+        var configuration = hostContext.Configuration;
         services.ConfigureBackgroundService(configuration);
         services.AddHostedService<JobRegistrationServiceWorker>();
     })

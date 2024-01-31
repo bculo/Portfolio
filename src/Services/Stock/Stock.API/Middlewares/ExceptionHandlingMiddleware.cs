@@ -26,7 +26,7 @@ public class ExceptionHandlingMiddleware
         {
             if (exception is StockCoreException coreException)
             {
-                HandleCoreException(context, coreException);
+                await HandleCoreException(context, coreException);
                 return;
             }
             

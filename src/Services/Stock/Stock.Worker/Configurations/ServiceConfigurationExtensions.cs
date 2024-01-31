@@ -15,11 +15,6 @@ namespace Stock.Worker.Configurations
 {
     public static class ServiceConfigurationExtensions
     {
-        /// <summary>
-        /// Configure all required services
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
         public static void ConfigureBackgroundService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IStockUser, WorkerUserService>();
@@ -27,42 +22,17 @@ namespace Stock.Worker.Configurations
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
 
-            ConfigureHangfire(services, configuration);
-            ConfigureMessageQueue(services, configuration);
-
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new List<CultureInfo>
-                {
-                    new CultureInfo("en-US"),
-                    new CultureInfo("hr-HR")
-                };
-                options.DefaultRequestCulture = new RequestCulture(culture: "en-US");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
+            AddHangfireServer(services, configuration);
+            AddMessageQueue(services, configuration);
         }
 
-        private static void ConfigureHangfire(IServiceCollection services, IConfiguration configuration)
+        private static void AddHangfireServer(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHangfire(config =>
-            {
-                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);
-                config.UseSimpleAssemblyNameTypeSerializer();
-                config.UseRecommendedSerializerSettings();
-                config.UsePostgreSqlStorage(opt =>
-                {
-                    opt.UseNpgsqlConnection(configuration.GetConnectionString("StockDatabase"));
-                });
-            });
-
             services.AddHangfireServer();
-
             services.AddScoped<ICreateBatchJob, CreateBatchJob>();
         }
 
-        private static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
+        private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {

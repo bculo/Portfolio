@@ -11,18 +11,14 @@ namespace Stock.Worker.Jobs
     public class CreateBatchJob : ICreateBatchJob
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CreateBatchJob> _logger;
 
-        public CreateBatchJob(IMediator mediator,
-            ILogger<CreateBatchJob> logger)
+        public CreateBatchJob(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
         public async Task InitializeUpdateProcedure()
         {
-            _logger.LogTrace("PrepareBatchesForUpdate.Command");
             await _mediator.Send(new CreateStockUpdateBatches(), default);
         }
     }

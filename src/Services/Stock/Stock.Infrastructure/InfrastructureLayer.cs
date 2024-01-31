@@ -1,4 +1,9 @@
-﻿using Cache.Redis.Common;
+﻿using System.Globalization;
+using Cache.Redis.Common;
+using Hangfire;
+using Hangfire.PostgreSql;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +43,8 @@ namespace Stock.Infrastructure
 
             AddClients(services, configuration);
             AddCache(services, configuration);
+            AddLocalization(services, configuration);
+            AddHangfire(services, configuration);
 
             services.AddDbContext<StockDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -48,6 +55,37 @@ namespace Stock.Infrastructure
             services.AddScoped<ILocale, LocaleService>();
             services.AddScoped(typeof(IExpressionBuilder<>), typeof(ExpressionBuilder<>));
             services.AddScoped<IExpressionBuilderFactory, ExpressionBuilderFactory>();
+        }
+
+        private static void AddHangfire(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHangfire(config =>
+            {
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);
+                config.UseSimpleAssemblyNameTypeSerializer();
+                config.UseRecommendedSerializerSettings();
+                config.UsePostgreSqlStorage(opt =>
+                {
+                    opt.UseNpgsqlConnection(configuration.GetConnectionString("StockDatabase"));
+                });
+            });
+        }
+
+        private static void AddLocalization(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(options => 
+            {
+                var supportedCultures = new List<CultureInfo> 
+                {
+                    new("en-US"),
+                    new("hr-HR")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.ApplyCurrentCultureToResponseHeaders = true;
+            });
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)

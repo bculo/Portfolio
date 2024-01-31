@@ -7,8 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-	    <PackageReference Include="EFCore.NamingConventions" Version="8.0.0-rc.2" />
-	    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
+	    <PackageReference Include="EFCore.NamingConventions" Version="8.0.1" />
+	    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.9" />
+	    <PackageReference Include="Hangfire.NetCore" Version="1.8.9" />
+	    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.5" />
+	    <PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
 	    <PackageReference Include="MassTransit" Version="8.1.2" />
 	    <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2" />
 	    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />

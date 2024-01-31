@@ -1,25 +1,13 @@
-using System.Diagnostics;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Serilog;
-using Serilog.Debugging;
 using Stock.API.Configurations;
 using Stock.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((host, log) =>
-{
-    log.ReadFrom.Configuration(host.Configuration);
-});
-
-SelfLog.Enable(msg => 
-{
-    Trace.WriteLine(msg);
-});
-
-builder.Services.ConfigureApiProject(builder.Configuration);
+builder.ConfigureApiProject();
 
 var app = builder.Build();
 
