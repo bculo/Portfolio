@@ -1,9 +1,29 @@
-﻿using Stock.Application.Interfaces.User;
+﻿using Auth0.Abstract.Contracts;
+using Stock.Application.Interfaces.User;
 
 namespace Stock.API.Services
 {
     public class CurrentUserService : IStockUser
     {
-        public Guid Identifier => new Guid("78a46475-0e26-4ab2-b6b8-1e778ae1443c");
+        private readonly IAuth0AccessTokenReader _user;
+
+        public CurrentUserService(IAuth0AccessTokenReader user) => _user = user;
+
+        public Guid Identifier
+        {
+            get
+            {
+                var userId = _user.GetIdentifier();
+
+                if(userId != Guid.Empty)
+                {
+                    return userId;
+                }
+
+                var msg =
+                    "Problem with authentication. User identifier is null. Check if [Authorize] attribute is provided";
+                throw new ArgumentException(msg);
+            }
+        }
     }
 }

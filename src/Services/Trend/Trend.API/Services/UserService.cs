@@ -22,7 +22,7 @@ namespace Trend.API.Services
                 }
 
                 var msg =
-                    "Problem with authentication. User identifier is null. Check if [Aurhorize] attribute is provided";
+                    "Problem with authentication. User identifier is null. Check if [Authorize] attribute is provided";
                 throw new TrendAppCoreException(msg);
             }
         }

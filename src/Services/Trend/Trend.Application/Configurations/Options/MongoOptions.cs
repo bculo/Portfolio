@@ -8,23 +8,23 @@ namespace Trend.Application.Configurations.Options
 {
     public sealed class MongoOptions
     {
-        public string ConnectionString { get; set; }
-        public string DatabaseName { get; set; }
+        public string ConnectionString { get; set; } = default!;
+        public string DatabaseName { get; set; } = default!;
         public bool UseInterceptor { get; set; }
         public int ConnectionTimeoutSeconds { get; set; }
         public ServerType ServerType { get; set; }
-        public MongoInterceptorSettings InterceptorSettings { get; set; }
+        public MongoInterceptorSettings InterceptorSettings { get; set; } = default!;
 
     }
 
     public sealed class MongoInterceptorSettings
     {
-        public string Host { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
+        public string Host { get; set; } = default!;
+        public string User { get; set; } = default!;
+        public string Password { get; set; } = default!;
         public int Port { get; set; }
-        public string AuthMechanisam { get; set; }
-        public string AuthDatabase { get; set; }
+        public string AuthMechanisam { get; set; } = default!;
+        public string AuthDatabase { get; set; } = default!;
     }
 
     public enum ServerType
