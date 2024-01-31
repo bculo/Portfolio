@@ -34,6 +34,11 @@ namespace Stock.API.Configurations
                 });
             }
             
+            services.AddHealthChecks()
+                .AddRedis(configuration["RedisOptions:ConnectionString"])
+                .AddNpgSql(configuration["ConnectionStrings:StockDatabase"])
+                .AddRabbitMQ(new Uri(configuration["QueueOptions:Address"]));
+            
             services.AddControllers();
             services.AddScoped<IStockUser, CurrentUserService>();
             
