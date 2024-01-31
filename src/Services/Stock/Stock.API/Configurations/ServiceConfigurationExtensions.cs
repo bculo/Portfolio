@@ -31,10 +31,7 @@ namespace Stock.API.Configurations
                     .AllowCredentials());
             });
             
-            services.AddControllers(opt =>
-            {
-                opt.Filters.Add<GlobalExceptionFilter>();
-            });
+            services.AddControllers();
             
             services.AddScoped<IStockUser, CurrentUserService>();
             

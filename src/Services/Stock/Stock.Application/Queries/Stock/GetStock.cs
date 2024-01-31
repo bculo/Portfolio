@@ -48,7 +48,7 @@ public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
         var entityId = _sqids.DecodeSingle(request.Id);
         if (entityId == default(long))
         {
-            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(entityId));
+            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(request.Id));
         }
         
         var entity = await _cache.GetOrSetAsync(
@@ -59,7 +59,7 @@ public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
         );
         if(entity is null)
         {
-            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(entityId));
+            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(request.Id));
         }
         
         return Map(entity);

@@ -4,7 +4,7 @@ public static class StockErrorCodes
 {
     public static NotFoundErrorCode NotFoundBySymbol(string symbol) => 
         new("Stock.NotFoundBySymbol", $"Stock with symbol {symbol} not found");
-    public static NotFoundErrorCode NotFoundById(int Id) => 
+    public static NotFoundErrorCode NotFoundById(string Id) => 
         new("Stock.NotFoundById", $"Stock with Id {Id} not found");
     public static ErrorCode Duplicate(string symbol) => 
         new("Stock.DuplicateSymbol", $"Stock with symbol {symbol} already exists");

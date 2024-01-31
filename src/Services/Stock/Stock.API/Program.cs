@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Debugging;
 using Stock.API.Configurations;
+using Stock.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ SelfLog.Enable(msg =>
 builder.Services.ConfigureApiProject(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

@@ -27,7 +27,7 @@ public record FactoryTimeoutOption
     
     public FactoryTimeoutOption(TimeSpan softTimeout, TimeSpan hardTimeout)
     {
-        if (hardTimeout.Milliseconds < softTimeout.Milliseconds)
+        if (hardTimeout < softTimeout)
         {
             throw new ArgumentException($"Hard timout must be greater than soft timeout");
         }
@@ -46,9 +46,9 @@ public record CacheEntrySettings
 
     public CacheEntrySettings(TimeSpan duration, TimeSpan? failOver, FactoryTimeoutOption? factoryTimeout)
     {
-        if (failOver.HasValue && duration.Milliseconds >= failOver.Value.Milliseconds)
+        if (failOver.HasValue && duration >= failOver.Value)
         {
-            throw new ArgumentException($"Duration must be greater than fail over duration");
+            throw new ArgumentException($"Fail over must be greater than duration");
         }
 
         Duration = duration;
