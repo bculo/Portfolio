@@ -3,18 +3,18 @@ using Stock.Application.Commands.Stock;
 
 namespace Stock.Worker.Jobs
 {
-    public interface IPriceUpdateJobService
+    public interface ICreateBatchJob
     {
         Task InitializeUpdateProcedure();
     }
 
-    public class UpdateStockPriceHangfireJob : IPriceUpdateJobService
+    public class CreateBatchJob : ICreateBatchJob
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<UpdateStockPriceHangfireJob> _logger;
+        private readonly ILogger<CreateBatchJob> _logger;
 
-        public UpdateStockPriceHangfireJob(IMediator mediator,
-            ILogger<UpdateStockPriceHangfireJob> logger)
+        public CreateBatchJob(IMediator mediator,
+            ILogger<CreateBatchJob> logger)
         {
             _logger = logger;
             _mediator = mediator;

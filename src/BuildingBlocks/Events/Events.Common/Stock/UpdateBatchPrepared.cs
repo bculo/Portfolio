@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Stock
 {
-    public class BatchForUpdatePrepared
+    public class UpdateBatchPrepared
     {
         public List<string> Symbols { get; set; }
     }

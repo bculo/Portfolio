@@ -59,19 +59,17 @@ namespace Stock.Worker.Configurations
 
             services.AddHangfireServer();
 
-            services.AddScoped<IPriceUpdateJobService, UpdateStockPriceHangfireJob>();
+            services.AddScoped<ICreateBatchJob, CreateBatchJob>();
         }
 
         private static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Stock", false));
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "stock", false));
 
-                x.AddConsumer<BatchForUpdatePreparedConsumer>(opt =>
-                {
-                    opt.ConcurrentMessageLimit = 5;
-                });
+                x.AddConsumer<UpdateBatchPreparedConsumer>();
+                x.AddConsumer<PriceUpdatedConsumer>();
 
                 x.UsingRabbitMq((context, config) =>
                 {

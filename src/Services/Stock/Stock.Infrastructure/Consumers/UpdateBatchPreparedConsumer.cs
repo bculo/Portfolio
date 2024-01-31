@@ -5,16 +5,16 @@ using Stock.Application.Commands.Stock;
 
 namespace Stock.Infrastructure.Consumers
 {
-    public class BatchForUpdatePreparedConsumer : IConsumer<BatchForUpdatePrepared>
+    public class UpdateBatchPreparedConsumer : IConsumer<UpdateBatchPrepared>
     {
         private readonly IMediator _mediator;
 
-        public BatchForUpdatePreparedConsumer(IMediator mediator)
+        public UpdateBatchPreparedConsumer(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        public async Task Consume(ConsumeContext<BatchForUpdatePrepared> context)
+        public async Task Consume(ConsumeContext<UpdateBatchPrepared> context)
         {
             await _mediator.Send(new UpdateStockBatch(context.Message.Symbols));
         }

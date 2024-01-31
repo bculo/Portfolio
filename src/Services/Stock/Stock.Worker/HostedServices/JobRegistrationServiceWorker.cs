@@ -3,9 +3,6 @@ using Stock.Worker.Jobs;
 
 namespace Stock.Worker.HostedServices
 {
-    /// <summary>
-    /// Background service that initialize all hanfire jobs. Its only executed once
-    /// </summary>
     public class JobRegistrationServiceWorker : BackgroundService
     {
         private readonly ILogger<JobRegistrationServiceWorker> _logger;
@@ -19,36 +16,31 @@ namespace Stock.Worker.HostedServices
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("StartAsync method called in Background service {0}", nameof(JobRegistrationServiceWorker));
+            _logger.LogInformation("StartAsync method called in Background service {WorkerName}", nameof(JobRegistrationServiceWorker));
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("StopAsync method called in Background service {0}", nameof(JobRegistrationServiceWorker));
+            _logger.LogInformation("StopAsync method called in Background service {WorkerName}", nameof(JobRegistrationServiceWorker));
             return base.StopAsync(cancellationToken);
         }
-
-        /// <summary>
-        /// Register hangfire jobs
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
+        
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
                 using var scope = _provider.CreateScope();
                 var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-                var jobmanager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+                var joManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
 
-                jobmanager.AddOrUpdate<IPriceUpdateJobService>(
-                    configuration["RecurringJobsOptions:UpdateStockPriceIdentifer"],
+                joManager.AddOrUpdate<ICreateBatchJob>(
+                    configuration["RecurringJobsOptions:CreateBatchJobIdentifier"],
                     x => x.InitializeUpdateProcedure(),
-                    configuration["RecurringJobsOptions:UpdateStockPriceCron"]);
+                    configuration["RecurringJobsOptions:CreateBatchJobCron"]);
 
-                _logger.LogInformation("A Hanggire job with identifer {0} successfully registered", 
-                    configuration["RecurringJobsOptions:UpdateStockPriceIdentifer"]);
+                _logger.LogInformation("A Hangfire job with identifier {Identifier} successfully registered", 
+                    configuration["RecurringJobsOptions:CreateBatchJobIdentifier"]);
             }
             catch (Exception e)
             {

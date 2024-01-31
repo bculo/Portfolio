@@ -89,7 +89,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         var timeStamp = _provider.Now;
         foreach (var asset in assets)
         {
-            await _endpoint.Publish(new StockPriceUpdated
+            await _endpoint.Publish(new PriceUpdated
             {
                 Id = asset.Id,
                 Price = asset.Price,

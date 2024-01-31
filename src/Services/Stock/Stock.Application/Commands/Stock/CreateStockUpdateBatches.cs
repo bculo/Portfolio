@@ -53,7 +53,7 @@ public class CreateStockUpdateBatchesHandler
     {
         foreach (var (_, symbols) in batches)
         {
-            await _endpoint.Publish(new BatchForUpdatePrepared
+            await _endpoint.Publish(new UpdateBatchPrepared
             {
                 Symbols = symbols
             }, ct);
