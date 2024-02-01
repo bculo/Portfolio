@@ -14,16 +14,17 @@ public record GetUserDetailsDto : IRequest<GetUserDetailsResponseDto>
 
 public record GetUserDetailsResponseDto
 {
-    public string UserName { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string UserName { get; set; } = default!;
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
 }
 
 public class GetUserDetailsDtoValidator : AbstractValidator<GetUserDetailsDto>
 {
     public GetUserDetailsDtoValidator()
     {
-        RuleFor(i => i.UserId).NotEmpty();
+        RuleFor(i => i.UserId)
+            .NotEmpty();
     }
 }
 

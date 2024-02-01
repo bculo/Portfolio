@@ -10,7 +10,7 @@ namespace User.Application.Persistence
 {
     public class UserDbContext : DbContext
     {
-        public virtual DbSet<PortfolioUser> Users { get; set; }
+        public virtual DbSet<PortfolioUser> Users => Set<PortfolioUser>();
 
         protected UserDbContext() { }
 

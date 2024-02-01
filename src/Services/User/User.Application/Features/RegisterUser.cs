@@ -17,11 +17,11 @@ namespace User.Application.Features;
 public record RegisterUserDto : IRequest
 {
     public DateTime Born { get; set; }
-    public string UserName { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public string UserName { get; set; } = default!;
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string Password { get; set; } = default!;
 }
 
 public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
@@ -109,7 +109,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserDto>
         if (response.StatusCode == HttpStatusCode.Conflict && errorContent.Contains("errorMessage"))
         {
             var error = JsonConvert.DeserializeObject<AddNewUserError>(errorContent);
-            throw new PortfolioUserCoreException(error.ErrorMessage, error.ErrorMessage);
+            throw new PortfolioUserCoreException(error?.ErrorMessage, error?.ErrorMessage);
         }
 
         throw new PortfolioUserCoreException("An problem occured. Try again later",

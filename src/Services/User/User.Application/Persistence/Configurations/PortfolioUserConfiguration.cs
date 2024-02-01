@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using User.Application.Entities;
-using User.Application.Persistence.Constants;
 
 namespace User.Application.Persistence.Configurations
 {
@@ -31,7 +25,7 @@ namespace User.Application.Persistence.Configurations
                 .HasMaxLength(128)
                 .IsRequired();
 
-            builder.ToTable("portfoliousers", SchemaConstants.BASE_SCHEMA);
+            builder.ToTable("portfolio_users");
         }
     }
 }

@@ -8,6 +8,6 @@ public class DeleteKeycloakUserConsumer : IConsumer<DeleteKeycloakUser>
 
     public Task Consume(ConsumeContext<DeleteKeycloakUser> context)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

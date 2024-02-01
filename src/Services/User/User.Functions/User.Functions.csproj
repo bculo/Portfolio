@@ -4,7 +4,7 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-arm64" Version="13.5.0" />

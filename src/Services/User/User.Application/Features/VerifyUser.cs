@@ -13,14 +13,15 @@ namespace User.Application.Features;
 
 public record VerifyUserDto : IRequest
 {
-    public string UserName { get; set; }
+    public string UserName { get; set; } = default!;
 }
 
 public class VerifyUserDtoValidator : AbstractValidator<VerifyUserDto>
 {
     public VerifyUserDtoValidator()
     {
-        RuleFor(i => i.UserName).NotEmpty();
+        RuleFor(i => i.UserName)
+            .NotEmpty();
     }
 }
 

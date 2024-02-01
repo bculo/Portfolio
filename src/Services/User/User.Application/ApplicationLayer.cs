@@ -1,14 +1,12 @@
 ﻿using Azure.Storage.Blobs;
 using FluentValidation;
 using Keycloak.Common;
-using Keycloak.Common.Refit.Handlers;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Time.Abstract.Contracts;
 using Time.Common;
 using User.Application.Common.Behaviours;
 using User.Application.Common.Options;
@@ -48,7 +46,7 @@ namespace User.Application
             
             services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
             
-            services.UseKeycloakAdminService<AdminAuthHeaderHandler>(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"]!,
+            services.UseKeycloakAdminService(configuration["KeycloakAdminApiOptions:AdminApiBaseUri"]!,
                 configuration["KeycloakAdminApiOptions:Realm"]!,
                 configuration["KeycloakAdminApiOptions:ClientId"]!,
                 configuration["KeycloakAdminApiOptions:ClientSecret"]!,

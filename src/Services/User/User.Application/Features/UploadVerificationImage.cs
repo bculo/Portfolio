@@ -1,13 +1,9 @@
 using System.Collections.Frozen;
-using System.Net.Mime;
 using Events.Common.User;
 using FluentValidation;
-using ImageMagick;
 using MassTransit;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using User.Application.Common.Extensions;
 using User.Application.Common.Options;
 using User.Application.Common.Serializer;
 using User.Application.Interfaces;
@@ -16,19 +12,19 @@ namespace User.Application.Features;
 
 public record UploadVerificationImageFormData
 {
-    public byte[] Image { get; set; }
+    public byte[] Image { get; set; } = default!;
 }
 
 public record UploadVerificationImageDto : IRequest
 {
-    public byte[] Image { get; set; }
-    public string ContentType { get; set; }
-    public string Name { get; set; }
+    public byte[] Image { get; set; } = default!;
+    public string ContentType { get; set; } = default!;
+    public string Name { get; set; } = default!;
 }
 
 public class UploadVerificationImageDtoValidator : AbstractValidator<UploadVerificationImageDto>
 {
-    private static readonly FrozenSet<string> _allowedContentType = new HashSet<string>
+    private static readonly FrozenSet<string> AllowedContentType = new HashSet<string>
     {
         "image/jpeg",
         "image/jpg",
@@ -37,12 +33,16 @@ public class UploadVerificationImageDtoValidator : AbstractValidator<UploadVerif
 
     public UploadVerificationImageDtoValidator()
     {
-        RuleFor(i => i.Image).NotEmpty();
+        RuleFor(i => i.Image)
+            .NotEmpty();
+        
         RuleFor(i => i.ContentType)
             .Must(IsAllowedType)
             .WithMessage("Content type must be 'jpeg' or 'png'")
             .NotEmpty();
-        RuleFor(i => i.Name).NotEmpty();
+        
+        RuleFor(i => i.Name)
+            .NotEmpty();
     }
 
     private bool IsAllowedType(string contentType)
@@ -52,7 +52,7 @@ public class UploadVerificationImageDtoValidator : AbstractValidator<UploadVerif
             return false;
         }
 
-        return _allowedContentType.Contains(contentType);
+        return AllowedContentType.Contains(contentType);
     }
 }
 
