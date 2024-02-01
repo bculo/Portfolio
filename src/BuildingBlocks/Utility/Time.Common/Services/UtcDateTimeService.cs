@@ -1,8 +1,8 @@
 ﻿using Time.Abstract.Contracts;
 
-namespace Time.Common
+namespace Time.Common.Services
 {
-    public class UtcDateTimeService : IDateTimeProvider
+    internal class UtcDateTimeService : IDateTimeProvider
     {
         public DateTime Now => DateTime.UtcNow;
     }

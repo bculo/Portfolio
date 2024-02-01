@@ -42,7 +42,7 @@ namespace Stock.Infrastructure
             IConfiguration configuration, 
             bool isDevEnv = true)
         {
-            services.AddScoped<IDateTimeProvider, UtcDateTimeService>();
+            services.AddLocalTimeProvider();
             services.AddTransient<IHtmlParser, HtmlParserService>(opt =>
             {
                 var logger = opt.GetRequiredService<ILogger<HtmlParserService>>();
@@ -53,7 +53,6 @@ namespace Stock.Infrastructure
             AddCache(services, configuration);
             AddLocalization(services, configuration);
             AddHangfire(services, configuration);
-
             
             services.AddSingleton<QueryInterceptor>();
             services.AddDbContext<StockDbContext>((sp, opt) =>
@@ -158,25 +157,7 @@ namespace Stock.Infrastructure
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
             var redisInstanceName = configuration["RedisOptions:InstanceName"];
             
-            services.AddFusionCache()
-                .WithDefaultEntryOptions(opt =>
-                {
-                    opt.FactorySoftTimeout = TimeSpan.FromMilliseconds(200);
-                    opt.FactoryHardTimeout = TimeSpan.FromMilliseconds(2000);
-
-                    opt.DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1);
-                    opt.DistributedCacheHardTimeout = TimeSpan.FromSeconds(2);
-                    opt.AllowBackgroundDistributedCacheOperations = true;
-                })
-                .WithSerializer(new FusionCacheSystemTextJsonSerializer())
-                .WithDistributedCache(
-                    new RedisCache(new RedisCacheOptions
-                    {
-                        Configuration = redisConnectionString, 
-                        InstanceName = redisInstanceName
-                    })
-                );
-            
+            services.AddRedisFusionCacheService(redisConnectionString!, redisInstanceName!);
             services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
         }
     }

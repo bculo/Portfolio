@@ -40,7 +40,7 @@ namespace Trend.Application
     {
         public static void AddServices(IConfiguration configuration, IServiceCollection services)
         {
-            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
+            services.AddLocalTimeProvider();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IArticleServiceEnumerable, ArticleServiceEnumerable>();
             services.AddScoped<ISyncService, SyncService>();
@@ -102,8 +102,6 @@ namespace Trend.Application
             services.AddScoped<ISyncStatusRepository, SyncStatusRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<ISearchWordRepository, SearchWordRepository>();
-            
-            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
         }
         
         public static void AddLogger(IHostBuilder host)
@@ -150,18 +148,16 @@ namespace Trend.Application
             });
 
             if (!addServers) return;
-
+            
+            services.AddScoped<ISyncJob, SyncJob>();
             services.AddHangfireServer(opt =>
             {
                 opt.ShutdownTimeout = TimeSpan.FromSeconds(5);
             });
-            
-            services.AddScoped<ISyncJob, SyncJob>();
-            
+
             using var provider = services.BuildServiceProvider();
             using var scope = provider.CreateScope();
             var manager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-            
             manager.AddOrUpdate<ISyncJob>(
                 configuration["Jobs:SyncJob:Name"],
                 s => s.Work(default),
@@ -173,30 +169,7 @@ namespace Trend.Application
             var redisConnectionString = configuration["RedisOptions:ConnectionString"];
             var redisInstanceName = configuration["RedisOptions:InstanceName"];
             
-            services.AddFusionCache()
-                .WithDefaultEntryOptions(opt =>
-                {
-                    opt.IsFailSafeEnabled = false;
-                    opt.FailSafeMaxDuration = TimeSpan.FromHours(3);
-                    opt.FailSafeThrottleDuration = TimeSpan.FromSeconds(30);
-
-                    opt.FactorySoftTimeout = TimeSpan.FromMilliseconds(200);
-                    opt.FactoryHardTimeout = TimeSpan.FromMilliseconds(2000);
-
-                    opt.DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1);
-                    opt.DistributedCacheHardTimeout = TimeSpan.FromSeconds(2);
-                    opt.AllowBackgroundDistributedCacheOperations = true;
-                })
-                .WithSerializer(new FusionCacheSystemTextJsonSerializer())
-                .WithDistributedCache(
-                    new RedisCache(new RedisCacheOptions
-                    {
-                        Configuration = redisConnectionString, 
-                        InstanceName = redisInstanceName
-                    })
-                );
-            
-            services.AddRedisConnectionMultiplexer(redisConnectionString!);
+            services.AddRedisFusionCacheService(redisConnectionString!, redisInstanceName!);
             services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
         }
         

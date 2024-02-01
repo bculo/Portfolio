@@ -10,6 +10,6 @@ namespace Events.Common.Crypto
     public class CryptoVisited
     {
         public long CryptoId { get; set; }
-        public string Symbol { get; set; }
+        public string Symbol { get; set; } = default!;
     }
 }

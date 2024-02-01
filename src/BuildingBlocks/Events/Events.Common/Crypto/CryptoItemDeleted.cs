@@ -8,6 +8,6 @@ namespace Events.Common.Crypto
 {
     public class CryptoItemDeleted
     {
-        public string Symbol { get; set; }
+        public string Symbol { get; set; }  = default!;
     }
 }

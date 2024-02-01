@@ -1,7 +1,7 @@
 using Keycloak.Common.Models;
 using Refit;
 
-namespace Keycloak.Common.Refit;
+namespace Keycloak.Common.Services;
 
 public interface IUsersApi
 {

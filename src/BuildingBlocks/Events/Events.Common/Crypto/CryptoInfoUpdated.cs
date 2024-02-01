@@ -10,9 +10,9 @@ namespace Events.Common.Crypto
     public class CryptoInfoUpdated
     {
         public long Id { get; set; }
-        public string? Symbol { get; set; }
-        public string? Name { get; set; }
-        public string? Website { get; set; }
-        public string? Description { get; set; }
+        public string Symbol { get; set; }  = default!;
+        public string Name { get; set; }  = default!;
+        public string Website { get; set; }  = default!;
+        public string Description { get; set; }  = default!;
     }
 }

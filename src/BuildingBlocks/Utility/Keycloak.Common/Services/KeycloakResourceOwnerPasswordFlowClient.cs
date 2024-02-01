@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Keycloak.Common.Clients
+namespace Keycloak.Common.Services
 {
-    internal class KeycloakResourceOwnerPasswordFlowClient : IAuth0PasswordCredentialFlowService
+    internal class KeycloakResourceOwnerPasswordFlowClient : IAuth0ResourceOwnerPasswordFlowService
     {
         private readonly KeycloakTokenOptions _options;
         private readonly ILogger<KeycloakResourceOwnerPasswordFlowClient> _logger;
@@ -29,7 +29,10 @@ namespace Keycloak.Common.Clients
             _factory = factory;
         }
 
-        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
+        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, 
+            string username, 
+            string password, 
+            IEnumerable<string>? scopes = null)
         {
             _logger.LogTrace("Method {Method} called", nameof(GetToken));
 

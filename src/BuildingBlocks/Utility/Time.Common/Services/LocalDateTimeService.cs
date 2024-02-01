@@ -1,8 +1,8 @@
 ﻿using Time.Abstract.Contracts;
 
-namespace Time.Common
+namespace Time.Common.Services
 {
-    public class LocalDateTimeService : IDateTimeProvider
+    internal class LocalDateTimeService : IDateTimeProvider
     {
         public DateTime Now => DateTime.Now;
     }

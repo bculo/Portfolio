@@ -2,13 +2,12 @@ using Events.Common.User;
 using FluentValidation;
 using Keycloak.Common.Models;
 using Keycloak.Common.Options;
-using Keycloak.Common.Refit;
+using Keycloak.Common.Services;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using User.Application.Common.Exceptions;
-using User.Application.Persistence;
 
 namespace User.Application.Features;
 

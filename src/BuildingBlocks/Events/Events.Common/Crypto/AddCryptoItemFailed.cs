@@ -2,6 +2,6 @@
 {
     public class AddCryptoItemFailed
     {
-        public string Symbol { get; set; }
+        public string Symbol { get; set; }  = default!;
     }
 }

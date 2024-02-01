@@ -10,10 +10,10 @@ namespace Events.Common.Crypto
     public class NewCryptoAdded
     {
         public long Id { get; set; }
-        public string Symbol { get; set; }
-        public string Name { get; set; }
+        public string Symbol { get; set; } = default!;
+        public string Name { get; set; } = default!;
         public decimal Price { get; set; }
-        public string Currency { get; set; }
+        public string Currency { get; set; } = default!;
         public Guid TemporaryId { get; set; }
     }
 }

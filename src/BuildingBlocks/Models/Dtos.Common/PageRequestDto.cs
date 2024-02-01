@@ -8,7 +8,7 @@ namespace Dtos.Common;
 
 public record PageRequestDto
 {
-    public int Page { get; set; }
-    public int Take { get; set; }
+    public int Page { get; set; } = default!;
+    public int Take { get; set; } = default!;
 }
 

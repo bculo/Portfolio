@@ -2,6 +2,6 @@
 {
     public sealed class ServiceSwaggerOptions
     {
-        public string ApplicationName { get; set; }
+        public string ApplicationName { get; set; } = default!;
     }
 }

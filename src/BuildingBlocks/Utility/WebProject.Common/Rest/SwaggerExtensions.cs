@@ -112,7 +112,7 @@ public static class SwaggerExtensions
             });
             
             opt.SchemaFilter<GenericFilter>();
-            opt.CustomSchemaIds(s => s.FullName.Replace("+", "."));
+            opt.CustomSchemaIds(s => s.FullName?.Replace("+", "."));
         });
     }
 
@@ -128,7 +128,7 @@ public static class SwaggerExtensions
             _options = options.Value;
         }
 
-        public void Configure(string name, SwaggerGenOptions options)
+        public void Configure(string? name, SwaggerGenOptions options)
         {
             Configure(options);
         }

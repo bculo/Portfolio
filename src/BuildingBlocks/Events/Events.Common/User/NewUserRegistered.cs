@@ -8,7 +8,7 @@ namespace Events.Common.User
 {
     public class NewUserRegistered
     {
-        public string UserName { get; set; }
+        public string UserName { get; set; } = default!;
         public DateTime Time { get; set; }
     }
 }

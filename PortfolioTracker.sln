@@ -136,7 +136,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Infrastructure.UnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Common", "tests\Services\Stock\Stock.Common\Stock.Common.csproj", "{F3EB7966-0173-4AA6-BBDA-C5DE1703A554}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BultInTypes.Common", "src\BuildingBlocks\Utility\BultInTypes.Common\BultInTypes.Common.csproj", "{B59972EE-8293-4235-BC14-BE62F1CBE885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimitiveTypes.Common", "src\BuildingBlocks\Utility\PrimitiveTypes.Common\PrimitiveTypes.Common.csproj", "{B59972EE-8293-4235-BC14-BE62F1CBE885}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Worker", "src\Services\Stock\Stock.Worker\Stock.Worker.csproj", "{8DED182E-46F8-44AB-A945-15EBC169F95F}"
 EndProject

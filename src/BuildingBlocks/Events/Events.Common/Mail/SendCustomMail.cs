@@ -2,9 +2,9 @@ namespace Events.Common.Mail;
 
 public class SendCustomMail
 {
-    public string From { get; set; }
-    public string To { get; set; }
-    public string Title { get; set; }
-    public string Message { get; set; }
-    public string UserId { get; set; }
+    public string From { get; set; } = default!;
+    public string To { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public string Message { get; set; } = default!;
+    public string UserId { get; set; } = default!;
 }

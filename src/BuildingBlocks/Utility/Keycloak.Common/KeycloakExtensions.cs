@@ -1,8 +1,5 @@
 ﻿using Auth0.Abstract.Contracts;
-using Keycloak.Common.Clients;
 using Keycloak.Common.Options;
-using Keycloak.Common.Refit;
-using Keycloak.Common.Refit.Handlers;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,7 +50,7 @@ namespace Keycloak.Common
                 opt.AuthorizationServerUrl = authorizationUrl;
             });
 
-            services.AddScoped<IAuth0PasswordCredentialFlowService, KeycloakResourceOwnerPasswordFlowClient>();
+            services.AddScoped<IAuth0ResourceOwnerPasswordFlowService, KeycloakResourceOwnerPasswordFlowClient>();
         }
 
         public static void UseKeycloakAdminService<TAuthHandler>(this IServiceCollection services, 

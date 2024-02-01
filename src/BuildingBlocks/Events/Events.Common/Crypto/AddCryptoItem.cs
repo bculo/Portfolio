@@ -8,7 +8,7 @@ namespace Events.Common.Crypto
 {
     public class AddCryptoItem
     {
-        public string Symbol { get; set; }
+        public string Symbol { get; set; }  = default!;
         public Guid TemporaryId { get; set; }
     }
 }

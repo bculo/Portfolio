@@ -33,19 +33,16 @@ namespace WebProject.Common.Filters
             {
                 if (!_allowedEnvironments.Any())
                 {
-                    _logger.LogTrace("Executing action on environment {0}", _environment.Environment.EnvironmentName);
                     await next();
                     return;
                 }
 
                 if (_allowedEnvironments.Contains(_environment.Environment.EnvironmentName))
                 {
-                    _logger.LogTrace("Executing action on environment {0}", _environment.Environment.EnvironmentName);
                     await next();
                     return;
                 }
-
-                _logger.LogTrace("Environment {0} not supported", _environment.Environment.EnvironmentName);
+                
                 context.Result = new BadRequestObjectResult(new
                 {
                     Message = "Current environment not supported"

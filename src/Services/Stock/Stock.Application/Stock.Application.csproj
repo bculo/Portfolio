@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\BultInTypes.Common\BultInTypes.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\PrimitiveTypes.Common\PrimitiveTypes.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
     <ProjectReference Include="..\Stock.Core\Stock.Core.csproj" />
   </ItemGroup>

@@ -1,6 +1,6 @@
-﻿using BultInTypes.Common.Decimal;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PrimitiveTypes.Common.Decimal;
 using Stock.Application.Common.Configurations;
 using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Price;

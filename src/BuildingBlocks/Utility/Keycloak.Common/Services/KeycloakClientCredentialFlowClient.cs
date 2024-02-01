@@ -7,7 +7,7 @@ using Keycloak.Common.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Keycloak.Common.Clients
+namespace Keycloak.Common.Services
 {
     internal class KeycloakClientCredentialFlowClient : IAuth0ClientCredentialFlowService
     {

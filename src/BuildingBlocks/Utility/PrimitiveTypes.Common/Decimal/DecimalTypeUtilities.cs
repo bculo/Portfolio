@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace BultInTypes.Common.Decimal
+namespace PrimitiveTypes.Common.Decimal
 {
     public static class DecimalTypeUtilities
     {

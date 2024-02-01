@@ -9,6 +9,6 @@ namespace Dtos.Common
     public class KeyValueElementDto
     {
         public int Key { get; init; }
-        public string Value { get; init; }
+        public string Value { get; init; }  = default!;
     }
 }

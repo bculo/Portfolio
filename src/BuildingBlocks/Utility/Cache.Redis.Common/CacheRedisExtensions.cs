@@ -1,13 +1,16 @@
 ﻿using Cache.Redis.Common.Interfaces;
 using Cache.Redis.Common.Options;
 using Cache.Redis.Common.Services;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StackExchange.Redis;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace Cache.Redis.Common
 {
-    public static class RedisCacheConfiguration
+    public static class CacheRedisExtensions
     {
         public static void AddRedisCacheService(this IServiceCollection services, 
             string connectionString, 
@@ -38,13 +41,23 @@ namespace Cache.Redis.Common
             ArgumentException.ThrowIfNullOrWhiteSpace(instanceName);
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
             
+            services.AddRedisConnectionMultiplexer(connectionString);
             
-            
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = connectionString;
-                options.InstanceName = instanceName;
-            });
+            services.AddFusionCache()
+                .WithDefaultEntryOptions(opt =>
+                {
+                    opt.DistributedCacheSoftTimeout = TimeSpan.FromSeconds(1);
+                    opt.DistributedCacheHardTimeout = TimeSpan.FromSeconds(2);
+                    opt.AllowBackgroundDistributedCacheOperations = true;
+                })
+                .WithSerializer(new FusionCacheSystemTextJsonSerializer())
+                .WithDistributedCache(
+                    new RedisCache(new RedisCacheOptions
+                    {
+                        Configuration = connectionString, 
+                        InstanceName = instanceName
+                    })
+                );
         }
 
         public static void AddRedisConnectionMultiplexer(this IServiceCollection services,

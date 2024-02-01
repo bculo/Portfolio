@@ -8,7 +8,7 @@ namespace Dtos.Common
 {
     public record PageResponseDto<T>
     {
-        public long Count { get; init; }
-        public List<T> Items { get; init; }
+        public long Count { get; init; } 
+        public List<T> Items { get; init; } = default!;
     }
 }

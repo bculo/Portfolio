@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BultInTypes.Common.Float
+namespace PrimitiveTypes.Common.Float
 {
     public static class FloatTypeUtilities
     {

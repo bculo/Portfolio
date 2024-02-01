@@ -8,7 +8,7 @@ namespace Events.Common.User
 {
     public class UserApproved
     {
-        public string UserName { get; set; }
+        public string UserName { get; set; } = default!;
         public Guid ExternalId { get; set; }
         public DateTime ApprovedOn { get; set; }
     }
