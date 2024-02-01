@@ -1,5 +1,5 @@
-using System;
 using Api.GeneratedCode;
+using Keycloak.Common.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
@@ -15,7 +15,7 @@ public static class ServicesExtensions
         services
             .AddRefitClient<ICacheApi>()
             .ConfigureHttpClient(c => c.BaseAddress = baseUrl)
-            .AddHttpMessageHandler<AuthorizationMessageHandler>()
+            .AddHttpMessageHandler<ClientCredentialAuthHandler>()
             .AddPolicyHandler(
                 HttpPolicyExtensions
                     .HandleTransientHttpError()
@@ -27,7 +27,7 @@ public static class ServicesExtensions
         services
             .AddRefitClient<IStockApi>()
             .ConfigureHttpClient(c => c.BaseAddress = baseUrl)
-            .AddHttpMessageHandler<AuthorizationMessageHandler>()
+            .AddHttpMessageHandler<ClientCredentialAuthHandler>()
             .AddPolicyHandler(
                 HttpPolicyExtensions
                     .HandleTransientHttpError()

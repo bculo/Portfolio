@@ -3,21 +3,23 @@ using Auth0.Abstract.Models;
 using Keycloak.Common.Options;
 using Microsoft.Extensions.Options;
 
-namespace Keycloak.Common.Refit.Handlers;
+namespace Keycloak.Common.Handlers;
 
-public class AdminAuthHeaderHandler : DelegatingHandler
+public class ClientCredentialAuthHandler : DelegatingHandler
 {
     private readonly KeycloakAdminApiOptions _adminOptions;
     private readonly IAuth0ClientCredentialFlowService _clientCredential;
     
-    public AdminAuthHeaderHandler(IAuth0ClientCredentialFlowService clientCredential,
+    public ClientCredentialAuthHandler(IAuth0ClientCredentialFlowService clientCredential,
         IOptions<KeycloakAdminApiOptions> adminOptions)
     {
         _clientCredential = clientCredential;
         _adminOptions = adminOptions.Value;
     }
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(
+        HttpRequestMessage request, 
+        CancellationToken cancellationToken)
     {
         var token = await FetchToken();
         

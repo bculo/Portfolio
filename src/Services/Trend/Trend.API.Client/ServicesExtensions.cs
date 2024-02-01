@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Keycloak.Common.Handlers;
+using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
@@ -13,6 +14,7 @@ public static class ServicesExtensions
     {
         var clientBuilderINewsApi = services
             .AddRefitClient<INewsApi>()
+            .AddHttpMessageHandler<ClientCredentialAuthHandler>()
             .ConfigureHttpClient(c => c.BaseAddress = baseUrl)
             .AddPolicyHandler(
                 HttpPolicyExtensions
@@ -24,6 +26,7 @@ public static class ServicesExtensions
 
         var clientBuilderISearchWordApi = services
             .AddRefitClient<ISearchWordApi>()
+            .AddHttpMessageHandler<ClientCredentialAuthHandler>()
             .ConfigureHttpClient(c => c.BaseAddress = baseUrl)
             .AddPolicyHandler(
                 HttpPolicyExtensions
@@ -35,6 +38,7 @@ public static class ServicesExtensions
 
         var clientBuilderISyncApi = services
             .AddRefitClient<ISyncApi>()
+            .AddHttpMessageHandler<ClientCredentialAuthHandler>()
             .ConfigureHttpClient(c => c.BaseAddress = baseUrl)
             .AddPolicyHandler(
                 HttpPolicyExtensions

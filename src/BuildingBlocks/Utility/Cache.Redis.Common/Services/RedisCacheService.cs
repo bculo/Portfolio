@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace Cache.Redis.Common.Services
 {
-    public class RedisCacheService : ICacheService
+    internal class RedisCacheService : ICacheService
     {
         private readonly IDistributedCache _cache;
 

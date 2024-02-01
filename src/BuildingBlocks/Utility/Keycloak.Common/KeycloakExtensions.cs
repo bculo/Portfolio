@@ -1,4 +1,5 @@
 ﻿using Auth0.Abstract.Contracts;
+using Keycloak.Common.Handlers;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -53,13 +54,13 @@ namespace Keycloak.Common
             services.AddScoped<IAuth0ResourceOwnerPasswordFlowService, KeycloakResourceOwnerPasswordFlowClient>();
         }
 
-        public static void UseKeycloakAdminService<TAuthHandler>(this IServiceCollection services, 
+        public static void UseKeycloakAdminService(this IServiceCollection services, 
             string adminApiBase,
             string realm,
             string clientId,
             string clientSecrets, 
             string authorizationUrl, 
-            string tokenUrl) where TAuthHandler : DelegatingHandler
+            string tokenUrl)
         {
             ArgumentNullException.ThrowIfNull(adminApiBase);
             ArgumentNullException.ThrowIfNull(realm);
@@ -79,11 +80,10 @@ namespace Keycloak.Common
                 opt.ClientSecret = clientSecrets;
                 opt.TokenBaseUri = tokenUrl;
             });
-
-            services.AddScoped<TAuthHandler>();
+            
             services.AddRefitClient<IUsersApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(adminApiBase))
-                .AddHttpMessageHandler<TAuthHandler>()
+                .AddHttpMessageHandler<ClientCredentialAuthHandler>()
                 .AddPolicyHandler(
                     HttpPolicyExtensions
                         .HandleTransientHttpError()
