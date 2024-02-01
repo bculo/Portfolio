@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry.Trace;
 using Stock.Core.Exceptions;
 
 namespace Stock.API.Middlewares;
@@ -24,6 +26,8 @@ public class ExceptionHandlingMiddleware
         }
         catch (Exception exception)
         {
+            Activity.Current?.RecordException(exception);
+            
             if (exception is StockCoreException coreException)
             {
                 await HandleCoreException(context, coreException);
@@ -69,6 +73,7 @@ public class ExceptionHandlingMiddleware
             problem.Extensions.Add("errors", validationException.Errors);
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             await context.Response.WriteAsJsonAsync(problem);
+            return;
         }
 
         problem.Status = StatusCodes.Status400BadRequest;
