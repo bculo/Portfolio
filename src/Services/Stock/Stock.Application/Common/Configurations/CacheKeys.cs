@@ -8,11 +8,13 @@ namespace Stock.Application.Common.Configurations;
 public static class CacheKeys
 {
     public static string StockItemKey(int id) => $"stock:{id}";
+    
+    public static string StockItemKey(string symbol) => $"stock:{symbol}";
 
     public static Action<FusionCacheEntryOptions> StockItemKeyOptions(CacheEntrySettings? settings = default)
     {
-        var keySettings = settings ?? new CacheEntrySettings(TimeSpan.FromMinutes(30),
-            TimeSpan.FromMinutes(60),
+        var keySettings = settings ?? new CacheEntrySettings(TimeSpan.FromMinutes(10),
+            TimeSpan.FromMinutes(20),
             new FactoryTimeoutOption(TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(1500)));
 
         return (opt) => opt.ApplyOptions(settings: keySettings);

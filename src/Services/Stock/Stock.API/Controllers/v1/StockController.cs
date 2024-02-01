@@ -30,12 +30,12 @@ namespace Stock.API.Controllers.v1
 
         [HttpGet("Single/{id}", Name = "GetStock")]
         [OutputCache(PolicyName = CachePolicies.STOCK_GET_SINGLE)]
-        [ProducesResponseType(typeof(GetStockResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetStockByIdResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetStock([FromRoute] string id)
         {
-            return Ok(await _mediator.Send(new GetStock(id)));
+            return Ok(await _mediator.Send(new GetStockById(id)));
         }
 
         [HttpGet("All", Name = "GetStocks")]

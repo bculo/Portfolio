@@ -9,6 +9,11 @@ public interface IBaseReadRepository<T> where T : class, IReadModel
 {
     Task<List<T>> GetAll(CancellationToken ct = default);
     
+    Task<T?> First(Expression<Func<T, bool>> predicate,
+        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
+        bool splitQuery = false,
+        CancellationToken ct = default);
+    
     Task<List<T>> Filter(Expression<Func<T, bool>> predicate,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default,

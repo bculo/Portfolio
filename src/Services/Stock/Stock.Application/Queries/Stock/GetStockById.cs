@@ -14,25 +14,25 @@ using ZiggyCreatures.Caching.Fusion;
 namespace Stock.Application.Queries.Stock;
 
 
-public record GetStock(string Id) : IRequest<GetStockResponse>;
+public record GetStockById(string Id) : IRequest<GetStockByIdResponse>;
 
-public class GetStockValidator : AbstractValidator<GetStock>
+public class GetStockByIdValidator : AbstractValidator<GetStockById>
 {
-    public GetStockValidator(ILocale locale)
+    public GetStockByIdValidator(ILocale locale)
     {
         RuleFor(i => i.Id)
             .NotEmpty();
     }
 }
 
-public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
+public class GetStockByIdHandler : IRequestHandler<GetStockById, GetStockByIdResponse>
 {
     private readonly IUnitOfWork _work;
     private readonly SqidsEncoder<int> _sqids;
     private readonly IFusionCache _cache;
-    private readonly ILogger<GetStockHandler> _logger;
+    private readonly ILogger<GetStockByIdHandler> _logger;
 
-    public GetStockHandler(ILogger<GetStockHandler> logger, 
+    public GetStockByIdHandler(ILogger<GetStockByIdHandler> logger, 
         IUnitOfWork work, 
         SqidsEncoder<int> sqids,
         IFusionCache cache)
@@ -43,7 +43,7 @@ public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
         _cache = cache;
     }
     
-    public async Task<GetStockResponse> Handle(GetStock request, CancellationToken ct)
+    public async Task<GetStockByIdResponse> Handle(GetStockById request, CancellationToken ct)
     {
         var entityId = _sqids.DecodeSingle(request.Id);
         if (entityId == default(long))
@@ -65,10 +65,10 @@ public class GetStockHandler : IRequestHandler<GetStock, GetStockResponse>
         return Map(entity);
     }
 
-    private GetStockResponse Map(StockEntity entity)
+    private GetStockByIdResponse Map(StockEntity entity)
     {
-        return new GetStockResponse(Id: entity.Id, Symbol: entity.Symbol);
+        return new GetStockByIdResponse(Id: entity.Id, Symbol: entity.Symbol);
     }
 }
 
-public record GetStockResponse(long Id, string Symbol);
+public record GetStockByIdResponse(long Id, string Symbol);

@@ -15,7 +15,7 @@ public class StockService : Stock.StockBase
     
     public override async Task<StockItemReply> GetById(GetSingleByIdRequest request, ServerCallContext context)
     {
-        var instance = await _mediator.Send(new GetStock(request.Id));
+        var instance = await _mediator.Send(new GetStockById(request.Id));
 
         return new StockItemReply
         {
@@ -23,8 +23,13 @@ public class StockService : Stock.StockBase
         };
     }
 
-    public override Task<StockItemReply> GetBySymbol(GetBySymbolRequest request, ServerCallContext context)
+    public override async Task<StockItemReply> GetBySymbol(GetBySymbolRequest request, ServerCallContext context)
     {
-        return base.GetBySymbol(request, context);
+        var instance = await _mediator.Send(new GetStockBySymbol(request.Symbol));
+        
+        return new StockItemReply
+        {
+            Symbol = instance.Symbol
+        };
     }
 }
