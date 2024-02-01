@@ -49,12 +49,12 @@ namespace Stock.API.Configurations
 
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
+            InfrastructureLayer.AddOpenTelemetry(services, configuration, "stock.api");
 
             AddMessageQueue(services, configuration);
             AddAuthentication(services, configuration);
             AddCachePolicies(services, configuration);
             AddSerilog(builder);
-            AddOpenTelemetry(services, configuration);
         }
 
         private static void AddSerilog(WebApplicationBuilder builder)
@@ -101,11 +101,6 @@ namespace Stock.API.Configurations
                     config.Host(configuration["QueueOptions:Address"]);
                 });
             });
-        }
-
-        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
-        {
-
         }
     }
 }

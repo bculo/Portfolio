@@ -13,7 +13,8 @@ namespace Stock.API.Services
         {
             get
             {
-                var userId = _user.GetIdentifier();
+                //var userId = _user.GetIdentifier();
+                var userId = Guid.NewGuid();
 
                 if(userId != Guid.Empty)
                 {

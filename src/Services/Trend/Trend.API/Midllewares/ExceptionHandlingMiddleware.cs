@@ -1,5 +1,6 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Trend.Domain.Exceptions;
+using OpenTelemetry.Trace;
 
 namespace Trend.API.Middlewares;
 

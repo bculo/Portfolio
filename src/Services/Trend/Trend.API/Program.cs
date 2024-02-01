@@ -13,8 +13,6 @@ await builder.SeedAll();
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -36,25 +34,23 @@ if (app.Environment.IsDevelopment())
         .AllowAnyHeader()
         .AllowAnyOrigin());
 }
+app.UseSerilogRequestLogging();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.UseRequestLocalization();
 
-app.UseSerilogRequestLogging();
+app.UseOutputCache();
 
-app.UseHangfireDashboard();
-
+app.MapControllers();
 app.MapHealthChecks("/_health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
 }).RequireAuthorization();
-
-app.UseOutputCache();
-
-app.MapControllers();
+app.UseHangfireDashboard();
 
 app.Run();
 

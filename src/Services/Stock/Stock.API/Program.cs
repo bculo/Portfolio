@@ -13,7 +13,7 @@ builder.ConfigureApiProject();
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
@@ -35,20 +35,19 @@ if (app.Environment.IsDevelopment())
     app.UseCors("CorsPolicy");
 }
 
-app.UseSerilogRequestLogging();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
+app.UseOutputCache();
+
+app.MapControllers();
 app.MapHealthChecks("/_health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
 });
-
-app.UseOutputCache();
-
-app.MapControllers();
 
 app.Run();
