@@ -1,5 +1,5 @@
-﻿using Cache.Abstract.Contracts;
-using Cache.Redis.Common.Redis;
+﻿using Cache.Redis.Common.Interfaces;
+using Cache.Redis.Common.Options;
 using Cache.Redis.Common.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -23,6 +23,22 @@ namespace Cache.Redis.Common
                     opt.InstanceName = instanceName;
                     opt.ConnectionString = connectionString;
                 });
+            
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = connectionString;
+                options.InstanceName = instanceName;
+            });
+        }
+        
+        public static void AddRedisFusionCacheService(this IServiceCollection services, 
+            string connectionString, 
+            string instanceName)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(instanceName);
+            ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
+            
+            
             
             services.AddStackExchangeRedisCache(options =>
             {

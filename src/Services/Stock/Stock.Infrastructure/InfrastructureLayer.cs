@@ -54,7 +54,12 @@ namespace Stock.Infrastructure
             AddLocalization(services, configuration);
             AddHangfire(services, configuration);
 
-            services.AddDbContext<StockDbContext>();
+            
+            services.AddSingleton<QueryInterceptor>();
+            services.AddDbContext<StockDbContext>((sp, opt) =>
+            {
+                opt.AddInterceptors(sp.GetRequiredService<QueryInterceptor>());
+            });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockPriceRepository, StockPriceRepository>();

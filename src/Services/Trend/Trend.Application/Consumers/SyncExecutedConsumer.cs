@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cache.Abstract.Contracts;
 using MassTransit.Middleware;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;

@@ -1,4 +1,3 @@
-using Cache.Abstract.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Trend.Application.Configurations.Options;

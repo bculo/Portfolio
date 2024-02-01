@@ -2,7 +2,7 @@ namespace Keycloak.Common.Utils;
 
 public static class UriUtils
 {
-    public static string JoinUriSegments(string uri, params string[] segments)
+    public static string JoinUriSegments(string uri, params string[]? segments)
     {
         if (string.IsNullOrWhiteSpace(uri))
             return null;

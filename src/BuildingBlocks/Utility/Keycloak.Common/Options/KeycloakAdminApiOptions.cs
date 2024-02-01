@@ -8,11 +8,11 @@ namespace Keycloak.Common.Options
 {
     public class KeycloakAdminApiOptions
     {
-        public string Realm { get; set; }
-        public string ClientId { get; set; }
-        public string ClientSecret { get; set; }
-        public string AuthorizationUrl { get; set; }
-        public string TokenBaseUri { get; set; }
-        public string AdminApiBaseUri { get; set; }
+        public string Realm { get; set; } = default!;
+        public string ClientId { get; set; } = default!;
+        public string ClientSecret { get; set; } = default!;
+        public string AuthorizationUrl { get; set; } = default!;
+        public string TokenBaseUri { get; set; } = default!;
+        public string AdminApiBaseUri { get; set; } = default!;
     }
 }

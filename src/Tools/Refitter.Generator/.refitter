@@ -1,5 +1,5 @@
 {
-    "openApiPath": "/Users/bozoculo/git_repos/Portfolio/src/Tools/Refitter.Generator/OpenApi/keycloak-23.json",
+    "openApiPath": "/Users/bozoculo/git_repos/Portfolio/src/Tools/Refitter.Generator/OpenApi/swagger.json",
     "namespace": "Api.GeneratedCode",
     "returnIApiResponse": true,
     "multipleInterfaces": "ByTag",
@@ -12,6 +12,6 @@
         "firstBackoffRetryInSeconds": 0.5
     },
     "includeTags": [
-        "Users"
+
     ]
 }

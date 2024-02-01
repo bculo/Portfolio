@@ -23,7 +23,7 @@ namespace Keycloak.Common.Extensions
             {
                 var errorResponse = await response.Content.ReadAsStringAsync();
 
-                logger?.LogWarning("Keycloak request failed with status code {0}. Reason: {1}, Details {2}",
+                logger?.LogWarning("Keycloak request failed with status code {StatusCode}. Reason: {Reason}, Details {Error}",
                     response.StatusCode,
                     response.ReasonPhrase,
                     errorResponse);

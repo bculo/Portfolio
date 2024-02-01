@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Abstract\Cache.Abstract\Cache.Abstract.csproj" />
     <ProjectReference Include="..\..\Abstract\Time.Abstract\Time.Abstract.csproj" />
   </ItemGroup>
 

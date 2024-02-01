@@ -41,7 +41,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Auth0.Abstract\Auth0.Abstract.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Cache.Abstract\Cache.Abstract.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Models\Dtos.Common\Dtos.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj" />

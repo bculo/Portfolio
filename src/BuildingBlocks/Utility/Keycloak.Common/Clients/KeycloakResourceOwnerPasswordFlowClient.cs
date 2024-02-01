@@ -29,9 +29,9 @@ namespace Keycloak.Common.Clients
             _factory = factory;
         }
 
-        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string username, string password, IEnumerable<string> scopes = null)
+        public async Task<TokenAuthorizationCodeResponse> GetToken(string clientId, string username, string password, IEnumerable<string>? scopes = null)
         {
-            _logger.LogTrace("Method {0} called", nameof(GetToken));
+            _logger.LogTrace("Method {Method} called", nameof(GetToken));
 
             ArgumentNullException.ThrowIfNull(clientId);
             ArgumentNullException.ThrowIfNull(username);
@@ -43,10 +43,10 @@ namespace Keycloak.Common.Clients
 
             var body = new List<KeyValuePair<string, string>>()
             {
-                new KeyValuePair<string, string>("grant_type", KeycloakGrantTypeConstants.OWNER_CREDENTIALS),
-                new KeyValuePair<string, string>("client_id", clientId),
-                new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password)
+                new ("grant_type", KeycloakGrantTypeConstants.OWNER_CREDENTIALS),
+                new ("client_id", clientId),
+                new ("username", username),
+                new ("password", password)
             };
 
             HttpContent content = new FormUrlEncodedContent(body);

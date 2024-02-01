@@ -1,9 +1,7 @@
 ﻿using System.Text.Json;
-using Cache.Abstract.Contracts;
-using Cache.Redis.Common.Redis;
 using Cache.Redis.Common.Exceptions;
+using Cache.Redis.Common.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 
 namespace Cache.Redis.Common.Services
 {

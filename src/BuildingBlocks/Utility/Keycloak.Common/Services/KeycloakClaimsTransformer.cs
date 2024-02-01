@@ -28,10 +28,9 @@ namespace Keycloak.Common.Services
 
         public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            _logger.LogTrace("Method {0} in service {1} called", nameof(TransformAsync),
-                nameof(KeycloakClaimsTransformer));
+            _logger.LogTrace("Method {Method} called", nameof(TransformAsync));
 
-            ClaimsIdentity claimsIdentity = principal.Identity as ClaimsIdentity;
+            var claimsIdentity = principal.Identity as ClaimsIdentity;
 
             if (claimsIdentity == null)
             {
@@ -49,9 +48,6 @@ namespace Keycloak.Common.Services
 
         private void HandleApplicationRoles(ClaimsIdentity claimsIdentity)
         {
-            _logger.LogTrace("Method {0} in service {1} called", nameof(HandleApplicationRoles),
-                nameof(KeycloakClaimsTransformer));
-
             if (!claimsIdentity.IsAuthenticated ||
                 !claimsIdentity.HasClaim((claim) => claim.Type == "resource_access")) return;
 
@@ -69,9 +65,6 @@ namespace Keycloak.Common.Services
 
         private void HandleRealmRoles(ClaimsIdentity claimsIdentity)
         {
-            _logger.LogTrace("Method {0} in service {1} called", nameof(HandleRealmRoles),
-                nameof(KeycloakClaimsTransformer));
-
             if (!claimsIdentity.IsAuthenticated ||
                 !claimsIdentity.HasClaim((claim) => claim.Type == "realm_access")) return;
             

@@ -8,17 +8,8 @@ using System.Threading.Tasks;
 
 namespace Cryptography.Common.Utils
 {
-    /// <summary>
-    /// Good article for RSA key formats 
-    /// https://vcsjones.dev/key-formats-dotnet-3/
-    /// </summary>
     public static class RsaUtils
     {
-        /// <summary>
-        /// “BEGIN PUBLIC KEY”
-        /// </summary>
-        /// <param name="publicKeyJwt">Public key</param>
-        /// <returns></returns>
         public static RsaSecurityKey ImportSubjectPublicKeyInfo(string publicKeyJwt)
         {
             if (string.IsNullOrEmpty(publicKeyJwt))
@@ -33,9 +24,9 @@ namespace Cryptography.Common.Utils
                 bytesRead: out _
             );
 
-            var IssuerSigningKey = new RsaSecurityKey(rsa);
+            var issuerSigningKey = new RsaSecurityKey(rsa);
 
-            return IssuerSigningKey;
+            return issuerSigningKey;
         }
     }
 }

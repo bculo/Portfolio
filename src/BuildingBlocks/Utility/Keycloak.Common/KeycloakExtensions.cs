@@ -13,9 +13,6 @@ using Refit;
 
 namespace Keycloak.Common
 {
-    /// <summary>
-    /// Keycloak extensions
-    /// </summary>
     public static class KeycloakExtensions
     {
         public static void UseKeycloakClaimServices(this IServiceCollection services, 
@@ -47,12 +44,7 @@ namespace Keycloak.Common
         }
 
         public static void UseKeycloakOwnerPasswordCredentialFlowService(this IServiceCollection services,
-            string adminApiBase,
-            string realm,
-            string clientId,
-            string clientSecrets, 
-            string authorizationUrl, 
-            string tokenUrl)
+            string authorizationUrl)
         {
             ArgumentNullException.ThrowIfNull(authorizationUrl);
             

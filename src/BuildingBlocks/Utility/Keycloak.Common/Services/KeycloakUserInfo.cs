@@ -8,9 +8,9 @@ namespace Keycloak.Common.Services
 {
     internal class KeycloakUserInfo : IAuth0AccessTokenReader
     {
-        protected readonly IHttpContextAccessor _accessor;
+        private readonly IHttpContextAccessor _accessor;
 
-        protected ClaimsPrincipal Claims => _accessor.HttpContext?.User;
+        public ClaimsPrincipal Claims => _accessor.HttpContext?.User;
 
         public KeycloakUserInfo(IHttpContextAccessor accessor)
         {
