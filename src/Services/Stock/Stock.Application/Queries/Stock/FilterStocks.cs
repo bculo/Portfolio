@@ -8,11 +8,12 @@ using Stock.Application.Interfaces.Expressions.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources;
+using Stock.Core.Enums;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
-public record FilterStocks(string? Symbol) : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
+public record FilterStocks(string? Symbol, Status Status) : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
 {
@@ -65,13 +66,27 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
             builder.Add(i => i.Symbol.Contains(request.Symbol));
         }
 
+        if (request.Status != Status.All)
+        {
+            bool isActive = request.Status == Status.Active;
+            builder.Add(i => i.IsActive == isActive);
+        }
+
         return builder.Build();
     }
 
-    public FilterStockResponseItem Projection(StockWithPriceTag entity)
+    private FilterStockResponseItem Projection(StockWithPriceTag item)
     {
-        return new FilterStockResponseItem(_sqids.Encode(entity.StockId), entity.Symbol, entity.Price);
+        return new FilterStockResponseItem
+        {
+            LastPriceUpdate = item.LastPriceUpdate,
+            Price = item.Price == -1 ? default(decimal?) : item.Price,
+            Symbol = item.Symbol,
+            IsActive = item.IsActive,
+            Id = _sqids.Encode(item.StockId),
+            Created = item.CreatedAt
+        };
     }
 }
 
-public record FilterStockResponseItem(string Id, string Symbol, decimal Price);
+public record FilterStockResponseItem : StockPriceResultDto;

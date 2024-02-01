@@ -37,17 +37,13 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
     private readonly ILogger<UpdateStockBatchHandler> _logger;
     private readonly IStockPriceClient _client;
     private readonly IUnitOfWork _work;
-    private readonly SqidsEncoder<int> _sqids;
-    private readonly IOutputCacheStore _outputCache;
 
     public UpdateStockBatchHandler(IStockPriceClient client,
         ILogger<UpdateStockBatchHandler> logger,
         IPublishEndpoint endpoint,
         IDateTimeProvider provider,
         IConfiguration config,
-        IUnitOfWork work,
-        IOutputCacheStore outputCache, 
-        SqidsEncoder<int> sqids)
+        IUnitOfWork work)
     {
         _client = client;
         _logger = logger;
@@ -55,8 +51,6 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         _provider = provider;
         _config = config;
         _work = work;
-        _outputCache = outputCache;
-        _sqids = sqids;
     }
 
     public async Task<UpdateStockBatchResponse> Handle(UpdateStockBatch request, CancellationToken ct)
@@ -157,7 +151,8 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
             yield return new StockPriceEntity
             {
                 Price = fetchedItem.Price,
-                StockId = itemsToUpdate[fetchedItem.Symbol]
+                StockId = itemsToUpdate[fetchedItem.Symbol],
+                IsActive = true
             };
         }
     }

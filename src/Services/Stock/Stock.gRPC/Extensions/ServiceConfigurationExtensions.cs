@@ -3,6 +3,7 @@ using MassTransit;
 using Serilog;
 using Stock.Application;
 using Stock.Application.Interfaces.User;
+using Stock.gRPC.Handlers;
 using Stock.gRPC.Services;
 using Stock.Infrastructure;
 using WebProject.Common.Extensions;
@@ -17,7 +18,10 @@ public static class ServiceConfigurationExtensions
         var services = builder.Services;
         var configuration = builder.Configuration;
         
-        services.AddGrpc();
+        services.AddGrpc(options =>
+        {
+            options.Interceptors.Add<GlobalExceptionHandler>();
+        });
         services.AddGrpcReflection();
         
         services.AddScoped<IStockUser, UserService>();

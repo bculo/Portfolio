@@ -54,5 +54,13 @@ namespace Stock.API.Controllers.v1
         {
             return Ok(await _mediator.Send(filterListQuery));
         }
+        
+        [HttpPut("ChangeStatus", Name = "ChangeStockStatus")]
+        [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> ChangeActivityStatus([FromBody] ChangeStockStatus request)
+        {
+            await _mediator.Send(request);
+            return NoContent();
+        }
     }
 }

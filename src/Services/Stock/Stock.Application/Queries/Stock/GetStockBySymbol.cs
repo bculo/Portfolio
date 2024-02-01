@@ -3,6 +3,7 @@ using MediatR;
 using Sqids;
 using Stock.Application.Common.Configurations;
 using Stock.Application.Common.Extensions;
+using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources;
@@ -59,10 +60,18 @@ public class GetStockBySymbolHandler : IRequestHandler<GetStockBySymbol, GetStoc
         return Map(instance);
     }
     
-    private GetStockBySymbolResponse Map(StockWithPriceTag instance)
+    private GetStockBySymbolResponse Map(StockWithPriceTag item)
     {
-        return new GetStockBySymbolResponse(_sqids.Encode(instance.StockId), instance.Symbol, instance.Price);
+        return new GetStockBySymbolResponse
+        {
+            LastPriceUpdate = item.LastPriceUpdate,
+            Price = item.Price == -1 ? default(decimal?) : item.Price,
+            Symbol = item.Symbol,
+            IsActive = item.IsActive,
+            Id = _sqids.Encode(item.StockId),
+            Created = item.CreatedAt
+        };
     }
 }
 
-public record GetStockBySymbolResponse(string Id, string Symbol, decimal Price);
+public record GetStockBySymbolResponse : StockPriceResultDto;

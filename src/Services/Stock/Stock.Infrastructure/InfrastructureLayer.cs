@@ -42,7 +42,7 @@ namespace Stock.Infrastructure
             IConfiguration configuration, 
             bool isDevEnv = true)
         {
-            services.AddLocalTimeProvider();
+            services.AddUtcTimeProvider();
             services.AddTransient<IHtmlParser, HtmlParserService>(opt =>
             {
                 var logger = opt.GetRequiredService<ILogger<HtmlParserService>>();

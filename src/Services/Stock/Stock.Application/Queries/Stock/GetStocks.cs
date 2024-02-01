@@ -1,5 +1,6 @@
 using MediatR;
 using Sqids;
+using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Stock;
 
@@ -18,9 +19,7 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
         _sqids = sqids;
     }
 
-    public async Task<IEnumerable<GetStocksResponse>> Handle(
-        GetStocks request, 
-        CancellationToken ct)
+    public async Task<IEnumerable<GetStocksResponse>> Handle(GetStocks request, CancellationToken ct)
     {
         var stocks = await _work.StockWithPriceTag.GetAll(ct);
         return MapToResponse(stocks);
@@ -28,8 +27,16 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
 
     private IEnumerable<GetStocksResponse> MapToResponse(List<StockWithPriceTag> items)
     {
-        return items.Select(i => new GetStocksResponse(_sqids.Encode(i.StockId), i.Symbol, i.Price));
+        return items.Select(item => new GetStocksResponse
+        {
+            LastPriceUpdate = item.LastPriceUpdate,
+            Price = item.Price == -1 ? default(decimal?) : item.Price,
+            Symbol = item.Symbol,
+            IsActive = item.IsActive,
+            Id = _sqids.Encode(item.StockId),
+            Created = item.CreatedAt
+        });
     }
 }
 
-public record GetStocksResponse(string Id, string Symbol, decimal Price);
+public record GetStocksResponse : StockPriceResultDto;

@@ -12,5 +12,8 @@ namespace Stock.Core.Models.Stock
         public int StockId { get; set; }
         public string Symbol { get; set; } = default!;
         public decimal Price { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? LastPriceUpdate { get; set; }
     }
 }

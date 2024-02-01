@@ -34,7 +34,7 @@ namespace Stock.Infrastructure.Persistence
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("StockDatabase"));
             optionsBuilder.UseLowerCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging();
-            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

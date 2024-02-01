@@ -17,14 +17,18 @@ namespace Stock.Infrastructure.Persistence.Migrations
                  CASE 
                   WHEN spo.price is NULL THEN -1
                   ELSE spo.price
-                 END as price
+                 END as price,
+                 s.isactive as isactive,
+                 spo.createdat as lastpriceupdate,
+                 s.createdat as createdat
                 FROM public.stocks AS s
                 LEFT JOIN LATERAL
                  (SELECT
-                  sp.price
+                  sp.price,
+                  sp.createdat
                   FROM public.stocks_prices AS sp
                   WHERE sp.stockid = s.id
-                  ORDER BY sp.createdat
+                  ORDER BY sp.createdat DESC
                   LIMIT 1) AS spo ON true
             ");
         }

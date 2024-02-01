@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Sqids;
 using Stock.Application.Common.Configurations;
 using Stock.Application.Common.Extensions;
+using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Exceptions;
@@ -50,10 +51,10 @@ public class GetStockByIdHandler : IRequestHandler<GetStockById, GetStockByIdRes
         {
             throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(request.Id));
         }
-        
+
         var entity = await _cache.GetOrSetAsync(
             CacheKeys.StockItemKey(entityId),
-            token => _work.StockRepo.Find(entityId, token),
+            token => _work.StockWithPriceTag.First(i => i.StockId == entityId, ct: token),
             CacheKeys.StockItemKeyOptions(),
             ct
         );
@@ -65,10 +66,18 @@ public class GetStockByIdHandler : IRequestHandler<GetStockById, GetStockByIdRes
         return Map(entity);
     }
 
-    private GetStockByIdResponse Map(StockEntity entity)
+    private GetStockByIdResponse Map(StockWithPriceTag item)
     {
-        return new GetStockByIdResponse(Id: entity.Id, Symbol: entity.Symbol);
+        return new GetStockByIdResponse
+        {
+            LastPriceUpdate = item.LastPriceUpdate,
+            Price = item.Price == -1 ? default(decimal?) : item.Price,
+            Symbol = item.Symbol,
+            IsActive = item.IsActive,
+            Id = _sqids.Encode(item.StockId),
+            Created = item.CreatedAt
+        };
     }
 }
 
-public record GetStockByIdResponse(long Id, string Symbol);
+public record GetStockByIdResponse : StockPriceResultDto;

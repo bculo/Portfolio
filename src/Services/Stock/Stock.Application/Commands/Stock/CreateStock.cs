@@ -68,7 +68,8 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
 
         var newItem = new StockEntity
         {
-            Symbol = request.Symbol
+            Symbol = request.Symbol,
+            IsActive = true
         };
         await _work.StockRepo.Add(newItem, ct);
         await _work.Save(ct);
