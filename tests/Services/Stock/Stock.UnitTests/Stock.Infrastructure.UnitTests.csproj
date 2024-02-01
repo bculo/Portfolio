@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Services\Stock\Stock.Infrastructure\Stock.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\Common\Tests.Common\Tests.Common.csproj" />
     <ProjectReference Include="..\Stock.Common\Stock.Common.csproj" />
   </ItemGroup>

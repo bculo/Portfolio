@@ -29,37 +29,30 @@ namespace Trend.gRPC.Services
             _logger = logger;
         }
         
-        public override async Task GetAllNews(Empty request, IServerStreamWriter<ArticleTypeItem> responseStream, ServerCallContext context)
+        public override async Task GetAllNews(Empty request, IServerStreamWriter<ArticleTypeItemReply> responseStream, ServerCallContext context)
         {
-            _logger.LogTrace("GetAllNews method called in NewsService");
-            
             await foreach (var item in _service.GetAllEnumerable(default))
             {
-                var responseItem = _mapper.Map<ArticleTypeItem>(item);
+                var responseItem = _mapper.Map<ArticleTypeItemReply>(item);
                 await responseStream.WriteAsync(responseItem);
             }
         }
         
-        public override async Task GetLatestNews(Empty request, IServerStreamWriter<ArticleItem> responseStream, ServerCallContext context)
+        public override async Task GetLatestNews(Empty request, IServerStreamWriter<ArticleItemReply> responseStream, ServerCallContext context)
         {
-            _logger.LogTrace("GetLatestNews method called in NewsService");
-            
             await foreach (var item in _service.GetLatestEnumerable(default))
             {
-                var responseItem = _mapper.Map<ArticleItem>(item);
+                var responseItem = _mapper.Map<ArticleItemReply>(item);
                 await responseStream.WriteAsync(responseItem);
             }
         }
         
-        public override async Task GetLatestNewsForType(ArticleTypeRequest request, IServerStreamWriter<ArticleItem> responseStream, ServerCallContext context)
+        public override async Task GetLatestNewsForType(ArticleTypeRequest request, IServerStreamWriter<ArticleItemReply> responseStream, ServerCallContext context)
         {
-            _logger.LogTrace("GetLatestNewsForType method called in NewsService");
-
             var requestType = (ContextType)(int)request.Type;
-
             await foreach (var item in _service.GetLatestByContextEnumerable(requestType, default))
             {
-                var responseItem = _mapper.Map<ArticleItem>(item);
+                var responseItem = _mapper.Map<ArticleItemReply>(item);
                 await responseStream.WriteAsync(responseItem);
             }
         }

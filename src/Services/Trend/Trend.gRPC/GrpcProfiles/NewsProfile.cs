@@ -8,11 +8,11 @@ namespace Trend.gRPC.GrpcProfiles
     {
         public NewsProfile()
         {
-            CreateMap<ArticleResDto, ArticleTypeItem>().ReverseMap();
-            CreateMap<ArticleResDto, ArticleItem>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleTypeItemReply>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleItemReply>().ReverseMap();
 
-            CreateMap<ArticleResDto, ArticleItem>().ReverseMap();
-            CreateMap<ArticleResDto, ArticleTypeItem>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleItemReply>().ReverseMap();
+            CreateMap<ArticleResDto, ArticleTypeItemReply>().ReverseMap();
 
             CreateMap<FetchArticleTypePageRequest, FilterArticlesReqDto>()
                 .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Page.Take))

@@ -7,20 +7,20 @@ option csharp_namespace = "Trend.gRPC.Protos.v1";
 package news.v1;
 
 service News {
-	rpc GetAllNews(google.protobuf.Empty) returns (stream ArticleTypeItem);
-	rpc GetLatestNews(google.protobuf.Empty) returns (stream ArticleItem);
-	rpc GetLatestNewsForType(ArticleTypeRequest) returns (stream ArticleItem);
+	rpc GetAllNews(google.protobuf.Empty) returns (stream ArticleTypeItemReply);
+	rpc GetLatestNews(google.protobuf.Empty) returns (stream ArticleItemReply);
+	rpc GetLatestNewsForType(ArticleTypeRequest) returns (stream ArticleItemReply);
 }
 
 enum ArticleTypeEnum {
-	CRYPTO = 0;
-	STOCK = 1;
-	ETF = 2;
-	ECONOMY = 3;
+	ARTICLE_TYPE_ENUM_CRYPTO = 0;
+	ARTICLE_TYPE_ENUM_STOCK = 1;
+	ARTICLE_TYPE_ENUM_ETF = 2;
+	ARTICLE_TYPE_ENUM_ECONOMY = 3;
 }	
 
 message Page {
-	int32 pageNum = 1;
+	int32 page_num = 1;
 	int32 take = 2;
 }
 
@@ -39,21 +39,21 @@ message FetchArticleTypePageRequest {
 
 message ArticleItemExtendedPageResponse {
 	int64 count = 1;
-	repeated ArticleTypeItem items = 2;
+	repeated ArticleTypeItemReply items = 2;
 }
 
-message ArticleTypeItem {
+message ArticleTypeItemReply {
 	string title = 1;
 	string text = 2;
 	string url = 3;
-	string pageSource = 4;
-	string typeName = 5;
-	string typeId = 6;
+	string page_source = 4;
+	string type_name = 5;
+	string type_dd = 6;
 }
 
-message ArticleItem {
+message ArticleItemReply {
 	string title = 1;
 	string text = 2;
 	string url = 3;
-	string pageSource = 4;
+	string page_source = 4;
 }

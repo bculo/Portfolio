@@ -1,5 +1,6 @@
 ﻿using Auth0.Abstract.Contracts;
 using Stock.Application.Interfaces.User;
+using Stock.Core.Exceptions;
 
 namespace Stock.API.Services
 {
@@ -23,7 +24,7 @@ namespace Stock.API.Services
 
                 var msg =
                     "Problem with authentication. User identifier is null. Check if [Authorize] attribute is provided";
-                throw new ArgumentException(msg);
+                throw new StockCoreAuthException(msg);
             }
         }
     }
