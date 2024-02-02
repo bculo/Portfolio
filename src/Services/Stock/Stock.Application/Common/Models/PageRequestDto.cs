@@ -31,7 +31,8 @@ namespace Stock.Application.Common.Models
                 .GreaterThanOrEqualTo(1);
             
             RuleFor(i => i.Take)
-                .GreaterThanOrEqualTo(1);
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(100);
         }
     }
 }

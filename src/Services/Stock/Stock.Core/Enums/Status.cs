@@ -2,7 +2,7 @@ namespace Stock.Core.Enums;
 
 public enum Status
 {
-    Inactive = 0,
-    Active = 1,
-    None = 2
+    Inactive = 1,
+    Active = 2,
+    None = 999
 }

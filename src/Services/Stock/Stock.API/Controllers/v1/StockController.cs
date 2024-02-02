@@ -47,7 +47,7 @@ namespace Stock.API.Controllers.v1
         }
 
         [HttpGet("Filter", Name = "FilterStocks")]
-        [OutputCache(PolicyName = CachePolicies.STOCK_GET_FILTER)]
+        //[OutputCache(PolicyName = CachePolicies.STOCK_GET_FILTER)]
         [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> FilterStocks([FromQuery] FilterStocks filterListQuery)

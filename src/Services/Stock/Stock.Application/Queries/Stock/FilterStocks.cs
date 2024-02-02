@@ -1,19 +1,25 @@
 using System.Linq.Expressions;
 using FluentValidation;
 using MediatR;
+using Queryable.Common.Models;
 using Queryable.Common.Services.Classic;
+using Queryable.Common.Services.Dynamic;
 using Sqids;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Application.Resources;
 using Stock.Core.Enums;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
-public record FilterStocks(string? Symbol, Status Status) 
+public record FilterStocks(
+        ContainFilter? Symbol,
+        GreaterThanFilter<decimal>? PriceGreaterThan,
+        LessThenFilter<decimal>? PriceLessThan,
+        EqualFilter<Status> ActivityStatus,
+        GreaterThanFilter<DateTime>? NotOlderThan) 
     : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
@@ -21,10 +27,6 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
     public FilterStocksValidator(ILocale locale)
     {
         Include(new PageRequestDtoValidator());
-        
-        RuleFor(i => i.Symbol)!
-            .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
-            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
     }
 }
 
@@ -57,11 +59,13 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
 
     private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocks request)
     {
-        var builder = ExpressionBuilder<StockWithPriceTag>.Create();
+        var builder = DynamicExpressionBuilder<StockWithPriceTag>.Create();
 
-        builder.Add(i => i.Symbol.Contains(request.Symbol), !string.IsNullOrEmpty(request.Symbol))
-            .Add(i => i.IsActive == (request.Status == Status.Active), request.Status != Status.None);
-        
+        builder.Add(i => i.Symbol, request.Symbol)
+            .Add(i => i.Price, request.PriceLessThan)
+            .Add(i => i.Price, request.PriceGreaterThan)
+            .Add(i => i.CreatedAt, request.NotOlderThan);
+
         return builder.Build();
     }
 
