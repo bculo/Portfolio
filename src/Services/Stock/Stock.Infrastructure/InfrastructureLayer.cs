@@ -4,7 +4,6 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,25 +13,21 @@ using OpenTelemetry.Trace;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
+using Queryable.Common;
 using StackExchange.Redis;
 using Stock.Application.Common.Configurations;
-using Stock.Application.Interfaces.Expressions;
 using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Infrastructure.Common.Extensions;
-using Stock.Infrastructure.Expressions;
 using Stock.Infrastructure.Html;
 using Stock.Infrastructure.Localization;
 using Stock.Infrastructure.Persistence;
 using Stock.Infrastructure.Persistence.Repositories;
 using Stock.Infrastructure.Persistence.Repositories.Read;
 using Stock.Infrastructure.Price;
-using Time.Abstract.Contracts;
 using Time.Common;
-using ZiggyCreatures.Caching.Fusion;
-using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace Stock.Infrastructure
 {
@@ -55,18 +50,13 @@ namespace Stock.Infrastructure
             AddHangfire(services, configuration);
             
             services.AddSingleton<QueryInterceptor>();
-            services.AddDbContext<StockDbContext>((sp, opt) =>
-            {
-                opt.AddInterceptors(sp.GetRequiredService<QueryInterceptor>());
-            });
+            services.AddDbContext<StockDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockPriceRepository, StockPriceRepository>();
             services.AddScoped<IStockWithPriceTagReadRepository, StockWithPriceTagReadRepository>();
             
             services.AddScoped<ILocale, LocaleService>();
-            services.AddScoped(typeof(IExpressionBuilder<>), typeof(ExpressionBuilder<>));
-            services.AddScoped<IExpressionBuilderFactory, ExpressionBuilderFactory>();
         }
 
         public static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration, string appName)

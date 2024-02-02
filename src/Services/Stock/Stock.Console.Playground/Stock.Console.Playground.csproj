@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Queryable.Common\Queryable.Common.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Queryableasd.Common\Queryableasd.Common.csproj" />
+      <ProjectReference Include="..\Stock.Infrastructure\Stock.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NSubstitute" Version="5.1.0" />
+    </ItemGroup>
+
+</Project>

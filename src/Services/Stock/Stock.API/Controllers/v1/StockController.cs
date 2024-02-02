@@ -27,7 +27,7 @@ namespace Stock.API.Controllers.v1
         {
             return Ok(await _mediator.Send(createStock));
         }
-
+        
         [HttpGet("Single/{id}", Name = "GetStock")]
         [OutputCache(PolicyName = CachePolicies.STOCK_GET_SINGLE)]
         [ProducesResponseType(typeof(GetStockByIdResponse), StatusCodes.Status200OK)]

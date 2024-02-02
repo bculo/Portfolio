@@ -1,10 +1,10 @@
+using System.Linq.Expressions;
 using FluentValidation;
 using MediatR;
+using Queryable.Common.Services.Classic;
 using Sqids;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
-using Stock.Application.Interfaces.Expressions;
-using Stock.Application.Interfaces.Expressions.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Application.Resources;
@@ -13,7 +13,8 @@ using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
-public record FilterStocks(string? Symbol, Status Status) : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
+public record FilterStocks(string? Symbol, Status Status) 
+    : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
 {
@@ -31,14 +32,11 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
 {
     private readonly IUnitOfWork _work;
     private readonly SqidsEncoder<int> _sqids;
-    private readonly IExpressionBuilderFactory _factory;
 
-    public FilterStocksHandler(IUnitOfWork work, 
-        IExpressionBuilderFactory factory, 
+    public FilterStocksHandler(IUnitOfWork work,
         SqidsEncoder<int> sqids)
     {
         _work = work;
-        _factory = factory;
         _sqids = sqids;
     }
 
@@ -46,10 +44,10 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
         FilterStocks request, 
         CancellationToken ct)
     {
-        var expressionTree = BuildExpressionTree(request); 
+        var expressions = BuildExpressionTree(request); 
         
         var page = await _work.StockWithPriceTag.PageMatchAll(
-            expressionTree.Expressions,
+            expressions,
             i => i.OrderBy(x => x.Symbol),
             request.ToPageQuery(),
             ct: ct);
@@ -57,21 +55,13 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
         return page.MapToDto(Projection);
     }
 
-    private ExpressionBuildResult<StockWithPriceTag> BuildExpressionTree(FilterStocks request)
+    private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocks request)
     {
-        var builder = _factory.Create<StockWithPriceTag>();
+        var builder = ExpressionBuilder<StockWithPriceTag>.Create();
+
+        builder.Add(i => i.Symbol.Contains(request.Symbol), !string.IsNullOrEmpty(request.Symbol))
+            .Add(i => i.IsActive == (request.Status == Status.Active), request.Status != Status.None);
         
-        if (!string.IsNullOrEmpty(request.Symbol))
-        {
-            builder.Add(i => i.Symbol.Contains(request.Symbol));
-        }
-
-        if (request.Status != Status.All)
-        {
-            bool isActive = request.Status == Status.Active;
-            builder.Add(i => i.IsActive == isActive);
-        }
-
         return builder.Build();
     }
 

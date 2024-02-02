@@ -1,10 +1,10 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Queryable.Common.Extensions;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Base;
 using Stock.Core.Models.Common;
-using Stock.Infrastructure.Persistence.Extensions;
 
 namespace Stock.Infrastructure.Persistence.Repositories.Read;
 
@@ -18,7 +18,6 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
     {
         Context = context;
     }
-
     
     public async Task<List<T>> GetAll(CancellationToken ct = default)
     {
@@ -53,8 +52,29 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
         }
-        
-        public async Task<PageModel<T>> Page(Expression<Func<T, bool>> predicate,
+    
+    public async Task<PageModel<T>> PageDynamic(List<QueryFilter> filters, 
+        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, 
+        PageQuery pageQuery, 
+        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default, 
+        bool splitQuery = false,
+        CancellationToken ct = default)
+    {
+        var query = Set.Where(filters);
+            
+        var totalCount = await query.CountAsync(ct);
+        var items = await query
+            .ApplyInclude(include)
+            .ApplyOrderBy(orderBy)
+            .ApplyPagination(pageQuery.Skip, pageQuery.Take)
+            .ApplyTracking(false)
+            .ApplySplitQuery(splitQuery)
+            .ToListAsync(ct);
+
+        return new PageModel<T>(totalCount, pageQuery.Page, items);
+    }
+
+    public async Task<PageModel<T>> Page(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -67,7 +87,7 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(false)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
@@ -88,7 +108,7 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(false)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
@@ -109,7 +129,7 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(false)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);

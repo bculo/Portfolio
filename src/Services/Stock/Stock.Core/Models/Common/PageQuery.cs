@@ -14,4 +14,6 @@ public class PageQuery : IQuery
         Page = page;
         Take = take;
     }
+    
+    public static implicit operator (int, int)(PageQuery context) => (context.Skip, context.Take);
 }

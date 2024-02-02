@@ -1,5 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query;
+using Queryable.Common;
+using Queryable.Common.Extensions;
 using Stock.Core.Models.Base;
 using Stock.Core.Models.Common;
 
@@ -20,6 +22,13 @@ public interface IBaseReadRepository<T> where T : class, IReadModel
         bool splitQuery = false,
         CancellationToken ct = default);
 
+    Task<PageModel<T>> PageDynamic(List<QueryFilter> filters,
+        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
+        PageQuery pageQuery,
+        Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
+        bool splitQuery = false,
+        CancellationToken ct = default);
+    
     Task<PageModel<T>> Page(Expression<Func<T, bool>> predicates,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,

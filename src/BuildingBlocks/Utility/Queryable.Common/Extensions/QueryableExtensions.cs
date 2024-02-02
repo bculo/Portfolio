@@ -1,9 +1,8 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Stock.Core.Models.Common;
 
-namespace Stock.Infrastructure.Persistence.Extensions;
+namespace Queryable.Common.Extensions;
 
 public static class QueryableExtensions
 {
@@ -55,10 +54,9 @@ public static class QueryableExtensions
         return orderBy(source);
     }
 
-    public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> source,
-        PageQuery page)
+    public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> source, int skip, int take)
     {
-        return source.Skip(page.Skip).Take(page.Take);
+        return source.Skip(skip).Take(take);
     }
 
     public static IQueryable<T> ApplyTracking<T>(this IQueryable<T> source, bool tracking) where T : class

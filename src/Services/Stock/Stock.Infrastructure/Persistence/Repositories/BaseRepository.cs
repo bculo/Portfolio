@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Queryable.Common.Extensions;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Common;
-using Stock.Infrastructure.Persistence.Extensions;
 
 namespace Stock.Infrastructure.Persistence.Repositories
 {
@@ -118,7 +118,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
@@ -140,7 +140,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
@@ -162,7 +162,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
