@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using Queryable.Common.Utilities;
 
 namespace Queryable.Common.Extensions;
 
@@ -68,59 +69,10 @@ public static class ExpressionBuilder
     {
         return selector.Split('.').Aggregate(target, Expression.PropertyOrField);
     }
-
-    private static PropertyInfo GetPropertyInfo(Type baseType, string propertyName)
-    {
-        string[] parts = propertyName.Split('.');
-        return (parts.Length > 1)
-            ? GetPropertyInfo(baseType.GetProperty(
-                parts[0])?.PropertyType, 
-                parts.Skip(1).Aggregate((a, i) => a + "." + i))
-            : baseType.GetProperty(propertyName);
-    }
-
-    private static Expression GetTypedSelector<T, R>(QueryFilter queryFilter) where R : struct
-    {
-        var pi = GetPropertyInfo(typeof(T), queryFilter.PropertyName);
-        var propIsNullable = Nullable.GetUnderlyingType(pi.PropertyType) != null;
-        Expression<Func<object>> valueSelector = () => queryFilter.Value;
-        Expression expr = propIsNullable 
-            ? Expression.Convert(valueSelector.Body, typeof(R?)) 
-            : Expression.Convert(valueSelector.Body, typeof(R));
-        return expr;
-    }
-
-    private static Expression GetSelector<T>(QueryFilter queryFilter)
-    {
-        return queryFilter.Value switch
-        {
-            int t1 => GetTypedSelector<T, int>(queryFilter),
-            float f1 => GetTypedSelector<T, float>(queryFilter),
-            double d1 => GetTypedSelector<T, double>(queryFilter),
-            long l1 => GetTypedSelector<T, long>(queryFilter),
-            DateTime dt1 => GetTypedSelector<T, DateTime>(queryFilter),
-            bool b1 => GetTypedSelector<T, bool>(queryFilter),
-            decimal d1 => GetTypedSelector<T, decimal>(queryFilter),
-            char c1 => GetTypedSelector<T, char>(queryFilter),
-            byte by1 => GetTypedSelector<T, byte>(queryFilter),
-            short sh1 => GetTypedSelector<T, short>(queryFilter),
-            ushort ush1 => GetTypedSelector<T, ushort>(queryFilter),
-            uint ui1 => GetTypedSelector<T, uint>(queryFilter),
-            ulong ul1 => GetTypedSelector<T, ulong>(queryFilter),
-            string s1 => GetStringSelector(queryFilter),
-            _ => null
-        };
-    }
-
-    private static Expression GetStringSelector(QueryFilter queryFilter)
-    {
-        Expression<Func<string>> valueSelector = () => (string)queryFilter.Value;
-        return valueSelector.Body;
-    }
-
+    
     private static Expression GetExpression<T>(Expression member, QueryFilter queryFilter)
     {
-        var actualValue = GetSelector<T>(queryFilter);
+        var actualValue = ExpressionUtilities.GetSelector<T>(queryFilter.PropertyName, queryFilter.Value);
         return queryFilter.Operation switch
         {
             Operation.Equals => Expression.Equal(member, actualValue),
