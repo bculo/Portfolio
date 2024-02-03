@@ -19,7 +19,9 @@ public class StockService : Stock.StockBase
 
         return new StockItemReply
         {
-            Symbol = instance.Symbol
+            Symbol = instance.Symbol,
+            Id = instance.Symbol,
+            Price = instance.Price
         };
     }
 
@@ -29,7 +31,9 @@ public class StockService : Stock.StockBase
         
         return new StockItemReply
         {
-            Symbol = instance.Symbol
+            Symbol = instance.Symbol,
+            Id = instance.Symbol,
+            Price = instance.Price
         };
     }
 }
