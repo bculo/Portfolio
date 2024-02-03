@@ -14,7 +14,6 @@ const oidcConfig = {
 };
 
 const onSigninCallback = (user: User | void) => {
-  console.log(user);
   window.history.replaceState({}, document.title, window.location.pathname);
 };
 

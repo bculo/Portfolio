@@ -9,6 +9,7 @@ using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Repositories;
+using Stock.Application.Resources;
 using Stock.Core.Enums;
 using Stock.Core.Models.Stock;
 
@@ -27,6 +28,25 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
     public FilterStocksValidator(ILocale locale)
     {
         Include(new PageRequestDtoValidator());
+
+        When(i => i.Symbol is not null, () =>
+        {
+            RuleFor(i => i.Symbol!.Value)!
+                .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
+                .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
+        });
+
+        When(i => i.PriceLessThan is not null, () =>
+        {
+            RuleFor(i => i.PriceLessThan!.Value)!
+                .GreaterThanOrEqualTo(0m);
+        });
+        
+        When(i => i.PriceGreaterThan is not null, () =>
+        {
+            RuleFor(i => i.PriceGreaterThan!.Value)!
+                .GreaterThanOrEqualTo(0m);
+        });
     }
 }
 
@@ -74,7 +94,7 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
         return new FilterStockResponseItem
         {
             LastPriceUpdate = item.LastPriceUpdate,
-            Price = item.Price == -1 ? default(decimal?) : item.Price,
+            Price = item.Price == -1 ? default(double?) : (double)item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
             Id = _sqids.Encode(item.StockId),

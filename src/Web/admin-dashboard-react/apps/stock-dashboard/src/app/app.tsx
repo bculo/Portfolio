@@ -2,11 +2,18 @@ import React, { useEffect } from 'react';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
 import { useDispatch } from 'react-redux';
 import authSlice, { setToken } from '../stores/auth/auth-slice';
+import {
+  useFilterStocksQuery,
+  useLazyFilterStocksQuery,
+} from '../stores/api/generated';
 
 export function App() {
   const dispatch = useDispatch();
   const auth = useAuth();
+  const [trigger, { data }] = useLazyFilterStocksQuery();
   const [hasTriedSignin, setHasTriedSignin] = React.useState(false);
+
+  console.log('RENDER');
 
   // automatically sign-in
   React.useEffect(() => {
@@ -23,11 +30,19 @@ export function App() {
   }, [auth, hasTriedSignin]);
 
   useEffect(() => {
-    console.log(auth);
     if (auth.isAuthenticated) {
       dispatch(setToken(auth.user!.access_token));
     }
   }, [auth, dispatch]);
+
+  const fetchItems = () => {
+    trigger({
+      'Symbol.Value': 'A',
+      'ActivityStatus.Value': 999,
+      page: 1,
+      take: 1,
+    });
+  };
 
   if (auth.isLoading) {
     return <div>LOADING.......</div>;
@@ -42,7 +57,12 @@ export function App() {
     );
   }
 
-  return <button onClick={() => auth.signoutPopup()}>Log out</button>;
+  return (
+    <div>
+      <button onClick={() => fetchItems()}>FETCH</button>
+      <button onClick={() => auth.signoutPopup()}>Log out</button>
+    </div>
+  );
 }
 
 export default App;

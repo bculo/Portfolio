@@ -85,7 +85,7 @@ public class CreateStockUpdateBatchesHandler
 
     private async Task<List<string>> GetSymbols()
     {
-        var stockItems = await _work.StockRepo.Filter(i => true);
+        var stockItems = await _work.StockRepo.Filter(i => i.IsActive == true);
         
         return stockItems
             .Select(i => i.Symbol)

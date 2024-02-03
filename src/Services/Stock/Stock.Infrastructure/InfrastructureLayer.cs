@@ -120,11 +120,14 @@ namespace Stock.Infrastructure
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration, bool isDevEnv)
         {
+            services.AddHttpClient();
+            
             var baseAddress = configuration["MarketWatchOptions:BaseUrl"] 
                               ?? throw new ArgumentNullException();
             var retryNumber = configuration.GetValue<int>("MarketWatchOptions:RetryNumber");
             var timeout = configuration.GetValue<int>("MarketWatchOptions:Timeout");
-
+            
+            services.AddTransient<ProxyHttpMessageHandler>();
             services.AddHttpClient(HttpClientNames.MARKET_WATCH, client =>
                 {
                     client.BaseAddress = new Uri(baseAddress);

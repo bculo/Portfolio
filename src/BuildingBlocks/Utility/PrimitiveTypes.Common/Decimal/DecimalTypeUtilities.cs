@@ -4,14 +4,15 @@ namespace PrimitiveTypes.Common.Decimal
 {
     public static class DecimalTypeUtilities
     {
-        public static decimal ConvertToDecimal(string number)
+        public static decimal ConvertToDecimal(string number, CultureInfo? cultureInfo = default)
         {
             if (string.IsNullOrWhiteSpace(number))
             {
                 return decimal.Zero;
             }
 
-            if (decimal.TryParse(number, CultureInfo.CurrentCulture, out decimal result))
+            CultureInfo useCulture = cultureInfo ?? CultureInfo.CurrentCulture;
+            if (decimal.TryParse(number, useCulture, out decimal result))
             {
                 return result;
             }
@@ -24,14 +25,15 @@ namespace PrimitiveTypes.Common.Decimal
             return ConvertToDecimal(number);
         }
 
-        public static decimal? ConvertToNullableDecimal(string number)
+        public static decimal? ConvertToNullableDecimal(string number, CultureInfo? cultureInfo = default)
         {
             if (string.IsNullOrWhiteSpace(number))
             {
                 return default;
             }
 
-            if (decimal.TryParse(number, CultureInfo.CurrentCulture, out decimal result))
+            CultureInfo useCulture = cultureInfo ?? CultureInfo.CurrentCulture;
+            if (decimal.TryParse(number, useCulture, out decimal result))
             {
                 return result;
             }
@@ -39,9 +41,9 @@ namespace PrimitiveTypes.Common.Decimal
             return default;
         }
 
-        public static decimal? ToNullableDecimal(this string number)
+        public static decimal? ToNullableDecimal(this string number, CultureInfo? cultureInfo = default)
         {
-            return ConvertToNullableDecimal(number);
+            return ConvertToNullableDecimal(number, cultureInfo);
         }
     }
 }

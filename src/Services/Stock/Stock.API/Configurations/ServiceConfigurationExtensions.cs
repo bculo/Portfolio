@@ -27,10 +27,9 @@ namespace Stock.API.Configurations
                 services.AddCors(options =>
                 {
                     options.AddPolicy("CorsPolicy", policyBuilder => policyBuilder
-                        .WithOrigins("http://127.0.0.1:4200")
+                        .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
+                        .AllowAnyHeader());
                 });
             }
             

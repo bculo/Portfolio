@@ -1,7 +1,7 @@
-import { useGetAllQuery } from '../../stores/api/generated';
+import { useGetStocksQuery } from '../../stores/api/generated';
 
 export const StockOverviewRoute = () => {
-  const { data, isFetching } = useGetAllQuery();
+  const { data, isFetching } = useGetStocksQuery();
   return (
     <div>
       <p>Total count: {data?.length}</p>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Globalization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PrimitiveTypes.Common.Decimal;
 using Stock.Application.Common.Configurations;
@@ -49,7 +50,7 @@ namespace Stock.Infrastructure.Price
                 return default;
             }
 
-            var conversionResult = priceSectionNode.Text.ToNullableDecimal();
+            var conversionResult = priceSectionNode.Text.ToNullableDecimal(new CultureInfo("en-US"));
             if (!conversionResult.HasValue)
             {
                 _logger.LogWarning(

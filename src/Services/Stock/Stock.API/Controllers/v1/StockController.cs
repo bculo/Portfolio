@@ -47,7 +47,7 @@ namespace Stock.API.Controllers.v1
         }
 
         [HttpGet("Filter", Name = "FilterStocks")]
-        //[OutputCache(PolicyName = CachePolicies.STOCK_GET_FILTER)]
+        [OutputCache(PolicyName = CachePolicies.STOCK_GET_FILTER)]
         [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> FilterStocks([FromQuery] FilterStocks filterListQuery)
@@ -57,7 +57,17 @@ namespace Stock.API.Controllers.v1
         
         [HttpPut("ChangeStatus", Name = "ChangeStockStatus")]
         [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangeActivityStatus([FromBody] ChangeStockStatus request)
+        {
+            await _mediator.Send(request);
+            return NoContent();
+        }
+
+        [HttpPost("UpdatePrices", Name = "UpdatePrices")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdatePrices([FromBody] UpdateStockBatch request)
         {
             await _mediator.Send(request);
             return NoContent();

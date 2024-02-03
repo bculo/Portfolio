@@ -39,8 +39,7 @@ public class ChangeStockStatusHandler : IRequestHandler<ChangeStockStatus>
         _timeProvider = timeProvider;
         _outputCache = outputCache;
     }
-
-
+    
     public async Task Handle(ChangeStockStatus request, CancellationToken ct)
     {
         var entityId = _sqids.DecodeSingle(request.Id);

@@ -30,7 +30,7 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
         return items.Select(item => new GetStocksResponse
         {
             LastPriceUpdate = item.LastPriceUpdate,
-            Price = item.Price == -1 ? default(decimal?) : item.Price,
+            Price = item.Price == -1 ? default(double?) : (double)item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
             Id = _sqids.Encode(item.StockId),

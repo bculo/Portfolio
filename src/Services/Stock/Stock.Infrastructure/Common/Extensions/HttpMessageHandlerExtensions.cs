@@ -8,6 +8,6 @@ public static class HttpMessageHandlerExtensions
         this IHttpClientBuilder builder,
         bool isDevelopment) where T : HttpMessageHandler
     {
-        return isDevelopment ? builder : builder.ConfigurePrimaryHttpMessageHandler<T>();
+        return isDevelopment ? builder.ConfigurePrimaryHttpMessageHandler<T>() : builder;
     }
 }
