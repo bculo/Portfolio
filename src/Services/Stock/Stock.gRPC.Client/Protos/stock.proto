@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Stock.gRPC";
+
+package stock;
+
+service Stock {
+    rpc GetById (GetSingleByIdRequest) returns (StockItemReply);
+    rpc GetBySymbol (GetBySymbolRequest) returns (StockItemReply);
+}
+
+message GetSingleByIdRequest {
+    string id = 1;
+}
+
+message GetBySymbolRequest {
+    string symbol = 1;
+}
+
+message StockItemReply {
+    string id = 1;
+    string symbol = 2;
+    google.protobuf.DoubleValue price = 3;
+}
