@@ -1,5 +1,3 @@
-import React from 'react';
-
 type ButtonStyleType = 'empty' | 'full';
 type ButtonType = 'submit' | 'button';
 
@@ -7,10 +5,15 @@ type Props = {
   buttonStyle: ButtonStyleType;
   type: ButtonType;
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
-export const Button = ({ type, buttonStyle, text, onClick }: Props) => {
+export const Button = ({
+  type = 'button',
+  buttonStyle = 'full',
+  text = '',
+  onClick,
+}: Partial<Props>) => {
   const isEmptyStyle = buttonStyle === 'empty';
 
   if (isEmptyStyle) {

@@ -32,7 +32,7 @@ export const Layout = () => {
             </div>
           </aside>
         )}
-        <main>
+        <main className="p-8">
           <Suspense fallback={<div>Loading...</div>}>
             <Outlet></Outlet>
           </Suspense>
