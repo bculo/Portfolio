@@ -4,7 +4,6 @@ import { useFormContext } from 'react-hook-form';
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
-  inputClassName?: string;
 }
 
 export const FormInput = ({ type, name = '' }: Partial<FormInputProps>) => {
