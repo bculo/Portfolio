@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { Outlet } from 'react-router-dom';
 import { AppNavigation } from '../routes/AppNavigation';
