@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stock.Application.Common.Options;
 using Stock.Application.Interfaces.Repositories;
+using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
 
@@ -18,16 +19,19 @@ public class CreateStockUpdateBatchesHandler
     private readonly IPublishEndpoint _endpoint;
     private readonly ILogger<CreateStockUpdateBatchesHandler> _logger;
     private readonly IUnitOfWork _work;
+    private readonly IDateTimeProvider _timeProvider;
     private readonly IOptionsSnapshot<BatchUpdateOptions> _options;
 
     public CreateStockUpdateBatchesHandler(IPublishEndpoint endpoint,
         ILogger<CreateStockUpdateBatchesHandler> logger,
         IUnitOfWork work,
-        IOptionsSnapshot<BatchUpdateOptions> options)
+        IOptionsSnapshot<BatchUpdateOptions> options, 
+        IDateTimeProvider timeProvider)
     {
         _logger = logger;
         _endpoint = endpoint;
         _options = options;
+        _timeProvider = timeProvider;
         _work = work;
     }
 
@@ -35,6 +39,12 @@ public class CreateStockUpdateBatchesHandler
         CreateStockUpdateBatches request, 
         CancellationToken ct)
     {
+        if (!IsUsStockExchangeActive())
+        {
+            _logger.LogTrace("US stock exchange is closed");
+            return new CreateStockUpdateBatchesResponse(0);
+        }
+        
         var symbols = await GetSymbols();
         if (!symbols.Any())
         {
@@ -47,6 +57,14 @@ public class CreateStockUpdateBatchesHandler
 
         await PublishBatches(batches, ct);
         return new CreateStockUpdateBatchesResponse(batches.Count);
+    }
+
+    private bool IsUsStockExchangeActive()
+    {
+        var timeOfDayUtc = _timeProvider.Utc.TimeOfDay;
+        var usExchangeOpenUtc = new TimeSpan(14, 30, 0);
+        var usExchangeCloseUtc = new TimeSpan(21, 0, 0);
+        return timeOfDayUtc >= usExchangeOpenUtc && timeOfDayUtc <= usExchangeCloseUtc;
     }
 
     private async Task PublishBatches(Dictionary<int, List<string>> batches, CancellationToken ct)

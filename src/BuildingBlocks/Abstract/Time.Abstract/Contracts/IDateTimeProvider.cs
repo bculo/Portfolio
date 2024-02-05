@@ -9,5 +9,6 @@ namespace Time.Abstract.Contracts
     public interface IDateTimeProvider
     {
         public DateTime Now { get; }
+        public DateTime Utc { get; } 
     }
 }
