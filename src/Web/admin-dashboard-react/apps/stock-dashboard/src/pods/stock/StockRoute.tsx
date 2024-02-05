@@ -1,6 +1,8 @@
 import { useGetStocksQuery } from '../../stores/api/generated';
 
-export const StockOverviewRoute = () => {
+const StockRoute = () => {
+  console.log('STOCK OVERVIEW ROUTE');
+
   const { data, isFetching } = useGetStocksQuery();
   return (
     <div>
@@ -11,3 +13,5 @@ export const StockOverviewRoute = () => {
     </div>
   );
 };
+
+export default StockRoute;

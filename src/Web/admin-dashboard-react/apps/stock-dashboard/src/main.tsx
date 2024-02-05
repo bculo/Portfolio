@@ -5,11 +5,12 @@ import { store } from './stores/store';
 import { AuthProvider } from 'react-oidc-context';
 import App from './app/app';
 import { User, WebStorageStateStore } from 'oidc-client-ts';
+import { oAuth2Config } from './configs/oauth-config';
 
 const oidcConfig = {
-  authority: 'http://localhost:8080/realms/PortfolioRealm/',
-  client_id: 'Stock.Client',
-  redirect_uri: 'http://localhost:4200/callback',
+  authority: oAuth2Config.authority,
+  client_id: oAuth2Config.client_id,
+  redirect_uri: oAuth2Config.redirect_uri,
   userStore: new WebStorageStateStore({ store: window.localStorage }),
 };
 
