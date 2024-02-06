@@ -28,18 +28,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
         }
 
         public async Task<T?> First(Expression<Func<T, bool>> predicate,
-            bool track = false,
-            bool splitQuery = false,
-            CancellationToken ct = default)
-        {
-            return await Set
-                .Where(predicate)
-                .ApplyTracking(track)
-                .ApplySplitQuery(splitQuery)
-                .FirstOrDefaultAsync(ct);
-        }
-        
-        public async Task<T?> First(Expression<Func<T, bool>> predicate, 
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
@@ -48,6 +37,7 @@ namespace Stock.Infrastructure.Persistence.Repositories
             return await Set
                 .Where(predicate)
                 .ApplyInclude(include)
+                .ApplyOrderBy(orderBy)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .FirstOrDefaultAsync(ct);

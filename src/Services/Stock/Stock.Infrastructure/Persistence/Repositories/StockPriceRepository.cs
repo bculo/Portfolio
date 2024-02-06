@@ -8,5 +8,4 @@ public class StockPriceRepository : BaseRepository<StockPriceEntity>, IStockPric
     public StockPriceRepository(StockDbContext dbContext) : base(dbContext)
     {
     }
-
 }

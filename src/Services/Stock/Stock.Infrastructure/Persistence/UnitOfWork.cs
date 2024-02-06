@@ -9,7 +9,8 @@ public class UnitOfWork : IUnitOfWork
     
     public IStockRepository StockRepo { get; }
     public IStockPriceRepository StockPriceRepo { get; }
-    
+    public IStockPriceIterationRepository PriceIteration { get; }
+
     public IStockWithPriceTagReadRepository StockWithPriceTag { get; }
 
     
@@ -19,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
 
         StockRepo = provider.GetRequiredService<IStockRepository>();
         StockPriceRepo = provider.GetRequiredService<IStockPriceRepository>();
+        PriceIteration = provider.GetRequiredService<IStockPriceIterationRepository>();
         StockWithPriceTag = provider.GetRequiredService<IStockWithPriceTagReadRepository>();
     }
     

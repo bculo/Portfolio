@@ -11,12 +11,8 @@ namespace Stock.Application.Interfaces.Repositories
         Task<T?> Find(object id, CancellationToken ct = default);
         
         Task<T?> First(Expression<Func<T, bool>> predicate,
-            bool track = false, 
-            bool splitQuery = false,
-            CancellationToken ct = default);
-        
-        Task<T?> First(Expression<Func<T, bool>> predicate,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>> include,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
             CancellationToken ct = default);

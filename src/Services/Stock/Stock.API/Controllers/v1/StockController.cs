@@ -63,14 +63,5 @@ namespace Stock.API.Controllers.v1
             await _mediator.Send(request);
             return NoContent();
         }
-
-        [HttpPost("UpdatePrices", Name = "UpdatePrices")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdatePrices([FromBody] UpdateStockBatch request)
-        {
-            await _mediator.Send(request);
-            return NoContent();
-        }
     }
 }

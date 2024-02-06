@@ -54,6 +54,7 @@ namespace Stock.Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockPriceRepository, StockPriceRepository>();
+            services.AddScoped<IStockPriceIterationRepository, StockPriceIterationRepository>();
             services.AddScoped<IStockWithPriceTagReadRepository, StockWithPriceTagReadRepository>();
             
             services.AddScoped<ILocale, LocaleService>();

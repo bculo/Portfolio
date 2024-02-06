@@ -9,15 +9,5 @@ namespace Stock.Infrastructure.Persistence.Repositories
         public StockRepository(StockDbContext dbContext) : base(dbContext)
         {
         }
-
-        public async Task<List<StockWithPriceTag>> GetAllWithPrice()
-        {
-            return await Context.StockWithPriceTag.ToListAsync();
-        }
-
-        public async Task<StockWithPriceTag> GetCurrentPrice(string symbol)
-        {
-            return await Context.StockWithPriceTag.Where(i => i.Symbol == symbol).FirstOrDefaultAsync();
-        }
     }
 }
