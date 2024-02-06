@@ -1,6 +1,8 @@
 using System.Net;
 using FluentAssertions;
 using Http.Common.Extensions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 using Trend.Application.Interfaces.Models;
 
 namespace Trend.IntegrationTests.SyncController;
@@ -16,10 +18,10 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
     {
         //Arrange
         var id = Guid.NewGuid().ToString();
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.User);
 
         //Act
-        var response = await client.GetAsync($"{ApiEndpoints.GetSyncStatusWords}/{id}");
+        var response = await Client.GetAsync($"{ApiEndpoints.GetSyncStatusWords}/{id}");
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -29,11 +31,11 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
     public async Task GetSyncStatusWords_ShouldReturnStatusOk_WhenInstanceExists()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
-        var existingInstance = await _fixtureService.AddSyncStatus();
+        Client.AsUserRole(UserRole.User);
+        var existingInstance = await FixtureService.AddSyncStatus();
         
         //Act
-        var response = await client.GetAsync($"{ApiEndpoints.GetSyncStatusWords}/{existingInstance.Id}");
+        var response = await Client.GetAsync($"{ApiEndpoints.GetSyncStatusWords}/{existingInstance.Id}");
         
         //Assert
         response.EnsureSuccessStatusCode();

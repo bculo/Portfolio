@@ -1,4 +1,6 @@
 using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 
 namespace Trend.IntegrationTests.SyncController;
 
@@ -12,10 +14,10 @@ public class GetSyncStatusesTests : TrendControllerBaseTest
     public async Task GetSyncStatuses_ShouldReturnOk_WhenValidRequest()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.User);
 
         //Act
-        var response = await client.GetAsync(ApiEndpoints.GetSyncStatuses);
+        var response = await Client.GetAsync(ApiEndpoints.GetSyncStatuses);
         
         //Assert
         response.EnsureSuccessStatusCode();

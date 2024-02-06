@@ -1,6 +1,7 @@
+using System.Net;
 using FluentAssertions;
-using Trend.Domain.Entities;
-using Trend.Domain.Enums;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
@@ -16,13 +17,13 @@ public class RemoveSearchWordBaseTest : TrendControllerBaseTest
     public async Task RemoveSearchWord_ShouldReturnStatusBadRequest_WhenWordWithGivenIdDoesntExist(string id)
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.Admin);
 
         //Act
-        var response = await client.DeleteAsync($"{ApiEndpoints.RemoveSearchWord}/{id}");
+        var response = await Client.DeleteAsync($"{ApiEndpoints.RemoveSearchWord}/{id}");
         
         //Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
     
     [Theory]
@@ -30,13 +31,16 @@ public class RemoveSearchWordBaseTest : TrendControllerBaseTest
     public async Task RemoveSearchWord_ShouldReturnStatusOk_WhenWordWithGivenIdExist(string id)
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
-        await _fixtureService.AddSearchWord(id: id);
+        Client.AsUserRole(UserRole.Admin);
+        
+        await FixtureService.AddSearchWord(id: id);
+
+        var httpContent = "".AsHttpContent();
         
         //Act
-        var response = await client.DeleteAsync($"{ApiEndpoints.RemoveSearchWord}/{id}");
+        var response = await Client.PutAsync($"{ApiEndpoints.RemoveSearchWord}/{id}", httpContent);
         
         //Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 }

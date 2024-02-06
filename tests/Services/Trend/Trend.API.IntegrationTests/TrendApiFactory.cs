@@ -5,50 +5,24 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
-using Testcontainers.Azurite;
-using Testcontainers.MongoDb;
-using Testcontainers.RabbitMq;
-using Testcontainers.Redis;
-using Tests.Common.Interfaces;
-using Tests.Common.Services;
+using Tests.Common.Interfaces.Claims;
+using Tests.Common.Interfaces.Containers;
+using Tests.Common.Services.AuthHandlers;
+using Tests.Common.Services.Claims;
+using Tests.Common.Services.Containers;
 using WireMock.Server;
 
 namespace Trend.IntegrationTests
 {
     public class TrendApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder()
-            .WithImage("mongo:7.0.4")
-            .WithUsername("mongo")
-            .WithPassword("mongo")
-            .WithName($"Trend.API.Integration.Mongo.{Guid.NewGuid()}")
-            .Build();
-        
-        private readonly RedisContainer _redisContainer = new RedisBuilder()
-            .WithImage("redis:7.2")
-            .WithName($"Trend.API.Integration.Redis.{Guid.NewGuid()}")
-            .Build();
+        private readonly IContainerFixture _redisContainer = new RedisFixture();
+        private readonly IContainerFixture _mqContainer = new RabbitMqFixture();
+        private readonly IContainerFixture _azuriteContainer = new AzureBlobStorageFixture();
+        private readonly IContainerFixture _mongoDbContainer = new MongoFixture(new MongoCredentials("mongo", "mongo"));
 
-        private readonly AzuriteContainer _azuriteContainer = new AzuriteBuilder()
-            .WithImage("mcr.microsoft.com/azure-storage/azurite")
-            .WithExposedPort(10010)
-            .WithName($"Trend.API.Integration.Azurite.{Guid.NewGuid()}")
-            .Build();
-        
-        private readonly RabbitMqContainer _mqContainer = new RabbitMqBuilder()
-            .WithImage("masstransit/rabbitmq")
-            .WithName($"Trend.API.Integration.RabbitMQ.{Guid.NewGuid()}")
-            .Build();
-        
-        public HttpClient Client { get; private set; }
-        
-        public WireMockServer MockServer { get; private set; }
-
-        public TrendApiFactory()
-        {
-            MockServer = WireMockServer.Start();
-        }
+        public HttpClient Client { get; private set; } = default!;
+        public WireMockServer MockServer { get; private set; } = default!;
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -88,6 +62,8 @@ namespace Trend.IntegrationTests
                 _redisContainer.StartAsync(), 
                 _mqContainer.StartAsync(),
                 _azuriteContainer.StartAsync());
+            
+            MockServer = WireMockServer.Start();
             Client = CreateClient();
         }
 
@@ -97,32 +73,8 @@ namespace Trend.IntegrationTests
                 _redisContainer.StopAsync(), 
                 _mqContainer.StopAsync(),
                 _azuriteContainer.StopAsync());
+            
             MockServer.Stop();
         }       
-    }
-    
-
-    public class MockClaimSeeder : IMockClaimSeeder
-    {
-        private Dictionary<UserAuthType, List<Claim>> _claimDict;
-
-        public MockClaimSeeder()
-        {
-            _claimDict = new Dictionary<UserAuthType, List<Claim>>
-            {
-                { UserAuthType.None, new List<Claim>() },      
-                { UserAuthType.User, new List<Claim>() }
-            };
-        }
-        
-        public IEnumerable<Claim> GetClaims(int userTypeId)
-        {
-            if (!Enum.GetValues<UserAuthType>().Cast<int>().Contains(userTypeId))
-            {
-                throw new Exception("Given userTypeId is not enum");
-            }
-            
-            return _claimDict[(UserAuthType)userTypeId];
-        }
     }
 }

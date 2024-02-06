@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Polly;
+using Trend.Application.Interfaces;
 using Trend.Application.Repositories;
 using Trend.Application.Utils;
 using Trend.Domain.Entities;
+using Trend.Domain.Enums;
 
 namespace Trend.IntegrationTests;
 
@@ -15,11 +17,14 @@ public class TrendFixtureService
 
     private readonly IServiceProvider _provider;
     private readonly IMongoClient _client;
+    private readonly ITransaction _transaction;
 
     public TrendFixtureService(IServiceProvider provider)
     {
         _provider = provider;
+        
         _client = _provider.GetRequiredService<IMongoClient>();
+        _transaction = _provider.GetRequiredService<ITransaction>();
     }
 
     private T GenerateWithMongoId<T>() where T : RootDocument
@@ -34,23 +39,23 @@ public class TrendFixtureService
         return _fixture.Create<T>();
     }
     
-    public async Task<SearchWord> AddSearchWord(string? id = null, string? searchWord = null)
+    public async Task<SearchWord> AddSearchWord(
+        string? id = null, 
+        string? searchWord = null,
+        SearchEngine? engine = default,
+        ContextType? context = default)
     {
         var instance = GenerateWithMongoId<SearchWord>();
-        
-        if(id is not null)
-        {
-            instance.Id = id;
-        }
-        
-        if(searchWord is not null)
-        {
-            instance.Word = searchWord;
-        }
+        instance.Engine = engine ?? SearchEngine.Google;
+        instance.Type = context ?? ContextType.Stock;
+        instance.Id = id ?? instance.Id;
+        instance.Id = searchWord ?? instance.Word;
         
         var collection = _client.GetDatabase(TrendConstantsTest.DB_NAME)
             .GetCollection<SearchWord>(TrendMongoUtils.GetCollectionName(nameof(SearchWord)));
         await collection.InsertOneAsync(instance, new InsertOneOptions{}, default);
+        await _transaction.CommitTransaction();
+        
         return instance;
     }
     
@@ -59,6 +64,7 @@ public class TrendFixtureService
         var collection = _client.GetDatabase(TrendConstantsTest.DB_NAME)
             .GetCollection<SearchWord>(TrendMongoUtils.GetCollectionName(nameof(SearchWord)));
         await collection.InsertOneAsync(instance, new InsertOneOptions{}, default);
+        await _transaction.CommitTransaction();
         return instance;
     }
     
@@ -71,6 +77,7 @@ public class TrendFixtureService
             .Create();
         var collection = _client.GetDatabase(TrendConstantsTest.DB_NAME).GetCollection<SyncStatus>(TrendMongoUtils.GetCollectionName(nameof(SyncStatus)));
         await collection.InsertOneAsync(syncStatus, new InsertOneOptions{}, default);
+        await _transaction.CommitTransaction();
         return syncStatus;
     }
 

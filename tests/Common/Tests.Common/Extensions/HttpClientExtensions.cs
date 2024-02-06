@@ -1,3 +1,5 @@
+using Tests.Common.Interfaces.Claims.Models;
+
 namespace Tests.Common.Extensions;
 
 public static class HttpClientExtensions
@@ -28,6 +30,17 @@ public static class HttpClientExtensions
         }
             
         return client;
+    }
+
+    public static HttpClient AsUserRole(this HttpClient client, UserRole role)
+    {
+        return role switch
+        {
+            UserRole.None => client.RemoveHeaderValue("UserAuthType"),
+            UserRole.User => client.AddHeaderValue("UserAuthType", ((int)UserRole.User).ToString()),
+            UserRole.Admin => client.AddHeaderValue("UserAuthType", ((int)UserRole.Admin).ToString()),
+            _ => client
+        };
     }
     
     public static HttpClient AddJwtToken(this HttpClient client, string token)

@@ -1,13 +1,11 @@
-using System.Security.Authentication;
-using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Tests.Common.Interfaces;
+using Tests.Common.Interfaces.Claims;
 
-namespace Tests.Common.Services;
+namespace Tests.Common.Services.AuthHandlers;
 
 public class MockJwtAuthenticationHandler : MockBaseAuthenticationHandler
 {

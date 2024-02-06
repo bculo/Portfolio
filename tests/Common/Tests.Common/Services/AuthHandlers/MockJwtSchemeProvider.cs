@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
-namespace Tests.Common.Services;
+namespace Tests.Common.Services.AuthHandlers;
 
 public class MockJwtSchemeProvider : AuthenticationSchemeProvider
 {

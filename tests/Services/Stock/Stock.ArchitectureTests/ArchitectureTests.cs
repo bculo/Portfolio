@@ -5,9 +5,9 @@ using Stock.Core.Exceptions;
 
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
-namespace Stock.ArhitectureTests
+namespace Stock.ArchitectureTests
 {
-    public class ArhitectureTests
+    public class ArchitectureTests
     {
         private static readonly Architecture Architecture = 
             new ArchLoader().LoadAssemblies(typeof(StockCoreException).Assembly).Build();

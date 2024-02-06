@@ -1,4 +1,6 @@
 using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
@@ -13,10 +15,10 @@ public class GetAvaiableSearchEnginesBaseTest : TrendControllerBaseTest
     public async Task GetAvaiableSearchEngines_ShouldReturnStatusOk_WhenValidRequestSent()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.User);
 
         //Act
-        var response = await client.GetAsync(ApiEndpoints.GetAvailableSearchEngines);
+        var response = await Client.GetAsync(ApiEndpoints.GetAvailableSearchEngines);
         
         //Assert
         response.EnsureSuccessStatusCode();

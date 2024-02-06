@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 
 namespace Trend.IntegrationTests.NewsController
 {
@@ -13,10 +15,10 @@ namespace Trend.IntegrationTests.NewsController
         public async Task GetLatestEtfsNews_ShouldReturnStatusOk_WhenEndpointInvoked()
         {
             //Arrange
-            var client = GetAuthInstance(UserAuthType.User);
+            Client.AsUserRole(UserRole.User);
 
             //Act
-            var response = await client.GetAsync(ApiEndpoints.GetLatestEtfNews);
+            var response = await Client.GetAsync(ApiEndpoints.GetLatestEtfNews);
 
             //Assert
             response.EnsureSuccessStatusCode();

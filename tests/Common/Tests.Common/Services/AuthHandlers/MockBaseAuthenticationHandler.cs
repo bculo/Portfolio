@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Tests.Common.Interfaces;
+using Tests.Common.Interfaces.Claims;
 
-namespace Tests.Common.Services;
+namespace Tests.Common.Services.AuthHandlers;
 
 public abstract class MockBaseAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {

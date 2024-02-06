@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Tests.Common.Interfaces;
+namespace Tests.Common.Interfaces.Claims;
 
 public interface IMockClaimSeeder
 {

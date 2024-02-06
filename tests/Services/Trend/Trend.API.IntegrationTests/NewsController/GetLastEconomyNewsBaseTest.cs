@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 
 namespace Trend.IntegrationTests.NewsController
 {
@@ -12,10 +14,10 @@ namespace Trend.IntegrationTests.NewsController
         public async Task GetLatestEconomyNews_ShouldReturnStatusOk_WhenEndpointInvoked()
         {
             //Arrange
-            var client = GetAuthInstance(UserAuthType.User);
+            Client.AsUserRole(UserRole.User);
 
             //Act
-            var response = await client.GetAsync(ApiEndpoints.GetLatestEconomyNews);
+            var response = await Client.GetAsync(ApiEndpoints.GetLatestEconomyNews);
 
             //Assert
             response.EnsureSuccessStatusCode();

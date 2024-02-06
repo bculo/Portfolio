@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Tests.Common.Interfaces;
+using Tests.Common.Interfaces.Claims;
 
-namespace Tests.Common.Services;
+namespace Tests.Common.Services.AuthHandlers;
 
 public class MockCookieAuthenticationHandler : MockBaseAuthenticationHandler
 {

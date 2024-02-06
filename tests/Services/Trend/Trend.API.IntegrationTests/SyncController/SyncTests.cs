@@ -1,5 +1,7 @@
 using System.Net;
 using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 using Trend.Application.Interfaces.Models;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -16,10 +18,10 @@ public class SyncTests : TrendControllerBaseTest
     public async Task Sync_ShouldReturnBadRequest_WhenNoSearchWordsAvailable()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.User);
 
         //Act
-        var response = await client.GetAsync(ApiEndpoints.Sync);
+        var response = await Client.GetAsync(ApiEndpoints.Sync);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -29,11 +31,11 @@ public class SyncTests : TrendControllerBaseTest
     public async Task Sync_ShouldReturnNoContent_WhenSearchWordsAvailable()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
-        await _fixtureService.AddSearchWord();
+        Client.AsUserRole(UserRole.User);
+        await FixtureService.AddSearchWord();
 
         var engineResponse = TrendFixtureService.GenerateMockInstance<GoogleSearchEngineResponseDto>();
-        _factory.MockServer
+        Factory.MockServer
             .Given(Request.Create().WithPath("/customsearch/v1"))
             .RespondWith(
                 Response.Create().WithBodyAsJson(engineResponse)
@@ -41,7 +43,7 @@ public class SyncTests : TrendControllerBaseTest
             );
         
         //Act
-        var response = await client.GetAsync(ApiEndpoints.Sync);
+        var response = await Client.GetAsync(ApiEndpoints.Sync);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -51,17 +53,17 @@ public class SyncTests : TrendControllerBaseTest
     public async Task Sync_ShouldReturnBadRequest_WhenSearchEnginesDoesntWork()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
-        await _fixtureService.AddSearchWord();
+        Client.AsUserRole(UserRole.User);
+        await FixtureService.AddSearchWord();
         
-        _factory.MockServer
+        Factory.MockServer
             .Given(Request.Create().WithPath("/customsearch/v1"))
             .RespondWith(
                 Response.Create().WithStatusCode(HttpStatusCode.BadRequest)
             );
         
         //Act
-        var response = await client.GetAsync(ApiEndpoints.Sync);
+        var response = await Client.GetAsync(ApiEndpoints.Sync);
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

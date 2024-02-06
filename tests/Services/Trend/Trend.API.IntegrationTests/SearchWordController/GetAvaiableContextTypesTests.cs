@@ -1,4 +1,6 @@
 using FluentAssertions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 
 namespace Trend.IntegrationTests.SearchWordController;
 
@@ -12,10 +14,10 @@ public class GetAvailableContextTypesBaseTest : TrendControllerBaseTest
     public async Task GetAvailableContextTypes_ShouldReturnStatusOk_WhenValidRequestSent()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.User);
 
         //Act
-        var response = await client.GetAsync(ApiEndpoints.GetAvailableContextTypes);
+        var response = await Client.GetAsync(ApiEndpoints.GetAvailableContextTypes);
         
         //Assert
         response.EnsureSuccessStatusCode();

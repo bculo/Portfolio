@@ -1,6 +1,8 @@
 using System.Net;
 using FluentAssertions;
 using Http.Common.Extensions;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Claims.Models;
 using Trend.Application.Interfaces.Models;
 
 namespace Trend.IntegrationTests.SyncController;
@@ -15,10 +17,10 @@ public class GetSyncTests : TrendControllerBaseTest
     public async Task GetSync_ShouldReturnNotFound_WhenItemDoesntExists()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
+        Client.AsUserRole(UserRole.User);
 
         //Act
-        var response = await client.GetAsync($"{ApiEndpoints.GetSync}/123123");
+        var response = await Client.GetAsync($"{ApiEndpoints.GetSync}/123123");
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -28,11 +30,11 @@ public class GetSyncTests : TrendControllerBaseTest
     public async Task GetSync_ShouldReturnOk_WhenValidRequest()
     {
         //Arrange
-        var client = GetAuthInstance(UserAuthType.User);
-        var existingInstance = await _fixtureService.AddSyncStatus();
+        Client.AsUserRole(UserRole.User);
+        var existingInstance = await FixtureService.AddSyncStatus();
         
         //Act
-        var response = await client.GetAsync($"{ApiEndpoints.GetSync}/{existingInstance.Id}");
+        var response = await Client.GetAsync($"{ApiEndpoints.GetSync}/{existingInstance.Id}");
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
