@@ -2,10 +2,8 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
-using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Sqids;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Stock;
@@ -13,7 +11,7 @@ using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
 
-public record UpdateStockBatch(List<string> Symbols, int PriceIterationId) : IRequest<UpdateStockBatchResponse>;
+public record UpdateStockBatch(List<string> Symbols) : IRequest<UpdateStockBatchResponse>;
 
 public class UpdateStockBatchValidator : AbstractValidator<UpdateStockBatch>
 {
@@ -55,21 +53,6 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
 
     public async Task<UpdateStockBatchResponse> Handle(UpdateStockBatch request, CancellationToken ct)
     {
-        var iteration = await _work.PriceIteration.First(
-            i => i.Id == request.PriceIterationId && i.Finished == false,
-            track: true,
-            ct: ct);
-        if (iteration is null || iteration.Finished)
-        {
-            _logger.LogWarning(
-                "Price iteration with ID {PriceIterationId} not found or finished {Status}", 
-                request.PriceIterationId,
-                iteration?.Finished);
-            return new UpdateStockBatchResponse(0, 0);
-        }
-        
-        await ChangePriceIterationStatus(iteration, ct);
-        
         var assetsToUpdate = await GetStocksForUpdate(request.Symbols);
         if (!assetsToUpdate.Any())
         {
@@ -84,9 +67,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
             return new UpdateStockBatchResponse(assetsToUpdate.Count, 0);
         }
 
-        var priceEntities = ToEntities(assetsWithFreshPriceTag,
-            assetsToUpdate,
-            request.PriceIterationId);
+        var priceEntities = ToEntities(assetsWithFreshPriceTag, assetsToUpdate);
         await _work.StockPriceRepo.AddRange(priceEntities, ct);
         await _work.Save(ct);
 
@@ -95,12 +76,6 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         return new UpdateStockBatchResponse(assetsToUpdate.Count, assetsWithFreshPriceTag.Count);
     }
 
-    private async Task ChangePriceIterationStatus(StockPriceIterationEntity iteration, CancellationToken ct)
-    {
-        iteration.Finished = true;
-        await _work.Save(ct);
-    }
-    
     private async Task PublishEvents(List<StockPriceDetails> assets, CancellationToken ct)
     {
         var timeStamp = _provider.Now;
@@ -162,8 +137,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
     
     private IEnumerable<StockPriceEntity> ToEntities(
         List<StockPriceDetails> fetchedItemsWithPrice,
-        Dictionary<string, int> itemsToUpdate,
-        int priceIterationId)
+        Dictionary<string, int> itemsToUpdate)
     {
         foreach (var fetchedItem in fetchedItemsWithPrice)
         {
@@ -177,7 +151,6 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
                 Price = fetchedItem.Price,
                 StockId = itemsToUpdate[fetchedItem.Symbol],
                 IsActive = true,
-                PriceIterationId = priceIterationId
             };
         }
     }

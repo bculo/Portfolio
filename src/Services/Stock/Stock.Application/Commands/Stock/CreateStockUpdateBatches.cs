@@ -3,10 +3,8 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Options;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Core.Models.Stock;
 using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
@@ -55,44 +53,11 @@ public class CreateStockUpdateBatchesHandler
             return new CreateStockUpdateBatchesResponse(0);
         }
 
-        var priceIteration = await GetNextPriceIteration(ct);
-
         var batches = CreateBatches(symbols);
         _logger.LogTrace("Num of batches {NumberOfBatches}, prepared for update", batches.Count);
 
-        await PublishBatches(batches, priceIteration, ct);
+        await PublishBatches(batches, ct);
         return new CreateStockUpdateBatchesResponse(batches.Count);
-    }
-
-    private async Task<StockPriceIterationEntity> GetNextPriceIteration(CancellationToken ct)
-    {
-        var latestIteration = await _work.PriceIteration.First(
-            i => true,
-            orderBy: i => i.OrderByDescending(x => x.Time),
-            ct: ct);
-        
-        var currentTime = _timeProvider.Utc;
-        var iteration = new StockPriceIterationEntity
-        {
-            Time = DependsOnLastIteration(latestIteration, currentTime)
-                        ? latestIteration!.Time.AddMinutes(TIME_DIFFERENCE)
-                        : currentTime.WithoutSeconds()
-        };
-        
-        await _work.PriceIteration.Add(iteration, ct);
-        await _work.Save(ct);
-
-        return iteration;
-    }
-
-    private bool DependsOnLastIteration(StockPriceIterationEntity? lastIteration, DateTime currentTime)
-    {
-        if (lastIteration is null || lastIteration.Time.Day != currentTime.Day)
-        {
-            return false;
-        }
-
-        return true;
     }
 
     private bool IsUsStockExchangeActive()
@@ -103,15 +68,13 @@ public class CreateStockUpdateBatchesHandler
         return timeOfDayUtc >= usExchangeOpenUtc && timeOfDayUtc <= usExchangeCloseUtc;
     }
 
-    private async Task PublishBatches(Dictionary<int, List<string>> batches, 
-        StockPriceIterationEntity iteration, 
+    private async Task PublishBatches(Dictionary<int, List<string>> batches,
         CancellationToken ct)
     {
         foreach (var (_, symbols) in batches)
         {
             await _endpoint.Publish(new UpdateBatchPrepared
             {
-                IterationId = iteration.Id,
                 Symbols = symbols
             }, ct);
         }

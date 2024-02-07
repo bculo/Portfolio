@@ -14,10 +14,9 @@ public class MockCookieAuthenticationHandler : MockBaseAuthenticationHandler
     public MockCookieAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options, 
         ILoggerFactory logger, 
-        UrlEncoder encoder, 
-        ISystemClock clock, 
+        UrlEncoder encoder,
         IMockClaimSeeder seeder) 
-            : base(options, logger, encoder, clock, seeder)
+        : base(options, logger, encoder, seeder)
     {
     }
 

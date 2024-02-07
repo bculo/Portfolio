@@ -16,7 +16,7 @@ namespace Stock.Infrastructure.Consumers
 
         public async Task Consume(ConsumeContext<UpdateBatchPrepared> context)
         {
-            await _mediator.Send(new UpdateStockBatch(context.Message.Symbols, context.Message.IterationId));
+            await _mediator.Send(new UpdateStockBatch(context.Message.Symbols));
         }
     }
 }

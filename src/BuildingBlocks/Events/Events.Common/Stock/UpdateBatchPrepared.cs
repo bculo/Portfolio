@@ -8,7 +8,6 @@ namespace Events.Common.Stock
 {
     public class UpdateBatchPrepared
     {
-        public int IterationId { get; set; }
         public List<string> Symbols { get; set; } = default!;
     }
 }

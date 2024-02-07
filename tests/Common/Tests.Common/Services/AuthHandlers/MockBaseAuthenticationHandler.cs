@@ -18,14 +18,13 @@ public abstract class MockBaseAuthenticationHandler : AuthenticationHandler<Auth
     
     protected MockBaseAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, 
         ILoggerFactory logger, 
-        UrlEncoder encoder, 
-        ISystemClock clock,
+        UrlEncoder encoder,
         IMockClaimSeeder seeder) 
-        : base(options, logger, encoder, clock)
+        : base(options, logger, encoder)
     {
         _seeder = seeder;
     }
-
+    
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (!Context.Request.Headers.TryGetValue("UserAuthType", out var values))
