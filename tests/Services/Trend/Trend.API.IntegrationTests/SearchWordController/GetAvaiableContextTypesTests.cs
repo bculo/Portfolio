@@ -14,7 +14,7 @@ public class GetAvailableContextTypesBaseTest : TrendControllerBaseTest
     public async Task GetAvailableContextTypes_ShouldReturnStatusOk_WhenValidRequestSent()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
 
         //Act
         var response = await Client.GetAsync(ApiEndpoints.GetAvailableContextTypes);

@@ -1,8 +1,6 @@
-using Xunit;
-
 namespace Tests.Common.Interfaces.Containers;
 
-public interface IContainerFixture : IAsyncLifetime
+public interface IContainerFixture
 {
     Task StartAsync();
     Task StopAsync();

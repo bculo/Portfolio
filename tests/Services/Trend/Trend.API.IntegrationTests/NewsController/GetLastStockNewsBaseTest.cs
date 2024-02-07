@@ -14,7 +14,7 @@ namespace Trend.IntegrationTests.NewsController
         public async Task GetLatestStockNews_ShouldReturnStatusOk_WhenEndpointInvoked()
         {
             //Arrange
-            Client.AsUserRole(UserRole.User);
+            Client.WithRole(UserRole.User);
 
             //Act
             var response = await Client.GetAsync(ApiEndpoints.GetLatestStockNews);

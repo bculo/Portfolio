@@ -15,11 +15,12 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Testcontainers" Version="3.6.0" />
-        <PackageReference Include="xunit.extensibility.core" Version="2.6.6" />
         <PackageReference Include="Testcontainers.Azurite" Version="3.6.0" />
         <PackageReference Include="Testcontainers.MongoDb" Version="3.6.0" />
+        <PackageReference Include="Testcontainers.PostgreSql" Version="3.6.0" />
         <PackageReference Include="Testcontainers.RabbitMq" Version="3.6.0" />
         <PackageReference Include="Testcontainers.Redis" Version="3.6.0" />
+        <PackageReference Include="WireMock.Net" Version="1.5.47" />
     </ItemGroup>
 
 </Project>

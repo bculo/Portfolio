@@ -15,21 +15,21 @@ namespace Stock.Infrastructure.Html
     {
         private readonly ILogger<HtmlParserService> _logger;
 
-        public HtmlParserService(ILogger<HtmlParserService> logger, HtmlDocument? document)
+        public HtmlParserService(ILogger<HtmlParserService> logger, HtmlDocument? document = default)
         {
             _logger = logger;
-            _document = document;
-
+            
             if (document is not null)
             {
+                _document = document;
                 _initialized = true;
             }
         }
 
         private bool _initialized;
-        private HtmlDocument _document;
+        private HtmlDocument _document = null!;
 
-        public string HtmlContent { get; private set; }
+        public string HtmlContent { get; private set; } = default!;
 
         public Task<bool> Initialize(string htmlContent)
         {

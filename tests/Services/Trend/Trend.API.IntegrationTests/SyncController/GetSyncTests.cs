@@ -17,7 +17,7 @@ public class GetSyncTests : TrendControllerBaseTest
     public async Task GetSync_ShouldReturnNotFound_WhenItemDoesntExists()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
 
         //Act
         var response = await Client.GetAsync($"{ApiEndpoints.GetSync}/123123");
@@ -30,7 +30,7 @@ public class GetSyncTests : TrendControllerBaseTest
     public async Task GetSync_ShouldReturnOk_WhenValidRequest()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
         var existingInstance = await FixtureService.AddSyncStatus();
         
         //Act

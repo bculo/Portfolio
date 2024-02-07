@@ -14,7 +14,7 @@ public class GetSyncStatusesTests : TrendControllerBaseTest
     public async Task GetSyncStatuses_ShouldReturnOk_WhenValidRequest()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
 
         //Act
         var response = await Client.GetAsync(ApiEndpoints.GetSyncStatuses);

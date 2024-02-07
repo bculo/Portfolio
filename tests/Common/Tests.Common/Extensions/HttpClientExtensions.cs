@@ -32,7 +32,7 @@ public static class HttpClientExtensions
         return client;
     }
 
-    public static HttpClient AsUserRole(this HttpClient client, UserRole role)
+    public static HttpClient WithRole(this HttpClient client, UserRole role)
     {
         return role switch
         {

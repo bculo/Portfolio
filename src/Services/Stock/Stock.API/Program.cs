@@ -51,3 +51,6 @@ app.MapHealthChecks("/_health", new HealthCheckOptions
 });
 
 app.Run();
+
+//For testing purpose
+public partial class Program { }

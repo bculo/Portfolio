@@ -18,7 +18,7 @@ public class SyncTests : TrendControllerBaseTest
     public async Task Sync_ShouldReturnBadRequest_WhenNoSearchWordsAvailable()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
 
         //Act
         var response = await Client.GetAsync(ApiEndpoints.Sync);
@@ -31,7 +31,7 @@ public class SyncTests : TrendControllerBaseTest
     public async Task Sync_ShouldReturnNoContent_WhenSearchWordsAvailable()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
         await FixtureService.AddSearchWord();
 
         var engineResponse = TrendFixtureService.GenerateMockInstance<GoogleSearchEngineResponseDto>();
@@ -53,7 +53,7 @@ public class SyncTests : TrendControllerBaseTest
     public async Task Sync_ShouldReturnBadRequest_WhenSearchEnginesDoesntWork()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
         await FixtureService.AddSearchWord();
         
         Factory.MockServer

@@ -17,7 +17,7 @@ public class RemoveSearchWordBaseTest : TrendControllerBaseTest
     public async Task RemoveSearchWord_ShouldReturnStatusBadRequest_WhenWordWithGivenIdDoesntExist(string id)
     {
         //Arrange
-        Client.AsUserRole(UserRole.Admin);
+        Client.WithRole(UserRole.Admin);
 
         //Act
         var response = await Client.DeleteAsync($"{ApiEndpoints.RemoveSearchWord}/{id}");
@@ -31,7 +31,7 @@ public class RemoveSearchWordBaseTest : TrendControllerBaseTest
     public async Task RemoveSearchWord_ShouldReturnStatusOk_WhenWordWithGivenIdExist(string id)
     {
         //Arrange
-        Client.AsUserRole(UserRole.Admin);
+        Client.WithRole(UserRole.Admin);
         
         await FixtureService.AddSearchWord(id: id);
 

@@ -15,7 +15,7 @@ public class GetAvaiableSearchEnginesBaseTest : TrendControllerBaseTest
     public async Task GetAvaiableSearchEngines_ShouldReturnStatusOk_WhenValidRequestSent()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
 
         //Act
         var response = await Client.GetAsync(ApiEndpoints.GetAvailableSearchEngines);

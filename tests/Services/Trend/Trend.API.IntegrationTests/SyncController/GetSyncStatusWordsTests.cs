@@ -18,7 +18,7 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
     {
         //Arrange
         var id = Guid.NewGuid().ToString();
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
 
         //Act
         var response = await Client.GetAsync($"{ApiEndpoints.GetSyncStatusWords}/{id}");
@@ -31,7 +31,7 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
     public async Task GetSyncStatusWords_ShouldReturnStatusOk_WhenInstanceExists()
     {
         //Arrange
-        Client.AsUserRole(UserRole.User);
+        Client.WithRole(UserRole.User);
         var existingInstance = await FixtureService.AddSyncStatus();
         
         //Act
