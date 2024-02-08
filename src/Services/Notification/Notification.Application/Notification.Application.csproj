@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EventHandlers\Trend\" />
+    <Folder Include="Commands\Stock\" />
   </ItemGroup>
 
 </Project>

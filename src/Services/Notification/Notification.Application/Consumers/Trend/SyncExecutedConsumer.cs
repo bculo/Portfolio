@@ -1,7 +1,7 @@
 using Events.Common.Trend;
 using MassTransit;
 using MediatR;
-using Notification.Application.Features.Trend;
+using Notification.Application.Commands.Trend;
 
 namespace Notification.Application.Consumers.Trend;
 
@@ -16,6 +16,6 @@ public class SyncExecutedConsumer : IConsumer<SyncExecuted>
 
     public async Task Consume(ConsumeContext<SyncExecuted> context)
     {
-        await _mediator.Send(new SendSyncExecutedNotificationCommand());
+        await _mediator.Send(new SendSyncExecutedNotification());
     }
 }

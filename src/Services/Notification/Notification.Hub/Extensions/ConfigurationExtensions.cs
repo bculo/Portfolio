@@ -1,13 +1,8 @@
-using System.Reflection;
-using Cryptography.Common.Utils;
 using Keycloak.Common;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Notification.Application;
-using Notification.Application.Constants;
 using Notification.Application.Consumers.Trend;
-using Notification.Application.Interfaces;
+using Notification.Application.Interfaces.Notifications;
 using Notification.Hub.Services;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
@@ -89,7 +84,7 @@ public static class ConfigurationExtensions
     {
         services.AddMassTransit(x =>
         {
-            var formatter = new KebabCaseEndpointNameFormatter(prefix: MessageQueueConstants.QUEUE_PREFIX, false);
+            var formatter = new KebabCaseEndpointNameFormatter(prefix: "notification",  false);
             x.SetEndpointNameFormatter(formatter);
             
             x.AddConsumer<SyncExecutedConsumer>();

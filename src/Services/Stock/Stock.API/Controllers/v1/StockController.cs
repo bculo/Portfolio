@@ -56,7 +56,7 @@ namespace Stock.API.Controllers.v1
         }
         
         [HttpPut("ChangeStatus", Name = "ChangeStockStatus")]
-        [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangeActivityStatus([FromBody] ChangeStockStatus request)
         {

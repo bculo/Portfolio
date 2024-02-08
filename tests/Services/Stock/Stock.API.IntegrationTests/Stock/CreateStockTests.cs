@@ -44,7 +44,7 @@ public class CreateStockTests : StockControllerBaseTest
         Client.WithRole(UserRole.Admin);
         
         string symbol = "TSLA";
-        var entity = await Helper.CreateNew(symbol);
+        _ = await Helper.Create(symbol);
         
         var request = new CreateStock(symbol);
         

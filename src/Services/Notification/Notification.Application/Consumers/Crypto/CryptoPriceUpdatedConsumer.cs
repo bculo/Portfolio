@@ -2,7 +2,6 @@
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Notification.Application.EventHandlers.Crypto;
 
 namespace Notification.Application.Consumers.Crypto
 {
@@ -24,14 +23,7 @@ namespace Notification.Application.Consumers.Crypto
 
             _logger.LogTrace($"Crypto updated. {instance.Symbol} - {instance.Price} {instance.Currency}");
 
-            await _mediator.Publish(new CryptoPriceUpdatedHandler.Notification
-            {
-                Currency = instance.Currency,
-                Price = instance.Price,
-                Id = instance.Id,
-                Name = instance.Name,
-                Symbol = instance.Symbol,
-            });
+
         }
     }
 }
