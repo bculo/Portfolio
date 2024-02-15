@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { Outlet } from 'react-router-dom';
-import { AppNavigation } from '../routes/AppNavigation';
+import { AppNavigation } from '../pods/AppNavigation';
 
 export const Layout = () => {
   const auth = useAuth();

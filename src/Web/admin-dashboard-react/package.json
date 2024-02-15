@@ -5,6 +5,8 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.0.1",
     "@rtk-query/codegen-openapi": "^1.2.0",
     "@swc/helpers": "~0.5.2",
