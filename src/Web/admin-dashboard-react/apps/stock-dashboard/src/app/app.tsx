@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from './Layout';
-import { routes } from '../pods/Routes';
+import { routes } from '../routes/Routes';
 
 const router = createBrowserRouter([
   {

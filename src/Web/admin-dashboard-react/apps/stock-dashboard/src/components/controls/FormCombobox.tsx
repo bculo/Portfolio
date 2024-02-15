@@ -48,11 +48,11 @@ export const FormCombobox = ({
       }}
       disabled={disabled}
     >
-      <div className="relative mt-1">
-        <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+      <div className="relative">
+        <div className="relative w-full cursor-default overflow-hidden rounded-lg text-left shadow-md focus:outline-none focus-visible:ring-2  sm:text-sm">
           <Combobox.Input
             placeholder={placeholder ?? ''}
-            className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+            className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 bg-gray-800  border-gray-700 focus:ring-0 placeholder:italic placeholder:text-stone-600"
             displayValue={(item: ComboboxOption | null) => item?.display ?? ''}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -81,7 +81,7 @@ export const FormCombobox = ({
                   key={person.value}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                      active ? 'bg-cyan-700 text-white' : 'text-gray-900'
                     }`
                   }
                   value={person}

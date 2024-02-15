@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { pathConstants } from './PathConstants';
+import { staticPaths, stockPaths } from '../routes/paths';
 
 type NavigationItem = {
   name: string;
@@ -11,13 +11,13 @@ const navigation: NavigationItem[] = [];
 
 navigation.push({
   name: 'home',
-  path: pathConstants.HOME,
+  path: staticPaths.HOME,
   text: 'Home',
 });
 
 navigation.push({
   name: 'stock',
-  path: pathConstants.STOCK,
+  path: stockPaths.STOCK,
   text: 'Stocks',
 });
 
@@ -34,5 +34,3 @@ export const AppNavigation = () => {
     </ul>
   );
 };
-
-export const Paths = pathConstants;
