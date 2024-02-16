@@ -6,8 +6,6 @@ import { FormField } from '../../components/controls/FormField';
 export type FilterStockForm = {
   symbol: string;
   status: 1 | 2 | 999;
-  page?: number;
-  take?: number;
 };
 
 type Props = {

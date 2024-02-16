@@ -7,7 +7,7 @@ import {
 import { FilterStockForm, StockOverviewFilter } from './StockOverviewFilter';
 import { Table } from '../../components/Table';
 
-const map = (form: FilterStockForm): FilterStocksApiArg => {
+const map = (form: StockFilter): FilterStocksApiArg => {
   return {
     ...form,
     'Symbol.Value': form.symbol,
@@ -15,29 +15,39 @@ const map = (form: FilterStockForm): FilterStocksApiArg => {
   };
 };
 
-const defaultFormValue: FilterStockForm = {
+type StockFilter = FilterStockForm & {
+  page: number;
+  take: number;
+};
+
+const defaultVal: StockFilter = {
   status: 999,
   symbol: '',
   page: 1,
   take: 20,
 };
-//const something: FilterStockResponseItem;
 
 const StockOverviewPage = () => {
-  const [filter, setFilter] = useState<FilterStockForm>(defaultFormValue);
-  const { isLoading, data } = useFilterStocksQuery(map(filter));
+  const [filter, setFilter] = useState<StockFilter>(defaultVal);
+  const { data } = useFilterStocksQuery(map(filter));
 
   return (
     <div className="w-2/4 m-auto">
       <div className="glass p-8 rounded-lg">
         <StockOverviewFilter
-          defaultValue={defaultFormValue}
-          onSearch={(f) => setFilter(f)}
+          defaultValue={defaultVal}
+          onSearch={(f) => setFilter({ ...defaultVal, ...f })}
         />
       </div>
 
       <div className="mt-4">
         <Table
+          take={filter.take}
+          page={filter.page}
+          onPageChange={(page) =>
+            setFilter((prev) => ({ ...prev, page: page }))
+          }
+          totalRecords={data?.totalCount ?? 0}
           payload={data?.items ?? []}
           columns={{
             symbol: {

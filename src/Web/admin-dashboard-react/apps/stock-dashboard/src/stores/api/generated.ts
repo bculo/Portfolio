@@ -70,8 +70,7 @@ export type FilterStocksApiArg = {
   page?: number;
   take?: number;
 };
-export type ChangeStockStatusApiResponse =
-  /** status 204 No Content */ PageResultDtoFilterStockResponseItem;
+export type ChangeStockStatusApiResponse = /** status 204 No Content */ void;
 export type ChangeStockStatusApiArg = {
   changeStockStatus: ChangeStockStatus;
 };

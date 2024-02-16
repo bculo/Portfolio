@@ -10,7 +10,8 @@ const config: ConfigFile = {
     lazyQueries: true,
     mutations: true,
     queries: true
-  }
+  },
+  flattenArg: false
 }
 
 export default config
