@@ -4,7 +4,7 @@ import { staticPaths } from './staticPaths';
 
 const HomeRoute = React.lazy(() => import('../../pods/static/HomeRoute'));
 
-export const statisRoutes: RouteObject[] = [
+export const staticRoutes: RouteObject[] = [
   {
     path: staticPaths.HOME,
     element: <HomeRoute />,

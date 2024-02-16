@@ -10,7 +10,7 @@ export const Layout = () => {
     <div className="relative min-h-screen h-full text-stone-300 font-mono text-sm">
       <div className="absolute z-0 w-full flex">
         {auth.isAuthenticated && (
-          <aside className="flex-none flex flex-col justify-between w-[20rem] max-2xl:w-[17rem] glass py-8 h-screen rounded-tr-2xl rounded-br-2xl">
+          <aside className="flex-none flex flex-col justify-between w-[20rem] glass py-8 h-screen rounded-tr-2xl rounded-br-2xl">
             <div>
               <h2 className="text-stone-200 text-center font-bold tracking-wider text-2xl">
                 Stock dashboard
@@ -32,7 +32,7 @@ export const Layout = () => {
             </div>
           </aside>
         )}
-        <main className="p-8">
+        <main className="p-8 flex-1">
           <Suspense fallback={<div>Loading...</div>}>
             <Outlet></Outlet>
           </Suspense>

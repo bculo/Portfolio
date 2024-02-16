@@ -6,14 +6,16 @@ interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export const FormInput = ({ type, name = '' }: Partial<FormInputProps>) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+export const FormInput = ({
+  type,
+  name = '',
+  placeholder,
+}: Partial<FormInputProps>) => {
+  const { register } = useFormContext();
 
   return (
     <input
+      placeholder={placeholder}
       className="px-4 py-2 rounded-lg bg-gray-900 opacity-70 border-gray-700 w-full border placeholder:italic placeholder:text-stone-600 inline-block read-only:outline-0"
       type={type}
       {...register(name)}

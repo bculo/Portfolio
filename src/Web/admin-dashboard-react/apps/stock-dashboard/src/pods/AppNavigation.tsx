@@ -17,7 +17,7 @@ navigation.push({
 
 navigation.push({
   name: 'stock',
-  path: stockPaths.STOCK,
+  path: stockPaths.OVERVIEW,
   text: 'Stocks',
 });
 

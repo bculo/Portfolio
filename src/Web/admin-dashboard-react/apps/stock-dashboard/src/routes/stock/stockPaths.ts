@@ -1,3 +1,3 @@
 export const stockPaths = {
-    STOCK: '/stock'
+    OVERVIEW: '/stock'
 }

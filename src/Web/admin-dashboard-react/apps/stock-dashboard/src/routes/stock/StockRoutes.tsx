@@ -3,16 +3,16 @@ import { stockPaths } from './stockPaths';
 import { ProtectedRoute } from '../../app/ProtectedRoute';
 import React from 'react';
 
-const StockOverviewRoute = React.lazy(
-  () => import('../../pods/stock/StockRoute')
+const StockOverviewPage = React.lazy(
+  () => import('../../pods/stock/StockOverviewPage')
 );
 
 export const stockRoutes: RouteObject[] = [
   {
-    path: stockPaths.STOCK,
+    path: stockPaths.OVERVIEW,
     element: (
       <ProtectedRoute>
-        <StockOverviewRoute />
+        <StockOverviewPage />
       </ProtectedRoute>
     ),
   },
