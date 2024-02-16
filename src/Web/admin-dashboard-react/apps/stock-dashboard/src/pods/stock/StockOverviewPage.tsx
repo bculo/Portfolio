@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { format } from 'date-fns';
 import {
   FilterStocksApiArg,
   useFilterStocksQuery,
 } from '../../stores/api/generated';
 import { FilterStockForm, StockOverviewFilter } from './StockOverviewFilter';
+import { Table } from '../../components/Table';
 
 const map = (form: FilterStockForm): FilterStocksApiArg => {
   return {
@@ -19,6 +21,7 @@ const defaultFormValue: FilterStockForm = {
   page: 1,
   take: 20,
 };
+//const something: FilterStockResponseItem;
 
 const StockOverviewPage = () => {
   const [filter, setFilter] = useState<FilterStockForm>(defaultFormValue);
@@ -32,10 +35,27 @@ const StockOverviewPage = () => {
           onSearch={(f) => setFilter(f)}
         />
       </div>
-      <p>Total count: {data?.totalCount}</p>
-      {data?.items?.map((value, index) => (
-        <div key={value.id}>{value.symbol}</div>
-      ))}
+
+      <div className="mt-4">
+        <Table
+          payload={data?.items ?? []}
+          columns={{
+            symbol: {
+              name: 'Symbol',
+              accessor: (item) => item.symbol,
+            },
+            lastPriceUpdate: {
+              name: 'Last update',
+              accessor: (item) => {
+                return item.lastPriceUpdate
+                  ? format(new Date(item.lastPriceUpdate), 'dd.MM.yyyy')
+                  : '';
+              },
+            },
+            price: { name: 'Price', accessor: (item) => item.price },
+          }}
+        />
+      </div>
     </div>
   );
 };
