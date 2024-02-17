@@ -154,6 +154,9 @@ devDependencies:
   tailwindcss:
     specifier: 3.2.7
     version: 3.2.7(postcss@8.4.21)
+  tslib:
+    specifier: ^2.6.2
+    version: 2.6.2
   typescript:
     specifier: ~5.2.2
     version: 5.2.2

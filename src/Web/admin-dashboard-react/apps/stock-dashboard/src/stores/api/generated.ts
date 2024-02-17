@@ -8,11 +8,11 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/v1/Stock/Create`,
         method: 'POST',
-        body: queryArg.createStock,
+        body: queryArg,
       }),
     }),
     getStock: build.query<GetStockApiResponse, GetStockApiArg>({
-      query: (queryArg) => ({ url: `/api/v1/Stock/Single/${queryArg.id}` }),
+      query: (queryArg) => ({ url: `/api/v1/Stock/Single/${queryArg}` }),
     }),
     getStocks: build.query<GetStocksApiResponse, GetStocksApiArg>({
       query: () => ({ url: `/api/v1/Stock/All` }),
@@ -38,7 +38,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/v1/Stock/ChangeStatus`,
         method: 'PUT',
-        body: queryArg.changeStockStatus,
+        body: queryArg,
       }),
     }),
   }),
@@ -48,14 +48,10 @@ export { injectedRtkApi as generated };
 export type EvictAllApiResponse = unknown;
 export type EvictAllApiArg = void;
 export type CreateStockApiResponse = /** status 200 Success */ string;
-export type CreateStockApiArg = {
-  createStock: CreateStock;
-};
+export type CreateStockApiArg = CreateStock;
 export type GetStockApiResponse =
   /** status 200 Success */ GetStockByIdResponse;
-export type GetStockApiArg = {
-  id: string;
-};
+export type GetStockApiArg = string;
 export type GetStocksApiResponse =
   /** status 200 Success */ GetStocksResponse[];
 export type GetStocksApiArg = void;
@@ -71,9 +67,7 @@ export type FilterStocksApiArg = {
   take?: number;
 };
 export type ChangeStockStatusApiResponse = /** status 204 No Content */ void;
-export type ChangeStockStatusApiArg = {
-  changeStockStatus: ChangeStockStatus;
-};
+export type ChangeStockStatusApiArg = ChangeStockStatus;
 export type ProblemDetails = {
   type?: string | null;
   title?: string | null;

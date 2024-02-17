@@ -6,6 +6,9 @@ import {
 } from '../../stores/api/generated';
 import { FilterStockForm, StockOverviewFilter } from './StockOverviewFilter';
 import { Table } from '../../components/Table';
+import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
+import { CreateStockForm } from './CreateStockForm';
 
 const map = (form: StockFilter): FilterStocksApiArg => {
   return {
@@ -28,11 +31,20 @@ const defaultVal: StockFilter = {
 };
 
 const StockOverviewPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<StockFilter>(defaultVal);
-  const { data } = useFilterStocksQuery(map(filter));
+  const { data, refetch } = useFilterStocksQuery(map(filter));
 
   return (
     <div className="w-2/4 m-auto">
+      <div className="flex justify-end gap-x-2 mb-4">
+        <Button
+          type="button"
+          buttonStyle="full"
+          text="Create"
+          onClick={() => setIsModalOpen(true)}
+        />
+      </div>
       <div className="glass p-8 rounded-lg">
         <StockOverviewFilter
           defaultValue={defaultVal}
@@ -66,6 +78,19 @@ const StockOverviewPage = () => {
           }}
         />
       </div>
+
+      <Modal
+        onModalClose={() => setIsModalOpen(false)}
+        title="Create stock item"
+        isOpen={isModalOpen}
+      >
+        <CreateStockForm
+          onCreated={() => {
+            setIsModalOpen(false);
+            refetch();
+          }}
+        />
+      </Modal>
     </div>
   );
 };
