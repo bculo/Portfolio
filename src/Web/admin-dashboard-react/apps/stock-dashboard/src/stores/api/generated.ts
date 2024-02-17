@@ -1,4 +1,4 @@
-import { stockApi as api } from './stock-api-slice';
+import { stockApi as api } from './stockApiSlice';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     evictAll: build.mutation<EvictAllApiResponse, EvictAllApiArg>({

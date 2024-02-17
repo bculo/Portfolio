@@ -1,12 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { oAuth2Config } from '../../configs/oauth-config';
+import { environment } from '../../environments/environment';
+
+const authority = environment.oAuth2Config.authority;
+const clientId = environment.oAuth2Config.client_id;
 
 export const stockApi = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:32034',
+        baseUrl: environment.stockApiBase,
         prepareHeaders: (headers) => {
-            const storageItemString = localStorage.getItem(`oidc.user:${oAuth2Config.authority}:${oAuth2Config.client_id}`)
+            const storageItemString = localStorage.getItem(`oidc.user:${authority}:${clientId}`)
             if(!storageItemString) {
                 return headers;
             }

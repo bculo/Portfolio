@@ -5,7 +5,7 @@ import { store } from './stores/store';
 import { AuthProvider } from 'react-oidc-context';
 import App from './app/app';
 import { User } from 'oidc-client-ts';
-import { oidcConfig } from './configs/oauth-config';
+import { oidcConfig } from './configs/oAuth2Config';
 
 const onSigninCallback = (_: User | void) => {
   window.history.replaceState({}, document.title, window.location.pathname);
