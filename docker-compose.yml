@@ -30,7 +30,7 @@ services:
     image: amazon/dynamodb-local:1.21.0
     
   postgre-db:
-    image: postgres:13
+    image: timescale/timescaledb:latest-pg14
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
