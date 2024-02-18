@@ -2,8 +2,10 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Stock.Application.Common.Configurations;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Stock;
@@ -35,13 +37,15 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
     private readonly ILogger<UpdateStockBatchHandler> _logger;
     private readonly IStockPriceClient _client;
     private readonly IUnitOfWork _work;
+    private readonly IOutputCacheStore _outputCache;
 
     public UpdateStockBatchHandler(IStockPriceClient client,
         ILogger<UpdateStockBatchHandler> logger,
         IPublishEndpoint endpoint,
         IDateTimeProvider provider,
         IConfiguration config,
-        IUnitOfWork work)
+        IUnitOfWork work, 
+        IOutputCacheStore outputCache)
     {
         _client = client;
         _logger = logger;
@@ -49,6 +53,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         _provider = provider;
         _config = config;
         _work = work;
+        _outputCache = outputCache;
     }
 
     public async Task<UpdateStockBatchResponse> Handle(UpdateStockBatch request, CancellationToken ct)
@@ -71,6 +76,9 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         await _work.StockPriceRepo.AddRange(priceEntities, ct);
         await _work.Save(ct);
 
+        await _outputCache.EvictByTagAsync(CacheTags.ALL, ct);
+        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
+        
         await PublishEvents(assetsWithFreshPriceTag, ct);
         
         return new UpdateStockBatchResponse(assetsToUpdate.Count, assetsWithFreshPriceTag.Count);
