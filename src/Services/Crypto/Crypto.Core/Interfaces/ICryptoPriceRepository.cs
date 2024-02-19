@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Interfaces
 {
-    public interface ICryptoPriceRepository : IRepository<CryptoPrice>
+    public interface ICryptoPriceRepository
     {
     }
 }

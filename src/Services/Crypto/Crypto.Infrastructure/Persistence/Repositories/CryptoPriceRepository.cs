@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Crypto.Infrastructure.Persistence.Repositories
 {
-    public class CryptoPriceRepository : BaseRepository<CryptoPrice>, ICryptoPriceRepository
+    public class CryptoPriceRepository : ICryptoPriceRepository
     {
-        public CryptoPriceRepository(CryptoDbContext context) : base(context)
+        public CryptoPriceRepository(CryptoDbContext context)
         {
 
         }

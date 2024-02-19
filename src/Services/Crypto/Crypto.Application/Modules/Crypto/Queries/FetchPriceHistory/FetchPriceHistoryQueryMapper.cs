@@ -13,8 +13,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
         public FetchPriceHistoryQueryMapper()
         {
             CreateMap<CryptoPrice, PriceHistoryDto>()
-                .ForMember(dst => dst.Price, opt => opt.MapFrom(src => src.Price))
-                .ForMember(dst => dst.Created, opt => opt.MapFrom(src => src.CreatedOn));
+                .ForMember(dst => dst.Price, opt => opt.MapFrom(src => src.Price));
         }
     }
 }

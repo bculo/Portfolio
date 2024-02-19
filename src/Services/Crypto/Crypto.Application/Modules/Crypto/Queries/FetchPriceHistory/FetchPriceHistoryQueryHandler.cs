@@ -30,9 +30,13 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
                 throw new CryptoCoreException("Item with symbol {0} not found", request.Symbol);
             }
 
+            throw new NotImplementedException();
+            
+            /*
             var priceEntities = await _work.CryptoPriceRepository.Find(i => i.CryptoId == entity.Id);
 
             return _mapper.Map<List<PriceHistoryDto>>(priceEntities);
+            */
         }
     }
 }

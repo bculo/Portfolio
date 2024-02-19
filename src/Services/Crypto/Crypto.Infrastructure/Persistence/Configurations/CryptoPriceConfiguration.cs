@@ -13,8 +13,6 @@ namespace Crypto.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<CryptoPrice> builder)
         {
-            builder.HasKey(i => i.Id);
-
             builder.Property(i => i.Price)
                 .HasColumnType("decimal(18,2)");
 

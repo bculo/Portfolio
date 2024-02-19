@@ -9,7 +9,7 @@ namespace Events.Common.Crypto
 {
     public class CryptoInfoUpdated
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Symbol { get; set; }  = default!;
         public string Name { get; set; }  = default!;
         public string Website { get; set; }  = default!;

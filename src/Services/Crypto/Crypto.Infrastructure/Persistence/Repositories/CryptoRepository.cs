@@ -16,6 +16,9 @@ namespace Crypto.Infrastructure.Persistence.Repositories
 
         public async Task<CryptoLastPrice> GetWithPrice(string symbol)
         {
+            throw new NotImplementedException();
+            
+            /*
             return await _context.Prices.Include(i => i.Crypto)
                                     .Where(i => i.Crypto!.Symbol!.ToLower() == symbol.ToLower())
                                     .OrderByDescending(i => i.CreatedOn)
@@ -29,7 +32,8 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                                         SourceCode = i.Crypto!.SourceCode,
                                         Website = i.Crypto!.WebSite,
                                         Price = i.Price
-                                    }).FirstOrDefaultAsync();                               
+                                    }).FirstOrDefaultAsync();
+            */                               
         }
 
         public async Task<List<CryptoLastPrice>> GetAllWithPrice()

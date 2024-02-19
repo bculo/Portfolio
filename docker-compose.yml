@@ -8,14 +8,8 @@ services:
   redis:
     image: redis:7.2.1
  
-  identity.database:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    
-  sql.server.tools:
-    image: mcr.microsoft.com/mssql-tools
-
   keycloak: 
-    image: culix77/keycloak:latest
+    image: quay.io/keycloak/keycloak:23.0
 
   rabbitmq:
     image: masstransit/rabbitmq

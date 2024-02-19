@@ -20,22 +20,22 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async virtual Task Add(T newInstance)
+        public virtual async Task Add(T newInstance)
         {
             _context.Set<T>().Add(newInstance);
         }
 
-        public async virtual Task AddRange(IEnumerable<T> instances)
+        public virtual async Task AddRange(IEnumerable<T> instances)
         {
             _context.Set<T>().AddRange(instances);
         }
 
-        public async virtual Task<long> Count()
+        public virtual async Task<long> Count()
         {
             return await _context.Set<T>().LongCountAsync();
         }
 
-        public async virtual Task<List<T>> FetchPage(int page, int take)
+        public virtual async Task<List<T>> FetchPage(int page, int take)
         {
             return await _context.Set<T>().OrderByDescending(i => i.CreatedOn)
                 .Skip((page - 1) * take)
@@ -44,7 +44,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async virtual Task<List<T>> FetchPage(Expression<Func<T, bool>> predicate, int page, int take)
+        public virtual async Task<List<T>> FetchPage(Expression<Func<T, bool>> predicate, int page, int take)
         {
             return await _context.Set<T>()
                 .Where(predicate)
@@ -55,7 +55,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async virtual Task<List<T>> Find(Expression<Func<T, bool>> predicate)
+        public virtual async Task<List<T>> Find(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>()
                 .Where(predicate)
@@ -64,23 +64,23 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async virtual Task<T> FindById(object id)
+        public virtual async Task<T> FindById(object id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async virtual Task<T> FindSingle(Expression<Func<T, bool>> predicate)
+        public virtual async Task<T> FindSingle(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
-        public async virtual Task<List<T>> GetAll()
+        public virtual async Task<List<T>> GetAll()
         {
             return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
 
-        public async virtual Task Remove(T instance)
+        public virtual async Task Remove(T instance)
         {
             _context.Set<T>().Remove(instance);
         }

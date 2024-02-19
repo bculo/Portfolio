@@ -33,14 +33,12 @@ namespace Crypto.Infrastructure
         {
             services.AddDbContext<CryptoDbContext>(opt =>
             {
-                opt.UseSqlServer(configuration.GetConnectionString("CryptoDatabase"));
+                opt.UseNpgsql(configuration.GetConnectionString("CryptoDatabase"));
                 opt.AddInterceptors(new[] { new CommandInterceptor() });
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<ICryptoExplorerRepository, CryptoExplorerRepository>();
-            services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
@@ -83,11 +81,11 @@ namespace Crypto.Infrastructure
 
         private static void ConfigureCryptoCompareClient(IServiceCollection services, IConfiguration configuration)
         {
-            string baseAddress = configuration["CryptoPriceApiOptions:BaseUrl"];
-            int retryNumber = configuration.GetValue<int>("CryptoPriceApiOptions:RetryNumber");
-            int timeout = configuration.GetValue<int>("CryptoPriceApiOptions:Timeout");
-            string headerKey = configuration["CryptoPriceApiOptions:HeaderKey"];
-            string headerValue = configuration["CryptoPriceApiOptions:ApiKey"];
+            var baseAddress = configuration["CryptoPriceApiOptions:BaseUrl"];
+            var retryNumber = configuration.GetValue<int>("CryptoPriceApiOptions:RetryNumber");
+            var timeout = configuration.GetValue<int>("CryptoPriceApiOptions:Timeout");
+            var headerKey = configuration["CryptoPriceApiOptions:HeaderKey"];
+            var headerValue = configuration["CryptoPriceApiOptions:ApiKey"];
 
             ArgumentNullException.ThrowIfNull(baseAddress);
             ArgumentNullException.ThrowIfNull(headerKey);

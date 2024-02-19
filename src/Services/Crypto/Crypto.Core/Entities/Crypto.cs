@@ -6,25 +6,21 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Entities
 {
-    public class Crypto : Entity
+    public sealed class Crypto : Entity
     {
-        public string? Symbol { get; set; }
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public string? Logo { get; set; }
-        public string? WebSite { get; set; }
-        public string? SourceCode { get; set; }
-        public virtual ICollection<CryptoPrice> Prices { get; set; }
-        public virtual ICollection<CryptoExplorer> Explorers { get; set; }
-        public virtual ICollection<Visit> Visits { get; set; }
-        public virtual ICollection<PortfolioItem> PortfolioItems { get; set; }
+        public string Symbol { get; set; } = default!;
+        public string Name { get; set; } = default!;
+        public string Description { get; set; } = default!;
+        public string Logo { get; set; } = default!;
+        public string WebSite { get; set; } = default!;
+        public string SourceCode { get; set; } = default!;
+        public ICollection<CryptoPrice> Prices { get; set; }
+        public ICollection<Visit> Visits { get; set; }
 
         public Crypto()
         {
             Prices = new HashSet<CryptoPrice>();
-            Explorers = new HashSet<CryptoExplorer>();
             Visits = new HashSet<Visit>();
-            PortfolioItems = new HashSet<PortfolioItem>();
         }
     }
 }

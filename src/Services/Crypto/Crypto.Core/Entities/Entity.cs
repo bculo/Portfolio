@@ -8,7 +8,7 @@ namespace Crypto.Core.Entities
 {
     public abstract class Entity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime ModifiedOn { get; set; }
         public DateTime CreatedOn { get; set; }
     }

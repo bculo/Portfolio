@@ -9,7 +9,7 @@ namespace Crypto.Infrastructure.Persistence
 {
     public static class CryptoDbContextSeed
     {
-        public async static Task SeedData(IServiceCollection collection, Func<List<Core.Entities.Crypto>>? getSeedData = null)
+        public static async Task SeedData(IServiceCollection collection, Func<List<Core.Entities.Crypto>>? getSeedData = null)
         {
             var provider = collection.BuildServiceProvider();
 
