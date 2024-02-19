@@ -1,16 +1,12 @@
-﻿using Cache.Common;
-using Crypto.API.Filters;
+﻿using Crypto.API.Filters;
 using Crypto.Application;
 using Crypto.Application.Options;
-using Crypto.Infrastracture;
-using Crypto.Infrastracture.Consumers;
-using Crypto.Infrastracture.Consumers.State;
-using Crypto.Infrastracture.Persistence;
+using Crypto.Infrastructure;
+using Crypto.Infrastructure.Consumers;
+using Crypto.Infrastructure.Consumers.State;
+using Crypto.Infrastructure.Persistence;
 using Keycloak.Common;
 using MassTransit;
-using Microsoft.Data.SqlClient;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -32,7 +28,6 @@ namespace Crypto.API.Configurations
 
             InfrastractureLayer.AddCommonServices(services, configuration);
             InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            CacheConfiguration.AddRedis(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
             services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
@@ -42,13 +37,12 @@ namespace Crypto.API.Configurations
 
             AddAuthentication(services, configuration);
             AddMessageQueue(services, configuration);
-            AddOpenTelemetry(services, configuration);
         }
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
         {
             services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+            services.UseKeycloakClientCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
             var authOptions = new AuthOptions();
             configuration.GetSection("AuthOptions").Bind(authOptions);
@@ -89,34 +83,6 @@ namespace Crypto.API.Configurations
                     config.ConfigureEndpoints(context);
                 });
             });
-        }
-
-        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOpenTelemetry()
-                .WithTracing(builder =>
-                {
-                    builder
-                        .AddSource("MassTransit")
-                        .SetResourceBuilder(ResourceBuilder.CreateDefault()
-                            .AddService("Crypto.API"))
-                        .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddSqlClientInstrumentation(opt =>
-                        {
-                            opt.RecordException = true;
-                            opt.EnableConnectionLevelAttributes = true;
-                            opt.SetDbStatementForText = true;
-
-                            opt.Filter = cmd =>
-                            {
-                                return cmd is not SqlCommand command 
-                                       || (!command.CommandText.Contains("OutboxState") 
-                                           && !command.CommandText.Contains("InboxState"));
-                            };
-                        })
-                        .AddJaegerExporter();
-                });
         }
     }
 }

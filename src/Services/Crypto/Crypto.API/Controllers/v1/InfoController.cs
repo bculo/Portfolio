@@ -1,4 +1,4 @@
-﻿using Crypto.Infrastracture.Persistence;
+﻿using Crypto.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

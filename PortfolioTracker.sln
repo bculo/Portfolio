@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Application", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Core", "src\Services\Crypto\Crypto.Core\Crypto.Core.csproj", "{0F7FB9D4-83D9-4DC7-8CBC-DE5AEEFCE1A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Infrastracture", "src\Services\Crypto\Crypto.Infrastracture\Crypto.Infrastracture.csproj", "{A73CA425-3D4B-4E35-A268-20E2BF624774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Infrastructure", "src\Services\Crypto\Crypto.Infrastructure\Crypto.Infrastructure.csproj", "{A73CA425-3D4B-4E35-A268-20E2BF624774}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{745E6123-EFEF-43F9-B825-87DCB5F1B3F4}"
 EndProject
@@ -66,7 +66,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keycloak.Common", "src\Buil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.Worker", "src\Services\Trend\Trend.Worker\Trend.Worker.csproj", "{70E72B0B-F8AD-40FC-ABC4-31D354BFC4C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.BackgroundService", "src\Services\Crypto\Crypto.BackgroundService\Crypto.BackgroundService.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Worker", "src\Services\Crypto\Crypto.Worker\Crypto.Worker.csproj", "{AF83473F-5CBC-499E-B53E-9B12597AF57B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstract", "Abstract", "{06F4282A-052B-4EBD-9119-C1DFDFC702BB}"
 EndProject
