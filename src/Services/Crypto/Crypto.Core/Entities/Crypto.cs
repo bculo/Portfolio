@@ -14,12 +14,10 @@ namespace Crypto.Core.Entities
         public string Logo { get; set; } = default!;
         public string WebSite { get; set; } = default!;
         public string SourceCode { get; set; } = default!;
-        public ICollection<CryptoPrice> Prices { get; set; }
         public ICollection<Visit> Visits { get; set; }
 
         public Crypto()
         {
-            Prices = new HashSet<CryptoPrice>();
             Visits = new HashSet<Visit>();
         }
     }

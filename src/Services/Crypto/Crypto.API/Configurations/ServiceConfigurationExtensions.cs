@@ -7,6 +7,7 @@ using Crypto.Infrastructure.Consumers.State;
 using Crypto.Infrastructure.Persistence;
 using Keycloak.Common;
 using MassTransit;
+using Time.Common;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -17,26 +18,29 @@ namespace Crypto.API.Configurations
     {
         public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
         {
+            /*
             services.AddControllers(opt =>
             {
                 opt.Filters.Add<GlobalExceptionFilter>();
             });
 
             services.AddCors();
+            */
 
-            ApplicationLayer.AddServices(services, configuration);
+           // ApplicationLayer.AddServices(services, configuration);
 
-            InfrastractureLayer.AddCommonServices(services, configuration);
-            InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            InfrastractureLayer.AddClients(services, configuration);
+            services.AddUtcTimeProvider();
+            //InfrastructureLayer.AddCommonServices(services, configuration);
+            InfrastructureLayer.AddPersistenceStorage(services, configuration);
+            //InfrastructureLayer.AddClients(services, configuration);
 
-            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
-                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
-                configuration.GetValue<int>("ApiVersion:MajorVersion"),
-                configuration.GetValue<int>("ApiVersion:MinorVersion"));
+            //services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
+            //    $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
+            //    configuration.GetValue<int>("ApiVersion:MajorVersion"),
+            //    configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
-            AddAuthentication(services, configuration);
-            AddMessageQueue(services, configuration);
+            //AddAuthentication(services, configuration);
+            //AddMessageQueue(services, configuration);
         }
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)

@@ -16,9 +16,9 @@ namespace Crypto.BackgroundUpdate.Configurations
         {
             ApplicationLayer.AddServices(services, configuration);
 
-            InfrastractureLayer.AddCommonServices(services, configuration);
-            InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            InfrastractureLayer.AddClients(services, configuration);
+            InfrastructureLayer.AddCommonServices(services, configuration);
+            InfrastructureLayer.AddPersistenceStorage(services, configuration);
+            InfrastructureLayer.AddClients(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
             services.Configure<CryptoUpdateOptions>(configuration.GetSection("CryptoUpdateOptions"));

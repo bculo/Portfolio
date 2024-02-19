@@ -28,7 +28,7 @@ namespace Crypto.Infrastructure.Persistence
         private static List<Core.Entities.Crypto> GetCryptos()
         {
             var result = new List<Core.Entities.Crypto>();
-
+            /*
             result.Add(new Core.Entities.Crypto
             {
                 Symbol = "BTC",
@@ -97,6 +97,7 @@ namespace Crypto.Infrastructure.Persistence
                     }
                 }
             });
+            */
 
             return result;
         }

@@ -17,7 +17,7 @@ using Polly.Contrib.WaitAndRetry;
 
 namespace Crypto.Infrastructure
 {
-    public static class InfrastractureLayer
+    public static class InfrastructureLayer
     {
         public static void AddCommonServices(IServiceCollection services, IConfiguration configuration)
         {
@@ -34,15 +34,16 @@ namespace Crypto.Infrastructure
             services.AddDbContext<CryptoDbContext>(opt =>
             {
                 opt.UseNpgsql(configuration.GetConnectionString("CryptoDatabase"));
-                opt.AddInterceptors(new[] { new CommandInterceptor() });
             });
 
+            /*
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
             services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
+            */
         }
 
         public static void AddClients(IServiceCollection services, IConfiguration configuration)

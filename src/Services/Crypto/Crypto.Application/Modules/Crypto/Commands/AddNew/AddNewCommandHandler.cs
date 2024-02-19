@@ -89,10 +89,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 SourceCode = Info.Urls.ContainsKey("source_code") ? Info!.Urls["source_code"]!.FirstOrDefault() : null,
             };
             
+            /*
             newCrypto.Prices.Add(new CryptoPrice
             {
                 Price = Price!.Price
             });
+            */
             
             return newCrypto;
         }

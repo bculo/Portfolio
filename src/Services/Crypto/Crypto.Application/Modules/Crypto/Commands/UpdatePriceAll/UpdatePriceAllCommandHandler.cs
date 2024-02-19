@@ -54,11 +54,13 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
                 var crypto = entityDict[item.Symbol!.ToUpper()];
 
+                /*
                 newPrices.Add(new CryptoPrice
                 {
                     CryptoId = crypto.Id,
                     Price = item.Price
                 });
+                */
 
                 events.Add(new CryptoPriceUpdated
                 {

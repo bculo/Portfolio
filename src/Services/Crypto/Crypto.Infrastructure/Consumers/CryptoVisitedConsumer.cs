@@ -26,7 +26,7 @@ namespace Crypto.Infrastructure.Consumers
         {
             _logger.LogTrace("Consume method called inside {0}", nameof(CryptoVisitedConsumer));
 
-            await _mediator.Send(new VisitedCommand { Symbol = context.Message.Symbol, CryptoId = context.Message.CryptoId });
+            //await _mediator.Send(new VisitedCommand { Symbol = context.Message.Symbol, CryptoId = context.Message.CryptoId });
         }
     }
 }

@@ -17,9 +17,11 @@ namespace Crypto.Infrastructure.Persistence.Configurations
 
             builder.HasOne(i => i.Crypto)
                 .WithMany(i => i.Visits)
-                .HasForeignKey(i => i.CryptoID)
+                .HasForeignKey(i => i.CryptoId)
                 .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired(true);
+                .IsRequired();
+
+            builder.ToTable("visit");
         }
     }
 }

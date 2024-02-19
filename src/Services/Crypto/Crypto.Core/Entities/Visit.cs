@@ -8,7 +8,7 @@ namespace Crypto.Core.Entities
 {
     public class Visit : Entity
     {
-        public long CryptoID { get; set; }
+        public Guid CryptoId { get; set; }
         public virtual Crypto Crypto { get; set; }
     }
 }

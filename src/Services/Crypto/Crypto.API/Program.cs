@@ -19,6 +19,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI();
+    
+    /*
     app.UseSwaggerUI(options =>
     {
         options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
@@ -30,18 +33,20 @@ if (app.Environment.IsDevelopment())
             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
                 description.GroupName.ToUpperInvariant());
         }
+
     });
 
     app.UseCors(x => x
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowAnyOrigin());
+    */
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
 
 app.Run();
 

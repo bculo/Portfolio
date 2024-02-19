@@ -31,6 +31,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
             var priceResponse = await _priceService.GetPriceInfo(request.Symbol);
             CryptoCoreException.ThrowIfNull(priceResponse, "Provided symbol not supported");
 
+            /*
             var newPriceInstance = new CryptoPrice
             {
                 CryptoId = entity.Id,
@@ -38,6 +39,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
             };
 
             await _work.Commit();
+            */
             await _publish.Publish(new CryptoPriceUpdated
             {
                 Currency = priceResponse.Currency,

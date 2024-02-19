@@ -21,7 +21,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
 
             await _work.VisitRepository.Add(new Core.Entities.Visit
             {
-                CryptoID = request.CryptoId
+                CryptoId = request.CryptoId
             });
 
             await _work.Commit();

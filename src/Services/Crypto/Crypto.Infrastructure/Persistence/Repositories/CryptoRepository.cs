@@ -38,7 +38,8 @@ namespace Crypto.Infrastructure.Persistence.Repositories
 
         public async Task<List<CryptoLastPrice>> GetAllWithPrice()
         {
-            return await _context.CryptoLastPricesView.ToListAsync();
+            throw new NotImplementedException();
+            //return await _context.CryptoLastPricesView.ToListAsync();
         }
 
         public async Task<List<string>> GetAllSymbols()

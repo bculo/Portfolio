@@ -19,11 +19,11 @@ namespace Crypto.Infrastructure.Persistence.Configurations
 
             builder.Property(i => i.Symbol)
                 .HasMaxLength(15)
-                .IsRequired(true);
+                .IsRequired();
 
             builder.Property(i => i.Name)
                 .HasMaxLength(250)
-                .IsRequired(true);
+                .IsRequired();
 
             builder.Property(i => i.WebSite)
                 .HasMaxLength(250)
@@ -32,6 +32,8 @@ namespace Crypto.Infrastructure.Persistence.Configurations
             builder.Property(i => i.SourceCode)
                 .HasMaxLength(250)
                 .IsRequired(false);
+
+            builder.ToTable("crypto");
         }
     }
 }
