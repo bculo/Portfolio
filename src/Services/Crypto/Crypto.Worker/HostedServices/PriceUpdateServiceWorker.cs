@@ -1,6 +1,6 @@
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Application.Options;
-using Crypto.BackgroundService.Interfaces;
+using Crypto.Worker.Interfaces;
 using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
 using Events.Common.Crypto;

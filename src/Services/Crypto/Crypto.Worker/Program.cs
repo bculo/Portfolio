@@ -1,5 +1,5 @@
-using Crypto.BackgroundService.HostedServices;
-using Crypto.BackgroundService.Interfaces;
+using Crypto.Worker.HostedServices;
+using Crypto.Worker.Interfaces;
 using Crypto.BackgroundUpdate.Configurations;
 using Crypto.BackgroundUpdate.HostedServices;
 using Hangfire;

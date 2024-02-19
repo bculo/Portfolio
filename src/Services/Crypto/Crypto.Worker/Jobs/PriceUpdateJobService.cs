@@ -1,10 +1,10 @@
-﻿using Crypto.BackgroundService.Interfaces;
-using Crypto.Core.Exceptions;
+﻿using Crypto.Core.Exceptions;
 using Crypto.Core.Interfaces;
+using Crypto.Worker.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 
-namespace Crypto.BackgroundService.Jobs
+namespace Crypto.Worker.Jobs
 {
     public class PriceUpdateJobService : IPriceUpdateJobService
     {

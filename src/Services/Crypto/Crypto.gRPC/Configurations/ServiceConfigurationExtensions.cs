@@ -1,11 +1,7 @@
-﻿using Cache.Common;
-using Crypto.Application;
-using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+﻿using Crypto.Application;
 using Crypto.Application.Options;
-using Crypto.Infrastracture;
+using Crypto.Infrastructure;
 using MassTransit;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 
 namespace Crypto.gRPC.Configurations
 {
@@ -20,7 +16,6 @@ namespace Crypto.gRPC.Configurations
 
             InfrastractureLayer.AddCommonServices(services, configuration);
             InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            CacheConfiguration.AddRedis(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
@@ -32,23 +27,6 @@ namespace Crypto.gRPC.Configurations
                 });
             });
             
-            AddOpenTelemetry(services, configuration);
-        }
-        
-        private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOpenTelemetry()
-                .WithTracing(builder =>
-                {
-                    builder
-                        .AddSource("MassTransit")
-                        .SetResourceBuilder(ResourceBuilder.CreateDefault()
-                            .AddService("Crypto.gRPC"))
-                        .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddSqlClientInstrumentation()
-                        .AddJaegerExporter();
-                });
         }
     }
 }

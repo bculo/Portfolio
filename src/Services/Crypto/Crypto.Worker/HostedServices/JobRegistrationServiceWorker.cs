@@ -1,7 +1,7 @@
-﻿using Crypto.BackgroundService.Interfaces;
+﻿using Crypto.Worker.Interfaces;
 using Hangfire;
 
-namespace Crypto.BackgroundService.HostedServices
+namespace Crypto.Worker.HostedServices
 {
     public class JobRegistrationServiceWorker : Microsoft.Extensions.Hosting.BackgroundService
     {

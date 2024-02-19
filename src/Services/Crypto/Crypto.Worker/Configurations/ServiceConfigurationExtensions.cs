@@ -1,19 +1,12 @@
-﻿using Cache.Common;
-using Crypto.Application;
+﻿using Crypto.Application;
 using Crypto.Application.Options;
-using Crypto.BackgroundService.Interfaces;
-using Crypto.BackgroundService.Jobs;
-using Crypto.Infrastracture;
-using Crypto.Infrastracture.Consumers;
-using Crypto.Infrastracture.Persistence;
+using Crypto.Worker.Interfaces;
+using Crypto.Worker.Jobs;
+using Crypto.Infrastructure;
+using Crypto.Infrastructure.Consumers;
+using Crypto.Infrastructure.Persistence;
 using Hangfire;
-using Hangfire.SqlServer;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crypto.BackgroundUpdate.Configurations
 {
@@ -25,7 +18,6 @@ namespace Crypto.BackgroundUpdate.Configurations
 
             InfrastractureLayer.AddCommonServices(services, configuration);
             InfrastractureLayer.AddPersistenceStorage(services, configuration);
-            CacheConfiguration.AddRedis(services, configuration);
             InfrastractureLayer.AddClients(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));

@@ -1,22 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Crypto.BackgroundUpdate-F1FE706A-BC52-45CC-8966-2EF153A73670</UserSecretsId>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Hangfire.Core" Version="1.8.2" />
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.2" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj" />
     <ProjectReference Include="..\Crypto.Application\Crypto.Application.csproj" />
-    <ProjectReference Include="..\Crypto.Infrastracture\Crypto.Infrastracture.csproj" />
+    <ProjectReference Include="..\Crypto.Infrastructure\Crypto.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

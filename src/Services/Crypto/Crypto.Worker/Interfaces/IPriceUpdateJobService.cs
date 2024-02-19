@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.BackgroundService.Interfaces
+namespace Crypto.Worker.Interfaces
 {
     public interface IPriceUpdateJobService
     {
