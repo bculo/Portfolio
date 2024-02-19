@@ -15,7 +15,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
             _logger = logger;
         }
 
-        public async Task<Unit> Handle(VisitedCommand request, CancellationToken cancellationToken)
+        public async Task Handle(VisitedCommand request, CancellationToken cancellationToken)
         {
             _logger.LogTrace("Crypto with {0} visited", request.CryptoId);
 
@@ -25,8 +25,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
             });
 
             await _work.Commit();
-
-            return Unit.Value;
         }
     }
 }

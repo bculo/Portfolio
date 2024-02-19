@@ -27,7 +27,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
             _publish = publish;
         }
 
-        public async Task<Unit> Handle(UpdateInfoCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateInfoCommand request, CancellationToken cancellationToken)
         {
             var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
             CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
@@ -47,8 +47,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
                 Symbol = entity.Symbol,
                 Website = entity.WebSite
             });
-
-            return Unit.Value;
         }
 
         private async Task UpdateInstanceValues(Core.Entities.Crypto entity)

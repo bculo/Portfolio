@@ -1,4 +1,4 @@
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Stock.Application.Common.Extensions;

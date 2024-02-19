@@ -1,4 +1,4 @@
-﻿namespace Stock.Application.Common.Configurations
+﻿namespace Stock.Application.Common.Constants
 {
     public static class HttpClientNames
     {

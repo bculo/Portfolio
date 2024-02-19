@@ -35,7 +35,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             _publish = publish;
         }
 
-        public async Task<Unit> Handle(AddNewCommand request, CancellationToken cancellationToken)
+        public async Task Handle(AddNewCommand request, CancellationToken cancellationToken)
         {
             var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
 
@@ -75,8 +75,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 Symbol = newInstance.Symbol,
                 TemporaryId = request.TemporaryId
             });
-
-            return Unit.Value;
         }
 
         private Core.Entities.Crypto CreateNewInstance()

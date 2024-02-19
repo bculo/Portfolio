@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PrimitiveTypes.Common.Decimal;
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Price.Models;

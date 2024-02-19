@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Cache;

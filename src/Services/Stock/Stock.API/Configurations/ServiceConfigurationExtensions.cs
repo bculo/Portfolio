@@ -5,7 +5,7 @@ using Stock.API.Common.CachePolicies;
 using Stock.API.Common.Constants;
 using Stock.API.Services;
 using Stock.Application;
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces.User;
 using Stock.Infrastructure;
 using WebProject.Common.CachePolicies;

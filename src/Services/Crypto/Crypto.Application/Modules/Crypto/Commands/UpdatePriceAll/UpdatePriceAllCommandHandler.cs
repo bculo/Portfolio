@@ -27,14 +27,14 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             _logger = logger;
         }
 
-        public async Task<Unit> Handle(UpdatePriceAllCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdatePriceAllCommand request, CancellationToken cancellationToken)
         {
             var entityDict = await _work.CryptoRepository.GetAllAsDictionary();
 
             if (!entityDict.Any())
             {
                 _logger.LogTrace("ZERO entities to update");
-                return Unit.Value;
+                return;
             }
 
             var symbols = entityDict.Keys.ToList();
@@ -73,8 +73,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             await PublishEvents(events);
 
             await _work.Commit();
-
-            return Unit.Value;
         }
 
         private async Task PublishEvents(List<CryptoPriceUpdated> events)

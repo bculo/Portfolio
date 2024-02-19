@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Sqids;
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces.Repositories;
 using ZiggyCreatures.Caching.Fusion;
 

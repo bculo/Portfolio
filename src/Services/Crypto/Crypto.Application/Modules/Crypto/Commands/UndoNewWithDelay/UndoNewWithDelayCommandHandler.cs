@@ -13,14 +13,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay
             _publish = publish;
         }
 
-        public async Task<Unit> Handle(UndoNewWithDelayCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UndoNewWithDelayCommand request, CancellationToken cancellationToken)
         {
             await _publish.Publish(new UndoAddCryptoItemWithDelay
             {
                 TemporaryId = request.TemporaryId,
             }, cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
             _publish = publish;
         }
 
-        public async Task<Unit> Handle(UpdatePriceCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdatePriceCommand request, CancellationToken cancellationToken)
         {
             var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
             CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
@@ -46,8 +46,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
                 Price = priceResponse.Price,
                 Symbol = entity.Symbol
             });
-
-            return Unit.Value;
         }
     }
 }

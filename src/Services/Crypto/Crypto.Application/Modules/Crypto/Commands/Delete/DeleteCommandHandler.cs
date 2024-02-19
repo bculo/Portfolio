@@ -17,7 +17,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.Delete
             _publish = publish;
         }
 
-        public async Task<Unit> Handle(DeleteCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteCommand request, CancellationToken cancellationToken)
         {
             var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
 
@@ -30,8 +30,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.Delete
             {
                 Symbol = request.Symbol
             });
-
-            return Unit.Value;
+            
         }
     }
 }

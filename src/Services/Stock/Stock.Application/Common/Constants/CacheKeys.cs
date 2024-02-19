@@ -1,7 +1,7 @@
 using Stock.Application.Common.Extensions;
 using ZiggyCreatures.Caching.Fusion;
 
-namespace Stock.Application.Common.Configurations;
+namespace Stock.Application.Common.Constants;
 
 
 

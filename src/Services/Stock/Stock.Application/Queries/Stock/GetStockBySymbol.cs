@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Sqids;
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;

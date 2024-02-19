@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Common.Configurations;
+using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Stock;

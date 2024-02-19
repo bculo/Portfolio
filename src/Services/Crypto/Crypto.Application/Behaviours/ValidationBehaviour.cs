@@ -1,11 +1,6 @@
 ﻿using Crypto.Core.Exceptions;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crypto.Application.Behaviours
 {
@@ -18,8 +13,8 @@ namespace Crypto.Application.Behaviours
         {
             _validators = validators;
         }
-
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (!_validators.Any())
             {
@@ -33,9 +28,9 @@ namespace Crypto.Application.Behaviours
             var validationResults = await Task.WhenAll(validationTasks);
 
             var failures = validationResults
-                  .SelectMany(result => result.Errors)
-                  .Where(f => f != null)
-                  .ToList();
+                .SelectMany(result => result.Errors)
+                .Where(f => f != null)
+                .ToList();
 
             if (failures.Count != 0)
             {
