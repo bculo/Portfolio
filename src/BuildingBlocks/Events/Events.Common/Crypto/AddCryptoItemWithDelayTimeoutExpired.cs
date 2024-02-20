@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class AddCryptoItemWithDelayTimeout
+    public class AddCryptoItemWithDelayTimeoutExpired
     {
         public Guid TemporaryId { get; set; }
     }

@@ -11,9 +11,9 @@ namespace Crypto.Infrastructure.Consumers.State
     public class AddCryptoItemState : SagaStateMachineInstance
     {
         public Guid CorrelationId { get; set; }
-        public string CurrentState { get; set; }
-        public string Symbol { get; set; }
-        public Guid? AddCryptoItemTimeoutId { get; set; }
+        public string CurrentState { get; set; } = default!;
+        public string Symbol { get; set; } = default!;
+        public Guid? AddCryptoItemTimeoutTokenId { get; set; }
     }
 
     public class AddCryptoItemStateMap : SagaClassMap<AddCryptoItemState>
@@ -27,85 +27,64 @@ namespace Crypto.Infrastructure.Consumers.State
 
     public class AddCryptoItemStateMachine : MassTransitStateMachine<AddCryptoItemState>
     {
-        public MassTransit.State Delayed { get; private set; }
-        public MassTransit.State DelayExpired { get; private set; }
-        public MassTransit.State DelayCanceled { get; private set; }
-        public MassTransit.State CreationProcessStarted { get; private set; }
+        public MassTransit.State Delayed { get; set; } = default!;
+        public MassTransit.State ProcessStarted { get; set; } = default!;
 
-        public Event<AddCryptoItemWithDelay> AddCryptoItemWithDelay { get; private set; }
-        public Event<UndoAddCryptoItemWithDelay> UndoAddCryptoItemWithDelay { get; private set; }
-        public Event<NewCryptoAdded> NewCryptoAdded { get; private set; }
-        public Event<Fault<AddCryptoItem>> CreateCryptoItemError { get; private set; }
-
-        public Schedule<AddCryptoItemState, AddCryptoItemWithDelayTimeout> AddCryptoItemTimeout { get; private set; }
+        public Event<AddCryptoItemWithDelay> AddCryptoItemWithDelay { get; set; } = default!;
+        public Event<UndoAddCryptoItemWithDelay> UndoAddCryptoItemWithDelay { get; set; } = default!;
+        public Event<NewCryptoAdded> NewCryptoAdded { get; set; } = default!;
+        public Event<Fault<AddCryptoItem>> NewCryptoAddedError { get; set; } = default!;
+        public Schedule<AddCryptoItemState, AddCryptoItemWithDelayTimeoutExpired> NewCryptoItemTimeout { get; set; } = default!;
 
         public AddCryptoItemStateMachine(IOptions<SagaTimeoutOptions> options)
         {
             InstanceState(x => x.CurrentState);
           
-            Event(() => AddCryptoItemWithDelay, x => x.CorrelateById(context => context.Message.TemporaryId));
-            Event(() => UndoAddCryptoItemWithDelay, x => x.CorrelateById(context => context.Message.TemporaryId));
-            Event(() => NewCryptoAdded, x => x.CorrelateById(context => context.Message.TemporaryId));
-            Event(() => CreateCryptoItemError, x => x.CorrelateById(context => context.InitiatorId ?? context.Message.Message.TemporaryId));
-
-            Schedule(() => AddCryptoItemTimeout, instance => instance.AddCryptoItemTimeoutId, s =>
-            {
-                s.Delay = TimeSpan.FromSeconds(options.Value.TimeoutCryptoAddInSeconds);
-                s.Received = r =>
+            Event(() => AddCryptoItemWithDelay, 
+                x => x.CorrelateById(context => context.Message.TemporaryId));
+            Event(() => UndoAddCryptoItemWithDelay, 
+                x => x.CorrelateById(context => context.Message.TemporaryId));
+            Event(() => NewCryptoAdded, 
+                x => x.CorrelateById(context => context.Message.TemporaryId));
+            Event(() => NewCryptoAddedError, 
+                x => x.CorrelateById(context => context.InitiatorId ?? context.Message.Message.TemporaryId));
+            Schedule(() => NewCryptoItemTimeout, 
+                instance => instance.AddCryptoItemTimeoutTokenId, 
+                s => 
                 {
-                    r.CorrelateById(context => context.Message.TemporaryId);
-                    r.OnMissingInstance(m => m.Discard());
-                };
-            });
+                    s.Delay = TimeSpan.FromSeconds(options.Value.TimeoutCryptoAddInSeconds);
+                    s.Received = r =>
+                    {
+                        r.CorrelateById(context => context.Message.TemporaryId);
+                    };
+                });
 
             Initially(
                 When(AddCryptoItemWithDelay)
                     .Then(x => x.Saga.Symbol = x.Message.Symbol)
-                    .Schedule(AddCryptoItemTimeout, context =>
-                        context.Init<AddCryptoItemWithDelayTimeout>(new 
-                        {
-                            TemporaryId = context.Saga.CorrelationId
-                        }))
+                    .Schedule(NewCryptoItemTimeout, context => 
+                        context.Init<AddCryptoItemWithDelayTimeoutExpired>(new { context.Message.TemporaryId }))
                     .TransitionTo(Delayed));
 
             During(Delayed,
-                When(AddCryptoItemTimeout.Received)
-                    .ThenAsync(async x =>
-                    {
-                        var endpoint = await x.GetSendEndpoint(new Uri($"queue:crypto-add-crypto-item"));
-                        await endpoint.Send(new AddCryptoItem { Symbol = x.Saga.Symbol, TemporaryId = x.Saga.CorrelationId });
-                    })
-                    .TransitionTo(CreationProcessStarted),
+                When(NewCryptoItemTimeout!.Received)
+                    .Publish(x => new AddCryptoItem { Symbol = x.Saga.Symbol, TemporaryId = x.Saga.CorrelationId })
+                    .TransitionTo(ProcessStarted),
                 When(UndoAddCryptoItemWithDelay)
-                    .Unschedule(AddCryptoItemTimeout)
+                    .Unschedule(NewCryptoItemTimeout)
                     .Finalize());
 
-            During(CreationProcessStarted,
+            During(ProcessStarted,
                 When(NewCryptoAdded)
                     .Finalize(),
-                When(CreateCryptoItemError)
+                When(NewCryptoAddedError)
                     .Publish(x => new AddCryptoItemFailed { Symbol = x.Saga.Symbol })
                     .Finalize(),            
                 Ignore(UndoAddCryptoItemWithDelay));
 
             During(Final,
-                Ignore(AddCryptoItemTimeout.AnyReceived),
+                Ignore(NewCryptoItemTimeout.AnyReceived),
                 Ignore(UndoAddCryptoItemWithDelay));
-        }
-    }
-
-    public class AddCryptoItemStateMachineDefinition : SagaDefinition<AddCryptoItemState>
-    {
-        private readonly IServiceProvider _provider;
-
-        public AddCryptoItemStateMachineDefinition(IServiceProvider provider)
-        {
-            _provider = provider;
-        }
-
-        protected override void ConfigureSaga(IReceiveEndpointConfigurator endpointConfigurator, ISagaConfigurator<AddCryptoItemState> sagaConfigurator)
-        {
-            endpointConfigurator.UseMessageRetry(r => r.Intervals(100, 500, 1000));
         }
     }
 }

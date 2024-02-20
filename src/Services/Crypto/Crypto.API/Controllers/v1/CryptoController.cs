@@ -31,6 +31,8 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpPost("AddNew")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNew([FromBody] AddNewCommand instance)
         {
             await _mediator.Send(instance);
@@ -38,12 +40,16 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpPost("AddNewWithDelay")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNewWithDelay([FromBody] AddNewWithDelayCommand instance)
         {
             return Ok(await _mediator.Send(instance));
         }
 
         [HttpPost("UndoAddNewDelay")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UndoAddNewDelay([FromBody] UndoNewWithDelayCommand instance)
         {
             await _mediator.Send(instance);

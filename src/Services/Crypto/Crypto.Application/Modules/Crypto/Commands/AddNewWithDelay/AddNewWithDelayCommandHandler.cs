@@ -19,15 +19,15 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
 
         public async Task<Guid> Handle(AddNewWithDelayCommand request, CancellationToken cancellationToken)
         {
-            var temporaryID = Guid.NewGuid();
+            var temporaryId = Guid.NewGuid();
 
             await _publish.Publish(new AddCryptoItemWithDelay
             {
                 Symbol = request.Symbol,
-                TemporaryId = temporaryID
+                TemporaryId = temporaryId
             }, cancellationToken);
 
-            return temporaryID;
+            return temporaryId;
         }
     }
 }

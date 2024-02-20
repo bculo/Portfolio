@@ -56,20 +56,18 @@ namespace Crypto.API.Configurations
 
             services.AddMassTransit(x =>
             {
+                /*
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
                     o.UsePostgres();
                 });
+                */
 
                 x.AddDelayedMessageScheduler();
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
 
-                x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState, AddCryptoItemStateMachineDefinition>()
-                    .EntityFrameworkRepository(r =>
-                    {
-                        r.ExistingDbContext<CryptoDbContext>();
-                        r.UsePostgres();
-                    });
+                x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState>()
+                    .InMemoryRepository();
 
                 x.AddConsumer<AddCryptoItemConsumer>();
                 x.AddConsumer<CryptoVisitedConsumer>();
