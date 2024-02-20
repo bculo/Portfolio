@@ -14,6 +14,7 @@ namespace Stock.API.Services
         {
             get
             {
+                // TODO: read real user ID
                 //var userId = _user.GetIdentifier();
                 var userId = Guid.NewGuid();
 

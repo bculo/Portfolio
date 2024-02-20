@@ -21,6 +21,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .HasPrecision(18, 2)
                 .IsRequired();
             
+            
             builder.ToTable("crypto_price");
         }
     }

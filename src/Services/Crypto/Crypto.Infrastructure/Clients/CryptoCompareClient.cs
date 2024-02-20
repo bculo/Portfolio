@@ -11,7 +11,7 @@ namespace Crypto.Infrastructure.Clients
     public class CryptoCompareClient : ICryptoPriceService
     {
         private readonly CryptoPriceApiOptions _options;
-        private IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public CryptoCompareClient(IHttpClientFactory httpClientFactory, IOptions<CryptoPriceApiOptions> options)
         {

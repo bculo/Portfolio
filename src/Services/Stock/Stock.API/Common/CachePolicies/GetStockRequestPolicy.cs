@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Primitives;
 using Stock.Application.Common.Constants;

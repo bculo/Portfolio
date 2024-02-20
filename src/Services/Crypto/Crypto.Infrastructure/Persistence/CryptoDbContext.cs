@@ -29,7 +29,7 @@ namespace Crypto.Infrastructure.Persistence
         {
             optionsBuilder.UseLowerCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging();
-            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
         }
 

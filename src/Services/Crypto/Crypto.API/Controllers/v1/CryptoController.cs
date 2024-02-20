@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.v1
 {
-    [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]

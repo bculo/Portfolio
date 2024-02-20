@@ -21,7 +21,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     
-    /*
     app.UseSwaggerUI(options =>
     {
         options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
@@ -40,13 +39,12 @@ if (app.Environment.IsDevelopment())
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowAnyOrigin());
-    */
 }
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
-//app.MapControllers();
+app.MapControllers();
 
 app.Run();
 

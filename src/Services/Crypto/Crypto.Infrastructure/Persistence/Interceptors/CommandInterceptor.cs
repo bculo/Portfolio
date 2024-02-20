@@ -10,8 +10,6 @@ namespace Crypto.Infrastructure.Persistence.Interceptors
 {
     public class CommandInterceptor : DbCommandInterceptor
     {
-
-        /// <returns></returns>
         public override DbDataReader ReaderExecuted(DbCommand command, CommandExecutedEventData eventData, DbDataReader result)
         {
             return base.ReaderExecuted(command, eventData, result);

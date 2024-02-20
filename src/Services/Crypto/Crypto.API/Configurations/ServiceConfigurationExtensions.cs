@@ -18,29 +18,23 @@ namespace Crypto.API.Configurations
     {
         public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
         {
-            /*
             services.AddControllers(opt =>
             {
                 opt.Filters.Add<GlobalExceptionFilter>();
             });
 
             services.AddCors();
-            */
 
-           // ApplicationLayer.AddServices(services, configuration);
+            ApplicationLayer.AddServices(services, configuration);
+            InfrastructureLayer.AddServices(services, configuration);
 
-            services.AddUtcTimeProvider();
-            //InfrastructureLayer.AddCommonServices(services, configuration);
-            InfrastructureLayer.AddPersistenceStorage(services, configuration);
-            //InfrastructureLayer.AddClients(services, configuration);
+            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
+                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
+                configuration.GetValue<int>("ApiVersion:MajorVersion"),
+                configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
-            //services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
-            //    $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
-            //    configuration.GetValue<int>("ApiVersion:MajorVersion"),
-            //    configuration.GetValue<int>("ApiVersion:MinorVersion"));
-
-            //AddAuthentication(services, configuration);
-            //AddMessageQueue(services, configuration);
+            AddAuthentication(services, configuration);
+            AddMessageQueue(services, configuration);
         }
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -64,7 +58,7 @@ namespace Crypto.API.Configurations
             {
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
-                    o.UseSqlServer();
+                    o.UsePostgres();
                 });
 
                 x.AddDelayedMessageScheduler();
@@ -74,7 +68,7 @@ namespace Crypto.API.Configurations
                     .EntityFrameworkRepository(r =>
                     {
                         r.ExistingDbContext<CryptoDbContext>();
-                        r.UseSqlServer();
+                        r.UsePostgres();
                     });
 
                 x.AddConsumer<AddCryptoItemConsumer>();

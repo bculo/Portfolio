@@ -62,7 +62,12 @@ public class CreateStockUpdateBatchesHandler
 
     private bool IsUsStockExchangeActive()
     {
-        var timeOfDayUtc = _timeProvider.Utc.TimeOfDay;
+        var utcTime = _timeProvider.Utc;
+        if (utcTime.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+        {
+            return false;
+        }
+        var timeOfDayUtc = utcTime.TimeOfDay;
         var usExchangeOpenUtc = new TimeSpan(14, 30, 0);
         var usExchangeCloseUtc = new TimeSpan(21, 0, 0);
         return timeOfDayUtc >= usExchangeOpenUtc && timeOfDayUtc <= usExchangeCloseUtc;
