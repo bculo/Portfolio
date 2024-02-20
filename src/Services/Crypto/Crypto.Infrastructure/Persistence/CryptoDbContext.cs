@@ -22,9 +22,7 @@ namespace Crypto.Infrastructure.Persistence
 
         public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
         public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
-        //public virtual DbSet<CryptoLastPrice> CryptoLastPricesView => Set<CryptoLastPrice>();
-        //public virtual DbSet<Visit> Visits => Set<Visit>();
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLowerCaseNamingConvention();

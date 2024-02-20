@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Crypto.Core.Interfaces;
+using Crypto.Application.Interfaces.Repositories;
 using MediatR;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
@@ -17,11 +17,12 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 
         public async Task<IEnumerable<FetchAllResponseDto>> Handle(FetchAllQuery request, CancellationToken cancellationToken)
         {
-            var items = await _work.CryptoRepository.GetAllWithPrice();
-
-            var dtos = _mapper.Map<List<FetchAllResponseDto>>(items);
-
-            return dtos;
+            throw new NotImplementedException();
+            // var items = await _work.CryptoRepository.GetAllWithPrice();
+            //
+            // var dtos = _mapper.Map<List<FetchAllResponseDto>>(items);
+            //
+            // return dtos;
         }
     }
 }

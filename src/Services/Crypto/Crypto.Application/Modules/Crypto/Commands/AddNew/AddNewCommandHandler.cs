@@ -1,13 +1,15 @@
-﻿using Crypto.Application.Interfaces.Services;
-using Crypto.Application.Models.Info;
-using Crypto.Application.Models.Price;
+﻿using Crypto.Application.Interfaces.Information;
+using Crypto.Application.Interfaces.Information.Models;
+using Crypto.Application.Interfaces.Price;
+using Crypto.Application.Interfaces.Price.Models;
+using Crypto.Application.Interfaces.Repositories;
 using Crypto.Core.Entities;
 using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Time.Abstract.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
@@ -16,111 +18,77 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
         private readonly IUnitOfWork _work;
         private readonly ICryptoInfoService _infoService;
         private readonly ICryptoPriceService _priceService;
-        private readonly ILogger<AddNewCommandHandler> _logger;
         private readonly IPublishEndpoint _publish;
-
-        public CryptoInfoDataDto Info { get; set; }
-        public CryptoPriceResponseDto Price { get; set; }
-
+        private readonly IDateTimeProvider _timeProvider;
+        
         public AddNewCommandHandler(IUnitOfWork work,
-            ICryptoInfoService infoService,
-            ICryptoPriceService priceService,
-            ILogger<AddNewCommandHandler> logger,
-            IPublishEndpoint publish)
+            IPublishEndpoint publish, 
+            ICryptoPriceService priceService, 
+            ICryptoInfoService infoService, 
+            IDateTimeProvider timeProvider)
         {
             _work = work;
-            _infoService = infoService;
-            _priceService = priceService;
-            _logger = logger;
             _publish = publish;
+            _priceService = priceService;
+            _infoService = infoService;
+            _timeProvider = timeProvider;
         }
 
-        public async Task Handle(AddNewCommand request, CancellationToken cancellationToken)
+        public async Task Handle(AddNewCommand request, CancellationToken ct)
         {
-            var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
+            var item = await _work.CryptoRepo.First(
+                i => EF.Functions.ILike(i.Symbol, request.Symbol),
+                ct: ct);
 
             if(item != null)
             {
-                _logger.LogInformation("Item with given symbol {0} already exist", request.Symbol);
                 throw new CryptoCoreException($"Item with given symbol {request.Symbol} already exist");
             }
 
-            var cryptoInfoTask = _infoService.FetchData(request.Symbol);
-            var cryptoPriceTask = _priceService.GetPriceInfo(request.Symbol);
+            var cryptoInfoTask = _infoService.GetInformation(request.Symbol, ct);
+            var cryptoPriceTask = _priceService.GetPriceInfo(request.Symbol, ct);
 
             await Task.WhenAll(cryptoInfoTask, cryptoPriceTask);
-
-            var info = cryptoInfoTask.Result;
-            var price = cryptoPriceTask.Result;
-
-            if(info is null || price is null)
-            {
-                _logger.LogInformation("Info and price items are not fetched successfuly (HTTP clients)");
-                throw new CryptoCoreException("Provided symbol not supported");
-            }
-
-            ParseData(info, price, request.Symbol);
-
-            var newInstance = CreateNewInstance();
-
-            await _work.CryptoRepository.Add(newInstance);
-            await _work.Commit();
+            
+            var newCrypto = CreateNewCryptoEntity(cryptoInfoTask.Result);
+            await _work.CryptoRepo.Add(newCrypto, ct);
+            await _work.Commit(ct);
+            
+            var newPrice = CreateNewCryptoPriceEntity(cryptoPriceTask.Result, newCrypto.Id);
+            await _work.CryptoPriceRepo.Add(newPrice, ct);
+            await _work.Commit(ct);
 
             await _publish.Publish(new NewCryptoAdded
             {
-                Currency = Price!.Currency,
-                Id = newInstance.Id,
-                Name = newInstance.Name,
-                Price = Price!.Price,
-                Symbol = newInstance.Symbol,
-                TemporaryId = request.TemporaryId
-            });
+                Id = newCrypto.Id,
+                Name = newCrypto.Name,
+                Price = newPrice!.Price,
+                Symbol = newCrypto.Symbol,
+            }, ct);
         }
 
-        private Core.Entities.Crypto CreateNewInstance()
+        private CryptoPrice CreateNewCryptoPriceEntity(PriceResponse result, Guid cryptoId)
         {
-            var newCrypto = new Core.Entities.Crypto
+            return new CryptoPrice
             {
-                Logo = Info!.Logo,
-                Name = Info!.Name,
-                Symbol = Info!.Symbol,
-                Description = Info!.Description,
-                WebSite = Info.Urls.ContainsKey("website") ? Info!.Urls["website"]!.FirstOrDefault() : null,
-                SourceCode = Info.Urls.ContainsKey("source_code") ? Info!.Urls["source_code"]!.FirstOrDefault() : null,
+                CryptoId = cryptoId,
+                Price = result.Price,
+                Time = DateTimeOffset.UtcNow
             };
-            
-            /*
-            newCrypto.Prices.Add(new CryptoPrice
-            {
-                Price = Price!.Price
-            });
-            */
-            
-            return newCrypto;
         }
 
-        private void ParseData(CryptoInfoResponseDto infoResponse, CryptoPriceResponseDto priceResponse, string symbol)
+        private Core.Entities.Crypto CreateNewCryptoEntity(CryptoInformation info)
         {
-            var cryptoData = infoResponse.Data.Values.FirstOrDefault();
-
-            if (cryptoData is null || !cryptoData.Any())
+            return new Core.Entities.Crypto
             {
-                _logger.LogInformation("Information about given symbol not found");
-                throw new Exception("Unexpected exception");
-            }
-
-            Info = cryptoData.FirstOrDefault(i => i.Symbol.ToLower() == symbol.ToLower()
-                                    && !string.IsNullOrEmpty(i.Description)
-                                    && !string.IsNullOrEmpty(i.Name)
-                                    && !string.IsNullOrEmpty(i.Logo));
-
-            if(Info is null)
-            {
-                _logger.LogInformation("Information about given symbol not found");
-                throw new Exception("Unexpected exception");
-            }
-
-            Price = priceResponse;
+                Id = Guid.NewGuid(),
+                Logo = info.Logo,
+                Name = info.Name,
+                Symbol = info.Symbol,
+                Description = info.Description,
+                WebSite = info.Website,
+                SourceCode = info.SourceCode
+            };
         }
     }
 }

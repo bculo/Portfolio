@@ -1,5 +1,5 @@
-﻿using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
+﻿using Crypto.Application.Interfaces.Repositories;
+using Crypto.Core.Exceptions;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
@@ -19,17 +19,18 @@ namespace Crypto.Application.Modules.Crypto.Commands.Delete
 
         public async Task Handle(DeleteCommand request, CancellationToken cancellationToken)
         {
-            var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
-
-            CryptoCoreException.ThrowIfNull(item, "Item not found");
-
-            await _work.CryptoRepository.Remove(item);
-            await _work.Commit();
-
-            await _publish.Publish(new CryptoItemDeleted
-            {
-                Symbol = request.Symbol
-            });
+            throw new NotImplementedException();
+            // var item = await _work.CryptoRepository.FindSingle(i => i.Symbol!.ToLower() == request.Symbol!.ToLower());
+            //
+            // CryptoCoreException.ThrowIfNull(item, "Item not found");
+            //
+            // await _work.CryptoRepository.Remove(item);
+            // await _work.Commit();
+            //
+            // await _publish.Publish(new CryptoItemDeleted
+            // {
+            //     Symbol = request.Symbol
+            // });
             
         }
     }

@@ -8,8 +8,8 @@ namespace Crypto.Application.Models.Price
 {
     public class CryptoPriceResponseDto
     {
-        public string Symbol { get; set; }
-        public string Currency { get; set; }
+        public string Symbol { get; set; } = default!;
+        public string Currency { get; set; } = default!;
         public decimal Price { get; set; }
     }
 }

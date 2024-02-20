@@ -1,11 +1,5 @@
-﻿using Crypto.Core.Interfaces;
-using Crypto.Infrastructure.Persistence.Repositories;
+﻿using Crypto.Application.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crypto.Infrastructure.Persistence
 {
@@ -13,20 +7,22 @@ namespace Crypto.Infrastructure.Persistence
     {
         private readonly CryptoDbContext _context;
         
-        public ICryptoRepository CryptoRepository { get; private set; } 
-        public IVisitRepository VisitRepository { get; private set; }
+        public ICryptoRepository CryptoRepo { get; }
+        public ICryptoPriceRepository CryptoPriceRepo { get; }
+        public IVisitRepository VisitRepo { get; }
 
         public UnitOfWork(CryptoDbContext context, IServiceProvider provider)
         {
             _context = context;
-            
-            CryptoRepository = provider.GetService<ICryptoRepository>() ?? throw new ArgumentNullException();
-            VisitRepository = provider.GetService<IVisitRepository>() ?? throw new ArgumentNullException();
+
+            CryptoRepo = provider.GetRequiredService<ICryptoRepository>();
+            CryptoPriceRepo = provider.GetRequiredService<ICryptoPriceRepository>();
+            VisitRepo = provider.GetRequiredService<IVisitRepository>();
         }
 
-        public virtual async Task Commit()
+        public async Task Commit(CancellationToken ct = default)
         {
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

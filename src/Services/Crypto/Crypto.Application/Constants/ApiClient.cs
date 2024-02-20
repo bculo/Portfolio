@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Infrastructure.Constants
+namespace Crypto.Application.Constants
 {
     public static class ApiClient
     {

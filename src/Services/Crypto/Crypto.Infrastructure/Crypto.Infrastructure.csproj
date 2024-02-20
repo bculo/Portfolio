@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
 
@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Queryable.Common\Queryable.Common.csproj" />
     <ProjectReference Include="..\Crypto.Application\Crypto.Application.csproj" />
   </ItemGroup>
 

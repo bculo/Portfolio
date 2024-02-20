@@ -14,9 +14,7 @@ namespace Crypto.gRPC.Configurations
 
             ApplicationLayer.AddServices(services, configuration);
 
-            InfrastructureLayer.AddCommonServices(services, configuration);
-            InfrastructureLayer.AddPersistenceStorage(services, configuration);
-            InfrastructureLayer.AddClients(services, configuration);
+            InfrastructureLayer.AddServices(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
             services.AddMassTransit(x =>

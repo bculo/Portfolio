@@ -1,7 +1,8 @@
-﻿using Crypto.Application.Interfaces.Services;
-using Crypto.Application.Models.Price;
+﻿using Crypto.Application.Constants;
+using Crypto.Application.Interfaces.Price;
+using Crypto.Application.Interfaces.Price.Models;
 using Crypto.Application.Options;
-using Crypto.Infrastructure.Constants;
+using Crypto.Core.Exceptions;
 using Http.Common.Extensions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -19,22 +20,26 @@ namespace Crypto.Infrastructure.Clients
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<CryptoPriceResponseDto> GetPriceInfo(string symbol)
+        public async Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
         {
             ArgumentNullException.ThrowIfNull(symbol);
 
             var client = _httpClientFactory.CreateClient(ApiClient.CryptoPrice);
-            var response = await client.GetAsync($"price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}");
+            var response = await client.GetAsync($"price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}", ct);
             var content = await response.HandleResponse();
 
             if(IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
             {
-                return null;
+                throw new CryptoCoreException("Problem occurred on price fetch");
             }
 
             var finalContent = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(content);
-
-            return new CryptoPriceResponseDto
+            if (finalContent is null)
+            {
+                throw new CryptoCoreException("Problem occurred on price fetch");
+            }
+            
+            return new PriceResponse
             {
                 Currency = _options.Currency,
                 Price = finalContent![_options.Currency],
@@ -42,26 +47,32 @@ namespace Crypto.Infrastructure.Clients
             };
         }
 
-        public async Task<List<CryptoPriceResponseDto>> GetPriceInfo(List<string> symbols)
+        public async Task<List<PriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
         {
             ArgumentNullException.ThrowIfNull(symbols);
 
             var client = _httpClientFactory.CreateClient(ApiClient.CryptoPrice);
-            var response = await client.GetAsync($"pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}");
+            var response = await client.GetAsync(
+                $"pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}", 
+                ct);
             var content = await response.HandleResponse();
-
+            
             if (IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
             {
-                return null;
+                throw new CryptoCoreException("Problem occurred on price fetch");
             }
 
             var finalContent = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, decimal>>>(content);
-
-            var finalResult = new List<CryptoPriceResponseDto>();
-
-            foreach(var item in finalContent!)
+            if (finalContent is null)
             {
-                finalResult.Add(new CryptoPriceResponseDto
+                throw new CryptoCoreException("Problem occurred on price fetch");
+                
+            }
+            
+            var finalResult = new List<PriceResponse>();
+            foreach(var item in finalContent)
+            {
+                finalResult.Add(new PriceResponse
                 {
                     Currency = _options.Currency,
                     Symbol = item.Key,
@@ -72,22 +83,17 @@ namespace Crypto.Infrastructure.Clients
             return finalResult;
         }
 
-        private bool IsBadRequest(string content)
+        private bool IsBadRequest(string? content)
         {
             if(content is null)
             {
                 return true;
             }
 
-            if(content.Contains("Response") && content.Contains("Error") && content.Contains("Message"))
-            {
-                return true;
-            }
-
-            return false;
+            return content.Contains("Response") && content.Contains("Error") && content.Contains("Message");
         }
 
-        private string ConvertSymbolsArrayToString(List<string> symbols)
+        private string ConvertSymbolsArrayToString(IEnumerable<string> symbols)
         {
             return string.Join(",", symbols.Select(i => i.ToUpper()));
         }

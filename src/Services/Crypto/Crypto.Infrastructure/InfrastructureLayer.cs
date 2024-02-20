@@ -1,14 +1,12 @@
-﻿using Crypto.Application.Interfaces.Services;
+﻿using Crypto.Application.Constants;
+using Crypto.Application.Interfaces.Information;
+using Crypto.Application.Interfaces.Price;
+using Crypto.Application.Interfaces.Repositories;
 using Crypto.Application.Options;
-using Crypto.Core.Interfaces;
 using Crypto.Infrastructure.Clients;
-using Crypto.Infrastructure.Constants;
+using Crypto.Infrastructure.Information;
 using Crypto.Infrastructure.Persistence;
-using Crypto.Infrastructure.Persistence.Interceptors;
 using Crypto.Infrastructure.Persistence.Repositories;
-using Crypto.Infrastructure.Services;
-using HashidsNet;
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +33,7 @@ namespace Crypto.Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICryptoRepository, CryptoRepository>();
+            services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
             services.AddScoped<ICryptoPriceService, CryptoCompareClient>();

@@ -8,7 +8,7 @@ using Crypto.Infrastructure.Persistence;
 using Hangfire;
 using MassTransit;
 
-namespace Crypto.BackgroundUpdate.Configurations
+namespace Crypto.Worker.Configurations
 {
     public static class ServiceConfigurationExtensions
     {
@@ -16,9 +16,7 @@ namespace Crypto.BackgroundUpdate.Configurations
         {
             ApplicationLayer.AddServices(services, configuration);
 
-            InfrastructureLayer.AddCommonServices(services, configuration);
-            InfrastructureLayer.AddPersistenceStorage(services, configuration);
-            InfrastructureLayer.AddClients(services, configuration);
+            InfrastructureLayer.AddServices(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
             services.Configure<CryptoUpdateOptions>(configuration.GetSection("CryptoUpdateOptions"));

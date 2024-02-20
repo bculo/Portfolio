@@ -1,8 +1,5 @@
+using Crypto.Worker.Configurations;
 using Crypto.Worker.HostedServices;
-using Crypto.Worker.Interfaces;
-using Crypto.BackgroundUpdate.Configurations;
-using Crypto.BackgroundUpdate.HostedServices;
-using Hangfire;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostcontext, services) =>

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Crypto.Core.Interfaces;
+using Crypto.Application.Interfaces.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -22,9 +22,10 @@ namespace Crypto.Application.Modules.Crypto.Queries.SearchBySymbol
 
         public async Task<List<SearchBySymbolResponse>> Handle(SearchBySymbolQuery request, CancellationToken cancellationToken)
         {
-            var cryptos = await _work.CryptoRepository.SearchBySymbol(request.Symbol, request.Page, request.Take);
-
-            return _mapper.Map<List<SearchBySymbolResponse>>(cryptos);
+            throw new NotImplementedException();
+            // var cryptos = await _work.CryptoRepository.SearchBySymbol(request.Symbol, request.Page, request.Take);
+            //
+            // return _mapper.Map<List<SearchBySymbolResponse>>(cryptos);
         }
     }
 }

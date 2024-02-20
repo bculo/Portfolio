@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Core.Interfaces
+namespace Crypto.Application.Interfaces.Repositories
 {
     public interface ICryptoPriceRepository
     {
+        Task Add(CryptoPrice price, CancellationToken ct = default);
     }
 }

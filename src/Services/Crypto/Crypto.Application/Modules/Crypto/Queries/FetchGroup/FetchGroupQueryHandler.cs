@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Crypto.Core.Interfaces;
+using Crypto.Application.Interfaces.Repositories;
 using MediatR;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchGroup
@@ -17,16 +17,17 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchGroup
 
         public async Task<IEnumerable<FetchGroupResponseDto>> Handle(FetchGroupQuery request, CancellationToken cancellationToken)
         {
-            if(request.Symbols == null || !request.Symbols.Any())
-            {
-                return Enumerable.Empty<FetchGroupResponseDto>();
-            }
-
-            var items = await _work.CryptoRepository.GetGroupWithPrices(request.Symbols, request.Page, request.Take);
-
-            var dtos = _mapper.Map<List<FetchGroupResponseDto>>(items);
-
-            return dtos;
+            throw new NotImplementedException();
+            // if(request.Symbols == null || !request.Symbols.Any())
+            // {
+            //     return Enumerable.Empty<FetchGroupResponseDto>();
+            // }
+            //
+            // var items = await _work.CryptoRepository.GetGroupWithPrices(request.Symbols, request.Page, request.Take);
+            //
+            // var dtos = _mapper.Map<List<FetchGroupResponseDto>>(items);
+            //
+            // return dtos;
         }
     }
 }

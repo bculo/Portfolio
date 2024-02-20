@@ -1,5 +1,5 @@
-﻿using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
+﻿using Crypto.Application.Interfaces.Repositories;
+using Crypto.Core.Exceptions;
 using Crypto.Worker.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;

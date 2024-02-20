@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Crypto.Core.Entities;
-using Crypto.Core.Queries.Response;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchAll
 {

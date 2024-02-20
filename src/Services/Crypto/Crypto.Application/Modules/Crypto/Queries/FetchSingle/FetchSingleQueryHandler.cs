@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Crypto.Application.Interfaces.Repositories;
 using Crypto.Core.Exceptions;
-using Crypto.Core.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
@@ -24,14 +24,15 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
 
         public async Task<FetchSingleResponseDto> Handle(FetchSingleQuery request, CancellationToken cancellationToken)
         {
-            FetchSingleResponseDto response = default;
-            
-            var entity = await _work.CryptoRepository.GetWithPrice(request.Symbol);
-            CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
-            response = _mapper.Map<FetchSingleResponseDto>(entity);
-            await PublishVisitedEvent(entity.Id, entity.Symbol);
-
-            return response;
+            throw new NotImplementedException();
+            // FetchSingleResponseDto response = default;
+            //
+            // var entity = await _work.CryptoRepository.GetWithPrice(request.Symbol);
+            // CryptoCoreException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
+            // response = _mapper.Map<FetchSingleResponseDto>(entity);
+            // await PublishVisitedEvent(entity.Id, entity.Symbol);
+            //
+            // return response;
         }
 
         private async Task PublishVisitedEvent(long cryptoId, string symbol)
