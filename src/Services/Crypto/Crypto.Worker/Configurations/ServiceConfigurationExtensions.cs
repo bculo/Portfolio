@@ -15,7 +15,6 @@ namespace Crypto.Worker.Configurations
         public static void ConfigureBackgroundService(this IServiceCollection services, IConfiguration configuration)
         {
             ApplicationLayer.AddServices(services, configuration);
-
             InfrastructureLayer.AddServices(services, configuration);
 
             services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
@@ -27,8 +26,9 @@ namespace Crypto.Worker.Configurations
             {
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
-                    o.UseSqlServer();
+                    o.UsePostgres();
                     o.UseBusOutbox();
+                    o.QueryDelay = TimeSpan.FromSeconds(2);
                 });
 
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
@@ -46,14 +46,6 @@ namespace Crypto.Worker.Configurations
 
         private static void ConfigureHangfire(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHangfire(config =>
-            {
-                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);
-                config.UseSimpleAssemblyNameTypeSerializer();
-                config.UseRecommendedSerializerSettings();
-                config.UseSqlServerStorage(configuration["ConnectionStrings:CryptoDatabase"]);
-            });
-
             services.AddHangfireServer();
 
             services.AddScoped<IPriceUpdateJobService, PriceUpdateJobService>();

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class UpdateCryptoItemsPrice
+    public class UpdateCryptoPrices
     {
-
+        public DateTimeOffset Time { get; set; }
     }
 }

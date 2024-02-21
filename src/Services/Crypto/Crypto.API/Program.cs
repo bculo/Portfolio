@@ -1,4 +1,5 @@
 using Crypto.API.Configurations;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Serilog.Events;
@@ -44,6 +45,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHangfireDashboard();
 
 app.MapControllers();
 

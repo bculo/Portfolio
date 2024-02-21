@@ -1,36 +1,34 @@
 ﻿using Crypto.Application.Interfaces.Repositories;
-using Crypto.Core.Exceptions;
 using Crypto.Worker.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
+using Time.Abstract.Contracts;
 
 namespace Crypto.Worker.Jobs
 {
     public class PriceUpdateJobService : IPriceUpdateJobService
     {
-        private readonly ILogger<PriceUpdateJobService> _logger;
+        private readonly IDateTimeProvider _provider;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISendEndpointProvider _endpointProvider;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public PriceUpdateJobService(ILogger<PriceUpdateJobService> logger,
-            IUnitOfWork work,
-            ISendEndpointProvider provider)
+        public PriceUpdateJobService(IUnitOfWork work,
+            IPublishEndpoint publishEndpoint, 
+            IDateTimeProvider provider)
         {
-            _logger = logger;
             _unitOfWork = work;
-            _endpointProvider = provider;
+            _publishEndpoint = publishEndpoint;
+            _provider = provider;
         }
 
         public async Task ExecuteUpdate()
         {
-            var endpoint = await _endpointProvider.GetSendEndpoint(new Uri($"queue:crypto-update-crypto-items-price"));
-
-            if (endpoint is null)
+            var @event = new UpdateCryptoPrices
             {
-                throw new CryptoCoreNotFoundException($"Message broker endpoint crypto-update-crypto-items-price not found");
-            }
-
-            await endpoint.Send(new UpdateCryptoItemsPrice { });
+                Time = _provider.UtcOffset
+            };
+            
+            await _publishEndpoint.Publish(@event);
             await _unitOfWork.Commit(); //Outbox pattern commit
         }
     }

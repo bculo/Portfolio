@@ -7,6 +7,8 @@ using Crypto.Infrastructure.Information;
 using Crypto.Infrastructure.Persistence;
 using Crypto.Infrastructure.Persistence.Repositories;
 using Crypto.Infrastructure.Price;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ namespace Crypto.Infrastructure
         {
             AddPersistenceStorage(services, configuration);
             AddClients(services, configuration);
+            AddHangfire(services, configuration);
         }
 
         private static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
@@ -95,6 +98,21 @@ namespace Crypto.Infrastructure
             })
             .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.WaitAndRetryAsync(
                 Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), retryNumber)));
+        }
+
+
+        private static void AddHangfire(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHangfire(config =>
+            {
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
+                config.UseSimpleAssemblyNameTypeSerializer();
+                config.UseRecommendedSerializerSettings();
+                config.UsePostgreSqlStorage(opt =>
+                {
+                    opt.UseNpgsqlConnection(configuration.GetConnectionString("CryptoDatabase"));
+                });
+            });
         }
     }
 }

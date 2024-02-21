@@ -56,15 +56,6 @@ namespace Crypto.API.Configurations
 
             services.AddMassTransit(x =>
             {
-                /*
-                x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
-                {
-                    o.QueryDelay = TimeSpan.FromSeconds(1);
-                    o.UsePostgres();
-                    o.UseBusOutbox();
-                });
-                */
-
                 x.AddDelayedMessageScheduler();
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
 

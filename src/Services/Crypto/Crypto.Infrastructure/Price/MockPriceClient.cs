@@ -33,8 +33,8 @@ public class MockPriceClient : ICryptoPriceService
             return response;
         }
         
-        var minValue = price - (price * 0.05m);
-        var maxValue = price + (price * 0.05m);
+        var minValue = price - (price * 0.003m);
+        var maxValue = price + (price * 0.003m);
         response.Price = (decimal)random.NextDouble() * (maxValue - minValue) + minValue;
         
         return response;

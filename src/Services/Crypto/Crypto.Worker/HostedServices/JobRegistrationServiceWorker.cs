@@ -30,12 +30,13 @@ namespace Crypto.Worker.HostedServices
         {
             try
             {
+                
                 using var scope = _provider.CreateScope();
-                var jobmanager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-                jobmanager.AddOrUpdate<IPriceUpdateJobService>(
-                    "crypto-price-update",
+                var jobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+                jobManager.AddOrUpdate<IPriceUpdateJobService>(
+                    "crypto-price-update-v2",
                     x => x.ExecuteUpdate(),
-                    "*/30 * * * * *");
+                    "*/3 * * * *");
             }
             catch (Exception e)
             {

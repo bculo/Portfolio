@@ -1,39 +1,28 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
 using Crypto.Infrastructure.Persistence;
 using Events.Common.Crypto;
+using Hangfire.Logging;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class UpdateCryptoItemsPriceConsumer : IConsumer<UpdateCryptoItemsPrice>
+    public class UpdateCryptoItemsPriceConsumer : IConsumer<UpdateCryptoPrices>
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<UpdateCryptoItemsPriceConsumer> _logger;
 
-        public UpdateCryptoItemsPriceConsumer(IMediator mediator)
+        public UpdateCryptoItemsPriceConsumer(IMediator mediator, 
+            ILogger<UpdateCryptoItemsPriceConsumer> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<UpdateCryptoItemsPrice> context)
+        public async Task Consume(ConsumeContext<UpdateCryptoPrices> context)
         {
             await _mediator.Send(new UpdatePriceAllCommand { });
-        }
-    }
-
-    public class UpdateCryptoItemsPriceConsumerDefinition : ConsumerDefinition<UpdateCryptoItemsPriceConsumer>
-    {
-        private readonly IServiceProvider _provider;
-
-        public UpdateCryptoItemsPriceConsumerDefinition(IServiceProvider provider)
-        {
-            _provider = provider;
-        }
-
-        protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<UpdateCryptoItemsPriceConsumer> consumerConfigurator)
-        {
-            endpointConfigurator.UseMessageRetry(config => config.Interval(3, 1000));
-            endpointConfigurator.UseEntityFrameworkOutbox<CryptoDbContext>(_provider);
         }
     }
 }
