@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class CryptoVisitedConsumer : IConsumer<CryptoVisited>
+    public class CryptoVisitedConsumer : IConsumer<Visited>
     {
         private readonly ILogger<CryptoVisitedConsumer> _logger;
         private readonly IMediator _mediator;
@@ -22,7 +22,7 @@ namespace Crypto.Infrastructure.Consumers
             _mediator = mediator;
         }
 
-        public async Task Consume(ConsumeContext<CryptoVisited> context)
+        public async Task Consume(ConsumeContext<Visited> context)
         {
             _logger.LogTrace("Consume method called inside {0}", nameof(CryptoVisitedConsumer));
 

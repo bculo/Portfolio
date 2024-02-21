@@ -23,7 +23,7 @@ namespace Crypto.Worker.Jobs
 
         public async Task ExecuteUpdate()
         {
-            var @event = new UpdateCryptoPrices
+            var @event = new UpdateItemsPrices
             {
                 Time = _provider.UtcOffset
             };

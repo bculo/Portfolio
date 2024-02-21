@@ -58,7 +58,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             await _work.CryptoPriceRepo.Add(newPrice, ct);
             await _work.Commit(ct);
 
-            await _publish.Publish(new NewCryptoAdded
+            await _publish.Publish(new NewItemAdded
             {
                 Id = newCrypto.Id,
                 Name = newCrypto.Name,

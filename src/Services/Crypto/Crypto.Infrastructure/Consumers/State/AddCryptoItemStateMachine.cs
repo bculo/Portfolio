@@ -36,11 +36,11 @@ namespace Crypto.Infrastructure.Consumers.State
         public MassTransit.State Delayed { get; set; } = default!;
         public MassTransit.State ProcessStarted { get; set; } = default!;
 
-        public Event<AddCryptoItemWithDelay> AddCryptoItemWithDelay { get; set; } = default!;
-        public Event<UndoAddCryptoItemWithDelay> UndoAddCryptoItemWithDelay { get; set; } = default!;
-        public Event<NewCryptoAdded> NewCryptoAdded { get; set; } = default!;
-        public Event<Fault<AddCryptoItem>> NewCryptoAddedError { get; set; } = default!;
-        public Schedule<AddCryptoItemState, AddCryptoItemWithDelayTimeoutExpired> NewCryptoItemTimeout { get; set; } = default!;
+        public Event<AddItemWithDelay> AddCryptoItemWithDelay { get; set; } = default!;
+        public Event<UndoAddItemWithDelay> UndoAddCryptoItemWithDelay { get; set; } = default!;
+        public Event<NewItemAdded> NewCryptoAdded { get; set; } = default!;
+        public Event<Fault<AddItem>> NewCryptoAddedError { get; set; } = default!;
+        public Schedule<AddCryptoItemState, AddItemTimeoutExpired> NewCryptoItemTimeout { get; set; } = default!;
 
         public AddCryptoItemStateMachine(IOptions<SagaTimeoutOptions> options, 
             ILogger<AddCryptoItemStateMachine> logger, 
@@ -78,7 +78,7 @@ namespace Crypto.Infrastructure.Consumers.State
                             x.Message.TemporaryId);
                     })
                     .Schedule(NewCryptoItemTimeout, context => 
-                        context.Init<AddCryptoItemWithDelayTimeoutExpired>(new
+                        context.Init<AddItemTimeoutExpired>(new
                         {
                             context.Message.TemporaryId,
                             context.Message.Symbol
@@ -93,7 +93,7 @@ namespace Crypto.Infrastructure.Consumers.State
                             x.Message.Symbol,
                             x.Message.TemporaryId);
                     })
-                    .Publish(x => new AddCryptoItem { Symbol = x.Saga.Symbol, TemporaryId = x.Saga.CorrelationId })
+                    .Publish(x => new AddItem { Symbol = x.Saga.Symbol, TemporaryId = x.Saga.CorrelationId })
                     .TransitionTo(ProcessStarted),
                 When(UndoAddCryptoItemWithDelay)
                     .Unschedule(NewCryptoItemTimeout)
@@ -103,7 +103,7 @@ namespace Crypto.Infrastructure.Consumers.State
                 When(NewCryptoAdded)
                     .Finalize(),
                 When(NewCryptoAddedError)
-                    .Publish(x => new AddCryptoItemFailed { Symbol = x.Saga.Symbol })
+                    .Publish(x => new AddItemFailed { Symbol = x.Saga.Symbol })
                     .Finalize(),            
                 Ignore(UndoAddCryptoItemWithDelay));
 

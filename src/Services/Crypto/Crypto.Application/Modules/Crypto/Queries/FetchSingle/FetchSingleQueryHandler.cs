@@ -37,7 +37,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
 
         private async Task PublishVisitedEvent(long cryptoId, string symbol)
         {
-            await _publish.Publish(new CryptoVisited
+            await _publish.Publish(new Visited
             {
                 CryptoId = cryptoId,
                 Symbol = symbol

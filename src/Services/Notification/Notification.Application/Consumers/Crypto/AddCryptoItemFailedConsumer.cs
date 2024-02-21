@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Notification.Application.Consumers.Crypto
 {
-    public class AddCryptoItemFailedConsumer : IConsumer<AddCryptoItemFailed>
+    public class AddCryptoItemFailedConsumer : IConsumer<AddItemFailed>
     {
         private readonly ILogger<AddCryptoItemFailedConsumer> _logger;
 
@@ -18,7 +18,7 @@ namespace Notification.Application.Consumers.Crypto
             _logger = logger;
         }
 
-        public Task Consume(ConsumeContext<AddCryptoItemFailed> context)
+        public Task Consume(ConsumeContext<AddItemFailed> context)
         {
             return Task.CompletedTask;
         }

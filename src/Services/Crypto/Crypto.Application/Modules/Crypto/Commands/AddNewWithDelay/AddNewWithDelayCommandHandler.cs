@@ -21,7 +21,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
         {
             var temporaryId = Guid.NewGuid();
 
-            await _publish.Publish(new AddCryptoItemWithDelay
+            await _publish.Publish(new AddItemWithDelay
             {
                 Symbol = request.Symbol,
                 TemporaryId = temporaryId

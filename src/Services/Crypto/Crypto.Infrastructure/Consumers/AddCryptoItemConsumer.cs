@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class AddCryptoItemConsumer : IConsumer<AddCryptoItem>
+    public class AddCryptoItemConsumer : IConsumer<AddItem>
     {
         private readonly IMediator _mediator;
 
@@ -15,7 +15,7 @@ namespace Crypto.Infrastructure.Consumers
             _mediator = mediator;
         }
 
-        public async Task Consume(ConsumeContext<AddCryptoItem> context)
+        public async Task Consume(ConsumeContext<AddItem> context)
         {
             await _mediator.Send(new AddNewCommand
             {

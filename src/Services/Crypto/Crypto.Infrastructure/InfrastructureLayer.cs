@@ -1,4 +1,5 @@
-﻿using Crypto.Application.Common.Constants;
+﻿using Cache.Redis.Common;
+using Crypto.Application.Common.Constants;
 using Crypto.Application.Common.Options;
 using Crypto.Application.Interfaces.Information;
 using Crypto.Application.Interfaces.Price;
@@ -24,6 +25,7 @@ namespace Crypto.Infrastructure
             AddPersistenceStorage(services, configuration);
             AddClients(services, configuration);
             AddHangfire(services, configuration);
+            AddCache(services, configuration);
         }
 
         private static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
@@ -114,5 +116,13 @@ namespace Crypto.Infrastructure
                 });
             });
         }
+
+        private static void AddCache(IServiceCollection services, IConfiguration configuration)
+        {
+            var redisConnectionString = configuration["RedisOptions:ConnectionString"];
+            var redisInstanceName = configuration["RedisOptions:InstanceName"];
+            
+            services.AddRedisFusionCacheService(redisConnectionString!, redisInstanceName!);
+        } 
     }
 }

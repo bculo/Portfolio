@@ -15,7 +15,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay
 
         public async Task Handle(UndoNewWithDelayCommand request, CancellationToken cancellationToken)
         {
-            await _publish.Publish(new UndoAddCryptoItemWithDelay
+            await _publish.Publish(new UndoAddItemWithDelay
             {
                 TemporaryId = request.TemporaryId,
             }, cancellationToken);

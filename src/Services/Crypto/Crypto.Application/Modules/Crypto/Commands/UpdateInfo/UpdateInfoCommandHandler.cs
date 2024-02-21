@@ -36,7 +36,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
             
             await UpdateInstance(entity, infoResponse, ct);
             
-            await _publish.Publish(new CryptoInfoUpdated
+            await _publish.Publish(new InfoUpdated
             {
                 Description = entity.Description,
                 Id = entity.Id,

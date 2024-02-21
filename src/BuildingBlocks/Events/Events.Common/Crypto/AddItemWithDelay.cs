@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class AddCryptoItemWithDelay
+    public class AddItemWithDelay
     {
         public string Symbol { get; set; }  = default!;
         public Guid TemporaryId { get; set; }

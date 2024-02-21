@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class CryptoInfoUpdated
+    public class InfoUpdated
     {
         public Guid Id { get; set; }
         public string Symbol { get; set; }  = default!;

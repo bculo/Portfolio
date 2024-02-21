@@ -1,6 +1,6 @@
 ﻿namespace Events.Common.Crypto
 {
-    public class AddCryptoItemFailed
+    public class AddItemFailed
     {
         public string Symbol { get; set; }  = default!;
     }

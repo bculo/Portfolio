@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class CryptoPriceUpdatedConsumer : IConsumer<CryptoPriceUpdated>
+    public class CryptoPriceUpdatedConsumer : IConsumer<PriceUpdated>
     {
         private readonly ILogger<CryptoPriceUpdatedConsumer> _logger;
 
@@ -13,7 +13,7 @@ namespace Crypto.Infrastructure.Consumers
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<CryptoPriceUpdated> context)
+        public async Task Consume(ConsumeContext<PriceUpdated> context)
         {
 
         }

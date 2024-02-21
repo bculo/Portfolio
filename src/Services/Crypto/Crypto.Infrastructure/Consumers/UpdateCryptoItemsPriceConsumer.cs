@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class UpdateCryptoItemsPriceConsumer : IConsumer<UpdateCryptoPrices>
+    public class UpdateCryptoItemsPriceConsumer : IConsumer<UpdateItemsPrices>
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UpdateCryptoItemsPriceConsumer> _logger;
@@ -20,7 +20,7 @@ namespace Crypto.Infrastructure.Consumers
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<UpdateCryptoPrices> context)
+        public async Task Consume(ConsumeContext<UpdateItemsPrices> context)
         {
             await _mediator.Send(new UpdatePriceAllCommand { });
         }

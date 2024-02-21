@@ -44,7 +44,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
                  Time = _timeProvider.UtcOffset
              };
 
-             await _publish.Publish(new CryptoPriceUpdated
+             await _publish.Publish(new PriceUpdated
              {
                  Currency = priceResponse.Currency,
                  Id = entity.Id,
