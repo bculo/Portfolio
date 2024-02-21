@@ -57,6 +57,9 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpPost("UpdateInfo")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateInfo([FromBody] UpdateInfoCommand instance)
         {
             await _mediator.Send(instance);
@@ -64,6 +67,9 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpPost("UpdatePrice")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceCommand command)
         {
             await _mediator.Send(command);
@@ -71,6 +77,8 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpGet("UpdateAllPrices")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAllPrices()
         {
             await _mediator.Send(new UpdatePriceAllCommand { });

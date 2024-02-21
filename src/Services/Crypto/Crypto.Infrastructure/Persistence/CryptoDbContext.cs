@@ -9,7 +9,7 @@ using Time.Abstract.Contracts;
 
 namespace Crypto.Infrastructure.Persistence
 {
-    public class CryptoDbContext : DbContext
+    public class CryptoDbContext : SagaDbContext
     {
         private readonly IDateTimeProvider _time;
 
@@ -22,25 +22,23 @@ namespace Crypto.Infrastructure.Persistence
 
         public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
         public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLowerCaseNamingConvention();
-            //optionsBuilder.EnableSensitiveDataLogging();
-            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.AddInboxStateEntity();
-            //modelBuilder.AddOutboxMessageEntity();
-            //modelBuilder.AddOutboxStateEntity();
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CryptoDbContext).Assembly);
         }
 
+        protected override IEnumerable<ISagaClassMap> Configurations
+        {
+            get { yield return new AddCryptoItemStateMap(); }
+        }
+        
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             AttachDateTimeToEntities();

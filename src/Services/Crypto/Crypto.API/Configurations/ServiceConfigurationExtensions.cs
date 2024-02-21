@@ -4,8 +4,10 @@ using Crypto.Application.Common.Options;
 using Crypto.Infrastructure;
 using Crypto.Infrastructure.Consumers;
 using Crypto.Infrastructure.Consumers.State;
+using Crypto.Infrastructure.Persistence;
 using Keycloak.Common;
 using MassTransit;
+using MassTransit.EntityFrameworkCoreIntegration;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -57,7 +59,9 @@ namespace Crypto.API.Configurations
                 /*
                 x.AddEntityFrameworkOutbox<CryptoDbContext>(o =>
                 {
+                    o.QueryDelay = TimeSpan.FromSeconds(1);
                     o.UsePostgres();
+                    o.UseBusOutbox();
                 });
                 */
 
@@ -65,7 +69,12 @@ namespace Crypto.API.Configurations
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
 
                 x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState>()
-                    .InMemoryRepository();
+                    .EntityFrameworkRepository(r =>
+                    {
+                        r.ExistingDbContext<CryptoDbContext>();
+                        r.LockStatementProvider = new PostgresLockStatementProvider();
+                        r.UsePostgres();
+                    });
 
                 x.AddConsumer<AddCryptoItemConsumer>();
                 x.AddConsumer<CryptoVisitedConsumer>();

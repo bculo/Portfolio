@@ -2,14 +2,14 @@ using Crypto.API.Configurations;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((host, log) =>
 {
     log.MinimumLevel.Information();
-    log.WriteTo.Console();
-    log.MinimumLevel.Override("Microsoft", LogEventLevel.Debug);
+    log.WriteTo.Console(theme: AnsiConsoleTheme.Code);
 });
 
 builder.Services.ConfigureApiProject(builder.Configuration);

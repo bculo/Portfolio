@@ -3,10 +3,10 @@ using Crypto.Application.Common.Options;
 using Crypto.Application.Interfaces.Information;
 using Crypto.Application.Interfaces.Price;
 using Crypto.Application.Interfaces.Repositories;
-using Crypto.Infrastructure.Clients;
 using Crypto.Infrastructure.Information;
 using Crypto.Infrastructure.Persistence;
 using Crypto.Infrastructure.Persistence.Repositories;
+using Crypto.Infrastructure.Price;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +28,8 @@ namespace Crypto.Infrastructure
             services.AddDbContext<CryptoDbContext>(opt =>
             {
                 opt.UseNpgsql(configuration.GetConnectionString("CryptoDatabase"));
+                opt.UseLowerCaseNamingConvention();
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();

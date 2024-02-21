@@ -7,7 +7,7 @@ using Http.Common.Extensions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace Crypto.Infrastructure.Clients
+namespace Crypto.Infrastructure.Price
 {
     public class CryptoCompareClient : ICryptoPriceService
     {
