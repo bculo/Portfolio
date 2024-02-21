@@ -13,6 +13,6 @@ namespace Crypto.Core.Entities
         public decimal Price { get; set; }
         
         public Guid CryptoId { get; set; }
-        public virtual Crypto? Crypto { get; set; }
+        public virtual Crypto Crypto { get; set; } = default!;
     }
 }

@@ -21,6 +21,13 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 ct);
         }
 
+        public async Task<CryptoPrice?> GetLastPrice(string symbol, CancellationToken ct = default)
+        {
+            return await _context.Prices.Where(i => i.Crypto.Symbol.ToLower() == symbol.ToLower())
+                .OrderByDescending(x => x.Time)
+                .FirstOrDefaultAsync(ct);
+        }
+
         public async Task BulkInsert(List<CryptoPrice> prices, CancellationToken ct = default)
         {
             await _context.BulkInsertAsync(prices, cancellationToken: ct);

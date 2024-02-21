@@ -37,8 +37,6 @@ namespace Crypto.Infrastructure
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
-            services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
-            services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)
@@ -62,6 +60,8 @@ namespace Crypto.Infrastructure
             ArgumentNullException.ThrowIfNull(headerKey);
             ArgumentNullException.ThrowIfNull(headerValue);
 
+            services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
+            
             services.AddHttpClient(ApiClient.CryptoInfo, client =>
             {
                 client.DefaultRequestHeaders.Add(headerKey, headerValue);
@@ -83,6 +83,9 @@ namespace Crypto.Infrastructure
             ArgumentNullException.ThrowIfNull(baseAddress);
             ArgumentNullException.ThrowIfNull(headerKey);
             ArgumentNullException.ThrowIfNull(headerValue);
+            
+            //services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
+            services.AddScoped<ICryptoPriceService, MockPriceClient>();
 
             services.AddHttpClient(ApiClient.CryptoPrice, client =>
             {

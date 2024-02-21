@@ -8,21 +8,46 @@ namespace Crypto.Infrastructure.Price;
 public class MockPriceClient : ICryptoPriceService
 {
     private readonly IUnitOfWork _work;
-    private readonly IDateTimeProvider _provider;
 
-    public MockPriceClient(IDateTimeProvider provider, IUnitOfWork work)
+    public MockPriceClient(IUnitOfWork work)
     {
-        _provider = provider;
         _work = work;
     }
 
-    public Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
+    public async Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        var item = await _work.CryptoPriceRepo.GetLastPrice(symbol, ct);
+
+        var price = item?.Price ?? default(decimal);
+        
+        var response = new PriceResponse
+        {
+            Symbol = symbol,
+        };
+
+        var random = new Random();
+        
+        if (price == default)
+        {
+            response.Price = random.Next(50, 600);
+            return response;
+        }
+        
+        var minValue = price - (price * 0.05m);
+        var maxValue = price + (price * 0.05m);
+        response.Price = (decimal)random.NextDouble() * (maxValue - minValue) + minValue;
+        
+        return response;
     }
 
-    public Task<List<PriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
+    public async Task<List<PriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        var finalResult = new List<PriceResponse>();
+        foreach(var symbol in symbols)
+        {
+            finalResult.Add(await GetPriceInfo(symbol, ct));
+        }
+
+        return finalResult;
     }
 }
