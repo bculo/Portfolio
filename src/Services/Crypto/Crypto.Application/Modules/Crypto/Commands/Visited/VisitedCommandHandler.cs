@@ -18,14 +18,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
 
         public async Task Handle(VisitedCommand request, CancellationToken ct)
         {
-            _logger.LogTrace("Crypto with {0} visited", request.CryptoId);
-
             await _work.VisitRepo.Add(new Visit
             {
                 CryptoId = request.CryptoId
             }, ct);
 
-            await _work.Commit();
+            await _work.Commit(ct);
         }
     }
 }

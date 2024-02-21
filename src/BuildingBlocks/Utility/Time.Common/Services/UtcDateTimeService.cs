@@ -6,5 +6,8 @@ namespace Time.Common.Services
     {
         public DateTime Now => DateTime.UtcNow;
         public DateTime Utc => DateTime.UtcNow;
+
+        public DateTimeOffset Offset => DateTimeOffset.Now;
+        public DateTimeOffset UtcOffset => DateTimeOffset.UtcNow;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Crypto.Application.Constants;
+﻿using Crypto.Application.Common.Constants;
 using FluentValidation;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo

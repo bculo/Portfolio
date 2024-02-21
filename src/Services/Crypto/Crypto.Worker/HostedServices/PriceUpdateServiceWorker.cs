@@ -1,6 +1,6 @@
 using System.Diagnostics;
+using Crypto.Application.Common.Options;
 using Crypto.Application.Interfaces.Repositories;
-using Crypto.Application.Options;
 using Crypto.Core.Exceptions;
 using Events.Common.Crypto;
 using MassTransit;

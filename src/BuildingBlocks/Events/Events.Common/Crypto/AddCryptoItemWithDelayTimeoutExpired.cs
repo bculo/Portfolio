@@ -9,5 +9,6 @@ namespace Events.Common.Crypto
     public class AddCryptoItemWithDelayTimeoutExpired
     {
         public Guid TemporaryId { get; set; }
+        public string Symbol { get; set; } = default!;
     }
 }

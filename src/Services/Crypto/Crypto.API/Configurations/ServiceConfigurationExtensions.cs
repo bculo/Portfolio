@@ -1,13 +1,11 @@
 ﻿using Crypto.API.Filters;
 using Crypto.Application;
-using Crypto.Application.Options;
+using Crypto.Application.Common.Options;
 using Crypto.Infrastructure;
 using Crypto.Infrastructure.Consumers;
 using Crypto.Infrastructure.Consumers.State;
-using Crypto.Infrastructure.Persistence;
 using Keycloak.Common;
 using MassTransit;
-using Time.Common;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;

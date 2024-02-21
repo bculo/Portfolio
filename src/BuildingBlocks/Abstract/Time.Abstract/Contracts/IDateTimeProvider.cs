@@ -10,5 +10,7 @@ namespace Time.Abstract.Contracts
     {
         public DateTime Now { get; }
         public DateTime Utc { get; } 
+        public DateTimeOffset Offset { get; }
+        public DateTimeOffset UtcOffset { get; }
     }
 }

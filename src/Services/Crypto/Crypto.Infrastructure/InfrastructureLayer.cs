@@ -1,8 +1,8 @@
-﻿using Crypto.Application.Constants;
+﻿using Crypto.Application.Common.Constants;
+using Crypto.Application.Common.Options;
 using Crypto.Application.Interfaces.Information;
 using Crypto.Application.Interfaces.Price;
 using Crypto.Application.Interfaces.Repositories;
-using Crypto.Application.Options;
 using Crypto.Infrastructure.Clients;
 using Crypto.Infrastructure.Information;
 using Crypto.Infrastructure.Persistence;

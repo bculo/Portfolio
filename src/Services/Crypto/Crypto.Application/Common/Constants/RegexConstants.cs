@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Constants
+namespace Crypto.Application.Common.Constants
 {
     public class RegexConstants
     {

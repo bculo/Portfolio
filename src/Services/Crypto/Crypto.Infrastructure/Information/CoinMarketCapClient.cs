@@ -1,4 +1,4 @@
-﻿using Crypto.Application.Constants;
+﻿using Crypto.Application.Common.Constants;
 using Crypto.Application.Interfaces.Information;
 using Crypto.Application.Interfaces.Information.Models;
 using Crypto.Core.Exceptions;

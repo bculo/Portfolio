@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Application.Options
+namespace Crypto.Application.Common.Options
 {
     public sealed class RedisOptions
     {

@@ -1,5 +1,6 @@
 ﻿using Crypto.Application.Interfaces.Repositories;
 using Crypto.Core.Entities;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crypto.Infrastructure.Persistence.Repositories
@@ -18,6 +19,11 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             await _context.Database.ExecuteSqlInterpolatedAsync(
                 $"INSERT INTO public.crypto_price(\"time\", price, cryptoid) VALUES ({price.Time}, {price.Price}, {price.CryptoId});",
                 ct);
+        }
+
+        public async Task BulkInsert(List<CryptoPrice> prices, CancellationToken ct = default)
+        {
+            await _context.BulkInsertAsync(prices, cancellationToken: ct);
         }
     }
 }

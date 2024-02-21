@@ -40,7 +40,7 @@ namespace Crypto.API.Controllers.v1
         }
 
         [HttpPost("AddNewWithDelay")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNewWithDelay([FromBody] AddNewWithDelayCommand instance)
         {

@@ -1,10 +1,10 @@
 ﻿using Crypto.Application;
-using Crypto.Application.Options;
-using Crypto.Worker.Interfaces;
-using Crypto.Worker.Jobs;
+using Crypto.Application.Common.Options;
 using Crypto.Infrastructure;
 using Crypto.Infrastructure.Consumers;
 using Crypto.Infrastructure.Persistence;
+using Crypto.Worker.Interfaces;
+using Crypto.Worker.Jobs;
 using Hangfire;
 using MassTransit;
 

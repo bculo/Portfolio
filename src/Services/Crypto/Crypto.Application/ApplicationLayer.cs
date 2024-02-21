@@ -1,10 +1,8 @@
-﻿using System.Reflection;
-using Crypto.Application.Behaviours;
+﻿using Crypto.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Time.Abstract.Contracts;
 using Time.Common;
 
 namespace Crypto.Application

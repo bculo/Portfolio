@@ -1,5 +1,5 @@
 ﻿using Crypto.Application;
-using Crypto.Application.Options;
+using Crypto.Application.Common.Options;
 using Crypto.Infrastructure;
 using MassTransit;
 

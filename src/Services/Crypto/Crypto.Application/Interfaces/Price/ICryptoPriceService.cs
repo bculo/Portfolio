@@ -1,10 +1,4 @@
-﻿using Crypto.Application.Models.Price;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Crypto.Application.Interfaces.Price.Models;
+﻿using Crypto.Application.Interfaces.Price.Models;
 
 namespace Crypto.Application.Interfaces.Price
 {

@@ -14,7 +14,7 @@ namespace Crypto.Infrastructure.Persistence
         public UnitOfWork(CryptoDbContext context, IServiceProvider provider)
         {
             _context = context;
-
+            
             CryptoRepo = provider.GetRequiredService<ICryptoRepository>();
             CryptoPriceRepo = provider.GetRequiredService<ICryptoPriceRepository>();
             VisitRepo = provider.GetRequiredService<IVisitRepository>();

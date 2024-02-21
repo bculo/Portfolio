@@ -12,4 +12,8 @@
       <ProjectReference Include="..\Crypto.Infrastructure\Crypto.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="EFCore.BulkExtensions.PostgreSql" Version="8.0.2" />
+    </ItemGroup>
+
 </Project>

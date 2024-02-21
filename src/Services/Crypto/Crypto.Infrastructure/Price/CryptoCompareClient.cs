@@ -1,7 +1,7 @@
-﻿using Crypto.Application.Constants;
+﻿using Crypto.Application.Common.Constants;
+using Crypto.Application.Common.Options;
 using Crypto.Application.Interfaces.Price;
 using Crypto.Application.Interfaces.Price.Models;
-using Crypto.Application.Options;
 using Crypto.Core.Exceptions;
 using Http.Common.Extensions;
 using Microsoft.Extensions.Options;
