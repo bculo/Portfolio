@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Utility.Common\Http.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj" />
     <ProjectReference Include="..\Crypto.Core\Crypto.Core.csproj" />
   </ItemGroup>
 

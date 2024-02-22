@@ -24,7 +24,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
             await _publish.Publish(new AddItemWithDelay
             {
                 Symbol = request.Symbol,
-                TemporaryId = temporaryId
+                CorrelationId = temporaryId
             }, cancellationToken);
 
             return temporaryId;

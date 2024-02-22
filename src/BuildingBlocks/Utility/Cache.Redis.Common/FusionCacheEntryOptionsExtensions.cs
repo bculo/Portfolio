@@ -1,7 +1,7 @@
-using Stock.Application.Common.Constants;
+using Cache.Redis.Common.Models;
 using ZiggyCreatures.Caching.Fusion;
 
-namespace Stock.Application.Common.Extensions;
+namespace Cache.Redis.Common;
 
 public static class FusionCacheEntryOptionsExtensions
 {

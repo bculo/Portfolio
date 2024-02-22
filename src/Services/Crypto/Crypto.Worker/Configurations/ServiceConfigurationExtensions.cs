@@ -34,7 +34,7 @@ namespace Crypto.Worker.Configurations
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
 
                 x.AddConsumer<UpdateCryptoItemsPriceConsumer>();
-                x.AddConsumer<CryptoPriceUpdatedConsumer>();
+                x.AddConsumer<PriceUpdatedConsumer>();
 
                 x.UsingRabbitMq((context, config) =>
                 {

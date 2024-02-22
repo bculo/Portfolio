@@ -14,6 +14,6 @@ namespace Events.Common.Crypto
         public string Name { get; set; } = default!;
         public decimal Price { get; set; }
         public string Currency { get; set; } = default!;
-        public Guid TemporaryId { get; set; }
+        public Guid CorrelationId { get; set; }
     }
 }

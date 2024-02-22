@@ -64,6 +64,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 Name = newCrypto.Name,
                 Price = newPrice!.Price,
                 Symbol = newCrypto.Symbol,
+                CorrelationId = request.CorrelationId ?? Guid.NewGuid()
             }, ct);
         }
 

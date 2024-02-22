@@ -32,7 +32,6 @@ namespace Crypto.Infrastructure.Consumers.State
         private readonly SagaTimeoutOptions _options;
         private readonly ILogger<AddCryptoItemStateMachine> _logger;
         
-
         public MassTransit.State Delayed { get; set; } = default!;
         public MassTransit.State ProcessStarted { get; set; } = default!;
 
@@ -52,19 +51,19 @@ namespace Crypto.Infrastructure.Consumers.State
             InstanceState(x => x.CurrentState);
           
             Event(() => AddCryptoItemWithDelay, 
-                x => x.CorrelateById(context => context.Message.TemporaryId));
+                x => x.CorrelateById(context => context.Message.CorrelationId));
             Event(() => UndoAddCryptoItemWithDelay, 
-                x => x.CorrelateById(context => context.Message.TemporaryId));
+                x => x.CorrelateById(context => context.Message.CorrelationId));
             Event(() => NewCryptoAdded, 
-                x => x.CorrelateById(context => context.Message.TemporaryId));
+                x => x.CorrelateById(context => context.Message.CorrelationId));
             Event(() => NewCryptoAddedError, 
-                x => x.CorrelateById(context => context.InitiatorId ?? context.Message.Message.TemporaryId));
+                x => x.CorrelateById(context => context.InitiatorId ?? context.Message.Message.CorrelationId));
             Schedule(() => NewCryptoItemTimeout, 
                 instance => instance.AddCryptoItemTimeoutTokenId, 
                 s => 
                 {
                     s.Delay = TimeSpan.FromSeconds(_options.TimeoutCryptoAddInSeconds);
-                    s.Received = r =>  r.CorrelateById(context => context.Message.TemporaryId);
+                    s.Received = r =>  r.CorrelateById(context => context.Message.CorrelationId);
                 });
 
             Initially(
@@ -75,12 +74,12 @@ namespace Crypto.Infrastructure.Consumers.State
                         _logger.LogInformation("Event {Event} invoked for symbol {Symbol}, {CorrelationId}",
                             nameof(AddCryptoItemWithDelay),
                             x.Message.Symbol,
-                            x.Message.TemporaryId);
+                            x.Message.CorrelationId);
                     })
                     .Schedule(NewCryptoItemTimeout, context => 
                         context.Init<AddItemTimeoutExpired>(new
                         {
-                            context.Message.TemporaryId,
+                            context.Message.CorrelationId,
                             context.Message.Symbol
                         }))
                     .TransitionTo(Delayed));
@@ -91,9 +90,9 @@ namespace Crypto.Infrastructure.Consumers.State
                     {
                         _logger.LogInformation("Timeout expired for {Symbol}, {CorrelationId}",
                             x.Message.Symbol,
-                            x.Message.TemporaryId);
+                            x.Message.CorrelationId);
                     })
-                    .Publish(x => new AddItem { Symbol = x.Saga.Symbol, TemporaryId = x.Saga.CorrelationId })
+                    .Publish(x => new AddItem { Symbol = x.Saga.Symbol, CorrelationId = x.Saga.CorrelationId })
                     .TransitionTo(ProcessStarted),
                 When(UndoAddCryptoItemWithDelay)
                     .Unschedule(NewCryptoItemTimeout)

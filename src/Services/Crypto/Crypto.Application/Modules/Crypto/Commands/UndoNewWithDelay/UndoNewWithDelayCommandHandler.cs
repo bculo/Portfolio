@@ -17,7 +17,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay
         {
             await _publish.Publish(new UndoAddItemWithDelay
             {
-                TemporaryId = request.TemporaryId,
+                CorrelationId = request.TemporaryId,
             }, cancellationToken);
         }
     }

@@ -8,7 +8,7 @@ namespace Events.Common.Crypto
 {
     public class AddItemTimeoutExpired
     {
-        public Guid TemporaryId { get; set; }
+        public Guid CorrelationId { get; set; }
         public string Symbol { get; set; } = default!;
     }
 }

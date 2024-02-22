@@ -20,6 +20,7 @@ namespace Crypto.Infrastructure.Consumers
             await _mediator.Send(new AddNewCommand
             {
                 Symbol = context.Message.Symbol,
+                CorrelationId = context.CorrelationId
             });
         }
     }

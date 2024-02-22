@@ -13,6 +13,5 @@ namespace Events.Common.Crypto
         public string Symbol { get; set; } = default!;
         public string Name { get; set; } = default!;
         public decimal Price { get; set; }
-        public string Currency { get; set; } = default!;
     }
 }

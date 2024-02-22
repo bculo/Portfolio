@@ -34,7 +34,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
         public async Task<UpdatePriceAllResponse> Handle(UpdatePriceAllCommand request, CancellationToken ct)
         {
             var entities = await _work.CryptoRepo.GetAll(ct: ct);
-            if (!entities.Any())
+            if (entities.Count == 0)
             {
                 return new UpdatePriceAllResponse { NumberOfUpdates = 0 };
             }
@@ -46,6 +46,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             var (prices, events) = GetInstances(priceResponses, entityDict);
 
             await _work.CryptoPriceRepo.BulkInsert(prices, ct);
+            await _work.Commit(ct);
 
             await PublishEvents(events);
             
@@ -77,7 +78,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 events.Add(new PriceUpdated
                 {
                     Id = crypto.Id,
-                    Currency = response.Currency,
                     Name = crypto.Name,
                     Price = response.Price,
                     Symbol = response.Symbol

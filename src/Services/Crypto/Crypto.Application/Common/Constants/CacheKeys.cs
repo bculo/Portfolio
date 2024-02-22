@@ -1,19 +1,16 @@
 using Cache.Redis.Common;
 using Cache.Redis.Common.Models;
-using Stock.Application.Common.Extensions;
 using ZiggyCreatures.Caching.Fusion;
 
-namespace Stock.Application.Common.Constants;
+namespace Crypto.Application.Common.Constants;
 
 public static class CacheKeys
 {
-    private const string PREFIX = "stock";
+    private const string PREFIX = "crypto";
     
-    public static string StockItemKey(int id) => $"{PREFIX}:{id}";
-    
-    public static string StockItemKey(string symbol) => $"{PREFIX}:{symbol}";
+    public static string CryptoItemKey(string symbol) => $"{PREFIX}:{symbol}";
 
-    public static Action<FusionCacheEntryOptions> StockItemKeyOptions(CacheEntrySettings? settings = default)
+    public static Action<FusionCacheEntryOptions> CryptoItemKeyOptions(CacheEntrySettings? settings = default)
     {
         var keySettings = settings ?? new CacheEntrySettings(TimeSpan.FromMinutes(10),
             TimeSpan.FromMinutes(20),
