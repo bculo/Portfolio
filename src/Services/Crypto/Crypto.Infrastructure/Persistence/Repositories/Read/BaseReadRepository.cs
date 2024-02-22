@@ -52,7 +52,7 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class
                 .ToListAsync(ct);
         }
     
-    public async Task<PageModel<T>> PageDynamic(List<QueryFilter> filters, 
+    public async Task<PageResult<T>> PageDynamic(List<QueryFilter> filters, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, 
         PageQuery pageQuery, 
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default, 
@@ -70,10 +70,10 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class
             .ApplySplitQuery(splitQuery)
             .ToListAsync(ct);
 
-        return new PageModel<T>(totalCount, pageQuery.Page, items);
+        return new PageResult<T>(totalCount, pageQuery.Page, items);
     }
 
-    public async Task<PageModel<T>> Page(Expression<Func<T, bool>> predicate,
+    public async Task<PageResult<T>> Page(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -91,10 +91,10 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
 
-            return new PageModel<T>(totalCount, pageQuery.Page, items);
+            return new PageResult<T>(totalCount, pageQuery.Page, items);
         }
 
-        public async Task<PageModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates,
+        public async Task<PageResult<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -112,10 +112,10 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
             
-            return new PageModel<T>(totalCount, pageQuery.Page, items);
+            return new PageResult<T>(totalCount, pageQuery.Page, items);
         }
 
-        public async Task<PageModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates,
+        public async Task<PageResult<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
@@ -133,6 +133,6 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
 
-            return new PageModel<T>(totalCount, pageQuery.Page, items);
+            return new PageResult<T>(totalCount, pageQuery.Page, items);
         }
 }

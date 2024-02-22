@@ -28,7 +28,7 @@ namespace Crypto.Worker.Configurations
                 {
                     o.UsePostgres();
                     o.UseBusOutbox();
-                    o.QueryDelay = TimeSpan.FromSeconds(2);
+                    o.QueryDelay = TimeSpan.FromSeconds(5);
                 });
 
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));

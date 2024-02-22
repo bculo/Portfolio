@@ -9,7 +9,7 @@ namespace Events.Common.Crypto
 {
     public class Visited
     {
-        public long CryptoId { get; set; }
+        public Guid CryptoId { get; set; }
         public string Symbol { get; set; } = default!;
     }
 }

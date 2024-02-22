@@ -3,7 +3,7 @@ using Crypto.Core.Entities;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Crypto.Infrastructure.Persistence.Repositories
+namespace Crypto.Infrastructure.Persistence.Repositories.HyperTable
 {
     public class CryptoPriceRepository : ICryptoPriceRepository
     {
@@ -21,9 +21,18 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 ct);
         }
 
+        public async Task<CryptoPrice?> GetLastPrice(Guid id, CancellationToken ct = default)
+        {
+            return await _context.Prices.Where(i => i.CryptoId == id)
+                .Include(x => x.Crypto)
+                .OrderByDescending(x => x.Time)
+                .FirstOrDefaultAsync(ct);
+        }
+
         public async Task<CryptoPrice?> GetLastPrice(string symbol, CancellationToken ct = default)
         {
             return await _context.Prices.Where(i => i.Crypto.Symbol.ToLower() == symbol.ToLower())
+                .Include(x => x.Crypto)
                 .OrderByDescending(x => x.Time)
                 .FirstOrDefaultAsync(ct);
         }

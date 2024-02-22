@@ -20,28 +20,28 @@ public interface IBaseReadRepository<T> where T : class
         bool splitQuery = false,
         CancellationToken ct = default);
 
-    Task<PageModel<T>> PageDynamic(List<QueryFilter> filters,
+    Task<PageResult<T>> PageDynamic(List<QueryFilter> filters,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
     
-    Task<PageModel<T>> Page(Expression<Func<T, bool>> predicates,
+    Task<PageResult<T>> Page(Expression<Func<T, bool>> predicates,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
         
-    Task<PageModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
+    Task<PageResult<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
         
-    Task<PageModel<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
+    Task<PageResult<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
         PageQuery pageQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,

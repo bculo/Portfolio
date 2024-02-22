@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using StackExchange.Redis;
 using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Backplane.StackExchangeRedis;
 using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace Cache.Redis.Common
@@ -42,7 +43,7 @@ namespace Cache.Redis.Common
             ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
             
             services.AddRedisConnectionMultiplexer(connectionString);
-            
+
             services.AddFusionCache()
                 .WithDefaultEntryOptions(opt =>
                 {
@@ -54,9 +55,12 @@ namespace Cache.Redis.Common
                 .WithDistributedCache(
                     new RedisCache(new RedisCacheOptions
                     {
-                        Configuration = connectionString, 
+                        Configuration = connectionString,
                         InstanceName = instanceName
                     })
+                )
+                .WithBackplane(
+                    new RedisBackplane(new RedisBackplaneOptions { Configuration = connectionString })
                 );
         }
 

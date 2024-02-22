@@ -5,7 +5,6 @@ using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
 using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
-using Crypto.Application.Modules.Crypto.Queries.FetchAll;
 using Crypto.Application.Modules.Crypto.Queries.FetchGroup;
 using Crypto.Application.Modules.Crypto.Queries.FetchPage;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
@@ -13,7 +12,6 @@ using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
 using Crypto.Application.Modules.Crypto.Queries.SearchBySymbol;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.v1
@@ -56,7 +54,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpPost("UpdateInfo")]
+        [HttpPut("UpdateInfo")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -66,7 +64,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpPost("UpdatePrice")]
+        [HttpPut("UpdatePrice")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -76,7 +74,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpGet("UpdateAllPrices")]
+        [HttpPut("UpdateAllPrices")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAllPrices()
@@ -84,13 +82,7 @@ namespace Crypto.API.Controllers.v1
             await _mediator.Send(new UpdatePriceAllCommand { });
             return NoContent();
         }
-
-        [HttpGet("FetchAll")]
-        public async Task<IActionResult> FetchAll()
-        {
-            return Ok(await _mediator.Send(new FetchAllQuery { }));
-        }
-
+        
         [HttpPost("FetchPage")]
         public async Task<IActionResult> FetchPage([FromBody] FetchPageQuery query)
         {

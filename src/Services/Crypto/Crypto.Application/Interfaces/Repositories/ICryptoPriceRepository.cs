@@ -10,6 +10,7 @@ namespace Crypto.Application.Interfaces.Repositories
     public interface ICryptoPriceRepository
     {
         Task Add(CryptoPrice price, CancellationToken ct = default);
+        Task<CryptoPrice?> GetLastPrice(Guid id, CancellationToken ct = default);
         Task<CryptoPrice?> GetLastPrice(string symbol, CancellationToken ct = default);
         Task BulkInsert(List<CryptoPrice> prices, CancellationToken ct = default);
     }

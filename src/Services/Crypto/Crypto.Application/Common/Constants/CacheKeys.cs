@@ -6,9 +6,9 @@ namespace Crypto.Application.Common.Constants;
 
 public static class CacheKeys
 {
-    private const string PREFIX = "crypto";
+    private const string CRYPTO_ITEM_PREFIX = "cryptoitem";
     
-    public static string CryptoItemKey(string symbol) => $"{PREFIX}:{symbol}";
+    public static string CryptoItemKey(string symbol) => $"{CRYPTO_ITEM_PREFIX}:{symbol.ToLower()}";
 
     public static Action<FusionCacheEntryOptions> CryptoItemKeyOptions(CacheEntrySettings? settings = default)
     {
