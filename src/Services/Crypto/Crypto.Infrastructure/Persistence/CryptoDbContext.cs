@@ -1,4 +1,5 @@
 ﻿using Crypto.Core.Entities;
+using Crypto.Core.ReadModels;
 using Crypto.Infrastructure.Consumers.State;
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
@@ -22,6 +23,13 @@ namespace Crypto.Infrastructure.Persistence
 
         public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
         public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
+
+        #region FUNCTIONS
+
+        public IQueryable<CryptoTimeFrameReadModel> CryptoWithPrices(int notOlderMin, int timeBucketMin)
+            => FromExpression(() => CryptoWithPrices(notOlderMin, timeBucketMin));
+
+        #endregion
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +40,18 @@ namespace Crypto.Infrastructure.Persistence
             modelBuilder.AddOutboxStateEntity();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CryptoDbContext).Assembly);
+
+            modelBuilder.Entity<CryptoTimeFrameReadModel>()
+                .ToTable(nameof(CryptoTimeFrameReadModel), opt => opt.ExcludeFromMigrations());
+            
+            modelBuilder.HasDbFunction(typeof(CryptoDbContext).GetMethod(
+                    nameof(CryptoWithPrices),
+                    new[] { typeof(int), typeof(int) }),
+                b =>
+                {
+                    b.IsBuiltIn(false);
+                    b.HasName("get_data_by_timeframe");
+                });
         }
 
         protected override IEnumerable<ISagaClassMap> Configurations

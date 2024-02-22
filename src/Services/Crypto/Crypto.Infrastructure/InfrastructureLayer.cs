@@ -7,6 +7,7 @@ using Crypto.Application.Interfaces.Repositories;
 using Crypto.Infrastructure.Information;
 using Crypto.Infrastructure.Persistence;
 using Crypto.Infrastructure.Persistence.Repositories;
+using Crypto.Infrastructure.Persistence.Repositories.Read;
 using Crypto.Infrastructure.Price;
 using Hangfire;
 using Hangfire.PostgreSql;
@@ -38,10 +39,14 @@ namespace Crypto.Infrastructure
             });
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICryptoRepository, CryptoRepository>();
             services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
             services.AddScoped<IVisitRepository, VisitRepository>();
+            
+            services.AddScoped(typeof(IBaseReadRepository<>), typeof(BaseReadRepository<>));
+            
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)

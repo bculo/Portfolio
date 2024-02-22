@@ -28,4 +28,9 @@
     <ProjectReference Include="..\Crypto.Application\Crypto.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Persistence\Migrations\20240222113758_Add_CryptoWithPrice_Function.cs" />
+    <Compile Remove="Persistence\Migrations\20240222113758_Add_CryptoWithPrice_Function.Designer.cs" />
+  </ItemGroup>
+
 </Project>
