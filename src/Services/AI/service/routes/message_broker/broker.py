@@ -8,7 +8,7 @@ from dependencies import di_blob_conf, di_blob_service, di_verification_service
 from routes.message_broker.models import RabbitMqConfig
 from services.BlobStorageService import BlobStorageService
 from services.BlobStorageServiceConfig import BlobStorageServiceConfig
-from services.UserVerificationService import UserVerificationService
+from services.NsfwService import UserVerificationService
 
 conf = RabbitMqConfig()
 router_broker = RabbitRouter(conf.conn_str)
