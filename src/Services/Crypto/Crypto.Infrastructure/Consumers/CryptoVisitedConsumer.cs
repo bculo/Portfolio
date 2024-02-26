@@ -24,9 +24,11 @@ namespace Crypto.Infrastructure.Consumers
 
         public async Task Consume(ConsumeContext<Visited> context)
         {
-            _logger.LogTrace("Consume method called inside {0}", nameof(CryptoVisitedConsumer));
-
-            //await _mediator.Send(new VisitedCommand { Symbol = context.Message.Symbol, CryptoId = context.Message.CryptoId });
+            await _mediator.Send(new VisitedCommand
+            {
+                Symbol = context.Message.Symbol, 
+                CryptoId = context.Message.CryptoId
+            });
         }
     }
 }

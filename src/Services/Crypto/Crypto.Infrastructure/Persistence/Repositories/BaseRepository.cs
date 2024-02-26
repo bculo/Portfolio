@@ -94,7 +94,17 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
         }
-        
+
+        public async Task<int> Count(Expression<Func<T, bool>> predicate, 
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default, 
+            CancellationToken ct = default)
+        {
+            return await Set
+                .Where(predicate)
+                .ApplyOrderBy(orderBy)
+                .CountAsync(ct);
+        }
+
         public async Task<PageResult<T>> Page(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
             PageQuery pageQuery,

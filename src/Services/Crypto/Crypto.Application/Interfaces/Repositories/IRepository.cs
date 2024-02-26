@@ -43,6 +43,10 @@ namespace Crypto.Application.Interfaces.Repositories
             bool track = false,
             bool splitQuery = false,
             CancellationToken ct = default);
+        
+        Task<int> Count(Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default,
+            CancellationToken ct = default);
 
         Task<PageResult<T>> Page(Expression<Func<T, bool>> predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,

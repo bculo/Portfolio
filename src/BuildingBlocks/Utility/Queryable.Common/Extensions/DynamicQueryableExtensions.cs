@@ -23,6 +23,9 @@ public class QueryFilter
     public object Value { get; init; } = default!;
 }
 
+/// <summary>
+/// All credit to https://www.codeproject.com/Articles/5358166/A-Dynamic-Where-Implementation-for-Entity-Framewor
+/// </summary>
 public static class ExpressionBuilder
 {
     private static readonly MethodInfo ContainsMethod 

@@ -15,17 +15,12 @@ namespace Crypto.Application.Modules.Crypto.Queries.GetMostPopular
             _mapper = mapper;
         }
 
-        public async Task<List<GetMostPopularResponse>> Handle(GetMostPopularQuery request, CancellationToken cancellationToken)
+        public async Task<List<GetMostPopularResponse>> Handle(GetMostPopularQuery request, CancellationToken ct)
         {
-            throw new NotImplementedException();
-            // var response = await _work.CryptoRepository.GetMostPopular(request.Take);
-            //
-            // if(!response.Any())
-            // {
-            //     return new List<GetMostPopularResponse>();
-            // }
-            //
-            // return _mapper.Map<List<GetMostPopularResponse>>(response);
+            var response = await _work.VisitRepo.GetMostPopular(request.Take, ct);
+            return response.Count == 0 
+                ? new List<GetMostPopularResponse>() 
+                : _mapper.Map<List<GetMostPopularResponse>>(response);
         }
     }
 }

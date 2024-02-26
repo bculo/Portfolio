@@ -10,7 +10,6 @@ using Crypto.Application.Modules.Crypto.Queries.FetchPage;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
-using Crypto.Application.Modules.Crypto.Queries.SearchBySymbol;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,45 +82,30 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
         
-        [HttpPost("FetchPage")]
-        public async Task<IActionResult> FetchPage([FromBody] FetchPageQuery query)
+        [HttpGet("FetchPage")]
+        public async Task<IActionResult> FetchPage([FromQuery] FetchPageQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
         [HttpGet("Single/{symbol}")]
+        [ProducesResponseType(typeof(FetchSingleResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> FetchSingle(string symbol)
         {
             return Ok(await _mediator.Send(new FetchSingleQuery { Symbol = symbol }));
         }
-
-        [HttpPost("FetchGroup")]
-        public async Task<IActionResult> FetchGroup([FromBody] FetchGroupQuery query)
-        {
-            return Ok(await _mediator.Send(query));
-        }
-
-        [HttpDelete("Delete/{symbol}")]
-        public async Task<IActionResult> Delete(string symbol)
-        {
-            await _mediator.Send(new DeleteCommand { Symbol = symbol });
-            return NoContent();
-        }
-
+        
         [HttpGet("GetPriceHisotry/{symbol}")]
         public async Task<IActionResult> GetPriceHistory(string symbol)
         {
             return Ok(await _mediator.Send(new FetchPriceHistoryQuery { Symbol = symbol }));
         }
 
-        [HttpPost("GetMostPopular")]
-        public async Task<IActionResult> GetMostPopular([FromBody] GetMostPopularQuery query)
-        {
-            return Ok(await _mediator.Send(query));
-        }
-
-        [HttpPost("SearchBySymbol")]
-        public async Task<IActionResult> SearchBySymbol([FromBody] SearchBySymbolQuery query)
+        [HttpGet("GetMostPopular")]
+        
+        public async Task<IActionResult> GetMostPopular([FromQuery] GetMostPopularQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
