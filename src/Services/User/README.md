@@ -24,7 +24,6 @@ Http trigger functions.
 - select master realm (Default one)
 - create new client with name 'portfolio-admin'
 - Check Client authentication and Service access grant
-- As Url put random localhost url
 - visit Service account roles tab, select assign roles. Set filter to 'Filter by clients' and assign all PortfolioRealm roles (Save)
 
 
@@ -40,6 +39,7 @@ Http trigger functions.
 ### Execute database migrations
 
 - set User.Functions as startup project
+- run func start
 
 ### View and manage azurite/azure storage
 

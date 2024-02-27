@@ -12,6 +12,7 @@ AI service is used for text classification and image classification. It listens 
 - install python
 - pip install pipenv (only if not installed)
 - pipenv install
+- move to src folder
 - pipenv run uvicorn main:app --reload
 
 NOTE: make sure that you are located inside AI/service folder when executing pipenv commands

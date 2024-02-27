@@ -4,6 +4,7 @@ using Keycloak.Common.Options;
 using Keycloak.Common.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
@@ -80,6 +81,9 @@ namespace Keycloak.Common
                 opt.ClientSecret = clientSecrets;
                 opt.TokenBaseUri = tokenUrl;
             });
+
+            services.AddHttpContextAccessor();
+            services.TryAddScoped<ClientCredentialAuthHandler>();
             
             services.AddRefitClient<IUsersApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(adminApiBase))

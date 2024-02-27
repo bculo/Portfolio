@@ -5,6 +5,7 @@ using Keycloak.Common.Options;
 using Keycloak.Common.Services;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using User.Application.Common.Exceptions;
@@ -27,6 +28,7 @@ public class VerifyUserDtoValidator : AbstractValidator<VerifyUserDto>
 
 public class VerifyUserDtoHandler : IRequestHandler<VerifyUserDto>
 {
+    private readonly ILogger<VerifyUserDtoHandler> _logger;
     private readonly IPublishEndpoint _publish;
     private readonly KeycloakAdminApiOptions _config;
     private readonly IDateTimeProvider _timeProvider;
@@ -35,11 +37,13 @@ public class VerifyUserDtoHandler : IRequestHandler<VerifyUserDto>
     public VerifyUserDtoHandler(IUsersApi userClient,
         IPublishEndpoint publish,
         IDateTimeProvider timeProvider,
-        IOptions<KeycloakAdminApiOptions> config)
+        IOptions<KeycloakAdminApiOptions> config, 
+        ILogger<VerifyUserDtoHandler> handler)
     {
         _userClient = userClient;
         _publish = publish;
         _timeProvider = timeProvider;
+        _logger = handler;
         _config = config.Value;
     }
     

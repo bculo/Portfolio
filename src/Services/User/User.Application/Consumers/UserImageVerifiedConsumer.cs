@@ -19,7 +19,7 @@ public class UserImageVerifiedConsumer : IConsumer<UserImageVerified>
     public async Task Consume(ConsumeContext<UserImageVerified> context)
     {
         var message = context.Message;
-        if (message.IsPerson && !message.IsNsfw)
+        if (message is { IsPerson: true, IsNsfw: false })
         {
             await _mediator.Send(new VerifyUserDto { UserName = context.Message.UserName });
         }
