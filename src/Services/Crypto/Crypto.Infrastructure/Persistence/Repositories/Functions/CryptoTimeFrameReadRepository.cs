@@ -25,12 +25,12 @@ public class CryptoTimeFrameReadRepository : ICryptoTimeFrameReadRepository
         return await GetQuery(query.NotOlderThanMin, query.TimeBucketMin).ToListAsync(ct);
     }
 
-    public async Task<CryptoTimeFrameReadModel?> GetSingle(Guid cryptoId, 
+    public async Task<List<CryptoTimeFrameReadModel>> GetSingle(Guid cryptoId, 
         TimeFrameQuery query, 
         CancellationToken ct = default)
     {
         return await GetQuery(query.NotOlderThanMin, query.TimeBucketMin)
             .Where(i => i.CryptoId == cryptoId)
-            .FirstOrDefaultAsync(ct);
+            .ToListAsync(ct);
     }
 }

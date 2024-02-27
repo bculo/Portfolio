@@ -1,11 +1,9 @@
 ﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay;
-using Crypto.Application.Modules.Crypto.Commands.Delete;
 using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
 using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll;
-using Crypto.Application.Modules.Crypto.Queries.FetchGroup;
 using Crypto.Application.Modules.Crypto.Queries.FetchPage;
 using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
 using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
@@ -97,14 +95,17 @@ namespace Crypto.API.Controllers.v1
             return Ok(await _mediator.Send(new FetchSingleQuery { Symbol = symbol }));
         }
         
-        [HttpGet("GetPriceHisotry/{symbol}")]
-        public async Task<IActionResult> GetPriceHistory(string symbol)
+        [HttpGet("GetPriceHistory/{cryptoId}")]
+        [ProducesResponseType(typeof(List<PriceHistoryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetPriceHistory(Guid cryptoId)
         {
-            return Ok(await _mediator.Send(new FetchPriceHistoryQuery { Symbol = symbol }));
+            return Ok(await _mediator.Send(new FetchPriceHistoryQuery { CryptoId = cryptoId }));
         }
 
         [HttpGet("GetMostPopular")]
-        
+        [ProducesResponseType(typeof(List<GetMostPopularResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetMostPopular([FromQuery] GetMostPopularQuery query)
         {
             return Ok(await _mediator.Send(query));

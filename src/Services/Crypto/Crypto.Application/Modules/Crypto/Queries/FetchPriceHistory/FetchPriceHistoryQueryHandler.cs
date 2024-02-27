@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Crypto.Application.Interfaces.Repositories;
+using Crypto.Application.Interfaces.Repositories.Models;
 using Crypto.Core.Exceptions;
+using Crypto.Core.ReadModels;
 using MediatR;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
 {
-    public class FetchPriceHistoryQueryHandler : IRequestHandler<FetchPriceHistoryQuery, IEnumerable<PriceHistoryDto>>
+    public class FetchPriceHistoryQueryHandler : IRequestHandler<FetchPriceHistoryQuery, List<PriceHistoryDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _work;
@@ -16,23 +18,13 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
             _work = work;
         }
 
-        public async Task<IEnumerable<PriceHistoryDto>> Handle(FetchPriceHistoryQuery request, CancellationToken cancellationToken)
+        public async Task<List<PriceHistoryDto>> Handle(FetchPriceHistoryQuery request, CancellationToken ct)
         {
-            throw new NotImplementedException();
-//             var entity = await _work.CryptoRepository.FindSingle(i => i.Symbol.ToLower() == request.Symbol.ToLower());
-//
-//             if (entity is null)
-//             {
-//                 throw new CryptoCoreException("Item with symbol {0} not found", request.Symbol);
-//             }
-//
-//             throw new NotImplementedException();
-//             
-//             /*
-//             var priceEntities = await _work.CryptoPriceRepository.Find(i => i.CryptoId == entity.Id);
-//
-//             return _mapper.Map<List<PriceHistoryDto>>(priceEntities);
-//             */
+            var items = await _work.TimeFrameRepo.GetSingle(request.CryptoId, 
+                new TimeFrameQuery(43200, 30), 
+                ct);
+
+            return _mapper.Map<List<PriceHistoryDto>>(items);
         }
     }
 }

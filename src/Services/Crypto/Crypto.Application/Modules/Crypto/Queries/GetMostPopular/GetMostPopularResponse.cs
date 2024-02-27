@@ -8,7 +8,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.GetMostPopular
 {
     public class GetMostPopularResponse
     {
-        public string Symbol { get; set; }
-        public long Counter { get; set; }
+        public string Symbol { get; set; } = default!;
+        public int Count { get; set; }
     }
 }

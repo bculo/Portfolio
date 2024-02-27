@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
 {
-    public class FetchPriceHistoryQuery : PageBaseQuery, IRequest<IEnumerable<PriceHistoryDto>>
+    public class FetchPriceHistoryQuery : PageBaseQuery, IRequest<List<PriceHistoryDto>>
     {
-        public string Symbol { get; set; }
+        public Guid CryptoId { get; set; }
     }
 }

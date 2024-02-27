@@ -7,9 +7,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
     {
         public FetchPriceHistoryQueryValidator()
         {
-            RuleFor(i => i.Symbol)
-                .Matches(RegexConstants.SYMBOL)
-                .NotEmpty();
+
         }   
     }
 }
