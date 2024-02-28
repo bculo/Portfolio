@@ -5,6 +5,7 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContentSettings, B
 
 from utilities.config_reader_utilities import read_yaml_file
 
+
 class BlobStorageServiceConfig:
 
     def __init__(self, settings: dict):
@@ -29,11 +30,9 @@ class BlobInfo:
 
 class BlobStorageService:
 
-    def __init__(self, conf: BlobStorageServiceConfig):
-        self.conf = conf
-        self._blob_service_client = BlobServiceClient.from_connection_string(
-            conn_str=conf.conn_str(),
-        )
+    def __init__(self, conf: BlobStorageServiceConfig, blob_client = BlobServiceClient):
+        self._conf = conf
+        self._blob_service_client = blob_client
 
     def _get_blob_client(self, container: str, identifier: str) -> BlobClient:
         return self._blob_service_client.get_container_client(container).get_blob_client(identifier)
@@ -55,7 +54,10 @@ class BlobStorageService:
 
 _blob_storage_conf_dict = read_yaml_file(os.path.join("configs", "azure-blob.yaml"))
 _blob_storage_conf = BlobStorageServiceConfig(settings=_blob_storage_conf_dict)
-_blob_storage_service = BlobStorageService(conf=_blob_storage_conf)
+_blob_service_client = BlobServiceClient.from_connection_string(
+    conn_str=_blob_storage_conf.conn_str(),
+)
+_blob_storage_service = BlobStorageService(conf=_blob_storage_conf, blob_client=_blob_service_client)
 
 
 def di_blob_service() -> BlobStorageService:
