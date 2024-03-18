@@ -21,9 +21,7 @@ namespace Notification.Application.Consumers.Crypto
         {
             var instance = context.Message;
 
-            _logger.LogTrace($"Crypto updated. {instance.Symbol} - {instance.Price} {instance.Currency}");
-
-
+            _logger.LogTrace($"Crypto updated. {instance.Symbol} - {instance.Price}");
         }
     }
 }
