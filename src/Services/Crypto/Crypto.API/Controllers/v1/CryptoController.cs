@@ -81,6 +81,8 @@ namespace Crypto.API.Controllers.v1
         }
         
         [HttpGet("FetchPage")]
+        [ProducesResponseType(typeof(IEnumerable<FetchPageResponseDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> FetchPage([FromQuery] FetchPageQuery query)
         {
             return Ok(await _mediator.Send(query));

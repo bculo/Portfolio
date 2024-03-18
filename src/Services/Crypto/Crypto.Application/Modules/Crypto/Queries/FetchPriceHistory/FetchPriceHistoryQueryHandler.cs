@@ -20,7 +20,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory
 
         public async Task<List<PriceHistoryDto>> Handle(FetchPriceHistoryQuery request, CancellationToken ct)
         {
-            var items = await _work.TimeFrameRepo.GetSingle(request.CryptoId, 
+            var items = await _work.CryptoPriceRepo.GetTimeFrameData(request.CryptoId, 
                 new TimeFrameQuery(43200, 30), 
                 ct);
 

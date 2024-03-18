@@ -15,7 +15,7 @@ var timeProvider = new MockTimeProvider();
 
 await using var dbContext = new CryptoDbContext(optionsBuilder.Options, timeProvider);
 
-var result = await dbContext.CryptoWithPrices(1440, 360)
+var result = await dbContext.CryptoTimeFrame(1440, 360)
     .Where(i => i.Symbol == "BTC")
     .ToListAsync();
 

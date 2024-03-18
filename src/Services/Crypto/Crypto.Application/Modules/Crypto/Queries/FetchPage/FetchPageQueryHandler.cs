@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Crypto.Application.Interfaces.Repositories;
+using Crypto.Application.Interfaces.Repositories.Models;
 using MediatR;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
@@ -15,14 +16,10 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
             _work = work;
         }
 
-        public async Task<IEnumerable<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
         {
-            throw new NotImplementedException();
-            // var items = await _work.CryptoRepository.GetPageWithPrices(request.Page, request.Take);
-            //
-            // var dtos = _mapper.Map<List<FetchPageResponseDto>>(items);
-            //
-            // return dtos;
+            var items = await _work.CryptoPriceRepo.GetPage(new PageQuery(request.Page, request.Take), ct);
+            return _mapper.Map<List<FetchPageResponseDto>>(items);
         }
     }
 }

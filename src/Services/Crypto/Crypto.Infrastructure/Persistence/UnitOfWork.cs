@@ -11,7 +11,6 @@ namespace Crypto.Infrastructure.Persistence
         public ICryptoPriceRepository CryptoPriceRepo { get; }
         public IVisitRepository VisitRepo { get; }
         
-        public ICryptoTimeFrameReadRepository TimeFrameRepo { get; }
 
         public UnitOfWork(CryptoDbContext context, IServiceProvider provider)
         {
@@ -20,7 +19,6 @@ namespace Crypto.Infrastructure.Persistence
             CryptoRepo = provider.GetRequiredService<ICryptoRepository>();
             CryptoPriceRepo = provider.GetRequiredService<ICryptoPriceRepository>();
             VisitRepo = provider.GetRequiredService<IVisitRepository>();
-            TimeFrameRepo = provider.GetRequiredService<ICryptoTimeFrameReadRepository>();
         }
 
         public async Task Commit(CancellationToken ct = default)

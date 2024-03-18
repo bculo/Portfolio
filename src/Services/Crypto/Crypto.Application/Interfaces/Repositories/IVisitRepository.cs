@@ -5,6 +5,6 @@ namespace Crypto.Application.Interfaces.Repositories
 {
     public interface IVisitRepository : IRepository<Visit>
     {
-        Task<List<MostPopular>> GetMostPopular(int take, CancellationToken ct = default);
+        Task<List<MostPopularReadModel>> GetMostPopular(int take, CancellationToken ct = default);
     }
 }

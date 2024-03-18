@@ -18,7 +18,7 @@ public class MockPriceClient : ICryptoPriceService
     {
         var item = await _work.CryptoPriceRepo.GetLastPrice(symbol, ct);
 
-        var price = item?.Price ?? default(decimal);
+        var price = item?.LastPrice ?? default(decimal);
         
         var response = new PriceResponse
         {

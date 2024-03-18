@@ -7,8 +7,6 @@ using Crypto.Application.Interfaces.Repositories;
 using Crypto.Infrastructure.Information;
 using Crypto.Infrastructure.Persistence;
 using Crypto.Infrastructure.Persistence.Repositories;
-using Crypto.Infrastructure.Persistence.Repositories.Functions;
-using Crypto.Infrastructure.Persistence.Repositories.HyperTable;
 using Crypto.Infrastructure.Persistence.Repositories.Read;
 using Crypto.Infrastructure.Price;
 using Hangfire;
@@ -49,7 +47,6 @@ namespace Crypto.Infrastructure
             services.AddScoped(typeof(IBaseReadRepository<>), typeof(BaseReadRepository<>));
 
             services.AddScoped<ICryptoPriceRepository, CryptoPriceRepository>();
-            services.AddScoped<ICryptoTimeFrameReadRepository, CryptoTimeFrameReadRepository>();
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)

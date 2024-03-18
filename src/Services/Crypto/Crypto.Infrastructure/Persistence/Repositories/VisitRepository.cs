@@ -11,14 +11,14 @@ namespace Crypto.Infrastructure.Persistence.Repositories
         {
         }
 
-        public async Task<List<MostPopular>> GetMostPopular(int take, CancellationToken ct = default)
+        public async Task<List<MostPopularReadModel>> GetMostPopular(int take, CancellationToken ct = default)
         {
             return await Set
                 .Include(x => x.Crypto)
                 .GroupBy(i => i.Crypto!.Symbol)
                 .OrderByDescending(i => i.Count())
                 .Take(take)
-                .Select(i => new MostPopular
+                .Select(i => new MostPopularReadModel
                 {
                     Symbol = i.Key,
                     Count = i.Count(),

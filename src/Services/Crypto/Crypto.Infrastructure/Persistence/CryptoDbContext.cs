@@ -23,11 +23,12 @@ namespace Crypto.Infrastructure.Persistence
 
         public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
         public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
+        public virtual DbSet<CryptoLastPriceReadModel> CryptoLastPrice => Set<CryptoLastPriceReadModel>();
 
         #region FUNCTIONS
 
-        public IQueryable<CryptoTimeFrameReadModel> CryptoWithPrices(int notOlderMin, int timeBucketMin)
-            => FromExpression(() => CryptoWithPrices(notOlderMin, timeBucketMin));
+        public IQueryable<CryptoTimeFrameReadModel> CryptoTimeFrame(int notOlderMin, int timeBucketMin)
+            => FromExpression(() => CryptoTimeFrame(notOlderMin, timeBucketMin));
 
         #endregion
         
@@ -45,7 +46,7 @@ namespace Crypto.Infrastructure.Persistence
                 .ToTable(nameof(CryptoTimeFrameReadModel), opt => opt.ExcludeFromMigrations());
             
             modelBuilder.HasDbFunction(typeof(CryptoDbContext).GetMethod(
-                    nameof(CryptoWithPrices),
+                    nameof(CryptoTimeFrame),
                     new[] { typeof(int), typeof(int) }),
                 b =>
                 {

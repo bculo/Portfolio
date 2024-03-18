@@ -7,7 +7,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.GetMostPopular
     {
         public GetMostPopularQueryMapper()
         {
-            CreateMap<MostPopular, GetMostPopularResponse>();
+            CreateMap<MostPopularReadModel, GetMostPopularResponse>();
         }
     }
 }
