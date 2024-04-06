@@ -23,6 +23,11 @@ namespace Crypto.Infrastructure.Consumers
             _mapper = mapper;
         }
 
+        public void Test()
+        {
+            Console.WriteLine("TEST");
+        }
+        
         public async Task Consume(ConsumeContext<PriceUpdated> context)
         {
             _logger.LogInformation("Updating item {Symbol}", context.Message.Symbol);
