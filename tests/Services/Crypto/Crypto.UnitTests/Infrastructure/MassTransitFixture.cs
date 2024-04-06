@@ -1,5 +1,6 @@
 using AutoMapper;
 using Crypto.Infrastructure.Consumers;
+using Crypto.Infrastructure.Consumers.State;
 using MassTransit;
 using MassTransit.Testing;
 using MediatR;
@@ -25,6 +26,8 @@ public class MassTransitFixture : IDisposable
                 x.AddConsumer<AddCryptoItemConsumer>();
                 x.AddConsumer<CryptoVisitedConsumer>();
                 x.AddConsumer<UpdateCryptoItemsPriceConsumer>();
+
+                x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState>();
             })
             .BuildServiceProvider(true)
             .CreateScope();
