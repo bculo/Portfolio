@@ -1,174 +1,89 @@
-﻿using Crypto.Application.Interfaces.Services;
-using Crypto.Application.Options;
-using Crypto.Infrastracture.Constants;
-using Crypto.Infrastracture.Consumers;
-using Crypto.Infrastracture.Persistence;
-using Crypto.IntegrationTests.Extensions;
-using Crypto.IntegrationTests.Interfaces;
-using Crypto.Mock.Common.Clients;
-using Crypto.Mock.Common.Data;
-using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Data.Common;
+using Crypto.Application.Interfaces.Price;
+using Crypto.Infrastructure.Persistence;
+using Crypto.Infrastructure.Price;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Npgsql;
 using Respawn;
-using Testcontainers.MsSql;
-using Testcontainers.Redis;
+using Tests.Common.Extensions;
+using Tests.Common.Interfaces.Containers;
+using Tests.Common.Services.Containers;
 using WireMock.Server;
 
 namespace Crypto.IntegrationTests
 {
-    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime, IApiFactory
+    public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private readonly MsSqlContainer _sqlServerContainer = new MsSqlBuilder()
-            .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
-            .WithName($"Crypto.API.Integration.MsSql.{Guid.NewGuid()}")
-            .WithCleanUp(true)
-            .Build();
+        private readonly IContainerFixture _redisContainer = new RedisFixture();
+        private readonly IContainerFixture _mqContainer = new RabbitMqFixture();
+        private readonly IContainerFixture _sqlFixture = new TimescaleDBFixture();
 
-        private readonly RedisContainer _redisContainer = new RedisBuilder()
-            .WithImage("redis:7.0.2")
-            .WithName($"Crypto.API.Integration.Redis.{Guid.NewGuid()}")
-            .WithCleanUp(true)
-            .Build();
-
+        private DbConnection _dbConnection = default!;
         private Respawner _respawner = default!;
-        private readonly ICryptoDataManager _dataManager;
-
-        public WireMockServer InfoMockServer { get; private set; }
-
+    
         public HttpClient Client { get; private set; } = default!;
-
-        public async Task ResetDatabaseAsync()
-        {
-            await _respawner.ResetAsync(_sqlServerContainer.GetConnectionString());
-        }
-
-        public CryptoApiFactory()
-        {
-            InfoMockServer = WireMockServer.Start();
-            
-            _dataManager = new DefaultDataManager();
-        }
-
+        public WireMockServer MockServer { get; private set; } = default!;
+    
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureAppConfiguration(configrationBuilder =>
+            var configuration = new Dictionary<string, string>
             {
-                configrationBuilder.AddInMemoryCollection(new KeyValuePair<string, string>[]
-                {
-                    new KeyValuePair<string, string>("CryptoInfoApiOptions:BaseUrl", InfoMockServer.Url),
-                });
-            });
+                { "CryptoPriceApiOptions:BaseUrl", MockServer.Urls[0] },
+                { "CryptoInfoApiOptions:BaseUrl", MockServer.Urls[0] },
+                { "ConnectionStrings:CryptoDatabase", _sqlFixture.GetConnectionString() },
+                { "QueueOptions:Address", _mqContainer.GetConnectionString() },
+                { "RedisOptions:ConnectionString", _redisContainer.GetConnectionString() },
+                { "RedisOptions:InstanceName", "cryptoredistest" },
+            }.AsConfiguration();
 
+            builder.UseConfiguration(configuration);
             builder.ConfigureTestServices(services =>
             {
-                services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, opt =>
-                {
-                    opt.TokenValidationParameters.ValidateLifetime = false;
-                    opt.TokenValidationParameters.ValidateIssuerSigningKey = false;
-                    opt.TokenValidationParameters.ValidateAudience = false;
-                    opt.TokenValidationParameters.ValidateIssuer = false;
-                });
-
-                ConfigureRedis(services);
-                ConfigureDatabase(services).Wait();
-                ConfigureServices(services);
-                ConfigureRabbitMq(services);
-            });
-
-            builder.ConfigureServices(collection =>
-            {
-                collection.AddSingleton(InfoMockServer);
+                services.AddScoped<ICryptoPriceService, MockPriceClient>();
+                services.AddDefaultFakeAuth();
             });
         }
 
-        public async Task InitializeAsync()
+            public async Task InitializeAsync()
         {
-            await Task.WhenAll(_sqlServerContainer.StartAsync(), _redisContainer.StartAsync());
-            _respawner = await InitializeRespawner();
+            await Task.WhenAll(
+                _sqlFixture.StartAsync(),
+                _redisContainer.StartAsync(),
+                _mqContainer.StartAsync());
+
+            MockServer = WireMockServer.Start();
             Client = CreateClient();
+
+            await using var scope = Services.CreateAsyncScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
+            await dbContext.Database.MigrateAsync();
+            dbContext?.DisposeAsync();
+
+            _dbConnection = new NpgsqlConnection(_sqlFixture.GetConnectionString());
+            await _dbConnection.OpenAsync();
+            _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions()
+            {
+                DbAdapter = DbAdapter.Postgres,
+            });
+        }
+        
+        public async Task ResetDatabaseAsync()
+        {
+            await _respawner.ResetAsync(_dbConnection);
         }
 
         public new async Task DisposeAsync()
         {
-            await Task.WhenAll(_sqlServerContainer.StopAsync(), _redisContainer.StopAsync());
-
-            InfoMockServer.Stop();
-        }
-
-        private async Task<Respawner> InitializeRespawner()
-        {
-            return await Respawner.CreateAsync(_sqlServerContainer.GetConnectionString(), 
-                new RespawnerOptions
-                {
-                    DbAdapter = DbAdapter.SqlServer
-                });
-        }
-
-        private async Task ConfigureDatabase(IServiceCollection services)
-        {
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<CryptoDbContext>));
-
-            services.Remove(descriptor);
-            services.RemoveAll(typeof(CryptoDbContext));
-
-            services.AddDbContext<CryptoDbContext>(opt =>
-            {
-                opt.UseSqlServer(_sqlServerContainer.GetConnectionString());
-            });
-
-            services.Migrate<CryptoDbContext>();
-            await CryptoDbContextSeed.SeedData(services, _dataManager.GetCryptoSeedData);
-        }
-
-        private void ConfigureRedis(IServiceCollection services)
-        {
-            services.RemoveAll(typeof(IDistributedCache));
-
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = _redisContainer.GetConnectionString();
-                options.InstanceName = "RedisIntegrationTest";
-            });
-        }
-
-        private void ConfigureRabbitMq(IServiceCollection services)
-        {
-            services.AddMassTransitTestHarness(x =>
-            {
-                x.AddInMemoryInboxOutbox();
-
-                x.AddDelayedMessageScheduler();
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
-
-                x.AddConsumer<AddCryptoItemConsumer>();
-                x.AddConsumer<CryptoVisitedConsumer>();
-
-                x.UsingInMemory((context, config) =>
-                {
-                    config.UseDelayedMessageScheduler();
-                    config.ConfigureEndpoints(context);
-                });
-            });
-        }
-
-        private void ConfigureServices(IServiceCollection services)
-        {
-            services.AddHttpClient(ApiClient.CryptoInfo, opt =>
-            {
-                opt.BaseAddress = new Uri(InfoMockServer.Urls[0]);
-            });
-
-            //Configure ICryptoPriceService 
-            services.RemoveAll(typeof(ICryptoPriceService));
-            services.AddScoped<ICryptoPriceService>((provider) => new MockCryptoPriceService(_dataManager.GetSupportedCryptoSymbolsArray()));
-        }
+            await Task.WhenAll(
+                _sqlFixture.StopAsync(),
+                _redisContainer.StopAsync(), 
+                _mqContainer.StopAsync());
+            
+            MockServer.Stop();
+        }    
     }
 }

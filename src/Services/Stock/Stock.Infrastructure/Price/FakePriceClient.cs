@@ -28,7 +28,7 @@ public class FakePriceClient : IStockPriceClient
 
         var random = new Random();
         
-        if (result!.Price == default)
+        if (result is null || result.Price == default)
         {
             response.Price = random.Next(50, 600);
             return response;

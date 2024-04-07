@@ -1,4 +1,5 @@
-﻿using Crypto.Application.Common.Behaviours;
+﻿using System.Reflection;
+using Crypto.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -13,15 +14,15 @@ namespace Crypto.Application
         {
             services.AddUtcTimeProvider();
             
+            services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
+            
             services.AddMediatR(opt =>
             {
                 opt.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-                opt.RegisterServicesFromAssembly(typeof(ApplicationLayer).Assembly);
+                opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
             
             services.AddAutoMapper(typeof(ApplicationLayer).Assembly);
-            
-            services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
         }
     }
 }

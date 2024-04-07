@@ -15,7 +15,7 @@ public class CacheController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpDelete("EvictAll", Name = "EvictAll")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> EvictAll(CancellationToken ct)

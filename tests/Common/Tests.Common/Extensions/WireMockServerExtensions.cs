@@ -8,7 +8,7 @@ namespace Tests.Common.Extensions;
 
 public static class WireMockServerExtensions
 {
-    public static Task ReturnBadRequest(this WireMockServer server, string withPath = "*")
+    public static Task ReturnsBadRequest(this WireMockServer server, string withPath = "*")
     {
         server.Given(Request.Create().WithPath(withPath))
             .RespondWith(
@@ -18,7 +18,7 @@ public static class WireMockServerExtensions
         return Task.CompletedTask;
     } 
     
-    public static Task ReturnOk(this WireMockServer server, string withPath = "*")
+    public static Task ReturnsOk(this WireMockServer server, string withPath = "*")
     {
         server.Given(Request.Create().WithPath(withPath))
             .RespondWith(
@@ -28,7 +28,7 @@ public static class WireMockServerExtensions
         return Task.CompletedTask;
     } 
     
-    public static Task ReturnWithTextOk(this WireMockServer server, string text, string withPath = "*")
+    public static Task ReturnsWithTextOk(this WireMockServer server, string text, string withPath = "*")
     {
         server.Given(Request.Create().WithPath(withPath))
             .RespondWith(
@@ -40,7 +40,7 @@ public static class WireMockServerExtensions
         return Task.CompletedTask;
     } 
     
-    public static async Task ReturnWithTextOk(this WireMockServer server, ITextLoader loader, string withPath = "*")
+    public static async Task ReturnsWithTextOk(this WireMockServer server, ITextLoader loader, string withPath = "*")
     {
         var text = await loader.LoadAsync();
         
@@ -52,7 +52,7 @@ public static class WireMockServerExtensions
             );
     } 
     
-    public static Task ReturnWithJsonOk(this WireMockServer server, object instance, string withPath = "*")
+    public static Task ReturnsWithJsonOk(this WireMockServer server, object instance, string withPath = "*")
     {
         server.Given(Request.Create().WithPath(withPath))
             .RespondWith(

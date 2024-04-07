@@ -64,7 +64,7 @@ public class CreateStockTests : StockControllerBaseTest
         Client.WithRole(UserRole.Admin);
         
         string symbol = "RRRRRRR";
-        await Factory.MockServer.ReturnBadRequest();
+        await Factory.MockServer.ReturnsBadRequest();
         var request = new CreateStock(symbol);
         
         //Act
@@ -82,7 +82,7 @@ public class CreateStockTests : StockControllerBaseTest
         Client.WithRole(UserRole.Admin);
 
         string symbol = "TSLA";
-        await Factory.MockServer.ReturnWithTextOk(new MarketDataLoader());
+        await Factory.MockServer.ReturnsWithTextOk(new MarketDataLoader());
         var request = new CreateStock(symbol);
         
         //Act

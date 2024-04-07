@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests
 {
-    [CollectionDefinition("CryptoCollection")]
-    public class CryptoSharedTestCollection : ICollectionFixture<CryptoApiFactory>
+    [CollectionDefinition(nameof(CryptoApiCollection))]
+    public class CryptoApiCollection : ICollectionFixture<CryptoApiFactory>
     {
     }
 }

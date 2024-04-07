@@ -94,8 +94,8 @@ namespace Crypto.Infrastructure
             ArgumentNullException.ThrowIfNull(headerKey);
             ArgumentNullException.ThrowIfNull(headerValue);
             
-            //services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
-            services.AddScoped<ICryptoPriceService, MockPriceClient>();
+            services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
+            //services.AddScoped<ICryptoPriceService, MockPriceClient>();
 
             services.AddHttpClient(ApiClient.CryptoPrice, client =>
             {
