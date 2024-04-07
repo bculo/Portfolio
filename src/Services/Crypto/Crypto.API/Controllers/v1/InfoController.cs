@@ -13,7 +13,7 @@ namespace Crypto.API.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]")]
     public class InfoController : ControllerBase
     {
-        [HttpGet("AssemblyVersion")]
+        [HttpGet("AssemblyVersion", Name = "AssemblyVersion")]
         public IActionResult GetAssemblyVersion()
         {
             return Ok(Assembly.GetExecutingAssembly().GetName().Version!.ToString());

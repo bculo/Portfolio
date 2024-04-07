@@ -25,7 +25,7 @@ namespace Crypto.API.Controllers.v1
             _mediator = mediator;
         }
 
-        [HttpPost("AddNew")]
+        [HttpPost("AddNew", Name = "AddNew")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNew([FromBody] AddNewCommand instance)
@@ -34,7 +34,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpPost("AddNewWithDelay")]
+        [HttpPost("AddNewWithDelay", Name = "AddNewWithDelay")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddNewWithDelay([FromBody] AddNewWithDelayCommand instance)
@@ -42,7 +42,7 @@ namespace Crypto.API.Controllers.v1
             return Ok(await _mediator.Send(instance));
         }
 
-        [HttpPost("UndoAddNewDelay")]
+        [HttpPost("UndoAddNewDelay", Name = "UndoAddNewDelay")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UndoAddNewDelay([FromBody] UndoNewWithDelayCommand instance)
@@ -51,7 +51,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpPut("UpdateInfo")]
+        [HttpPut("UpdateInfo", Name = "UpdateInfo")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -61,7 +61,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpPut("UpdatePrice")]
+        [HttpPut("UpdatePrice", Name = "UpdatePrice")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -71,7 +71,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
 
-        [HttpPut("UpdateAllPrices")]
+        [HttpPut("UpdateAllPrices", Name = "UpdateAllPrices")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAllPrices()
@@ -80,7 +80,7 @@ namespace Crypto.API.Controllers.v1
             return NoContent();
         }
         
-        [HttpGet("FetchPage")]
+        [HttpGet("FetchPage", Name = "FetchPage")]
         [ProducesResponseType(typeof(IEnumerable<FetchPageResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> FetchPage([FromQuery] FetchPageQuery query)
@@ -88,7 +88,7 @@ namespace Crypto.API.Controllers.v1
             return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet("Single/{symbol}")]
+        [HttpGet("Single/{symbol}", Name = "Single")]
         [ProducesResponseType(typeof(FetchSingleResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -97,7 +97,7 @@ namespace Crypto.API.Controllers.v1
             return Ok(await _mediator.Send(new FetchSingleQuery { Symbol = symbol }));
         }
         
-        [HttpGet("GetPriceHistory/{cryptoId}")]
+        [HttpGet("GetPriceHistory/{cryptoId}", Name = "GetPriceHistory")]
         [ProducesResponseType(typeof(List<PriceHistoryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetPriceHistory(Guid cryptoId)
@@ -105,7 +105,7 @@ namespace Crypto.API.Controllers.v1
             return Ok(await _mediator.Send(new FetchPriceHistoryQuery { CryptoId = cryptoId }));
         }
 
-        [HttpGet("GetMostPopular")]
+        [HttpGet("GetMostPopular", Name = "GetMostPopular")]
         [ProducesResponseType(typeof(List<GetMostPopularResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetMostPopular([FromQuery] GetMostPopularQuery query)

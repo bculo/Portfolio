@@ -197,6 +197,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.API.IntegrationTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Console.Playground", "src\Services\Crypto\Crypto.Console.Playground\Crypto.Console.Playground.csproj", "{B17508FF-4188-4B24-8A8E-69226D980E4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.API.Client", "src\Services\Crypto\Crypto.API.Client\Crypto.API.Client.csproj", "{2531ED36-FD13-41BD-8A06-D217723B37F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -451,6 +453,10 @@ Global
 		{B17508FF-4188-4B24-8A8E-69226D980E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B17508FF-4188-4B24-8A8E-69226D980E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B17508FF-4188-4B24-8A8E-69226D980E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2531ED36-FD13-41BD-8A06-D217723B37F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2531ED36-FD13-41BD-8A06-D217723B37F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2531ED36-FD13-41BD-8A06-D217723B37F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2531ED36-FD13-41BD-8A06-D217723B37F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -541,6 +547,7 @@ Global
 		{1C27D5F7-E357-4198-AFFF-88B1D6A9F9E8} = {B9B5DBFB-8BF1-4C62-A1A2-B3FAA473C54F}
 		{6ECA5DCF-A5D0-40EC-A1B2-12B71A6A3321} = {EE836572-2E88-4D25-826A-1BF2D8716DB8}
 		{B17508FF-4188-4B24-8A8E-69226D980E4E} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
+		{2531ED36-FD13-41BD-8A06-D217723B37F8} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}
