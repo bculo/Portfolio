@@ -44,6 +44,7 @@ namespace Crypto.IntegrationTests
             builder.ConfigureTestServices(services =>
             {
                 services.AddScoped<ICryptoPriceService, MockPriceClient>();
+                services.AddScoped<DataFixture>();
                 services.AddDefaultFakeAuth();
             });
         }

@@ -46,9 +46,9 @@ namespace Crypto.IntegrationTests.CryptoController
         
         [Theory]
         [InlineData("MATIC")]
-        public async Task PostAsync_ShouldReturnStatusNoContent_WhenNonexistentValidSymbolProvided(string symbol)
+        public async Task ShouldReturnStatusNoContent_WhenNewValidSymbolProvided(string symbol)
         {
-            //Arrange
+            
             Client.WithRole(UserRole.Admin);
             var request = new AddNewCommand { Symbol = symbol };
             
@@ -56,15 +56,32 @@ namespace Crypto.IntegrationTests.CryptoController
             var firstItem = infoResponse.Data.Values!.FirstOrDefault();
             firstItem!.Insert(0, MockFixture.Build<CoinMarketCapInfoDto>()
                 .With(x => x.Symbol, symbol)
+                .With(x => x.Name, symbol)
                 .Create());
             
             await Factory.MockServer.ReturnsWithJsonOk(infoResponse, withPath: "/info");
-
+            
             //Act
             var response = await Client.PostAsync(ApiEndpoint.CRYPTO_ADD_NEW, request.AsHttpContent());
 
             //Assert
             response.EnsureSuccessStatusCode();
+        }
+
+        [Theory]
+        [InlineData("MATIC")]
+        [InlineData("BTC")]
+        public async Task ShouldReturnBadRequest_WhenExistingSymbolProvided(string symbol)
+        {
+            Client.WithRole(UserRole.Admin);
+            var request = new AddNewCommand { Symbol = symbol };
+            _ = await DataManager.AddInstance(symbol);
+            
+            //Act
+            var response = await Client.PostAsync(ApiEndpoint.CRYPTO_ADD_NEW, request.AsHttpContent());
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

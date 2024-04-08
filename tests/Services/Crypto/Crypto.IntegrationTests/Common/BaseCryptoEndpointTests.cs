@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Microsoft.Extensions.DependencyInjection;
+using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests.Common
 {
@@ -11,6 +12,8 @@ namespace Crypto.IntegrationTests.Common
         
         public Fixture MockFixture { get;  }
         
+        public DataFixture DataManager { get; private set; }
+        
 
         private IServiceScope _scope = default!;
 
@@ -18,7 +21,7 @@ namespace Crypto.IntegrationTests.Common
         {
             Factory = factory;
             Client = factory.Client;
-            MockFixture = new Fixture();
+            MockFixture = FixtureExtensions.GetFixture();
         }
 
         public virtual async Task DisposeAsync()
@@ -31,6 +34,9 @@ namespace Crypto.IntegrationTests.Common
         public virtual Task InitializeAsync()
         {
             _scope = Factory.Services.CreateAsyncScope();
+            
+            DataManager = _scope.ServiceProvider.GetRequiredService<DataFixture>();
+            
             return Task.CompletedTask;
         }
     }
