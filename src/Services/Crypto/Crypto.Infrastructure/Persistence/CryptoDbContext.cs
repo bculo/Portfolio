@@ -1,4 +1,5 @@
-﻿using Crypto.Core.Entities;
+﻿using Crypto.Application.Interfaces.Repositories;
+using Crypto.Core.Entities;
 using Crypto.Core.ReadModels;
 using Crypto.Infrastructure.Consumers.State;
 using MassTransit;
@@ -13,12 +14,15 @@ namespace Crypto.Infrastructure.Persistence
     public class CryptoDbContext : SagaDbContext
     {
         private readonly IDateTimeProvider _time;
+        private readonly IConnectionProvider _connectionProvider;
 
         public CryptoDbContext(DbContextOptions<CryptoDbContext> options, 
+            IConnectionProvider connectionProvider,
             IDateTimeProvider time) 
             : base(options)
         {
             _time = time;
+            _connectionProvider = connectionProvider;
         }
 
         public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
@@ -53,6 +57,13 @@ namespace Crypto.Infrastructure.Persistence
                     b.IsBuiltIn(false);
                     b.HasName("get_data_by_timeframe");
                 });
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql(_connectionProvider.GetConnectionString());
+            optionsBuilder.UseLowerCaseNamingConvention();
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
 
         protected override IEnumerable<ISagaClassMap> Configurations

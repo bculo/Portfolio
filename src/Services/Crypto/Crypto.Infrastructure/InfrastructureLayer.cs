@@ -31,12 +31,8 @@ namespace Crypto.Infrastructure
 
         private static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<CryptoDbContext>(opt =>
-            {
-                opt.UseNpgsql(configuration.GetConnectionString("CryptoDatabase"));
-                opt.UseLowerCaseNamingConvention();
-                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            });
+            services.AddDbContext<CryptoDbContext>();
+            services.AddScoped<IConnectionProvider, DbContextConnectionProvider>();
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
