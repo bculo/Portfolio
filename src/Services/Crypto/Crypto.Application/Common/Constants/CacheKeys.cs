@@ -6,11 +6,19 @@ namespace Crypto.Application.Common.Constants;
 
 public static class CacheKeys
 {
-    private const string CRYPTO_ITEM_PREFIX = "cryptoitem";
-    
-    public static string CryptoItemKey(string symbol) => $"{CRYPTO_ITEM_PREFIX}:{symbol.ToLower()}";
+    public static string SingleItemKey(string symbol) => $"single:{symbol.ToLower()}";
+    public static string MostPopularKey() => $"popular";
 
-    public static Action<FusionCacheEntryOptions> CryptoItemKeyOptions(CacheEntrySettings? settings = default)
+    public static Action<FusionCacheEntryOptions> SingleItemKeyOptions(CacheEntrySettings? settings = default)
+    {
+        var keySettings = settings ?? new CacheEntrySettings(TimeSpan.FromMinutes(10),
+            TimeSpan.FromMinutes(20),
+            new FactoryTimeoutOption(TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(1500)));
+
+        return (opt) => opt.ApplyOptions(settings: keySettings);
+    }
+    
+    public static Action<FusionCacheEntryOptions> MostPopularKeyOptions(CacheEntrySettings? settings = default)
     {
         var keySettings = settings ?? new CacheEntrySettings(TimeSpan.FromMinutes(10),
             TimeSpan.FromMinutes(20),

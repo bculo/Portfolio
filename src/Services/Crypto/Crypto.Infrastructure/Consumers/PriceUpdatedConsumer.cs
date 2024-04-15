@@ -23,11 +23,6 @@ namespace Crypto.Infrastructure.Consumers
             _mapper = mapper;
         }
 
-        public void Test()
-        {
-            Console.WriteLine("TEST");
-        }
-        
         public async Task Consume(ConsumeContext<PriceUpdated> context)
         {
             _logger.LogInformation("Updating item {Symbol}", context.Message.Symbol);
@@ -36,9 +31,9 @@ namespace Crypto.Infrastructure.Consumers
 
             var dto = _mapper.Map<FetchSingleResponseDto>(msg);
             
-            await _cache.SetAsync(CacheKeys.CryptoItemKey(msg.Symbol),
+            await _cache.SetAsync(CacheKeys.SingleItemKey(msg.Symbol),
                 dto,
-                CacheKeys.CryptoItemKeyOptions());
+                CacheKeys.SingleItemKeyOptions());
         }
     }
 }

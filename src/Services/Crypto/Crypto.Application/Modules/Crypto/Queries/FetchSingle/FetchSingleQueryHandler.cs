@@ -18,7 +18,8 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
 
         public FetchSingleQueryHandler(IMapper mapper, 
             IUnitOfWork work, 
-            IPublishEndpoint publish, IFusionCache cache)
+            IPublishEndpoint publish, 
+            IFusionCache cache)
         {
             _mapper = mapper;
             _work = work;
@@ -28,13 +29,13 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
 
         public async Task<FetchSingleResponseDto> Handle(FetchSingleQuery request, CancellationToken ct)
         {
-            var item = await _cache.GetOrSetAsync(CacheKeys.CryptoItemKey(request.Symbol),
+            var item = await _cache.GetOrSetAsync(CacheKeys.SingleItemKey(request.Symbol),
                 async (token) =>
                 {
                     var instance = await _work.CryptoPriceRepo.GetLastPrice(request.Symbol, token);
                     return instance is null ? null : _mapper.Map<FetchSingleResponseDto>(instance);
                 },
-                CacheKeys.CryptoItemKeyOptions(),
+                CacheKeys.SingleItemKeyOptions(),
                 ct);
             
             CryptoCoreException.ThrowIfNull(item, $"Item with symbol {request.Symbol} not found");
