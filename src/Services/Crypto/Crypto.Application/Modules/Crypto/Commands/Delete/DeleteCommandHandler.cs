@@ -31,7 +31,6 @@ namespace Crypto.Application.Modules.Crypto.Commands.Delete
             // {
             //     Symbol = request.Symbol
             // });
-            
         }
     }
 }

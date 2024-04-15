@@ -1,5 +1,4 @@
-﻿using Crypto.API.Filters;
-using Crypto.Application;
+﻿using Crypto.Application;
 using Crypto.Application.Common.Options;
 using Crypto.Infrastructure;
 using Crypto.Infrastructure.Consumers;
@@ -18,12 +17,10 @@ namespace Crypto.API.Configurations
     {
         public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers(opt =>
-            {
-                opt.Filters.Add<GlobalExceptionFilter>();
-            });
+            services.AddControllers();
 
             services.AddCors();
+            services.AddProblemDetails();
 
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);

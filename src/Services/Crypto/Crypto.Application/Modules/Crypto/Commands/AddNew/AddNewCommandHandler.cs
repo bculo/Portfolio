@@ -74,7 +74,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             {
                 CryptoId = cryptoId,
                 Price = result.Price,
-                Time = DateTimeOffset.UtcNow
+                Time = _timeProvider.UtcOffset
             };
         }
 

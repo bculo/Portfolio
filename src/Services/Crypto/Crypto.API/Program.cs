@@ -1,4 +1,5 @@
 using Crypto.API.Configurations;
+using Crypto.API.Middlewares;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
@@ -42,6 +43,8 @@ if (app.Environment.IsDevelopment())
         .AllowAnyHeader()
         .AllowAnyOrigin());
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
