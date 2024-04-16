@@ -68,7 +68,7 @@ namespace Crypto.Infrastructure
 
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
             
-            services.AddHttpClient(ApiClient.CryptoInfo, client =>
+            services.AddHttpClient(ApiClient.CRYPTO_INFO, client =>
             {
                 client.DefaultRequestHeaders.Add(headerKey, headerValue);
                 client.BaseAddress = new Uri(baseAddress);
@@ -93,7 +93,7 @@ namespace Crypto.Infrastructure
             services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
             //services.AddScoped<ICryptoPriceService, MockPriceClient>();
 
-            services.AddHttpClient(ApiClient.CryptoPrice, client =>
+            services.AddHttpClient(ApiClient.CRYPTO_PRICE, client =>
             {
                 client.DefaultRequestHeaders.Add(headerKey, headerValue);
                 client.BaseAddress = new Uri(baseAddress);

@@ -5,9 +5,13 @@ public record CacheEntrySettings
     public TimeSpan Duration { get; }
     public TimeSpan? FailOver { get; }
     public FactoryTimeoutOption? FactoryTimeout { get; }
+    public bool UseEagerRefresh { get; }
 
 
-    public CacheEntrySettings(TimeSpan duration, TimeSpan? failOver, FactoryTimeoutOption? factoryTimeout)
+    public CacheEntrySettings(TimeSpan duration, 
+        TimeSpan? failOver, 
+        FactoryTimeoutOption? factoryTimeout,
+        bool useEagerRefresh = false)
     {
         if (failOver.HasValue && duration >= failOver.Value)
         {
@@ -17,5 +21,6 @@ public record CacheEntrySettings
         Duration = duration;
         FailOver = failOver;
         FactoryTimeout = factoryTimeout;
+        UseEagerRefresh = useEagerRefresh;
     } 
 }

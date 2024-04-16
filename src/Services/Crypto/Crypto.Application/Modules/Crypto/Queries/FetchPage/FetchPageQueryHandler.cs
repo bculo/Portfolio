@@ -23,14 +23,14 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
 
         public async Task<IEnumerable<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
         {
-            var items = await _cache.GetOrSetAsync(CacheKeys.FetchPageKey(request),
+            var items = await _cache.GetOrSetAsync(CacheKeys.FetchCryptoPageKey(request),
                 async (token) =>
                 {
                     var items = 
                         await _work.CryptoPriceRepo.GetPage(new PageQuery(request.Page, request.Take), token);
                     return _mapper.Map<List<FetchPageResponseDto>>(items);
                 },
-                CacheKeys.FetchPageKeyOptions(),
+                CacheKeys.FetchCryptoPageKeyOptions(),
                 ct);
 
             return items;

@@ -8,7 +8,7 @@ namespace Crypto.Application.Common.Constants
 {
     public static class ApiClient
     {
-        public static readonly string CryptoInfo = "CoinMarketCapClient";
-        public static readonly string CryptoPrice = "CryptoCompareClient";
+        public const string CRYPTO_INFO = "CoinMarketCapClient";
+        public const string CRYPTO_PRICE = "CryptoCompareClient";
     }
 }

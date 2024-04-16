@@ -17,10 +17,11 @@ public static class FusionCacheEntryOptionsExtensions
         
         return options.SetDuration(settings.Duration)
             .ApplyFailSafe(settings.FailOver)
-            .ApplyFactoryTimeout(settings.FactoryTimeout);
+            .ApplyFactoryTimeout(settings.FactoryTimeout)
+            .ApplyEagerRefresh(settings.UseEagerRefresh);
     }
     
-    public static FusionCacheEntryOptions ApplyFailSafe(
+    private static FusionCacheEntryOptions ApplyFailSafe(
         this FusionCacheEntryOptions entryOptions, 
         TimeSpan? timeSpan = default)
     {
@@ -32,7 +33,19 @@ public static class FusionCacheEntryOptionsExtensions
         return entryOptions.SetFailSafe(true, timeSpan);
     }
     
-    public static FusionCacheEntryOptions ApplyFactoryTimeout(
+    private static FusionCacheEntryOptions ApplyEagerRefresh(
+        this FusionCacheEntryOptions entryOptions, 
+        bool useEagerRefresh)
+    {
+        if (!useEagerRefresh)
+        {
+            return entryOptions;
+        }
+
+        return entryOptions.SetEagerRefresh(.9f);
+    }
+    
+    private static FusionCacheEntryOptions ApplyFactoryTimeout(
         this FusionCacheEntryOptions entryOptions, 
         FactoryTimeoutOption? option = default)
     {

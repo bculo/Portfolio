@@ -24,7 +24,7 @@ namespace Crypto.Infrastructure.Information
         {
             ArgumentNullException.ThrowIfNull(symbol);
             
-            var client = _clientFactory.CreateClient(ApiClient.CryptoInfo);
+            var client = _clientFactory.CreateClient(ApiClient.CRYPTO_INFO);
             
             var response = await client.GetAsync($"info?symbol={symbol}", ct);
             

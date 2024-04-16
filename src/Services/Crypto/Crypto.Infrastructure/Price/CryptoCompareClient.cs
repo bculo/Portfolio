@@ -24,7 +24,7 @@ namespace Crypto.Infrastructure.Price
         {
             ArgumentNullException.ThrowIfNull(symbol);
 
-            var client = _httpClientFactory.CreateClient(ApiClient.CryptoPrice);
+            var client = _httpClientFactory.CreateClient(ApiClient.CRYPTO_PRICE);
             var response = await client.GetAsync($"price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}", ct);
             var content = await response.HandleResponse();
 
@@ -51,7 +51,7 @@ namespace Crypto.Infrastructure.Price
         {
             ArgumentNullException.ThrowIfNull(symbols);
 
-            var client = _httpClientFactory.CreateClient(ApiClient.CryptoPrice);
+            var client = _httpClientFactory.CreateClient(ApiClient.CRYPTO_PRICE);
             var response = await client.GetAsync(
                 $"pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}", 
                 ct);
