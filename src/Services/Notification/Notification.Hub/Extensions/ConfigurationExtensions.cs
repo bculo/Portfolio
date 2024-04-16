@@ -1,6 +1,7 @@
 using Keycloak.Common;
 using MassTransit;
 using Notification.Application;
+using Notification.Application.Consumers.Crypto;
 using Notification.Application.Consumers.Trend;
 using Notification.Application.Interfaces.Notifications;
 using Notification.Hub.Services;
@@ -31,7 +32,7 @@ public static class ConfigurationExtensions
         ConfigureMessageQueue(builder.Services, builder.Configuration);
     }
 
-    public static void RegisterServiceDependencies(IServiceCollection services, IConfiguration configuration)
+    private static void RegisterServiceDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddMediatR(cfg =>
         {
@@ -41,7 +42,7 @@ public static class ConfigurationExtensions
         services.AddScoped<INotificationService, SignalRNotificationService>();
     }
     
-    public static void ConfigureSignalR(IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureSignalR(IServiceCollection services, IConfiguration configuration)
     {
         if (!configuration.GetValue<bool>("SignalROptions:UseRedis"))
         {
@@ -59,9 +60,9 @@ public static class ConfigurationExtensions
             });
     }
     
-    public static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
     {
-        services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
+        services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]!);
 
         var authOptions = new AuthOptions();
         configuration.GetSection("AuthOptions").Bind(authOptions);
@@ -80,14 +81,15 @@ public static class ConfigurationExtensions
         services.ConfigureDefaultAuthorization();
     }
     
-    public static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureMessageQueue(IServiceCollection services, IConfiguration configuration)
     {
         services.AddMassTransit(x =>
         {
-            var formatter = new KebabCaseEndpointNameFormatter(prefix: "notification",  false);
+            var formatter = new KebabCaseEndpointNameFormatter(prefix: "notification", false);
             x.SetEndpointNameFormatter(formatter);
             
             x.AddConsumer<SyncExecutedConsumer>();
+            x.AddConsumer<CryptoPriceUpdatedConsumer>();
             
             x.UsingRabbitMq((context, config) =>
             {

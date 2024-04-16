@@ -25,7 +25,7 @@ namespace Notification.Hub
             return base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
             _logger.LogInformation("OnDisconnectedAsync called");
 

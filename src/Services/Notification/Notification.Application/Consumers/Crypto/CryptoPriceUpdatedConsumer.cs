@@ -8,20 +8,17 @@ namespace Notification.Application.Consumers.Crypto
     public class CryptoPriceUpdatedConsumer : IConsumer<PriceUpdated>
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CryptoPriceUpdatedConsumer> _logger;
 
-        public CryptoPriceUpdatedConsumer(IMediator mediator,
-            ILogger<CryptoPriceUpdatedConsumer> logger)
+        public CryptoPriceUpdatedConsumer(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
         public async Task Consume(ConsumeContext<PriceUpdated> context)
         {
             var instance = context.Message;
-
-            _logger.LogTrace($"Crypto updated. {instance.Symbol} - {instance.Price}");
+            var command = new Commands.Crypto.SendPriceUpdatedNotification(instance.Symbol, instance.Price);
+            await _mediator.Send(command);
         }
     }
 }
