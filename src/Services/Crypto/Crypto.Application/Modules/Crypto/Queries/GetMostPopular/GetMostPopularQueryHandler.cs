@@ -26,10 +26,10 @@ namespace Crypto.Application.Modules.Crypto.Queries.GetMostPopular
 
         public async Task<List<GetMostPopularResponse>> Handle(GetMostPopularQuery request, CancellationToken ct)
         {
-            var items = await _cache.GetOrSetAsync(CacheKeys.MostPopularKey(),
+            var items = await _cache.GetOrSetAsync(CacheKeys.MostPopularKey(request.Take),
                 async (token) =>
                 {
-                    var response = await _work.VisitRepo.GetMostPopular(request.Take, ct);
+                    var response = await _work.VisitRepo.GetMostPopular(request.Take, token);
                     return response.Count == 0 
                         ? new List<GetMostPopularResponse>() 
                         : _mapper.Map<List<GetMostPopularResponse>>(response);

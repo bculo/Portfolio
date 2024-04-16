@@ -26,11 +26,11 @@ namespace Crypto.Worker.HostedServices
             return base.StopAsync(cancellationToken);
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                
+
                 using var scope = _provider.CreateScope();
                 var jobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
                 jobManager.AddOrUpdate<IPriceUpdateJobService>(
@@ -42,6 +42,8 @@ namespace Crypto.Worker.HostedServices
             {
                 _logger.LogError(e, e.Message);
             }
+            
+            return Task.CompletedTask;
         }
     }
 }

@@ -1,19 +1,12 @@
 ﻿using System.Net;
-using System.Net.Http.Json;
 using AutoFixture;
-using Crypto.Application.Interfaces.Information.Models;
 using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Infrastructure.Information.Models;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Constants;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Tests.Common.Extensions;
 using Tests.Common.Interfaces.Claims.Models;
-using WireMock.RequestBuilders;
-using WireMock.ResponseBuilders;
-using WireMock.Server;
 
 namespace Crypto.IntegrationTests.CryptoController
 {

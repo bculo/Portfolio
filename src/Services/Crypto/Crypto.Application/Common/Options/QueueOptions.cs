@@ -8,6 +8,6 @@ namespace Crypto.Application.Common.Options
 {
     public sealed class QueueOptions
     {
-        public string Address { get; set; }
+        public string Address { get; set; } = default!;
     }
 }

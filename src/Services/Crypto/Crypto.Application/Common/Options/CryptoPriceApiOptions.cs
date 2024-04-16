@@ -8,9 +8,9 @@ namespace Crypto.Application.Common.Options
 {
     public sealed class CryptoPriceApiOptions
     {
-        public string HeaderKey { get; set; }
-        public string ApiKey { get; set; }
-        public string BaseUrl { get; set; }
-        public string Currency { get; set; }
+        public string HeaderKey { get; set; } = default!;
+        public string ApiKey { get; set; } = default!;
+        public string BaseUrl { get; set; } = default!;
+        public string Currency { get; set; } = default!;
     }
 }
