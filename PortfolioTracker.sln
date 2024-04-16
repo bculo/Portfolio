@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trend", "Trend", "{A8FB45E1-7AEA-493D-B2E5-68DE44D6E9BC}"
 	ProjectSection(SolutionItems) = preProject
 		src\Services\Trend\README.md = src\Services\Trend\README.md
-		src\Services\Trend\.gitignore = src\Services\Trend\.gitignore
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trend.API", "src\Services\Trend\Trend.API\Trend.API.csproj", "{34CD6D56-D325-4591-8ED9-480589F2D7F0}"

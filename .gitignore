@@ -38,4 +38,4 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
-/src/Services/Crypto/Crypto.GraphQL/appsettings.Development.json
+appsettings.*.json
