@@ -1,24 +1,24 @@
 ### INFO
 
-Stock.API is application responsible for managing stock items and prices
+Crypto.API is application responsible for managing crypto items and prices
 
 ### What can you see inside this microservice ?
-- CQRS pattern 
-- Output caching and fussion cache usage (Redis)
+- CQRS pattern
+- Fussion cache usage (Redis)
 - RabbitMQ / MassTransit usage
-- PostgreSQL
+- PostgreSQL / TimeseriesDB
 - Hangfire for recurring background jobs
 
-### Create Stock.API client for swagger OAuth2 implicit flow
+### Create Crypto.API client for swagger OAuth2 implicit flow
 
 - visit keycloak admin dashboard (http://localhost:8080). Should be up and running after docker-compose up -d
 - select option 'Clients' from main menu and click "Create client" button
-- set Client ID to Stock.API
+- set Client ID to Crypto.API
 - Enable 'Implicit flow'
-- Set Root/Home page URL. For example http://localhost:32034/*
+- Set Root/Home page URL. For example http://localhost:{port}/*
 
 
 ### Prepare database
-- go to Stock.Infrastructure project and find migrations
+- go to Crypto.Infrastructure project and find migrations
 - execute migrations
 
