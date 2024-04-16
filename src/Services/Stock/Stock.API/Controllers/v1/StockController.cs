@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Stock.API.Common.Constants;
 using Stock.Application.Commands.Stock;
+using Stock.Application.Common.Constants;
 using Stock.Application.Common.Models;
 using Stock.Application.Queries.Stock;
 
@@ -22,6 +23,7 @@ public class StockController : ControllerBase
         _mediator = mediator;
     }
     
+    [Authorize(Roles = AppRoles.ADMIN)]
     [HttpPost("Create", Name = "CreateStock")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -57,6 +59,7 @@ public class StockController : ControllerBase
         return Ok(await _mediator.Send(filterListQuery));
     }
     
+    [Authorize(Roles = AppRoles.ADMIN)]
     [HttpPut("ChangeStatus", Name = "ChangeStockStatus")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
