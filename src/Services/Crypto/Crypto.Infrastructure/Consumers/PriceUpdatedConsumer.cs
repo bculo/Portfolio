@@ -4,6 +4,7 @@ using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
 using Events.Common.Crypto;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Infrastructure.Consumers

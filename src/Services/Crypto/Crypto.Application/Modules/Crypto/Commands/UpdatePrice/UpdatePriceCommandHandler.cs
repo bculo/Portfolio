@@ -33,6 +33,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
                 i => i.Symbol.ToLower() == request.Symbol.ToLower(), 
                 track: true,
                 ct: ct);
+            
             CryptoCoreNotFoundException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
             
              var priceResponse = await _priceService.GetPriceInfo(request.Symbol, ct);

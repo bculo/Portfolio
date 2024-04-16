@@ -66,6 +66,8 @@ namespace Crypto.API.Configurations
 
                 x.AddConsumer<AddCryptoItemConsumer>();
                 x.AddConsumer<CryptoVisitedConsumer>();
+                x.AddConsumer<EvictRedisListRequestConsumer>();
+                x.AddConsumer<PriceUpdatedConsumer>();
 
                 x.UsingRabbitMq((context, config) =>
                 {

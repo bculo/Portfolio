@@ -93,6 +93,8 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             {
                 await _publish.Publish(item);
             }
+
+            await _publish.Publish(new EvictRedisListRequest());
         }
     }
 }

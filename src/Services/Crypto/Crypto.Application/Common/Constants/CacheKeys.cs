@@ -9,9 +9,11 @@ namespace Crypto.Application.Common.Constants;
 
 public static class CacheKeys
 {
+    public const string EVICT_ON_PRICE_REFRESH = "refresh";
+    
     public static string SingleItemKey(string symbol) => $"single:{symbol.ToLower()}";
-    public static string MostPopularKey(int limitNum) => $"popular:limit:{limitNum}";
-    public static string FetchPageKey(FetchPageQuery query) => $"page:{JsonSerializer.Serialize(query)}";
+    public static string MostPopularKey(int limitNum) => $"popular:{EVICT_ON_PRICE_REFRESH}:{limitNum}";
+    public static string FetchPageKey(FetchPageQuery query) => $"page:{EVICT_ON_PRICE_REFRESH}:{JsonSerializer.Serialize(query)}";
 
     public static Action<FusionCacheEntryOptions> SingleItemKeyOptions(CacheEntrySettings? settings = default)
     {
