@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Events.Common.Crypto
 {
-    public class PriceUpdated
+    public class CryptoPriceUpdated
     {
         public Guid Id { get; set; }
         public string Symbol { get; set; } = default!;

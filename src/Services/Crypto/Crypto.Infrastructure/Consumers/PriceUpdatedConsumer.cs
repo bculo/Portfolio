@@ -9,7 +9,7 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class PriceUpdatedConsumer : IConsumer<PriceUpdated>
+    public class PriceUpdatedConsumer : IConsumer<CryptoPriceUpdated>
     {
         private readonly IMapper _mapper;
         private readonly IFusionCache _cache;
@@ -24,7 +24,7 @@ namespace Crypto.Infrastructure.Consumers
             _mapper = mapper;
         }
 
-        public async Task Consume(ConsumeContext<PriceUpdated> context)
+        public async Task Consume(ConsumeContext<CryptoPriceUpdated> context)
         {
             _logger.LogInformation("Updating item {Symbol}", context.Message.Symbol);
             

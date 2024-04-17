@@ -8,11 +8,11 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/v1/Stock/Create`,
         method: 'POST',
-        body: queryArg,
+        body: queryArg.body,
       }),
     }),
     getStock: build.query<GetStockApiResponse, GetStockApiArg>({
-      query: (queryArg) => ({ url: `/api/v1/Stock/Single/${queryArg}` }),
+      query: (queryArg) => ({ url: `/api/v1/Stock/Single/${queryArg.id}` }),
     }),
     getStocks: build.query<GetStocksApiResponse, GetStocksApiArg>({
       query: () => ({ url: `/api/v1/Stock/All` }),
@@ -38,7 +38,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/v1/Stock/ChangeStatus`,
         method: 'PUT',
-        body: queryArg,
+        body: queryArg.body,
       }),
     }),
   }),
@@ -48,10 +48,14 @@ export { injectedRtkApi as generated };
 export type EvictAllApiResponse = unknown;
 export type EvictAllApiArg = void;
 export type CreateStockApiResponse = /** status 200 Success */ string;
-export type CreateStockApiArg = CreateStock;
+export type CreateStockApiArg = {
+  body: CreateStock;
+};
 export type GetStockApiResponse =
   /** status 200 Success */ GetStockByIdResponse;
-export type GetStockApiArg = string;
+export type GetStockApiArg = {
+  id: string;
+};
 export type GetStocksApiResponse =
   /** status 200 Success */ GetStocksResponse[];
 export type GetStocksApiArg = void;
@@ -67,7 +71,9 @@ export type FilterStocksApiArg = {
   take?: number;
 };
 export type ChangeStockStatusApiResponse = /** status 204 No Content */ void;
-export type ChangeStockStatusApiArg = ChangeStockStatus;
+export type ChangeStockStatusApiArg = {
+  body: ChangeStockStatus;
+};
 export type ProblemDetails = {
   type?: string | null;
   title?: string | null;
@@ -76,40 +82,33 @@ export type ProblemDetails = {
   instance?: string | null;
   [key: string]: any;
 };
+export type HttpValidationProblemDetails = ProblemDetails & {
+  errors?: {
+    [key: string]: string[];
+  };
+  [key: string]: any;
+};
 export type CreateStock = {
-  symbol?: string | null;
+  symbol?: string;
 };
-export type GetStockByIdResponse = {
-  id?: string | null;
-  symbol?: string | null;
+export type StockPriceResultDto = {
+  id?: string;
+  symbol?: string;
   price?: number | null;
   isActive?: boolean;
   lastPriceUpdate?: string | null;
   created?: string;
 };
-export type GetStocksResponse = {
-  id?: string | null;
-  symbol?: string | null;
-  price?: number | null;
-  isActive?: boolean;
-  lastPriceUpdate?: string | null;
-  created?: string;
-};
-export type FilterStockResponseItem = {
-  id?: string | null;
-  symbol?: string | null;
-  price?: number | null;
-  isActive?: boolean;
-  lastPriceUpdate?: string | null;
-  created?: string;
-};
+export type GetStockByIdResponse = StockPriceResultDto;
+export type GetStocksResponse = StockPriceResultDto;
+export type FilterStockResponseItem = StockPriceResultDto;
 export type PageResultDtoFilterStockResponseItem = {
   totalCount?: number;
-  items?: FilterStockResponseItem[] | null;
+  items?: FilterStockResponseItem[];
 };
 export type Status = 1 | 2 | 999;
 export type ChangeStockStatus = {
-  id?: string | null;
+  id?: string;
 };
 export const {
   useEvictAllMutation,

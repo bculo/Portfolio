@@ -1,6 +1,6 @@
 ﻿namespace Events.Common.Stock
 {
-    public class PriceUpdated
+    public class StockPriceUpdated
     {
         public int Id { get; set; }
         public string Symbol { get; set; } = default!;

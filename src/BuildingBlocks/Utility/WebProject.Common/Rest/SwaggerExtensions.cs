@@ -63,6 +63,10 @@ public static class SwaggerExtensions
                 }
             });
 
+            opt.SupportNonNullableReferenceTypes();
+            opt.UseAllOfToExtendReferenceSchemas();
+            opt.UseOneOfForPolymorphism();
+            opt.UseAllOfForInheritance();
             opt.SchemaFilter<GenericFilter>();
             opt.EnableAnnotations();
         });

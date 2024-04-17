@@ -14,7 +14,7 @@ export const stockApi = createApi({
                 return headers;
             }
             const token = JSON.parse(storageItemString!).access_token;
-            headers.set("Authorization", `Bearer: ${token}`)
+            headers.set("Authorization", `Bearer ${token}`)
             return headers;
         }
     }),

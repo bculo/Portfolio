@@ -22,7 +22,7 @@ public class PriceUpdatedConsumerTests : IClassFixture<MassTransitFixture>
         var harness = _fixture.GetTestHarness();
         await harness.Start();
         
-        await harness.Bus.Publish(new PriceUpdated
+        await harness.Bus.Publish(new CryptoPriceUpdated
         {
             Price = 12m,
             Id = Guid.NewGuid(),
@@ -31,7 +31,7 @@ public class PriceUpdatedConsumerTests : IClassFixture<MassTransitFixture>
         });
 
         var consumerHarness = harness.GetConsumerHarness<PriceUpdatedConsumer>();
-        var eventConsumed = await consumerHarness.Consumed.Any<PriceUpdated>();
+        var eventConsumed = await consumerHarness.Consumed.Any<CryptoPriceUpdated>();
         eventConsumed.Should().BeTrue();
     }
 }

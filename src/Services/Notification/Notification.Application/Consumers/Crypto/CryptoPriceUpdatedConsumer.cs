@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Notification.Application.Consumers.Crypto
 {
-    public class CryptoPriceUpdatedConsumer : IConsumer<PriceUpdated>
+    public class CryptoPriceUpdatedConsumer : IConsumer<CryptoPriceUpdated>
     {
         private readonly IMediator _mediator;
 
@@ -14,7 +14,7 @@ namespace Notification.Application.Consumers.Crypto
             _mediator = mediator;
         }
 
-        public async Task Consume(ConsumeContext<PriceUpdated> context)
+        public async Task Consume(ConsumeContext<CryptoPriceUpdated> context)
         {
             var instance = context.Message;
             var command = new Commands.Crypto.SendPriceUpdatedNotification(instance.Symbol, instance.Price);

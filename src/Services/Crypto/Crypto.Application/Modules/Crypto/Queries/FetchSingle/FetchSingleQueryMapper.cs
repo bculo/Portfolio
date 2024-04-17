@@ -9,7 +9,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
     {
         public FetchSingleQueryMapper()
         {
-            CreateMap<PriceUpdated, FetchSingleResponseDto>()
+            CreateMap<CryptoPriceUpdated, FetchSingleResponseDto>()
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))

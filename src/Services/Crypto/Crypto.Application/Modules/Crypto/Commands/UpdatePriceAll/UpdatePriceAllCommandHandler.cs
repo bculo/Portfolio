@@ -53,12 +53,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             return new UpdatePriceAllResponse { NumberOfUpdates = prices.Count };
         }
 
-        private (List<CryptoPrice> price, List<PriceUpdated> events) GetInstances(
+        private (List<CryptoPrice> price, List<CryptoPriceUpdated> events) GetInstances(
             List<PriceResponse> priceResponses,
             Dictionary<string, Core.Entities.Crypto> cryptoDict)
         {
             List<CryptoPrice> prices = new();
-            List<PriceUpdated> events = new();
+            List<CryptoPriceUpdated> events = new();
             foreach(var response in priceResponses)
             {
                 if(!cryptoDict.ContainsKey(response.Symbol))
@@ -75,7 +75,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                     Time = _provider.UtcOffset
                 });
                 
-                events.Add(new PriceUpdated
+                events.Add(new CryptoPriceUpdated
                 {
                     Id = crypto.Id,
                     Name = crypto.Name,
@@ -87,7 +87,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             return (prices, events);
         }
 
-        private async Task PublishEvents(List<PriceUpdated> events)
+        private async Task PublishEvents(List<CryptoPriceUpdated> events)
         {
             foreach (var item in events)
             {

@@ -5,7 +5,7 @@ using Stock.Application.Commands.Cache;
 
 namespace Stock.Infrastructure.Consumers
 {
-    public class PriceUpdatedConsumer : IConsumer<PriceUpdated>
+    public class PriceUpdatedConsumer : IConsumer<StockPriceUpdated>
     {
         private readonly IMediator _mediator;
         
@@ -14,7 +14,7 @@ namespace Stock.Infrastructure.Consumers
             _mediator = mediator;
         }
 
-        public async Task Consume(ConsumeContext<PriceUpdated> context)
+        public async Task Consume(ConsumeContext<StockPriceUpdated> context)
         {
             var body = context.Message;
             await _mediator.Send(new RefreshStockItemValue(body.Id, body.Symbol, body.Price));

@@ -48,7 +48,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
              await _work.CryptoPriceRepo.Add(newPriceInstance, ct);
              await _work.Commit(ct);
 
-             await _publish.Publish(new PriceUpdated
+             await _publish.Publish(new CryptoPriceUpdated
              {
                  Id = entity.Id,
                  Name = entity.Name,
