@@ -12,14 +12,14 @@ using Tracker.Core.Enums;
 
 namespace Tracker.Infrastructure.Consumers
 {
-    public class NewCryptoAddedConsumer : BasePriceUpdatedConsumer, IConsumer<NewCryptoAdded>
+    public class NewCryptoAddedConsumer : BasePriceUpdatedConsumer, IConsumer<NewItemAdded>
     {
         public override FinancalAssetType AssetType => FinancalAssetType.Crypto;
 
         public NewCryptoAddedConsumer(ITrackerCacheService cache)
             : base(cache) { }
 
-        public async Task Consume(ConsumeContext<NewCryptoAdded> context)
+        public async Task Consume(ConsumeContext<NewItemAdded> context)
         {
             var instance = context.Message;
 

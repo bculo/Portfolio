@@ -1,12 +1,10 @@
-﻿using Cache.Common;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Time.Abstract.Contracts;
-using Time.Common;
 using Tracker.Application.Common.Constants;
 using Tracker.Application.Common.Options;
 using Tracker.Application.Interfaces;
@@ -23,20 +21,16 @@ namespace Tracker.Infrastructure
             services.Configure<ApplicationInfoOptions>(configuration.GetSection(nameof(ApplicationInfoOptions)));
 
             
-            services.AddScoped(services =>
+            services.AddScoped(innerServices =>
             {
-                var config = services.GetRequiredService<IOptionsSnapshot<EndpointgRPCOptions>>().Value;
+                var config = innerServices.GetRequiredService<IOptionsSnapshot<EndpointgRPCOptions>>().Value;
                 var channel = GrpcChannel.ForAddress(config.CryptoEndpoint);
                 return new CryptogRPCAssetClient(new Crypto.gRPC.Protos.v1.Crypto.CryptoClient(channel));
             });
             
-
-            services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
             services.AddScoped<IFinancialAssetClientFactory, FinancialAssetClientFactory>();
 
             AddClients(services, configuration);
-
-            CacheConfiguration.AddRedis(services, configuration);
         }
 
         private static void AddClients(IServiceCollection services, IConfiguration configuration)

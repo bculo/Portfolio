@@ -52,7 +52,7 @@ public static class ServiceConfigurationExtensions
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
     {
         services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-        services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+        //services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
 
         var authOptions = new AuthOptions();
         configuration.GetSection("AuthOptions").Bind(authOptions);
