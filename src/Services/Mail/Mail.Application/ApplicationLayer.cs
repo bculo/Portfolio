@@ -19,7 +19,7 @@ public static class ApplicationLayer
 {
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IDateTimeProvider, LocalDateTimeService>();
+        services.AddUtcTimeProvider();
         services.AddScoped<IEmailService, SendGridMailservice>();
         services.Configure<MailOptions>(configuration.GetSection(nameof(MailOptions)));
         
