@@ -5,6 +5,24 @@ to scale horizontally because Redis is used.
 ### How to run it?
 Project doesn't need any additional configuration. Just run it via Rider, Visual Studio or Terminal using command 'dotnet run'
 
+### How to test it via Postman?
+- add new request (websocket)
+- connect to ws://localhost:5162/portfolio
+- send message
+```json
+{
+  "protocol": "json",
+  "version": 1
+}
+```
+- connect to group
+```json
+{
+  "arguments": ["BTC"],
+  "target": "JoinToGroup",
+  "type": 1
+}
+```
 
 ### Example of appsettings.json
 

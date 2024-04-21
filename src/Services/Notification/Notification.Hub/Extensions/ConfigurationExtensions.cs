@@ -56,7 +56,7 @@ public static class ConfigurationExtensions
         services.AddSignalR()
             .AddStackExchangeRedis(connectionString, options => 
             {
-                options.Configuration.ChannelPrefix = "SignalROptions:AppPrefix";
+                options.Configuration.ChannelPrefix = configuration["SignalROptions:AppPrefix"];
             });
     }
     
