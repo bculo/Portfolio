@@ -6,21 +6,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MassTransit.Mediator;
 
 namespace Notification.Application.Consumers.Crypto
 {
     public class NewCryptoAddedConsumer : IConsumer<NewItemAdded>
     {
-        private readonly ILogger<NewCryptoAddedConsumer> _logger;
+        private readonly IMediator _mediator;
 
-        public NewCryptoAddedConsumer(ILogger<NewCryptoAddedConsumer> logger)
+        public NewCryptoAddedConsumer(IMediator mediator)
         {
-            _logger = logger;
+            _mediator = mediator;
         }
 
-        public Task Consume(ConsumeContext<NewItemAdded> context)
+        public async Task Consume(ConsumeContext<NewItemAdded> context)
         {
-            return Task.CompletedTask;
+            var instance = context.Message;
+            var command = new Commands.Crypto.SendPriceUpdatedNotification(instance.Symbol, instance.Price);
+            await _mediator.Send(command);
         }
     }
 }

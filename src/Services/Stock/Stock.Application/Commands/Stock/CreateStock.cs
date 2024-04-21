@@ -69,14 +69,22 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
         var newItem = new StockEntity
         {
             Symbol = request.Symbol,
-            IsActive = true
+            IsActive = true,
+            Prices = new List<StockPriceEntity>()
+            {
+                new()
+                {
+                    Price = clientResult.Price,
+                }
+            }
         };
         await _work.StockRepo.Add(newItem, ct);
         await _work.Save(ct);
-
+        
         await _publish.Publish(new NewStockItemAdded
         {
             Created = newItem.CreatedAt,
+            Price = clientResult.Price,
             Symbol = newItem.Symbol
         }, ct);
 

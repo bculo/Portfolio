@@ -141,8 +141,8 @@ namespace Stock.Infrastructure
                                 TimeSpan.FromSeconds(0.5),
                                 retryNumber)));
 
-            services.AddTransient<IStockPriceClient, MarketWatchStockPriceClient>();
-            //services.AddTransient<IStockPriceClient, FakePriceClient>();
+            //services.AddTransient<IStockPriceClient, MarketWatchStockPriceClient>();
+            services.AddTransient<IStockPriceClient, FakePriceClient>();
         }
         
         private static void AddCache(IServiceCollection services, IConfiguration configuration)

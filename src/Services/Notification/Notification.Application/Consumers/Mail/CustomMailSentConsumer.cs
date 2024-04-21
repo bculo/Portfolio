@@ -16,7 +16,6 @@ public class CustomMailSentConsumer : IConsumer<CustomMailSent>
     public async Task Consume(ConsumeContext<CustomMailSent> context)
     {
         var instance = context.Message;
-
-
+        
     }
 }
