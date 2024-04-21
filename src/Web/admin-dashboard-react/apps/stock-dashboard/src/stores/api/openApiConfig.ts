@@ -11,7 +11,7 @@ const config: ConfigFile = {
     mutations: true,
     queries: true
   },
-  flattenArg: false,
+  flattenArg: true,
 }
 
 export default config

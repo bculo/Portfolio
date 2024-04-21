@@ -3,17 +3,23 @@ import { FormField } from '../../components/controls/FormField';
 import { FormInput } from '../../components/controls/FormInput';
 import { Button } from '../../components/Button';
 import { useCreateStockMutation } from '../../stores/api/generated';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-type Form = {
-  symbol: string;
-};
+const formSchema = yup.object({
+  symbol: yup.string().required('Symbol is required field.'),
+});
+
+type Form = yup.InferType<typeof formSchema>;
 
 type Props = {
   onCreated: () => void;
 };
 
 export const CreateStockForm = ({ onCreated }: Props) => {
-  const form = useForm<Form>();
+  const form = useForm<Form>({
+    resolver: yupResolver(formSchema),
+  });
 
   const [createStock, { isLoading }] = useCreateStockMutation();
 
