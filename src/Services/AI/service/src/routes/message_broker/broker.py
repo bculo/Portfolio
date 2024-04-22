@@ -54,7 +54,7 @@ Listen for check mail sentiment event
 async def on_check_mail_sentiment(message: RabbitMessage, sentiment_service: Annotated[MailClassificationService, Depends(di_mail_classification)]):
     request = MailClassificationRequestParser().to_request(message)
     service_res = sentiment_service.text_classification(request)
-    event = MailSentimentCheckedEvent(numberOfStars=5, score=5, fromMail=request.from_user,
+    event = MailSentimentCheckedEvent(numberOfStars=service_res.num_of_starts, score=service_res.score, fromMail=request.from_user,
                                       userId=request.user_id, title=request.title, content=request.text)
     relevant_config = conf.get_pub('mail_sentiment_checked_pub')
     print(relevant_config.exchange_name)
