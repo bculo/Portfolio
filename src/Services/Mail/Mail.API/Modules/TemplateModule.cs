@@ -23,28 +23,22 @@ public class TemplateModule : ICarterModule
 
         app.MapGroup("/v1")
             .MapGet($"{MODULE_NAME}/GetTemplates",
-                async (IMediator mediator, CancellationToken ct) =>
-                {
-                    return Results.Ok(await mediator.Send(new GetTemplates.Query(), ct));
-                })
+                async (IMediator mediator, CancellationToken ct) 
+                    => Results.Ok(await mediator.Send(new GetTemplates.Query(), ct)))
             .RequireAuthorization()
             .WithTags(MODULE_NAME);
 
         app.MapGroup("/v1")
-            .MapPost($"{MODULE_NAME}/GetTemplatesForCategory",
-                async ([FromBody] GetTemplatesByCategory.Query query, IMediator mediator, CancellationToken ct) =>
-                {
-                    return Results.Ok(await mediator.Send(query, ct));
-                })
+            .MapGet($"{MODULE_NAME}/GetTemplatesForCategory",
+                async ([AsParameters] GetTemplatesByCategory.Query query, IMediator mediator, CancellationToken ct)
+                    => Results.Ok(await mediator.Send(query, ct)))
             .RequireAuthorization()
             .WithTags(MODULE_NAME);
 
         app.MapGroup("/v1")
-            .MapPost($"{MODULE_NAME}/GetSingleTemplate",
-                async ([FromBody] GetSingleTemplate.Query request, IMediator mediator, CancellationToken ct) =>
-                {
-                    return Results.Ok(await mediator.Send(request, ct));
-                })
+            .MapGet($"{MODULE_NAME}/GetSingleTemplate",
+                async ([AsParameters] GetSingleTemplate.Query request, IMediator mediator, CancellationToken ct)
+                    => Results.Ok(await mediator.Send(request, ct)))
             .RequireAuthorization()
             .WithTags(MODULE_NAME);
 

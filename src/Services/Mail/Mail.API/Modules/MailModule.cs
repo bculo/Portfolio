@@ -23,8 +23,8 @@ public class MailModule : ICarterModule
             .WithTags(MODULE_NAME);
         
         app.MapGroup("/v1")
-            .MapPost($"{MODULE_NAME}/GetSingleMail", 
-                async ([FromBody] GetSingleMail.Query request, IMediator mediator, CancellationToken ct) =>
+            .MapGet($"{MODULE_NAME}/GetSingleMail", 
+                async ([AsParameters] GetSingleMail.Query request, IMediator mediator, CancellationToken ct) =>
                 {
                     return Results.Ok(await mediator.Send(request, ct));
                 })
