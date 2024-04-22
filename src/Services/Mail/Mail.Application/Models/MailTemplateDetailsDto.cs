@@ -5,11 +5,11 @@ namespace Mail.Application.Models;
 public class MailTemplateDetailsDto
 {
     public int Category { get; set; }
-    public string TemplateName { get; set; }
-    public string Template { get; set; }
-    public string Title { get; set; }
-    public DateTime Created { get; set; }
-    public string ModifiedBy { get; set; }
+    public string TemplateName { get; set; } = default!;
+    public string Template { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public DateTime Created { get; set; } 
+    public string ModifiedBy { get; set; } = default!;
     public DateTime ModificationDate { get; set; }
     public bool IsActive { get; set; }
 }

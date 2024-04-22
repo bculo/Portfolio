@@ -11,15 +11,15 @@ public static class GetSingleMail
 {
     public class Query : IRequest<Response>
     {
-        public string MailId { get; set; }
+        public string MailId { get; set; } = default!;
     }
     
     public class Response
     {
-        public string To { get; set; }
-        public string Form { get; set; }
-        public string Message { get; set; }
-        public string Title { get; set; }
+        public string To { get; set; } = default!;
+        public string Form { get; set; } = default!;
+        public string Message { get; set; } = default!;
+        public string Title { get; set; } = default!;
     }
 
     public class Handler : IRequestHandler<Query, Response>

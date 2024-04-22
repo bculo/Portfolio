@@ -2,5 +2,5 @@ namespace Mail.Application.Models;
 
 public class ExceptionResponseDto
 {
-    public string Message { get; set; }
+    public string Message { get; set; } = default!;
 }

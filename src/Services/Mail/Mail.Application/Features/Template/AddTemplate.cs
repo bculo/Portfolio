@@ -12,9 +12,9 @@ public static class AddTemplate
 {
     public class Command : IRequest
     {
-        public string TemplateName { get; set; }
-        public string Template { get; set; }
-        public string Title { get; set; }
+        public string TemplateName { get; set; } = default!;
+        public string Template { get; set; } = default!;
+        public string Title { get; set; } = default!;
         public MailTemplateCategory Category { get; set; }
     }
 

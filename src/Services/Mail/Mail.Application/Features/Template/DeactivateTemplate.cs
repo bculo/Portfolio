@@ -13,7 +13,7 @@ public static class DeactivateTemplate
     public class Command : IRequest
     {
         public MailTemplateCategory Category { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
     }
 
     public class Validator : AbstractValidator<Command>

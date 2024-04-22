@@ -9,10 +9,10 @@ public class MailTemplate
     public bool IsActive { get; set; }
     
     [DynamoDBRangeKey("Name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
     
     [DynamoDBHashKey("Category")]
-    public int Category { get; set; } = default!;
+    public int Category { get; set; }
     public string Title { get; set; } = default!;
     public string Template { get; set; } = default!;
     public string TemplateResolver { get; set; } = default!;

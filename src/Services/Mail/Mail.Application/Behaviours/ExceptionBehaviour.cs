@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Mail.Application.Behaviours;
 
-public class ExceptionBehaviour<TRequest, TResponse>  : IPipelineBehavior<TRequest, TResponse>
+public class ExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    protected readonly ILogger<TRequest> _logger;
+    private readonly ILogger<TRequest> _logger;
 
     public ExceptionBehaviour(ILogger<TRequest> logger)
     {

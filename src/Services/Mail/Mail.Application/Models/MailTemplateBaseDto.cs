@@ -5,8 +5,8 @@ namespace Mail.Application.Models;
 public class MailTemplateBaseDto
 {
     public int Category { get; set; }
-    public string TemplateName { get; set; }
-    public string Title { get; set; }
+    public string TemplateName { get; set; } = default!;
+    public string Title { get; set; } = default!;
     public DateTime Created { get; set; }
     public bool IsActive { get; set; }
 }
