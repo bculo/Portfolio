@@ -1,11 +1,11 @@
 using System.Collections.Frozen;
 using Events.Common.User;
+using Events.MassTransit.Common.Serializers;
 using FluentValidation;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Options;
 using User.Application.Common.Options;
-using User.Application.Common.Serializer;
 using User.Application.Interfaces;
 
 namespace User.Application.Features;

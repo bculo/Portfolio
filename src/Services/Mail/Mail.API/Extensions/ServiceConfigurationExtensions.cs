@@ -32,8 +32,8 @@ public static class ServiceConfigurationExtensions
         services.AddMassTransit(x =>
         {
             x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Mail", false));
-
-            x.AddConsumer<SendCustomMailConsumer>();
+            
+            x.AddConsumer<SentimentCheckedConsumer, SentimentCheckedConsumerDefinition>();
             
             x.UsingRabbitMq((context, config) =>
             {

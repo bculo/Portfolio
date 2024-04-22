@@ -14,7 +14,7 @@ _star_mapping = {
 }
 
 
-class StartClassificationUtility:
+class StartClassificationUtilityResult:
     
     def __init__(self, label_val: int, label_name: str, score: float) -> None:
         self.label_val = label_val
@@ -22,10 +22,10 @@ class StartClassificationUtility:
         self.score = score
         
 
-def get_star_classification(text: str) -> StartClassificationUtility:
+def get_star_classification(text: str) -> StartClassificationUtilityResult:
     model = pipeline(model=_start_classification_model, device=_DEVICE)
     result = model(text)[0]
-    return StartClassificationUtility(_star_mapping[result['label']],
+    return StartClassificationUtilityResult(_star_mapping[result['label']],
                                       result['label'],
                                       result['score'])
 

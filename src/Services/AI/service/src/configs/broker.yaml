@@ -1,19 +1,34 @@
-connection_string: 'amqp://rabbitmquser:rabbitmqpassword@localhost:5672'
+connection_string: "amqp://rabbitmquser:rabbitmqpassword@localhost:5672"
 
 default_delivery_mode: 2
-default_content_type: 'application/json'
+default_content_type: "application/json"
 
 img_uploaded_con:
   root_exchange:
-    name: 'Events.Common.User:UserImageUploaded'
+    name: "Events.Common.User:UserImageUploaded"
   intermediate_exchange:
-    name: 'user-image-uploaded'
+    name: "user-image-uploaded"
   queue:
-    name: 'user-image-uploaded'
-  dotnet_namespace: 'Events.Common.User:UserImageUploaded'
-  masstransit_type: 'urn:message:Events.Common.User:UserImageUploaded'
+    name: "user-image-uploaded"
+  dotnet_namespace: "Events.Common.User:UserImageUploaded"
+  masstransit_type: "urn:message:Events.Common.User:UserImageUploaded"
 
 img_verified_pub:
-  root_exchange_name: 'Events.Common.User:UserImageVerified'
-  dotnet_namespace: 'Events.Common.User:UserImageVerified'
-  masstransit_type: 'urn:message:Events.Common.User:UserImageVerified'
+  root_exchange_name: "Events.Common.User:UserImageVerified"
+  dotnet_namespace: "Events.Common.User:UserImageVerified"
+  masstransit_type: "urn:message:Events.Common.User:UserImageVerified"
+
+mail_classification_con:
+  root_exchange:
+    name: "Events.Common.Mail:CheckMailSentiment"
+  intermediate_exchange:
+    name: "mail-check-sentiment"
+  queue:
+    name: "mail-check-sentiment"
+  dotnet_namespace: "Events.Common.Mail:CheckMailSentiment"
+  masstransit_type: "urn:message:Events.Common.Mail:CheckMailSentiment"
+
+mail_sentiment_checked_pub:
+  root_exchange_name: Events.Common.Mail:SentimentChecked
+  dotnet_namespace: Events.Common.Mail:SentimentChecked
+  masstransit_type: urn:message:Events.Common.Mail:SentimentChecked

@@ -22,13 +22,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
 	<PackageReference Include="EFCore.NamingConventions" Version="8.0.0-rc.2" />
-	<PackageReference Include="MassTransit" Version="8.1.2" />
-	<PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Abstract\Time.Abstract\Time.Abstract.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.MassTransit.Common\Events.MassTransit.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Keycloak.Common\Keycloak.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Time.Common\Time.Common.csproj" />
   </ItemGroup>

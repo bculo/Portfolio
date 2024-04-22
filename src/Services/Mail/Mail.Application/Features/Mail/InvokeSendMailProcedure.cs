@@ -1,5 +1,6 @@
 using Auth0.Abstract.Contracts;
 using Events.Common.Mail;
+using Events.MassTransit.Common.Serializers;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -49,7 +50,7 @@ public static class InvokeSendMailProcedure
         
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var command = new SendCustomMail()
+            var body = new CheckMailSentimentBody
             {
                 Message = request.Message,
                 Title = request.Title,
@@ -57,8 +58,21 @@ public static class InvokeSendMailProcedure
                 To = request.To,
                 UserId = _tokenReader.GetIdentifier().ToString()
             };
-
-            await _publisher.Publish(command, cancellationToken);
+            
+            var messageEnvelope = new CheckMailSentiment
+            {
+                Body = body,
+                RawMessage = body,
+                MessageId = Guid.NewGuid(),
+                CorrelationId = Guid.NewGuid()
+            };
+            
+            await _publisher.Publish(messageEnvelope, x =>
+            {
+                x.Serializer = new SystemTextJsonCustomRawMessageSerializer(RawSerializerOptions.All);
+                x.MessageId = messageEnvelope.MessageId;
+                x.CorrelationId = messageEnvelope.CorrelationId;
+            }, cancellationToken);
         }
     }
 }

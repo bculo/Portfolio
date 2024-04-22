@@ -9,7 +9,7 @@ using MassTransit.Metadata;
 using MassTransit.Serialization;
 using MassTransit.Serialization.JsonConverters;
 
-namespace User.Application.Common.Serializer;
+namespace Events.MassTransit.Common.Serializers;
 
 public class SystemTextJsonCustomRawMessageSerializer : RawMessageSerializer, IMessageDeserializer, IMessageSerializer 
 {

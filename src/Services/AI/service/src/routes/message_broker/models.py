@@ -6,12 +6,22 @@ from pydantic import BaseModel
 from utilities.config_reader_utilities import read_yaml_file
 
 
-class UserImageVerifiedEvent(BaseModel):
+class BaseEvent(BaseModel):
+    pass
+
+class UserImageVerifiedEvent(BaseEvent):
     userId: str
     isPerson: bool
     isNsfw: bool
     userName: str
-
+    
+class MailSentimentCheckedEvent(BaseModel):
+    numberOfStars: int
+    score: float
+    fromMail: str
+    userId: str
+    title: str
+    content: str
 
 class RabbitMqConsumer:
     root_exc: RabbitExchange
@@ -57,11 +67,16 @@ class RabbitMqConfig:
 
         self._consumer = {
             'img_uploaded_con': RabbitMqConsumer(config["img_uploaded_con"]),
+            'mail_classification_con': RabbitMqConsumer(config["mail_classification_con"]),
         }
 
         self._publisher = {
             'img_verified_pub': RabbitMqPublisher(config["img_verified_pub"]),
+            'mail_sentiment_checked_pub': RabbitMqPublisher(config["mail_sentiment_checked_pub"]),
         }
+
+    def get_publisher_keys(self):
+        return self._publisher.keys()
 
     def get_con(self, endpoint_name) -> RabbitMqConsumer:
         return self._consumer[endpoint_name]
