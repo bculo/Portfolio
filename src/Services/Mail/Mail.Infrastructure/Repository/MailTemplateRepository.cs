@@ -1,14 +1,13 @@
-using System.Net;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using Mail.Application.Entities;
 using Mail.Application.Entities.Enums;
-using Mail.Application.Models;
-using Mail.Application.Services.Interfaces;
+using Mail.Application.Interfaces;
+using Mail.Application.Interfaces.Repository;
 
-namespace Mail.Application.Services.Implementations;
+namespace Mail.Infrastructure.Repository;
 
 public class MailTemplateRepository : IMailTemplateRepository
 {

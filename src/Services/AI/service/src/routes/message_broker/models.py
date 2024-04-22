@@ -15,7 +15,7 @@ class UserImageVerifiedEvent(BaseEvent):
     isNsfw: bool
     userName: str
     
-class MailSentimentCheckedEvent(BaseModel):
+class MailSentimentCheckedEvent(BaseEvent):
     numberOfStars: int
     score: float
     fromMail: str

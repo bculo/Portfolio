@@ -1,8 +1,9 @@
 using FluentValidation;
 using Mail.Application.Entities.Enums;
 using Mail.Application.Exceptions;
+using Mail.Application.Interfaces;
+using Mail.Application.Interfaces.Repository;
 using Mail.Application.Models;
-using Mail.Application.Services.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

@@ -206,6 +206,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.API.Client", "src\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.MassTransit.Common", "src\BuildingBlocks\Events\Events.MassTransit.Common\Events.MassTransit.Common.csproj", "{AD4C5CE0-BFA9-4DEC-9CA0-A5ACE6456163}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail.Infrastructure", "src\Services\Mail\Mail.Infrastructure\Mail.Infrastructure.csproj", "{689E2BCB-CEC3-4873-86E2-7D9B13150DEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -468,6 +470,10 @@ Global
 		{AD4C5CE0-BFA9-4DEC-9CA0-A5ACE6456163}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4C5CE0-BFA9-4DEC-9CA0-A5ACE6456163}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD4C5CE0-BFA9-4DEC-9CA0-A5ACE6456163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -560,6 +566,7 @@ Global
 		{B17508FF-4188-4B24-8A8E-69226D980E4E} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 		{2531ED36-FD13-41BD-8A06-D217723B37F8} = {30DAB5BC-ECCA-4274-8CA7-95E9E6190B13}
 		{AD4C5CE0-BFA9-4DEC-9CA0-A5ACE6456163} = {4598C28E-F027-4075-9045-1B5009AA89C9}
+		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA} = {D717FC95-CDFD-4518-B90B-70998B516924}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

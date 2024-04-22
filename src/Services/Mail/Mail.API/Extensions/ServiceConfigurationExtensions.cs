@@ -2,6 +2,7 @@ using Carter;
 using Keycloak.Common;
 using Mail.Application;
 using Mail.Application.Consumers;
+using Mail.Infrastructure;
 using MassTransit;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -21,6 +22,7 @@ public static class ServiceConfigurationExtensions
             "Mail.API");
         
         ApplicationLayer.AddServices(services, configuration);
+        InfrastructureLayer.AddServices(services, configuration);
         
         AddAuthentication(services, configuration);
         AddOpenTelemetry(services, configuration);

@@ -1,7 +1,7 @@
 using Mail.Application.Entities;
 using Mail.Application.Entities.Enums;
 
-namespace Mail.Application.Services.Interfaces;
+namespace Mail.Application.Interfaces.Repository;
 
 public interface IMailTemplateRepository
 {

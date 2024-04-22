@@ -1,7 +1,6 @@
-using Amazon.DynamoDBv2.DataModel;
-using Mail.Application.Entities;
+using Mail.Application.Interfaces;
+using Mail.Application.Interfaces.Repository;
 using Mail.Application.Models;
-using Mail.Application.Services.Interfaces;
 using MediatR;
 
 namespace Mail.Application.Features.Template;

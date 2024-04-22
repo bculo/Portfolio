@@ -1,6 +1,8 @@
 using Events.Common.Mail;
+using Mail.Application.Interfaces.Mail;
+using Mail.Application.Interfaces.Mail.Models;
+using Mail.Application.Interfaces.Repository;
 using Mail.Application.Options;
-using Mail.Application.Services.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
@@ -28,12 +30,16 @@ public class SentimentCheckedConsumer : IConsumer<SentimentChecked>
     public async Task Consume(ConsumeContext<SentimentChecked> context)
     {
         var mailInstance = context.Message;
+
+        var emailModel = new SendMailModel
+        {
+            Content = mailInstance.Content,
+            From = mailInstance.FromMail,
+            Title = mailInstance.Title,
+            To = _mailOptions.AppSupportMail
+        };
         
-        await _mailService.SendMail(mailInstance.FromMail, 
-            _mailOptions.AppSupportMail, 
-            mailInstance.Title, 
-            mailInstance.Content, 
-            default);
+        await _mailService.SendMail(emailModel, default);
         
         var entityModel = MapToEntity(mailInstance);
         await _mailRepo.AddItem(entityModel, default);

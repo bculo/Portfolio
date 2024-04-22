@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Mail.Application.Services.Interfaces;
+namespace Mail.Application.Interfaces.Repository;
 
 public interface IMailRepository
 {

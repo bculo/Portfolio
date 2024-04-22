@@ -1,6 +1,7 @@
 using Mail.Application.Entities.Enums;
+using Mail.Application.Interfaces;
+using Mail.Application.Interfaces.Repository;
 using Mail.Application.Models;
-using Mail.Application.Services.Interfaces;
 using MediatR;
 
 namespace Mail.Application.Features.Template;

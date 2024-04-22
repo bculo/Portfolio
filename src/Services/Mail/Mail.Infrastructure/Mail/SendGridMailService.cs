@@ -1,11 +1,12 @@
+using Mail.Application.Interfaces.Mail;
+using Mail.Application.Interfaces.Mail.Models;
 using Mail.Application.Options;
-using Mail.Application.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Mail.Application.Services.Implementations;
+namespace Mail.Infrastructure.Mail;
 
 public class SendGridMailService : IEmailService
 {
@@ -19,15 +20,15 @@ public class SendGridMailService : IEmailService
         _options = options.Value;
     }
 
-    public async Task SendMail(string emailFrom, string emailTo, string subject, string body, CancellationToken token)
+    public async Task SendMail(SendMailModel model, CancellationToken token)
     {
         var client = new SendGridClient(_options.ApiKey);
-        var from = new EmailAddress(emailFrom);
-        var to = new EmailAddress(emailTo);
+        var from = new EmailAddress(model.From);
+        var to = new EmailAddress(model.To);
         
-        var plainTextContent = body;
-        var htmlContent = $"<strong>{body}</strong>";
-        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+        var plainTextContent = model.Content;
+        var htmlContent = $"<strong>{model.Content}</strong>";
+        var msg = MailHelper.CreateSingleEmail(from, to, model.Title, plainTextContent, htmlContent);
         
         var response = await client.SendEmailAsync(msg, token);
         

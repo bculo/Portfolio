@@ -2,7 +2,8 @@ using Auth0.Abstract.Contracts;
 using FluentValidation;
 using Mail.Application.Entities;
 using Mail.Application.Entities.Enums;
-using Mail.Application.Services.Interfaces;
+using Mail.Application.Interfaces;
+using Mail.Application.Interfaces.Repository;
 using MediatR;
 using Time.Abstract.Contracts;
 
