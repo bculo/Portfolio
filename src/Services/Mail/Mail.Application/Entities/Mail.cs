@@ -5,12 +5,12 @@ namespace Mail.Application.Entities;
 [DynamoDBTable("Mail")]
 public class Mail
 {
-    public string Id { get; set; }
-    public string From { get; set; }
-    public string To { get; set; }
-    public string Title { get; set; }
-    public string Body { get; set; }
+    public string Id { get; set; } = default!;
+    public string From { get; set; } = default!;
+    public string To { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public string Body { get; set; } = default!;
     public DateTime Created { get; set; }
     public bool IsActive { get; set; }
-    public string UserId { get; set; }
+    public string UserId { get; set; } = default!;
 }

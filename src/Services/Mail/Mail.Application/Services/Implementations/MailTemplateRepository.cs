@@ -23,12 +23,12 @@ public class MailTemplateRepository : IMailTemplateRepository
         _client = client;
     }
 
-    public async Task<IEnumerable<MailTemplate>> GetAll()
+    public async Task<IEnumerable<MailTemplate>> GetAll(CancellationToken ct)
     {
-        return await _dbContext.ScanAsync<MailTemplate>(null).GetRemainingAsync();
+        return await _dbContext.ScanAsync<MailTemplate>(null).GetRemainingAsync(ct);
     }
     
-    public async Task<MailTemplate> GetSingle(MailTemplateCategory category, string template)
+    public async Task<MailTemplate> GetSingle(MailTemplateCategory category, string template, CancellationToken ct)
     {
         var itemRequest = new GetItemRequest()
         {
@@ -40,7 +40,7 @@ public class MailTemplateRepository : IMailTemplateRepository
             },
         };
 
-        var response = await _client.GetItemAsync(itemRequest);
+        var response = await _client.GetItemAsync(itemRequest, ct);
         if (response.Item.Count == 0)
         {
             return null;
@@ -50,7 +50,8 @@ public class MailTemplateRepository : IMailTemplateRepository
         return _dbContext.FromDocument<MailTemplate>(doc);
     }
 
-    public async Task<IEnumerable<MailTemplate>> GetTemplatesByCategory(MailTemplateCategory category, bool isActive)
+    public async Task<IEnumerable<MailTemplate>> GetTemplatesByCategory(MailTemplateCategory category, 
+        bool isActive, CancellationToken ct)
     {
         var query = new QueryRequest()
         {
@@ -64,7 +65,7 @@ public class MailTemplateRepository : IMailTemplateRepository
             }
         };
 
-        var response = await _client.QueryAsync(query);
+        var response = await _client.QueryAsync(query, ct);
         if (response.Items.Count == 0)
         {
             return Enumerable.Empty<MailTemplate>();
@@ -77,13 +78,13 @@ public class MailTemplateRepository : IMailTemplateRepository
         });
     }
 
-    public async Task AddItem(MailTemplate template)
+    public async Task AddItem(MailTemplate template, CancellationToken ct)
     {
-        await _dbContext.SaveAsync(template);
+        await _dbContext.SaveAsync(template, ct);
     }
 
-    public async Task UpdateItem(MailTemplate template)
+    public async Task UpdateItem(MailTemplate template, CancellationToken ct)
     {
-        await _dbContext.SaveAsync(template);
+        await _dbContext.SaveAsync(template, ct);
     }
 }

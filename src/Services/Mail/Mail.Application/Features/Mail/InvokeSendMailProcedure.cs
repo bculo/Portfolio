@@ -58,7 +58,7 @@ public static class InvokeSendMailProcedure
                 UserId = _tokenReader.GetIdentifier().ToString()
             };
 
-            await _publisher.Publish(command);
+            await _publisher.Publish(command, cancellationToken);
         }
     }
 }

@@ -14,9 +14,9 @@ public class MailModule : ICarterModule
     {
         app.MapGroup("/v1")
             .MapPost($"{MODULE_NAME}/InvokeSendMailProcedure", 
-            async ([FromBody] InvokeSendMailProcedure.Command request, IMediator mediator) =>
+            async ([FromBody] InvokeSendMailProcedure.Command request, IMediator mediator, CancellationToken ct) =>
                 {
-                    await mediator.Send(request);
+                    await mediator.Send(request, ct);
                     return Results.NoContent();
                 })
             .RequireAuthorization()
@@ -24,18 +24,18 @@ public class MailModule : ICarterModule
         
         app.MapGroup("/v1")
             .MapPost($"{MODULE_NAME}/GetSingleMail", 
-                async ([FromBody] GetSingleMail.Query request, IMediator mediator) =>
+                async ([FromBody] GetSingleMail.Query request, IMediator mediator, CancellationToken ct) =>
                 {
-                    return Results.Ok(await mediator.Send(request));
+                    return Results.Ok(await mediator.Send(request, ct));
                 })
             .RequireAuthorization()
             .WithTags(MODULE_NAME);
         
         app.MapGroup("/v1")
             .MapGet($"{MODULE_NAME}/GetUserMail", 
-                async (IMediator mediator) =>
+                async (IMediator mediator, CancellationToken ct) =>
                 {
-                    return Results.Ok(await mediator.Send(new GetUserMails.Query()));
+                    return Results.Ok(await mediator.Send(new GetUserMails.Query(), ct));
                 })
             .RequireAuthorization()
             .WithTags(MODULE_NAME);

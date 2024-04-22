@@ -62,7 +62,7 @@ public static class AddTemplate
                 ModificationDate = _time.Now
             }; 
             
-            await _repo.AddItem(item);
+            await _repo.AddItem(item, cancellationToken);
         }
     }
 }

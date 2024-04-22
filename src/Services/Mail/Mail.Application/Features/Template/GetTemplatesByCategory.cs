@@ -24,7 +24,10 @@ public static class GetTemplatesByCategory
 
         public async Task<IEnumerable<MailTemplateBaseDto>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetTemplatesByCategory(request.Category, request.IsActive);
+            var result = await _repo.GetTemplatesByCategory(request.Category, 
+                request.IsActive, 
+                cancellationToken);
+            
             return result.Select(i => i.ToBaseDto());
         }
     }

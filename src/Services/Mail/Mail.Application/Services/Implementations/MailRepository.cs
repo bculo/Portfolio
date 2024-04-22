@@ -9,26 +9,24 @@ namespace Mail.Application.Services.Implementations;
 public class MailRepository : IMailRepository
 {
     private readonly IDynamoDBContext _dbContext;
-    private readonly IAmazonDynamoDB _client;
-    
-    public MailRepository(IDynamoDBContext dbContext, IAmazonDynamoDB client)
+
+    public MailRepository(IDynamoDBContext dbContext)
     {
         _dbContext = dbContext;
-        _client = client;
     }
     
-    public async Task AddItem(Entities.Mail mail)
+    public async Task AddItem(Entities.Mail mail, CancellationToken token)
     {
-        await _dbContext.SaveAsync(mail);
+        await _dbContext.SaveAsync(mail, token);
     }
 
-    public async Task<Entities.Mail> GetSingle(string userId, string id)
+    public async Task<Entities.Mail> GetSingle(string userId, string id, CancellationToken token)
     {
-        return await _dbContext.LoadAsync<Entities.Mail>(userId, id);
+        return await _dbContext.LoadAsync<Entities.Mail>(userId, id, token);
     }
     
-    public async Task<IEnumerable<Entities.Mail>> GetAllUserMails(string userId)
+    public async Task<IEnumerable<Entities.Mail>> GetAllUserMails(string userId, CancellationToken token)
     {
-        return await _dbContext.QueryAsync<Entities.Mail>(userId).GetRemainingAsync();
+        return await _dbContext.QueryAsync<Entities.Mail>(userId).GetRemainingAsync(token);
     }
 }

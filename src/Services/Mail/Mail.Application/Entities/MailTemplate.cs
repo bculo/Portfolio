@@ -12,10 +12,10 @@ public class MailTemplate
     public string Name { get; set; }
     
     [DynamoDBHashKey("Category")]
-    public int Category { get; set; }
-    public string Title { get; set; }
-    public string Template { get; set; }
-    public string TemplateResolver { get; set; }
-    public string ModifiedBy { get; set; }
+    public int Category { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public string Template { get; set; } = default!;
+    public string TemplateResolver { get; set; } = default!;
+    public string ModifiedBy { get; set; } = default!;
     public DateTime ModificationDate { get; set; }
 }

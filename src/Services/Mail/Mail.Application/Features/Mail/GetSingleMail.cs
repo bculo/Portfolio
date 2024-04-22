@@ -26,25 +26,21 @@ public static class GetSingleMail
     {
         private readonly IAuth0AccessTokenReader _tokenReader;
         private readonly IMailRepository _mailRepo;
-        private readonly ILogger<Handler> _logger;
 
         public Handler(IAuth0AccessTokenReader tokenReader,
-            IMailRepository mailRepo,
-            ILogger<Handler> logger)
+            IMailRepository mailRepo)
         {
             _tokenReader = tokenReader;
             _mailRepo = mailRepo;
-            _logger = logger;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             var userId = _tokenReader.GetIdentifier().ToString();
-            var entity = await _mailRepo.GetSingle(userId, request.MailId);
+            var entity = await _mailRepo.GetSingle(userId, request.MailId, cancellationToken);
             
             if (entity is null)
             {
-                _logger.LogWarning("Item with PK {0} and SK {0} not found", userId, request.MailId);
                 throw new MailCoreNotFoundException();
             }
 

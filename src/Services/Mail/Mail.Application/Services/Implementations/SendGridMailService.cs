@@ -7,19 +7,19 @@ using SendGrid.Helpers.Mail;
 
 namespace Mail.Application.Services.Implementations;
 
-public class SendGridMailservice : IEmailService
+public class SendGridMailService : IEmailService
 {
     private readonly MailOptions _options;
-    private readonly ILogger<SendGridMailservice> _logger;
+    private readonly ILogger<SendGridMailService> _logger;
 
-    public SendGridMailservice(IOptions<MailOptions> options,
-        ILogger<SendGridMailservice> logger)
+    public SendGridMailService(IOptions<MailOptions> options,
+        ILogger<SendGridMailService> logger)
     {
         _logger = logger;
         _options = options.Value;
     }
 
-    public async Task SendMail(string emailFrom, string emailTo, string subject, string body)
+    public async Task SendMail(string emailFrom, string emailTo, string subject, string body, CancellationToken token)
     {
         var client = new SendGridClient(_options.ApiKey);
         var from = new EmailAddress(emailFrom);
@@ -29,7 +29,7 @@ public class SendGridMailservice : IEmailService
         var htmlContent = $"<strong>{body}</strong>";
         var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
         
-        var response = await client.SendEmailAsync(msg);
+        var response = await client.SendEmailAsync(msg, token);
         
         if (!response.IsSuccessStatusCode)
         {

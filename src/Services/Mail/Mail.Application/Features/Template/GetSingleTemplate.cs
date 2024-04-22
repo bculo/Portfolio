@@ -38,7 +38,7 @@ public static class GetSingleTemplate
         
         public async Task<MailTemplateDetailsDto> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetSingle(request.Category, request.Name);
+            var result = await _repo.GetSingle(request.Category, request.Name, cancellationToken);
 
             if (result is null)
             {

@@ -21,7 +21,7 @@ public static class GetTemplates
         
         public async Task<IEnumerable<MailTemplateBaseDto>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var response = await _context.GetAll();
+            var response = await _context.GetAll(cancellationToken);
             return response.Select(i => i.ToBaseDto());
         }
     }

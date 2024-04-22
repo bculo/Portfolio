@@ -39,9 +39,9 @@ public static class GetUserMails
         {
             var userId = _tokenReader.GetIdentifier().ToString();
             
-            var entities = await _mailRepo.GetAllUserMails(userId);
+            var entities = await _mailRepo.GetAllUserMails(userId, cancellationToken);
 
-            return entities.Select(i => MapToDto(i));
+            return entities.Select(MapToDto);
         }
 
         private Response MapToDto(Entities.Mail entity)

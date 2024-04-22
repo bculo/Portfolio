@@ -39,7 +39,7 @@ public static class DeactivateTemplate
 
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var item = await _repo.GetSingle(request.Category, request.Name);
+            var item = await _repo.GetSingle(request.Category, request.Name, cancellationToken);
 
             if (item is null)
             {
@@ -48,7 +48,7 @@ public static class DeactivateTemplate
             }
 
             item.IsActive = false;
-            await _repo.UpdateItem(item);
+            await _repo.UpdateItem(item, cancellationToken);
         }
     }
 }

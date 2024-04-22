@@ -20,7 +20,7 @@ public static class ApplicationLayer
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddUtcTimeProvider();
-        services.AddScoped<IEmailService, SendGridMailservice>();
+        services.AddScoped<IEmailService, SendGridMailService>();
         services.Configure<MailOptions>(configuration.GetSection(nameof(MailOptions)));
         
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionBehaviour<,>));
@@ -40,14 +40,17 @@ public static class ApplicationLayer
     {
         services.Configure<AwsOptions>(configuration.GetSection(nameof(AwsOptions)));
         
-        var creds = new BasicAWSCredentials(configuration["AwsOptions:AccessKeyId"], configuration["AwsOptions:AccessKeySecret"]);
+        var credentials = new BasicAWSCredentials(
+            configuration["AwsOptions:AccessKeyId"], 
+            configuration["AwsOptions:AccessKeySecret"]);
+            
         var config = new AmazonDynamoDBConfig
         {
             ServiceURL = configuration["AwsOptions:ServiceUrl"],
             AuthenticationRegion = configuration["AwsOptions:Region"]
         };
         
-        services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(creds, config));
+        services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(credentials, config));
         services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
         
         services.AddScoped<IMailTemplateRepository, MailTemplateRepository>();

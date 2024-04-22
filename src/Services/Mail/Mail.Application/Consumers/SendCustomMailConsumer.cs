@@ -24,12 +24,10 @@ public class SendCustomMailConsumer : IConsumer<SendCustomMail>
     {
         var mailInstance = context.Message;
         
-        await _mailService.SendMail(mailInstance.From, mailInstance.To, mailInstance.Title,mailInstance.Message);
-        
-        //TODO -> outbox pattern needed (check dynamoDB transactions)?
+        await _mailService.SendMail(mailInstance.From, mailInstance.To, mailInstance.Title,mailInstance.Message, default);
         
         var entityModel = MapToEntity(mailInstance);
-        await _mailRepo.AddItem(entityModel);
+        await _mailRepo.AddItem(entityModel, default);
         
         await context.Publish(new CustomMailSent
         {
