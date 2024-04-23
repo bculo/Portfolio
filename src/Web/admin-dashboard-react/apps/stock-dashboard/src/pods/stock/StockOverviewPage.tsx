@@ -15,6 +15,7 @@ import {
   ArrowTopRightOnSquareIcon,
   XCircleIcon,
 } from '@heroicons/react/20/solid';
+import { Spinner } from '../../components/Spinner';
 
 const map = (form: StockFilter): FilterStocksApiArg => {
   return {
@@ -72,7 +73,8 @@ const StockOverviewPage = () => {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 relative">
+        <Spinner visible={isLoading} wholeScreen={false} />
         <Table
           take={filter.take}
           page={filter.page}
