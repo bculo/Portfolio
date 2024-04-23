@@ -16,6 +16,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/20/solid';
 import { Spinner } from '../../components/Spinner';
+import { useNavigate } from 'react-router-dom';
 
 const map = (form: StockFilter): FilterStocksApiArg => {
   return {
@@ -39,7 +40,8 @@ const defaultVal: StockFilter = {
   take: 20,
 };
 
-const StockOverviewPage = () => {
+const StockList = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<StockFilter>(defaultVal);
   const { data, refetch, isLoading } = useFilterStocksQuery(map(filter));
@@ -54,8 +56,12 @@ const StockOverviewPage = () => {
     refetch();
   };
 
+  const routeToAsset = (item: StockPriceResultDto) => {
+    navigate(`${item.id}`);
+  };
+
   return (
-    <div className="w-3/4 m-auto glass p-4 rounded-md">
+    <div className="glass p-4 rounded-md">
       <div className="flex justify-between items-center">
         <div>
           <SearchInput
@@ -96,20 +102,35 @@ const StockOverviewPage = () => {
                   : '';
               },
             },
-            price: { name: 'Price', accessor: (item) => item.price },
+            price: {
+              name: 'Price',
+              accessor: (item) => (
+                <span className="underline underline-offset-4">
+                  {item.price}
+                </span>
+              ),
+            },
             active: {
               name: 'Active',
-              accessor: (item) => (item.isActive ? 'Active' : 'Unactive'),
+              accessor: (item) =>
+                item.isActive ? (
+                  <span className="text-green-600">Active</span>
+                ) : (
+                  <span className="text-red-600">Unactive</span>
+                ),
             },
             actions: {
               name: 'Actions',
               accessor: (item) => (
                 <div className="flex gap-x-2">
                   <XCircleIcon
-                    className="h-6 w-6 text-red-700 hover:cursor-pointer"
+                    className="h-6 w-6 text-red-600 hover:cursor-pointer"
                     onClick={() => deactivateItem(item)}
                   />
-                  <ArrowTopRightOnSquareIcon className="h-6 w-6 text-cyan-700 hover:cursor-pointer" />
+                  <ArrowTopRightOnSquareIcon
+                    className="h-6 w-6 text-cyan-700 hover:cursor-pointer"
+                    onClick={() => routeToAsset(item)}
+                  />
                 </div>
               ),
             },
@@ -133,4 +154,4 @@ const StockOverviewPage = () => {
   );
 };
 
-export default StockOverviewPage;
+export default StockList;

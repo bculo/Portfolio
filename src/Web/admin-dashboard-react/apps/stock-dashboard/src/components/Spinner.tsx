@@ -5,7 +5,10 @@ type Props = {
   visible: boolean;
 };
 
-export const Spinner = ({ visible, wholeScreen }: Props) => {
+export const Spinner = ({
+  visible = false,
+  wholeScreen = false,
+}: Partial<Props>) => {
   return (
     <div
       className={clsx(
