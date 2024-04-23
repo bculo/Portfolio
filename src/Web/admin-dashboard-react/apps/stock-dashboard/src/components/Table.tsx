@@ -27,7 +27,7 @@ export const Table = <T extends object>({
   return (
     <div>
       <table className="min-w-full divide-y divide-gray-500">
-        <thead className="bg-gray-600">
+        <thead className="bg-gray-600 text-cyan-500">
           <tr className="text-start">
             {Object.keys(columns).map((key) => {
               const { name } = columns[key];

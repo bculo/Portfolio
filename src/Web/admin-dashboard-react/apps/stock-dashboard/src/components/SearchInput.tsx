@@ -13,12 +13,10 @@ export const SearchInput = ({ onInputChange, placeholder }: Props) => {
     onInputChange(value);
   }, [value, onInputChange]);
 
-  console.log('RENDER');
-
   return (
     <input
       placeholder={placeholder}
-      className="px-4 py-2 rounded-lg bg-gray-900 opacity-70 border-gray-700 w-full border placeholder:italic placeholder:text-stone-600 inline-block read-only:outline-0"
+      className="px-4 py-2 rounded-lg w-48 hover:w-72 focus:w-72 duration-200 bg-gray-900 opacity-70 border-gray-700 border placeholder:italic placeholder:text-stone-600 inline-block read-only:outline-0"
       type="text"
       onChange={(e) => {
         setSearchValue(e.target.value);

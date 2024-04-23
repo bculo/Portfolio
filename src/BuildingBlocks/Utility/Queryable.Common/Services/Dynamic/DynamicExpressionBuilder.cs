@@ -47,7 +47,7 @@ public class DynamicExpressionBuilder<TModel>
         var parameter = propertySelector.Parameters[0];
         var value = ExpressionUtilities.GetSelector(propertySelector, filter.Value);
         
-        var res =Expression.Lambda<Func<TModel, bool>>(
+        var res = Expression.Lambda<Func<TModel, bool>>(
             Expression.Call(propertyRef, _containsMethod, value),
             parameter);
 

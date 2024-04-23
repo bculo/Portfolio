@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react';
 import { format } from 'date-fns';
 import {
   FilterStocksApiArg,
+  StockPriceResultDto,
+  useChangeStockStatusMutation,
   useFilterStocksQuery,
 } from '../../stores/api/generated';
 import { Table } from '../../components/Table';
@@ -9,6 +11,10 @@ import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { CreateStockForm } from './CreateStockForm';
 import { SearchInput } from '../../components/SearchInput';
+import {
+  ArrowTopRightOnSquareIcon,
+  XCircleIcon,
+} from '@heroicons/react/20/solid';
 
 const map = (form: StockFilter): FilterStocksApiArg => {
   return {
@@ -35,11 +41,17 @@ const defaultVal: StockFilter = {
 const StockOverviewPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<StockFilter>(defaultVal);
-  const { data, refetch } = useFilterStocksQuery(map(filter));
+  const { data, refetch, isLoading } = useFilterStocksQuery(map(filter));
+  const [changeStatus] = useChangeStockStatusMutation();
 
   const onSearchChange = useCallback((search: string) => {
     setFilter((prev) => ({ ...prev, symbol: search }));
   }, []);
+
+  const deactivateItem = async (item: StockPriceResultDto) => {
+    await changeStatus({ id: item.id });
+    refetch();
+  };
 
   return (
     <div className="w-3/4 m-auto glass p-4 rounded-md">
@@ -83,6 +95,22 @@ const StockOverviewPage = () => {
               },
             },
             price: { name: 'Price', accessor: (item) => item.price },
+            active: {
+              name: 'Active',
+              accessor: (item) => (item.isActive ? 'Active' : 'Unactive'),
+            },
+            actions: {
+              name: 'Actions',
+              accessor: (item) => (
+                <div className="flex gap-x-2">
+                  <XCircleIcon
+                    className="h-6 w-6 text-red-700 hover:cursor-pointer"
+                    onClick={() => deactivateItem(item)}
+                  />
+                  <ArrowTopRightOnSquareIcon className="h-6 w-6 text-cyan-700 hover:cursor-pointer" />
+                </div>
+              ),
+            },
           }}
         />
       </div>
