@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { format } from 'date-fns';
 import {
   FilterStocksApiArg,
   useFilterStocksQuery,
 } from '../../stores/api/generated';
-import { FilterStockForm, StockOverviewFilter } from './StockOverviewFilter';
 import { Table } from '../../components/Table';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { CreateStockForm } from './CreateStockForm';
+import { SearchInput } from '../../components/SearchInput';
 
 const map = (form: StockFilter): FilterStocksApiArg => {
   return {
@@ -18,9 +18,11 @@ const map = (form: StockFilter): FilterStocksApiArg => {
   };
 };
 
-type StockFilter = FilterStockForm & {
+type StockFilter = {
   page: number;
   take: number;
+  symbol: string;
+  status: 1 | 2 | 999;
 };
 
 const defaultVal: StockFilter = {
@@ -35,21 +37,27 @@ const StockOverviewPage = () => {
   const [filter, setFilter] = useState<StockFilter>(defaultVal);
   const { data, refetch } = useFilterStocksQuery(map(filter));
 
+  const onSearchChange = useCallback((search: string) => {
+    setFilter((prev) => ({ ...prev, symbol: search }));
+  }, []);
+
   return (
-    <div className="w-2/4 m-auto">
-      <div className="flex justify-end gap-x-2 mb-4">
-        <Button
-          type="button"
-          buttonStyle="full"
-          text="Create"
-          onClick={() => setIsModalOpen(true)}
-        />
-      </div>
-      <div className="glass p-8 rounded-lg">
-        <StockOverviewFilter
-          defaultValue={defaultVal}
-          onSearch={(f) => setFilter({ ...defaultVal, ...f })}
-        />
+    <div className="w-3/4 m-auto glass p-4 rounded-md">
+      <div className="flex justify-between items-center">
+        <div>
+          <SearchInput
+            placeholder="Search by symbol"
+            onInputChange={onSearchChange}
+          />
+        </div>
+        <div>
+          <Button
+            type="button"
+            buttonStyle="full"
+            text="Create"
+            onClick={() => setIsModalOpen(true)}
+          />
+        </div>
       </div>
 
       <div className="mt-4">

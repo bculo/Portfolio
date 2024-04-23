@@ -26,7 +26,7 @@ export const AppNavigation = () => {
     <ul>
       {navigation.map((item) => {
         return (
-          <li key={item.name}>
+          <li className="p-2 px-4 hover:cursor-pointer" key={item.name}>
             <Link to={item.path}>{item.text}</Link>
           </li>
         );
