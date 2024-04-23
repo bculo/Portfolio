@@ -1,4 +1,19 @@
-### PREPARE KEY AUTHENTICATION ?
+Admin dashboard application for stock asset management written in React
+
+### What can you see here?
+
+- nx dev
+- Keycloak for authentication
+- Redux and RTK query for state management and API calls
+- Tailwind for style
+
+### Is there any image of app?
+
+![alt text](./images/landing_page.png)
+![alt text](./images/keycloak_page.png)
+![alt text](./images/stocks_page.png)
+
+### How to set app authentication with Keycloak?
 
 - visit keycloak admin dashboard (http://localhost:8080). Should be up and running after docker-compose up -d
 - select option 'Clients' from main menu and click "Create client" button
@@ -6,7 +21,7 @@
 - set valid redirect URI
 - go to advanced tab
 - set "Proof Key for Code Exchange Code Challenge Method" to S256
-- download adapter config
+- download adapter config and put it in environment.ts
 
 ```json
 {
@@ -19,7 +34,7 @@
 }
 ```
 
-### HOW TO RUN IT?
+### How to run it?
 
 ```
 nx serve stock-dashboard
