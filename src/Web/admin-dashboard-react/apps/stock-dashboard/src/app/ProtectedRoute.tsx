@@ -11,7 +11,7 @@ export const ProtectedRoute = ({ children }: Props) => {
   }
 
   if (!auth.isLoading && !auth.isAuthenticated) {
-    return 'Not authenticated';
+    return <div>NOT AUTHENTICATED</div>;
   }
 
   return children;

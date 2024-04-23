@@ -7,7 +7,7 @@ const HomeRoute = () => {
 
   return (
     <div className="flex p-16 h-full">
-      <div className="flex-1 flex flex-col justify-center text-white">
+      <div className="flex-1 flex flex-col justify-center text-white relative">
         <h1 className="text-5xl text-right tracking-wide leading-snug">
           Strategic Asset Mastery: Elevate Your Portfolio with Seamless{' '}
           <span className="text-cyan-500 font-extrabold underline underline-offset-4">
