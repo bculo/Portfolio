@@ -15,7 +15,7 @@ public static class InfrastructureLayer
 {
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IEmailService, SendGridMailService>();
+        services.AddScoped<IEmailService, MockMailService>();
         services.Configure<MailOptions>(configuration.GetSection(nameof(MailOptions)));
         
         services.Configure<AwsOptions>(configuration.GetSection(nameof(AwsOptions)));
