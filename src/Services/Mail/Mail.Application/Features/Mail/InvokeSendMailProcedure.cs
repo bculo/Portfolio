@@ -2,8 +2,10 @@ using Auth0.Abstract.Contracts;
 using Events.Common.Mail;
 using Events.MassTransit.Common.Serializers;
 using FluentValidation;
+using Mail.Application.Options;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace Mail.Application.Features.Mail;
 
@@ -11,8 +13,6 @@ public static class InvokeSendMailProcedure
 {
     public class Command : IRequest
     {
-        public string From { get; set; } = default!;
-        public string To { get; set; } = default!;
         public string Title { get; set; } = default!;
         public string Message { get; set; } = default!;
     }
@@ -21,14 +21,6 @@ public static class InvokeSendMailProcedure
     {
         public Validator()
         {
-            RuleFor(i => i.From)
-                .EmailAddress()
-                .NotEmpty();
-            
-            RuleFor(i => i.To)
-                .EmailAddress()
-                .NotEmpty();
-            
             RuleFor(i => i.Message)
                 .NotEmpty();
             
@@ -40,12 +32,15 @@ public static class InvokeSendMailProcedure
     {
         private readonly IPublishEndpoint _publisher;
         private readonly IAuth0AccessTokenReader _tokenReader;
+        private readonly MailOptions _mailOptions;
 
         public Handler(IPublishEndpoint publisher,
-            IAuth0AccessTokenReader tokenReader)
+            IAuth0AccessTokenReader tokenReader,
+            IOptions<MailOptions> options)
         {
             _publisher = publisher;
             _tokenReader = tokenReader;
+            _mailOptions = options.Value;
         }
         
         public async Task Handle(Command request, CancellationToken cancellationToken)
@@ -54,8 +49,8 @@ public static class InvokeSendMailProcedure
             {
                 Message = request.Message,
                 Title = request.Title,
-                From = request.From,
-                To = request.To,
+                From = _tokenReader.GetEmail(),
+                To = _mailOptions.AppSupportMail,
                 UserId = _tokenReader.GetIdentifier().ToString()
             };
             

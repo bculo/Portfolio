@@ -17,5 +17,6 @@ public class MailTemplate
     public string Template { get; set; } = default!;
     public string TemplateResolver { get; set; } = default!;
     public string ModifiedBy { get; set; } = default!;
+    
     public DateTime ModificationDate { get; set; }
 }

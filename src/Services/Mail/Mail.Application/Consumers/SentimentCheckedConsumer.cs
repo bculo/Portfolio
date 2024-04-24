@@ -1,4 +1,5 @@
 using Events.Common.Mail;
+using Mail.Application.Entities.Enums;
 using Mail.Application.Interfaces.Mail;
 using Mail.Application.Interfaces.Mail.Models;
 using Mail.Application.Interfaces.Repository;
@@ -60,10 +61,12 @@ public class SentimentCheckedConsumer : IConsumer<SentimentChecked>
             To = _mailOptions.AppSupportMail,
             From = customMail.FromMail,
             Title = customMail.Title,
-            IsActive = true,
+            Status = Status.Created,
             Body = customMail.Content,
             Created = _timeProvider.Now,
-            UserId = customMail.UserId
+            UserId = customMail.UserId,
+            Priority = customMail.Score < 1.5f ? Priority.High : Priority.Low,
+            Sentiment = customMail.Score < 2.5f ? Sentiment.Negative : Sentiment.Positive
         };
     }
 }
