@@ -85,7 +85,7 @@ namespace Trend.API.Controllers.v1
         
         [HttpGet("Filter", Name = "FilterNews")]
         [OutputCache(PolicyName = "NewsPolicy")]
-        [ProducesResponseType(typeof(PageResponseDto<FilterArticlesReqDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PageResponseDto<ArticleResDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Search([FromQuery] FilterArticlesReqDto request, CancellationToken token)

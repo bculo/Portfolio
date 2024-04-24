@@ -30,14 +30,14 @@ namespace Notification.Hub
             return base.OnConnectedAsync();
         }
         
-        public async Task JoinGroup(string groupName, string assetType)
+        public async Task JoinGroup(string assetName, string assetType)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, FormatGroupName(groupName, assetType));
+            await Groups.AddToGroupAsync(Context.ConnectionId, FormatGroupName(assetName, assetType));
         }
 
-        public async Task LeaveGroup(string groupName, string assetType)
+        public async Task LeaveGroup(string assetName, string assetType)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, FormatGroupName(groupName, assetType));
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, FormatGroupName(assetName, assetType));
         }
 
         public override Task OnDisconnectedAsync(Exception exception)

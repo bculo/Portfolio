@@ -29,7 +29,17 @@ namespace Trend.API.Extensions
             var services = builder.Services;
             var configuration = builder.Configuration;
             
-            services.AddCors();
+            if (builder.Environment.IsDevelopment())
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy", policyBuilder => policyBuilder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+                });
+            }
+            
             services.AddControllers();
             services.AddProblemDetails();
 

@@ -29,10 +29,7 @@ if (app.Environment.IsDevelopment())
         }
     });
 
-    app.UseCors(x => x
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowAnyOrigin());
+    app.UseCors("CorsPolicy");
 }
 app.UseSerilogRequestLogging();
 
