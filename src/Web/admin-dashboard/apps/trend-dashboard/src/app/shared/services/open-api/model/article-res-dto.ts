@@ -12,16 +12,16 @@
 
 
 export interface ArticleResDto { 
-    id?: string | null;
+    id?: string;
     created?: Date;
-    title?: string | null;
-    text?: string | null;
-    url?: string | null;
-    pageSource?: string | null;
-    typeName?: string | null;
+    title?: string;
+    text?: string;
+    url?: string;
+    pageSource?: string;
+    typeName?: string;
     typeId?: number;
-    searchWordId?: string | null;
-    searchWord?: string | null;
-    searchWordImage?: string | null;
+    searchWordId?: string;
+    searchWord?: string;
+    searchWordImage?: string;
 }
 

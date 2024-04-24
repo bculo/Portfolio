@@ -46,7 +46,7 @@ export class ViewPageComponent implements OnInit {
 
   formSnapshotValue: any = null;
   form: FormGroup = this.formBuilder.group({
-    query: new FormControl<string | null>(null, { updateOn: 'change' }),
+    query: new FormControl<string>('', { updateOn: 'change' }),
     active: new FormControl<number>(ActiveEnumOptions.All, { updateOn: 'change', validators: [Validators.required] }),
     searchEngine: new FormControl<number>(SearchEngineEnumOptions.All, { updateOn: 'change', validators: [Validators.required] }),
     contextType: new FormControl<number>(ContextTypeEnumOptions.All, { updateOn: 'change', validators: [Validators.required] }),

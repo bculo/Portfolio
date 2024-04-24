@@ -53,7 +53,7 @@ export const SearchWordStore = signalStore(
                 tap((filter) => patchState(store, {filter: filter, filterHash: JSON.stringify(filter), isLoading: true })),
                 map(mapToFilterReqDto),
                 switchMap((dto) => 
-                wordService.filter(dto).pipe(
+                wordService.filterSearchWords(dto.active, dto.contextType, dto.searchEngine, dto.query ?? '', dto.sort, dto.page, dto.take).pipe(
                         tapResponse({
                             next: (response) => {
                                 patchState(store, setAllEntities(mapToFilterViewModel(response)));
@@ -71,7 +71,7 @@ export const SearchWordStore = signalStore(
             pipe(
                 tap(itemId => patchState(store, { isLoading: true })),
                 switchMap((itemId) => 
-                wordService.deactivate(itemId).pipe(
+                wordService.deactivateSearchWord(itemId).pipe(
                         tapResponse({
                             next: () => {
                                 const activeCode = store.filter()?.active ?? ActiveEnumOptions.All;
@@ -102,7 +102,7 @@ export const SearchWordStore = signalStore(
             pipe(
                 tap(itemId => patchState(store, { isLoading: true })),
                 switchMap((itemId) => 
-                    wordService.activate(itemId).pipe(
+                    wordService.activateSearchWord(itemId).pipe(
                         tapResponse({
                             next: () => {
                                 const activeCode = store.filter()?.active ?? ActiveEnumOptions.All

@@ -9,15 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SyncSearchWordResDto } from './sync-search-word-res-dto';
 
 
-export interface SyncStatusResDto { 
-    id?: string;
-    started?: Date;
-    finished?: Date;
-    totalRequests?: number;
-    succeddedRequests?: number;
-    searchWords?: Array<SyncSearchWordResDto>;
+export interface AddWordReqDto { 
+    searchWord?: string;
+    searchEngine?: number;
+    contextType?: number;
 }
 

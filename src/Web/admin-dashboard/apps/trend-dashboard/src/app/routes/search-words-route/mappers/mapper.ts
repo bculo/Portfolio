@@ -1,6 +1,6 @@
-import { SearchWordSyncDetailResDto } from "../../../shared/services/open-api";
 import { SearchWordFilterReqDto } from "../../../shared/services/open-api/model/search-word-filter-req-dto";
 import { SearchWordResDtoPageResponseDto } from "../../../shared/services/open-api/model/search-word-res-dto-page-response-dto";
+import { SearchWordSyncDetailResDto } from "../../../shared/services/open-api/model/search-word-sync-detail-res-dto";
 import { SearchWordFilterModel, SearchWordItem, SearchWordStats } from "../store/search-words.model";
 
 export function mapToFilterReqDto(filter: SearchWordFilterModel) {

@@ -49,7 +49,7 @@ export const NewsStore = signalStore(
             pipe(
                 tap(() => patchState(store, { isLoading: false })),
                 switchMap((articleId) =>
-                    service.deactivate(articleId).pipe(
+                    service.deactivateArticle(articleId).pipe(
                         tapResponse({
                             next: (response) => patchState(store, removeEntity(articleId)),
                             error: console.error,

@@ -14,6 +14,6 @@ import { SearchWordResDto } from './search-word-res-dto';
 
 export interface SearchWordResDtoPageResponseDto { 
     count?: number;
-    items?: Array<SearchWordResDto> | null;
+    items?: Array<SearchWordResDto>;
 }
 

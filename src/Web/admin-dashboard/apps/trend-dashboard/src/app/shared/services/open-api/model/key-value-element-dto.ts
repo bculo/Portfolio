@@ -13,6 +13,6 @@
 
 export interface KeyValueElementDto { 
     key?: number;
-    value?: string | null;
+    value?: string;
 }
 

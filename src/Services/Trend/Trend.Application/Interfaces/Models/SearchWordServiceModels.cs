@@ -23,7 +23,7 @@ public record FilterSearchWordsReqDto : PageRequestDto
     public int Active { get; set; }
     public int ContextType { get; set; }
     public int SearchEngine { get; set; }
-    public string Query { get; set; } = default!;
+    public string? Query { get; set; }
     public int Sort { get; set; }
 }
 

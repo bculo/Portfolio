@@ -12,14 +12,14 @@
 
 
 export interface SearchWordResDto { 
-    id?: string | null;
+    id?: string;
     isActive?: boolean;
     created?: Date;
-    searchWord?: string | null;
-    searchEngineName?: string | null;
+    searchWord?: string;
+    searchEngineName?: string;
     searchEngineId?: number;
-    contextTypeName?: string | null;
+    contextTypeName?: string;
     contextTypeId?: number;
-    imageUrl?: string | null;
+    imageUrl?: string;
 }
 

@@ -9,15 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SyncSearchWordResDto } from './sync-search-word-res-dto';
+import { HttpValidationProblemDetails } from './http-validation-problem-details';
+import { ProblemDetails } from './problem-details';
 
 
-export interface SyncStatusResDto { 
-    id?: string;
-    started?: Date;
-    finished?: Date;
-    totalRequests?: number;
-    succeddedRequests?: number;
-    searchWords?: Array<SyncSearchWordResDto>;
-}
+/**
+ * @type GetDefaultAllValue400Response
+ * @export
+ */
+export type GetDefaultAllValue400Response = HttpValidationProblemDetails | ProblemDetails;
 
