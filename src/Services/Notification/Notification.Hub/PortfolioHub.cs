@@ -30,7 +30,7 @@ namespace Notification.Hub
             return base.OnConnectedAsync();
         }
         
-        public async Task JoinToGroup(string groupName, string assetType)
+        public async Task JoinGroup(string groupName, string assetType)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, FormatGroupName(groupName, assetType));
         }

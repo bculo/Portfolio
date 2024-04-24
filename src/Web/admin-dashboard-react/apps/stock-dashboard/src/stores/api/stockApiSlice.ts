@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { environment } from '../../environments/environment';
+import { getAccessToken } from '../../utilities/token';
 
 const authority = environment.oAuth2Config.authority;
 const clientId = environment.oAuth2Config.client_id;
@@ -9,12 +10,8 @@ export const stockApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: environment.stockApiBase,
         prepareHeaders: (headers) => {
-            const storageItemString = localStorage.getItem(`oidc.user:${authority}:${clientId}`)
-            if(!storageItemString) {
-                return headers;
-            }
-            const token = JSON.parse(storageItemString!).access_token;
-            headers.set("Authorization", `Bearer ${token}`)
+            const access_token = getAccessToken(authority, clientId);
+            headers.set("Authorization", `Bearer ${access_token}`)
             return headers;
         }
     }),

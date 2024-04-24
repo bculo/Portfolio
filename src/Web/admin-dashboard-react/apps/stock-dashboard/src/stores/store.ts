@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { stockApi } from './api/stockApiSlice';
 import { apiService } from './api/apiService';
 
+
 export const store = configureStore({
     reducer: {
         [stockApi.reducerPath]: apiService.reducer
