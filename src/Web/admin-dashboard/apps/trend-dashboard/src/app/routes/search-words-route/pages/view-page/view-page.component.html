@@ -20,9 +20,14 @@
 
     <div class="flex gap-4">
         <div class="flex-1">
-            <div class="grid grid-cols-2 max-xl:grid-cols-1 gap-4">
-                @for(searchWord of searchWords(); track searchWord.id) {
-                    <admin-dashboard-search-word-card [searchWord]="searchWord" class="col-span-1"/>
+            <div class="grid grid-cols-2 max-xl:grid-cols-1 gap-4 relative">
+                @if (isLoading()) {
+                    <admin-dashboard-spinner [loading]="isLoading()"/>
+                }
+                @else {
+                    @for(searchWord of searchWords(); track searchWord.id) {
+                        <admin-dashboard-search-word-card [searchWord]="searchWord" class="col-span-1"/>
+                    }
                 }
             </div>
         </div>

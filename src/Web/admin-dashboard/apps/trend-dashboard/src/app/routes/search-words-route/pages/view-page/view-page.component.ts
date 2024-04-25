@@ -17,18 +17,19 @@ import { SearchWordDetailComponent } from '../../components/search-word-detail/s
 import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions, SortEnumOptions } from 'apps/trend-dashboard/src/app/shared/enums/enums';
 import { Router } from '@angular/router';
 import { PageHeaderComponent } from 'apps/trend-dashboard/src/app/shared/components/page-header/page-header.component';
+import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 
 @Component({
-  selector: 'admin-dashboard-view-page',
-  standalone: true,
-  imports: [
-    CommonModule, InputComponent, SelectComponent, FormFieldComponent, 
-    ReactiveFormsModule, ButtonComponent, SearchWordCardComponent,
-    NgIconComponent, SideModalComponent, SearchWordDetailComponent,
-    PageHeaderComponent
-  ],
-  templateUrl: './view-page.component.html',
-  styleUrl: './view-page.component.scss',
+    selector: 'admin-dashboard-view-page',
+    standalone: true,
+    templateUrl: './view-page.component.html',
+    styleUrl: './view-page.component.scss',
+    imports: [
+        CommonModule, InputComponent, SelectComponent, FormFieldComponent,
+        ReactiveFormsModule, ButtonComponent, SearchWordCardComponent,
+        NgIconComponent, SideModalComponent, SearchWordDetailComponent,
+        PageHeaderComponent, SpinnerComponent
+    ]
 })
 export class ViewPageComponent implements OnInit {
   readonly searchWordStore = inject(SearchWordStore);
@@ -43,6 +44,7 @@ export class ViewPageComponent implements OnInit {
   contextTypes = this.dictionaryStore.contextTypesFilterItemsOptions;
   searchEngines = this.dictionaryStore.searchEngineFilterItemsOptions;
   searchWordModalId = this.searchWordStore.searchWordModal;
+  isLoading = this.dictionaryStore.isLoading;
 
   isLoading$ = toObservable(this.dictionaryStore.isLoading);
 

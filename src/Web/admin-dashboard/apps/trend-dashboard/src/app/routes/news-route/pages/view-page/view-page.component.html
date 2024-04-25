@@ -2,12 +2,17 @@
     <div class="flex justify-center mb-4">
         <admin-dashboard-debounce-search (onValueChange)="onValueChange($event)"/>
     </div>
-    <div class="flex flex-wrap justify-center">
-        @for (article of articles(); track article.id) {
-            <admin-dashboard-article-card 
-                class="m-3 last:mb-0" 
-                [article]="article">
-            </admin-dashboard-article-card>
+    <div class="flex flex-wrap justify-center relative min-h-96">
+        @if (isLoading()) {
+            <admin-dashboard-spinner [loading]="isLoading()"/>
+        }
+        @else {
+            @for (article of articles(); track article.id) {
+                <admin-dashboard-article-card 
+                    class="m-3 last:mb-0" 
+                    [article]="article">
+                </admin-dashboard-article-card>
+            }
         }
     </div>
 </div>
