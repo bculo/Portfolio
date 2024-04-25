@@ -3,35 +3,35 @@ import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions, Sor
 export interface SearchWordFilterModel { 
     page?: number;
     take?: number;
-    active?: ActiveEnumOptions;
-    contextType?: ContextTypeEnumOptions;
-    searchEngine?: SearchEngineEnumOptions;
-    query?: string | null;
-    sort?: SortEnumOptions;
+    active: ActiveEnumOptions;
+    contextType: ContextTypeEnumOptions;
+    searchEngine: SearchEngineEnumOptions;
+    query: string | null;
+    sort: SortEnumOptions;
 }
 
 export interface SearchWordNewItem {
     wordId: string | null;
-    searchEngine?: number;
-    contextType?: number;
+    searchEngine: number;
+    contextType: number;
     searchWord: string | null;
     file: File | null;
 }
 
 export interface SearchWordItem {
     id: string;
-    isActive?: boolean;
-    created?: Date;
-    searchWord?: string | null;
-    searchEngineName?: string | null;
-    searchEngineId?: number;
-    contextTypeName?: string | null;
-    contextTypeId?: number;
+    isActive: boolean;
+    created: Date;
+    searchWord: string | null;
+    searchEngineName: string | null;
+    searchEngineId: number;
+    contextTypeName: string | null;
+    contextTypeId: number;
     imageUrl: string | null
 }
 
 export interface SearchWordStats {
-    wordId?: string | null;
-    count?: number;
-    totalCount?: number;
+    wordId: string | null;
+    count: number;
+    totalCount: number;
 }
