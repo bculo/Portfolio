@@ -15,6 +15,7 @@ import { Article } from '../models/news.model';
 import { NewsService } from '../../../shared/services/open-api';
 import { mapToArticleArray } from '../mappers/mapper';
 import { ActiveEnumOptions, ContextTypeEnumOptions } from '../../../shared/enums/enums';
+import { NewsFilterModel } from './news-store.model';
 
 interface NewsState {
     isLoading: boolean
@@ -31,10 +32,10 @@ export const NewsStore = signalStore(
     withDevtools('news'),
     withMethods((store, service = inject(NewsService)) => ({
 
-        fetch: rxMethod<void>(
+        fetch: rxMethod<NewsFilterModel>(
             pipe(
-                switchMap(() =>
-                    service.filterNews(ContextTypeEnumOptions.All, ActiveEnumOptions.All, '', 1, 20).pipe(
+                switchMap((search) =>
+                    service.filterNews(ContextTypeEnumOptions.All, ActiveEnumOptions.All, search.query ?? '', 1, 500).pipe(
                         map((res) => mapToArticleArray(res.items!)),
                         tapResponse({
                             next: (response) => patchState(store, setAllEntities(response)),
@@ -64,7 +65,7 @@ export const NewsStore = signalStore(
     })),
     withHooks({
         onInit({fetch}) {
-            fetch()
+            fetch({query: ''})
         }
     }),
 );

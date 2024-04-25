@@ -1,6 +1,8 @@
-<div>
-
-    <div class="w-10/12 m-auto flex flex-wrap justify-center">
+<div class="w-10/12 m-auto">
+    <div class="flex justify-center mb-4">
+        <admin-dashboard-debounce-search (onValueChange)="onValueChange($event)"/>
+    </div>
+    <div class="flex flex-wrap justify-center">
         @for (article of articles(); track article.id) {
             <admin-dashboard-article-card 
                 class="m-3 last:mb-0" 
@@ -8,6 +10,5 @@
             </admin-dashboard-article-card>
         }
     </div>
-
 </div>
 
