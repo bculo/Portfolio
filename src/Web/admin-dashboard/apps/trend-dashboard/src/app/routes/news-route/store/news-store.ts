@@ -14,6 +14,7 @@ import { addEntities, removeEntity, setAllEntities, withEntities } from '@ngrx/s
 import { Article } from '../models/news.model';
 import { NewsService } from '../../../shared/services/open-api';
 import { mapToArticleArray } from '../mappers/mapper';
+import { ActiveEnumOptions, ContextTypeEnumOptions } from '../../../shared/enums/enums';
 
 interface NewsState {
     isLoading: boolean
@@ -30,11 +31,11 @@ export const NewsStore = signalStore(
     withDevtools('news'),
     withMethods((store, service = inject(NewsService)) => ({
 
-        fetchLatest: rxMethod<void>(
+        fetch: rxMethod<void>(
             pipe(
                 switchMap(() =>
-                    service.getLatestNews().pipe(
-                        map(mapToArticleArray),
+                    service.filterNews(ContextTypeEnumOptions.All, ActiveEnumOptions.All, '', 1, 20).pipe(
+                        map((res) => mapToArticleArray(res.items!)),
                         tapResponse({
                             next: (response) => patchState(store, setAllEntities(response)),
                             error: console.error,
@@ -62,8 +63,8 @@ export const NewsStore = signalStore(
 
     })),
     withHooks({
-        onInit({fetchLatest}) {
-            fetchLatest()
+        onInit({fetch}) {
+            fetch()
         }
     }),
 );

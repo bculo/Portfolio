@@ -11,7 +11,7 @@ import { filter, map, pipe, switchMap, tap, zip } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
 import { SearchWordService } from '../../../shared/services/open-api';
-import { SearchWordFilterModel, SearchWordItem, SearchWordNewItem, SearchWordStats } from './search-words.model';
+import { SearchWordFilterModel, SearchWordItem, SearchWordNewItem, SearchWordStats } from './search-word.model';
 import { mapToFilterReqDto, mapToFilterViewModel, mapToSyncStatsViewModel } from '../mappers/mapper';
 import { removeEntity, setAllEntities, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { ActiveEnumOptions } from '../../../shared/enums/enums';
@@ -140,7 +140,6 @@ export const SearchWordStore = signalStore(
                 )
             )
         ),
-
 
         deactivateEditMode() {
             patchState(store, { updateItem: null, searchWordModalSyncStats: null });

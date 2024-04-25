@@ -11,9 +11,8 @@ encoder.ts
 git_push.sh
 index.ts
 model/add-word-req-dto.ts
+model/article-res-dto-page-response-dto.ts
 model/article-res-dto.ts
-model/filter-articles-req-dto-page-response-dto.ts
-model/filter-articles-req-dto.ts
 model/get-default-all-value400-response.ts
 model/http-validation-problem-details.ts
 model/key-value-element-dto.ts

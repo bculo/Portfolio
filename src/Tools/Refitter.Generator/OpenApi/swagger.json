@@ -1,107 +1,36 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Crypto.API",
+    "title": "Trend.API",
     "version": "1.0"
   },
   "paths": {
-    "/api/v1/Crypto/AddNew": {
-      "post": {
+    "/api/v1/Dictionary/GetDefaultAllValue": {
+      "get": {
         "tags": [
-          "Crypto"
+          "Dictionary"
         ],
-        "operationId": "AddNew",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddNewCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddNewCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddNewCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Crypto/AddNewWithDelay": {
-      "post": {
-        "tags": [
-          "Crypto"
-        ],
-        "operationId": "AddNewWithDelay",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddNewWithDelayCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddNewWithDelayCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddNewWithDelayCommand"
-              }
-            }
-          }
-        },
+        "operationId": "GetDefaultAllValue",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "integer",
+                  "format": "int32"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "integer",
+                  "format": "int32"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -111,17 +40,38 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
@@ -129,242 +79,869 @@
         }
       }
     },
-    "/api/v1/Crypto/UndoAddNewDelay": {
-      "post": {
-        "tags": [
-          "Crypto"
-        ],
-        "operationId": "UndoAddNewDelay",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UndoNewWithDelayCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UndoNewWithDelayCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UndoNewWithDelayCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Crypto/UpdateInfo": {
-      "put": {
-        "tags": [
-          "Crypto"
-        ],
-        "operationId": "UpdateInfo",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateInfoCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateInfoCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateInfoCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Crypto/UpdatePrice": {
-      "put": {
-        "tags": [
-          "Crypto"
-        ],
-        "operationId": "UpdatePrice",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePriceCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePriceCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePriceCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Crypto/UpdateAllPrices": {
-      "put": {
-        "tags": [
-          "Crypto"
-        ],
-        "operationId": "UpdateAllPrices",
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Crypto/FetchPage": {
+    "/api/v1/Dictionary/GetSearchEngines": {
       "get": {
         "tags": [
-          "Crypto"
+          "Dictionary"
         ],
-        "operationId": "FetchPage",
+        "operationId": "GetSearchEngines",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Dictionary/GetContextTypes": {
+      "get": {
+        "tags": [
+          "Dictionary"
+        ],
+        "operationId": "GetContextTypes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Dictionary/GetActiveFilterOptions": {
+      "get": {
+        "tags": [
+          "Dictionary"
+        ],
+        "operationId": "GetActiveFilterOptions",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Dictionary/GetSortFilterOptions": {
+      "get": {
+        "tags": [
+          "Dictionary"
+        ],
+        "operationId": "GetSortFilterOptions",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<KeyValueElementDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeyValueElementDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/GetLatestNews": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "GetLatestNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/Deactivate/{articleId}": {
+      "put": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "DeactivateArticle",
         "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/Activate/{articleId}": {
+      "put": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "ActivateArticle",
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/GetLatestCryptoNews": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "GetLatestCryptoNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/GetLatestStockNews": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "GetLatestStockNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/GetLatestForexNews": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "GetLatestForexNews",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<ArticleResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResDto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/News/Filter": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "operationId": "FilterNews",
+        "parameters": [
+          {
+            "name": "Context",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Activity",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "Page",
             "in": "query",
@@ -388,29 +965,58 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "title": "IEnumerable<FetchPageResponseDto>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FetchPageResponseDto"
-                  }
+                  "$ref": "#/components/schemas/ArticleResDtoPageResponseDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "title": "IEnumerable<FetchPageResponseDto>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FetchPageResponseDto"
-                  }
+                  "$ref": "#/components/schemas/ArticleResDtoPageResponseDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "title": "IEnumerable<FetchPageResponseDto>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FetchPageResponseDto"
-                  }
+                  "$ref": "#/components/schemas/ArticleResDtoPageResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
@@ -420,17 +1026,38 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
@@ -438,15 +1065,15 @@
         }
       }
     },
-    "/api/v1/Crypto/Single/{symbol}": {
+    "/api/v1/SearchWord/GetSearchWordSyncStatistic/{wordId}": {
       "get": {
         "tags": [
-          "Crypto"
+          "SearchWord"
         ],
-        "operationId": "Single",
+        "operationId": "GetSearchWordSyncStatistic",
         "parameters": [
           {
-            "name": "symbol",
+            "name": "wordId",
             "in": "path",
             "required": true,
             "schema": {
@@ -460,17 +1087,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FetchSingleResponseDto"
+                  "$ref": "#/components/schemas/SearchWordSyncStatisticResDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FetchSingleResponseDto"
+                  "$ref": "#/components/schemas/SearchWordSyncStatisticResDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FetchSingleResponseDto"
+                  "$ref": "#/components/schemas/SearchWordSyncStatisticResDto"
                 }
               }
             }
@@ -480,37 +1107,79 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "500": {
+            "description": "Server Error",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
@@ -518,51 +1187,40 @@
         }
       }
     },
-    "/api/v1/Crypto/GetPriceHistory/{cryptoId}": {
+    "/api/v1/SearchWord/GetActiveSearchWords": {
       "get": {
         "tags": [
-          "Crypto"
+          "SearchWord"
         ],
-        "operationId": "GetPriceHistory",
-        "parameters": [
-          {
-            "name": "cryptoId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
+        "operationId": "GetActiveSearchWords",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "title": "List<PriceHistoryDto>",
+                  "title": "List<SearchWordResDto>",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PriceHistoryDto"
+                    "$ref": "#/components/schemas/SearchWordResDto"
                   }
                 }
               },
               "application/json": {
                 "schema": {
-                  "title": "List<PriceHistoryDto>",
+                  "title": "List<SearchWordResDto>",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PriceHistoryDto"
+                    "$ref": "#/components/schemas/SearchWordResDto"
                   }
                 }
               },
               "text/json": {
                 "schema": {
-                  "title": "List<PriceHistoryDto>",
+                  "title": "List<SearchWordResDto>",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PriceHistoryDto"
+                    "$ref": "#/components/schemas/SearchWordResDto"
                   }
                 }
               }
@@ -573,17 +1231,79 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
@@ -591,13 +1311,327 @@
         }
       }
     },
-    "/api/v1/Crypto/GetMostPopular": {
+    "/api/v1/SearchWord/GetDeactivatedSearchWords": {
       "get": {
         "tags": [
-          "Crypto"
+          "SearchWord"
         ],
-        "operationId": "GetMostPopular",
+        "operationId": "GetDeactivatedSearchWords",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<SearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordResDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<SearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordResDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<SearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchWordResDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/AddNew": {
+      "post": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "AddNewSearchWord",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddWordReqDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddWordReqDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddWordReqDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordResDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordResDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordResDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/Filter": {
+      "get": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "FilterSearchWords",
         "parameters": [
+          {
+            "name": "Active",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ContextType",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "SearchEngine",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
           {
             "name": "Take",
             "in": "query",
@@ -613,28 +1647,487 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "title": "List<GetMostPopularResponse>",
+                  "$ref": "#/components/schemas/SearchWordResDtoPageResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordResDtoPageResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchWordResDtoPageResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/AttachImage/{searchWordId}": {
+      "put": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "AttachImage",
+        "parameters": [
+          {
+            "name": "searchWordId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "File": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/Deactivate/{id}": {
+      "put": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "DeactivateSearchWord",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/SearchWord/Activate/{id}": {
+      "put": {
+        "tags": [
+          "SearchWord"
+        ],
+        "operationId": "ActivateSearchWord",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sync/Sync": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "Sync",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sync/GetSync/{id}": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "GetSync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusResDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusResDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatusResDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Sync/GetSyncStatuses": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "GetSyncStatuses",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<SyncStatusResDto>",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetMostPopularResponse"
+                    "$ref": "#/components/schemas/SyncStatusResDto"
                   }
                 }
               },
               "application/json": {
                 "schema": {
-                  "title": "List<GetMostPopularResponse>",
+                  "title": "List<SyncStatusResDto>",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetMostPopularResponse"
+                    "$ref": "#/components/schemas/SyncStatusResDto"
                   }
                 }
               },
               "text/json": {
                 "schema": {
-                  "title": "List<GetMostPopularResponse>",
+                  "title": "List<SyncStatusResDto>",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetMostPopularResponse"
+                    "$ref": "#/components/schemas/SyncStatusResDto"
                   }
                 }
               }
@@ -645,17 +2138,38 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
                 }
               }
             }
@@ -663,15 +2177,126 @@
         }
       }
     },
-    "/api/v1/Info/AssemblyVersion": {
+    "/api/v1/Sync/GetSyncStatusWords/{id}": {
       "get": {
         "tags": [
-          "Info"
+          "Sync"
         ],
-        "operationId": "AssemblyVersion",
+        "operationId": "SyncPolicy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SyncSearchWordsReqDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SyncSearchWordsReqDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SyncSearchWordsReqDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "List<SyncSearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncSearchWordResDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "title": "List<SyncSearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncSearchWordResDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "title": "List<SyncSearchWordResDto>",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SyncSearchWordResDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetails"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -679,140 +2304,112 @@
   },
   "components": {
     "schemas": {
-      "AddNewCommand": {
+      "AddWordReqDto": {
         "type": "object",
         "properties": {
-          "symbol": {
-            "type": "string",
-            "nullable": true
+          "searchWord": {
+            "type": "string"
           },
-          "correlationId": {
-            "title": "Nullable<Guid>",
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "AddNewWithDelayCommand": {
-        "type": "object",
-        "properties": {
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "FetchPageResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
+          "searchEngine": {
+            "type": "integer",
+            "format": "int32"
           },
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "website": {
-            "type": "string",
-            "nullable": true
-          },
-          "sourceCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "FetchSingleResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetMostPopularResponse": {
-        "type": "object",
-        "properties": {
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          },
-          "count": {
+          "contextType": {
             "type": "integer",
             "format": "int32"
           }
         },
         "additionalProperties": false
       },
-      "PriceHistoryDto": {
+      "ArticleResDto": {
         "type": "object",
         "properties": {
-          "cryptoId": {
-            "type": "string",
-            "format": "uuid"
+          "id": {
+            "type": "string"
           },
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "website": {
-            "type": "string",
-            "nullable": true
-          },
-          "sourceCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "timeBucket": {
+          "created": {
             "type": "string",
             "format": "date-time"
           },
-          "avgPrice": {
-            "type": "number",
-            "format": "double"
+          "title": {
+            "type": "string"
           },
-          "maxPrice": {
-            "type": "number",
-            "format": "double"
+          "text": {
+            "type": "string"
           },
-          "minPrice": {
-            "type": "number",
-            "format": "double"
+          "url": {
+            "type": "string"
           },
-          "lastPrice": {
-            "type": "number",
-            "format": "double"
+          "pageSource": {
+            "type": "string"
+          },
+          "typeName": {
+            "type": "string"
+          },
+          "typeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchWordId": {
+            "type": "string"
+          },
+          "searchWord": {
+            "type": "string"
+          },
+          "searchWordImage": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ArticleResDtoPageResponseDto": {
+        "title": "PageResponseDto<ArticleResDto>",
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "items": {
+            "title": "List<ArticleResDto>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleResDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "HttpValidationProblemDetails": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ProblemDetails"
+          }
+        ],
+        "properties": {
+          "errors": {
+            "title": "IDictionary<String>",
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "additionalProperties": { }
+      },
+      "KeyValueElementDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -845,32 +2442,130 @@
         },
         "additionalProperties": { }
       },
-      "UndoNewWithDelayCommand": {
+      "SearchWordResDto": {
         "type": "object",
         "properties": {
-          "temporaryId": {
+          "id": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "created": {
             "type": "string",
-            "format": "uuid"
+            "format": "date-time"
+          },
+          "searchWord": {
+            "type": "string"
+          },
+          "searchEngineName": {
+            "type": "string"
+          },
+          "searchEngineId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contextTypeName": {
+            "type": "string"
+          },
+          "contextTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
-      "UpdateInfoCommand": {
+      "SearchWordResDtoPageResponseDto": {
+        "title": "PageResponseDto<SearchWordResDto>",
         "type": "object",
         "properties": {
-          "symbol": {
-            "type": "string",
-            "nullable": true
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "items": {
+            "title": "List<SearchWordResDto>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchWordResDto"
+            }
           }
         },
         "additionalProperties": false
       },
-      "UpdatePriceCommand": {
+      "SearchWordSyncStatisticResDto": {
         "type": "object",
         "properties": {
-          "symbol": {
+          "wordId": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SyncSearchWordResDto": {
+        "type": "object",
+        "properties": {
+          "contextTypeName": {
+            "type": "string"
+          },
+          "contextTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "word": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SyncSearchWordsReqDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SyncStatusResDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "started": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
+          },
+          "finished": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalRequests": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "succeddedRequests": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "searchWords": {
+            "title": "List<SyncSearchWordResDto>",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SyncSearchWordResDto"
+            }
           }
         },
         "additionalProperties": false
@@ -881,7 +2576,7 @@
         "type": "oauth2",
         "flows": {
           "implicit": {
-            "authorizationUrl": "http://localhost:8080/auth/realms/PortfolioRealm/protocol/openid-connect/auth",
+            "authorizationUrl": "http://localhost:8080/realms/PortfolioRealm/protocol/openid-connect/auth",
             "scopes": { }
           }
         }

@@ -8,8 +8,6 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authStore = inject(AuthStore);
 
-  console.log("roleGuard called")
-
   return toObservable(authStore.isLoading).pipe(
     filter(isLoading => !isLoading),
     take(1),

@@ -3,14 +3,11 @@
     <div class="flex justify-between pt-6">
         @for(step of steps(); track step.key; let index = $index) {
             <div class="flex gap-2" [ngClass]="{
-                'text-cyan-500': step.key == activeStep()?.key,
-                'font-extrabold': step.key == activeStep()?.key
+                'text-cyan-500 underline underline-offset-4 font-extrabold': step.key == activeStep()?.key,
             }">
                 <div>
-                    <span>{{ index + 1 }}.</span>
-                </div>
-                <div class="step__label">
-                    {{ step.label }}
+                    <span>{{ index + 1 }}. </span>
+                    <span>{{ step.label }}</span>
                 </div>
             </div>
         }

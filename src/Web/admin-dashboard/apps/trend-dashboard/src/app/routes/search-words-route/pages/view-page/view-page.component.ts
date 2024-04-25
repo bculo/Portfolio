@@ -9,13 +9,14 @@ import { SelectComponent } from 'apps/trend-dashboard/src/app/shared/controls/se
 import { ButtonComponent } from 'apps/trend-dashboard/src/app/shared/components/button/button.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take, tap } from 'rxjs';
-import { SearchWordFilterModel } from '../../store/search-words.model';
+import { SearchWordFilterModel } from '../../store/search-word.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
 import { NgIconComponent } from '@ng-icons/core';
 import { SideModalComponent } from 'apps/trend-dashboard/src/app/shared/components/side-modal/side-modal.component';
 import { SearchWordDetailComponent } from '../../components/search-word-detail/search-word-detail.component';
 import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions, SortEnumOptions } from 'apps/trend-dashboard/src/app/shared/enums/enums';
 import { Router } from '@angular/router';
+import { PageHeaderComponent } from 'apps/trend-dashboard/src/app/shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'admin-dashboard-view-page',
@@ -23,7 +24,8 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule, InputComponent, SelectComponent, FormFieldComponent, 
     ReactiveFormsModule, ButtonComponent, SearchWordCardComponent,
-    NgIconComponent, SideModalComponent, SearchWordDetailComponent
+    NgIconComponent, SideModalComponent, SearchWordDetailComponent,
+    PageHeaderComponent
   ],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.scss',

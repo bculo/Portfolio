@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl } from '@angular/forms';
 
@@ -15,7 +15,7 @@ export class FormFieldComponent {
   @Input() required: boolean = false;
 
   error: string = 'ERROR';
-  
+
   hasError(): boolean{
     return this.control && this.control.touched && this.control.invalid;
   }
@@ -23,5 +23,4 @@ export class FormFieldComponent {
   get errorKey(){
     return this.control && this.control.touched && this.control.errors && Object.keys(this.control.errors)[0];
   }
-
 }

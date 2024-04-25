@@ -21,7 +21,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { ArticleResDto } from '../model/article-res-dto';
 // @ts-ignore
-import { FilterArticlesReqDtoPageResponseDto } from '../model/filter-articles-req-dto-page-response-dto';
+import { ArticleResDtoPageResponseDto } from '../model/article-res-dto-page-response-dto';
 // @ts-ignore
 import { GetDefaultAllValue400Response } from '../model/get-default-all-value400-response';
 
@@ -242,15 +242,16 @@ export class NewsService {
     /**
      * @param context 
      * @param activity 
+     * @param query 
      * @param page 
      * @param take 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterNews(context?: number, activity?: number, page?: number, take?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<FilterArticlesReqDtoPageResponseDto>;
-    public filterNews(context?: number, activity?: number, page?: number, take?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FilterArticlesReqDtoPageResponseDto>>;
-    public filterNews(context?: number, activity?: number, page?: number, take?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FilterArticlesReqDtoPageResponseDto>>;
-    public filterNews(context?: number, activity?: number, page?: number, take?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public filterNews(context?: number, activity?: number, query?: string, page?: number, take?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ArticleResDtoPageResponseDto>;
+    public filterNews(context?: number, activity?: number, query?: string, page?: number, take?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ArticleResDtoPageResponseDto>>;
+    public filterNews(context?: number, activity?: number, query?: string, page?: number, take?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ArticleResDtoPageResponseDto>>;
+    public filterNews(context?: number, activity?: number, query?: string, page?: number, take?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (context !== undefined && context !== null) {
@@ -260,6 +261,10 @@ export class NewsService {
         if (activity !== undefined && activity !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>activity, 'Activity');
+        }
+        if (query !== undefined && query !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>query, 'Query');
         }
         if (page !== undefined && page !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -316,7 +321,7 @@ export class NewsService {
         }
 
         let localVarPath = `/api/v1/News/Filter`;
-        return this.httpClient.request<FilterArticlesReqDtoPageResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ArticleResDtoPageResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

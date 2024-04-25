@@ -12,6 +12,7 @@ Admin dashboard application for trend management written in Angular
 ![alt text](./images/landing_page.png)
 ![alt text](./images/words_page.png)
 ![alt text](./images/add_new_item.png)
+![alt text](./images/news_page.png)
 
 ### How to generate trend API client ?
 
