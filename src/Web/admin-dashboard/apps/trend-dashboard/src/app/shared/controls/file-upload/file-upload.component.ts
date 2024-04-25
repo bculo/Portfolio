@@ -20,19 +20,27 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class FileUploadComponent implements ControlValueAccessor  {
   @ViewChild("fileDropRef") fileDropEl!: ElementRef;
 
-  value?: File;
+  value: File | null = null;
   disabled: boolean = false;
   
   onChangeFun: any = () => {};
   onTouchedFun: any = () => {};
 
-  onFileDropped(event: any) {
-    console.log(event);
+  onFileDropped(files: FileList) {
+    if(files.length === 0) return;
+    this.onChangeFun(files[0]);
+    this.value = files[0];
   }
 
   onFileSelected(files: FileList) {
     if(files.length === 0) return;
     this.onChangeFun(files[0]);
+    this.value = files[0];
+  }
+
+  removeFile(): void {
+    this.onChangeFun(null);
+    this.value = null;
   }
 
   writeValue(value: File): void {

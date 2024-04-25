@@ -5,8 +5,6 @@ import { catchError, finalize, from, map, of, take, tap, throwError } from 'rxjs
 import { AuthStore } from '../../../store/auth/auth-store';
 import { AuthWrapper } from '../../../store/auth/auth-store.model';
 
-//http://localhost:8080/realms/PortfolioRealm/protocol/openid-connect/auth?client_id=Stock.Client&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2F&response_type=code&scope=openid&state=8b96f47a645449dbb07759dd6af24c67&code_challenge=E5OPtzdHEeSG9jAns5adieMVfOxuLAt7_u_EX7agi3E&code_challenge_method=S256&response_mode=query
-
 @Injectable({
   providedIn: 'root'
 })
@@ -48,7 +46,6 @@ export class KeycloakService {
   public login() {
     if(this.isAuthenticated())
       return;
-    console.log("HELLO")
     this.keycloackInstance!.login();
   }
 

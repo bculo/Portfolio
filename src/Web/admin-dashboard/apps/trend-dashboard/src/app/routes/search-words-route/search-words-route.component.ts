@@ -8,7 +8,7 @@ import { SearchWordStore } from './store/search-word-store';
   selector: 'admin-dashboard-search-words-route',
   standalone: true,
   imports: [CommonModule, RouterOutlet, NavigationLayoutComponent],
-  template: `<router-outlet></router-outlet>`,
+  template: `<div><router-outlet></router-outlet></div>`,
 })
 export class SearchWordsRouteComponent {
   readonly searchWordStore = inject(SearchWordStore);

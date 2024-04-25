@@ -11,9 +11,11 @@ export interface SearchWordFilterModel {
 }
 
 export interface SearchWordNewItem {
+    wordId: string | null;
     searchEngine?: number;
     contextType?: number;
-    searchWord: string | null
+    searchWord: string | null;
+    file: File | null;
 }
 
 export interface SearchWordItem {

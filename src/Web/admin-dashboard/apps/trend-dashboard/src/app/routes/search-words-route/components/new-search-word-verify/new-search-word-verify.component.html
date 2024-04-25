@@ -1,0 +1,11 @@
+<div>
+    <h6 class="text-cyan-500 text-xl font-bold mb-5 self-start">Verify data</h6>
+    <p>
+        Symbol name: <span class="text-cyan-500 font-bold">{{newItem()?.searchWord}}</span>
+    </p>
+    @if (url) {
+        <div class="mt-6">
+            <img [src]="url" alt="asset image">
+        </div>
+    }
+</div>

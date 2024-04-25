@@ -65,7 +65,7 @@ export class NewSearchWordFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.wordStore.setNewItem(this.form.value);
+    this.wordStore.storeItemLocally(this.form.value);
     this.stepperService.onCheckHandled(true);
   }
 }

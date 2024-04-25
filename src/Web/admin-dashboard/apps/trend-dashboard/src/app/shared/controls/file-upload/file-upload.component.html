@@ -1,10 +1,22 @@
-<div adminDashboardDragAndDrop class="relative p-8 justify-center border border-stone-700 rounded-md" 
+<div adminDashboardDragAndDrop class="relative p-8 border border-stone-700 rounded-md" 
         (fileDropped)="onFileDropped($event)">
-    <input type="file" class="" 
+    <input type="file" class="hidden" 
         #fileDropRef 
         id="file-upload" 
         (change)="onFileSelected($any($event.target).files)" />
-    <p>Drag and drop file here</p>
-    <p>or</p>
-    <label for="file-upload">Browse for file</label>
+    <div>
+        @if(value) {
+            <div class="flex gap-x-6">
+                <span>{{value.name}}</span>
+                <span (click)="removeFile()" class="font-bold hover:cursor-pointer text-red-600">X</span>
+            </div>
+        }
+        @else {
+            <label for="file-upload" class="flex flex-col justify-center items-center">
+                <span>Drag and drop file here</span>
+                <span>or</span>
+                <span>Browse for file</span>
+            </label>
+        }
+    </div>
 </div>
