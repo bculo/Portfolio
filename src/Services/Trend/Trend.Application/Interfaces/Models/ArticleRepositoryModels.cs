@@ -6,6 +6,8 @@ public class FilterArticlesReqQuery : PageReqQuery
 {
     public ContextType Context { get; set; } = default!;
     public ActiveFilter Activity { get; set; } = default!;
+    
+    public string? Query { get; set; }
 }
 
 public class ArticleDetailResQuery

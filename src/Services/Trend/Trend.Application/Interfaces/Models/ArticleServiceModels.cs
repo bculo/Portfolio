@@ -4,8 +4,9 @@ namespace Trend.Application.Interfaces.Models;
 
 public record FilterArticlesReqDto : PageRequestDto
 {
-    public int Context { get; set; } = default!;
-    public int Activity { get; set; } = default!;
+    public int Context { get; set; } 
+    public int Activity { get; set; }
+    public string? Query { get; set; }
 }
 
 public record ActivateArticleReqDto(string Id) : GetItemByStringIdReqDto(Id);

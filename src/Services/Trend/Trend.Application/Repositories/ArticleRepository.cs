@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
@@ -87,6 +88,11 @@ namespace Trend.Application.Repositories
             if (search.Context != ContextType.All)
             {
                 searchFilter &= searchBuilder.Eq(i => i.ContextType.Value, search.Context.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.Query))
+            {
+                searchFilter &= searchBuilder.Regex(i => i.Title, new BsonRegularExpression(search.Query));
             }
             
             var query = BuildAggregateBasedOnContext().Match(searchFilter);
