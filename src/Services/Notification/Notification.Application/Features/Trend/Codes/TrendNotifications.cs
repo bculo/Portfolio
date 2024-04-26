@@ -1,8 +1,9 @@
 using Notification.Application.Interfaces.Notifications.Models;
 
-namespace Notification.Application.Common.Codes;
+namespace Notification.Application.Features.Trend.Codes;
 
 public static class TrendNotifications
 {
     public static readonly PushNotification SyncExecuted = new("Trend.SyncExecuted", "Sync executed.");
+    public static readonly PushNotification ArticleStatusChanged = new("Trend.StatusChanged", "Status changed");
 }

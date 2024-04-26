@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Notification.Application.Common.Codes;
-using Notification.Application.Interfaces.Notifications.Models;
+﻿using Notification.Application.Interfaces.Notifications.Models;
 
 namespace Notification.Application.Interfaces.Notifications
 {

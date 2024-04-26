@@ -6,24 +6,24 @@ using Time.Abstract.Contracts;
 
 namespace Notification.Application.Features.Trend;
 
-public record SendSyncExecutedNotification(DateTime Time) : IRequest;
+public record ArticleStatusChangedNotification(string ArticleId, bool IsActive, DateTime Time) : IRequest;
 
-public class SendSyncExecutedNotificationHandler : IRequestHandler<SendSyncExecutedNotification>
+public class ArticleStatusChangedNotificationHandler : IRequestHandler<ArticleStatusChangedNotification>
 {
     private readonly IDateTimeProvider _timeProvider;
     private readonly INotificationService _notification;
-    private readonly ILogger<SendSyncExecutedNotificationHandler> _logger;
+    private readonly ILogger<ArticleStatusChangedNotificationHandler> _logger;
 
-    public SendSyncExecutedNotificationHandler(INotificationService notification,
+    public ArticleStatusChangedNotificationHandler(INotificationService notification,
         IDateTimeProvider timeProvider,
-        ILogger<SendSyncExecutedNotificationHandler> logger)
+        ILogger<ArticleStatusChangedNotificationHandler> logger)
     {
         _notification = notification;
         _timeProvider = timeProvider;
         _logger = logger;
     }
-
-    public async Task Handle(SendSyncExecutedNotification request, CancellationToken cancellationToken)
+    
+    public async Task Handle(ArticleStatusChangedNotification request, CancellationToken cancellationToken)
     {
         if ((_timeProvider.Utc - request.Time).Minutes > 5)
         {
@@ -31,6 +31,6 @@ public class SendSyncExecutedNotificationHandler : IRequestHandler<SendSyncExecu
             return;
         }
         
-        await _notification.NotifyAll(TrendNotifications.SyncExecuted);
+        await _notification.NotifyAll(TrendNotifications.ArticleStatusChanged);
     }
 }
