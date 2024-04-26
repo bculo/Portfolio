@@ -1,7 +1,10 @@
 <div class="relative min-h-screen text-stone-300 font-mono text-sm">
-    <div class="flex">
+    <div>
         @if(isAuthenticated()) {
-            <aside class="flex-initial flex flex-col justify-between w-[20rem] max-2xl:w-[17rem] glass py-8 min-h-screen rounded-tr-2xl rounded-br-2xl">
+            <aside class="fixed top-0 left-0 flex flex-col justify-between w-[20rem] max-2xl:w-[17rem] glass py-8 min-h-screen rounded-tr-2xl rounded-br-2xl">
+                <div class="hidden">
+                    <admin-dashboard-web-socket-component/>
+                </div>
                 <div>
                     <h2 class="text-stone-200 text-center font-bold tracking-wider text-2xl">Trend dashboard</h2>
                     <nav class="mt-10">
@@ -28,11 +31,13 @@
                 </div>
             </aside>
         }
-        <main class="xl:p-12 md:p-8 flex-1">
+        <main class="xl:p-12 md:p-8 min-h-screen" [ngClass]="{
+            'ml-[20rem] max-2xl:ml-[17rem]': isAuthenticated()
+        }">
             <ng-content></ng-content>
         </main>
     </div>
-    <div class="absolute -z-50">
+    <div class="absolute -z-50 top-0 left-0">
         <ngx-particles
             id="particles"
             [options]="particleSettings"

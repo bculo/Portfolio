@@ -6,4 +6,5 @@ export interface Article {
     pageSource: string,
     typeName: string,
     typeId: number,
+    imageUrl: string;
 }

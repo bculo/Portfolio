@@ -35,7 +35,7 @@ export const NewsStore = signalStore(
         fetch: rxMethod<NewsFilterModel>(
             pipe(
                 switchMap((search) =>
-                    service.filterNews(ContextTypeEnumOptions.All, ActiveEnumOptions.All, search.query ?? '', 1, 500).pipe(
+                    service.filterNews(ContextTypeEnumOptions.All, ActiveEnumOptions.Active, search.query ?? '', 1, 500).pipe(
                         map((res) => mapToArticleArray(res.items!)),
                         tapResponse({
                             next: (response) => patchState(store, setAllEntities(response)),

@@ -9,11 +9,12 @@ import { ANIMATED_BACKGROUND, APP_ICONS } from '../../../app.icons';
 import { KeycloakService } from '../../services/keycloak/keycloak.service';
 import { NgxParticlesModule, NgParticlesService } from "@tsparticles/angular";
 import { loadSlim } from "@tsparticles/slim"; 
+import { WebSocketComponentComponent } from '../web-socket/web-socket-component.component';
 
 @Component({
   selector: 'admin-dashboard-navigation-layout',
   standalone: true,
-  imports: [CommonModule, NgIconComponent, RouterLink, RouterLinkActive, NgxParticlesModule],
+  imports: [CommonModule, NgIconComponent, RouterLink, RouterLinkActive, NgxParticlesModule, WebSocketComponentComponent],
   templateUrl: './navigation-layout.component.html',
   styleUrl: './navigation-layout.component.scss',
 })
