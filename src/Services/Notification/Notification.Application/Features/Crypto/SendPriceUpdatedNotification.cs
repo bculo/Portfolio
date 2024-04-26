@@ -2,7 +2,7 @@ using MediatR;
 using Notification.Application.Interfaces.Notifications;
 using Notification.Application.Interfaces.Notifications.Models;
 
-namespace Notification.Application.Commands.Crypto;
+namespace Notification.Application.Features.Crypto;
 
 public record SendPriceUpdatedNotification(string Symbol, decimal Price) : IRequest;
 

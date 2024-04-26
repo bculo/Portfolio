@@ -2,7 +2,7 @@ using Events.Common.Mail;
 using MassTransit;
 using MediatR;
 
-namespace Notification.Application.Consumers.Mail;
+namespace Notification.Application.Features.Mail;
 
 public class CustomMailSentConsumer : IConsumer<CustomMailSent>
 {

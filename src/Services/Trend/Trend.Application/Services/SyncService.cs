@@ -56,7 +56,7 @@ namespace Trend.Application.Services
         
         public async Task<Either<CoreError, Unit>> ExecuteSync(CancellationToken token = default)
         {
-            using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_SRV);
+            using var span = Telemetry.Trend.StartActivity(nameof(Telemetry.SYNC_SRV));
             span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, _searchEngines.Count());
             
             var searchWords = await _syncSettingRepo.GetActiveItems(token);
@@ -108,7 +108,10 @@ namespace Trend.Application.Services
 
         private async Task PublishSyncExecutedEvent(CancellationToken token = default)
         {
-            await _publishEndpoint.Publish<SyncExecuted>(new(), token);
+            await _publishEndpoint.Publish(new SyncExecuted
+            {
+                Time = _timeProvider.Utc
+            }, token);
         }
 
         private async Task CheckForTotalFailure(List<SyncStatus> syncs, CancellationToken token = default)

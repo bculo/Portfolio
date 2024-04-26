@@ -1,10 +1,11 @@
 using Keycloak.Common;
 using MassTransit;
 using Notification.Application;
-using Notification.Application.Consumers.Crypto;
-using Notification.Application.Consumers.Trend;
+using Notification.Application.Features.Crypto;
+using Notification.Application.Features.Trend;
 using Notification.Application.Interfaces.Notifications;
 using Notification.Hub.Services;
+using Time.Common;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 
@@ -14,6 +15,7 @@ public static class ConfigurationExtensions
 {
     public static void ConfigureSignalRHubApp(this WebApplicationBuilder builder)
     {
+        builder.Services.AddUtcTimeProvider();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

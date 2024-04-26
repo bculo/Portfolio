@@ -1,9 +1,8 @@
-using Events.Common.Crypto;
 using Events.Common.Stock;
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 
-namespace Notification.Application.Consumers.Stock;
+namespace Notification.Application.Features.Stock;
 
 public class StockPriceUpdatedConsumer : IConsumer<StockPriceUpdated>
 {
@@ -17,7 +16,7 @@ public class StockPriceUpdatedConsumer : IConsumer<StockPriceUpdated>
     public async Task Consume(ConsumeContext<StockPriceUpdated> context)
     {
         var instance = context.Message;
-        var command = new Commands.Stock.SendPriceUpdatedNotification(instance.Symbol, instance.Price);
+        var command = new SendPriceUpdatedNotification(instance.Symbol, instance.Price);
         await _mediator.Send(command);
     }
 }

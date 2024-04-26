@@ -31,7 +31,7 @@ namespace Trend.Worker.Extensions
         {
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq((context, config) =>
+                x.UsingRabbitMq((_, config) =>
                 {
                     config.Host(configuration["QueueOptions:Address"]);
                 });

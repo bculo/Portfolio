@@ -1,9 +1,8 @@
 using Events.Common.Stock;
 using MassTransit;
-using MassTransit.Mediator;
-using Notification.Application.Commands.Stock;
+using MediatR;
 
-namespace Notification.Application.Consumers.Stock;
+namespace Notification.Application.Features.Stock;
 
 public class NewStockAddedConsumer : IConsumer<NewStockItemAdded>
 {
