@@ -144,6 +144,7 @@ namespace Trend.Application.Services
                     .Select(i =>
                     {
                         i.SearchWordId = searchWordResponse.SearchWordId;
+                        i.IsActive = true;
                         return i;
                     })
                     .ToList();
