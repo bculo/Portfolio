@@ -3,6 +3,7 @@ using Dtos.Common;
 using Events.Common.Trend;
 using LanguageExt;
 using MassTransit;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Constants;
@@ -21,13 +22,15 @@ namespace Trend.Application.Services
         private readonly IArticleRepository _articleRepo;
         private readonly IPublishEndpoint _endpoint;
         private readonly IDateTimeProvider _timeProvider;
+        private readonly IOutputCacheStore _cacheStore;
 
         public ArticleService(IArticleRepository articleRepo, 
             IMapper mapper, 
             ILogger<ArticleService> logger, 
             IServiceProvider provider, 
             IPublishEndpoint endpoint, 
-            IDateTimeProvider timeProvider)
+            IDateTimeProvider timeProvider, 
+            IOutputCacheStore cacheStore)
             : base(provider)
         {
             _articleRepo = articleRepo;
@@ -35,6 +38,7 @@ namespace Trend.Application.Services
             _logger = logger;
             _endpoint = endpoint;
             _timeProvider = timeProvider;
+            _cacheStore = cacheStore;
         }
         
         public async Task<List<ArticleResDto>> GetLatestByContext(ContextType type, CancellationToken token = default)
@@ -66,11 +70,13 @@ namespace Trend.Application.Services
             }
             
             await _articleRepo.DeactivateItems(req.Id.ToEnumerable(), tcs);
+            await _cacheStore.EvictByTagAsync(CacheTags.NEWS, tcs);
             await _endpoint.Publish(new ArticleDeactivated
             {
                 Time = _timeProvider.Utc,
                 ArticleId = req.Id
             }, tcs);
+            
             return Unit.Default;
         }
 
@@ -91,11 +97,13 @@ namespace Trend.Application.Services
             }
             
             await _articleRepo.ActivateItems(req.Id.ToEnumerable(), tcs);
+            await _cacheStore.EvictByTagAsync(CacheTags.NEWS, tcs);
             await _endpoint.Publish(new ArticleActivated
             {
                 Time = _timeProvider.Utc,
                 ArticleId = req.Id
             }, tcs);
+            
             return Unit.Default;
         }
 

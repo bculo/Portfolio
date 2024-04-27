@@ -40,8 +40,8 @@ export class WebSocketService {
       ).subscribe();
   }
 
-  public addToJoinQueue(groupName: string) {
-    this.groupQueue.next(groupName);
+  public addToJoinQueue(...groupNames: string[]) {
+    groupNames.forEach(groupName => this.groupQueue.next(groupName));
   }
 
   private joinGroup(groupName: string) {
@@ -56,15 +56,17 @@ export class WebSocketService {
     });
   }
 
-  public exitGroup(groupName: string) {
+  public exitGroup(...groupNames: string[]) {
     if(this.connection.state !== signalR.HubConnectionState.Connected) {
       return;
     }
 
-    of(this.connection.invoke("LeaveGroup", groupName)).pipe(
-      tap((_) => console.log(`Disconnected from group ${groupName}`)),
-      catchError((error) => throwError(() => error))
-    )
+    groupNames.forEach(groupName => {
+      of(this.connection.invoke("LeaveGroup", groupName)).pipe(
+        tap((_) => console.log(`Disconnected from group ${groupName}`)),
+        catchError((error) => throwError(() => error))
+      )
+    })
   }
 
   public clean() {

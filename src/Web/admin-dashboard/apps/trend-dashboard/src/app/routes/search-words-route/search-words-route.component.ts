@@ -2,7 +2,10 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavigationLayoutComponent } from '../../shared/components/navigation-layout/navigation-layout.component';
-import { SearchWordStore } from './store/search-word-store';
+import { WebSocketService } from '../../shared/services/web-socket/web-socket.service';
+import { environment } from '../../environments/environment';
+
+const groups = environment.webSocketGroups;
 
 @Component({
   selector: 'admin-dashboard-search-words-route',
@@ -11,5 +14,13 @@ import { SearchWordStore } from './store/search-word-store';
   template: `<div><router-outlet></router-outlet></div>`,
 })
 export class SearchWordsRouteComponent {
-  readonly searchWordStore = inject(SearchWordStore);
+  private readonly webSocketService = inject(WebSocketService);
+
+  ngOnInit(): void {
+    this.webSocketService.addToJoinQueue(groups.searchWordStatusChanged);
+  }
+
+  ngOnDestroy(): void {
+    this.webSocketService.exitGroup(groups.searchWordStatusChanged);
+  }
 }

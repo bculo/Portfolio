@@ -4,8 +4,8 @@ import { NavigationLayoutComponent } from '../../shared/components/navigation-la
 import { RouterOutlet } from '@angular/router';
 import { WebSocketService } from '../../shared/services/web-socket/web-socket.service';
 import { environment } from '../../environments/environment';
-import { Subject, filter, takeUntil, tap } from 'rxjs';
-import { NewsStore } from './store/news-store';
+
+const groups = environment.webSocketGroups;
 
 @Component({
   selector: 'admin-dashboard-news-route',
@@ -17,11 +17,11 @@ export class NewsRouteComponent implements OnInit, OnDestroy {
   private readonly webSocketService = inject(WebSocketService);
 
   ngOnInit(): void {
-    this.webSocketService.addToJoinQueue(environment.webSocketGroups.syncExecuted);
+    this.webSocketService.addToJoinQueue(groups.syncExecuted, groups.articleStatusChanged);
   }
 
   ngOnDestroy(): void {
-    this.webSocketService.exitGroup(environment.webSocketGroups.syncExecuted);
+    this.webSocketService.exitGroup(groups.syncExecuted, groups.articleStatusChanged);
   }
 }
 

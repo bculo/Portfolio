@@ -8,6 +8,9 @@ import { WebSocketService } from 'apps/trend-dashboard/src/app/shared/services/w
 import { Subject, filter, takeUntil, tap } from 'rxjs';
 import { environment } from 'apps/trend-dashboard/src/app/environments/environment';
 
+const allGroups = environment.webSocketGroups;
+const groups = [allGroups.syncExecuted, allGroups.articleStatusChanged];
+
 @Component({
   selector: 'admin-dashboard-view-page',
   standalone: true,
@@ -27,10 +30,12 @@ export class ViewPageComponent implements OnInit {
   isLoading = this.newsStore.isLoading
 
   ngOnInit(): void {
+    this.fetchData();
+
     this.webSocketService.serverResponse$.pipe(
       takeUntil(this.lifecycle),
-      filter(x => x.groupName === environment.webSocketGroups.syncExecuted),
-      tap(data => this.newsStore.fetch({query: this.searchValue}))
+      filter(x => groups.includes(x.groupName)),
+      tap(_ => this.fetchData())
     ).subscribe();
   }  
 
@@ -41,6 +46,10 @@ export class ViewPageComponent implements OnInit {
 
   onValueChange(value: string) {
     this.searchValue = value;
+    this.fetchData();
+  }
+
+  private fetchData() {
     this.newsStore.fetch({query: this.searchValue})
   }
 }

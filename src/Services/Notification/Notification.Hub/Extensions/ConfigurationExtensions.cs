@@ -1,3 +1,4 @@
+using Events.Common.Trend;
 using Keycloak.Common;
 using MassTransit;
 using Notification.Application;
@@ -89,8 +90,9 @@ public static class ConfigurationExtensions
         {
             var formatter = new KebabCaseEndpointNameFormatter(prefix: "notification", false);
             x.SetEndpointNameFormatter(formatter);
+
+            x.ConfigureTrendConsumers();
             
-            x.AddConsumer<SyncExecutedConsumer>();
             x.AddConsumer<CryptoPriceUpdatedConsumer>();
             
             x.UsingRabbitMq((context, config) =>

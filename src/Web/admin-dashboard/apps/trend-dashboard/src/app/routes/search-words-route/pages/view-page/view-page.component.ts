@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchWordStore } from '../../store/search-word-store';
 import { InputComponent } from 'apps/trend-dashboard/src/app/shared/controls/input/input.component';
@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { SelectComponent } from 'apps/trend-dashboard/src/app/shared/controls/select/select.component';
 import { ButtonComponent } from 'apps/trend-dashboard/src/app/shared/components/button/button.component';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, take, tap } from 'rxjs';
+import { Subject, filter, take, takeUntil, tap } from 'rxjs';
 import { SearchWordFilterModel } from '../../store/search-word.model';
 import { SearchWordCardComponent } from '../../components/search-word-card/search-word-card.component';
 import { NgIconComponent } from '@ng-icons/core';
@@ -18,6 +18,11 @@ import { ActiveEnumOptions, ContextTypeEnumOptions, SearchEngineEnumOptions, Sor
 import { Router } from '@angular/router';
 import { PageHeaderComponent } from 'apps/trend-dashboard/src/app/shared/components/page-header/page-header.component';
 import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
+import { WebSocketService } from 'apps/trend-dashboard/src/app/shared/services/web-socket/web-socket.service';
+import { environment } from 'apps/trend-dashboard/src/app/environments/environment';
+
+const allGroups = environment.webSocketGroups;
+const groups = [allGroups.searchWordStatusChanged];
 
 @Component({
     selector: 'admin-dashboard-view-page',
@@ -31,11 +36,14 @@ import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.
         PageHeaderComponent, SpinnerComponent
     ]
 })
-export class ViewPageComponent implements OnInit {
-  readonly searchWordStore = inject(SearchWordStore);
-  readonly dictionaryStore = inject(DictionaryStore);
-  readonly formBuilder = inject(FormBuilder);
-  readonly router = inject(Router);
+export class ViewPageComponent implements OnInit, OnDestroy {
+  private readonly searchWordStore = inject(SearchWordStore);
+  private readonly webSocketService = inject(WebSocketService);
+  private readonly dictionaryStore = inject(DictionaryStore);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+
+  private lifecycle = new Subject<void>();
 
   searchWords = this.searchWordStore.entities;
   totalSearchWords = this.searchWordStore.totalCount;
@@ -59,10 +67,18 @@ export class ViewPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.formSnapshotValue = this.form.value;
+
     this.isLoading$.pipe(
       filter(isLoading => !isLoading),
       take(1),
       tap(() => this.searchWordStore.fetch(this.getRequestFilter()))
+    ).subscribe();
+
+
+    this.webSocketService.serverResponse$.pipe(
+      takeUntil(this.lifecycle),
+      filter(x => groups.includes(x.groupName)),
+      tap(_ => this.searchWordStore.fetch(this.getRequestFilter()))
     ).subscribe();
   }
 
@@ -72,6 +88,11 @@ export class ViewPageComponent implements OnInit {
 
   onSubmit(): void {
     this.searchWordStore.fetch(this.getRequestFilter());
+  }
+
+  ngOnDestroy(): void {
+    this.lifecycle.next();
+    this.lifecycle.complete();
   }
 
   resetForm(): void {

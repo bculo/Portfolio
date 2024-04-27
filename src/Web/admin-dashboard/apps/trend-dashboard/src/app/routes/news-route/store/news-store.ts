@@ -64,8 +64,8 @@ export const NewsStore = signalStore(
 
     })),
     withHooks({
-        onInit({fetch}) {
-            fetch({query: ''})
+        onInit({}) {
+
         }
     }),
 );
