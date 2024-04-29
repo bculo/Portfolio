@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Swashbuckle.AspNetCore.Annotations;
 using Trend.API.Extensions;
 using Trend.Application.Configurations.Constants;
 using Trend.Application.Interfaces;

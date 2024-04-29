@@ -13,6 +13,7 @@ using Trend.Application.Interfaces.Models;
 using Trend.Domain.Entities;
 using Trend.Domain.Enums;
 using Trend.Domain.Errors;
+using Trend.Domain.Exceptions;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Trend.Application.Services
@@ -57,9 +58,17 @@ namespace Trend.Application.Services
 
         private string GetDefaultSearchWordImageUri(ContextType type)
         {
+            var imageName= type.Value switch
+            {
+                0 => "Crypto",
+                1 => "Stock",
+                2 => "Forex",
+                _ => throw new TrendAppCoreException("Not supported exception")
+            };
+
             return Path.Combine(_blobStorage.GetBaseUri.ToString(),
                 _storageOptions.TrendContainerName,
-                "Crypto");
+                imageName);
         }
 
         public async Task<Either<CoreError, SearchWordResDto>> CreateNew(
