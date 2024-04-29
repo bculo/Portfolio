@@ -15,7 +15,7 @@ public class ArticleDetailResQuery
     public string Id { get; set; } = default!;
     public DateTime Created { get; set; }
     public string Title { get; set; } = default!;
-    public bool IsActive { get; set; } = default!;
+    public bool IsActive { get; set; }
     public string Content { get; set; } = default!;
     public string PageSource { get; set; } = default!;
     public string ArticleUrl { get; set; } = default!;

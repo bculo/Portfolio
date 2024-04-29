@@ -7,4 +7,5 @@ export interface Article {
     typeName: string,
     typeId: number,
     imageUrl: string;
+    isActive: boolean;
 }

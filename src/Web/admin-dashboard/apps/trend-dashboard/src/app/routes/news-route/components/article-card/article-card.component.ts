@@ -23,6 +23,6 @@ export class ArticleCardComponent {
   }
 
   onDeactivate() {
-    this.newsStore.activate(this.article.id);
+    this.newsStore.deactivate(this.article.id);
   }
 }

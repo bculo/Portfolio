@@ -54,38 +54,6 @@ namespace Trend.Application.Repositories.Initialization
                 config.AutoMap();
                 config.SetIgnoreExtraElements(true);
             });
-            
-            /*
-
-
-            BsonClassMap.RegisterClassMap<ArticleSearchWordLookup>(config =>
-            {
-                config.AutoMap();
-            });
-            
-            BsonClassMap.RegisterClassMap<ArticleDetailResQuery>(config =>
-            {
-                config.AutoMap();
-            });
-
-            BsonClassMap.RegisterClassMap<SyncStatusUnwind>(config =>
-            {
-                config.AutoMap();
-                config.SetIgnoreExtraElements(true);
-            });
-
-            BsonClassMap.RegisterClassMap<SearchWordSyncStatusLookup>(config =>
-            {
-                config.AutoMap();
-                config.SetIgnoreExtraElements(true);
-            });
-            
-            BsonClassMap.RegisterClassMap<SearchWordSyncStatusUnwind>(config =>
-            {
-                config.AutoMap();
-                config.SetIgnoreExtraElements(true);
-            });
-            */
         }
     }
 }

@@ -10,7 +10,7 @@ import { inject } from '@angular/core';
 import { map, pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit'
-import { addEntities, removeEntity, setAllEntities, withEntities } from '@ngrx/signals/entities';
+import { removeEntity, setAllEntities, withEntities } from '@ngrx/signals/entities';
 import { Article } from '../models/news.model';
 import { NewsService } from '../../../shared/services/open-api';
 import { mapToArticleArray } from '../mappers/mapper';
@@ -68,7 +68,7 @@ export const NewsStore = signalStore(
                 switchMap((articleId) =>
                     service.activateArticle(articleId).pipe(
                         tapResponse({
-                            next: (response) => patchState(store, removeEntity(articleId)),
+                            next: (response) => {},
                             error: console.error,
                             finalize: () => patchState(store, { isLoading: false }),
                         }),

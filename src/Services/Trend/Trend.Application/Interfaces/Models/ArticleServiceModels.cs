@@ -23,6 +23,7 @@ public record ArticleResDto
     public string PageSource { get; set; } = default!;
     public string TypeName { get; set; } = default!;
     public int TypeId { get; set; }
+    public bool IsActive { get; set; }
     public string SearchWordId { get; set; } = default!;
     public string SearchWord { get; set; } = default!;
     public string SearchWordImage { get; set; } = default!;

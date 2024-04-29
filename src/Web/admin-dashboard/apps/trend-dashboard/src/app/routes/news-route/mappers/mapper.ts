@@ -10,6 +10,7 @@ export const mapToArticleArray = (input: ArticleResDto[]): Article[] => {
         typeName: item.typeName,
         url: item.url,    
         id: item.id,
-        imageUrl: item.searchWordImage   
+        imageUrl: item.searchWordImage,
+        isActive: item.isActive
     } as Article));    
 };

@@ -20,6 +20,7 @@ export interface ArticleResDto {
     pageSource?: string;
     typeName?: string;
     typeId?: number;
+    isActive?: boolean;
     searchWordId?: string;
     searchWord?: string;
     searchWordImage?: string;
