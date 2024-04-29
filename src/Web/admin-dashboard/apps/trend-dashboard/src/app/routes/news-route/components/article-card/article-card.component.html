@@ -2,6 +2,14 @@
     <div class="flex flex-col h-full">
         <div class="flex-initial h-56 relative">
             <img [src]="article.imageUrl" class="inline-block h-full w-full object-fill">
+            <div class="absolute top-0 right-0 flex gap-x-1 mt-4 mr-4">
+                <span (click)="onActivate()" class="flex justify-center bg-black p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-cyan-500 hover:border-cyan-500" >
+                    <ng-icon name="heroPlusCircle"></ng-icon>
+                </span>
+                <span (click)="onDeactivate()" class="flex justify-center bg-black p-1 border border-stone-700 rounded-xl hover:cursor-pointer hover:text-red-800 hover:border-red-800">
+                    <ng-icon name="heroTrash"/>
+                </span>
+            </div>
         </div>
         <div class="flex-1 p-3">
             <div class="text-xs text-stone-400">

@@ -62,6 +62,21 @@ export const NewsStore = signalStore(
             ),
         ),
 
+        activate: rxMethod<string>(
+            pipe(
+                tap(() => patchState(store, { isLoading: false })),
+                switchMap((articleId) =>
+                    service.activateArticle(articleId).pipe(
+                        tapResponse({
+                            next: (response) => patchState(store, removeEntity(articleId)),
+                            error: console.error,
+                            finalize: () => patchState(store, { isLoading: false }),
+                        }),
+                    )
+                ),
+            ),
+        ),
+
     })),
     withHooks({
         onInit({}) {

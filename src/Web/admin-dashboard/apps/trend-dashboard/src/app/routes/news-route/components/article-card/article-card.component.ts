@@ -1,8 +1,9 @@
 import { NgIconComponent } from '@ng-icons/core';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Article } from '../../models/news.model';
 import { WebAddressPipe } from 'apps/trend-dashboard/src/app/shared/pipes/web-address.pipe';
+import { NewsStore } from '../../store/news-store';
 
 @Component({
   selector: 'admin-dashboard-article-card',
@@ -12,7 +13,16 @@ import { WebAddressPipe } from 'apps/trend-dashboard/src/app/shared/pipes/web-ad
   styleUrl: './article-card.component.scss',
 })
 export class ArticleCardComponent {
+  private readonly newsStore = inject(NewsStore);
   @Input() article!: Article;
 
   date = new Date()
+
+  onActivate() {
+    this.newsStore.activate(this.article.id);
+  }
+
+  onDeactivate() {
+    this.newsStore.activate(this.article.id);
+  }
 }
