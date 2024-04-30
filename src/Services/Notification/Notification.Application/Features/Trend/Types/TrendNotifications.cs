@@ -1,6 +1,6 @@
 using Notification.Application.Interfaces.Notifications.Models;
 
-namespace Notification.Application.Features.Trend.Codes;
+namespace Notification.Application.Features.Trend.Types;
 
 public static class TrendNotifications
 {

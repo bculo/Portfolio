@@ -5,7 +5,7 @@ namespace Notification.Application.Interfaces.Notifications
     public interface INotificationService
     {
         Task NotifyAll(PushNotification notification);
-        Task NotifyGroup(string groupId, PushNotification notification);
-        Task NotifyUser(string userId, PushNotification notification);
+        Task NotifyGroup(PushNotification notification);
+        Task NotifyUser(PushNotification notification);
     }
 }

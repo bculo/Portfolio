@@ -18,6 +18,7 @@ public class SendPriceUpdatedNotificationHandler : IRequestHandler<SendPriceUpda
     public async Task Handle(SendPriceUpdatedNotification request, CancellationToken cancellationToken)
     {
         PushNotification notification = new(request.Symbol, request);
-        await _notification.NotifyGroup(request.Symbol, notification);
+        throw new NotImplementedException();
+        //await _notification.NotifyGroup(request.Symbol, notification);
     }
 }

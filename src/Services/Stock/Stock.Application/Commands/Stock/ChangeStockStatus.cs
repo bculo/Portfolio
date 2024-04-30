@@ -1,4 +1,6 @@
+using Events.Common.Stock;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Sqids;
@@ -7,6 +9,7 @@ using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Exceptions;
 using Stock.Core.Exceptions.Codes;
+using Stock.Core.Models.Stock;
 using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
@@ -28,16 +31,19 @@ public class ChangeStockStatusHandler : IRequestHandler<ChangeStockStatus>
     private readonly IUnitOfWork _work;
     private readonly IDateTimeProvider _timeProvider;
     private readonly IOutputCacheStore _outputCache;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public ChangeStockStatusHandler(IUnitOfWork work, 
         SqidsEncoder<int> sqids, 
         IDateTimeProvider timeProvider, 
-        IOutputCacheStore outputCache)
+        IOutputCacheStore outputCache, 
+        IPublishEndpoint publishEndpoint)
     {
         _work = work;
         _sqids = sqids;
         _timeProvider = timeProvider;
         _outputCache = outputCache;
+        _publishEndpoint = publishEndpoint;
     }
     
     public async Task Handle(ChangeStockStatus request, CancellationToken ct)
@@ -59,7 +65,28 @@ public class ChangeStockStatusHandler : IRequestHandler<ChangeStockStatus>
         else entity.Deactivated = _timeProvider.Now;
         await _work.Save(ct);
 
+        await PublishStatusChangedEvent(entity, ct);
+        
         await _outputCache.EvictByTagAsync(request.Id, ct);
         await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
+    }
+
+    private async Task PublishStatusChangedEvent(StockEntity entity, CancellationToken ct)
+    {
+        if (entity.IsActive)
+        {
+            await _publishEndpoint.Publish(new StockActivated
+            {
+                Time = _timeProvider.Utc,
+                Symbol = entity.Symbol
+            }, ct);
+            return;
+        }
+        
+        await _publishEndpoint.Publish(new StockDeactivated()
+        {
+            Time = _timeProvider.Utc,
+            Symbol = entity.Symbol
+        }, ct);
     }
 }

@@ -22,20 +22,18 @@ namespace Notification.Hub.Services
             await _hubContext.Clients.All.SendAsync(notification.MethodName, notification.Content);
         }
 
-        public async Task NotifyGroup(string groupId, PushNotification notification)
+        public async Task NotifyGroup(PushNotification notification)
         {
-            ArgumentNullException.ThrowIfNull(groupId, nameof(groupId));
             ArgumentNullException.ThrowIfNull(notification, nameof(notification));
 
-            await _hubContext.Clients.Group(groupId).SendAsync(notification.MethodName, notification.Content);
+            await _hubContext.Clients.Group(notification.MethodName).SendAsync(notification.MethodName, notification.Content);
         }
         
-        public async Task NotifyUser(string userId, PushNotification notification)
+        public async Task NotifyUser(PushNotification notification)
         {
-            ArgumentNullException.ThrowIfNull(userId, nameof(userId));
             ArgumentNullException.ThrowIfNull(notification, nameof(notification));
 
-            await _hubContext.Clients.User(userId).SendAsync(notification.MethodName, notification.Content);
+            await _hubContext.Clients.User(notification.MethodName).SendAsync(notification.MethodName, notification.Content);
         }
     }
 }

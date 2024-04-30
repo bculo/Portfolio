@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Notification.Application.Features.Trend.Codes;
+using Notification.Application.Features.Trend.Types;
 using Notification.Application.Interfaces.Notifications;
 using Time.Abstract.Contracts;
 

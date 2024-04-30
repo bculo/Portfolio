@@ -11,12 +11,11 @@ const webSocketService = myContainer.get<WebSocketService>(
 export const StockItemView = () => {
   const params = useParams();
 
-  console.log(params);
-
   useEffect(() => {
     webSocketService.joinGroup<unknown>(params.symbol!, (response) =>
       console.log(response)
     );
+    return () => webSocketService.leaveGroup(params.symbol!);
   }, [params]);
 
   return <div>StockItemView</div>;

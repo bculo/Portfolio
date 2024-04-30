@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import {
   FilterStocksApiArg,
@@ -17,6 +17,9 @@ import {
 } from '@heroicons/react/20/solid';
 import { Spinner } from '../../components/Spinner';
 import { useNavigate } from 'react-router-dom';
+import { WebSocketService } from '../../inversify/interfaces';
+import { myContainer } from '../../inversify/inversify.config';
+import { TYPES } from '../../inversify/types';
 
 const map = (form: StockFilter): FilterStocksApiArg => {
   return {
@@ -40,20 +43,35 @@ const defaultVal: StockFilter = {
   take: 20,
 };
 
+const webSocketService = myContainer.get<WebSocketService>(
+  TYPES.WebSocketService
+);
+
 const StockList = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<StockFilter>(defaultVal);
-  const { data, refetch, isLoading } = useFilterStocksQuery(map(filter));
-  const [changeStatus] = useChangeStockStatusMutation();
+  const {
+    data,
+    refetch,
+    isLoading: filterIsLoading,
+  } = useFilterStocksQuery(map(filter));
+  const [changeStatus, { isLoading: statusIsLoading }] =
+    useChangeStockStatusMutation();
+
+  const isLoading = filterIsLoading || statusIsLoading;
+
+  useEffect(() => {
+    webSocketService.joinGroup('Stock.StatusChanged', () => refetch());
+    return () => webSocketService.leaveGroup('Stock.StatusChanged');
+  }, [refetch]);
 
   const onSearchChange = useCallback((search: string) => {
     setFilter((prev) => ({ ...prev, symbol: search }));
   }, []);
 
   const deactivateItem = async (item: StockPriceResultDto) => {
-    await changeStatus({ id: item.id });
-    refetch();
+    changeStatus({ id: item.id });
   };
 
   const routeToAsset = (item: StockPriceResultDto) => {

@@ -10,5 +10,7 @@ public static class StockConfiguration
     {
         configurator.AddConsumer<NewStockAddedConsumer>();
         configurator.AddConsumer<StockPriceUpdatedConsumer>();
+        configurator.AddConsumer<StockDeactivatedConsumer>();
+        configurator.AddConsumer<StockActivatedConsumer>();
     }
 }

@@ -19,8 +19,8 @@ public class SendPriceUpdatedNotificationHandler : IRequestHandler<SendPriceUpda
 
     public async Task Handle(SendPriceUpdatedNotification request, CancellationToken cancellationToken)
     {
-        PushNotification notification = new(request.Symbol, request);
         var groupName = GroupUtilities.FormatGroupName(request.Symbol, GroupType.STOCK);
-        await _notification.NotifyGroup(groupName, notification);
+        PushNotification notification = new(groupName, request);
+        await _notification.NotifyGroup(notification);
     }
 }
