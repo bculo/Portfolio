@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Notification.Application.Features.Stock;
 
-public class StockPriceUpdatedConsumer : IConsumer<StockPriceUpdated>
+public class StockPriceUpdatedConsumer : PriceUpdatedBaseConsumer, IConsumer<StockPriceUpdated>
 {
     private readonly IMediator _mediator;
 
@@ -16,7 +16,7 @@ public class StockPriceUpdatedConsumer : IConsumer<StockPriceUpdated>
     public async Task Consume(ConsumeContext<StockPriceUpdated> context)
     {
         var instance = context.Message;
-        var command = new SendPriceUpdatedNotification(instance.Symbol, instance.Price);
+        var command = CreateNotification(instance.Symbol, instance.Price);
         await _mediator.Send(command);
     }
 }

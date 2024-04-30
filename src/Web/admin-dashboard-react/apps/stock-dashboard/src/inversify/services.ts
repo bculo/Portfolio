@@ -36,17 +36,21 @@ class SignalRConnector implements WebSocketService {
             });
     }
 
-    public joinGroup(assetName: string) {
+    public joinGroup<T>(assetName: string, onMessage: (message: T) => void) {
         if(this.groups.includes(this.formatGroupName(assetName))) {
-            console.log("EXIT")
             return;
         }
-        this.groups.push(this.formatGroupName(assetName))
-        this.connection.invoke("JoinGroup", [assetName]);
+
+        const groupName = this.formatGroupName(assetName)
+        this.groups.push(groupName)
+        this.connection.invoke("JoinGroup", groupName)
+            .catch(err => console.log(err));
+
+        this.connection.on(assetName.toUpperCase(), (data: T) => onMessage(data))
     }
     
     private formatGroupName(assetName: string): string {
-        return `${assetName}crypto`
+        return `${assetName.toLowerCase()}-stock`
     }
 }
 

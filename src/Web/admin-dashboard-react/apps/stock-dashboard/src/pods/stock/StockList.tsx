@@ -57,7 +57,7 @@ const StockList = () => {
   };
 
   const routeToAsset = (item: StockPriceResultDto) => {
-    navigate(`${item.id}`);
+    navigate(`${item.symbol}`);
   };
 
   return (

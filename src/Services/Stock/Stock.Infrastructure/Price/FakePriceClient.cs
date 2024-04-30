@@ -19,7 +19,7 @@ public class FakePriceClient : IStockPriceClient
     public async Task<StockPriceInfo?> GetPrice(string symbol, CancellationToken ct = default)
     {
         var result = await _work.StockWithPriceTag.First(x => x.Symbol == symbol, ct: ct);
-
+        
         var response = new StockPriceInfo
         {
             Symbol = symbol,

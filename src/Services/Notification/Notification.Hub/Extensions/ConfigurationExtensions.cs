@@ -3,6 +3,7 @@ using Keycloak.Common;
 using MassTransit;
 using Notification.Application;
 using Notification.Application.Features.Crypto;
+using Notification.Application.Features.Stock;
 using Notification.Application.Features.Trend;
 using Notification.Application.Interfaces.Notifications;
 using Notification.Hub.Services;
@@ -92,8 +93,7 @@ public static class ConfigurationExtensions
             x.SetEndpointNameFormatter(formatter);
 
             x.ConfigureTrendConsumers();
-            
-            x.AddConsumer<CryptoPriceUpdatedConsumer>();
+            x.ConfigureStockConsumers();
             
             x.UsingRabbitMq((context, config) =>
             {

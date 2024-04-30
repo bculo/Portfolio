@@ -1,4 +1,4 @@
 export interface WebSocketService {
     connect(onConnectResult: (success: boolean) => void): void
-    joinGroup(assetName: string): void;
+    joinGroup<T>(assetName: string, onMessage: (message: T) => void): void
 }

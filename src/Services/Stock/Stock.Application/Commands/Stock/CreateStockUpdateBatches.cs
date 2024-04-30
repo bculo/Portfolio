@@ -40,7 +40,7 @@ public class CreateStockUpdateBatchesHandler
         CreateStockUpdateBatches request, 
         CancellationToken ct)
     {
-        if (!IsUsStockExchangeActive())
+        if (!_options.Value.IgnoreExchangeActiveTime && !IsUsStockExchangeActive())
         {
             _logger.LogTrace("US stock exchange is closed");
             return new CreateStockUpdateBatchesResponse(0);

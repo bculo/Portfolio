@@ -15,6 +15,7 @@ using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using StackExchange.Redis;
 using Stock.Application.Common.Constants;
+using Stock.Application.Common.Options;
 using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
@@ -88,6 +89,8 @@ namespace Stock.Infrastructure
 
         private static void AddHangfire(IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<BatchUpdateOptions>(configuration.GetSection("BatchUpdateOptions"));
+            
             services.AddHangfire(config =>
             {
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170);

@@ -14,14 +14,6 @@ namespace Notification.Hub
         {
             _logger = logger;
         }
-
-        private string FormatGroupName(string groupName, string assetType)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(groupName);
-            ArgumentException.ThrowIfNullOrEmpty(assetType);
-
-            return $"{groupName}-{assetType}";
-        }
         
         public override Task OnConnectedAsync()
         {
