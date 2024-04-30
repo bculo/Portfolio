@@ -1,7 +1,5 @@
 import { useAuth } from 'react-oidc-context';
 import { NavigationList } from './NavigationList';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
 export const SideNavigation = () => {
   const auth = useAuth();
