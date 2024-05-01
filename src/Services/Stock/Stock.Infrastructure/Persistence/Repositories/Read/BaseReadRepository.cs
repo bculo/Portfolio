@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Queryable.Common.Extensions;
+using Queryable.Common.Models;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Base;
 using Stock.Core.Models.Common;
@@ -108,6 +109,27 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
+                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
+                .ApplyTracking(false)
+                .ApplySplitQuery(splitQuery)
+                .ToListAsync(ct);
+            
+            return new PageModel<T>(totalCount, pageQuery.Page, items);
+        }
+
+        public async Task<PageModel<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
+            SortBy sortBy, 
+            PageQuery pageQuery, 
+            Func<IQueryable<T>, 
+            IIncludableQueryable<T, object>>? include = default,
+            bool splitQuery = false, CancellationToken ct = default)
+        {
+            var query = Set.ApplyWhereAll(predicates);
+            
+            var totalCount = await query.CountAsync(ct);
+            var items = await query
+                .ApplyInclude(include)
+                .ApplyOrderBy(sortBy)
                 .ApplyPagination(pageQuery.Skip, pageQuery.Take)
                 .ApplyTracking(false)
                 .ApplySplitQuery(splitQuery)

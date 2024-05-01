@@ -1,6 +1,9 @@
 using System.Linq.Expressions;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Queryable.Common.Models;
+using System.Linq.Dynamic.Core;
 
 namespace Queryable.Common.Extensions;
 
@@ -52,6 +55,11 @@ public static class QueryableExtensions
         }
 
         return orderBy(source);
+    }
+    
+    public static IQueryable<T> ApplyOrderBy<T>(this IQueryable<T> source, SortBy sortByInfo)
+    {
+        return source.OrderBy(sortByInfo.ToSortExpression());
     }
 
     public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> source, int skip, int take)

@@ -20,7 +20,8 @@ public record FilterStocks(
         GreaterThanFilter<decimal>? PriceGreaterThan,
         LessThenFilter<decimal>? PriceLessThan,
         EqualFilter<Status> ActivityStatus,
-        GreaterThanFilter<DateTime>? NotOlderThan) 
+        GreaterThanFilter<DateTime>? NotOlderThan,
+        SortBy SortBy) 
     : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
@@ -70,13 +71,13 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
         
         var page = await _work.StockWithPriceTag.PageMatchAll(
             expressions,
-            i => i.OrderBy(x => x.Symbol),
+            request.SortBy,
             request.ToPageQuery(),
             ct: ct);
 
         return page.MapToDto(Projection);
     }
-
+    
     private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocks request)
     {
         var builder = DynamicExpressionBuilder<StockWithPriceTag>.Create();
