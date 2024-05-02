@@ -16,7 +16,6 @@ namespace Stock.Worker.Configurations
 
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
-            InfrastructureLayer.AddOpenTelemetry(services, configuration, "stock.worker");
             InfrastructureLayer.AddMessageQueue(services, configuration, x =>
             {
                 x.AddConsumer<UpdateBatchPreparedConsumer>();

@@ -83,6 +83,8 @@ public class CreateStockUpdateBatchesHandler
                 Symbols = symbols
             }, ct);
         }
+
+        await _work.Save(ct);
     }
 
     private Dictionary<int, List<string>> CreateBatches(List<string> symbols)

@@ -79,7 +79,6 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
             }
         };
         await _work.StockRepo.Add(newItem, ct);
-        await _work.Save(ct);
         
         await _publish.Publish(new NewStockItemAdded
         {
@@ -88,6 +87,8 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
             Symbol = newItem.Symbol
         }, ct);
 
+        await _work.Save(ct);
+        
         await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
         
         return _sqids.Encode(newItem.Id);

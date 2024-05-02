@@ -166,6 +166,12 @@ namespace Stock.Infrastructure
             {
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "stock", false));
                 
+                x.AddEntityFrameworkOutbox<StockDbContext>(o =>
+                {
+                    o.UsePostgres();
+                    o.UseBusOutbox();
+                });
+                
                 registerClient?.Invoke(x);
 
                 x.UsingRabbitMq((context, config) =>
