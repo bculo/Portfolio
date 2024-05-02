@@ -11,6 +11,6 @@ public static class SortByExtensions
             return sortBy.PropertyName;
         }
         
-        return $"{sortBy} desc";
+        return $"{sortBy.PropertyName} desc";
     }
 }
