@@ -36,7 +36,7 @@ public class SystemTextJsonCustomRawMessageSerializer : RawMessageSerializer, IM
         return new BodyConsumeContext(receiveContext, Deserialize(receiveContext.Body, receiveContext.TransportHeaders, receiveContext.InputAddress));
     }
 
-    public SerializerContext Deserialize(MessageBody body, Headers headers, Uri destinationAddress = null)
+    public SerializerContext Deserialize(MessageBody body, Headers headers, Uri? destinationAddress = null)
     {
         try
         {
@@ -107,7 +107,7 @@ public class SystemTextJsonCustomMessageSerializer :
         Options.Converters.Add(new SystemTextJsonConverterFactory());
     }
 
-    public SystemTextJsonCustomMessageSerializer(ContentType contentType = null)
+    public SystemTextJsonCustomMessageSerializer(ContentType? contentType = null)
     {
         ContentType = contentType ?? JsonContentType;
     }
@@ -126,7 +126,7 @@ public class SystemTextJsonCustomMessageSerializer :
         return new BodyConsumeContext(receiveContext, Deserialize(receiveContext.Body, receiveContext.TransportHeaders, receiveContext.InputAddress));
     }
 
-    public SerializerContext Deserialize(MessageBody body, Headers headers, Uri destinationAddress = null)
+    public SerializerContext Deserialize(MessageBody body, Headers headers, Uri? destinationAddress = null)
     {
         try
         {

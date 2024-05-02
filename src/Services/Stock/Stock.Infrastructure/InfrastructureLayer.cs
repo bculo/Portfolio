@@ -2,6 +2,7 @@
 using Cache.Redis.Common;
 using Hangfire;
 using Hangfire.PostgreSql;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
@@ -155,6 +156,27 @@ namespace Stock.Infrastructure
             
             services.AddRedisFusionCacheService(redisConnectionString!, redisInstanceName!);
             services.AddRedisOutputCache(redisConnectionString!, redisInstanceName!);
+        }
+        
+        public static void AddMessageQueue(IServiceCollection services, 
+            IConfiguration configuration,
+            Action<IBusRegistrationConfigurator>? registerClient = null)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "stock", false));
+                
+                registerClient?.Invoke(x);
+
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(configuration["QueueOptions:Address"]);
+                    if (registerClient != null)
+                    {
+                        config.ConfigureEndpoints(context);
+                    }
+                });
+            });
         }
     }
 }

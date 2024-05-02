@@ -49,8 +49,8 @@ namespace Stock.API.Configurations
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
             InfrastructureLayer.AddOpenTelemetry(services, configuration, "stock.api");
-
-            AddMessageQueue(services, configuration);
+            InfrastructureLayer.AddMessageQueue(services, configuration);
+            
             AddAuthentication(services, configuration);
             AddCachePolicies(services, configuration);
             AddSerilog(builder);
@@ -89,17 +89,6 @@ namespace Stock.API.Configurations
 
             services.ConfigureDefaultAuthentication(authOptions);
             services.ConfigureDefaultAuthorization();
-        }
-
-        private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddMassTransit(x =>
-            {
-                x.UsingRabbitMq((_, config) =>
-                {
-                    config.Host(configuration["QueueOptions:Address"]);
-                });
-            });
         }
     }
 }

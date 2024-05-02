@@ -29,8 +29,8 @@ public static class ServiceConfigurationExtensions
         ApplicationLayer.AddServices(services, configuration);
         InfrastructureLayer.AddServices(services, configuration);
         InfrastructureLayer.AddOpenTelemetry(services, configuration, "stock.grpc");
-
-        AddMessageQueue(services, configuration);
+        InfrastructureLayer.AddMessageQueue(services, configuration);
+        
         AddAuthentication(services, configuration);
         AddSerilog(builder);
     }
@@ -53,16 +53,5 @@ public static class ServiceConfigurationExtensions
 
         services.ConfigureDefaultAuthentication(authOptions);
         services.ConfigureDefaultAuthorization();
-    }
-
-    private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddMassTransit(x =>
-        {
-            x.UsingRabbitMq((_, config) =>
-            {
-                config.Host(configuration["QueueOptions:Address"]);
-            });
-        });
     }
 }

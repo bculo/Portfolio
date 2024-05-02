@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.Common\Events.Common.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Events\Events.MassTransit.Common\Events.MassTransit.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Cache.Redis.Common\Cache.Redis.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\Queryable.Common\Queryable.Common.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utility\PrimitiveTypes.Common\PrimitiveTypes.Common.csproj" />
