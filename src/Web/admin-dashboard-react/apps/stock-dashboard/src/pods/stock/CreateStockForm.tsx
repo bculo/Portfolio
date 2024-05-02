@@ -21,7 +21,7 @@ export const CreateStockForm = ({ onCreated }: Props) => {
     resolver: yupResolver(formSchema),
   });
 
-  const [createStock, { isLoading }] = useCreateStockMutation();
+  const [createStock] = useCreateStockMutation();
 
   const { handleSubmit } = form;
 

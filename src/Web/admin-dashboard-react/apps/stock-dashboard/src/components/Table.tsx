@@ -4,13 +4,21 @@ type TableProps<T extends object> = {
     {
       name: string;
       accessor: (data: T) => React.ReactNode | string | undefined;
+      sortable: boolean;
     }
   >;
   payload: T[];
   totalRecords: number;
   take: number;
   page: number;
+  tableSort: TableSortInfo | null;
   onPageChange: (page: number) => void;
+  onSortChange: (sort: TableSortInfo) => void;
+};
+
+export type TableSortInfo = {
+  propertyName: string;
+  sort: TableSortType;
 };
 
 export const Table = <T extends object>({
@@ -19,7 +27,9 @@ export const Table = <T extends object>({
   totalRecords,
   take,
   page,
+  tableSort,
   onPageChange,
+  onSortChange,
 }: TableProps<T>) => {
   const isNextVisible = page < Math.ceil(totalRecords / take);
   const isPrevVisible = page > 1;
@@ -30,10 +40,22 @@ export const Table = <T extends object>({
         <thead className="bg-gray-600 text-cyan-500">
           <tr className="text-start">
             {Object.keys(columns).map((key) => {
-              const { name } = columns[key];
+              const { name, sortable } = columns[key];
               return (
                 <th scope="col" key={key} className="px-6 py-3 text-start">
-                  {name}
+                  <span>{name}</span>{' '}
+                  {sortable ? (
+                    <TableSortButton
+                      sort={
+                        tableSort && tableSort.propertyName === name
+                          ? tableSort.sort
+                          : 'none'
+                      }
+                      onSortChange={(dir) =>
+                        onSortChange({ propertyName: name, sort: dir })
+                      }
+                    />
+                  ) : null}
                 </th>
               );
             })}
@@ -92,4 +114,23 @@ const TablePaginationButton = ({
       </span>
     );
   return <span>&nbsp;</span>;
+};
+
+type TableSortType = 'none' | 'asc' | 'desc';
+
+type TableSortButtonProps = {
+  sort: TableSortType;
+  onSortChange: (sortDirection: TableSortType) => void;
+};
+
+const TableSortButton = ({ sort, onSortChange }: TableSortButtonProps) => {
+  return (
+    <div>
+      {sort === 'asc' && <span onClick={() => onSortChange('desc')}>ASC</span>}
+      {sort === 'none' && <span onClick={() => onSortChange('asc')}>-</span>}
+      {sort === 'desc' && (
+        <span onClick={() => onSortChange('none')}>DESC</span>
+      )}
+    </div>
+  );
 };

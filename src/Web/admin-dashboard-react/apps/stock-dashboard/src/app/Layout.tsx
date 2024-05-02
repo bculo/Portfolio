@@ -4,9 +4,9 @@ import { Outlet } from 'react-router-dom';
 import { BackgroundPattern } from '../components/BackgroundPattern';
 import { SideNavigation } from './SideNavigation';
 import { PageLoading } from '../components/PageLoading';
-import { myContainer } from '../inversify/inversify.config';
-import { WebSocketService } from '../inversify/interfaces';
-import { TYPES } from '../inversify/types';
+import { myContainer } from '../services/inversify.config';
+import { WebSocketService } from '../services/interfaces';
+import { TYPES } from '../services/types';
 import { Spinner } from '../components/Spinner';
 
 const webSocketService = myContainer.get<WebSocketService>(

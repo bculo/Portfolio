@@ -1,12 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import {
-  FilterStocksApiArg,
-  StockPriceResultDto,
   useChangeStockStatusMutation,
   useFilterStocksQuery,
 } from '../../stores/api/generated';
-import { Table } from '../../components/Table';
+import { Table, TableSortInfo } from '../../components/Table';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
 import { CreateStockForm } from './CreateStockForm';
@@ -17,24 +15,11 @@ import {
 } from '@heroicons/react/20/solid';
 import { Spinner } from '../../components/Spinner';
 import { useNavigate } from 'react-router-dom';
-import { WebSocketService } from '../../inversify/interfaces';
-import { myContainer } from '../../inversify/inversify.config';
-import { TYPES } from '../../inversify/types';
-
-const map = (form: StockFilter): FilterStocksApiArg => {
-  return {
-    ...form,
-    'Symbol.Value': form.symbol,
-    'ActivityStatus.Value': form.status,
-  };
-};
-
-type StockFilter = {
-  page: number;
-  take: number;
-  symbol: string;
-  status: 1 | 2 | 999;
-};
+import { WebSocketService } from '../../services/interfaces';
+import { myContainer } from '../../services/inversify.config';
+import { TYPES } from '../../services/types';
+import { StockFilter } from './models';
+import { mapToFilterStocksRequest } from './mappers';
 
 const defaultVal: StockFilter = {
   status: 999,
@@ -51,11 +36,12 @@ const StockList = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<StockFilter>(defaultVal);
+  const [sort, setSort] = useState<TableSortInfo | null>(null);
   const {
     data,
     refetch,
     isLoading: filterIsLoading,
-  } = useFilterStocksQuery(map(filter));
+  } = useFilterStocksQuery(mapToFilterStocksRequest(filter, sort));
   const [changeStatus, { isLoading: statusIsLoading }] =
     useChangeStockStatusMutation();
 
@@ -69,14 +55,6 @@ const StockList = () => {
   const onSearchChange = useCallback((search: string) => {
     setFilter((prev) => ({ ...prev, symbol: search }));
   }, []);
-
-  const deactivateItem = async (item: StockPriceResultDto) => {
-    changeStatus({ id: item.id });
-  };
-
-  const routeToAsset = (item: StockPriceResultDto) => {
-    navigate(`${item.symbol}`);
-  };
 
   return (
     <div className="glass p-4 rounded-md">
@@ -100,8 +78,10 @@ const StockList = () => {
       <div className="mt-4 relative">
         <Spinner visible={isLoading} wholeScreen={false} />
         <Table
+          tableSort={sort}
           take={filter.take}
           page={filter.page}
+          onSortChange={(sort) => setSort(sort)}
           onPageChange={(page) =>
             setFilter((prev) => ({ ...prev, page: page }))
           }
@@ -109,10 +89,12 @@ const StockList = () => {
           payload={data?.items ?? []}
           columns={{
             symbol: {
+              sortable: true,
               name: 'Symbol',
               accessor: (item) => item.symbol,
             },
             lastPriceUpdate: {
+              sortable: false,
               name: 'Last update',
               accessor: (item) => {
                 return item.lastPriceUpdate
@@ -121,6 +103,7 @@ const StockList = () => {
               },
             },
             price: {
+              sortable: true,
               name: 'Price',
               accessor: (item) => (
                 <span className="underline underline-offset-4">
@@ -129,6 +112,7 @@ const StockList = () => {
               ),
             },
             active: {
+              sortable: false,
               name: 'Active',
               accessor: (item) =>
                 item.isActive ? (
@@ -138,16 +122,17 @@ const StockList = () => {
                 ),
             },
             actions: {
+              sortable: false,
               name: 'Actions',
               accessor: (item) => (
                 <div className="flex gap-x-2">
                   <XCircleIcon
                     className="h-6 w-6 text-red-600 hover:cursor-pointer"
-                    onClick={() => deactivateItem(item)}
+                    onClick={() => changeStatus({ id: item.id })}
                   />
                   <ArrowTopRightOnSquareIcon
                     className="h-6 w-6 text-cyan-700 hover:cursor-pointer"
-                    onClick={() => routeToAsset(item)}
+                    onClick={() => navigate(`${item.symbol}`)}
                   />
                 </div>
               ),

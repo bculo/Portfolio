@@ -5,7 +5,7 @@ import { store } from './stores/store';
 import { AuthProvider } from 'react-oidc-context';
 import App from './app/app';
 import { User } from 'oidc-client-ts';
-import { oidcConfig } from './configs/oAuth2Config';
+import { oidcConfig } from './environments/oAuth2Config';
 
 const onSigninCallback = (_: User | void) => {
   console.log(_);

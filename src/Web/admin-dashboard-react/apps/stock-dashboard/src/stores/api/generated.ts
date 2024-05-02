@@ -26,6 +26,8 @@ const injectedRtkApi = api.injectEndpoints({
           'PriceLessThan.Value': queryArg['PriceLessThan.Value'],
           'ActivityStatus.Value': queryArg['ActivityStatus.Value'],
           'NotOlderThan.Value': queryArg['NotOlderThan.Value'],
+          'SortBy.PropertyName': queryArg['SortBy.PropertyName'],
+          'SortBy.Direction': queryArg['SortBy.Direction'],
           Page: queryArg.page,
           Take: queryArg.take,
         },
@@ -63,6 +65,8 @@ export type FilterStocksApiArg = {
   'PriceLessThan.Value'?: number;
   'ActivityStatus.Value'?: Status;
   'NotOlderThan.Value'?: string;
+  'SortBy.PropertyName'?: string;
+  'SortBy.Direction'?: SortDirection;
   page?: number;
   take?: number;
 };
@@ -101,6 +105,7 @@ export type PageResultDtoFilterStockResponseItem = {
   items?: FilterStockResponseItem[];
 };
 export type Status = 1 | 2 | 999;
+export type SortDirection = 0 | 1;
 export type ChangeStockStatus = {
   id?: string;
 };

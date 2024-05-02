@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { myContainer } from '../../inversify/inversify.config';
-import { WebSocketService } from '../../inversify/interfaces';
-import { TYPES } from '../../inversify/types';
+import { myContainer } from '../../services/inversify.config';
+import { WebSocketService } from '../../services/interfaces';
+import { TYPES } from '../../services/types';
 import { useEffect } from 'react';
 
 const webSocketService = myContainer.get<WebSocketService>(

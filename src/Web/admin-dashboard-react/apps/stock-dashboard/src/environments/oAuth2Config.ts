@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment';
+import { environment } from './environment';
 import { WebStorageStateStore } from "oidc-client-ts";
 
 
