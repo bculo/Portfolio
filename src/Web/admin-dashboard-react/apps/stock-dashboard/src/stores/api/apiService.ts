@@ -5,7 +5,8 @@ export const apiService = generated
         addTagTypes: ['Stock'],
         endpoints: {
             filterStocks: {
-                providesTags: ['Stock']
+                providesTags: ['Stock'],
+                keepUnusedDataFor: 180000 
             },
             getStock: {
                 providesTags: ['Stock']

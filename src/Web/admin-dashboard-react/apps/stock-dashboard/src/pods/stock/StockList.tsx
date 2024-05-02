@@ -41,7 +41,9 @@ const StockList = () => {
     data,
     refetch,
     isLoading: filterIsLoading,
-  } = useFilterStocksQuery(mapToFilterStocksRequest(filter, sort));
+  } = useFilterStocksQuery(mapToFilterStocksRequest(filter, sort), {
+    pollingInterval: 60000,
+  });
   const [changeStatus, { isLoading: statusIsLoading }] =
     useChangeStockStatusMutation();
 

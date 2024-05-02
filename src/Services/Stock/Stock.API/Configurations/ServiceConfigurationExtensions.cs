@@ -71,7 +71,7 @@ namespace Stock.API.Configurations
                 opt.AddBasePolicy(policy => policy.Tag(CacheTags.ALL));
 
                 opt.AddPolicy(CachePolicies.STOCK_GET_FILTER, policy => policy.AddPolicy<AuthGetRequestPolicy>()
-                    .Expire(TimeSpan.FromDays(1))
+                    .Expire(TimeSpan.FromMinutes(30))
                     .Tag(CacheTags.STOCK_FILTER));
                 
                 opt.AddPolicy(CachePolicies.STOCK_GET_SINGLE, policy => policy.AddPolicy<GetStockRequestPolicy>()

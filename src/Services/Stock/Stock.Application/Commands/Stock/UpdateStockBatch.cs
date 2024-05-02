@@ -75,10 +75,11 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         var priceEntities = ToEntities(assetsWithFreshPriceTag, assetsToUpdate);
         await _work.StockPriceRepo.AddRange(priceEntities, ct);
         
-        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
         await PublishEvents(assetsWithFreshPriceTag, ct);
         
         await _work.Save(ct);
+        
+        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
         
         return new UpdateStockBatchResponse(assetsToUpdate.Count, assetsWithFreshPriceTag.Count);
     }
