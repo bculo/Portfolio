@@ -15,7 +15,7 @@ export const StockItemView = () => {
 
   const [price, setPrice] = useState<number | null>(null);
 
-  const { data, isLoading } = useGetStockQuery(params.id!);
+  const { data } = useGetStockQuery(params.id!);
 
   useEffect(() => {
     if (!data) return;

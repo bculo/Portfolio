@@ -23,13 +23,13 @@ namespace Trend.Worker
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            PeriodicTimer timer = new(new TimeSpan(0, 0, 30));
             var serviceIdentifier = Guid.NewGuid().ToString();
-            while (!stoppingToken.IsCancellationRequested)
+            while (!await timer.WaitForNextTickAsync(stoppingToken))
             {
                 using var scope = _provider.CreateScope();
                 var timeProvider = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
-                _logger.LogInformation($"SERVER {serviceIdentifier} PING {timeProvider.Now}");
-                await Task.Delay(_options.SleepTimeMilliseconds, stoppingToken);
+                _logger.LogInformation("Server {Server} - ping at {Time}", serviceIdentifier, timeProvider.Utc);
             }
         }
 
