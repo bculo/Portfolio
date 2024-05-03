@@ -28,16 +28,18 @@ public class RefreshStockItemValueHandler : IRequestHandler<RefreshStockItemValu
         _work = work;
     }
     
-    public async Task Handle(RefreshStockItemValue request, CancellationToken cancellationToken)
+    public async Task Handle(RefreshStockItemValue request, CancellationToken ct)
     {
         var evictTag = _sqids.Encode(request.Id);
 
-        var entity = await _work.StockRepo.Find(request.Id, cancellationToken);
+        var entity = await _work.StockWithPriceTag.First(i => i.StockId == request.Id, 
+            orderBy: i => i.OrderByDescending(x => x.CreatedAt),
+            ct: ct);
                 
         await _cache.SetAsync(CacheKeys.StockItemKey(request.Id),
             entity,
             CacheKeys.StockItemKeyOptions(),
-            default);
+            ct);
             
         await _outputCache.EvictByTagAsync(evictTag, default);
     }

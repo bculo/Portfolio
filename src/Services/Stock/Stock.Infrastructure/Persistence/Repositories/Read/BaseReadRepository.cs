@@ -26,12 +26,14 @@ public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class, IRe
     }
 
     public async Task<T?> First(Expression<Func<T, bool>> predicate, 
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = default,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false, 
         CancellationToken ct = default)
     {
         return await Set
             .Where(predicate)
+            .ApplyOrderBy(orderBy)
             .ApplyInclude(include)
             .ApplyTracking(false)
             .ApplySplitQuery(splitQuery)

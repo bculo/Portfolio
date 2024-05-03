@@ -54,7 +54,9 @@ public class GetStockByIdHandler : IRequestHandler<GetStockById, GetStockByIdRes
 
         var entity = await _cache.GetOrSetAsync(
             CacheKeys.StockItemKey(entityId),
-            token => _work.StockWithPriceTag.First(i => i.StockId == entityId, ct: token),
+            token => _work.StockWithPriceTag.First(i => i.StockId == entityId, 
+                orderBy: i => i.OrderByDescending(x => x.CreatedAt),
+                ct: token),
             CacheKeys.StockItemKeyOptions(),
             ct
         );
