@@ -1,4 +1,4 @@
-import type { ConfigFile } from '@rtk-query/codegen-openapi'
+import type { ConfigFile } from '@rtk-query/codegen-openapi';
 
 const config: ConfigFile = {
   schemaFile: 'http://localhost:32034/swagger/v1/swagger.json',
@@ -9,9 +9,9 @@ const config: ConfigFile = {
   hooks: {
     lazyQueries: true,
     mutations: true,
-    queries: true
+    queries: true,
   },
   flattenArg: true,
-}
+};
 
-export default config
+export default config;

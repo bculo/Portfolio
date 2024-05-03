@@ -9,14 +9,14 @@
       "options": {
         "cypressConfig": "apps/stock-dashboard-e2e/cypress.config.ts",
         "testingType": "e2e",
-        "devServerTarget": "stock-dashboard:serve"
+        "devServerTarget": "asset-dashboard:serve"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "stock-dashboard:serve:production"
+          "devServerTarget": "asset-dashboard:serve:production"
         },
         "ci": {
-          "devServerTarget": "stock-dashboard:serve-static"
+          "devServerTarget": "asset-dashboard:serve-static"
         }
       }
     },
@@ -25,6 +25,6 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "implicitDependencies": ["stock-dashboard"],
+  "implicitDependencies": ["asset-dashboard"],
   "tags": []
 }

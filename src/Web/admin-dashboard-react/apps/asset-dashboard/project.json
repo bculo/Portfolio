@@ -1,7 +1,7 @@
 {
-  "name": "stock-dashboard",
+  "name": "asset-dashboard",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/stock-dashboard/src",
+  "sourceRoot": "apps/asset-dashboard/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/stock-dashboard"
+        "outputPath": "dist/apps/asset-dashboard"
       },
       "configurations": {
         "development": {
@@ -24,15 +24,15 @@
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "stock-dashboard:build"
+        "buildTarget": "asset-dashboard:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "stock-dashboard:build:development",
+          "buildTarget": "asset-dashboard:build:development",
           "hmr": true
         },
         "production": {
-          "buildTarget": "stock-dashboard:build:production",
+          "buildTarget": "asset-dashboard:build:production",
           "hmr": false
         }
       }
@@ -41,14 +41,14 @@
       "executor": "@nx/vite:preview-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "stock-dashboard:build"
+        "buildTarget": "asset-dashboard:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "stock-dashboard:build:development"
+          "buildTarget": "asset-dashboard:build:development"
         },
         "production": {
-          "buildTarget": "stock-dashboard:build:production"
+          "buildTarget": "asset-dashboard:build:production"
         }
       }
     },
@@ -56,7 +56,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../coverage/apps/stock-dashboard"
+        "reportsDirectory": "../../coverage/apps/asset-dashboard"
       }
     },
     "lint": {
@@ -66,7 +66,7 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "stock-dashboard:build"
+        "buildTarget": "asset-dashboard:build"
       }
     }
   },

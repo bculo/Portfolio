@@ -1,3 +1,3 @@
 export const staticPaths = {
-    HOME: '/'
-}
+  HOME: '/',
+};
