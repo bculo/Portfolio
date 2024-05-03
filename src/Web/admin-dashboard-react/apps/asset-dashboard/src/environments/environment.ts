@@ -1,9 +1,9 @@
 export const environment = {
-  stockApiBase: 'http://localhost:32034',
-  websocket: 'http://localhost:5162/portfolio',
+  stockApiBase: import.meta.env.VITE_STOCK_API_URL,
+  websocket: import.meta.env.VITE_WEBSOCKET_URL,
   oAuth2Config: {
-    authority: 'http://localhost:8080/realms/PortfolioRealm/',
-    client_id: 'Stock.Client',
-    redirect_uri: 'http://localhost:4200/',
+    authority: import.meta.env.VITE_AUTH_AUTHORITY,
+    client_id: import.meta.env.VITE_AUTH_CLIEND_ID,
+    redirect_uri: import.meta.env.VITE_AUTH_REDIRECT_URI
   },
 };
