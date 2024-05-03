@@ -1,6 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { stockApi } from './api/stockApiSlice';
 import { apiService } from './api/apiService';
+import { helloWorld } from '@admin-dashboard-react/api'
+
+console.log(helloWorld)
 
 export const store = configureStore({
   reducer: {
