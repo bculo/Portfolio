@@ -134,7 +134,7 @@ const StockList = () => {
                   />
                   <ArrowTopRightOnSquareIcon
                     className="h-6 w-6 text-cyan-700 hover:cursor-pointer"
-                    onClick={() => navigate(`${item.symbol}`)}
+                    onClick={() => navigate(`${item.id}`)}
                   />
                 </div>
               ),

@@ -21,7 +21,7 @@ export const stockRoutes: RouteObject[] = [
         element: <StockList />,
       },
       {
-        path: ':symbol',
+        path: ':id',
         element: <StockItemView />,
       },
     ],

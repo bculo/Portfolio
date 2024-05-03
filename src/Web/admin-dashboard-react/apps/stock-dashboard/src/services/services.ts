@@ -47,7 +47,7 @@ class SignalRConnector implements WebSocketService {
         }
 
         this.groups.push(groupName)
-        this.connection.invoke("JoinGroup", assetName)
+        this.connection.invoke("JoinGroup", groupName)
             .catch(err => console.log(err));
 
         this.connection.on(groupName, (data: T) => onMessage(data))
