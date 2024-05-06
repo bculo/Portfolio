@@ -5,8 +5,8 @@ import { getAccessToken } from '../../utilities/token';
 const authority = environment.oAuth2Config.authority;
 const clientId = environment.oAuth2Config.client_id;
 
-export const stockApi = createApi({
-  reducerPath: 'stockApi',
+export const cryptoApi = createApi({
+  reducerPath: 'cryptoApi',
   baseQuery: fetchBaseQuery({
     baseUrl: environment.stockApiBase,
     prepareHeaders: (headers) => {

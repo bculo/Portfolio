@@ -34,6 +34,22 @@ Admin dashboard application for stock asset management written in React
 }
 ```
 
+### How to generate RTK query files
+
+- go to stores/api directory (make sure that all API endpoints are runing to generate files)
+
+Stock API slice
+
+```
+npx @rtk-query/codegen-openapi stopOpenApiConfig.ts
+```
+
+Crypto API slice
+
+```
+npx @rtk-query/codegen-openapi cryptoOpenApiConfig.ts
+```
+
 ### How to run it?
 
 ```
