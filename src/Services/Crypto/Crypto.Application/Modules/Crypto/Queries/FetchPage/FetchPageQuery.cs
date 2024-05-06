@@ -10,5 +10,6 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
 {
     public class FetchPageQuery : PageBaseQuery, IRequest<IEnumerable<FetchPageResponseDto>>
     {
+        public string? Symbol { get; set; }
     }
 }

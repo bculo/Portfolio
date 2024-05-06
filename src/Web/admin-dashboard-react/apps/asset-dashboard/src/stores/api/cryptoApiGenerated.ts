@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cryptoApi as api } from './cryptoApiSlice';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -52,7 +51,11 @@ const injectedRtkApi = api.injectEndpoints({
     fetchPage: build.query<FetchPageApiResponse, FetchPageApiArg>({
       query: (queryArg) => ({
         url: `/api/v1/Crypto/FetchPage`,
-        params: { Page: queryArg.page, Take: queryArg.take },
+        params: {
+          Symbol: queryArg['symbol'],
+          Page: queryArg.page,
+          Take: queryArg.take,
+        },
       }),
     }),
     single: build.query<SingleApiResponse, SingleApiArg>({
@@ -100,6 +103,7 @@ export type UpdateAllPricesApiArg = void;
 export type FetchPageApiResponse =
   /** status 200 Success */ FetchPageResponseDto[];
 export type FetchPageApiArg = {
+  symbol?: string;
   page?: number;
   take?: number;
 };

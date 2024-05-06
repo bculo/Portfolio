@@ -2,7 +2,6 @@
 using Crypto.Application.Common.Constants;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Application.Interfaces.Repositories.Models;
-using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
 using MediatR;
 using ZiggyCreatures.Caching.Fusion;
 
@@ -26,8 +25,8 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
             var items = await _cache.GetOrSetAsync(CacheKeys.FetchCryptoPageKey(request),
                 async (token) =>
                 {
-                    var items = 
-                        await _work.CryptoPriceRepo.GetPage(new PageQuery(request.Page, request.Take), token);
+                    var query = _mapper.Map<CryptoPricePageQuery>(request);
+                    var items = await _work.CryptoPriceRepo.GetPage(query, token);
                     return _mapper.Map<List<FetchPageResponseDto>>(items);
                 },
                 CacheKeys.FetchCryptoPageKeyOptions(),

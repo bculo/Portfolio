@@ -2,6 +2,7 @@
 using Crypto.Application.Interfaces.Repositories.Models;
 using Crypto.Core.Entities;
 using Crypto.Core.ReadModels;
+using Crypto.Infrastructure.Persistence.Extensions;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,11 +63,18 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(ct);
         }
 
-        public async Task<List<CryptoLastPriceReadModel>> GetPage(PageQuery query, CancellationToken ct = default)
+        public async Task<List<CryptoLastPriceReadModel>> GetPage(CryptoPricePageQuery req, CancellationToken ct = default)
         {
-            return await _context.CryptoLastPrice.OrderBy(x => x.Symbol)
-                .Skip(query.Skip)
-                .Take(query.Take)
+            var query = _context.CryptoLastPrice.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(req.Symbol))
+            {
+                query = query.Where(x => EF.Functions.ILike(x.Symbol, req.Symbol.ToContainsPattern()));
+            }
+            
+            return await query.OrderBy(x => x.Symbol)
+                .Skip(req.Skip)
+                .Take(req.Take)
                 .ToListAsync(ct);
         }
 
