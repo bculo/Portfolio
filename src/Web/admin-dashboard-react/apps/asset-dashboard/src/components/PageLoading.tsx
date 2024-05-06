@@ -1,4 +1,4 @@
-import { Spinner } from '../../../../libs/ui/src/lib/Spinner';
+import { Spinner } from '@admin-dashboard-react/ui';
 
 export const PageLoading = () => {
   return (

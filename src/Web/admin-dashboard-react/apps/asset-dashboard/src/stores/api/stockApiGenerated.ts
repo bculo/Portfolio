@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { stockApi as api } from './stockApiSlice';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({

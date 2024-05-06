@@ -1,4 +1,4 @@
-import { Status } from '../../stores/api/generated';
+import { Status } from '../../stores/api/stockApiGenerated';
 
 export type StockFilter = {
   page: number;

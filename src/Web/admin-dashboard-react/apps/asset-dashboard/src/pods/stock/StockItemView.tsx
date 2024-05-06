@@ -3,7 +3,7 @@ import { myContainer } from '../../services/inversify.config';
 import { WebSocketService } from '../../services/interfaces';
 import { TYPES } from '../../services/types';
 import { useEffect, useState } from 'react';
-import { useGetStockQuery } from '../../stores/api/generated';
+import { useGetStockQuery } from '../../stores/api/stockApiGenerated';
 import { format } from 'date-fns';
 
 const webSocketService = myContainer.get<WebSocketService>(

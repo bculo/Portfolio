@@ -8,7 +8,6 @@ import { User } from 'oidc-client-ts';
 import { oidcConfig } from './environments/oAuth2Config';
 
 const onSigninCallback = (_: User | void) => {
-  console.log(_);
   window.history.replaceState({}, document.title, window.location.pathname);
 };
 

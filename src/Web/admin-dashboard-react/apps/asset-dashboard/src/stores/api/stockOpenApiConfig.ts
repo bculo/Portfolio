@@ -4,8 +4,8 @@ const config: ConfigFile = {
   schemaFile: 'http://localhost:32034/swagger/v1/swagger.json',
   apiFile: './stockApiSlice.ts',
   apiImport: 'stockApi',
-  outputFile: './generated.ts',
-  exportName: 'generated',
+  outputFile: './stockApiGenerated.ts',
+  exportName: 'stockApiGenerated',
   hooks: {
     lazyQueries: true,
     mutations: true,

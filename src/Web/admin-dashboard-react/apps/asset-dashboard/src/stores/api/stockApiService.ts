@@ -1,4 +1,4 @@
-import { generated } from './generated';
+import { generated } from './stockApiGenerated';
 
 export const apiService = generated.enhanceEndpoints({
   addTagTypes: ['Stock'],

@@ -7,7 +7,7 @@ import { PageLoading } from '../components/PageLoading';
 import { myContainer } from '../services/inversify.config';
 import { WebSocketService } from '../services/interfaces';
 import { TYPES } from '../services/types';
-import { Spinner } from '../../../../libs/ui/src/lib/Spinner';
+import { Spinner } from '@admin-dashboard-react/ui';
 
 const webSocketService = myContainer.get<WebSocketService>(
   TYPES.WebSocketService
