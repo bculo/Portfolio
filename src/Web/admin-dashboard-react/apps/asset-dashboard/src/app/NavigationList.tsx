@@ -1,6 +1,7 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { staticPaths, stockPaths } from '../routes/paths';
 import { ChartBarIcon, HomeIcon } from '@heroicons/react/20/solid';
+import { cryptoPaths } from '../routes/crypto/cryptoPaths';
 
 type NavigationItem = {
   name: string;
@@ -22,6 +23,13 @@ navigation.push({
   name: 'stock',
   path: stockPaths.OVERVIEW,
   text: 'Stocks',
+  icon: <ChartBarIcon />,
+});
+
+navigation.push({
+  name: 'crypto',
+  path: cryptoPaths.OVERVIEW,
+  text: 'Cryptos',
   icon: <ChartBarIcon />,
 });
 

@@ -50,8 +50,8 @@ const StockList = () => {
   const isLoading = filterIsLoading || statusIsLoading;
 
   useEffect(() => {
-    webSocketService.joinGroup('Stock.StatusChanged', () => refetch());
-    return () => webSocketService.leaveGroup('Stock.StatusChanged');
+    webSocketService.joinGroup('Stock.StatusChanged', 'stock', () => refetch());
+    return () => webSocketService.leaveGroup('Stock.StatusChanged', 'stock');
   }, [refetch]);
 
   const onSearchChange = useCallback((search: string) => {

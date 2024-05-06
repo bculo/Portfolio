@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { stockApi } from './api/stockApiSlice';
-import { apiService } from './api/stockApiService';
-
+import { stockApiService } from './api/stockApiService';
+import { cryptoApiService } from './api/crypoApiService';
 
 export const store = configureStore({
   reducer: {
-    [stockApi.reducerPath]: apiService.reducer,
+    [stockApiService.reducerPath]: stockApiService.reducer,
+    [cryptoApiService.reducerPath]: cryptoApiService.reducer,
   },
   middleware: (geDefaultMiddleware) => {
-    return geDefaultMiddleware().concat(apiService.middleware);
+    return geDefaultMiddleware()
+      .concat(stockApiService.middleware)
+      .concat(cryptoApiService.middleware);
   },
 });
 

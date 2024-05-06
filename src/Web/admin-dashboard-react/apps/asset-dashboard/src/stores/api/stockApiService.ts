@@ -1,6 +1,6 @@
 import { generated } from './stockApiGenerated';
 
-export const apiService = generated.enhanceEndpoints({
+export const stockApiService = generated.enhanceEndpoints({
   addTagTypes: ['Stock'],
   endpoints: {
     filterStocks: {

@@ -1,5 +1,5 @@
 import { cryptoApiGenerated } from './cryptoApiGenerated';
 
-export const apiService = cryptoApiGenerated.enhanceEndpoints({
+export const cryptoApiService = cryptoApiGenerated.enhanceEndpoints({
   addTagTypes: ['Crypto'],
 });

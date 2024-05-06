@@ -21,9 +21,10 @@ export const StockItemView = () => {
     if (!data) return;
     webSocketService.joinGroup<{ symbol: string; price: number }>(
       data.symbol!,
+      'stock',
       (response) => setPrice(response.price)
     );
-    return () => webSocketService.leaveGroup(data.symbol!);
+    return () => webSocketService.leaveGroup(data.symbol!, 'stock');
   }, [data]);
 
   const currentPrice = !price ? data?.price ?? 0 : price;

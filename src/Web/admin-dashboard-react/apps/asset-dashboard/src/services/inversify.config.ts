@@ -3,10 +3,11 @@ import { TYPES } from './types';
 import { WebSocketService } from './interfaces';
 import { SignalRConnector } from './services';
 
-const myContainer = new Container();
-myContainer
+const container = new Container();
+
+container
   .bind<WebSocketService>(TYPES.WebSocketService)
   .to(SignalRConnector)
   .inSingletonScope();
 
-export { myContainer };
+export { container as myContainer };
