@@ -1,5 +1,5 @@
 import { useAuth } from 'react-oidc-context';
-import { Button } from '../../components/Button';
+import { Button } from '@admin-dashboard-react/ui';
 import landingPage from '../../assets/landing-page.png';
 
 const HomeRoute = () => {

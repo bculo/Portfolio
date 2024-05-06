@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@admin-dashboard-react/api": ["libs/api/src/index.ts"]
+      "@admin-dashboard-react/api": ["libs/api/src/index.ts"],
+      "@admin-dashboard-react/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

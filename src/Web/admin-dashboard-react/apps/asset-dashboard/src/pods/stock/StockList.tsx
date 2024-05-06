@@ -4,16 +4,16 @@ import {
   useChangeStockStatusMutation,
   useFilterStocksQuery,
 } from '../../stores/api/generated';
-import { Table, TableSortInfo } from '../../components/Table';
-import { Button } from '../../components/Button';
-import { Modal } from '../../components/Modal';
+import { Table, TableSortInfo } from '@admin-dashboard-react/ui';
+import { Button } from '@admin-dashboard-react/ui';
+import { Modal } from '@admin-dashboard-react/ui';
 import { CreateStockForm } from './CreateStockForm';
-import { SearchInput } from '../../components/SearchInput';
+import { SearchInput } from '@admin-dashboard-react/ui';
 import {
   ArrowTopRightOnSquareIcon,
   XCircleIcon,
 } from '@heroicons/react/20/solid';
-import { Spinner } from '../../components/Spinner';
+import { Spinner } from '@admin-dashboard-react/ui';
 import { useNavigate } from 'react-router-dom';
 import { WebSocketService } from '../../services/interfaces';
 import { myContainer } from '../../services/inversify.config';

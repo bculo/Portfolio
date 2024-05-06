@@ -1,4 +1,4 @@
-import { Spinner } from './Spinner';
+import { Spinner } from '../../../../libs/ui/src/lib/Spinner';
 
 export const PageLoading = () => {
   return (
