@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cryptoApi as api } from './cryptoApiSlice';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({

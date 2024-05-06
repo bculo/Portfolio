@@ -8,7 +8,7 @@ const clientId = environment.oAuth2Config.client_id;
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: environment.stockApiBase,
+    baseUrl: environment.cryptoApiBase,
     prepareHeaders: (headers) => {
       const access_token = getAccessToken(authority, clientId);
       headers.set('Authorization', `Bearer ${access_token}`);

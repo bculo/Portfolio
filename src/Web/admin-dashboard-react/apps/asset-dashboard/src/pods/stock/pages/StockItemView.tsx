@@ -1,16 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { myContainer } from '../../services/inversify.config';
-import { WebSocketService } from '../../services/interfaces';
-import { TYPES } from '../../services/types';
+import { myContainer } from '../../../services/inversify.config';
+import { WebSocketService } from '../../../services/interfaces';
+import { TYPES } from '../../../services/types';
 import { useEffect, useState } from 'react';
-import { useGetStockQuery } from '../../stores/api/stockApiGenerated';
+import { useGetStockQuery } from '../../../stores/api/stockApiGenerated';
 import { format } from 'date-fns';
 
 const webSocketService = myContainer.get<WebSocketService>(
   TYPES.WebSocketService
 );
 
-export const StockItemView = () => {
+const StockItemView = () => {
   const params = useParams();
 
   const [price, setPrice] = useState<number | null>(null);
@@ -76,3 +76,5 @@ export const StockItemView = () => {
     </div>
   );
 };
+
+export default StockItemView;

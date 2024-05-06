@@ -2,7 +2,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { FormField } from '@admin-dashboard-react/ui';
 import { FormInput } from '@admin-dashboard-react/ui';
 import { Button } from '@admin-dashboard-react/ui';
-import { useCreateStockMutation } from '../../stores/api/stockApiGenerated';
+import { useCreateStockMutation } from '../../../stores/api/stockApiGenerated';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
