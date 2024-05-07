@@ -66,6 +66,8 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 Symbol = newCrypto.Symbol,
                 CorrelationId = request.CorrelationId ?? Guid.NewGuid()
             }, ct);
+            
+            await _publish.Publish(new EvictRedisListRequest(), ct);
         }
 
         private CryptoPrice CreateNewCryptoPriceEntity(PriceResponse result, Guid cryptoId)

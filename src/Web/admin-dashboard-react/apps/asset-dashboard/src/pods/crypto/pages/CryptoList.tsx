@@ -4,7 +4,8 @@ import {
   useFetchPageQuery,
 } from '../../../stores/api/cryptoApiGenerated';
 import { CryptoCard } from '../components/CryptoCard';
-import { SearchInput } from '@admin-dashboard-react/ui';
+import { Button, Modal, SearchInput } from '@admin-dashboard-react/ui';
+import { CreateCryptoItemForm } from '../components/CreateCryptoItemForm';
 
 const defaultQuery: FetchPageApiArg = {
   page: 1,
@@ -13,6 +14,7 @@ const defaultQuery: FetchPageApiArg = {
 };
 
 const CryptoList = () => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [filter, setFilter] = useState<FetchPageApiArg>(defaultQuery);
   const { data } = useFetchPageQuery(filter);
 
@@ -22,11 +24,21 @@ const CryptoList = () => {
 
   return (
     <div>
-      <div className="flex justify-center mb-4">
-        <SearchInput
-          placeholder="search by symbol"
-          onInputChange={onSearchChange}
-        />
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <SearchInput
+            placeholder="search by symbol"
+            onInputChange={onSearchChange}
+          />
+        </div>
+        <div>
+          <Button
+            text="Create"
+            buttonStyle="full"
+            type="button"
+            onClick={() => setModalVisible(true)}
+          />
+        </div>
       </div>
       <div className="grid gap-4 grid-cols-2">
         {data &&
@@ -43,6 +55,13 @@ const CryptoList = () => {
             );
           })}
       </div>
+      <Modal
+        isOpen={modalVisible}
+        title="Create crypto item"
+        onModalClose={() => setModalVisible(false)}
+      >
+        <CreateCryptoItemForm onClose={() => setModalVisible(false)} />
+      </Modal>
     </div>
   );
 };

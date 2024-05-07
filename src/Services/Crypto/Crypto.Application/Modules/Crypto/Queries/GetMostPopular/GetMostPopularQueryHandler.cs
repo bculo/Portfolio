@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Crypto.Application.Common.Constants;
 using Crypto.Application.Interfaces.Repositories;
-using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
-using Crypto.Core.Exceptions;
 using MediatR;
-using Microsoft.AspNetCore.Http.Features;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries.GetMostPopular
@@ -31,13 +28,13 @@ namespace Crypto.Application.Modules.Crypto.Queries.GetMostPopular
                 {
                     var response = await _work.VisitRepo.GetMostPopular(request.Take, token);
                     return response.Count == 0 
-                        ? new List<GetMostPopularResponse>() 
+                        ? []
                         : _mapper.Map<List<GetMostPopularResponse>>(response);
                 },
                 CacheKeys.MostPopularKeyOptions(),
                 ct);
 
-            return items;
+            return items ?? [];
         }
     }
 }
