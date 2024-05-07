@@ -101,7 +101,7 @@ export type UpdatePriceApiArg = UpdatePriceCommand;
 export type UpdateAllPricesApiResponse = /** status 204 No Content */ void;
 export type UpdateAllPricesApiArg = void;
 export type FetchPageApiResponse =
-  /** status 200 Success */ FetchPageResponseDto[];
+  /** status 200 Success */ PageBaseResultFetchPageResponseDto;
 export type FetchPageApiArg = {
   symbol?: string;
   page?: number;
@@ -155,6 +155,12 @@ export type FetchPageResponseDto = {
   website?: string;
   sourceCode?: string;
   price?: number;
+};
+export type PageBaseResultFetchPageResponseDto = {
+  totalCount?: number;
+  fetchCount?: number;
+  page?: number;
+  items?: FetchPageResponseDto[];
 };
 export type FetchSingleResponseDto = {
   id?: string;

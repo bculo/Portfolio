@@ -1,6 +1,6 @@
 import { Button } from '@admin-dashboard-react/ui';
 import clsx from 'clsx';
-import { useUndoAddNewDelayMutation } from '../../../stores/crypto/cryptoApiGenerated';
+import { useUndoAddNewDelayMutation } from '../../../stores/crypto';
 import { useAppSelector } from '../../../stores/hooks';
 
 type Props = {

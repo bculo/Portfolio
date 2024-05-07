@@ -63,7 +63,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(ct);
         }
 
-        public async Task<List<CryptoLastPriceReadModel>> GetPage(CryptoPricePageQuery req, CancellationToken ct = default)
+        public async Task<PageResult<CryptoLastPriceReadModel>> GetPage(CryptoPricePageQuery req, CancellationToken ct = default)
         {
             var query = _context.CryptoLastPrice.AsQueryable();
 
@@ -71,11 +71,14 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             {
                 query = query.Where(x => EF.Functions.ILike(x.Symbol, req.Symbol.ToContainsPattern()));
             }
-            
-            return await query.OrderBy(x => x.Symbol)
+
+            var count = await query.CountAsync(ct);
+            var items = await query.OrderBy(x => x.Symbol)
                 .Skip(req.Skip)
                 .Take(req.Take)
                 .ToListAsync(ct);
+
+            return new PageResult<CryptoLastPriceReadModel>(count, req.Page, items);
         }
 
         private IQueryable<CryptoTimeFrameReadModel> GetQuery(int notOlderThanMin, int timeBucketMin)

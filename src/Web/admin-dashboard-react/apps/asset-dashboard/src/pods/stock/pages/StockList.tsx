@@ -3,17 +3,20 @@ import { format } from 'date-fns';
 import {
   useChangeStockStatusMutation,
   useFilterStocksQuery,
-} from '../../../stores/stock/stockApiGenerated';
-import { Table, TableSortInfo } from '@admin-dashboard-react/ui';
-import { Button } from '@admin-dashboard-react/ui';
-import { Modal } from '@admin-dashboard-react/ui';
+} from '../../../stores/stock';
 import { CreateStockForm } from '../components/CreateStockForm';
-import { SearchInput } from '@admin-dashboard-react/ui';
+import {
+  SearchInput,
+  Spinner,
+  Table,
+  TableSortInfo,
+  Modal,
+  Button,
+} from '@admin-dashboard-react/ui';
 import {
   ArrowTopRightOnSquareIcon,
   XCircleIcon,
 } from '@heroicons/react/20/solid';
-import { Spinner } from '@admin-dashboard-react/ui';
 import { useNavigate } from 'react-router-dom';
 import { WebSocketService } from '../../../services/interfaces';
 import { myContainer } from '../../../services/inversify.config';

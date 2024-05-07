@@ -13,7 +13,7 @@ type TableProps<T extends object> = {
   page: number;
   tableSort: TableSortInfo | null;
   onPageChange: (page: number) => void;
-  onSortChange: (sort: TableSortInfo) => void;
+  onSortChange: (sort: TableSortInfo) => void | null;
 };
 
 export type TableSortInfo = {
@@ -52,6 +52,7 @@ export const Table = <T extends object>({
                           : 'none'
                       }
                       onSortChange={(dir) =>
+                        onSortChange &&
                         onSortChange({ propertyName: name, sort: dir })
                       }
                     />

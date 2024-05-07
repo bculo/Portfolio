@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Crypto.Application.Common.Constants;
+using Crypto.Application.Common.Models;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Application.Interfaces.Repositories.Models;
 using MediatR;
@@ -7,7 +8,7 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
 {
-    public class FetchPageQueryHandler : IRequestHandler<FetchPageQuery, IEnumerable<FetchPageResponseDto>>
+    public class FetchPageQueryHandler : IRequestHandler<FetchPageQuery, PageBaseResult<FetchPageResponseDto>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _work;
@@ -20,14 +21,15 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchPage
             _cache = cache;
         }
 
-        public async Task<IEnumerable<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
+        public async Task<PageBaseResult<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
         {
             var items = await _cache.GetOrSetAsync(CacheKeys.FetchCryptoPageKey(request),
                 async (token) =>
                 {
                     var query = _mapper.Map<CryptoPricePageQuery>(request);
-                    var items = await _work.CryptoPriceRepo.GetPage(query, token);
-                    return _mapper.Map<List<FetchPageResponseDto>>(items);
+                    var repoResult = await _work.CryptoPriceRepo.GetPage(query, token);
+                    var dtoItems = _mapper.Map<List<FetchPageResponseDto>>(repoResult.Items);
+                    return new PageBaseResult<FetchPageResponseDto>(repoResult.TotalCount, request.Page, dtoItems);
                 },
                 CacheKeys.FetchCryptoPageKeyOptions(),
                 ct);

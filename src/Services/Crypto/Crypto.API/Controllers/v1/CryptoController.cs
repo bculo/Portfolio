@@ -1,4 +1,5 @@
 ﻿using Crypto.Application.Common.Constants;
+using Crypto.Application.Common.Models;
 using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay;
 using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
@@ -90,7 +91,7 @@ public class CryptoController : ControllerBase
     }
     
     [HttpGet("FetchPage", Name = "FetchPage")]
-    [ProducesResponseType(typeof(IEnumerable<FetchPageResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PageBaseResult<FetchPageResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> FetchPage([FromQuery] FetchPageQuery query)
     {
