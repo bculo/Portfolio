@@ -1,5 +1,5 @@
 import { TableSortInfo } from '../../components/Table';
-import { FilterStocksApiArg } from '../../stores/api/stockApiGenerated';
+import { FilterStocksApiArg } from '../../stores/stock/stockApiGenerated';
 import { StockFilter } from './models';
 
 export function mapToFilterStocksRequest(

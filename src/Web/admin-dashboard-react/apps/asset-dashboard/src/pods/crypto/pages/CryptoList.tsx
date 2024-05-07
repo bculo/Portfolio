@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import {
   FetchPageApiArg,
   useFetchPageQuery,
-} from '../../../stores/api/cryptoApiGenerated';
+} from '../../../stores/crypto/cryptoApiGenerated';
 import { CryptoCard } from '../components/CryptoCard';
 import { Button, Modal, SearchInput } from '@admin-dashboard-react/ui';
 import { CreateCryptoItemForm } from '../components/CreateCryptoItemForm';

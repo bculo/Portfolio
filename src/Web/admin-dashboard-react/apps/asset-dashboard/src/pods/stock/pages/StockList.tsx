@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import {
   useChangeStockStatusMutation,
   useFilterStocksQuery,
-} from '../../../stores/api/stockApiGenerated';
+} from '../../../stores/stock/stockApiGenerated';
 import { Table, TableSortInfo } from '@admin-dashboard-react/ui';
 import { Button } from '@admin-dashboard-react/ui';
 import { Modal } from '@admin-dashboard-react/ui';

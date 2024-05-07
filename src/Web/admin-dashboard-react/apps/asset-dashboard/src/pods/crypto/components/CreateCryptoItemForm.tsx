@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { Button, FormField, FormInput } from '@admin-dashboard-react/ui';
-import { useAddNewWithDelayMutation } from '../../../stores/api/cryptoApiGenerated';
+import { useAddNewWithDelayMutation } from '../../../stores/crypto/cryptoApiGenerated';
 
 const formSchema = yup.object({
   symbol: yup.string().required('Symbol is required field.'),
