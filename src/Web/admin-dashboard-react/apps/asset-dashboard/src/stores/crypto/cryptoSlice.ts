@@ -1,25 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { cryptoApiService } from './crypoApiService';
 
 interface CryptoState {
-  cancelWindowVisible: boolean
+  cancelToastVisible: boolean
+  temporaryId: string | null;
 }
 
 const initialState: CryptoState = {
-  cancelWindowVisible: false
+  cancelToastVisible: false,
+  temporaryId: null
 }
 
 export const cryptoSlice = createSlice({
   name: 'cryptoSlice',
   initialState,
   reducers: {
-    showCancelWindow(state) {
-      state.cancelWindowVisible = true;
+    showCancelToast(state, action: PayloadAction<string>) {
+      state.cancelToastVisible = true;
+      state.temporaryId = action.payload;
     },
-    hideCancelWindow(state) {
-      state.cancelWindowVisible = false;
+    hideCancelToast(state) {
+      state.cancelToastVisible = false;
+      state.temporaryId = null;
     }
   },
+  extraReducers: (builder) => {
+    builder.addMatcher(cryptoApiService.endpoints.undoAddNewDelay.matchPending, (state, _) => {
+      state.cancelToastVisible = false;
+      state.temporaryId = null;
+    })
+  }
 })
 
-export const { showCancelWindow, hideCancelWindow } = cryptoSlice.actions
+export const { showCancelToast, hideCancelToast } = cryptoSlice.actions
 export default cryptoSlice.reducer

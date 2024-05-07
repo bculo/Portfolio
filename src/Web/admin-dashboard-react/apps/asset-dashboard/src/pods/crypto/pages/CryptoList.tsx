@@ -3,9 +3,11 @@ import {
   FetchPageApiArg,
   useFetchPageQuery,
 } from '../../../stores/crypto/cryptoApiGenerated';
+import { useAppSelector } from '../../../stores/hooks';
 import { CryptoCard } from '../components/CryptoCard';
 import { Button, Modal, SearchInput } from '@admin-dashboard-react/ui';
 import { CreateCryptoItemForm } from '../components/CreateCryptoItemForm';
+import { CancelCreateCrytoItemToast } from '../components/CancelCreateCrytoItemToast';
 
 const defaultQuery: FetchPageApiArg = {
   page: 1,
@@ -17,13 +19,16 @@ const CryptoList = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [filter, setFilter] = useState<FetchPageApiArg>(defaultQuery);
   const { data } = useFetchPageQuery(filter);
+  const cancelToastVisible = useAppSelector(
+    (x) => x.cryptoSlice.cancelToastVisible
+  );
 
   const onSearchChange = useCallback((search: string) => {
     setFilter((prev) => ({ ...prev, symbol: search }));
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       <div className="flex justify-between items-center mb-4">
         <div>
           <SearchInput
@@ -55,6 +60,7 @@ const CryptoList = () => {
             );
           })}
       </div>
+      <CancelCreateCrytoItemToast visible={cancelToastVisible} />
       <Modal
         isOpen={modalVisible}
         title="Create crypto item"

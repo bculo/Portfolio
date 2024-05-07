@@ -1,12 +1,12 @@
 import { fork, takeEvery, put, delay } from 'redux-saga/effects';
 import { cryptoApiService } from './crypoApiService';
-import { showCancelWindow, hideCancelWindow } from './cryptoSlice';
+import { showCancelToast, hideCancelToast } from './cryptoSlice';
 
 function* addItemWithDelay() {
-    yield takeEvery([cryptoApiService.endpoints.addNewWithDelay.matchFulfilled], function* () {
-        yield put(showCancelWindow())
+    yield takeEvery([cryptoApiService.endpoints.addNewWithDelay.matchFulfilled], function* (action) {
+        yield put(showCancelToast(action.payload))
         yield delay(10000);
-        yield put(hideCancelWindow())
+        yield put(hideCancelToast())
     });
 }
 

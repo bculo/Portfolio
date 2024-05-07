@@ -23,9 +23,9 @@ export const CreateCryptoItemForm = ({ onClose }: Props) => {
 
   const [addWithDelay] = useAddNewWithDelayMutation();
 
-  const onSubmit: SubmitHandler<Form> = async (data) => {
+  const onSubmit: SubmitHandler<Form> = (data) => {
     try {
-      await addWithDelay({ symbol: data.symbol });
+      addWithDelay({ symbol: data.symbol });
       onClose();
     } catch (error) {
       console.error(error);
