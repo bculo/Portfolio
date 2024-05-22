@@ -2,6 +2,6 @@ namespace Crypto.Application.Common.Constants;
 
 public class AppRoles
 {
-    public const string ADMIN = "Admin";
-    public const string USER = "User";
+    public const string Admin = "Admin";
+    public const string User = "User";
 }

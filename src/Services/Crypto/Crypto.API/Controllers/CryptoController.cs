@@ -20,7 +20,7 @@ namespace Crypto.API.Controllers;
 [ApiController]
 public class CryptoController(IMediator mediator) : ControllerBase
 {
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPost(EndpointsConfigurations.CryptoEndpoints.Create)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -30,7 +30,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPost(EndpointsConfigurations.CryptoEndpoints.CreateWithDelay)]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -39,7 +39,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(instance));
     }
 
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPost(EndpointsConfigurations.CryptoEndpoints.UndoDelayCreate)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -49,7 +49,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPut(EndpointsConfigurations.CryptoEndpoints.UpdateInfo)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -60,7 +60,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPut(EndpointsConfigurations.CryptoEndpoints.UpdatePrice)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -71,7 +71,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpPut(EndpointsConfigurations.CryptoEndpoints.UpdatePriceAll)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
