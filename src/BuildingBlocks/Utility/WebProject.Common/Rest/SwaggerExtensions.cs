@@ -114,9 +114,6 @@ public static class SwaggerExtensions
                     new string[] {}
                 }
             });
-            
-            opt.SchemaFilter<GenericFilter>();
-            opt.CustomSchemaIds(s => s.FullName?.Replace("+", "."));
         });
     }
 

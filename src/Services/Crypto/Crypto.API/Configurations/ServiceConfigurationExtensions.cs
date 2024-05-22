@@ -17,6 +17,11 @@ namespace Crypto.API.Configurations
     {
         public static void ConfigureApiProject(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
+            
             services.AddControllers();
 
             services.AddCors();
@@ -25,10 +30,9 @@ namespace Crypto.API.Configurations
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
 
-            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
+            services.ConfigureSwagger(
                 $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
-                configuration.GetValue<int>("ApiVersion:MajorVersion"),
-                configuration.GetValue<int>("ApiVersion:MinorVersion"));
+                configuration["KeycloakOptions:ApplicationName"]);
 
             AddAuthentication(services, configuration);
             AddMessageQueue(services, configuration);
