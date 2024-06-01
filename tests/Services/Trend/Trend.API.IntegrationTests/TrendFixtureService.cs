@@ -64,6 +64,9 @@ public class TrendFixtureService(IServiceProvider provider)
             .With(x => x.Created, DateTime.Now.AddHours(-2))
             .With(x => x.Finished, DateTime.Now.AddHours(-2))
             .Create();
+
+        syncStatus.UsedSyncWords = [new SyncStatusWord() { Type = ContextType.Stock, WordId = "123" }];
+        
         var collection = _client.GetDatabase(TrendConstantsTest.DbName)
             .GetCollection<SyncStatus>(TrendMongoUtils.GetCollectionName(nameof(SyncStatus)));
         await collection.InsertOneAsync(syncStatus, new InsertOneOptions{});

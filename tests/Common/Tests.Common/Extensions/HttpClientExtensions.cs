@@ -24,9 +24,9 @@ public static class HttpClientExtensions
         ArgumentNullException.ThrowIfNull(client, nameof(client));
         ArgumentNullException.ThrowIfNull(key, nameof(key));
             
-        if(client.DefaultRequestHeaders.Contains("Authorization"))
+        if(client.DefaultRequestHeaders.Contains(key))
         {
-            client.DefaultRequestHeaders.Remove("Authorization");
+            client.DefaultRequestHeaders.Remove(key);
         }
             
         return client;
@@ -34,6 +34,8 @@ public static class HttpClientExtensions
 
     public static HttpClient WithRole(this HttpClient client, UserRole role)
     {
+        client.RemoveHeaderValue("UserAuthType");
+        
         return role switch
         {
             UserRole.None => client.RemoveHeaderValue("UserAuthType"),
