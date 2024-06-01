@@ -12,18 +12,17 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Repositories
 {
-    public class SearchWordRepository : MongoAuditableRepository<SearchWord>, ISearchWordRepository
+    public class SearchWordRepository(
+        IMongoClient client,
+        IOptions<MongoOptions> options,
+        IDateTimeProvider timeProvider,
+        IClientSessionHandle clientSession,
+        IMongoDatabase database)
+        : MongoAuditableRepository<SearchWord>(client, options, timeProvider, clientSession, database),
+            ISearchWordRepository
     {
-        public SearchWordRepository(IMongoClient client, 
-            IOptions<MongoOptions> options,
-            IDateTimeProvider timeProvider,
-            IClientSessionHandle clientSession,
-            IMongoDatabase database) 
-            : base(client, options, timeProvider, clientSession, database)
-        {
-        }
-
-        public async Task<SearchWordSyncDetailResQuery?> GetSyncStatisticInfo(string searchWordId, CancellationToken token = default)
+        public async Task<SearchWordSyncDetailResQuery?> GetSyncStatisticInfo(string searchWordId, 
+            CancellationToken token = default)
         {
             var syncStatusCollection = GetCollection<SyncStatus>();
             

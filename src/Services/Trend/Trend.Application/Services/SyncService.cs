@@ -16,53 +16,29 @@ using Trend.Domain.Errors;
 
 namespace Trend.Application.Services
 {
-    public class SyncService : ServiceBase, ISyncService
+    public class SyncService(
+        ILogger<SyncService> logger,
+        IMapper mapper,
+        ISearchWordRepository syncSettingRepo,
+        IEnumerable<ISearchEngine> searchEngines,
+        ISyncStatusRepository syncStatusRepository,
+        IPublishEndpoint publishEndpoint,
+        IOutputCacheStore cacheStore,
+        IDateTimeProvider timeProvider,
+        IArticleRepository articleRepo,
+        ITransaction session,
+        IServiceProvider provider)
+        : ServiceBase(provider), ISyncService
     {
-        private readonly ILogger<SyncService> _logger;
-        private readonly IMapper _mapper;
-        private readonly ISearchWordRepository _syncSettingRepo;
-        private readonly ISyncStatusRepository _syncStatusRepo;
-        private readonly IArticleRepository _articleRepo;
-        private readonly IEnumerable<ISearchEngine> _searchEngines;
-        private readonly IPublishEndpoint _publishEndpoint;
-        private readonly IOutputCacheStore _cacheStore;
-        private readonly IDateTimeProvider _timeProvider;
-        private readonly ITransaction _session;
-
-        public SyncService(ILogger<SyncService> logger, 
-            IMapper mapper,
-            ISearchWordRepository syncSettingRepo,
-            IEnumerable<ISearchEngine> searchEngines,
-            ISyncStatusRepository syncStatusRepository,
-            IPublishEndpoint publishEndpoint,
-            IOutputCacheStore cacheStore, 
-            IDateTimeProvider timeProvider, 
-            IArticleRepository articleRepo, 
-            ITransaction session,
-            IServiceProvider provider)
-            : base(provider)
-        {
-            _logger = logger;
-            _mapper = mapper;
-            _syncSettingRepo = syncSettingRepo;
-            _searchEngines = searchEngines;
-            _syncStatusRepo = syncStatusRepository;
-            _publishEndpoint = publishEndpoint;
-            _cacheStore = cacheStore;
-            _timeProvider = timeProvider;
-            _articleRepo = articleRepo;
-            _session = session;
-        }
-        
         public async Task<Either<CoreError, Unit>> ExecuteSync(CancellationToken token = default)
         {
-            using var span = Telemetry.Trend.StartActivity(nameof(Telemetry.SYNC_SRV));
-            span?.SetTag(Telemetry.SYNC_SRV_NUM_TAG, _searchEngines.Count());
+            using var span = Telemetry.Trend.StartActivity(nameof(Telemetry.SyncSrv));
+            span?.SetTag(Telemetry.SyncSrvNumTag, searchEngines.Count());
             
-            var searchWords = await _syncSettingRepo.GetActiveItems(token);
+            var searchWords = await syncSettingRepo.GetActiveItems(token);
             if(searchWords.Count == 0)
             {
-                _logger.LogInformation("Array of search words is empty. Sync process is stopped");
+                logger.LogInformation("Array of search words is empty. Sync process is stopped");
                 return SyncErrors.NoSearchWords;
             }
 
@@ -71,20 +47,20 @@ namespace Trend.Application.Services
             
             try
             {
-                await _session.StartTransaction(token);
+                await session.StartTransaction(token);
 
-                var oldActiveArticles = await _articleRepo.GetActiveItems(token);
+                var oldActiveArticles = await articleRepo.GetActiveItems(token);
                 await DeactivateOldArticles(oldActiveArticles, token);
                 await PersistSyncStatuses(syncs, token);
                 await PersistNewArticles(articles, token);
 
                 await PublishSyncExecutedEvent(token);
                 
-                await _session.CommitTransaction(token);
+                await session.CommitTransaction(token);
             }
             catch
             {
-                await _session.AbortTransaction(token);
+                await session.AbortTransaction(token);
                 throw;
             }
             
@@ -108,9 +84,9 @@ namespace Trend.Application.Services
 
         private async Task PublishSyncExecutedEvent(CancellationToken token = default)
         {
-            await _publishEndpoint.Publish(new SyncExecuted
+            await publishEndpoint.Publish(new SyncExecuted
             {
-                Time = _timeProvider.Utc
+                Time = timeProvider.Utc
             }, token);
         }
 
@@ -119,30 +95,30 @@ namespace Trend.Application.Services
             var isTotalFailure = syncs.All(x => x.SucceddedRequests == 0);
             if (isTotalFailure)
             {
-                await _publishEndpoint.Publish<TotalSyncFailure>(new(), token);
+                await publishEndpoint.Publish<TotalSyncFailure>(new(), token);
             }
         }
 
         private async Task PersistSyncStatuses(List<SyncStatus> syncs, CancellationToken token = default)
         {
-            await _syncStatusRepo.Add(syncs, token);
+            await syncStatusRepository.Add(syncs, token);
         }
 
         private async Task PersistNewArticles(List<Article> articles, CancellationToken token = default)
         {
-            await _articleRepo.Add(articles, token);
+            await articleRepo.Add(articles, token);
         }
 
         private async Task DeactivateOldArticles(List<Article> oldActiveArticles, CancellationToken token = default)
         {
             var oldActiveIds = oldActiveArticles.Select(i => i.Id).ToList();
-            await _articleRepo.DeactivateItems(oldActiveIds, token);
+            await articleRepo.DeactivateItems(oldActiveIds, token);
         }
 
         private async Task InvalidateCache(CancellationToken token = default)
         {
-            await _cacheStore.EvictByTagAsync(CacheTags.SYNC, default);
-            await _cacheStore.EvictByTagAsync(CacheTags.NEWS, default);
+            await cacheStore.EvictByTagAsync(CacheTags.Sync, default);
+            await cacheStore.EvictByTagAsync(CacheTags.News, default);
         }
         
         private async Task<(List<SyncStatus> syncIterations, List<Article> articles)> FireSearchEngines(
@@ -151,7 +127,7 @@ namespace Trend.Application.Services
         {
             List<SyncStatus> syncIterations = new();
             List<Article> articles = new();
-            foreach (var searchEngine in _searchEngines)
+            foreach (var searchEngine in searchEngines)
             {
                 try
                 {
@@ -167,7 +143,7 @@ namespace Trend.Application.Services
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, e.Message);
+                    logger.LogError(e, e.Message);
                     Activity.Current?.RecordException(e);
                     await RaiseFailureEvent(searchEngine.EngineName, token);
                 }
@@ -179,16 +155,16 @@ namespace Trend.Application.Services
 
         private async Task RaiseFailureEvent(string engineName, CancellationToken token = default)
         {
-            await _publishEndpoint.Publish(new SearchEngineFailure
+            await publishEndpoint.Publish(new SearchEngineFailure
             {
                 Message = $"Engine {engineName} failure. 0 items synced",
-                Time = _timeProvider.Now
+                Time = timeProvider.Now
             }, token);
         }
 
         public async Task<long> GetAllCount(CancellationToken token)
         {
-            return await _syncStatusRepo.Count(token);
+            return await syncStatusRepository.Count(token);
         }
 
         public async Task<Either<CoreError, SyncStatusResDto>> Get(GetSyncStatusReqDto req, CancellationToken token = default)
@@ -196,24 +172,24 @@ namespace Trend.Application.Services
             var validationResult = await Validate(req, token);
             if (!validationResult.IsValid)
             {
-                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                logger.LogInformation(LogTemplates.ValidationErrorTemp);
                 return SyncErrors.ValidationError(validationResult.Errors);
             }
 
-            var entity = await _syncStatusRepo.FindById(req.Id, token);
+            var entity = await syncStatusRepository.FindById(req.Id, token);
             if (entity is null)
             {
-                _logger.LogInformation("Sync with provided ID {SyncStatusId} not found", req.Id);
+                logger.LogInformation("Sync with provided ID {SyncStatusId} not found", req.Id);
                 return SyncErrors.NotFound;
             } 
             
-            return _mapper.Map<SyncStatusResDto>(entity);
+            return mapper.Map<SyncStatusResDto>(entity);
         }
 
         public async Task<List<SyncStatusResDto>> GetAll(CancellationToken token = default)
         {
-            var entities = await _syncStatusRepo.GetAll(token);
-            return _mapper.Map<List<SyncStatusResDto>>(entities);
+            var entities = await syncStatusRepository.GetAll(token);
+            return mapper.Map<List<SyncStatusResDto>>(entities);
         }
         
         public async Task<Either<CoreError, List<SyncSearchWordResDto>>> GetSyncSearchWords(
@@ -223,19 +199,19 @@ namespace Trend.Application.Services
             var validationResult = await Validate(req, token);
             if (!validationResult.IsValid)
             {
-                _logger.LogInformation(LogTemplates.VALIDATION_ERROR_TEMP);
+                logger.LogInformation(LogTemplates.ValidationErrorTemp);
                 return SyncErrors.ValidationError(validationResult.Errors);
             }
             
-            var syncStatus = await _syncStatusRepo.FindById(req.Id, token);
+            var syncStatus = await syncStatusRepository.FindById(req.Id, token);
             if(syncStatus is null)
             {
-                _logger.LogInformation("Sync {SyncId} not found", req.Id);
+                logger.LogInformation("Sync {SyncId} not found", req.Id);
                 return SyncErrors.NotFound;
             }
 
-            var syncWords = await _syncStatusRepo.GetSyncStatusWords(req.Id, token);
-            return _mapper.Map<List<SyncSearchWordResDto>>(syncWords);
+            var syncWords = await syncStatusRepository.GetSyncStatusWords(req.Id, token);
+            return mapper.Map<List<SyncSearchWordResDto>>(syncWords);
         }
     }
 }

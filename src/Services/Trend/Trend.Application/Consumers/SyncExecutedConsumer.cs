@@ -13,26 +13,19 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Trend.Application.Consumers;
 
-public class SyncExecutedConsumer : IConsumer<SyncExecuted>
+public class SyncExecutedConsumer(
+    ILogger<SyncExecutedConsumer> logger,
+    ISyncService syncService,
+    IFusionCache cacheService)
+    : IConsumer<SyncExecuted>
 {
-    private readonly ISyncService _syncService;
-    private readonly ILogger<SyncExecutedConsumer> _logger;
-    private readonly IFusionCache _cacheService;
-
-    public SyncExecutedConsumer(ILogger<SyncExecutedConsumer> logger, 
-        ISyncService syncService, 
-        IFusionCache cacheService)
-    {
-        _logger = logger;
-        _syncService = syncService;
-        _cacheService = cacheService;
-    }
+    private readonly ILogger<SyncExecutedConsumer> _logger = logger;
 
     public async Task Consume(ConsumeContext<SyncExecuted> context)
     {
-        var count = await _syncService.GetAllCount(default);
+        var count = await syncService.GetAllCount(default);
 
-        await _cacheService.SetAsync(CacheKeys.SYNC_TOTAL_COUNT,
+        await cacheService.SetAsync(CacheKeys.SyncTotalCount,
             count,
             TimeSpan.FromHours(12));
     }

@@ -7,16 +7,11 @@ using Trend.gRPC.Interceptors.Models;
 
 namespace Trend.gRPC.Interceptors
 {
-    public class TrendGrpExceptionInterceptor : Interceptor
+    public class TrendGrpExceptionInterceptor(ILogger<TrendGrpExceptionInterceptor> logger) : Interceptor
     {
-        private readonly ILogger<TrendGrpExceptionInterceptor> _logger;
-
-        public TrendGrpExceptionInterceptor(ILogger<TrendGrpExceptionInterceptor> logger)
-        {
-            _logger = logger;
-        }
-
-        public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, ServerCallContext context, UnaryServerMethod<TRequest, TResponse> continuation)
+        public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, 
+            ServerCallContext context, 
+            UnaryServerMethod<TRequest, TResponse> continuation)
         {
             try
             {
@@ -28,7 +23,10 @@ namespace Trend.gRPC.Interceptors
             }
         }
 
-        public override async Task ServerStreamingServerHandler<TRequest, TResponse>(TRequest request, IServerStreamWriter<TResponse> responseStream, ServerCallContext context, ServerStreamingServerMethod<TRequest, TResponse> continuation)
+        public override async Task ServerStreamingServerHandler<TRequest, TResponse>(TRequest request, 
+            IServerStreamWriter<TResponse> responseStream, 
+            ServerCallContext context, 
+            ServerStreamingServerMethod<TRequest, TResponse> continuation)
         {
             try
             {
@@ -40,7 +38,11 @@ namespace Trend.gRPC.Interceptors
             }
         }
 
-        public override async Task DuplexStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, IServerStreamWriter<TResponse> responseStream, ServerCallContext context, DuplexStreamingServerMethod<TRequest, TResponse> continuation)
+        public override async Task DuplexStreamingServerHandler<TRequest, TResponse>(
+            IAsyncStreamReader<TRequest> requestStream, 
+            IServerStreamWriter<TResponse> responseStream, 
+            ServerCallContext context, 
+            DuplexStreamingServerMethod<TRequest, TResponse> continuation)
         {
             try
             {
@@ -52,7 +54,10 @@ namespace Trend.gRPC.Interceptors
             }
         }
 
-        public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)
+        public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(
+            IAsyncStreamReader<TRequest> requestStream, 
+            ServerCallContext context, 
+            ClientStreamingServerMethod<TRequest, TResponse> continuation)
         {
             try
             {
@@ -66,7 +71,7 @@ namespace Trend.gRPC.Interceptors
 
         private RpcException HandleGrpcException(Exception exception)
         {
-            _logger.LogError(exception.Message, exception);
+            logger.LogError(exception.Message, exception);
 
             var metadata = DefineMetadata(exception);
 
@@ -81,8 +86,12 @@ namespace Trend.gRPC.Interceptors
 
         private Metadata DefineMetadata(Exception exception)
         {
-            string exceptionJson = JsonConvert.SerializeObject(exception, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-            byte[] exceptionByteArray = Encoding.UTF8.GetBytes(exceptionJson);
+            var exceptionJson = JsonConvert.SerializeObject(exception, 
+                new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+            var exceptionByteArray = Encoding.UTF8.GetBytes(exceptionJson);
             return new Metadata
             {
                 { "exception-bin", exceptionByteArray },

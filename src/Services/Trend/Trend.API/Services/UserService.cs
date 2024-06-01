@@ -2,29 +2,25 @@
 using Trend.Application.Interfaces;
 using Trend.Domain.Exceptions;
 
-namespace Trend.API.Services
+namespace Trend.API.Services;
+
+public class UserService(IAuth0AccessTokenReader user) : ICurrentUser
 {
-    public class UserService : ICurrentUser
+    public Guid UserId
     {
-        private readonly IAuth0AccessTokenReader _user;
-
-        public UserService(IAuth0AccessTokenReader user) => _user = user;
-
-        public Guid UserId
+        get
         {
-            get
+            var userId = user.GetIdentifier();
+
+            if(userId != Guid.Empty)
             {
-                var userId = _user.GetIdentifier();
-
-                if(userId != Guid.Empty)
-                {
-                    return userId;
-                }
-
-                var msg =
-                    "Problem with authentication. User identifier is null. Check if [Authorize] attribute is provided";
-                throw new TrendAppCoreException(msg);
+                return userId;
             }
+
+            const string message =
+                "Problem with authentication. User identifier is null. Check if [Authorize] attribute is provided";
+            throw new TrendAppCoreException(message);
         }
     }
 }
+

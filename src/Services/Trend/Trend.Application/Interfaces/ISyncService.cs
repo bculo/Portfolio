@@ -1,5 +1,4 @@
-﻿using Dtos.Common;
-using LanguageExt;
+﻿using LanguageExt;
 using Trend.Application.Interfaces.Models;
 using Trend.Domain.Errors;
 

@@ -1,4 +1,3 @@
-using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
 
 namespace Trend.Application.Repositories.Lookups;

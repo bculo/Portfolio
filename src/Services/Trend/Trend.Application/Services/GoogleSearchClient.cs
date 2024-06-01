@@ -9,25 +9,18 @@ using Trend.Application.Interfaces.Models;
 
 namespace Trend.Application.Services
 {
-    public class GoogleSearchClient : IGoogleSearchClient
+    public class GoogleSearchClient(
+        IHttpClientFactory clientFactory,
+        IOptions<GoogleSearchOptions> options,
+        ILogger<GoogleSearchClient> logger)
+        : IGoogleSearchClient
     {
-        private readonly GoogleSearchOptions _options;
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly ILogger<GoogleSearchClient> _logger;
-
-        public GoogleSearchClient(
-            IHttpClientFactory clientFactory, 
-            IOptions<GoogleSearchOptions> options, 
-            ILogger<GoogleSearchClient> logger)
-        {
-            _options = options.Value;
-            _clientFactory = clientFactory;
-            _logger = logger;
-        }
+        private readonly GoogleSearchOptions _options = options.Value;
+        private readonly ILogger<GoogleSearchClient> _logger = logger;
 
         public async Task<GoogleSearchEngineResponseDto> Search(string searchDefinition, CancellationToken token = default)
         {
-            var client = _clientFactory.CreateClient(HttpClientNames.GOOGLE_CLIENT);
+            var client = clientFactory.CreateClient(HttpClientNames.GoogleClient);
 
             var builder = new HttpQueryBuilder();
             builder.Add("key", _options.ApiKey);

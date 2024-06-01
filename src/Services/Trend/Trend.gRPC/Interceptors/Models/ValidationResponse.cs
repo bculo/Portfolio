@@ -2,8 +2,8 @@
 {
     public class ValidationResponse
     {
-        public string Title { get; set; }
-        public string Message { get; set; }
-        public Dictionary<string, List<string>> Errors { get; set; }
+        public string Title { get; set; } = default!;
+        public string Message { get; set; } = default!;
+        public Dictionary<string, List<string>> Errors { get; set; } = default!;
     }
 }

@@ -1,6 +1,4 @@
-﻿using Trend.Domain.Enums;
-
-namespace Trend.Domain.Entities
+﻿namespace Trend.Domain.Entities
 {
     public class Article : AuditableDocument
     {

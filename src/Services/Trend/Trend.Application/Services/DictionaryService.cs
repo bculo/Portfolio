@@ -5,14 +5,9 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Services;
 
-public class DictionaryService : IDictionaryService
+public class DictionaryService(ILogger<DictionaryService> logger) : IDictionaryService
 {
-    private readonly ILogger<DictionaryService> _logger;
-
-    public DictionaryService(ILogger<DictionaryService> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<DictionaryService> _logger = logger;
 
     public Task<int> GetDefaultAllValue(CancellationToken token)
     {

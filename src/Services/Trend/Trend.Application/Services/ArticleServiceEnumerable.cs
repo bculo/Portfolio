@@ -6,39 +6,30 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Services;
 
-public class ArticleServiceEnumerable : IArticleServiceEnumerable
+public class ArticleServiceEnumerable(IArticleRepository articleRepo, IMapper mapper) : IArticleServiceEnumerable
 {
-    private readonly IArticleRepository _articleRepo;
-    private readonly IMapper _mapper;
-
-    public ArticleServiceEnumerable(IArticleRepository articleRepo, IMapper mapper)
-    {
-        _articleRepo = articleRepo;
-        _mapper = mapper;
-    }
-    
     public async IAsyncEnumerable<ArticleResDto> GetAllEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
-        await foreach(var entity in _articleRepo.GetAllEnumerable(token))
+        await foreach(var entity in articleRepo.GetAllEnumerable(token))
         {
-            yield return _mapper.Map<ArticleResDto>(entity);
+            yield return mapper.Map<ArticleResDto>(entity);
         }
     }
 
     public async IAsyncEnumerable<ArticleResDto> GetLatestEnumerable([EnumeratorCancellation] CancellationToken token = default)
     {
-        await foreach(var entity in _articleRepo.GetActiveItemsEnumerable(token))
+        await foreach(var entity in articleRepo.GetActiveItemsEnumerable(token))
         {
-            yield return _mapper.Map<ArticleResDto>(entity);
+            yield return mapper.Map<ArticleResDto>(entity);
         }
     }
 
     public async IAsyncEnumerable<ArticleResDto> GetLatestByContextEnumerable(ContextType type, 
         [EnumeratorCancellation] CancellationToken token = default)
     {
-        await foreach (var entity in _articleRepo.GetActiveEnumerable(type, token))
+        await foreach (var entity in articleRepo.GetActiveEnumerable(type, token))
         {
-            yield return _mapper.Map<ArticleResDto>(entity);
+            yield return mapper.Map<ArticleResDto>(entity);
         }
     }
 }

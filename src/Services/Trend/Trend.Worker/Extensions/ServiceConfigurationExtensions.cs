@@ -1,15 +1,6 @@
-﻿using FluentValidation.AspNetCore;
-using MassTransit;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
-using Cache.Redis.Common;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
-using StackExchange.Redis;
+﻿using MassTransit;
 using Trend.Application;
 using Trend.Application.Configurations.Options;
-using Trend.Application.Consumers;
 
 namespace Trend.Worker.Extensions
 {

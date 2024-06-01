@@ -13,36 +13,28 @@ using Trend.gRPC.Protos.v1;
 namespace Trend.gRPC.Services
 {
     [Authorize]
-    public class NewsService : News.NewsBase
+    public class NewsService(
+        IArticleServiceEnumerable service,
+        IMapper mapper,
+        ILogger<NewsService> logger)
+        : News.NewsBase
     {
-        private readonly IArticleServiceEnumerable _service;
-        private readonly ILogger<NewsService> _logger;
-        private readonly IMapper _mapper;
+        private readonly ILogger<NewsService> _logger = logger;
 
-        public NewsService(
-            IArticleServiceEnumerable service, 
-            IMapper mapper,
-            ILogger<NewsService> logger)
-        {
-            _service = service;
-            _mapper = mapper;
-            _logger = logger;
-        }
-        
         public override async Task GetAllNews(Empty request, IServerStreamWriter<ArticleTypeItemReply> responseStream, ServerCallContext context)
         {
-            await foreach (var item in _service.GetAllEnumerable(default))
+            await foreach (var item in service.GetAllEnumerable(default))
             {
-                var responseItem = _mapper.Map<ArticleTypeItemReply>(item);
+                var responseItem = mapper.Map<ArticleTypeItemReply>(item);
                 await responseStream.WriteAsync(responseItem);
             }
         }
         
         public override async Task GetLatestNews(Empty request, IServerStreamWriter<ArticleItemReply> responseStream, ServerCallContext context)
         {
-            await foreach (var item in _service.GetLatestEnumerable(default))
+            await foreach (var item in service.GetLatestEnumerable(default))
             {
-                var responseItem = _mapper.Map<ArticleItemReply>(item);
+                var responseItem = mapper.Map<ArticleItemReply>(item);
                 await responseStream.WriteAsync(responseItem);
             }
         }
@@ -50,9 +42,9 @@ namespace Trend.gRPC.Services
         public override async Task GetLatestNewsForType(ArticleTypeRequest request, IServerStreamWriter<ArticleItemReply> responseStream, ServerCallContext context)
         {
             var requestType = (ContextType)(int)request.Type;
-            await foreach (var item in _service.GetLatestByContextEnumerable(requestType, default))
+            await foreach (var item in service.GetLatestByContextEnumerable(requestType, default))
             {
-                var responseItem = _mapper.Map<ArticleItemReply>(item);
+                var responseItem = mapper.Map<ArticleItemReply>(item);
                 await responseStream.WriteAsync(responseItem);
             }
         }

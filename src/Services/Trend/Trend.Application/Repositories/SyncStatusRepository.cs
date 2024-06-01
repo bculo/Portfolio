@@ -8,17 +8,14 @@ using Trend.Domain.Entities;
 
 namespace Trend.Application.Repositories
 {
-    public class SyncStatusRepository : MongoRepository<SyncStatus>, ISyncStatusRepository
+    public class SyncStatusRepository(
+        IMongoClient client,
+        IOptions<MongoOptions> options,
+        IDateTimeProvider timeProvider,
+        IClientSessionHandle clientSession,
+        IMongoDatabase database)
+        : MongoRepository<SyncStatus>(client, options, timeProvider, clientSession, database), ISyncStatusRepository
     {
-        public SyncStatusRepository(IMongoClient client, 
-            IOptions<MongoOptions> options, 
-            IDateTimeProvider timeProvider,
-            IClientSessionHandle clientSession,
-            IMongoDatabase database)
-            : base(client, options, timeProvider, clientSession, database)
-        {
-        }
-
         public async Task<SyncStatus?> GetLastValidSync(CancellationToken token = default)
         {
             return await Collection.Find(ClientSession, t => t.TotalRequests > 0 && t.SucceddedRequests > 0)

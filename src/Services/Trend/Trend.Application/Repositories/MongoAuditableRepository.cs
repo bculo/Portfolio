@@ -8,18 +8,16 @@ using Trend.Domain.Entities;
 
 namespace Trend.Application.Repositories;
 
-public class MongoAuditableRepository<TEntity> : MongoRepository<TEntity>, IMongoAuditableRepository<TEntity> 
+public class MongoAuditableRepository<TEntity>(
+    IMongoClient client,
+    IOptions<MongoOptions> options,
+    IDateTimeProvider timeProvider,
+    IClientSessionHandle clientSession,
+    IMongoDatabase database)
+    : MongoRepository<TEntity>(client, options, timeProvider, clientSession, database),
+        IMongoAuditableRepository<TEntity>
     where TEntity : AuditableDocument
 {
-    public MongoAuditableRepository(IMongoClient client, 
-        IOptions<MongoOptions> options,
-        IDateTimeProvider timeProvider,
-        IClientSessionHandle clientSession, 
-        IMongoDatabase database) 
-        : base(client, options, timeProvider, clientSession, database)
-    {
-    }
-    
     public async Task<List<TEntity>> GetActiveItems(CancellationToken token = default)
     {
         var sortFilter = Builders<TEntity>.Sort.Descending(x => x.Created);

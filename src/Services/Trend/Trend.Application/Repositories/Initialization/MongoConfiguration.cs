@@ -2,12 +2,8 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
-using Trend.Application.Interfaces.Models;
-using Trend.Application.Repositories.Lookups;
 using Trend.Application.Repositories.Serializers;
-using Trend.Application.Repositories.Unwinds;
 using Trend.Domain.Entities;
-using Trend.Domain.Enums;
 
 namespace Trend.Application.Repositories.Initialization
 {

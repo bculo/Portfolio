@@ -1,7 +1,6 @@
-﻿using Keycloak.Common;
+﻿using System.Reflection;
+using Keycloak.Common;
 using MassTransit;
-using System.Reflection;
-using Cache.Redis.Common;
 using Trend.Application;
 using Trend.Application.Interfaces;
 using Trend.gRPC.Interceptors;

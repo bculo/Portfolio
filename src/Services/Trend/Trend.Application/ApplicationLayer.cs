@@ -68,7 +68,7 @@ namespace Trend.Application
             services.AddHttpClient();
             services.Configure<GoogleSearchOptions>(configuration.GetSection("GoogleSearchOptions"));
             
-            services.AddHttpClient(HttpClientNames.GOOGLE_CLIENT)
+            services.AddHttpClient(HttpClientNames.GoogleClient)
                 .ConfigureHttpClient(c =>
                 {
                     c.BaseAddress = 

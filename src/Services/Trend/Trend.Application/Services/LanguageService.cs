@@ -9,15 +9,9 @@ using Trend.Application.Interfaces;
 
 namespace Trend.Application.Services
 {
-    public class LanguageService<T> : ILanguageService<T> where T : class
+    public class LanguageService<T>(IStringLocalizer<T> localizer) : ILanguageService<T>
+        where T : class
     {
-        private readonly IStringLocalizer<T> _localizer;
-
-        public LanguageService(IStringLocalizer<T> localizer)
-        {
-            _localizer = localizer;
-        }
-
         public string Get(string identifier)
         {
             if (string.IsNullOrWhiteSpace(identifier))
@@ -25,7 +19,7 @@ namespace Trend.Application.Services
                 return string.Empty;
             }
 
-            var result = _localizer.GetString(identifier.Trim());
+            var result = localizer.GetString(identifier.Trim());
 
             return result?.Value ?? string.Empty;
         }

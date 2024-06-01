@@ -7,23 +7,18 @@ using Trend.Application.Interfaces;
 
 namespace Trend.Application.Services
 {
-    public class MongoTransactionService : ITransaction
+    public class MongoTransactionService(
+        IClientSessionHandle session,
+        IOptions<MongoOptions> options)
+        : ITransaction
     {
-        private readonly IClientSessionHandle _session;
-        private readonly MongoOptions _options;
-
-        public MongoTransactionService(IClientSessionHandle session,
-            IOptions<MongoOptions> options)
-        {
-            _session = session;
-            _options = options.Value;
-        }
+        private readonly MongoOptions _options = options.Value;
 
         public Task AbortTransaction(CancellationToken token = default)
         {
-            if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
+            if (_options.ServerType == ServerType.Replica && session.IsInTransaction)
             {
-                _session.AbortTransactionAsync(token);
+                session.AbortTransactionAsync(token);
             }
 
             return Task.CompletedTask;
@@ -31,9 +26,9 @@ namespace Trend.Application.Services
 
         public Task CommitTransaction(CancellationToken token = default)
         {
-            if (_options.ServerType == ServerType.Replica && _session.IsInTransaction)
+            if (_options.ServerType == ServerType.Replica && session.IsInTransaction)
             {
-                _session.CommitTransactionAsync(token);
+                session.CommitTransactionAsync(token);
             }
 
             return Task.CompletedTask;
@@ -42,9 +37,9 @@ namespace Trend.Application.Services
 
         public Task StartTransaction(CancellationToken token = default)
         {
-            if (_options.ServerType == ServerType.Replica && !_session.IsInTransaction)
+            if (_options.ServerType == ServerType.Replica && !session.IsInTransaction)
             {
-                _session.StartTransaction();
+                session.StartTransaction();
             }
 
             return Task.CompletedTask;

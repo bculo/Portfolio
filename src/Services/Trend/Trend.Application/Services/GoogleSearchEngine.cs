@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MassTransit.Initializers;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Time.Abstract.Contracts;
@@ -13,7 +12,7 @@ namespace Trend.Application.Services
 {
     public class GoogleSearchEngine : ISearchEngine
     {
-        private const int MAX_ARTICLES_PER_WORD = 4;
+        private const int MaxArticlesPerWord = 4;
         
         private readonly ILogger<GoogleSearchEngine> _logger;
         private readonly IGoogleSearchClient _searchService;
@@ -49,8 +48,8 @@ namespace Trend.Application.Services
             Dictionary<ContextType, List<SearchEngineReq>> searchWordsByCategory, 
             CancellationToken token = default)
         {
-            using var span = Telemetry.Trend.StartActivity(Telemetry.SYNC_ENGINE);
-            span?.SetTag(Telemetry.SYNC_ENGINE_NAME_TAG, EngineName);
+            using var span = Telemetry.Trend.StartActivity(Telemetry.SyncEngine);
+            span?.SetTag(Telemetry.SyncEngineNameTag, EngineName);
             SearchWordsByCategory = searchWordsByCategory ?? new();
             
             if(!SearchWordsByCategory.Any())
@@ -140,7 +139,7 @@ namespace Trend.Application.Services
                 var searchWordArticles = 
                     searchWordResponse.ClientResponse?.Items ?? new List<GoogleSearchEngineItemDto>();
                 var newArticles = _mapper.Map<List<Article>>(searchWordArticles)
-                    .Take(MAX_ARTICLES_PER_WORD)
+                    .Take(MaxArticlesPerWord)
                     .Select(i =>
                     {
                         i.SearchWordId = searchWordResponse.SearchWordId;

@@ -4,20 +4,13 @@ using Trend.Domain.Exceptions;
 
 namespace Trend.gRPC.Services
 {
-    public class UserService : ICurrentUser
+    public class UserService(IAuth0AccessTokenReader user) : ICurrentUser
     {
-        private readonly IAuth0AccessTokenReader _user;
-
-        public UserService(IAuth0AccessTokenReader user)
-        {
-            _user = user;
-        }
-
         public Guid UserId
         {
             get
             {
-                var userId = _user.GetIdentifier();
+                var userId = user.GetIdentifier();
 
                 if (userId == Guid.Empty)
                 {

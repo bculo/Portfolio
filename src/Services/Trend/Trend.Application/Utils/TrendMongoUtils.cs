@@ -1,13 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using System.Diagnostics;
+using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using MongoDB.Driver.Linq;
 using Trend.Application.Configurations.Options;

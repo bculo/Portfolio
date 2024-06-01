@@ -13,15 +13,14 @@ using Trend.Domain.Enums;
 
 namespace Trend.Application.Repositories
 {
-    public class ArticleRepository : MongoAuditableRepository<Article>, IArticleRepository
+    public class ArticleRepository(
+        IMongoClient client,
+        IOptions<MongoOptions> options,
+        IDateTimeProvider provider,
+        IClientSessionHandle clientSession,
+        IMongoDatabase database)
+        : MongoAuditableRepository<Article>(client, options, provider, clientSession, database), IArticleRepository
     {
-        public ArticleRepository(IMongoClient client, 
-            IOptions<MongoOptions> options,
-            IDateTimeProvider provider,
-            IClientSessionHandle clientSession,
-            IMongoDatabase database) 
-            : base(client, options, provider, clientSession, database) {}
-
         private IAggregateFluent<ArticleDetailResQuery> BuildAggregateBasedOnContext()
         {
             var wordCollection = GetCollection<SearchWord>();

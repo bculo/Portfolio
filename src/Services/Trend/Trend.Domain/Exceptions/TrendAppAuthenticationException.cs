@@ -1,9 +1,3 @@
 namespace Trend.Domain.Exceptions;
 
-public class TrendAppAuthenticationException : TrendAppCoreException
-{
-    public TrendAppAuthenticationException(string message) : base(message)
-    {
-
-    }
-}
+public class TrendAppAuthenticationException(string message) : TrendAppCoreException(message);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trend.Domain.Exceptions
+﻿namespace Trend.Domain.Exceptions
 {
     public class TrendAppCoreException : Exception
     {

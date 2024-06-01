@@ -1,25 +1,16 @@
-using Events.Common.Trend;
-using MassTransit;
 using Microsoft.Extensions.Options;
 using Time.Abstract.Contracts;
 using Trend.Application.Configurations.Options;
 
 namespace Trend.Worker
 {
-    public class PingWorker : BackgroundService
+    public class PingWorker(
+        ILogger<PingWorker> logger,
+        IServiceProvider provider,
+        IOptions<SyncBackgroundServiceOptions> options)
+        : BackgroundService
     {
-        private readonly ILogger<PingWorker> _logger;
-        private readonly IServiceProvider _provider;
-        private readonly SyncBackgroundServiceOptions _options;
-
-        public PingWorker(ILogger<PingWorker> logger,
-            IServiceProvider provider,
-            IOptions<SyncBackgroundServiceOptions> options)
-        {
-            _logger = logger;
-            _provider = provider;
-            _options = options.Value;
-        }
+        private readonly SyncBackgroundServiceOptions _options = options.Value;
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -27,21 +18,21 @@ namespace Trend.Worker
             var serviceIdentifier = Guid.NewGuid().ToString();
             while (!await timer.WaitForNextTickAsync(stoppingToken))
             {
-                using var scope = _provider.CreateScope();
+                using var scope = provider.CreateScope();
                 var timeProvider = scope.ServiceProvider.GetRequiredService<IDateTimeProvider>();
-                _logger.LogInformation("Server {Server} - ping at {Time}", serviceIdentifier, timeProvider.Utc);
+                logger.LogInformation("Server {Server} - ping at {Time}", serviceIdentifier, timeProvider.Utc);
             }
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("SyncBackgroundService started working!");
+            logger.LogInformation("SyncBackgroundService started working!");
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("SyncBackgroundService stopped working!");
+            logger.LogInformation("SyncBackgroundService stopped working!");
             return base.StopAsync(cancellationToken);
         }
     }
