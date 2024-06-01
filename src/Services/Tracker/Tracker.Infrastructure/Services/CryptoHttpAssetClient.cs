@@ -31,7 +31,7 @@ namespace Tracker.Infrastructure.Services
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken.AccessToken}");
 
             var httpResonse = await client.GetAsync($"v1/Crypto/Single/{symbol}");
-            var content = await httpResonse.HandleResponse<CryptoResponse>();
+            var content = await httpResonse.ExtractContentFromResponse<CryptoResponse>();
             if (content is null)
             {
                 throw new TrackerCoreException($"Item with symbol {symbol} not available");

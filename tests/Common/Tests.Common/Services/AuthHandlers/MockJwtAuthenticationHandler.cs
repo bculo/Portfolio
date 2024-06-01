@@ -7,16 +7,12 @@ using Tests.Common.Interfaces.Claims;
 
 namespace Tests.Common.Services.AuthHandlers;
 
-public class MockJwtAuthenticationHandler : MockBaseAuthenticationHandler
+public class MockJwtAuthenticationHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    IMockClaimSeeder seeder)
+    : MockBaseAuthenticationHandler(options, logger, encoder, seeder)
 {
-    public MockJwtAuthenticationHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options, 
-        ILoggerFactory logger, 
-        UrlEncoder encoder,
-        IMockClaimSeeder seeder) 
-        : base(options, logger, encoder, seeder)
-    {
-    }
-
     protected override string SchemeName => JwtBearerDefaults.AuthenticationScheme;
 }

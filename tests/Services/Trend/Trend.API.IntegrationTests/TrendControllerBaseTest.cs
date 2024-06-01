@@ -3,21 +3,14 @@
 namespace Trend.IntegrationTests
 {
     [Collection("TrendCollection")]
-    public abstract class TrendControllerBaseTest : IAsyncLifetime
+    public abstract class TrendControllerBaseTest(TrendApiFactory factory) : IAsyncLifetime
     {
-        protected readonly HttpClient Client;
-        protected readonly TrendApiFactory Factory;
+        protected readonly HttpClient Client = factory.Client;
+        protected readonly TrendApiFactory Factory = factory;
         
         private IServiceScope _scope = default!;
         protected TrendFixtureService FixtureService { get; private set; } = default!;
         
-
-        protected TrendControllerBaseTest(TrendApiFactory factory)
-        {
-            Factory = factory;
-            Client = factory.Client;
-        }
-
         public virtual async Task DisposeAsync()
         {
             await FixtureService.DropDatabase();

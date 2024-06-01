@@ -11,22 +11,15 @@ namespace Trend.API.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class DictionaryController : ControllerBase
+public class DictionaryController(IDictionaryService service) : ControllerBase
 {
-    private readonly IDictionaryService _service;
-    
-    public DictionaryController(IDictionaryService service)
-    {
-        _service = service;
-    }
-
     [HttpGet("GetDefaultAllValue", Name = "GetDefaultAllValue")]
     [OutputCache(PolicyName = "DictionaryPolicy")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetDefaultAllValue(CancellationToken token)
     {
-        return Ok(await _service.GetDefaultAllValue(token));
+        return Ok(await service.GetDefaultAllValue(token));
     }
     
     [HttpGet("GetSearchEngines", Name = "GetSearchEngines")]
@@ -35,7 +28,7 @@ public class DictionaryController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAvailableSearchEngines(CancellationToken token)
     {
-        return Ok(await _service.GetSearchEngines(token));
+        return Ok(await service.GetSearchEngines(token));
     }
 
     [HttpGet("GetContextTypes", Name = "GetContextTypes")]
@@ -44,7 +37,7 @@ public class DictionaryController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAvailableContextTypes(CancellationToken token)
     {
-        return Ok(await _service.GetContextTypes(token));
+        return Ok(await service.GetContextTypes(token));
     }
     
     [HttpGet("GetActiveFilterOptions", Name = "GetActiveFilterOptions")]
@@ -53,7 +46,7 @@ public class DictionaryController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetActiveFilterOptions(CancellationToken token)
     {
-        return Ok(await _service.GetActiveFilterOptions(token));
+        return Ok(await service.GetActiveFilterOptions(token));
     }
     
     [HttpGet("GetSortFilterOptions", Name = "GetSortFilterOptions")]
@@ -62,6 +55,6 @@ public class DictionaryController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetSortFilterOptions(CancellationToken token)
     {
-        return Ok(await _service.GetSortFilterOptions(token));
+        return Ok(await service.GetSortFilterOptions(token));
     }
 }

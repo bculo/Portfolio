@@ -1,9 +1,10 @@
 using System.Net;
 using System.Text.Json;
 using LanguageExt;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trend.Domain.Errors;
+using WebProject.Common.Extensions;
 
 namespace Trend.API.Extensions;
 
@@ -26,9 +27,7 @@ public static class ActionResultExtensions
 
         if (errors is ValidationError validationError)
         {
-            problemDetails.Title = "One or more validation errors occurred.";
-            problemDetails.Extensions = new Dictionary<string, object?>();
-            problemDetails.Extensions.Add("errors", validationError.Errors);
+            return new BadRequestObjectResult(validationError.Errors.ToValidationProblemDetails());
         }
         
         problemDetails.Title = "Bad request";

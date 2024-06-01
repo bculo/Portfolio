@@ -55,6 +55,13 @@ namespace Keycloak.Common
             services.AddScoped<IAuth0ResourceOwnerPasswordFlowService, KeycloakResourceOwnerPasswordFlowClient>();
         }
 
+        public static void RemoveClaimTransformerService(this IServiceCollection services)
+        {
+            var serviceDescriptor = services
+                .FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IClaimsTransformation));
+            services.Remove(serviceDescriptor);
+        }
+        
         public static void UseKeycloakAdminService(this IServiceCollection services, 
             string adminApiBase,
             string realm,

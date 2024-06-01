@@ -12,22 +12,15 @@ namespace Trend.API.Controllers.v1
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class SyncController : ControllerBase
+    public class SyncController(ISyncService syncService) : ControllerBase
     {
-        private readonly ISyncService _syncService;
-
-        public SyncController(ISyncService syncService)
-        {
-            _syncService = syncService;
-        }
-
         [HttpGet("Sync", Name = "Sync")]
-        [Authorize(Roles = AppRoles.ADMIN)]
+        [Authorize(Roles = AppRoles.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Sync(CancellationToken token)
         {
-            var result = await _syncService.ExecuteSync(token);
+            var result = await syncService.ExecuteSync(token);
             return result.ToActionResult();
         }
 
@@ -38,7 +31,7 @@ namespace Trend.API.Controllers.v1
         public async Task<IActionResult> GetSync(string id, CancellationToken token)
         {
             var request = new GetSyncStatusReqDto(id);
-            var result = await _syncService.Get(request, token);
+            var result = await syncService.Get(request, token);
             return result.ToActionResult();
         }
 
@@ -48,7 +41,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatuses(CancellationToken token)
         {
-            return Ok(await _syncService.GetAll(token));
+            return Ok(await syncService.GetAll(token));
         }
         
         [HttpGet("GetSyncStatusWords/{id}", Name = "SyncPolicy")]
@@ -57,7 +50,7 @@ namespace Trend.API.Controllers.v1
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSyncStatusWords(SyncSearchWordsReqDto request, CancellationToken token)
         {
-            var result = await _syncService.GetSyncSearchWords(request, token);
+            var result = await syncService.GetSyncSearchWords(request, token);
             return result.ToActionResult();
         }
     }

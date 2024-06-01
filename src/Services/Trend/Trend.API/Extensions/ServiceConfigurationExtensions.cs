@@ -1,13 +1,8 @@
-﻿using FluentValidation.AspNetCore;
+﻿using System.Globalization;
 using Keycloak.Common;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
-using System.Globalization;
-using Azure.Storage.Blobs;
-using FluentValidation;
-using HealthChecks.Redis;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using Trend.API.Services;
 using Trend.Application;
 using Trend.Application.Configurations.Constants;

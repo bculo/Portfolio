@@ -36,7 +36,7 @@ namespace Trend.Application.Services
             
             var queryPart = builder.Build();
             var result = await client.GetAsync($"/customsearch/v1{queryPart}", token);
-            return await result.HandleResponse<GoogleSearchEngineResponseDto>();
+            return await result.ExtractContentFromResponse<GoogleSearchEngineResponseDto>();
         }
     }
 }

@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Tests.Common.Extensions;
 using Tests.Common.Interfaces.Claims;
 using Tests.Common.Interfaces.Containers;
 using Tests.Common.Services.AuthHandlers;
@@ -34,12 +36,12 @@ namespace Trend.IntegrationTests
             var configurationValues = new Dictionary<string, string>
             {
                 { "MongoOptions:ServerType", "0"},
-                { "MongoOptions:DatabaseName", TrendConstantsTest.DB_NAME },
+                { "MongoOptions:DatabaseName", TrendConstantsTest.DbName },
                 { "MongoOptions:ConnectionString", _mongoDbContainer.GetConnectionString() },
                 { "GoogleSearchOptions:Uri", MockServer.Urls[0] },
                 { "QueueOptions:Address", _mqContainer.GetConnectionString() },
                 { "RedisOptions:ConnectionString", _redisContainer.GetConnectionString() },
-                { "RedisOptions:InstanceName", TrendConstantsTest.REDIS_NAME },
+                { "RedisOptions:InstanceName", TrendConstantsTest.RedisName },
                 { "BlobStorageOptions:ConnectionString", _azuriteContainer.GetConnectionString() }
             };
             
@@ -50,8 +52,7 @@ namespace Trend.IntegrationTests
             builder.UseConfiguration(configuration);
             builder.ConfigureTestServices(services =>
             {
-                services.AddSingleton<IMockClaimSeeder, MockClaimSeeder>();
-                services.AddSingleton<IAuthenticationSchemeProvider, MockJwtSchemeProvider>();
+                services.AddDefaultFakeAuth();
                 services.AddScoped<TrendFixtureService>();
             });
         }

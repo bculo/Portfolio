@@ -9,16 +9,12 @@ using Tests.Common.Interfaces.Claims;
 
 namespace Tests.Common.Services.AuthHandlers;
 
-public class MockCookieAuthenticationHandler : MockBaseAuthenticationHandler
+public class MockCookieAuthenticationHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    IMockClaimSeeder seeder)
+    : MockBaseAuthenticationHandler(options, logger, encoder, seeder)
 {
-    public MockCookieAuthenticationHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options, 
-        ILoggerFactory logger, 
-        UrlEncoder encoder,
-        IMockClaimSeeder seeder) 
-        : base(options, logger, encoder, seeder)
-    {
-    }
-
     protected override string SchemeName => CookieAuthenticationDefaults.AuthenticationScheme;
 }

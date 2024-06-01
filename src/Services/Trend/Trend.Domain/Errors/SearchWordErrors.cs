@@ -1,9 +1,16 @@
 namespace Trend.Domain.Errors;
 
+public static class SearchWordErrorCodes
+{
+    public const string FilterError = "SearchWord.ValidationErrors";
+    public const string NotFound = "SearchWord.NotFound";
+}
+
+
 public static class SearchWordErrors
 {
     public static ValidationError ValidationError(IDictionary<string, string[]> errors) => new(
-        "SearchWord.ValidationErrors", "Validation error occurred", errors);
+        SearchWordErrorCodes.FilterError, "Validation error occurred", errors);
     
-    public static readonly NotFoundError NotFound = new("SearchWord.NotFound", "Search word not found");
+    public static readonly NotFoundError NotFound = new(SearchWordErrorCodes.NotFound, "Search word not found");
 }

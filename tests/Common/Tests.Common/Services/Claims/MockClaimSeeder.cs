@@ -6,32 +6,25 @@ namespace Tests.Common.Services.Claims;
 
 public class MockClaimSeeder : IMockClaimSeeder
 {
-    private readonly Dictionary<UserRole, List<Claim>> _claimDict;
-
-    public MockClaimSeeder()
+    private readonly Dictionary<UserRole, List<Claim>> _claimDict = new()
     {
-        _claimDict = new Dictionary<UserRole, List<Claim>>
         {
-            {
-                UserRole.None, new List<Claim>()
-            },
-            {
-                UserRole.User, new List<Claim>()
-                {
-                    new (ClaimTypes.Role, "User"),
-                    new (ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
-                } 
-            },
-            { 
-                UserRole.Admin, new List<Claim>()
-                {
-                    new (ClaimTypes.Role, "Admin"),
-                    new (ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
-                } 
-            }
-        };
-    }
-        
+            UserRole.None, []
+        },
+        {
+            UserRole.User, [
+                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+            ]
+        },
+        { 
+            UserRole.Admin, [
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+            ]
+        }
+    };
+
     public IEnumerable<Claim> GetClaims(int userTypeId)
     {
         if (!Enum.GetValues<UserRole>().Cast<int>().Contains(userTypeId))

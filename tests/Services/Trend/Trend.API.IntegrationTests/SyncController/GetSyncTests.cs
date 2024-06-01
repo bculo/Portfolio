@@ -38,7 +38,7 @@ public class GetSyncTests : TrendControllerBaseTest
         
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var body = await response.HandleResponse<SyncStatusResDto>();
+        var body = await response.ExtractContentFromResponse<SyncStatusResDto>();
         body.Id.Should().Be(existingInstance.Id);
     }
 }

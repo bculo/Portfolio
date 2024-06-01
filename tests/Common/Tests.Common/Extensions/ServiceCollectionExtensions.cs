@@ -1,3 +1,4 @@
+using Keycloak.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Tests.Common.Interfaces.Claims;
@@ -10,6 +11,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDefaultFakeAuth(this IServiceCollection services)
     {
+        services.RemoveClaimTransformerService();
         services.AddSingleton<IMockClaimSeeder, MockClaimSeeder>();
         services.AddSingleton<IAuthenticationSchemeProvider, MockJwtSchemeProvider>();
 

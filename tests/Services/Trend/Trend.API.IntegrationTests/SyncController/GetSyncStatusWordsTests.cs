@@ -39,7 +39,7 @@ public class GetSyncStatusWordsTests : TrendControllerBaseTest
         
         //Assert
         response.EnsureSuccessStatusCode();
-        var body = await response.HandleResponse<List<SyncSearchWordResDto>>();
+        var body = await response.ExtractContentFromResponse<List<SyncSearchWordResDto>>();
         body.Count.Should().Be(existingInstance.UsedSyncWords.Count);
     }
 }

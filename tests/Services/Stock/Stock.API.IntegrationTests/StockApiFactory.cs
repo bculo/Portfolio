@@ -35,7 +35,7 @@ public class StockApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
             { "ConnectionStrings:StockDatabase", _sqlFixture.GetConnectionString() },
             { "QueueOptions:Address", _mqContainer.GetConnectionString() },
             { "RedisOptions:ConnectionString", _redisContainer.GetConnectionString() },
-            { "RedisOptions:InstanceName", StockTestConstants.REDIS_DB_NAME },
+            { "RedisOptions:InstanceName", StockTestConstants.RedisDbName },
         }.AsConfiguration();
 
         builder.UseConfiguration(configuration);
@@ -59,7 +59,7 @@ public class StockApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         await using var scope = Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<StockDbContext>();
         await dbContext.Database.MigrateAsync();
-        dbContext?.DisposeAsync();
+        await dbContext.DisposeAsync();
         
         _dbConnection = new NpgsqlConnection(_sqlFixture.GetConnectionString());
         await _dbConnection.OpenAsync();

@@ -10,24 +10,26 @@ namespace Http.Common.Extensions
 {
     public static class HttpResponseMessageExtensions
     {
-        public static async Task<T> HandleResponse<T>(this HttpResponseMessage? response, ILogger? logger = null)
+        public static async Task<T> ExtractContentFromResponse<T>(this HttpResponseMessage? response, 
+            ILogger? logger = null)
         {
-            if (response == null)
+            if (response is null)
             {
                 return default!;
             }
 
             if (!response.IsSuccessStatusCode)
             {
-                logger?.LogWarning("Request failed with status code {StatusCode}, Reason: {Reason}", response.StatusCode, response?.ReasonPhrase);
-                return default!;
+                logger?.LogWarning("Request failed with status code {StatusCode}, Reason: {Reason}", 
+                    response.StatusCode, 
+                    response?.ReasonPhrase);
             }
-
-            var stringResponse = await response.Content.ReadAsStringAsync();
+            
+            var stringResponse = await response!.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(stringResponse)!;
         }
 
-        public static async Task<string> HandleResponse(this HttpResponseMessage response, ILogger? logger = null)
+        public static async Task<string> ExtractContentFromResponse(this HttpResponseMessage response, ILogger? logger = null)
         {
             if (!response.IsSuccessStatusCode)
             {

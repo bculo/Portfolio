@@ -10,21 +10,15 @@ using Tests.Common.Interfaces.Claims;
 
 namespace Tests.Common.Services.AuthHandlers;
 
-public abstract class MockBaseAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public abstract class MockBaseAuthenticationHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    IMockClaimSeeder seeder)
+    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
-    private readonly IMockClaimSeeder _seeder;
-    
     protected abstract string SchemeName { get; }
-    
-    protected MockBaseAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, 
-        ILoggerFactory logger, 
-        UrlEncoder encoder,
-        IMockClaimSeeder seeder) 
-        : base(options, logger, encoder)
-    {
-        _seeder = seeder;
-    }
-    
+
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (!Context.Request.Headers.TryGetValue("UserAuthType", out var values))
@@ -41,7 +35,7 @@ public abstract class MockBaseAuthenticationHandler : AuthenticationHandler<Auth
                 AuthenticateResult.Fail(new AuthenticationException("UserAuthType with invalid value provided")));
         }
 
-        var claims = _seeder.GetClaims(userTypeIdentifier);
+        var claims = seeder.GetClaims(userTypeIdentifier);
         var claimIdentity = new ClaimsIdentity(claims, SchemeName);
         var principal = new ClaimsPrincipal(claimIdentity);
         var ticket = new AuthenticationTicket(principal, SchemeName);

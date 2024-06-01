@@ -28,7 +28,7 @@ namespace Crypto.Infrastructure.Information
             
             var response = await client.GetAsync($"info?symbol={symbol}", ct);
             
-            var responseInstance =  await response.HandleResponse<CoinMarketCapRootResponseDto>();
+            var responseInstance =  await response.ExtractContentFromResponse<CoinMarketCapRootResponseDto>();
 
             return MakeClientResponseFlat(responseInstance, symbol);
         }
