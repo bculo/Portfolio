@@ -36,3 +36,6 @@ var host = new HostBuilder()
     .Build();
 
 await host.RunAsync();
+
+//For testing purpose
+public partial class Program { }

@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Tests.Common.Extensions;
-using Tests.Common.Interfaces.Claims;
 using Tests.Common.Interfaces.Containers;
-using Tests.Common.Services.AuthHandlers;
-using Tests.Common.Services.Claims;
 using Tests.Common.Services.Containers;
 using WireMock.Server;
 
