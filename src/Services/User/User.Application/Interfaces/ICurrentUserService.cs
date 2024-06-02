@@ -6,6 +6,5 @@ public interface ICurrentUserService
 {
     void InitializeUser(IEnumerable<Claim> claims);
     Guid GetUserId();
-
     string GetUserName();
 }

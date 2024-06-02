@@ -1,7 +1,5 @@
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using User.Application.Common.Exceptions;
 using User.Application.Entities;
 using User.Application.Persistence;
 
@@ -37,7 +35,7 @@ public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsDto, GetUserD
         _context = context;
     }
     
-    public async Task<GetUserDetailsResponseDto> Handle(GetUserDetailsDto request, CancellationToken cancellationToken)
+    public Task<GetUserDetailsResponseDto> Handle(GetUserDetailsDto request, CancellationToken cancellationToken)
     {
         return null;
     }

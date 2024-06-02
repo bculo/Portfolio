@@ -1,16 +1,9 @@
-﻿using Cryptography.Common.Utils;
-using Google.Protobuf.WellKnownTypes;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Cryptography.Common.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using User.Functions.Options;
 
 namespace User.Functions.Services
@@ -24,9 +17,9 @@ namespace User.Functions.Services
     {
         public IEnumerable<Claim> Claims { get; private set; }
         public bool IsValid { get; private set; }
-        public string FailureReason { get; set; }
+        public string? FailureReason { get; set; }
 
-        protected TokenServiceResult(IEnumerable<Claim> claims, bool isValid, string reasonForFailure)
+        private TokenServiceResult(IEnumerable<Claim> claims, bool isValid, string? reasonForFailure)
         {
             Claims = claims;
             IsValid = isValid;
@@ -40,20 +33,14 @@ namespace User.Functions.Services
 
         public static TokenServiceResult Success(IEnumerable<Claim> claims)
         {
-            return new TokenServiceResult(claims, true, null);
+            return new TokenServiceResult(claims, true, default);
         }
     }
 
-    public class JwtTokenService : ITokenService
+    public class JwtTokenService(ILogger<JwtTokenService> logger, IOptions<JwtValidationOptions> options)
+        : ITokenService
     {
-        private readonly JwtValidationOptions _options;
-        private readonly ILogger<JwtTokenService> _logger;
-
-        public JwtTokenService(ILogger<JwtTokenService> logger, IOptions<JwtValidationOptions> options)
-        {
-            _logger = logger;
-            _options = options.Value;
-        }
+        private readonly JwtValidationOptions _options = options.Value;
 
         public async Task<TokenServiceResult> Validate(string token)
         {
@@ -73,7 +60,7 @@ namespace User.Functions.Services
 
             if (!result.IsValid)
             {
-                _logger.LogWarning(result.Exception.Message);
+                logger.LogWarning(result.Exception.Message);
                 var userExceptionMessage = GetUserExceptionMessage(result.Exception.Message);
                 return TokenServiceResult.Failure(userExceptionMessage);
             }
@@ -83,12 +70,9 @@ namespace User.Functions.Services
 
         private string GetUserExceptionMessage(string message)
         {
-            if(message.Contains("Lifetime validation failed", StringComparison.CurrentCultureIgnoreCase))
-            {
-                return "Authorization token expired";
-            }
-
-            return "Authorization token is not valid";
+            return message.Contains("Lifetime validation failed", StringComparison.CurrentCultureIgnoreCase) 
+                ? "Authorization token expired" 
+                : "Authorization token is not valid";
         }
     }
 }

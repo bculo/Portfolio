@@ -1,29 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Security.Claims;
 using User.Application.Interfaces;
 
 namespace User.Functions.Services
 {
 
-    public class CurrentUserService : ICurrentUserService
+    public class CurrentUserService(IEnumerable<Claim> initialClaims) : ICurrentUserService
     {
-        private IEnumerable<Claim> _claims;
-
-        public CurrentUserService(IEnumerable<Claim> initialClaims)
-        {
-            _claims = initialClaims;
-        }
-
         public Guid GetUserId()
         {
             ClaimGuard();
 
-            var guidAsString = _claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var guidAsString = initialClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             if (guidAsString != null) return Guid.Parse(guidAsString);
             throw new ArgumentNullException(nameof(guidAsString));
         }
@@ -32,7 +19,7 @@ namespace User.Functions.Services
         {
             ClaimGuard();
             
-            var userName = _claims.FirstOrDefault(x => x.Type == "preferred_username")?.Value;
+            var userName = initialClaims.FirstOrDefault(x => x.Type == "preferred_username")?.Value;
             if (string.IsNullOrWhiteSpace(userName))
             {
                 throw new ArgumentNullException(nameof(userName));
@@ -43,12 +30,12 @@ namespace User.Functions.Services
 
         public void InitializeUser(IEnumerable<Claim> claims)
         {
-            _claims = claims;
+            initialClaims = claims;
         }
 
         private void ClaimGuard()
         {
-            if (_claims is null || !_claims.Any())
+            if (initialClaims is null || !initialClaims.Any())
             {
                 throw new InvalidOperationException("User claims already configured");
             }

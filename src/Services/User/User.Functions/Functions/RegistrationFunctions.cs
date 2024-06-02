@@ -1,12 +1,10 @@
 using System.Net;
-using MassTransit.Internals;
 using MediatR;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using User.Application.Features;
 using User.Functions.Extensions;
 using User.Functions.Options;

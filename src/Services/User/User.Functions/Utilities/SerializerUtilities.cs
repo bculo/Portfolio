@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace User.Functions.Utilities;
 
-public class SerializerUtilities
+public static class SerializerUtilities
 {
     public static ObjectSerializer Create()
     {

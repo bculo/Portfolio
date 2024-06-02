@@ -1,36 +1,28 @@
 ﻿using System.Collections.Frozen;
+using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.Functions.Worker.Middleware;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Net;
 using User.Application.Interfaces;
 using User.Functions.Extensions;
 using User.Functions.Services;
 
 namespace User.Functions.Middlewares
 {
-    public class AuthorizationMiddleware : IFunctionsWorkerMiddleware
+    public class AuthorizationMiddleware(ILogger<AuthorizationMiddleware> logger, IServiceProvider provider)
+        : IFunctionsWorkerMiddleware
     {
-        private readonly IServiceProvider _provider;
-        private readonly ILogger<AuthorizationMiddleware> _logger;
-        private readonly FrozenSet<string> _whiteList;
+        private readonly IServiceProvider _provider = provider;
 
-        public AuthorizationMiddleware(ILogger<AuthorizationMiddleware> logger, IServiceProvider provider)
+        private readonly FrozenSet<string> _whiteList = new List<string>
         {
-            _logger = logger;
-            _provider = provider;
-            
-            _whiteList = new List<string>
-            {
-                "RenderOAuth2Redirect",
-                "RenderOpenApiDocument",
-                "RenderSwaggerDocument",
-                "RenderSwaggerUI",
-                "sso-logout"
-            }.ToFrozenSet();
-        }
+            "RenderOAuth2Redirect",
+            "RenderOpenApiDocument",
+            "RenderSwaggerDocument",
+            "RenderSwaggerUI",
+            "sso-logout"
+        }.ToFrozenSet();
 
         public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
         {
@@ -42,7 +34,7 @@ namespace User.Functions.Middlewares
             }
             
             var requestData = await context.GetHttpRequestDataAsync();
-            string bearerToken = GetAuthorizationToken(requestData);
+            var bearerToken = GetAuthorizationToken(requestData);
             if(bearerToken is null)
             {
                 await requestData.DefineResponseMiddleware(HttpStatusCode.Unauthorized, "Authorization token not provided");
@@ -52,7 +44,7 @@ namespace User.Functions.Middlewares
             var tokenService = context.InstanceServices.GetService(typeof(ITokenService)) as ITokenService;
             if (tokenService is null)
             {
-                _logger.LogCritical("ITokenService not registered via DI!!!");
+                logger.LogCritical("ITokenService not registered via DI!!!");
                 await requestData.DefineResponseMiddleware(HttpStatusCode.InternalServerError, "Service not available!");
                 return;
             }
@@ -68,7 +60,7 @@ namespace User.Functions.Middlewares
             var userService = context.InstanceServices.GetService(typeof(ICurrentUserService)) as ICurrentUserService;
             if (userService is null)
             {
-                _logger.LogCritical("IUserService not registered via DI!!!");
+                logger.LogCritical("IUserService not registered via DI!!!");
                 await requestData.DefineResponseMiddleware(HttpStatusCode.InternalServerError, "Service not available!");
                 return;
             }
@@ -78,26 +70,18 @@ namespace User.Functions.Middlewares
             await next(context);
         }
 
-        private string GetAuthorizationToken(HttpRequestData request)
+        private string? GetAuthorizationToken(HttpRequestData request)
         {
-            if (request.Headers.TryGetValues("Authorization", out var bearerTokens))
-            {
-                return bearerTokens.FirstOrDefault();
-            }
-            else
-            {
-                return null;
-            }
+            return request.Headers.TryGetValues("Authorization", out var bearerTokens) 
+                ? bearerTokens.FirstOrDefault() 
+                : null;
         }
 
         private string RemoveBearerPrefix(string bearerToken)
         {
-            if(bearerToken.StartsWith("Bearer ")) 
-            {
-                return bearerToken.Replace("Bearer ", "");
-            }
-
-            return bearerToken;
+            return bearerToken.StartsWith("Bearer ") 
+                ? bearerToken.Replace("Bearer ", "") 
+                : bearerToken;
         }
     }
 }

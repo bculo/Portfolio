@@ -1,6 +1,5 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using MassTransit.Initializers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using User.Application.Common.Options;
@@ -8,37 +7,30 @@ using User.Application.Interfaces;
 
 namespace User.Application.Services;
 
-public class BlobStorage : IBlobStorage
+public class BlobStorage(
+    BlobServiceClient blobClient,
+    IOptions<BlobStorageOptions> options,
+    ILogger<BlobStorage> logger)
+    : IBlobStorage
 {
-    private readonly ILogger<BlobStorage> _logger;
-    private readonly BlobServiceClient _blobClient;
-    private readonly BlobStorageOptions _options;
-    
-    public BlobStorage(BlobServiceClient blobClient, 
-        IOptions<BlobStorageOptions> options,
-        ILogger<BlobStorage> logger)
-    {
-        _blobClient = blobClient;
-        _logger = logger;
-        _options = options.Value;
-    }
+    private readonly BlobStorageOptions _options = options.Value;
 
     public void InitializeContext(string containerName, bool isPublic = false)
     {
         try
         {
             var accessType = isPublic ? PublicAccessType.Blob : PublicAccessType.None;
-            _blobClient.CreateBlobContainer(containerName, accessType);
+            blobClient.CreateBlobContainer(containerName, accessType);
         }
         catch
         {
-            _logger.LogWarning("Container {ContainerName} already created", containerName);
+            logger.LogWarning("Container {ContainerName} already created", containerName);
         }
     }
 
     private BlobClient GetBlobClient(string containerName, string blobIdentifier)
     {
-        return _blobClient.GetBlobContainerClient(containerName)
+        return blobClient.GetBlobContainerClient(containerName)
             .GetBlobClient(blobIdentifier);
     }
 

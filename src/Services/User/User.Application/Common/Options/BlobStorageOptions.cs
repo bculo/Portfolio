@@ -2,7 +2,7 @@ namespace User.Application.Common.Options;
 
 public class BlobStorageOptions
 {
-    public string VerificationContainerName { get; set; }
-    public string ProfileContainerName { get; set; }
-    public string ConnectionString { get; set; }
+    public string VerificationContainerName { get; set; } = default!;
+    public string ProfileContainerName { get; set; } = default!;
+    public string ConnectionString { get; set; }  = default!;
 }
