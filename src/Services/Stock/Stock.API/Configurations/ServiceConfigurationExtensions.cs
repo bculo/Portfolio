@@ -1,5 +1,4 @@
 ﻿using Keycloak.Common;
-using MassTransit;
 using Serilog;
 using Stock.API.Common.CachePolicies;
 using Stock.API.Common.Constants;
@@ -68,13 +67,13 @@ namespace Stock.API.Configurations
         {
             services.AddOutputCache(opt =>
             {
-                opt.AddBasePolicy(policy => policy.Tag(CacheTags.ALL));
+                opt.AddBasePolicy(policy => policy.Tag(CacheTags.All));
 
-                opt.AddPolicy(CachePolicies.STOCK_GET_FILTER, policy => policy.AddPolicy<AuthGetRequestPolicy>()
+                opt.AddPolicy(CachePolicies.StockGetFilter, policy => policy.AddPolicy<AuthGetRequestPolicy>()
                     .Expire(TimeSpan.FromMinutes(30))
-                    .Tag(CacheTags.STOCK_FILTER));
+                    .Tag(CacheTags.StockFilter));
                 
-                opt.AddPolicy(CachePolicies.STOCK_GET_SINGLE, policy => policy.AddPolicy<GetStockRequestPolicy>()
+                opt.AddPolicy(CachePolicies.StockGetSingle, policy => policy.AddPolicy<GetStockRequestPolicy>()
                     .Expire(TimeSpan.FromHours(3)));
             });
         }

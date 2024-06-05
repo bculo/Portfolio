@@ -5,16 +5,9 @@ using Stock.Core.Exceptions.Codes;
 
 namespace Stock.Infrastructure.Localization;
 
-public class LocaleService : ILocale
+public class LocaleService(IStringLocalizerFactory factory) : ILocale
 {
-    private const string DEFAULT_MESSAGE = "Error occurred";
-    
-    private readonly IStringLocalizerFactory _factory;
-    
-    public LocaleService(IStringLocalizerFactory factory)
-    {
-        _factory = factory;
-    }
+    private const string DefaultMessage = "Error occurred";
 
     private IStringLocalizer? GetLocalizer(string code)
     {
@@ -26,18 +19,18 @@ public class LocaleService : ILocale
 
         return codePrefix switch
         {
-            "Validation" => _factory.Create(typeof(ValidationShared)),
+            "Validation" => factory.Create(typeof(ValidationShared)),
             _ => null
         };
     } 
     
     public string Get(string code)
     {
-        return GetLocalizer(code)?.GetString(code) ?? DEFAULT_MESSAGE;
+        return GetLocalizer(code)?.GetString(code) ?? DefaultMessage;
     }
 
     public string Get(ErrorCode error)
     {
-        return GetLocalizer(error.Code)?.GetString(error.Code) ?? DEFAULT_MESSAGE;
+        return GetLocalizer(error.Code)?.GetString(error.Code) ?? DefaultMessage;
     }
 }

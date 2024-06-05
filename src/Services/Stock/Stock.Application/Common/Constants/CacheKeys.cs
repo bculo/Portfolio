@@ -7,11 +7,11 @@ namespace Stock.Application.Common.Constants;
 
 public static class CacheKeys
 {
-    private const string PREFIX = "stock";
+    private const string Prefix = "stock";
     
-    public static string StockItemKey(int id) => $"{PREFIX}:{id}";
+    public static string StockItemKey(int id) => $"{Prefix}:{id}";
     
-    public static string StockItemKey(string symbol) => $"{PREFIX}:{symbol}";
+    public static string StockItemKey(string symbol) => $"{Prefix}:{symbol}";
 
     public static Action<FusionCacheEntryOptions> StockItemKeyOptions(CacheEntrySettings? settings = default)
     {

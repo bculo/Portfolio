@@ -1,5 +1,3 @@
-using Stock.Core.Exceptions.Codes;
-
 namespace Stock.Core.Exceptions;
 
 public class StockCoreAuthException : StockCoreException

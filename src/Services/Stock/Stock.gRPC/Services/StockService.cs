@@ -4,18 +4,11 @@ using Stock.Application.Queries.Stock;
 
 namespace Stock.gRPC.Services;
 
-public class StockService : Stock.StockBase
+public class StockService(IMediator mediator) : Stock.StockBase
 {
-    private readonly IMediator _mediator;
-    
-    public StockService(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-    
     public override async Task<StockItemReply> GetById(GetSingleByIdRequest request, ServerCallContext context)
     {
-        var instance = await _mediator.Send(new GetStockById(request.Id));
+        var instance = await mediator.Send(new GetStockById(request.Id));
 
         return new StockItemReply
         {
@@ -27,7 +20,7 @@ public class StockService : Stock.StockBase
 
     public override async Task<StockItemReply> GetBySymbol(GetBySymbolRequest request, ServerCallContext context)
     {
-        var instance = await _mediator.Send(new GetStockBySymbol(request.Symbol));
+        var instance = await mediator.Send(new GetStockBySymbol(request.Symbol));
         
         return new StockItemReply
         {

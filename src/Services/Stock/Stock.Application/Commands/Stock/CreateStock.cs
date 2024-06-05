@@ -89,7 +89,7 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
 
         await _work.Save(ct);
         
-        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
+        await _outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
         
         return _sqids.Encode(newItem.Id);
     }

@@ -1,11 +1,5 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
-using Stock.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Html.Models;
 

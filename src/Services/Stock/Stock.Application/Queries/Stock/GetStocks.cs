@@ -8,20 +8,12 @@ namespace Stock.Application.Queries.Stock;
 
 public record GetStocks : IRequest<IEnumerable<GetStocksResponse>>;
 
-public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocksResponse>>
+public class GetStocksHandler(IUnitOfWork work, SqidsEncoder<int> sqids)
+    : IRequestHandler<GetStocks, IEnumerable<GetStocksResponse>>
 {
-    private readonly IUnitOfWork _work;
-    private readonly SqidsEncoder<int> _sqids;
-
-    public GetStocksHandler(IUnitOfWork work, SqidsEncoder<int> sqids)
-    {
-        _work = work;
-        _sqids = sqids;
-    }
-
     public async Task<IEnumerable<GetStocksResponse>> Handle(GetStocks request, CancellationToken ct)
     {
-        var stocks = await _work.StockWithPriceTag.GetAll(ct);
+        var stocks = await work.StockWithPriceTag.GetAll(ct);
         return MapToResponse(stocks);
     }
 
@@ -33,7 +25,7 @@ public class GetStocksHandler : IRequestHandler<GetStocks, IEnumerable<GetStocks
             Price = item.Price == -1 ? default(double?) : (double)item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
-            Id = _sqids.Encode(item.StockId),
+            Id = sqids.Encode(item.StockId),
             Created = item.CreatedAt
         });
     }

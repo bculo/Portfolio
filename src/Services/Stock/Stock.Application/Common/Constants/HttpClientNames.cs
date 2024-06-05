@@ -2,6 +2,6 @@
 {
     public static class HttpClientNames
     {
-        public const string MARKET_WATCH = "market-watch";
+        public const string MarketWatch = "market-watch";
     }
 }

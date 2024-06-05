@@ -1,5 +1,4 @@
 using Keycloak.Common;
-using MassTransit;
 using Serilog;
 using Stock.Application;
 using Stock.Application.Interfaces.User;

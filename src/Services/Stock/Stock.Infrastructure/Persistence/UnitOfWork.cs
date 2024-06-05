@@ -3,27 +3,16 @@ using Stock.Application.Interfaces.Repositories;
 
 namespace Stock.Infrastructure.Persistence;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(IServiceProvider provider, StockDbContext context) : IUnitOfWork
 {
-    private readonly StockDbContext _context;
-    
-    public IStockRepository StockRepo { get; }
-    public IStockPriceRepository StockPriceRepo { get; }
+    public IStockRepository StockRepo { get; } = provider.GetRequiredService<IStockRepository>();
+    public IStockPriceRepository StockPriceRepo { get; } = provider.GetRequiredService<IStockPriceRepository>();
+    public IStockWithPriceTagReadRepository StockWithPriceTag { get; } = 
+        provider.GetRequiredService<IStockWithPriceTagReadRepository>();
 
-    public IStockWithPriceTagReadRepository StockWithPriceTag { get; }
 
-    
-    public UnitOfWork(IServiceProvider provider, StockDbContext context)
-    {
-        _context = context;
-
-        StockRepo = provider.GetRequiredService<IStockRepository>();
-        StockPriceRepo = provider.GetRequiredService<IStockPriceRepository>();
-        StockWithPriceTag = provider.GetRequiredService<IStockWithPriceTagReadRepository>();
-    }
-    
     public async Task Save(CancellationToken cls)
     {
-        await _context.SaveChangesAsync(cls);
+        await context.SaveChangesAsync(cls);
     }
 }

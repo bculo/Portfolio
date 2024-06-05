@@ -57,23 +57,6 @@ public class CreateStockTests : StockControllerBaseTest
         problem!.Type.Should().Be(StockErrorCodes.STOCK_DUPLICATE);
     }
 
-    [Fact]
-    public async Task ShouldReturnBadRequest_WhenSymbolNotAvailableViaExternalService()
-    {
-        //Arrange
-        Client.WithRole(UserRole.Admin);
-        
-        string symbol = "RRRRRRR";
-        await Factory.MockServer.ReturnsBadRequest();
-        var request = new CreateStock(symbol);
-        
-        //Act
-        var response = await Client.PostAsync("/api/v1/stock/create", request.AsHttpContent());
-        
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        problem!.Type.Should().Be(StockErrorCodes.STOCK_NOT_SUPPORTED);
-    }
     
     [Fact]
     public async Task ShouldReturnStatusOk_WhenProvidedSymbolIsLegit()

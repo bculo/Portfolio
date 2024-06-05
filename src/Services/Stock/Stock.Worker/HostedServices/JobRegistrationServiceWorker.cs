@@ -3,26 +3,23 @@ using Stock.Worker.Jobs;
 
 namespace Stock.Worker.HostedServices
 {
-    public class JobRegistrationServiceWorker : BackgroundService
+    public class JobRegistrationServiceWorker(ILogger<JobRegistrationServiceWorker> logger, IServiceProvider provider)
+        : BackgroundService
     {
-        private readonly ILogger<JobRegistrationServiceWorker> _logger;
-        private readonly IServiceProvider _provider;
-
-        public JobRegistrationServiceWorker(ILogger<JobRegistrationServiceWorker> logger, IServiceProvider provider)
-        {
-            _logger = logger;
-            _provider = provider;
-        }
-
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("StartAsync method called in Background service {WorkerName}", nameof(JobRegistrationServiceWorker));
+            logger.LogInformation(
+                "StartAsync method called in Background service {WorkerName}", 
+                nameof(JobRegistrationServiceWorker));
+            
             return base.StartAsync(cancellationToken);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("StopAsync method called in Background service {WorkerName}", nameof(JobRegistrationServiceWorker));
+            logger.LogInformation(
+                "StopAsync method called in Background service {WorkerName}",
+                nameof(JobRegistrationServiceWorker));
             return base.StopAsync(cancellationToken);
         }
         
@@ -30,7 +27,7 @@ namespace Stock.Worker.HostedServices
         {
             try
             {
-                using var scope = _provider.CreateScope();
+                using var scope = provider.CreateScope();
                 var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
                 var joManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
 
@@ -39,12 +36,12 @@ namespace Stock.Worker.HostedServices
                     x => x.InitializeUpdateProcedure(),
                     configuration["RecurringJobsOptions:CreateBatchJobCron"]);
 
-                _logger.LogInformation("A Hangfire job with identifier {Identifier} successfully registered", 
+                logger.LogInformation("A Hangfire job with identifier {Identifier} successfully registered", 
                     configuration["RecurringJobsOptions:CreateBatchJobIdentifier"]);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, e.Message);
+                logger.LogError(e, e.Message);
             }
 
             return Task.CompletedTask;

@@ -68,7 +68,7 @@ public class ChangeStockStatusHandler : IRequestHandler<ChangeStockStatus>
         await _work.Save(ct);
         
         await _outputCache.EvictByTagAsync(request.Id, ct);
-        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
+        await _outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
     }
 
     private async Task PublishStatusChangedEvent(StockEntity entity, CancellationToken ct)

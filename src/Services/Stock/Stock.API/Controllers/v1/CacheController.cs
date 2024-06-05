@@ -10,21 +10,14 @@ namespace Stock.API.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class CacheController : ControllerBase
+public class CacheController(ISender mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public CacheController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    [Authorize(Roles = AppRoles.ADMIN)]
+    [Authorize(Roles = AppRoles.Admin)]
     [HttpDelete("EvictAll", Name = "EvictAll")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> EvictAll(CancellationToken ct)
     {
-        await _mediator.Send(new EvictAllOutputCache(), ct);
+        await mediator.Send(new EvictAllOutputCache(), ct);
         return NoContent();
     }
 }

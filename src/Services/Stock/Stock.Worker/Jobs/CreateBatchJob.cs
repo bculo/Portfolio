@@ -8,18 +8,11 @@ namespace Stock.Worker.Jobs
         Task InitializeUpdateProcedure();
     }
 
-    public class CreateBatchJob : ICreateBatchJob
+    public class CreateBatchJob(ISender mediator) : ICreateBatchJob
     {
-        private readonly IMediator _mediator;
-
-        public CreateBatchJob(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         public async Task InitializeUpdateProcedure()
         {
-            await _mediator.Send(new CreateStockUpdateBatches(), default);
+            await mediator.Send(new CreateStockUpdateBatches(), default);
         }
     }
 }

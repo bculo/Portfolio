@@ -7,15 +7,11 @@ using Stock.Core.Models.Common;
 
 namespace Stock.Infrastructure.Persistence.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<T>(StockDbContext dbContext) : IBaseRepository<T>
+        where T : class
     {
-        public StockDbContext Context { get; }
-        public DbSet<T> Set => Context.Set<T>();
-
-        public BaseRepository(StockDbContext dbContext)
-        {
-            Context = dbContext;
-        }
+        protected readonly StockDbContext Context = dbContext;
+        protected DbSet<T> Set => Context.Set<T>();
 
         public async Task<List<T>> GetAll(bool track = false, CancellationToken ct = default)
         {

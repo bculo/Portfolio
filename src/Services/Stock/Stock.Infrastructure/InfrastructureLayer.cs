@@ -131,7 +131,7 @@ namespace Stock.Infrastructure
             var timeout = configuration.GetValue<int>("MarketWatchOptions:Timeout");
             
             services.AddTransient<ProxyHttpMessageHandler>();
-            services.AddHttpClient(HttpClientNames.MARKET_WATCH, client =>
+            services.AddHttpClient(HttpClientNames.MarketWatch, client =>
                 {
                     client.BaseAddress = new Uri(baseAddress);
                     client.Timeout = TimeSpan.FromSeconds(timeout);

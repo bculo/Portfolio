@@ -20,7 +20,7 @@ public class ChangeStockStatusTests : StockControllerBaseTest
     public async Task ShouldReturnStatusOk_WhenStatusUpdatedSuccessfully()
     {
         //Arrange
-        Client.WithRole(UserRole.User);
+        Client.WithRole(UserRole.Admin);
         var symbol = "TSLA";
         var (_, id) = await Helper.CreateWithEncodedId(symbol);
 
@@ -37,7 +37,7 @@ public class ChangeStockStatusTests : StockControllerBaseTest
     public async Task ShouldReturnStatusNotFound_WhenProblemOccursOnStatusUpdate()
     {
         //Arrange
-        Client.WithRole(UserRole.User);
+        Client.WithRole(UserRole.Admin);
         string id = Guid.NewGuid().ToString();
 
         var command = new ChangeStockStatus(id);

@@ -3,9 +3,5 @@ using Stock.Core.Models.Stock;
 
 namespace Stock.Infrastructure.Persistence.Repositories;
 
-public class StockPriceRepository : BaseRepository<StockPriceEntity>, IStockPriceRepository
-{
-    public StockPriceRepository(StockDbContext dbContext) : base(dbContext)
-    {
-    }
-}
+public class StockPriceRepository(StockDbContext dbContext)
+    : BaseRepository<StockPriceEntity>(dbContext), IStockPriceRepository;

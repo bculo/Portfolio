@@ -63,25 +63,17 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
     }
 }
 
-public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
+public class FilterStocksHandler(
+    IUnitOfWork work,
+    SqidsEncoder<int> sqids) : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
 {
-    private readonly IUnitOfWork _work;
-    private readonly SqidsEncoder<int> _sqids;
-
-    public FilterStocksHandler(IUnitOfWork work,
-        SqidsEncoder<int> sqids)
-    {
-        _work = work;
-        _sqids = sqids;
-    }
-
     public async Task<PageResultDto<FilterStockResponseItem>> Handle(
         FilterStocks request, 
         CancellationToken ct)
     {
         var expressions = BuildExpressionTree(request); 
         
-        var page = await _work.StockWithPriceTag.PageMatchAll(
+        var page = await work.StockWithPriceTag.PageMatchAll(
             expressions,
             request.SortBy ?? new SortBy(nameof(StockWithPriceTag.Price), SortDirection.Ascending),
             request.ToPageQuery(),
@@ -111,7 +103,7 @@ public class FilterStocksHandler : IRequestHandler<FilterStocks, PageResultDto<F
             Price = item.Price == -1 ? default(double?) : (double)item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
-            Id = _sqids.Encode(item.StockId),
+            Id = sqids.Encode(item.StockId),
             Created = item.CreatedAt
         };
     }

@@ -57,7 +57,7 @@ public class GetStockRequestPolicy : IOutputCachePolicy
 
         if (string.IsNullOrEmpty(stockTag)) return; 
         context.Tags.Add(stockTag);
-        context.Tags.Add(CacheTags.STOCK_SINGLE);
+        context.Tags.Add(CacheTags.StockSingle);
     }
     
     private bool AttemptOutputCaching(OutputCacheContext context)

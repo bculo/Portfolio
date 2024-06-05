@@ -28,26 +28,17 @@ public class GetStockBySymbolValidator : AbstractValidator<GetStockBySymbol>
     }
 }
 
-public class GetStockBySymbolHandler : IRequestHandler<GetStockBySymbol, GetStockBySymbolResponse>
+public class GetStockBySymbolHandler(
+    IUnitOfWork work,
+    SqidsEncoder<int> sqids,
+    IFusionCache fusionCache)
+    : IRequestHandler<GetStockBySymbol, GetStockBySymbolResponse>
 {
-    private readonly IUnitOfWork _work;
-    private readonly SqidsEncoder<int> _sqids;
-    private readonly IFusionCache _fusionCache;
-
-    public GetStockBySymbolHandler(IUnitOfWork work, 
-        SqidsEncoder<int> sqids, 
-        IFusionCache fusionCache)
-    {
-        _work = work;
-        _sqids = sqids;
-        _fusionCache = fusionCache;
-    }
-
     public async Task<GetStockBySymbolResponse> Handle(GetStockBySymbol request, CancellationToken ct)
     {
-        var instance = await _fusionCache.GetOrSetAsync(
+        var instance = await fusionCache.GetOrSetAsync(
             CacheKeys.StockItemKey(request.Symbol),
-            token => _work.StockWithPriceTag.First(i => i.Symbol.ToLower() == request.Symbol.ToLower(), ct: token),
+            token => work.StockWithPriceTag.First(i => i.Symbol.ToLower() == request.Symbol.ToLower(), ct: token),
             CacheKeys.StockItemKeyOptions(),
             ct
         );
@@ -68,7 +59,7 @@ public class GetStockBySymbolHandler : IRequestHandler<GetStockBySymbol, GetStoc
             Price = item.Price == -1 ? default(double?) : (double)item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
-            Id = _sqids.Encode(item.StockId),
+            Id = sqids.Encode(item.StockId),
             Created = item.CreatedAt
         };
     }

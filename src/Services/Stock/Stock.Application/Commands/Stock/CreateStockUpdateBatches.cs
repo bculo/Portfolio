@@ -11,50 +11,36 @@ namespace Stock.Application.Commands.Stock;
 
 public record CreateStockUpdateBatches : IRequest<CreateStockUpdateBatchesResponse>;
 
-public class CreateStockUpdateBatchesHandler 
+public class CreateStockUpdateBatchesHandler(
+    IPublishEndpoint endpoint,
+    ILogger<CreateStockUpdateBatchesHandler> logger,
+    IUnitOfWork work,
+    IOptionsSnapshot<BatchUpdateOptions> options,
+    IDateTimeProvider timeProvider)
     : IRequestHandler<CreateStockUpdateBatches, CreateStockUpdateBatchesResponse>
 {
-    private const int TIME_DIFFERENCE = 3;
-    private const int DEFAULT_BATCH_SIZE = 5;
-    
-    private readonly IPublishEndpoint _endpoint;
-    private readonly ILogger<CreateStockUpdateBatchesHandler> _logger;
-    private readonly IUnitOfWork _work;
-    private readonly IDateTimeProvider _timeProvider;
-    private readonly IOptionsSnapshot<BatchUpdateOptions> _options;
-
-    public CreateStockUpdateBatchesHandler(IPublishEndpoint endpoint,
-        ILogger<CreateStockUpdateBatchesHandler> logger,
-        IUnitOfWork work,
-        IOptionsSnapshot<BatchUpdateOptions> options, 
-        IDateTimeProvider timeProvider)
-    {
-        _logger = logger;
-        _endpoint = endpoint;
-        _options = options;
-        _timeProvider = timeProvider;
-        _work = work;
-    }
+    private const int TimeDifference = 3;
+    private const int DefaultBatchSize = 5;
 
     public async Task<CreateStockUpdateBatchesResponse> Handle(
         CreateStockUpdateBatches request, 
         CancellationToken ct)
     {
-        if (!_options.Value.IgnoreExchangeActiveTime && !IsUsStockExchangeActive())
+        if (!options.Value.IgnoreExchangeActiveTime && !IsUsStockExchangeActive())
         {
-            _logger.LogTrace("US stock exchange is closed");
+            logger.LogTrace("US stock exchange is closed");
             return new CreateStockUpdateBatchesResponse(0);
         }
         
         var symbols = await GetSymbols();
         if (!symbols.Any())
         {
-            _logger.LogWarning("Stock symbols not found");
+            logger.LogWarning("Stock symbols not found");
             return new CreateStockUpdateBatchesResponse(0);
         }
 
         var batches = CreateBatches(symbols);
-        _logger.LogTrace("Num of batches {NumberOfBatches}, prepared for update", batches.Count);
+        logger.LogTrace("Num of batches {NumberOfBatches}, prepared for update", batches.Count);
 
         await PublishBatches(batches, ct);
         return new CreateStockUpdateBatchesResponse(batches.Count);
@@ -62,7 +48,7 @@ public class CreateStockUpdateBatchesHandler
 
     private bool IsUsStockExchangeActive()
     {
-        var utcTime = _timeProvider.Utc;
+        var utcTime = timeProvider.Utc;
         if (utcTime.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
         {
             return false;
@@ -78,22 +64,22 @@ public class CreateStockUpdateBatchesHandler
     {
         foreach (var (_, symbols) in batches)
         {
-            await _endpoint.Publish(new UpdateBatchPrepared
+            await endpoint.Publish(new UpdateBatchPrepared
             {
                 Symbols = symbols
             }, ct);
         }
 
-        await _work.Save(ct);
+        await work.Save(ct);
     }
 
     private Dictionary<int, List<string>> CreateBatches(List<string> symbols)
     {
-        var batchSize = _options.Value.BatchSize;
+        var batchSize = options.Value.BatchSize;
         if (batchSize <= 0)
         {
-            _logger.LogWarning("BatchSize option is less or equal to zero. Check application settings!");
-            batchSize = DEFAULT_BATCH_SIZE;
+            logger.LogWarning("BatchSize option is less or equal to zero. Check application settings!");
+            batchSize = DefaultBatchSize;
         }
 
         var batches = new Dictionary<int, List<string>>();
@@ -112,7 +98,7 @@ public class CreateStockUpdateBatchesHandler
 
     private async Task<List<string>> GetSymbols()
     {
-        var stockItems = await _work.StockRepo.Filter(i => i.IsActive == true);
+        var stockItems = await work.StockRepo.Filter(i => i.IsActive == true);
         
         return stockItems
             .Select(i => i.Symbol)

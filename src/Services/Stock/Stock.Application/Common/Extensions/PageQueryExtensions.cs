@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Stock.Application.Common.Models;
 using Stock.Core.Models.Common;
 

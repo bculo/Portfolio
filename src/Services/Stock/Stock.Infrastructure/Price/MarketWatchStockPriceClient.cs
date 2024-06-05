@@ -32,7 +32,7 @@ namespace Stock.Infrastructure.Price
         {
             ArgumentException.ThrowIfNullOrEmpty(symbol);
 
-            var client = _factory.CreateClient(HttpClientNames.MARKET_WATCH);
+            var client = _factory.CreateClient(HttpClientNames.MarketWatch);
             var response = await client.GetAsync($"investing/stock/{symbol}?mod=mw_quote_tab", ct);
             if (!response.IsSuccessStatusCode)
             {

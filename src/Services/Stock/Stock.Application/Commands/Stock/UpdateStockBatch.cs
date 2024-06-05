@@ -79,7 +79,7 @@ public class UpdateStockBatchHandler : IRequestHandler<UpdateStockBatch, UpdateS
         
         await _work.Save(ct);
         
-        await _outputCache.EvictByTagAsync(CacheTags.STOCK_FILTER, ct);
+        await _outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
         
         return new UpdateStockBatchResponse(assetsToUpdate.Count, assetsWithFreshPriceTag.Count);
     }

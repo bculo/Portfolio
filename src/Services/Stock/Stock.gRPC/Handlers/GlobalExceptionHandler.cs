@@ -6,15 +6,8 @@ using Stock.gRPC.Handlers.Models;
 
 namespace Stock.gRPC.Handlers;
 
-public class GlobalExceptionHandler : Interceptor
+public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : Interceptor
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger;
-
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
-
     public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, ServerCallContext context,
         UnaryServerMethod<TRequest, TResponse> continuation)
     {
@@ -24,7 +17,7 @@ public class GlobalExceptionHandler : Interceptor
         }
         catch (Exception exception)
         {
-            _logger.LogError("Exception occured: {Exception}", exception);
+            logger.LogError("Exception occured: {Exception}", exception);
             
             if (exception is StockCoreException coreException)
             {

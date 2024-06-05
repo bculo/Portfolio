@@ -26,35 +26,26 @@ public class GetStockByIdValidator : AbstractValidator<GetStockById>
     }
 }
 
-public class GetStockByIdHandler : IRequestHandler<GetStockById, GetStockByIdResponse>
+public class GetStockByIdHandler(
+    ILogger<GetStockByIdHandler> logger,
+    IUnitOfWork work,
+    SqidsEncoder<int> sqids,
+    IFusionCache cache)
+    : IRequestHandler<GetStockById, GetStockByIdResponse>
 {
-    private readonly IUnitOfWork _work;
-    private readonly SqidsEncoder<int> _sqids;
-    private readonly IFusionCache _cache;
-    private readonly ILogger<GetStockByIdHandler> _logger;
+    private readonly ILogger<GetStockByIdHandler> _logger = logger;
 
-    public GetStockByIdHandler(ILogger<GetStockByIdHandler> logger, 
-        IUnitOfWork work, 
-        SqidsEncoder<int> sqids,
-        IFusionCache cache)
-    {
-        _logger = logger;
-        _work = work;
-        _sqids = sqids;
-        _cache = cache;
-    }
-    
     public async Task<GetStockByIdResponse> Handle(GetStockById request, CancellationToken ct)
     {
-        var entityId = _sqids.DecodeSingle(request.Id);
+        var entityId = sqids.DecodeSingle(request.Id);
         if (entityId == default(long))
         {
             throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(request.Id));
         }
 
-        var entity = await _cache.GetOrSetAsync(
+        var entity = await cache.GetOrSetAsync(
             CacheKeys.StockItemKey(entityId),
-            token => _work.StockWithPriceTag.First(i => i.StockId == entityId, 
+            token => work.StockWithPriceTag.First(i => i.StockId == entityId, 
                 orderBy: i => i.OrderByDescending(x => x.CreatedAt),
                 ct: token),
             CacheKeys.StockItemKeyOptions(),
@@ -76,7 +67,7 @@ public class GetStockByIdHandler : IRequestHandler<GetStockById, GetStockByIdRes
             Price = item.Price == -1 ? default(double?) : (double)item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
-            Id = _sqids.Encode(item.StockId),
+            Id = sqids.Encode(item.StockId),
             Created = item.CreatedAt
         };
     }
