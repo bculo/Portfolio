@@ -7,14 +7,14 @@ namespace User.Application.Features;
 
 public record GetUserDetailsDto : IRequest<GetUserDetailsResponseDto>
 {
-    public Guid UserId { get; set; }
+    public Guid UserId { get; init; }
 }
 
 public record GetUserDetailsResponseDto
 {
-    public string UserName { get; set; } = default!;
-    public string FirstName { get; set; } = default!;
-    public string LastName { get; set; } = default!;
+    public string UserName { get; init; } = default!;
+    public string FirstName { get; init; } = default!;
+    public string LastName { get; init; } = default!;
 }
 
 public class GetUserDetailsDtoValidator : AbstractValidator<GetUserDetailsDto>
@@ -26,15 +26,11 @@ public class GetUserDetailsDtoValidator : AbstractValidator<GetUserDetailsDto>
     }
 }
 
-public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsDto, GetUserDetailsResponseDto>
+public class GetUserDetailsHandler(UserDbContext context)
+    : IRequestHandler<GetUserDetailsDto, GetUserDetailsResponseDto>
 {
-    private readonly UserDbContext _context;
+    private readonly UserDbContext _context = context;
 
-    public GetUserDetailsHandler(UserDbContext context)
-    {
-        _context = context;
-    }
-    
     public Task<GetUserDetailsResponseDto> Handle(GetUserDetailsDto request, CancellationToken cancellationToken)
     {
         return null;

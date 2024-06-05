@@ -1,7 +1,7 @@
-﻿using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
-using System.Net;
+﻿using System.Net;
 using MediatR;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -9,7 +9,6 @@ using User.Application.Features;
 using User.Application.Interfaces;
 using User.Functions.Extensions;
 using User.Functions.Options;
-using User.Functions.Services;
 
 namespace User.Functions.Functions
 {

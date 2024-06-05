@@ -37,7 +37,9 @@ namespace User.Functions.Middlewares
             var bearerToken = GetAuthorizationToken(requestData);
             if(bearerToken is null)
             {
-                await requestData.DefineResponseMiddleware(HttpStatusCode.Unauthorized, "Authorization token not provided");
+                await requestData.DefineResponseMiddleware(
+                    HttpStatusCode.Unauthorized, 
+                    "Authorization token not provided");
                 return;
             }
 
@@ -45,7 +47,9 @@ namespace User.Functions.Middlewares
             if (tokenService is null)
             {
                 logger.LogCritical("ITokenService not registered via DI!!!");
-                await requestData.DefineResponseMiddleware(HttpStatusCode.InternalServerError, "Service not available!");
+                await requestData.DefineResponseMiddleware(
+                    HttpStatusCode.InternalServerError, 
+                    "Service not available!");
                 return;
             }
 
@@ -53,7 +57,9 @@ namespace User.Functions.Middlewares
             var tokenValidationResult = await tokenService.Validate(tokenWithoutPrefix);
             if (!tokenValidationResult.IsValid)
             {
-                await requestData.DefineResponseMiddleware(HttpStatusCode.Unauthorized, tokenValidationResult.FailureReason);
+                await requestData.DefineResponseMiddleware(
+                    HttpStatusCode.Unauthorized, 
+                    tokenValidationResult.FailureReason);
                 return;
             }
 
@@ -61,7 +67,9 @@ namespace User.Functions.Middlewares
             if (userService is null)
             {
                 logger.LogCritical("IUserService not registered via DI!!!");
-                await requestData.DefineResponseMiddleware(HttpStatusCode.InternalServerError, "Service not available!");
+                await requestData.DefineResponseMiddleware(
+                    HttpStatusCode.InternalServerError, 
+                    "Service not available!");
                 return;
             }
 

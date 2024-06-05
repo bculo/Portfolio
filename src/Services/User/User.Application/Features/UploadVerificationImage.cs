@@ -17,9 +17,9 @@ public record UploadVerificationImageFormData
 
 public record UploadVerificationImageDto : IRequest
 {
-    public byte[] Image { get; set; } = default!;
-    public string ContentType { get; set; } = default!;
-    public string Name { get; set; } = default!;
+    public byte[] Image { get; init; } = default!;
+    public string ContentType { get; init; } = default!;
+    public string Name { get; init; } = default!;
 }
 
 public class UploadVerificationImageDtoValidator : AbstractValidator<UploadVerificationImageDto>
