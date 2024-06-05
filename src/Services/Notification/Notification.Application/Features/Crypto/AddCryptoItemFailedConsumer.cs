@@ -4,14 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Notification.Application.Features.Crypto;
 
-public class AddCryptoItemFailedConsumer : IConsumer<AddItemFailed>
+public class AddCryptoItemFailedConsumer(ILogger<AddCryptoItemFailedConsumer> logger) : IConsumer<AddItemFailed>
 {
-    private readonly ILogger<AddCryptoItemFailedConsumer> _logger;
-
-    public AddCryptoItemFailedConsumer(ILogger<AddCryptoItemFailedConsumer> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<AddCryptoItemFailedConsumer> _logger = logger;
 
     public Task Consume(ConsumeContext<AddItemFailed> context)
     {

@@ -8,29 +8,20 @@ namespace Notification.Application.Features.Trend;
 
 public record SendSyncExecutedNotification(DateTime Time) : IRequest;
 
-public class SendSyncExecutedNotificationHandler : IRequestHandler<SendSyncExecutedNotification>
+public class SendSyncExecutedNotificationHandler(
+    INotificationService notification,
+    IDateTimeProvider timeProvider,
+    ILogger<SendSyncExecutedNotificationHandler> logger)
+    : IRequestHandler<SendSyncExecutedNotification>
 {
-    private readonly IDateTimeProvider _timeProvider;
-    private readonly INotificationService _notification;
-    private readonly ILogger<SendSyncExecutedNotificationHandler> _logger;
-
-    public SendSyncExecutedNotificationHandler(INotificationService notification,
-        IDateTimeProvider timeProvider,
-        ILogger<SendSyncExecutedNotificationHandler> logger)
-    {
-        _notification = notification;
-        _timeProvider = timeProvider;
-        _logger = logger;
-    }
-
     public async Task Handle(SendSyncExecutedNotification request, CancellationToken cancellationToken)
     {
-        if ((_timeProvider.Utc - request.Time).Minutes > 5)
+        if ((timeProvider.Utc - request.Time).Minutes > 5)
         {
-            _logger.LogWarning("Old sync event fetched");
+            logger.LogWarning("Old sync event fetched");
             return;
         }
         
-        await _notification.NotifyAll(TrendNotifications.SyncExecuted);
+        await notification.NotifyAll(TrendNotifications.SyncExecuted);
     }
 }

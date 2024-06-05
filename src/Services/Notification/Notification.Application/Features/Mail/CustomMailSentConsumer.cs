@@ -4,15 +4,10 @@ using MediatR;
 
 namespace Notification.Application.Features.Mail;
 
-public class CustomMailSentConsumer : IConsumer<CustomMailSent>
+public class CustomMailSentConsumer(IMediator mediator) : IConsumer<CustomMailSent>
 {
-    private readonly IMediator _mediator;
+    private readonly IMediator _mediator = mediator;
 
-    public CustomMailSentConsumer(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-    
     public async Task Consume(ConsumeContext<CustomMailSent> context)
     {
         var instance = context.Message;

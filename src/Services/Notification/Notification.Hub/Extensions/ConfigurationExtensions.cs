@@ -1,8 +1,6 @@
-using Events.Common.Trend;
 using Keycloak.Common;
 using MassTransit;
 using Notification.Application;
-using Notification.Application.Features.Crypto;
 using Notification.Application.Features.Stock;
 using Notification.Application.Features.Trend;
 using Notification.Application.Interfaces.Notifications;

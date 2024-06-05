@@ -6,18 +6,11 @@ using Notification.Hub.Interfaces;
 namespace Notification.Hub
 {
     [Authorize]
-    public class PortfolioHub : Hub<ISignalRClient>
+    public class PortfolioHub(ILogger<PortfolioHub> logger) : Hub<ISignalRClient>
     {
-        private readonly ILogger<PortfolioHub> _logger;
-
-        public PortfolioHub(ILogger<PortfolioHub> logger)
-        {
-            _logger = logger;
-        }
-        
         public override Task OnConnectedAsync()
         {
-            _logger.LogTrace("Connection id {ConnectionId} connected", Context.ConnectionId);
+            logger.LogTrace("Connection id {ConnectionId} connected", Context.ConnectionId);
             
             return base.OnConnectedAsync();
         }
@@ -34,7 +27,7 @@ namespace Notification.Hub
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            _logger.LogTrace("Connection id {ConnectionId} disconnected", Context.ConnectionId);
+            logger.LogTrace("Connection id {ConnectionId} disconnected", Context.ConnectionId);
 
             return base.OnDisconnectedAsync(exception);
         }
