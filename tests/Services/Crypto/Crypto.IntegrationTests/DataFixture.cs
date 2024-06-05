@@ -7,7 +7,7 @@ namespace Crypto.IntegrationTests;
 public class DataFixture
 {
     private readonly IUnitOfWork _work;
-    private readonly Fixture _fixture = FixtureExtensions.GetFixture();
+    private readonly Fixture _fixture = new Fixture().Configure();
 
     public DataFixture(IUnitOfWork work)
     {

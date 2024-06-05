@@ -21,7 +21,7 @@ namespace Crypto.IntegrationTests.Common
         {
             Factory = factory;
             Client = factory.Client;
-            MockFixture = FixtureExtensions.GetFixture();
+            MockFixture = new Fixture().Configure();
         }
 
         public virtual async Task DisposeAsync()
