@@ -8,7 +8,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
         public AddNewCommandValidator()
         {
             RuleFor(i => i.Symbol)
-                .Matches(RegexConstants.SYMBOL)
+                .Matches(RegexConstants.Symbol)
                 .NotEmpty();
         }
     }

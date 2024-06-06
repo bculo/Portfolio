@@ -10,30 +10,19 @@ using Time.Abstract.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 {
-    public class UpdatePriceAllCommandHandler : IRequestHandler<UpdatePriceAllCommand, UpdatePriceAllResponse>
+    public class UpdatePriceAllCommandHandler(
+        IUnitOfWork work,
+        ICryptoPriceService priceService,
+        IPublishEndpoint publish,
+        ILogger<UpdatePriceAllCommandHandler> logger,
+        IDateTimeProvider provider)
+        : IRequestHandler<UpdatePriceAllCommand, UpdatePriceAllResponse>
     {
-        private readonly IUnitOfWork _work;
-        private readonly ICryptoPriceService _priceService;
-        private readonly IPublishEndpoint _publish;
-        private readonly IDateTimeProvider _provider;
-        private readonly ILogger<UpdatePriceAllCommandHandler> _logger;
-
-        public UpdatePriceAllCommandHandler(IUnitOfWork work,
-            ICryptoPriceService priceService,
-            IPublishEndpoint publish,
-            ILogger<UpdatePriceAllCommandHandler> logger, 
-            IDateTimeProvider provider)
-        {
-            _work = work;
-            _priceService = priceService;
-            _publish = publish;
-            _logger = logger;
-            _provider = provider;
-        }
+        private readonly ILogger<UpdatePriceAllCommandHandler> _logger = logger;
 
         public async Task<UpdatePriceAllResponse> Handle(UpdatePriceAllCommand request, CancellationToken ct)
         {
-            var entities = await _work.CryptoRepo.GetAll(ct: ct);
+            var entities = await work.CryptoRepo.GetAll(ct: ct);
             if (entities.Count == 0)
             {
                 return new UpdatePriceAllResponse { NumberOfUpdates = 0 };
@@ -41,12 +30,12 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
             var entityDict = entities.ToDictionary(x => x.Symbol, y => y);
             var symbols = entityDict.Keys.ToList();
-            var priceResponses = await _priceService.GetPriceInfo(symbols, ct);
+            var priceResponses = await priceService.GetPriceInfo(symbols, ct);
 
             var (prices, events) = GetInstances(priceResponses, entityDict);
 
-            await _work.CryptoPriceRepo.BulkInsert(prices, ct);
-            await _work.Commit(ct);
+            await work.CryptoPriceRepo.BulkInsert(prices, ct);
+            await work.Commit(ct);
 
             await PublishEvents(events);
             
@@ -72,7 +61,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 {
                     CryptoId = crypto.Id,
                     Price = response.Price,
-                    Time = _provider.UtcOffset
+                    Time = provider.UtcOffset
                 });
                 
                 events.Add(new CryptoPriceUpdated
@@ -91,10 +80,10 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
         {
             foreach (var item in events)
             {
-                await _publish.Publish(item);
+                await publish.Publish(item);
             }
 
-            await _publish.Publish(new EvictRedisListRequest());
+            await publish.Publish(new EvictRedisListRequest());
         }
     }
 }

@@ -5,18 +5,10 @@ using Stock.Infrastructure.Persistence;
 
 namespace Stock.API.IntegrationTests;
 
-public class StockSeedHelper : IDisposable
+public class StockSeedHelper(
+    StockDbContext context,
+    SqidsEncoder<int> encoder) : IDisposable
 {
-    private readonly StockDbContext _context;
-    private readonly SqidsEncoder<int> _encoder;
-    
-    public StockSeedHelper(StockDbContext context, 
-        SqidsEncoder<int> encoder)
-    {
-        _context = context;
-        _encoder = encoder;
-    }
-
     public async Task<StockEntity> Create(string symbol)
     {
         var entity = new StockEntity
@@ -25,19 +17,19 @@ public class StockSeedHelper : IDisposable
             IsActive = true
         };
 
-        await _context.Stocks.AddAsync(entity);
-        await _context.SaveChangesAsync();
+        await context.Stocks.AddAsync(entity);
+        await context.SaveChangesAsync();
         return entity;
     }
     
     public async Task<(StockEntity entity, string id)> CreateWithEncodedId(string symbol)
     {
         var entity = await Create(symbol);
-        return (entity, _encoder.Encode(entity.Id));
+        return (entity, encoder.Encode(entity.Id));
     }
     
     public void Dispose()
     {
-        _context?.Dispose();
+        context?.Dispose();
     }
 }

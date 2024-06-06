@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace Crypto.Application.Common.Constants
 {
-    public class RegexConstants
+    public static class RegexConstants
     {
-        public static Regex SYMBOL = new Regex("^[a-zA-Z]{1,15}$", 
+        public static readonly Regex Symbol = new Regex("^[a-zA-Z]{1,15}$", 
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled,
             TimeSpan.FromSeconds(1)); 
     }

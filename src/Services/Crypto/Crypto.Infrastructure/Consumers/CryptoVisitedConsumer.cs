@@ -6,20 +6,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto.Infrastructure.Consumers
 {
-    public class CryptoVisitedConsumer : IConsumer<Visited>
+    public class CryptoVisitedConsumer(ILogger<CryptoVisitedConsumer> logger, IMediator mediator) : IConsumer<Visited>
     {
-        private readonly ILogger<CryptoVisitedConsumer> _logger;
-        private readonly IMediator _mediator;
-
-        public CryptoVisitedConsumer(ILogger<CryptoVisitedConsumer> logger, IMediator mediator)
-        {
-            _logger = logger;
-            _mediator = mediator;
-        }
+        private readonly ILogger<CryptoVisitedConsumer> _logger = logger;
 
         public async Task Consume(ConsumeContext<Visited> context)
         {
-            await _mediator.Send(new VisitedCommand
+            await mediator.Send(new VisitedCommand
             {
                 Symbol = context.Message.Symbol, 
                 CryptoId = context.Message.CryptoId

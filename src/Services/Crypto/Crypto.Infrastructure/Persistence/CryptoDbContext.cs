@@ -5,26 +5,16 @@ using Crypto.Infrastructure.Consumers.State;
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Time.Abstract.Contracts;
 
 namespace Crypto.Infrastructure.Persistence
 {
-    public class CryptoDbContext : SagaDbContext
+    public class CryptoDbContext(
+        DbContextOptions<CryptoDbContext> options,
+        IConnectionProvider connectionProvider,
+        IDateTimeProvider time)
+        : SagaDbContext(options)
     {
-        private readonly IDateTimeProvider _time;
-        private readonly IConnectionProvider _connectionProvider;
-
-        public CryptoDbContext(DbContextOptions<CryptoDbContext> options, 
-            IConnectionProvider connectionProvider,
-            IDateTimeProvider time) 
-            : base(options)
-        {
-            _time = time;
-            _connectionProvider = connectionProvider;
-        }
-
         public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
         public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
         public virtual DbSet<CryptoLastPriceReadModel> CryptoLastPrice => Set<CryptoLastPriceReadModel>();
@@ -61,7 +51,7 @@ namespace Crypto.Infrastructure.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_connectionProvider.GetConnectionString());
+            optionsBuilder.UseNpgsql(connectionProvider.GetConnectionString());
             optionsBuilder.UseLowerCaseNamingConvention();
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
@@ -80,7 +70,7 @@ namespace Crypto.Infrastructure.Persistence
 
         private void AttachDateTimeToEntities()
         {
-            var currentTime = _time.Now;
+            var currentTime = time.Now;
 
             foreach (var item in ChangeTracker.Entries<Entity>())
             {

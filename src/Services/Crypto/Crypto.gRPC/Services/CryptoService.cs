@@ -5,18 +5,11 @@ using MediatR;
 
 namespace Crypto.gRPC.Services
 {
-    public class CryptoService : Protos.v1.Crypto.CryptoBase
+    public class CryptoService(IMediator mediator) : Protos.v1.Crypto.CryptoBase
     {
-        private readonly IMediator _mediator;
-
-        public CryptoService(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         public override async Task<FetchCryptoItemRequestResponse> FetchCryptoItem(FetchCryptoItemRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new FetchSingleQuery { Symbol = request.Symbol });
+            var result = await mediator.Send(new FetchSingleQuery { Symbol = request.Symbol });
 
             return new FetchCryptoItemRequestResponse
             {

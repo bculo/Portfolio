@@ -13,30 +13,17 @@ using Time.Abstract.Contracts;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
-    public class AddNewCommandHandler : IRequestHandler<AddNewCommand>
+    public class AddNewCommandHandler(
+        IUnitOfWork work,
+        IPublishEndpoint publish,
+        ICryptoPriceService priceService,
+        ICryptoInfoService infoService,
+        IDateTimeProvider timeProvider)
+        : IRequestHandler<AddNewCommand>
     {
-        private readonly IUnitOfWork _work;
-        private readonly ICryptoInfoService _infoService;
-        private readonly ICryptoPriceService _priceService;
-        private readonly IPublishEndpoint _publish;
-        private readonly IDateTimeProvider _timeProvider;
-        
-        public AddNewCommandHandler(IUnitOfWork work,
-            IPublishEndpoint publish, 
-            ICryptoPriceService priceService, 
-            ICryptoInfoService infoService, 
-            IDateTimeProvider timeProvider)
-        {
-            _work = work;
-            _publish = publish;
-            _priceService = priceService;
-            _infoService = infoService;
-            _timeProvider = timeProvider;
-        }
-
         public async Task Handle(AddNewCommand request, CancellationToken ct)
         {
-            var item = await _work.CryptoRepo.First(
+            var item = await work.CryptoRepo.First(
                 i => EF.Functions.ILike(i.Symbol, request.Symbol),
                 ct: ct);
 
@@ -45,20 +32,20 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 throw new CryptoCoreException($"Item with given symbol {request.Symbol} already exist");
             }
 
-            var cryptoInfoTask = _infoService.GetInformation(request.Symbol, ct);
-            var cryptoPriceTask = _priceService.GetPriceInfo(request.Symbol, ct);
+            var cryptoInfoTask = infoService.GetInformation(request.Symbol, ct);
+            var cryptoPriceTask = priceService.GetPriceInfo(request.Symbol, ct);
 
             await Task.WhenAll(cryptoInfoTask, cryptoPriceTask);
             
             var newCrypto = CreateNewCryptoEntity(cryptoInfoTask.Result);
-            await _work.CryptoRepo.Add(newCrypto, ct);
-            await _work.Commit(ct);
+            await work.CryptoRepo.Add(newCrypto, ct);
+            await work.Commit(ct);
             
             var newPrice = CreateNewCryptoPriceEntity(cryptoPriceTask.Result, newCrypto.Id);
-            await _work.CryptoPriceRepo.Add(newPrice, ct);
-            await _work.Commit(ct);
+            await work.CryptoPriceRepo.Add(newPrice, ct);
+            await work.Commit(ct);
 
-            await _publish.Publish(new NewItemAdded
+            await publish.Publish(new NewItemAdded
             {
                 Id = newCrypto.Id,
                 Name = newCrypto.Name,
@@ -67,7 +54,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
                 CorrelationId = request.CorrelationId ?? Guid.NewGuid()
             }, ct);
             
-            await _publish.Publish(new EvictRedisListRequest(), ct);
+            await publish.Publish(new EvictRedisListRequest(), ct);
         }
 
         private CryptoPrice CreateNewCryptoPriceEntity(PriceResponse result, Guid cryptoId)
@@ -76,7 +63,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             {
                 CryptoId = cryptoId,
                 Price = result.Price,
-                Time = _timeProvider.UtcOffset
+                Time = timeProvider.UtcOffset
             };
         }
 

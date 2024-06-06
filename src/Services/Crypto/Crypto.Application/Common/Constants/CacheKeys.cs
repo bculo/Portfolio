@@ -9,14 +9,14 @@ namespace Crypto.Application.Common.Constants;
 
 public static class CacheKeys
 {
-    public const string EVICT_ON_PRICE_REFRESH = "refresh";
+    public const string EvictOnPriceRefresh = "refresh";
     
     public static string SingleItemKey(string symbol) => $"single:{symbol.ToLower()}";
-    public static string MostPopularKey(int limitNum) => $"popular:{EVICT_ON_PRICE_REFRESH}:{limitNum}";
+    public static string MostPopularKey(int limitNum) => $"popular:{EvictOnPriceRefresh}:{limitNum}";
     public static string FetchCryptoPageKey(FetchPageQuery query) 
-        => $"page:{EVICT_ON_PRICE_REFRESH}:{JsonSerializer.Serialize(query)}";
+        => $"page:{EvictOnPriceRefresh}:{JsonSerializer.Serialize(query)}";
     public static string FetchPriceHistoryKey(FetchPriceHistoryQuery query)
-        => $"price:{EVICT_ON_PRICE_REFRESH}:{JsonSerializer.Serialize(query)}";
+        => $"price:{EvictOnPriceRefresh}:{JsonSerializer.Serialize(query)}";
     
     public static Action<FusionCacheEntryOptions> SingleItemKeyOptions(CacheEntrySettings? settings = default)
     {

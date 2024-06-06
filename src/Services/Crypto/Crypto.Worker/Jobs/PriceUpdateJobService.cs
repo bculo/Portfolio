@@ -6,30 +6,21 @@ using Time.Abstract.Contracts;
 
 namespace Crypto.Worker.Jobs
 {
-    public class PriceUpdateJobService : IPriceUpdateJobService
+    public class PriceUpdateJobService(
+        IUnitOfWork work,
+        IPublishEndpoint publishEndpoint,
+        IDateTimeProvider provider)
+        : IPriceUpdateJobService
     {
-        private readonly IDateTimeProvider _provider;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IPublishEndpoint _publishEndpoint;
-
-        public PriceUpdateJobService(IUnitOfWork work,
-            IPublishEndpoint publishEndpoint, 
-            IDateTimeProvider provider)
-        {
-            _unitOfWork = work;
-            _publishEndpoint = publishEndpoint;
-            _provider = provider;
-        }
-
         public async Task ExecuteUpdate()
         {
             var @event = new UpdateItemsPrices
             {
-                Time = _provider.UtcOffset
+                Time = provider.UtcOffset
             };
             
-            await _publishEndpoint.Publish(@event);
-            await _unitOfWork.Commit(); //Outbox pattern commit
+            await publishEndpoint.Publish(@event);
+            await work.Commit(); //Outbox pattern commit
         }
     }
 }

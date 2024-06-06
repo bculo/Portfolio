@@ -11,8 +11,8 @@ namespace Crypto.IntegrationTests.Common
         public CryptoApiFactory Factory { get; }
         
         public Fixture MockFixture { get;  }
-        
-        public DataFixture DataManager { get; private set; }
+
+        public DataFixture DataManager { get; private set; } = default!;
         
 
         private IServiceScope _scope = default!;

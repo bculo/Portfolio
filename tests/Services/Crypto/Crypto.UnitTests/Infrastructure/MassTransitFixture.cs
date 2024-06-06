@@ -12,11 +12,11 @@ namespace Crypto.UnitTests.Infrastructure;
 
 public class MassTransitFixture : IDisposable
 {
-    public IServiceScope Scope { get; } 
+    private readonly IServiceScope _scope;
 
     public MassTransitFixture()
     {
-        Scope = new ServiceCollection()
+        _scope = new ServiceCollection()
             .AddScoped<IMediator>(sc => Substitute.For<IMediator>())
             .AddScoped<IFusionCache>(sc => Substitute.For<IFusionCache>())
             .AddScoped<IMapper>(sc => Substitute.For<IMapper>())
@@ -35,11 +35,11 @@ public class MassTransitFixture : IDisposable
 
     public ITestHarness GetTestHarness()
     {
-        return Scope.ServiceProvider.GetRequiredService<ITestHarness>();
+        return _scope.ServiceProvider.GetRequiredService<ITestHarness>();
     }
     
     public void Dispose()
     {
-        Scope.Dispose();
+        _scope.Dispose();
     }
 }

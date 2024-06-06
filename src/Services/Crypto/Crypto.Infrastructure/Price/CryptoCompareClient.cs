@@ -9,22 +9,16 @@ using Newtonsoft.Json;
 
 namespace Crypto.Infrastructure.Price
 {
-    public class CryptoCompareClient : ICryptoPriceService
+    public class CryptoCompareClient(IHttpClientFactory httpClientFactory, IOptions<CryptoPriceApiOptions> options)
+        : ICryptoPriceService
     {
-        private readonly CryptoPriceApiOptions _options;
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        public CryptoCompareClient(IHttpClientFactory httpClientFactory, IOptions<CryptoPriceApiOptions> options)
-        {
-            _options = options.Value;
-            _httpClientFactory = httpClientFactory;
-        }
+        private readonly CryptoPriceApiOptions _options = options.Value;
 
         public async Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
         {
             ArgumentNullException.ThrowIfNull(symbol);
 
-            var client = _httpClientFactory.CreateClient(ApiClient.CRYPTO_PRICE);
+            var client = httpClientFactory.CreateClient(ApiClient.CryptoPrice);
             var response = await client.GetAsync($"price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}", ct);
             var content = await response.ExtractContentFromResponse();
 
@@ -51,7 +45,7 @@ namespace Crypto.Infrastructure.Price
         {
             ArgumentNullException.ThrowIfNull(symbols);
 
-            var client = _httpClientFactory.CreateClient(ApiClient.CRYPTO_PRICE);
+            var client = httpClientFactory.CreateClient(ApiClient.CryptoPrice);
             var response = await client.GetAsync(
                 $"pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}", 
                 ct);

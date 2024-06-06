@@ -1,24 +1,17 @@
 ﻿using System.Net;
 using AutoFixture;
+using Crypto.API.Controllers;
 using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Infrastructure.Information.Models;
 using Crypto.IntegrationTests.Common;
-using Crypto.IntegrationTests.Constants;
 using FluentAssertions;
 using Tests.Common.Extensions;
 using Tests.Common.Interfaces.Claims.Models;
 
 namespace Crypto.IntegrationTests.CryptoController
 {
-    public class AddNewCryptoEndpointTests : BaseCryptoEndpointTests
+    public class AddNewCryptoEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointTests(factory)
     {
-
-        
-        public AddNewCryptoEndpointTests(CryptoApiFactory factory) 
-            : base(factory)
-        {
-        }
-
         [Theory]
         [InlineData("BTC2")]
         [InlineData("---!-")]
@@ -30,7 +23,7 @@ namespace Crypto.IntegrationTests.CryptoController
             var request = new AddNewCommand { Symbol = symbol };
         
             //Act
-            var response = await Client.PostAsync(ApiEndpoint.CRYPTO_ADD_NEW, request.AsHttpContent());
+            var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -55,7 +48,7 @@ namespace Crypto.IntegrationTests.CryptoController
             await Factory.MockServer.ReturnsWithJsonOk(infoResponse, withPath: "/info");
             
             //Act
-            var response = await Client.PostAsync(ApiEndpoint.CRYPTO_ADD_NEW, request.AsHttpContent());
+            var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
 
             //Assert
             response.EnsureSuccessStatusCode();
@@ -71,7 +64,7 @@ namespace Crypto.IntegrationTests.CryptoController
             _ = await DataManager.AddInstance(symbol);
             
             //Act
-            var response = await Client.PostAsync(ApiEndpoint.CRYPTO_ADD_NEW, request.AsHttpContent());
+            var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

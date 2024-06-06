@@ -3,10 +3,8 @@ using Events.Common.Crypto;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Time.Abstract.Contracts;
 
 namespace Crypto.Infrastructure.Consumers.State
 {

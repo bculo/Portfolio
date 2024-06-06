@@ -8,7 +8,7 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
         public FetchSingleQueryValidator()
         {
             RuleFor(i => i.Symbol)
-                .Matches(RegexConstants.SYMBOL)
+                .Matches(RegexConstants.Symbol)
                 .MinimumLength(1)
                 .NotEmpty();
         }

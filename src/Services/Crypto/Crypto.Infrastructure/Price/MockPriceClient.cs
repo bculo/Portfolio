@@ -5,18 +5,11 @@ using Time.Abstract.Contracts;
 
 namespace Crypto.Infrastructure.Price;
 
-public class MockPriceClient : ICryptoPriceService
+public class MockPriceClient(IUnitOfWork work) : ICryptoPriceService
 {
-    private readonly IUnitOfWork _work;
-
-    public MockPriceClient(IUnitOfWork work)
-    {
-        _work = work;
-    }
-
     public async Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
     {
-        var item = await _work.CryptoPriceRepo.GetLastPrice(symbol, ct);
+        var item = await work.CryptoPriceRepo.GetLastPrice(symbol, ct);
 
         var price = item?.LastPrice ?? default(decimal);
         

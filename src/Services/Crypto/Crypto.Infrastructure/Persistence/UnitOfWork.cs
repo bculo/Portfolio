@@ -3,27 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Crypto.Infrastructure.Persistence
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(CryptoDbContext context, IServiceProvider provider) : IUnitOfWork
     {
-        private readonly CryptoDbContext _context;
-        
-        public ICryptoRepository CryptoRepo { get; }
-        public ICryptoPriceRepository CryptoPriceRepo { get; }
-        public IVisitRepository VisitRepo { get; }
-        
+        public ICryptoRepository CryptoRepo { get; } = provider.GetRequiredService<ICryptoRepository>();
+        public ICryptoPriceRepository CryptoPriceRepo { get; } = provider.GetRequiredService<ICryptoPriceRepository>();
+        public IVisitRepository VisitRepo { get; } = provider.GetRequiredService<IVisitRepository>();
 
-        public UnitOfWork(CryptoDbContext context, IServiceProvider provider)
-        {
-            _context = context;
-            
-            CryptoRepo = provider.GetRequiredService<ICryptoRepository>();
-            CryptoPriceRepo = provider.GetRequiredService<ICryptoPriceRepository>();
-            VisitRepo = provider.GetRequiredService<IVisitRepository>();
-        }
 
         public async Task Commit(CancellationToken ct = default)
         {
-            await _context.SaveChangesAsync(ct);
+            await context.SaveChangesAsync(ct);
         }
     }
 }

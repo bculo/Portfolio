@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Crypto.Core.Entities;
 using Crypto.Core.ReadModels;
 using Events.Common.Crypto;
 

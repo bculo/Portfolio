@@ -22,7 +22,7 @@ namespace Crypto.IntegrationTests
         private readonly IContainerFixture _mqContainer = new RabbitMqFixture();
         private readonly IContainerFixture _sqlFixture = new TimescaleDBFixture();
 
-        private DbConnection _dbConnection = default!;
+        private NpgsqlConnection _dbConnection = default!;
         private Respawner _respawner = default!;
     
         public HttpClient Client { get; private set; } = default!;
@@ -62,7 +62,7 @@ namespace Crypto.IntegrationTests
             await using var scope = Services.CreateAsyncScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
             await dbContext.Database.MigrateAsync();
-            dbContext?.DisposeAsync();
+            await dbContext.DisposeAsync();
 
             _dbConnection = new NpgsqlConnection(_sqlFixture.GetConnectionString());
             await _dbConnection.OpenAsync();
@@ -85,6 +85,8 @@ namespace Crypto.IntegrationTests
                 _mqContainer.StopAsync());
             
             MockServer.Stop();
+
+            await _dbConnection.DisposeAsync();
         }    
     }
 }

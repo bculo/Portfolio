@@ -1,20 +1,13 @@
-﻿using Crypto.Core.Exceptions;
+﻿using System.Text;
+using Crypto.Core.Exceptions;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace Crypto.gRPC.Filters
 {
-    public class ExceptionInterceptor : Interceptor
+    public class ExceptionInterceptor(ILogger<ExceptionInterceptor> logger) : Interceptor
     {
-        private readonly ILogger<ExceptionInterceptor> _logger;
-
-        public ExceptionInterceptor(ILogger<ExceptionInterceptor> logger)
-        {
-            _logger = logger;
-        }
-
         public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, 
             ServerCallContext context, 
             UnaryServerMethod<TRequest, TResponse> continuation)
@@ -31,7 +24,7 @@ namespace Crypto.gRPC.Filters
 
         private RpcException HandleGrpcException(Exception exception)
         {
-            _logger.LogError(exception.Message, exception);
+            logger.LogError(exception.Message, exception);
 
             var metadata = DefineMetadata(exception);
 

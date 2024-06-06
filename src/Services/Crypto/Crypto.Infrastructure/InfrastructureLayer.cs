@@ -11,7 +11,6 @@ using Crypto.Infrastructure.Persistence.Repositories.Read;
 using Crypto.Infrastructure.Price;
 using Hangfire;
 using Hangfire.PostgreSql;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -68,7 +67,7 @@ namespace Crypto.Infrastructure
 
             services.AddScoped<ICryptoInfoService, CoinMarketCapClient>();
             
-            services.AddHttpClient(ApiClient.CRYPTO_INFO, client =>
+            services.AddHttpClient(ApiClient.CryptoInfo, client =>
             {
                 client.DefaultRequestHeaders.Add(headerKey, headerValue);
                 client.BaseAddress = new Uri(baseAddress);
@@ -93,7 +92,7 @@ namespace Crypto.Infrastructure
             //services.AddScoped<ICryptoPriceService, CryptoCompareClient>();
             services.AddScoped<ICryptoPriceService, MockPriceClient>();
 
-            services.AddHttpClient(ApiClient.CRYPTO_PRICE, client =>
+            services.AddHttpClient(ApiClient.CryptoPrice, client =>
             {
                 client.DefaultRequestHeaders.Add(headerKey, headerValue);
                 client.BaseAddress = new Uri(baseAddress);

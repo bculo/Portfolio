@@ -4,7 +4,7 @@ using Crypto.Worker.HostedServices;
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
-        IConfiguration configuration = hostContext.Configuration;
+        var configuration = hostContext.Configuration;
         services.ConfigureBackgroundService(configuration);
         services.AddHostedService<JobRegistrationServiceWorker>();
     });
