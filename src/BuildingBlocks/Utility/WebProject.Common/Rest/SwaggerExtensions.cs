@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -117,6 +118,30 @@ public static class SwaggerExtensions
         });
     }
 
+
+    public static void ConfigureSwaggerAsEndpoints(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(c =>
+        {
+            c.TagActionsBy(api =>
+            {
+                if (api.GroupName != null)
+                {
+                    return new[] { api.GroupName };
+                }
+
+                if (api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+                {
+                    return new[] { controllerActionDescriptor.ControllerName };
+                }
+
+                throw new InvalidOperationException("Unable to determine tag for endpoint.");
+            });
+            
+            c.DocInclusionPredicate((name, api) => true);
+        });
+    }
+    
     internal class ConfigureSwaggerApiVersioningOptions : IConfigureNamedOptions<SwaggerGenOptions>
     {
         private readonly IApiVersionDescriptionProvider _provider;
@@ -158,8 +183,8 @@ public static class SwaggerExtensions
             return info;
         }
     }
-    
-    public class GenericFilter : ISchemaFilter
+
+    private class GenericFilter : ISchemaFilter
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {

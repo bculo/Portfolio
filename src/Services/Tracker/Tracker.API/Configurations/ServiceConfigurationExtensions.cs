@@ -23,30 +23,27 @@ public static class ServiceConfigurationExtensions
 
         services.AddCors();
 
-        ApplicationLayer.AddServices(services, configuration);
-        InfrastructureLayer.AddServices(services, configuration);
-
-        services.AddMassTransit(x =>
-        { 
-            x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Tracker", false));
-            
-            x.AddConsumer<CryptoPriceUpdatedConsumer>();
-            x.AddConsumer<NewCryptoAddedConsumer>();
-            x.AddConsumer<StockPriceUpdatedConsumer>();
-
-            x.UsingRabbitMq((context, config) =>
-            {
-                config.Host(configuration["QueueOptions:Address"]);
-                config.ConfigureEndpoints(context);
-            });
-        });
-        
-        services.ConfigureSwagger(
-            $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth", 
-            "Tracker.API");
-        
-        AddAuthentication(services, configuration);
-        AddOpenTelemetry(services, configuration);
+        // ApplicationLayer.AddServices(services, configuration);
+        // InfrastructureLayer.AddServices(services, configuration);
+        //
+        // services.AddMassTransit(x =>
+        // { 
+        //     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Tracker", false));
+        //     
+        //     x.AddConsumer<CryptoPriceUpdatedConsumer>();
+        //     x.AddConsumer<NewCryptoAddedConsumer>();
+        //     x.AddConsumer<StockPriceUpdatedConsumer>();
+        //
+        //     x.UsingRabbitMq((context, config) =>
+        //     {
+        //         config.Host(configuration["QueueOptions:Address"]);
+        //         config.ConfigureEndpoints(context);
+        //     });
+        // });
+        //
+        services.ConfigureSwaggerAsEndpoints();
+        //
+        // AddAuthentication(services, configuration);
     }
     
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -59,22 +56,5 @@ public static class ServiceConfigurationExtensions
 
         services.ConfigureDefaultAuthentication(authOptions);
         services.ConfigureDefaultAuthorization();
-    }
-
-    
-    private static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddOpenTelemetry()
-            .WithTracing(builder =>
-            {
-                builder
-                    .AddSource("MassTransit")
-                    .SetResourceBuilder(ResourceBuilder.CreateDefault()
-                        .AddService("Tracker.API"))
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddSqlClientInstrumentation()
-                    .AddJaegerExporter();
-            });
     }
 }

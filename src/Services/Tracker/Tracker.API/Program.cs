@@ -2,9 +2,6 @@ using Tracker.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Services.ConfigureApiProject(builder.Configuration);
 
 var app = builder.Build();
