@@ -1,15 +1,9 @@
-﻿using Grpc.Net.Client;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Polly;
-using Polly.Contrib.WaitAndRetry;
-using Time.Abstract.Contracts;
-using Tracker.Application.Common.Constants;
-using Tracker.Application.Common.Options;
-using Tracker.Application.Interfaces;
+using Stock.gRPC.Client;
+using Tracker.Application.Interfaces.Integration;
+using Tracker.Infrastructure.Integration;
 using Tracker.Infrastructure.Persistence;
-using Tracker.Infrastructure.Services;
 
 namespace Tracker.Infrastructure
 {
@@ -17,37 +11,12 @@ namespace Tracker.Infrastructure
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<EndpointgRPCOptions>(configuration.GetSection(nameof(EndpointgRPCOptions)));
-            services.Configure<ApplicationInfoOptions>(configuration.GetSection(nameof(ApplicationInfoOptions)));
-
-            
-            services.AddScoped(innerServices =>
-            {
-                var config = innerServices.GetRequiredService<IOptionsSnapshot<EndpointgRPCOptions>>().Value;
-                var channel = GrpcChannel.ForAddress(config.CryptoEndpoint);
-                return new CryptogRPCAssetClient(new Crypto.gRPC.Protos.v1.Crypto.CryptoClient(channel));
-            });
-            
-            services.AddScoped<IFinancialAssetClientFactory, FinancialAssetClientFactory>();
-
-            AddClients(services, configuration);
+            services.AddStockGrpcClientFactory(configuration["IntegrationEndpoints:Stock"]!);
+            services.AddScoped<StockAdapter>();
+            services.AddScoped<CryptoAdapter>();
+            services.AddScoped<IFinancialAssetAdapterFactory, FinancialAssetAdapterFactory>();
         }
-
-        private static void AddClients(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddScoped<CryptoHttpAssetClient>();
-            services.AddHttpClient(HttpClientNames.CRYPTO_CLIENT, client =>
-            {
-                client.BaseAddress = new Uri("http://localhost:5263/api/");
-                client.Timeout = TimeSpan.FromSeconds(60);
-            })
-            .AddTransientHttpErrorPolicy(policyBuilder =>
-            {
-                return policyBuilder.WaitAndRetryAsync(
-                    Backoff.DecorrelatedJitterBackoffV2(TimeSpan.FromSeconds(1), 2));
-            });
-        }
-
+        
         private static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<TrackerDbContext>();

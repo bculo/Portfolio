@@ -4,7 +4,7 @@ namespace Stock.gRPC.Client;
 
 public static class ServicesExtensions
 {
-    public static void AddTrendGrpcClientFactory(this IServiceCollection services, string baseUrl)
+    public static void AddStockGrpcClientFactory(this IServiceCollection services, string baseUrl)
     {
         services.AddGrpcClient<Greeter.GreeterClient>(opt =>
         {

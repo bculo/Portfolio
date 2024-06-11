@@ -12,7 +12,6 @@ public static class ApplicationLayer
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddValidatorsFromAssembly(typeof(ApplicationLayer).Assembly);
-        
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddMediatR(cfg =>
         {

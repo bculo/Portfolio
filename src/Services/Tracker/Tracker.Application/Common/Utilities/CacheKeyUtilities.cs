@@ -7,18 +7,18 @@ public static class CacheKeyUtilities
 {
     private const string CONNECTOR_CHARACTER = "-";
 
-    public static string CombineKey(FinancalAssetType type, string identifier)
+    public static string CombineKey(FinancialAssetType type, string identifier)
     {
         ArgumentException.ThrowIfNullOrEmpty(identifier);
         return $"{DefinePrefix(type)}{CONNECTOR_CHARACTER}{identifier}";
     }
 
-    private static string DefinePrefix(FinancalAssetType type)
+    private static string DefinePrefix(FinancialAssetType type)
     {
         return type switch
         {
-            FinancalAssetType.Crypto => CacheConstants.CRYPTO_PREFIX,
-            FinancalAssetType.Stock => CacheConstants.STOCK_PREFIX,
+            FinancialAssetType.Crypto => CacheConstants.CRYPTO_PREFIX,
+            FinancialAssetType.Stock => CacheConstants.STOCK_PREFIX,
             _ => string.Empty
         };
     }

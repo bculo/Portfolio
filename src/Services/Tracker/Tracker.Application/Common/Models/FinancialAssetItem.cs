@@ -5,7 +5,7 @@ namespace Tracker.Application.Common.Models;
 
 public class FinancialAssetItem
 {
-    public FinancalAssetType Type { get; set; }
+    public FinancialAssetType Type { get; set; }
     public string Symbol { get; set; }
     public decimal Price { get; set; }
 }

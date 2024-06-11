@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Tracker.Application.Features.Portfolio;
 
 namespace Tracker.API.Endpoints.Portfolio;
 
@@ -6,8 +7,9 @@ namespace Tracker.API.Endpoints.Portfolio;
 public class AddPortfolioItemEndpoint : TrackerEndpoint
 {
     [HttpPost(TrackerEndpointConfigurations.Portfolio.AddItem)]
-    public IActionResult AddPortfolioItem(CancellationToken ct)
+    public async Task<IActionResult> AddPortfolioItem([FromBody] AddPortfolioItemCommand request, CancellationToken ct)
     {
-        return Ok();
+        await Mediator.Send(request, ct);
+        return NoContent();
     }
 }

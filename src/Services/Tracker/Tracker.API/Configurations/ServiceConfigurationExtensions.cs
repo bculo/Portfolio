@@ -1,11 +1,7 @@
 using Keycloak.Common;
-using MassTransit;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Tracker.API.Filters;
 using Tracker.Application;
 using Tracker.Infrastructure;
-using Tracker.Infrastructure.Consumers;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -22,27 +18,11 @@ public static class ServiceConfigurationExtensions
         });
 
         services.AddCors();
-
-        // ApplicationLayer.AddServices(services, configuration);
-        // InfrastructureLayer.AddServices(services, configuration);
-        //
-        // services.AddMassTransit(x =>
-        // { 
-        //     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Tracker", false));
-        //     
-        //     x.AddConsumer<CryptoPriceUpdatedConsumer>();
-        //     x.AddConsumer<NewCryptoAddedConsumer>();
-        //     x.AddConsumer<StockPriceUpdatedConsumer>();
-        //
-        //     x.UsingRabbitMq((context, config) =>
-        //     {
-        //         config.Host(configuration["QueueOptions:Address"]);
-        //         config.ConfigureEndpoints(context);
-        //     });
-        // });
-        //
         services.ConfigureSwaggerAsEndpoints();
-        //
+        
+        ApplicationLayer.AddServices(services, configuration);
+        InfrastructureLayer.AddServices(services, configuration);
+        
         // AddAuthentication(services, configuration);
     }
     
