@@ -10,8 +10,10 @@ namespace Crypto.API.Client;
 
 public static class ServicesExtensions
 {
-    public static IServiceCollection ConfigureRefitClients(this IServiceCollection services, Uri baseUrl)
+    public static IServiceCollection AddCryptoApiClients(this IServiceCollection services, string url)
     {
+        var baseUrl = new Uri(url);
+        
         services
             .AddRefitClient<ICryptoApi>()
             .ConfigureHttpClient(c => c.BaseAddress = baseUrl)

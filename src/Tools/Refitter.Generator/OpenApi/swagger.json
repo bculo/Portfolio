@@ -1,56 +1,81 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Stock.API",
+    "title": "Crypto.API",
     "version": "1.0"
   },
   "paths": {
-    "/api/v1/Cache/EvictAll": {
-      "delete": {
-        "tags": [
-          "Cache"
-        ],
-        "operationId": "EvictAll",
-        "responses": {
-          "204": {
-            "description": "No Content"
-          }
-        }
-      }
-    },
-    "/api/v1/Stock/Create": {
+    "/api/crypto/create": {
       "post": {
         "tags": [
-          "Stock"
+          "Crypto"
         ],
-        "operationId": "CreateStock",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateStock"
-                  }
-                ]
+                "$ref": "#/components/schemas/AddNewCommand"
               }
             },
             "text/json": {
               "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateStock"
-                  }
-                ]
+                "$ref": "#/components/schemas/AddNewCommand"
               }
             },
             "application/*+json": {
               "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateStock"
-                  }
-                ]
+                "$ref": "#/components/schemas/AddNewCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/crypto/create-with-delay": {
+      "post": {
+        "tags": [
+          "Crypto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewWithDelayCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewWithDelayCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNewWithDelayCommand"
               }
             }
           }
@@ -61,17 +86,20 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -81,38 +109,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -120,81 +127,101 @@
         }
       }
     },
-    "/api/v1/Stock/Single/{id}": {
-      "get": {
+    "/api/crypto/undo-create-with-delay": {
+      "post": {
         "tags": [
-          "Stock"
+          "Crypto"
         ],
-        "operationId": "GetStock",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetStockByIdResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetStockByIdResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetStockByIdResponse"
-                }
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UndoNewWithDelayCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UndoNewWithDelayCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UndoNewWithDelayCommand"
               }
             }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
           },
           "400": {
             "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/crypto/update-info": {
+      "put": {
+        "tags": [
+          "Crypto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInfoCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInfoCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInfoCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -204,38 +231,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -243,41 +249,70 @@
         }
       }
     },
-    "/api/v1/Stock/All": {
-      "get": {
+    "/api/crypto/update-price": {
+      "put": {
         "tags": [
-          "Stock"
+          "Crypto"
         ],
-        "operationId": "GetStocks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePriceCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePriceCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePriceCommand"
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "Success",
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
-                  "title": "IEnumerable<GetStocksResponse>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetStocksResponse"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "title": "IEnumerable<GetStocksResponse>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetStocksResponse"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "title": "IEnumerable<GetStocksResponse>",
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetStocksResponse"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -285,84 +320,54 @@
         }
       }
     },
-    "/api/v1/Stock/Filter": {
+    "/api/crypto/update-price-all": {
+      "put": {
+        "tags": [
+          "Crypto"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/crypto/page": {
       "get": {
         "tags": [
-          "Stock"
+          "Crypto"
         ],
-        "operationId": "FilterStocks",
         "parameters": [
           {
-            "name": "Symbol.Value",
+            "name": "Symbol",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "PriceGreaterThan.Value",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "PriceLessThan.Value",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "ActivityStatus.Value",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/Status"
-                }
-              ]
-            }
-          },
-          {
-            "name": "NotOlderThan.Value",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "SortBy.PropertyName",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "SortBy.Direction",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/SortDirection"
-                }
-              ]
             }
           },
           {
             "name": "Page",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -371,7 +376,6 @@
           {
             "name": "Take",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -384,17 +388,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FilterStockResponseItemPageResultDto"
+                  "$ref": "#/components/schemas/FetchPageResponseDtoPageBaseResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FilterStockResponseItemPageResultDto"
+                  "$ref": "#/components/schemas/FetchPageResponseDtoPageBaseResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FilterStockResponseItemPageResultDto"
+                  "$ref": "#/components/schemas/FetchPageResponseDtoPageBaseResult"
                 }
               }
             }
@@ -404,38 +408,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -443,87 +426,230 @@
         }
       }
     },
-    "/api/v1/Stock/ChangeStatus": {
-      "put": {
+    "/api/crypto/single/{symbol}": {
+      "get": {
         "tags": [
-          "Stock"
+          "Crypto"
         ],
-        "operationId": "ChangeStockStatus",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeStockStatus"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeStockStatus"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeStockStatus"
-                  }
-                ]
-              }
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchSingleResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchSingleResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchSingleResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/ProblemDetails"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/crypto/price-history/{cryptoId}": {
+      "get": {
+        "tags": [
+          "Crypto"
+        ],
+        "parameters": [
+          {
+            "name": "cryptoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PriceHistoryDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PriceHistoryDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PriceHistoryDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/crypto/popular": {
+      "get": {
+        "tags": [
+          "Crypto"
+        ],
+        "parameters": [
+          {
+            "name": "Take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetMostPopularResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetMostPopularResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetMostPopularResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/info/assembly-info": {
+      "get": {
+        "tags": [
+          "Info"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -531,98 +657,167 @@
   },
   "components": {
     "schemas": {
-      "ChangeStockStatus": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateStock": {
+      "AddNewCommand": {
         "type": "object",
         "properties": {
           "symbol": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "correlationId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "FilterStockResponseItem": {
+      "AddNewWithDelayCommand": {
         "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/StockPriceResultDto"
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
           }
-        ],
+        },
         "additionalProperties": false
       },
-      "FilterStockResponseItemPageResultDto": {
-        "title": "PageResultDto<FilterStockResponseItem>",
+      "FetchPageResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FetchPageResponseDtoPageBaseResult": {
         "type": "object",
         "properties": {
           "totalCount": {
             "type": "integer",
             "format": "int64"
           },
+          "fetchCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
           "items": {
-            "title": "IEnumerable<FilterStockResponseItem>",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/FilterStockResponseItem"
-            }
+              "$ref": "#/components/schemas/FetchPageResponseDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "GetStockByIdResponse": {
+      "FetchSingleResponseDto": {
         "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/StockPriceResultDto"
-          }
-        ],
-        "additionalProperties": false
-      },
-      "GetStockBySymbolResponse": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/StockPriceResultDto"
-          }
-        ],
-        "additionalProperties": false
-      },
-      "GetStocksResponse": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/StockPriceResultDto"
-          }
-        ],
-        "additionalProperties": false
-      },
-      "HttpValidationProblemDetails": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ProblemDetails"
-          }
-        ],
         "properties": {
-          "errors": {
-            "title": "IDictionary<String>",
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": false
+      },
+      "GetMostPopularResponse": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PriceHistoryDto": {
+        "type": "object",
+        "properties": {
+          "cryptoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeBucket": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "avgPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "minPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastPrice": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
       },
       "ProblemDetails": {
         "type": "object",
@@ -636,7 +831,6 @@
             "nullable": true
           },
           "status": {
-            "title": "Nullable<Int32>",
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -652,50 +846,32 @@
         },
         "additionalProperties": { }
       },
-      "SortDirection": {
-        "enum": [
-          0,
-          1
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
-      "Status": {
-        "enum": [
-          1,
-          2,
-          999
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
-      "StockPriceResultDto": {
+      "UndoNewWithDelayCommand": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
+          "temporaryId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateInfoCommand": {
+        "type": "object",
+        "properties": {
           "symbol": {
-            "type": "string"
-          },
-          "price": {
-            "title": "Nullable<Double>",
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "lastPriceUpdate": {
-            "title": "Nullable<DateTime>",
             "type": "string",
-            "format": "date-time",
             "nullable": true
-          },
-          "created": {
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePriceCommand": {
+        "type": "object",
+        "properties": {
+          "symbol": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
           }
         },
         "additionalProperties": false

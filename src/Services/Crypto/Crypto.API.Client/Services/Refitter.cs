@@ -14,51 +14,51 @@ namespace Api.GeneratedCode
     public partial interface ICryptoApi
     {
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Post("/api/v1/Crypto/AddNew")]
-        Task AddNew([Body] AddNewCommand body);
+        [Post("/api/crypto/create")]
+        Task Create([Body] AddNewCommand body);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Post("/api/v1/Crypto/AddNewWithDelay")]
-        Task<IApiResponse<System.Guid?>> AddNewWithDelay([Body] AddNewWithDelayCommand body);
+        [Post("/api/crypto/create-with-delay")]
+        Task<IApiResponse<System.Guid?>> CreateWithDelay([Body] AddNewWithDelayCommand body);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Post("/api/v1/Crypto/UndoAddNewDelay")]
-        Task UndoAddNewDelay([Body] UndoNewWithDelayCommand body);
+        [Post("/api/crypto/undo-create-with-delay")]
+        Task UndoCreateWithDelay([Body] UndoNewWithDelayCommand body);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Put("/api/v1/Crypto/UpdateInfo")]
+        [Put("/api/crypto/update-info")]
         Task UpdateInfo([Body] UpdateInfoCommand body);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Put("/api/v1/Crypto/UpdatePrice")]
+        [Put("/api/crypto/update-price")]
         Task UpdatePrice([Body] UpdatePriceCommand body);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Put("/api/v1/Crypto/UpdateAllPrices")]
-        Task UpdateAllPrices();
+        [Put("/api/crypto/update-price-all")]
+        Task UpdatePriceAll();
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Get("/api/v1/Crypto/FetchPage")]
-        Task<IApiResponse<ICollection<FetchPageResponseDto>>> FetchPage([Query, AliasAs("Page")] int? page, [Query, AliasAs("Take")] int? take);
+        [Get("/api/crypto/page")]
+        Task<IApiResponse<FetchPageResponseDtoPageBaseResult>> Page([Query, AliasAs("Symbol")] string symbol, [Query, AliasAs("Page")] int? page, [Query, AliasAs("Take")] int? take);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Get("/api/v1/Crypto/Single/{symbol}")]
+        [Get("/api/crypto/single/{symbol}")]
         Task<IApiResponse<FetchSingleResponseDto>> Single(string symbol);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Get("/api/v1/Crypto/GetPriceHistory/{cryptoId}")]
-        Task<IApiResponse<ICollection<PriceHistoryDto>>> GetPriceHistory(System.Guid cryptoId);
+        [Get("/api/crypto/price-history/{cryptoId}")]
+        Task<IApiResponse<ICollection<PriceHistoryDto>>> PriceHistory(System.Guid cryptoId);
 
         [Headers("Accept: text/plain, application/json, text/json")]
-        [Get("/api/v1/Crypto/GetMostPopular")]
-        Task<IApiResponse<ICollection<GetMostPopularResponse>>> GetMostPopular([Query, AliasAs("Take")] int? take);
+        [Get("/api/crypto/popular")]
+        Task<IApiResponse<ICollection<GetMostPopularResponse>>> Popular([Query, AliasAs("Take")] int? take);
     }
 
     [System.CodeDom.Compiler.GeneratedCode("Refitter", "0.8.5.0")]
     public partial interface IInfoApi
     {
-        [Get("/api/v1/Info/AssemblyVersion")]
-        Task AssemblyVersion();
+        [Get("/api/info/assembly-info")]
+        Task AssemblyInfo();
     }
 
 
@@ -148,6 +148,32 @@ namespace Api.GeneratedCode
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
         public double Price { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v10.0.0.0))")]
+    public partial class FetchPageResponseDtoPageBaseResult
+    {
+
+        [JsonPropertyName("totalCount")]
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+        public long TotalCount { get; set; }
+
+        [JsonPropertyName("fetchCount")]
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+        public long FetchCount { get; set; }
+
+        [JsonPropertyName("page")]
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+        public int Page { get; set; }
+
+        [JsonPropertyName("items")]
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+        public ICollection<FetchPageResponseDto> Items { get; set; }
 
     }
 
@@ -324,3 +350,17 @@ namespace Api.GeneratedCode
 
 
 }
+
+#pragma warning restore  108
+#pragma warning restore  114
+#pragma warning restore  472
+#pragma warning restore  612
+#pragma warning restore 1573
+#pragma warning restore 1591
+#pragma warning restore 8073
+#pragma warning restore 3016
+#pragma warning restore 8603
+#pragma warning restore 8604
+
+
+#nullable enable
