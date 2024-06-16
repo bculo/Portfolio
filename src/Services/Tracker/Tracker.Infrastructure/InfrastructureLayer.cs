@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Crypto.API.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stock.gRPC.Client;
 using Tracker.Application.Interfaces.Integration;
@@ -11,9 +12,12 @@ namespace Tracker.Infrastructure
     {
         public static void AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddStockGrpcClientFactory(configuration["IntegrationEndpoints:Stock"]!);
             services.AddScoped<StockAdapter>();
+            services.AddStockGrpcClientFactory(configuration["IntegrationEndpoints:Stock"]!);
+            
             services.AddScoped<CryptoAdapter>();
+            services.AddCryptoApiClients(configuration["IntegrationEndpoints:Crypto"]!);
+            
             services.AddScoped<IFinancialAssetAdapterFactory, FinancialAssetAdapterFactory>();
         }
         

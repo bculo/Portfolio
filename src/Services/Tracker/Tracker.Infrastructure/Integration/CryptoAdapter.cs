@@ -1,12 +1,20 @@
+using Api.GeneratedCode;
 using Tracker.Application.Interfaces.Integration;
 using Tracker.Application.Interfaces.Integration.Models;
 
 namespace Tracker.Infrastructure.Integration;
 
-public class CryptoAdapter : IFinancialAssetAdapter
+public class CryptoAdapter(ICryptoApi cryptoApi) : IFinancialAssetAdapter
 {
-    public Task<FinancialAssetDto?> FetchAsset(string symbol, CancellationToken ct = default)
+    public async Task<FinancialAssetDto?> FetchAsset(string symbol, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        var result = await cryptoApi.Single(symbol);
+
+        if (!result.IsSuccessStatusCode || result.Content is null)
+        {
+            return default;
+        }
+
+        return new FinancialAssetDto(result.Content.Symbol, result.Content.Price, result.Content.Name);
     }
 }

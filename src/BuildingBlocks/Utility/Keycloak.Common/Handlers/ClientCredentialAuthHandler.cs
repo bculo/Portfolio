@@ -5,17 +5,12 @@ using Microsoft.Extensions.Options;
 
 namespace Keycloak.Common.Handlers;
 
-public class ClientCredentialAuthHandler : DelegatingHandler
+public class ClientCredentialAuthHandler(
+    IAuth0ClientCredentialFlowService clientCredential,
+    IOptions<KeycloakAdminApiOptions> adminOptions)
+    : DelegatingHandler
 {
-    private readonly KeycloakAdminApiOptions _adminOptions;
-    private readonly IAuth0ClientCredentialFlowService _clientCredential;
-    
-    public ClientCredentialAuthHandler(IAuth0ClientCredentialFlowService clientCredential,
-        IOptions<KeycloakAdminApiOptions> adminOptions)
-    {
-        _clientCredential = clientCredential;
-        _adminOptions = adminOptions.Value;
-    }
+    private readonly KeycloakAdminApiOptions _adminOptions = adminOptions.Value;
 
     protected override async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, 
@@ -30,7 +25,7 @@ public class ClientCredentialAuthHandler : DelegatingHandler
     
     private async Task<TokenClientCredentialResponse> FetchToken()
     {
-        var adminTokenResponse = await _clientCredential.GetToken(_adminOptions.ClientId, _adminOptions.ClientSecret)
+        var adminTokenResponse = await clientCredential.GetToken(_adminOptions.ClientId, _adminOptions.ClientSecret)
             .ConfigureAwait(false);
 
         if (adminTokenResponse is null)
