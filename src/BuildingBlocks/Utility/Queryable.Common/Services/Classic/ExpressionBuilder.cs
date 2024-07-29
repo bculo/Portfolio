@@ -5,7 +5,7 @@ namespace Queryable.Common.Services.Classic;
 
 public class ExpressionBuilder<TModel> where TModel : class
 {
-    private ExpressionBuilder() {} 
+    public ExpressionBuilder() {} 
 
     private readonly List<Expression<Func<TModel, bool>>> _expressions = new();
 

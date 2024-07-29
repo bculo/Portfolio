@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Queryable.Common.Models;
 using Queryable.Common.Services.Dynamic;
 using Sqids;

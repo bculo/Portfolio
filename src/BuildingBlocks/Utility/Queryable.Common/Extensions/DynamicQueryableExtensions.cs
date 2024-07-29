@@ -63,7 +63,7 @@ public static class ExpressionBuilder
         {
             var memberAccess = CreateMemberAccess(target, filter.PropertyName);
             var exp2 = GetExpression<T>(memberAccess, filter);
-            exp = exp == null ? exp2 : Expression.Or(exp, exp2);
+            exp = exp == null ? exp2 : Expression.And(exp, exp2);
         });
         return exp;
     }

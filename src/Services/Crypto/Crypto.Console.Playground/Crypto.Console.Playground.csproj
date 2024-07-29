@@ -13,7 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoFilterer" Version="3.0.0" />
       <PackageReference Include="EFCore.BulkExtensions.PostgreSql" Version="8.0.2" />
+      <PackageReference Include="NSubstitute" Version="5.1.0" />
     </ItemGroup>
 
 </Project>

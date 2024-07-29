@@ -29,6 +29,11 @@ services:
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
   
+  crypto.api:
+    image: crypto.api
+    build:
+      context: .
+      dockerfile: src/Services/Crypto/Crypto.API/Dockerfile
 
 volumes:
   mongodbstore:
@@ -40,3 +45,5 @@ volumes:
   notification-hub-redis-store:
   dynamodb-mailservice-db-store:
   pgadmin-volume:
+
+

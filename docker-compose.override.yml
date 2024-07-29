@@ -93,4 +93,15 @@ services:
     volumes:
       - ./data/azurite/:/workspace
 
+  crypto.api:
+    image: crypto.api
+    ports:
+      - 8060:8080
+      - 8061:8081
+    depends_on:
+      - postgre-db
+      - rabbitmq
+      - redis
+    env_file: "ops/env_files/.crypto.api.env"
+      
     
