@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-config
+data:
+  CryptoInfoApiOptions__RetryNumber: "3"
+  CryptoInfoApiOptions__Timeout: "3"
+  CryptoInfoApiOptions__HeaderKey: X-CMC_PRO_API_KEY
+  CryptoInfoApiOptions__BaseUrl: https://pro-api.coinmarketcap.com/v2/cryptocurrency/
+  CryptoPriceApiOptions__RetryNumber: "3"
+  CryptoPriceApiOptions__Timeout: "3"
+  CryptoPriceApiOptions__HeaderKey: authorization
+  CryptoPriceApiOptions__BaseUrl: https://min-api.cryptocompare.com/data/
+  CryptoPriceApiOptions__Currency: USD
+  RedisOptions__ConnectionString: redis-service
+  RedisOptions__InstanceName: crypto
+  QueueOptions__Address: amqp://rabbitmquser:rabbitmqpassword@rabbit-service
+  IdentifierHasher__HashLength: "12"
+  KeycloakOptions__ApplicationName: Crypto.API
+  KeycloakOptions__RealmName: PortfolioRealm
+  KeycloakOptions__AuthorizationServerUrl: keycloak/realms/PortfolioRealm
+  ConnectionStrings__CryptoDatabase: Host=postgre-service;Database=Crypto;User Id=postgres;Password=florijan;
+  AuthOptions__PublicRsaKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvU2uBmAOXF6Urkea8Nr5UVEGe/Cm/v+cFd8Z+6CQt3h4W8OLmYZB0U0mMBjh5GRRKWtsCSzK7SvX8+T2BolEq55uftvYEH9P4LRqysQR6AeQmWoaq4FREQodIWNE0eSlTIo0WKbNKjgNCedeE7D8K1ym3TFA6+f4baN5/FqrUOOF9UunwIbRaYqzUQHEW3MPuIUEi1w0EI4UplgLkRs1QEKYvNhspnIRt8hV8lhuJdfBouBO9bLlUkqzNH01lBz5IPNl5EIrTwHjEY8wnKMpvynRkYfQq/EYeQelraAsmQg6DPeoCtj+yUaAFIpqjBs/QvUIC/7aZ7qW7TJMai0CPQIDAQAB
+  AuthOptions__ValidIssuer: keycloak/realms/PortfolioRealm
+  AuthOptions__ValidateAudience: "false"
+  AuthOptions__ValidateIssuer: "true"
+  AuthOptions__ValidateIssuerSigningKey: "true"
+  AuthOptions__ValidateLifetime: "true"

@@ -1,0 +1,175 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-deployment
+  labels:
+    app: crypto
+spec:
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto
+  template:
+    metadata:
+      labels:
+        app: crypto
+    spec:
+      containers:
+      - name: crypto
+        image: culix77/crypto.api:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CryptoInfoApiOptions__RetryNumber
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoInfoApiOptions__RetryNumber
+        - name: CryptoInfoApiOptions__Timeout
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoInfoApiOptions__Timeout
+        - name: CryptoInfoApiOptions__HeaderKey
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoInfoApiOptions__HeaderKey
+        - name: CryptoInfoApiOptions__BaseUrl
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoInfoApiOptions__BaseUrl
+        - name: CryptoPriceApiOptions__ApiKey
+          valueFrom:
+            secretKeyRef:
+              name: crypto-secret
+              key: CryptoPriceApiOptions__ApiKey
+
+        - name: CryptoPriceApiOptions__RetryNumber
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoPriceApiOptions__RetryNumber
+        - name: CryptoPriceApiOptions__Timeout
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoPriceApiOptions__Timeout
+        - name: CryptoPriceApiOptions__HeaderKey
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoPriceApiOptions__HeaderKey
+        - name: CryptoPriceApiOptions__BaseUrl
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoPriceApiOptions__BaseUrl
+        - name: CryptoPriceApiOptions__Currency
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: CryptoPriceApiOptions__Currency
+        - name: CryptoInfoApiOptions__ApiKey
+          valueFrom:
+            secretKeyRef:
+              name: crypto-secret
+              key: CryptoInfoApiOptions__ApiKey
+
+        - name: AuthOptions__PublicRsaKey
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: AuthOptions__PublicRsaKey
+        - name: AuthOptions__ValidIssuer
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: AuthOptions__ValidIssuer
+        - name: AuthOptions__ValidateAudience
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: AuthOptions__ValidateAudience
+        - name: AuthOptions__ValidateIssuer
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: AuthOptions__ValidateIssuer
+        - name: AuthOptions__ValidateIssuerSigningKey
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: AuthOptions__ValidateIssuerSigningKey
+        - name: AuthOptions__ValidateLifetime
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: AuthOptions__ValidateLifetime
+
+        - name: KeycloakOptions__ApplicationName
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: KeycloakOptions__ApplicationName
+        - name: KeycloakOptions__RealmName
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: KeycloakOptions__RealmName
+        - name: KeycloakOptions__AuthorizationServerUrl
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: KeycloakOptions__AuthorizationServerUrl
+
+        - name: IdentifierHasher__HashLength
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: IdentifierHasher__HashLength
+        - name: IdentifierHasher__Salt
+          valueFrom:
+            secretKeyRef:
+              name: crypto-secret
+              key: IdentifierHasher__Salt
+
+        - name: RedisOptions__ConnectionString
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: RedisOptions__ConnectionString
+        - name: RedisOptions__InstanceName
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: RedisOptions__InstanceName
+
+        - name: QueueOptions__Address
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: QueueOptions__Address
+
+        - name: ConnectionStrings__CryptoDatabase
+          valueFrom:
+            configMapKeyRef:
+              name: crypto-config
+              key: ConnectionStrings__CryptoDatabase
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-service
+spec:
+  type: NodePort
+  selector:
+    app: crypto
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30001
