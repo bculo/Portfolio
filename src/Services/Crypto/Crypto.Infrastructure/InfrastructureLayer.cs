@@ -11,6 +11,7 @@ using Crypto.Infrastructure.Persistence.Repositories.Read;
 using Crypto.Infrastructure.Price;
 using Hangfire;
 using Hangfire.PostgreSql;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -26,6 +27,11 @@ namespace Crypto.Infrastructure
             AddClients(services, configuration);
             AddHangfire(services, configuration);
             AddCache(services, configuration);
+
+            using var serviceProvider = services.BuildServiceProvider();
+            using var scope = serviceProvider.CreateAsyncScope();
+            using var db = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
+            db.Database.Migrate();
         }
 
         private static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
