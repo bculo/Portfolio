@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: rabbit-deployment
+  name: rabbit-statefulset
   labels:
     app: rabbit
 spec:
+  serviceName: rabbit-service
   replicas: 1
   selector:
     matchLabels:
@@ -30,6 +31,13 @@ spec:
             secretKeyRef:
               name: rabbit-secret
               key: RABBITMQ_DEFAULT_PASS
+        volumeMounts:
+        - name: rabbit-data
+          mountPath: /var/lib/rabbitmq
+      volumes:
+      - name: rabbit-data
+        persistentVolumeClaim:
+          claimName: rabbit-claim
 ---
 apiVersion: v1
 kind: Service

@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: postgre-deployment
+  name: postgre-statefulset
   labels:
     app: postgre
 spec:
+  serviceName: postgre-service
   replicas: 1
   selector:
     matchLabels:
@@ -30,6 +31,13 @@ spec:
             secretKeyRef:
               name: postgre-secret
               key: POSTGRES_PASSWORD
+        volumeMounts:
+        - name: postgre-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgre-data
+        persistentVolumeClaim:
+          claimName: postgre-claim
 ---
 apiVersion: v1
 kind: Service

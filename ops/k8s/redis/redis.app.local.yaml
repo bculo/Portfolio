@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: redis-deployment
+  name: redis-statefulset
   labels:
     app: redis
 spec:
   replicas: 1
+  serviceName: redis-service
   selector:
     matchLabels:
       app: redis
@@ -15,10 +16,18 @@ spec:
         app: redis
     spec:
       containers:
-        - name: redis
-          image: redis:7.2.1
-          ports:
-            - containerPort: 6379
+      - name: redis
+        image: redis:7.2.1
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-claim
 
 ---
 apiVersion: v1
@@ -29,6 +38,7 @@ spec:
   selector:
     app: redis
   ports:
-    - protocol: TCP
-      port: 6379
-      targetPort: 6379
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+
