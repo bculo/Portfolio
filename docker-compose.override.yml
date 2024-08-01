@@ -92,16 +92,5 @@ services:
     command: "azurite --loose --skipApiVersionCheck --blobHost 0.0.0.0 --blobPort 10000 --location /workspace --debug /workspace/debug.log" 
     volumes:
       - ./data/azurite/:/workspace
-
-  crypto.api:
-    image: crypto.api
-    ports:
-      - 8060:8080
-      - 8061:8081
-    depends_on:
-      - postgre-db
-      - rabbitmq
-      - redis
-    env_file: "ops/env_files/.crypto.api.env"
       
     
