@@ -28,7 +28,7 @@ namespace Crypto.IntegrationTests.Common
         {
             _scope.Dispose();
 
-            await Factory.ResetDatabaseAsync();
+            // await Factory.ResetDatabaseAsync();
         }
 
         public virtual Task InitializeAsync()

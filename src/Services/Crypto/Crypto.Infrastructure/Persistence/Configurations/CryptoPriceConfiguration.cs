@@ -6,6 +6,8 @@ namespace Crypto.Infrastructure.Persistence.Configurations
 {
     public class CryptoPriceConfiguration : IEntityTypeConfiguration<CryptoPrice>
     {
+        public const string TableName = "crypto_price";
+        
         public void Configure(EntityTypeBuilder<CryptoPrice> builder)
         {
             builder.HasNoKey();
@@ -17,7 +19,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .IsRequired();
             
             
-            builder.ToTable("crypto_price");
+            builder.ToTable(TableName);
         }
     }
 }

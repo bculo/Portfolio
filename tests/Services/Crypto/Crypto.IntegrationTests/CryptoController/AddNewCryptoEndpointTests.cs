@@ -13,9 +13,9 @@ namespace Crypto.IntegrationTests.CryptoController
     public class AddNewCryptoEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointTests(factory)
     {
         [Theory]
-        [InlineData("BTC2")]
-        [InlineData("---!-")]
-        [InlineData("ETHIIIIIIIIIIIIIIIIIIIIIIIII")]
+        [InlineData("")]
+        [InlineData("----")]
+        [InlineData("ETHII12!!!!!")]
         public async Task ShouldReturnBadRequest_WhenInvalidSymbolProvided(string symbol)
         {
             //Arrange
@@ -30,19 +30,17 @@ namespace Crypto.IntegrationTests.CryptoController
         }
         
         
-        [Theory]
-        [InlineData("MATIC")]
-        public async Task ShouldReturnStatusNoContent_WhenNewValidSymbolProvided(string symbol)
+        [Fact]
+        public async Task ShouldReturnStatusNoContent_WhenNewValidSymbolProvided()
         {
-            
             Client.WithRole(UserRole.Admin);
-            var request = new AddNewCommand { Symbol = symbol };
+            var request = new AddNewCommand { Symbol = Guid.NewGuid().ToString().Replace("-", "") };
             
             var infoResponse = MockFixture.Build<CoinMarketCapRootResponseDto>().Create();
             var firstItem = infoResponse.Data.Values!.FirstOrDefault();
             firstItem!.Insert(0, MockFixture.Build<CoinMarketCapInfoDto>()
-                .With(x => x.Symbol, symbol)
-                .With(x => x.Name, symbol)
+                .With(x => x.Symbol, request.Symbol)
+                .With(x => x.Name, request.Symbol)
                 .Create());
             
             await Factory.MockServer.ReturnsWithJsonOk(infoResponse, withPath: "/info");
@@ -54,14 +52,12 @@ namespace Crypto.IntegrationTests.CryptoController
             response.EnsureSuccessStatusCode();
         }
 
-        [Theory]
-        [InlineData("MATIC")]
-        [InlineData("BTC")]
-        public async Task ShouldReturnBadRequest_WhenExistingSymbolProvided(string symbol)
+        [Fact]
+        public async Task ShouldReturnBadRequest_WhenExistingSymbolProvided()
         {
             Client.WithRole(UserRole.Admin);
-            var request = new AddNewCommand { Symbol = symbol };
-            _ = await DataManager.AddInstance(symbol);
+            var request = new AddNewCommand { Symbol = Guid.NewGuid().ToString().Replace("-", "") };
+            _ = await DataManager.AddInstance(request.Symbol);
             
             //Act
             var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());

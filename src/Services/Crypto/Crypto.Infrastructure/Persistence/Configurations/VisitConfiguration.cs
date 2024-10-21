@@ -6,6 +6,8 @@ namespace Crypto.Infrastructure.Persistence.Configurations
 {
     public class VisitConfiguration : IEntityTypeConfiguration<Visit>
     {
+        public const string TableName = "visit";
+        
         public void Configure(EntityTypeBuilder<Visit> builder)
         {
             builder.HasKey(i => i.Id);
@@ -16,7 +18,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            builder.ToTable("visit");
+            builder.ToTable(TableName);
         }
     }
 }

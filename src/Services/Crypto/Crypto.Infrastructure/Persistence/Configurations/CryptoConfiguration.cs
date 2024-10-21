@@ -5,6 +5,8 @@ namespace Crypto.Infrastructure.Persistence.Configurations
 {
     public class CryptoConfiguration : IEntityTypeConfiguration<Core.Entities.Crypto>
     {
+        public const string TableName = "crypto";
+        
         public void Configure(EntityTypeBuilder<Core.Entities.Crypto> builder)
         {
             builder.HasKey(i => i.Id);
@@ -13,7 +15,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .IsUnique();
 
             builder.Property(i => i.Symbol)
-                .HasMaxLength(15)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(i => i.Name)
@@ -28,7 +30,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .HasMaxLength(250)
                 .IsRequired(false);
 
-            builder.ToTable("crypto");
+            builder.ToTable(TableName);
         }
     }
 }

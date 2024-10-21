@@ -1,4 +1,5 @@
 ﻿using Crypto.Application.Common.Constants;
+using Crypto.Application.Common.Extensions;
 using FluentValidation;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNew
@@ -7,9 +8,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
     {
         public AddNewCommandValidator()
         {
-            RuleFor(i => i.Symbol)
-                .Matches(RegexConstants.Symbol)
-                .NotEmpty();
+            RuleFor(i => i.Symbol).WithSymbolRule();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    symbol = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    symbol = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     logo = table.Column<string>(type: "text", nullable: false),

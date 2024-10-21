@@ -59,8 +59,8 @@ namespace Crypto.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Symbol")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("symbol");
 
                     b.Property<string>("WebSite")
@@ -125,6 +125,39 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_visit_cryptoid");
 
                     b.ToTable("visit", (string)null);
+                });
+
+            modelBuilder.Entity("Crypto.Core.ReadModels.CryptoLastPriceReadModel", b =>
+                {
+                    b.Property<Guid>("CryptoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cryptoid");
+
+                    b.Property<decimal>("LastPrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("lastprice");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("SourceCode")
+                        .HasColumnType("text")
+                        .HasColumnName("sourcecode");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("text")
+                        .HasColumnName("website");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("crypto_with_last_price", (string)null);
                 });
 
             modelBuilder.Entity("Crypto.Core.ReadModels.CryptoTimeFrameReadModel", b =>
