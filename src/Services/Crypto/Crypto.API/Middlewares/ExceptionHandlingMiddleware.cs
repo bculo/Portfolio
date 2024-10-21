@@ -3,24 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Middlewares;
 
-public class ExceptionHandlingMiddleware
+public class ExceptionHandlingMiddleware(
+    RequestDelegate next,
+    ILogger<ExceptionHandlingMiddleware> logger)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-    public ExceptionHandlingMiddleware(
-        RequestDelegate next,
-        ILogger<ExceptionHandlingMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception exception)
         {
@@ -30,7 +21,7 @@ public class ExceptionHandlingMiddleware
                 return;
             }
             
-            _logger.LogError("Exception occurred: {Exception}", exception);
+            logger.LogError("Exception occurred: {Exception}", exception);
 
             var problemDetails = new ProblemDetails
             {
@@ -45,7 +36,7 @@ public class ExceptionHandlingMiddleware
     
     private async Task HandleCoreException(HttpContext context, CryptoCoreException exception)
     {
-        _logger.LogError("Custom exception occurred: {Exception} ", exception);
+        logger.LogError("Custom exception occurred: {Exception} ", exception);
             
         var problem = new ProblemDetails
         {

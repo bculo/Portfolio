@@ -8,37 +8,37 @@ namespace Mail.API.Modules;
 
 public class MailModule : ICarterModule
 {
-    private const string MODULE_NAME = "Mail";
+    private const string ModuleName = "Mail";
     
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGroup("/v1")
-            .MapPost($"{MODULE_NAME}/InvokeSendMailProcedure", 
+            .MapPost($"{ModuleName}/InvokeSendMailProcedure", 
             async ([FromBody] InvokeSendMailProcedure.Command request, IMediator mediator, CancellationToken ct) =>
                 {
                     await mediator.Send(request, ct);
                     return Results.NoContent();
                 })
             .RequireAuthorization()
-            .WithTags(MODULE_NAME);
+            .WithTags(ModuleName);
         
         app.MapGroup("/v1")
-            .MapGet($"{MODULE_NAME}/GetSingleMail", 
+            .MapGet($"{ModuleName}/GetSingleMail", 
                 async ([AsParameters] GetSingleMail.Query request, IMediator mediator, CancellationToken ct) =>
                 {
                     return Results.Ok(await mediator.Send(request, ct));
                 })
             .RequireAuthorization()
-            .WithTags(MODULE_NAME);
+            .WithTags(ModuleName);
         
         app.MapGroup("/v1")
-            .MapGet($"{MODULE_NAME}/GetUserMail", 
+            .MapGet($"{ModuleName}/GetUserMail", 
                 async (IMediator mediator, CancellationToken ct) =>
                 {
                     return Results.Ok(await mediator.Send(new GetUserMails.Query(), ct));
                 })
             .RequireAuthorization()
-            .WithTags(MODULE_NAME);
+            .WithTags(ModuleName);
     }
 }
 

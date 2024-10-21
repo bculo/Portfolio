@@ -2,14 +2,14 @@ namespace Crypto.Core.ReadModels;
 
 public class CryptoTimeFrameReadModel
 {
-    public Guid CryptoId { get; set; }
-    public string Symbol { get; set; } = default!;
-    public string Name { get; set; } = default!;
-    public string Website { get; set; } = default!;
-    public string SourceCode { get; set; } = default!;
-    public DateTimeOffset TimeBucket { get; set; }
-    public decimal AvgPrice { get; set; }
-    public decimal MaxPrice { get; set; }
-    public decimal MinPrice { get; set; }
-    public decimal LastPrice { get; set; }
+    public Guid CryptoId { get; init; }
+    public string Symbol { get; init; } = default!;
+    public string Name { get; init; } = default!;
+    public string Website { get; init; } = default!;
+    public string SourceCode { get; init; } = default!;
+    public DateTimeOffset TimeBucket { get; init; }
+    public decimal AvgPrice { get; init; }
+    public decimal MaxPrice { get; init; }
+    public decimal MinPrice { get; init; }
+    public decimal LastPrice { get; init; }
 }

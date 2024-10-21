@@ -22,8 +22,11 @@ public static class EndpointsConfigurations
         public const string UpdatePrice = Controller + "/update-price";
         public const string UpdatePriceAll = Controller + "/update-price-all";
         public const string Page = Controller + "/page";
-        public const string Single = Controller + "/single";
-        public const string History = Controller + "/price-history";
+        public const string Single = Controller + "/single/{symbol}";
+        public const string History = Controller + "/price-history/{cryptoId}";
         public const string Popular = Controller + "/popular";
+        
+        public static string BuildSingleUrl(string symbol) => Path.Combine("single", symbol);
+        public static string BuildHistoryUrl(Guid cryptoId) => Path.Combine("single", cryptoId.ToString());
     }
 }

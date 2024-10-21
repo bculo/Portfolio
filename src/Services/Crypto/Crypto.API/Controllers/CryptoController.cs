@@ -89,7 +89,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(query));
     }
 
-    [HttpGet(EndpointsConfigurations.CryptoEndpoints.Single + "/{symbol}")]
+    [HttpGet(EndpointsConfigurations.CryptoEndpoints.Single)]
     [ProducesResponseType(typeof(FetchSingleResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -98,7 +98,7 @@ public class CryptoController(IMediator mediator) : ControllerBase
         return Ok(await mediator.Send(new FetchSingleQuery { Symbol = symbol }));
     }
     
-    [HttpGet(EndpointsConfigurations.CryptoEndpoints.History + "/{cryptoId}")]
+    [HttpGet(EndpointsConfigurations.CryptoEndpoints.History)]
     [ProducesResponseType(typeof(List<PriceHistoryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetPriceHistory(Guid cryptoId)

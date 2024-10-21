@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Core.Entities
+namespace Crypto.Core.Entities;
+
+public class Visit : Entity
 {
-    public class Visit : Entity
-    {
-        public Guid CryptoId { get; set; }
-        public virtual Crypto? Crypto { get; set; }
-    }
+    public Guid CryptoId { get; set; }
+    public virtual Crypto? Crypto { get; set; }
 }
+
