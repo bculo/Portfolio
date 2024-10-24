@@ -210,6 +210,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail.Infrastructure", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.IntegrationTests", "tests\Services\User\User.IntegrationTests\User.IntegrationTests.csproj", "{EA69F45D-011A-4CD2-BD13-6429B9601B8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Shared", "tests\Services\Crypto\Crypto.Shared\Crypto.Shared.csproj", "{2EB8EC07-5449-4862-BC8C-D22E456BBE81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -480,6 +482,10 @@ Global
 		{EA69F45D-011A-4CD2-BD13-6429B9601B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA69F45D-011A-4CD2-BD13-6429B9601B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA69F45D-011A-4CD2-BD13-6429B9601B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -574,6 +580,7 @@ Global
 		{AD4C5CE0-BFA9-4DEC-9CA0-A5ACE6456163} = {4598C28E-F027-4075-9045-1B5009AA89C9}
 		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA} = {D717FC95-CDFD-4518-B90B-70998B516924}
 		{EA69F45D-011A-4CD2-BD13-6429B9601B8A} = {03394DC0-2427-44C3-A9F2-B37F1B2C9073}
+		{2EB8EC07-5449-4862-BC8C-D22E456BBE81} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

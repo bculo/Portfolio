@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Services\Crypto\Crypto.API\Crypto.API.csproj" />
     <ProjectReference Include="..\..\..\Common\Tests.Common\Tests.Common.csproj" />
+    <ProjectReference Include="..\Crypto.Shared\Crypto.Shared.csproj" />
   </ItemGroup>
 
 </Project>
