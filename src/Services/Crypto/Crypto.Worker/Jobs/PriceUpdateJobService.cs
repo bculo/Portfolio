@@ -20,7 +20,7 @@ namespace Crypto.Worker.Jobs
             };
             
             await publishEndpoint.Publish(@event);
-            await work.Commit(); //Outbox pattern commit
+            await work.Commit();
         }
     }
 }
