@@ -14,11 +14,7 @@ namespace Crypto.Core.Entities
         public string? Logo { get; set; }
         public string? WebSite { get; set; }
         public string? SourceCode { get; set; }
-        public ICollection<Visit> Visits { get; set; }
-
-        public Crypto()
-        {
-            Visits = new HashSet<Visit>();
-        }
+        public ICollection<Visit> Visits { get; set; } = []; 
+        public ICollection<CryptoPrice> Prices { get; set; } = []; 
     }
 }

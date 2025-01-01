@@ -1,0 +1,29 @@
+#file: noinspection YAMLSchemaValidation
+version: 2.1
+
+orbs:
+  1password: onepassword/secrets@1.0.0
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-2204:current
+    working_directory: /temp
+    steps:
+      - run:
+          name: Install .NET SDK
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y dotnet-sdk-8.0 jq
+      - checkout:
+          path: /temp/code
+                    
+workflows:
+  build_test:
+    jobs:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - ops/circle-setup
+                - main
