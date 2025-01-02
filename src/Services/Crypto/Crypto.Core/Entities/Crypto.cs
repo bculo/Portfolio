@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Crypto.Core.Entities
+﻿namespace Crypto.Core.Entities
 {
     public sealed class Crypto : Entity
     {
@@ -15,6 +9,5 @@ namespace Crypto.Core.Entities
         public string? WebSite { get; set; }
         public string? SourceCode { get; set; }
         public ICollection<Visit> Visits { get; set; } = []; 
-        public ICollection<CryptoPrice> Prices { get; set; } = []; 
     }
 }

@@ -2,11 +2,11 @@
 
 public class CryptoPrice
 {
-    public DateTimeOffset Time { get; set; }
+    public DateTimeOffset Time { get; init; }
     
-    public decimal Price { get; set; }
+    public decimal Price { get; init; }
     
-    public Guid CryptoId { get; set; }
-    public virtual Crypto Crypto { get; set; } = default!;
+    public Guid CryptoId { get; init; }
+    public Crypto Crypto { get; init; } = default!;
 }
 
