@@ -17,13 +17,5 @@ namespace Crypto.Core.Exceptions
         {
 
         }
-        
-        public static void ThrowIfNull(object instance, string message)
-        {
-            if (instance is null)
-            {
-                throw new CryptoCoreNotFoundException(message);
-            }
-        }
     }
 }
