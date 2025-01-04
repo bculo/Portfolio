@@ -61,7 +61,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
         {
             return new CryptoPriceEntity
             {
-                CryptoId = cryptoId,
+                CryptoEntityId = cryptoId,
                 Price = result.Price,
                 Time = timeProvider.UtcOffset
             };

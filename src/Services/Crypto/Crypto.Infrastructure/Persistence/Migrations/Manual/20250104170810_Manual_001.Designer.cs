@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crypto.Infrastructure.Persistence.Migrations.Manual
 {
     [DbContext(typeof(CryptoDbContext))]
-    [Migration("20250104162938_Migration_001")]
-    partial class Migration_001
+    [Migration("20250104170810_Manual_001")]
+    partial class Manual_001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,10 +85,6 @@ namespace Crypto.Infrastructure.Persistence.Migrations.Manual
                     b.Property<Guid>("CryptoEntityId")
                         .HasColumnType("uuid")
                         .HasColumnName("cryptoentityid");
-
-                    b.Property<Guid>("CryptoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cryptoid");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -163,7 +159,7 @@ namespace Crypto.Infrastructure.Persistence.Migrations.Manual
 
                     b.ToTable((string)null);
 
-                    b.ToSqlQuery("\n				SELECT \n					C.id as cryptoid, \n					C.symbol,\n					C.website,\n					C.sourcecode,\n					C.name,\n					TST.lastprice\n				FROM public.crypto AS C\n				INNER JOIN (\n					SELECT \n						cryptoid,\n						LAST(price, time) AS lastprice\n					FROM public.crypto_price AS CP\n					GROUP BY cryptoid\n				) TST\n				ON C.id = TST.cryptoid");
+                    b.ToSqlQuery("\n				SELECT \n					C.id as cryptoid, \n					C.symbol,\n					C.website,\n					C.sourcecode,\n					C.name,\n					TST.lastprice\n				FROM public.crypto AS C\n				INNER JOIN (\n					SELECT \n						cryptoentityid,\n						LAST(price, time) AS lastprice\n					FROM public.crypto_price AS CP\n					GROUP BY cryptoentityid\n				) TST\n				ON C.id = TST.cryptoentityid");
                 });
 
             modelBuilder.Entity("Crypto.Core.ReadModels.CryptoTimeFrameReadModel", b =>

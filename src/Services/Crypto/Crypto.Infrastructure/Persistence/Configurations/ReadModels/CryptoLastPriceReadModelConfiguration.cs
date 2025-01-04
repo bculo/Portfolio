@@ -21,11 +21,11 @@ public class CryptoLastPriceReadModelConfiguration : IEntityTypeConfiguration<Cr
 				FROM {DbTables.CryptoTable.FullName} AS C
 				INNER JOIN (
 					SELECT 
-						cryptoid,
+						cryptoentityid,
 						LAST(price, time) AS lastprice
 					FROM {DbTables.CryptoPriceTable.FullName} AS CP
-					GROUP BY cryptoid
+					GROUP BY cryptoentityid
 				) TST
-				ON C.id = TST.cryptoid");
+				ON C.id = TST.cryptoentityid");
     }
 }

@@ -83,10 +83,6 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("cryptoentityid");
 
-                    b.Property<Guid>("CryptoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cryptoid");
-
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -160,7 +156,7 @@ namespace Crypto.Infrastructure.Persistence.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToSqlQuery("\n				SELECT \n					C.id as cryptoid, \n					C.symbol,\n					C.website,\n					C.sourcecode,\n					C.name,\n					TST.lastprice\n				FROM public.crypto AS C\n				INNER JOIN (\n					SELECT \n						cryptoid,\n						LAST(price, time) AS lastprice\n					FROM public.crypto_price AS CP\n					GROUP BY cryptoid\n				) TST\n				ON C.id = TST.cryptoid");
+                    b.ToSqlQuery("\n				SELECT \n					C.id as cryptoid, \n					C.symbol,\n					C.website,\n					C.sourcecode,\n					C.name,\n					TST.lastprice\n				FROM public.crypto AS C\n				INNER JOIN (\n					SELECT \n						cryptoentityid,\n						LAST(price, time) AS lastprice\n					FROM public.crypto_price AS CP\n					GROUP BY cryptoentityid\n				) TST\n				ON C.id = TST.cryptoentityid");
                 });
 
             modelBuilder.Entity("Crypto.Core.ReadModels.CryptoTimeFrameReadModel", b =>

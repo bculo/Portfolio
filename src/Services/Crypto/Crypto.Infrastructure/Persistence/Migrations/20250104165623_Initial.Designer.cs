@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crypto.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CryptoDbContext))]
-    [Migration("20250104162744_Initial")]
+    [Migration("20250104165623_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -85,10 +85,6 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("CryptoEntityId")
                         .HasColumnType("uuid")
                         .HasColumnName("cryptoentityid");
-
-                    b.Property<Guid>("CryptoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cryptoid");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)

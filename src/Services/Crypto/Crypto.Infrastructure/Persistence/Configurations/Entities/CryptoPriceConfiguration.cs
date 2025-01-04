@@ -16,7 +16,6 @@ namespace Crypto.Infrastructure.Persistence.Configurations.Entities
                 .HasPrecision(18, 2)
                 .IsRequired();
             
-            
             builder.ToTable(DbTables.CryptoPriceTable.Name);
         }
     }

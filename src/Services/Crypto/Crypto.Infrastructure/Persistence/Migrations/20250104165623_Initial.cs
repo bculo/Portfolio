@@ -122,7 +122,6 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                 {
                     time = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     price = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    cryptoid = table.Column<Guid>(type: "uuid", nullable: false),
                     cryptoentityid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

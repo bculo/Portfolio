@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Crypto.Infrastructure.Persistence.Migrations.Manual
 {
     /// <inheritdoc />
-    public partial class Migration_001 : Migration
+    public partial class Manual_001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

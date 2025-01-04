@@ -35,7 +35,7 @@ public static class CryptoWithPriceFunctionScript
                 INNER JOIN (
                     SELECT 
                         time_bucket('1 min'::INTERVAL * timebucketmin, time) AS timebucket, 
-                        cryptoid,
+                        cryptoentityid,
                         COUNT(*) AS counter,
                         AVG(price) AS avgprice,
                         MIN(price) AS minprice,
@@ -43,9 +43,9 @@ public static class CryptoWithPriceFunctionScript
                         LAST(price, time) AS lastprice
                     FROM {DbTables.CryptoPriceTable.FullName} AS CP
                     WHERE time > now() - '1 min'::INTERVAL * notoldermin
-                    GROUP BY timebucket, cryptoid
+                    GROUP BY timebucket, cryptoentityid
                 ) TST
-                ON C.id = TST.cryptoid
+                ON C.id = TST.cryptoentityid
                 ORDER BY C.symbol, TST.timebucket;
             $$;
     ";

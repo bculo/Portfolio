@@ -20,7 +20,11 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
                 i => i.Symbol.ToLower() == request.Symbol.ToLower(), 
                 track: true,
                 ct: ct);
-            CryptoCoreNotFoundException.ThrowIfNull(entity, $"Item with symbol {request.Symbol} not found");
+
+            if (entity == null)
+            {
+                throw new CryptoCoreNotFoundException($"Item with symbol {request.Symbol} not found");
+            }
             
             var infoResponse = await infoService.GetInformation(request.Symbol, ct);
             

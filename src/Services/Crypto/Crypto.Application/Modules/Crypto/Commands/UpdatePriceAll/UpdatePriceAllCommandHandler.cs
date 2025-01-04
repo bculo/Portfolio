@@ -59,7 +59,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 
                 prices.Add(new CryptoPriceEntity
                 {
-                    CryptoId = crypto.Id,
+                    CryptoEntityId = crypto.Id,
                     Price = response.Price,
                     Time = provider.UtcOffset
                 });
