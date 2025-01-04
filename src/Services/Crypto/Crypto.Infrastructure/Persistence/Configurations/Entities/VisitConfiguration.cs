@@ -2,13 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Crypto.Infrastructure.Persistence.Configurations
+namespace Crypto.Infrastructure.Persistence.Configurations.Entities
 {
-    public class VisitConfiguration : IEntityTypeConfiguration<Visit>
+    public class VisitConfiguration : IEntityTypeConfiguration<VisitEntity>
     {
-        public const string TableName = "visit";
-        
-        public void Configure(EntityTypeBuilder<Visit> builder)
+        public void Configure(EntityTypeBuilder<VisitEntity> builder)
         {
             builder.HasKey(i => i.Id);
 
@@ -18,7 +16,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            builder.ToTable(TableName);
+            builder.ToTable(DbTables.VisitTable.Name);
         }
     }
 }

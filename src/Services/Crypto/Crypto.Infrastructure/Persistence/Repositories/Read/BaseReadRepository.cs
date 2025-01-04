@@ -7,17 +7,13 @@ using Queryable.Common.Extensions;
 
 namespace Crypto.Infrastructure.Persistence.Repositories.Read;
 
-public class BaseReadRepository<T> : IBaseReadRepository<T> where T : class
+public class BaseReadRepository<T>(CryptoDbContext context) : IBaseReadRepository<T>
+    where T : class
 {
-    public CryptoDbContext Context { get; }
+    public CryptoDbContext Context { get; } = context;
     public DbSet<T> Set => Context.Set<T>();
-    
-    
-    public BaseReadRepository(CryptoDbContext context)
-    {
-        Context = context;
-    }
-    
+
+
     public async Task<List<T>> GetAll(CancellationToken ct = default)
     {
         return await Set.ToListAsync(ct);

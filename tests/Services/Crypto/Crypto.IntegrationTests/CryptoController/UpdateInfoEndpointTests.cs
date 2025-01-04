@@ -4,6 +4,7 @@ using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Helpers;
+using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
 using FluentAssertions;
 using Tests.Common.Extensions;
@@ -32,12 +33,12 @@ public class UpdateInfoEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpo
     {
         //Arrange
         Client.WithRole(UserRole.Admin);
-        var request = new UpdateInfoCommand { Symbol = SymbolGenerator.Generate() };
-        _ = await DataManager.AddInstance(request.Symbol);
-    
-        await CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, request.Symbol);
+        
+        var entity = await DataManager.Add(new CryptoEntityBuilder().Build());
+        await CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, entity.Symbol);
         
         //Act
+        var request = new UpdateInfoCommand { Symbol = entity.Symbol };
         var response = await Client.PutAsync(EndpointsConfigurations.CryptoEndpoints.UpdateInfo, request.AsHttpContent());
 
         //Assert

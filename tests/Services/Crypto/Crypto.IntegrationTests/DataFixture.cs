@@ -1,28 +1,23 @@
 using AutoFixture;
 using Crypto.Application.Interfaces.Repositories;
+using Crypto.Core.Entities;
+using Crypto.Infrastructure.Persistence;
 using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests;
 
-public class DataFixture
+public class DataFixture(CryptoDbContext context)
 {
-    private readonly IUnitOfWork _work;
-    private readonly Fixture _fixture = new Fixture().Configure();
-
-    public DataFixture(IUnitOfWork work)
+    public async Task<T> Add<T>(T entity) where T : Entity
     {
-        _work = work;
+        context.Set<T>().Add(entity);
+        await context.SaveChangesAsync();
+        return entity;
     }
-
-    public async Task<Crypto.Core.Entities.Crypto> AddInstance(string name)
+    
+    public async Task AddRange<T>(List<T> entities) where T : Entity
     {
-        var crypto = _fixture.Create<Crypto.Core.Entities.Crypto>();
-        crypto.Name = name;
-        crypto.Symbol = name;
-
-        await _work.CryptoRepo.Add(crypto);
-        await _work.Commit();
-        
-        return crypto;
+        context.Set<T>().AddRange(entities);
+        await context.SaveChangesAsync();
     }
 }

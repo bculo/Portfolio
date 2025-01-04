@@ -42,11 +42,11 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             return new UpdatePriceAllResponse { NumberOfUpdates = prices.Count };
         }
 
-        private (List<CryptoPrice> price, List<CryptoPriceUpdated> events) GetInstances(
+        private (List<CryptoPriceEntity> price, List<CryptoPriceUpdated> events) GetInstances(
             List<PriceResponse> priceResponses,
-            Dictionary<string, Core.Entities.Crypto> cryptoDict)
+            Dictionary<string, Core.Entities.CryptoEntity> cryptoDict)
         {
-            List<CryptoPrice> prices = new();
+            List<CryptoPriceEntity> prices = new();
             List<CryptoPriceUpdated> events = new();
             foreach(var response in priceResponses)
             {
@@ -57,7 +57,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
             
                 var crypto = cryptoDict[response.Symbol];
                 
-                prices.Add(new CryptoPrice
+                prices.Add(new CryptoPriceEntity
                 {
                     CryptoId = crypto.Id,
                     Price = response.Price,

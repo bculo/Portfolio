@@ -36,7 +36,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdateInfo
             }, ct);
         }
 
-        private async Task UpdateInstance(Core.Entities.Crypto entity, 
+        private async Task UpdateInstance(Core.Entities.CryptoEntity entity, 
             CryptoInformation infoResponse, 
             CancellationToken ct)
         {

@@ -32,7 +32,7 @@ using var dbContext = new CryptoDbContext(optionsBuilder.Options, mockConnection
 
 
 // Approach 1
-var builder = DynamicExpressionBuilder<Crypto.Core.Entities.Visit>.Create();
+var builder = DynamicExpressionBuilder<Crypto.Core.Entities.VisitEntity>.Create();
 
 var request = new
 {
@@ -51,13 +51,13 @@ var queryFilters = new List<QueryFilter>
     {
         Operation = Operation.Contains,
         Value = "BTC",
-        PropertyName = nameof(Crypto.Core.Entities.Crypto.Symbol)
+        PropertyName = nameof(Crypto.Core.Entities.CryptoEntity.Symbol)
     },
     new QueryFilter
     {
         Operation = Operation.Contains,
         Value = "Bitcoin",
-        PropertyName = nameof(Crypto.Core.Entities.Crypto.Name)
+        PropertyName = nameof(Crypto.Core.Entities.CryptoEntity.Name)
     },
 };
 
@@ -81,11 +81,11 @@ Console.WriteLine("STOP");
 
 public class FilterDto : FilterBase
 {
-    [CompareTo( nameof(Crypto.Core.Entities.Crypto.Symbol))]
+    [CompareTo( nameof(Crypto.Core.Entities.CryptoEntity.Symbol))]
     [StringFilterOptions(StringFilterOption.Contains)]
     public string? Symbol { get; set; }
 
-    [CompareTo(nameof(Crypto.Core.Entities.Crypto.Name))]
+    [CompareTo(nameof(Crypto.Core.Entities.CryptoEntity.Name))]
     [StringFilterOptions(StringFilterOption.Contains)]
     public string? Name { get; set; }
 }

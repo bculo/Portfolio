@@ -6,8 +6,8 @@ namespace Crypto.Application.Interfaces.Repositories
 {
     public interface ICryptoPriceRepository
     {
-        Task Add(CryptoPrice price, CancellationToken ct = default);
-        Task BulkInsert(List<CryptoPrice> prices, CancellationToken ct = default);
+        Task Add(CryptoPriceEntity priceEntity, CancellationToken ct = default);
+        Task BulkInsert(List<CryptoPriceEntity> prices, CancellationToken ct = default);
         Task<CryptoLastPriceReadModel?> GetLastPrice(Guid id, CancellationToken ct = default);
         Task<CryptoLastPriceReadModel?> GetLastPrice(string symbol, CancellationToken ct = default);
         Task<PageResult<CryptoLastPriceReadModel>> GetPage(CryptoPricePageQuery query, CancellationToken ct = default);

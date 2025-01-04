@@ -31,6 +31,24 @@
   <ItemGroup>
     <Compile Remove="Persistence\Migrations\20240222113758_Add_CryptoWithPrice_Function.cs" />
     <Compile Remove="Persistence\Migrations\20240222113758_Add_CryptoWithPrice_Function.Designer.cs" />
+    <Compile Remove="Persistence\Configurations\CryptoPriceConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\VisitConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\CryptoLastPriceReadModelConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\CryptoTimeFrameReadModelConfiguration.cs" />
+    <Compile Remove="Persistence\Migrations\20240219204949_Initial.cs" />
+    <Compile Remove="Persistence\Migrations\20240219204949_Initial.Designer.cs" />
+    <Compile Remove="Persistence\Migrations\20240219205015_Turn_CryptoPrice_To_HyperTable.cs" />
+    <Compile Remove="Persistence\Migrations\20240219205015_Turn_CryptoPrice_To_HyperTable.Designer.cs" />
+    <Compile Remove="Persistence\Migrations\20240221124025_Add_Outbox_Configuration.cs" />
+    <Compile Remove="Persistence\Migrations\20240221124025_Add_Outbox_Configuration.Designer.cs" />
+    <Compile Remove="Persistence\Migrations\20240222123335_Add_CryptoWithPrice_Function.cs" />
+    <Compile Remove="Persistence\Migrations\20240222123335_Add_CryptoWithPrice_Function.Designer.cs" />
+    <Compile Remove="Persistence\Migrations\20240318132156_Add_CryptoWithLastPrice_View.cs.cs" />
+    <Compile Remove="Persistence\Migrations\20240318132156_Add_CryptoWithLastPrice_View.cs.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
 </Project>

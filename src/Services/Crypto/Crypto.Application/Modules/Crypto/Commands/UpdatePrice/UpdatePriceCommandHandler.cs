@@ -27,7 +27,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
             
              var priceResponse = await priceService.GetPriceInfo(request.Symbol, ct);
              
-             var newPriceInstance = new CryptoPrice
+             var newPriceInstance = new CryptoPriceEntity
              {
                  CryptoId = entity.Id,
                  Price = priceResponse.Price,

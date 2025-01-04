@@ -5,6 +5,7 @@ using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Crypto.Infrastructure.Information.Models;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Helpers;
+using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
 using FluentAssertions;
 using Tests.Common.Extensions;
@@ -20,14 +21,11 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     [InlineData("ETHII12!!!!!")]
     public async Task ShouldReturnBadRequest_WhenInvalidSymbolProvided(string symbol)
     {
-        //Arrange
         Client.WithRole(UserRole.Admin);
         var request = new AddNewCommand { Symbol = symbol };
-    
-        //Act
+        
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
-
-        //Assert
+        
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
     
@@ -40,10 +38,8 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
 
         await CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, request.Symbol);
         
-        //Act
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
-
-        //Assert
+        
         response.EnsureSuccessStatusCode();
     }
 
@@ -51,13 +47,12 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     public async Task ShouldReturnBadRequest_WhenExistingSymbolProvided()
     {
         Client.WithRole(UserRole.Admin);
-        var request = new AddNewCommand { Symbol = SymbolGenerator.Generate() };
-        _ = await DataManager.AddInstance(request.Symbol);
         
-        //Act
+        var entity = await DataManager.Add(new CryptoEntityBuilder().Build());
+        
+        var request = new AddNewCommand { Symbol = entity.Symbol };
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
-
-        //Assert
+        
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

@@ -10,7 +10,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.Visited
     {
         public async Task Handle(VisitedCommand request, CancellationToken ct)
         {
-            await work.VisitRepo.Add(new Visit
+            await work.VisitRepo.Add(new VisitEntity
             {
                 CryptoId = request.CryptoId
             }, ct);

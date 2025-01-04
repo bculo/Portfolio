@@ -8,23 +8,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto.Infrastructure.Information
 {
-    public class CoinMarketCapClient : ICryptoInfoService
+    public class CoinMarketCapClient(
+        IHttpClientFactory clientFactory,
+        ILogger<CoinMarketCapClient> logger)
+        : ICryptoInfoService
     {
-        private readonly IHttpClientFactory _clientFactory;
-        private readonly ILogger<CoinMarketCapClient> _logger;
-
-        public CoinMarketCapClient(IHttpClientFactory clientFactory,
-            ILogger<CoinMarketCapClient> logger)
-        {
-            _clientFactory = clientFactory;
-            _logger = logger;
-        }
+        private readonly ILogger<CoinMarketCapClient> _logger = logger;
 
         public async Task<CryptoInformation> GetInformation(string symbol,  CancellationToken ct = default)
         {
             ArgumentNullException.ThrowIfNull(symbol);
             
-            var client = _clientFactory.CreateClient(ApiClient.CryptoInfo);
+            var client = clientFactory.CreateClient(ApiClient.CryptoInfo);
             
             var response = await client.GetAsync($"info?symbol={symbol}", ct);
             

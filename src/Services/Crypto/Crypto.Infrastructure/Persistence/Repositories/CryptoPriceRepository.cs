@@ -17,14 +17,14 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task Add(CryptoPrice price, CancellationToken ct = default)
+        public async Task Add(CryptoPriceEntity priceEntity, CancellationToken ct = default)
         {
             await _context.Database.ExecuteSqlInterpolatedAsync(
-                $"INSERT INTO public.crypto_price(\"time\", price, cryptoid) VALUES ({price.Time}, {price.Price}, {price.CryptoId});",
+                $"INSERT INTO public.crypto_price(\"time\", price, cryptoid) VALUES ({priceEntity.Time}, {priceEntity.Price}, {priceEntity.CryptoId});",
                 ct);
         }
         
-        public async Task BulkInsert(List<CryptoPrice> prices, CancellationToken ct = default)
+        public async Task BulkInsert(List<CryptoPriceEntity> prices, CancellationToken ct = default)
         {
             await _context.BulkInsertAsync(prices, cancellationToken: ct);
         }
@@ -32,33 +32,33 @@ namespace Crypto.Infrastructure.Persistence.Repositories
         public async Task<CryptoLastPriceReadModel?> GetLastPrice(Guid id, CancellationToken ct = default)
         {
             return await _context.Prices.Where(i => i.CryptoId == id)
-                .Include(x => x.Crypto)
+                .Include(x => x.CryptoEntity)
                 .OrderByDescending(x => x.Time)
                 .Select(i => new CryptoLastPriceReadModel
                 {
                     CryptoId = i.CryptoId,
-                    Name = i.Crypto.Name,
-                    Symbol = i.Crypto.Symbol,
-                    Website = i.Crypto.WebSite,
+                    Name = i.CryptoEntity.Name,
+                    Symbol = i.CryptoEntity.Symbol,
+                    Website = i.CryptoEntity.WebSite,
                     LastPrice = i.Price,
-                    SourceCode = i.Crypto.SourceCode
+                    SourceCode = i.CryptoEntity.SourceCode
                 })
                 .FirstOrDefaultAsync(ct);
         }
 
         public async Task<CryptoLastPriceReadModel?> GetLastPrice(string symbol, CancellationToken ct = default)
         {
-            return await _context.Prices.Where(i => i.Crypto.Symbol.ToLower() == symbol.ToLower())
-                .Include(x => x.Crypto)
+            return await _context.Prices.Where(i => i.CryptoEntity.Symbol.ToLower() == symbol.ToLower())
+                .Include(x => x.CryptoEntity)
                 .OrderByDescending(x => x.Time)
                 .Select(i => new CryptoLastPriceReadModel
                 {
                     CryptoId = i.CryptoId,
-                    Name = i.Crypto.Name,
-                    Symbol = i.Crypto.Symbol,
-                    Website = i.Crypto.WebSite,
+                    Name = i.CryptoEntity.Name,
+                    Symbol = i.CryptoEntity.Symbol,
+                    Website = i.CryptoEntity.WebSite,
                     LastPrice = i.Price,
-                    SourceCode = i.Crypto.SourceCode
+                    SourceCode = i.CryptoEntity.SourceCode
                 })
                 .FirstOrDefaultAsync(ct);
         }
