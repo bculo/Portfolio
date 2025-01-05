@@ -9,6 +9,7 @@ public class RedisFixture : IContainerFixture
     private readonly RedisContainer _container = new RedisBuilder()
         .WithImage("redis:7.2")
         .WithName($"Redis.{Guid.NewGuid()}")
+        .WithCleanUp(true)
         .Build();
     
     public async Task InitializeAsync()

@@ -1,8 +1,6 @@
 ﻿using System.Net;
-using AutoFixture;
 using Crypto.API.Controllers;
 using Crypto.Application.Modules.Crypto.Commands.AddNew;
-using Crypto.Infrastructure.Information.Models;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Helpers;
 using Crypto.Shared.Builders;

@@ -15,11 +15,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y dotnet-sdk-8.0 jq
     - checkout
-    # - run:
-    #     name: Start docker compose
-    #     command: |
-    #       cd ./ops/local
-    #       docker compose up -d
+    - run:
+        name: Start docker compose
+        command: |
+          cd ./ops/local
+          docker compose up -d
     - run:
         name: Restore packages
         command: dotnet restore PortfolioTracker.sln
@@ -27,8 +27,8 @@ jobs:
         name: Build microservices
         command: dotnet build PortfolioTracker.sln --no-restore
     - run:
-        name: List test projects
-        command: dotnet list PortfolioTracker.sln package
+        name: Run integration tests
+        command: dotnet test PortfolioTracker.sln
 
 workflows:
   build_test:
