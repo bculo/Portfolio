@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.IntegrationTests
 {
-    [CollectionDefinition(nameof(CryptoApiCollection))]
+    [CollectionDefinition(nameof(CryptoApiCollection), DisableParallelization = true)]
     public class CryptoApiCollection : ICollectionFixture<CryptoApiFactory>
     {
     }
