@@ -4,6 +4,7 @@ using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
 using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Helpers;
+using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
 using FluentAssertions;
 using Tests.Common.Extensions;
@@ -32,9 +33,9 @@ public class UpdatePriceEndpointTests(CryptoApiFactory factory) : BaseCryptoEndp
     {
         //Arrange
         Client.WithRole(UserRole.Admin);
-        var request = new UpdatePriceCommand() { Symbol = SymbolGenerator.Generate() };
-        _ = await DataManager.AddInstance(request.Symbol);
+        var entity = await DataManager.Add(new CryptoEntityBuilder().Build());
         
+        var request = new UpdatePriceCommand() { Symbol = entity.Symbol };
         var response = await Client.PutAsync(EndpointsConfigurations.CryptoEndpoints.UpdatePrice, request.AsHttpContent());
 
         //Assert

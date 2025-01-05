@@ -9,6 +9,7 @@ public class RabbitMqFixture : IContainerFixture
     private readonly RabbitMqContainer _container = new RabbitMqBuilder()
         .WithImage("masstransit/rabbitmq")
         .WithName($"RabbitMQ.{Guid.NewGuid()}")
+        .WithCleanUp(true)
         .Build();
 
     public async Task InitializeAsync()

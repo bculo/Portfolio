@@ -12,6 +12,7 @@ public class MongoFixture : ContainerFixture
         _container = new MongoDbBuilder()
             .WithImage("mongo:7.0.4")
             .WithName($"Mongo.{Guid.NewGuid()}")
+            .WithCleanUp(true)
             .Build();
     }
 

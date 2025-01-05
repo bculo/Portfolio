@@ -7,6 +7,6 @@ public class CryptoPrice
     public decimal Price { get; init; }
     
     public Guid CryptoId { get; init; }
-    public Crypto Crypto { get; init; } = default!;
+    public CryptoEntity Crypto { get; init; } = default!;
 }
 

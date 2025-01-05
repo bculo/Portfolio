@@ -4,6 +4,6 @@ public static class SymbolGenerator
 {
     public static string Generate()
     {
-        return Guid.NewGuid().ToString().Replace("-", string.Empty);
+        return Ulid.NewUlid().ToString();
     }
 }

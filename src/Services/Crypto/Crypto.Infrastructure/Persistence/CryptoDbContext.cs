@@ -6,6 +6,7 @@ using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 using Time.Abstract.Contracts;
+using DbFunctions = Crypto.Infrastructure.Persistence.Configurations.DbFunctions;
 
 namespace Crypto.Infrastructure.Persistence
 {
@@ -15,8 +16,8 @@ namespace Crypto.Infrastructure.Persistence
         IDateTimeProvider time)
         : SagaDbContext(options)
     {
-        public virtual DbSet<Core.Entities.Crypto> Cryptos => Set<Core.Entities.Crypto>();
-        public virtual DbSet<CryptoPrice> Prices => Set<CryptoPrice>();
+        public virtual DbSet<CryptoEntity> Cryptos => Set<CryptoEntity>();
+        public virtual DbSet<CryptoPriceEntity> Prices => Set<CryptoPriceEntity>();
         public virtual DbSet<CryptoLastPriceReadModel> CryptoLastPrice => Set<CryptoLastPriceReadModel>();
 
         #region FUNCTIONS
@@ -45,7 +46,7 @@ namespace Crypto.Infrastructure.Persistence
                 b =>
                 {
                     b.IsBuiltIn(false);
-                    b.HasName("get_data_by_timeframe");
+                    b.HasName(DbFunctions.CryptoPriceTimeFrame.Name);
                 });
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using Crypto.Application.Interfaces.Price;
+﻿using Crypto.Application.Interfaces.Price;
 using Crypto.Infrastructure.Persistence;
 using Crypto.Infrastructure.Price;
 using Microsoft.AspNetCore.Hosting;

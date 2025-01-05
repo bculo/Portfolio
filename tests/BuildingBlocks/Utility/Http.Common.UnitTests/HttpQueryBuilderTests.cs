@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Http.Common.Builders;
-using NSubstitute;
 using Xunit;
 
 namespace Http.Common.UnitTests;

@@ -22,19 +22,18 @@ namespace Crypto.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Crypto.Core.Entities.Crypto", b =>
+            modelBuilder.Entity("Crypto.Core.Entities.CryptoEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("createdon");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("description");
 
@@ -42,7 +41,7 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("logo");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTimeOffset>("ModifiedOn")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modifiedon");
 
@@ -78,11 +77,11 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                     b.ToTable("crypto", (string)null);
                 });
 
-            modelBuilder.Entity("Crypto.Core.Entities.CryptoPrice", b =>
+            modelBuilder.Entity("Crypto.Core.Entities.CryptoPriceEntity", b =>
                 {
-                    b.Property<Guid>("CryptoId")
+                    b.Property<Guid>("CryptoEntityId")
                         .HasColumnType("uuid")
-                        .HasColumnName("cryptoid");
+                        .HasColumnName("cryptoentityid");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -93,20 +92,20 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("time");
 
-                    b.HasIndex("CryptoId")
-                        .HasDatabaseName("ix_crypto_price_cryptoid");
+                    b.HasIndex("CryptoEntityId")
+                        .HasDatabaseName("ix_crypto_price_cryptoentityid");
 
                     b.ToTable("crypto_price", (string)null);
                 });
 
-            modelBuilder.Entity("Crypto.Core.Entities.Visit", b =>
+            modelBuilder.Entity("Crypto.Core.Entities.VisitEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("createdon");
 
@@ -114,7 +113,7 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("cryptoid");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTimeOffset>("ModifiedOn")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modifiedon");
 
@@ -157,7 +156,7 @@ namespace Crypto.Infrastructure.Persistence.Migrations
 
                     b.ToTable((string)null);
 
-                    b.ToView("crypto_with_last_price", (string)null);
+                    b.ToSqlQuery("\n				SELECT \n					C.id as cryptoid, \n					C.symbol,\n					C.website,\n					C.sourcecode,\n					C.name,\n					TST.lastprice\n				FROM public.crypto AS C\n				INNER JOIN (\n					SELECT \n						cryptoentityid,\n						LAST(price, time) AS lastprice\n					FROM public.crypto_price AS CP\n					GROUP BY cryptoentityid\n				) TST\n				ON C.id = TST.cryptoentityid");
                 });
 
             modelBuilder.Entity("Crypto.Core.ReadModels.CryptoTimeFrameReadModel", b =>
@@ -458,31 +457,31 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                     b.ToTable("outboxstate", (string)null);
                 });
 
-            modelBuilder.Entity("Crypto.Core.Entities.CryptoPrice", b =>
+            modelBuilder.Entity("Crypto.Core.Entities.CryptoPriceEntity", b =>
                 {
-                    b.HasOne("Crypto.Core.Entities.Crypto", "Crypto")
+                    b.HasOne("Crypto.Core.Entities.CryptoEntity", "CryptoEntity")
                         .WithMany()
-                        .HasForeignKey("CryptoId")
+                        .HasForeignKey("CryptoEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_crypto_price_crypto_cryptoid");
+                        .HasConstraintName("fk_crypto_price_crypto_cryptoentityid");
 
-                    b.Navigation("Crypto");
+                    b.Navigation("CryptoEntity");
                 });
 
-            modelBuilder.Entity("Crypto.Core.Entities.Visit", b =>
+            modelBuilder.Entity("Crypto.Core.Entities.VisitEntity", b =>
                 {
-                    b.HasOne("Crypto.Core.Entities.Crypto", "Crypto")
+                    b.HasOne("Crypto.Core.Entities.CryptoEntity", "Crypto")
                         .WithMany("Visits")
                         .HasForeignKey("CryptoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_visit_cryptos_cryptoid");
+                        .HasConstraintName("fk_visit_crypto_cryptoid");
 
                     b.Navigation("Crypto");
                 });
 
-            modelBuilder.Entity("Crypto.Core.Entities.Crypto", b =>
+            modelBuilder.Entity("Crypto.Core.Entities.CryptoEntity", b =>
                 {
                     b.Navigation("Visits");
                 });

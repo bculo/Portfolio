@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Crypto.Infrastructure.Persistence.Configurations
+namespace Crypto.Infrastructure.Persistence.Configurations.Entities
 {
-    public class CryptoConfiguration : IEntityTypeConfiguration<Core.Entities.Crypto>
+    public class CryptoConfiguration : IEntityTypeConfiguration<Core.Entities.CryptoEntity>
     {
-        public const string TableName = "crypto";
-        
-        public void Configure(EntityTypeBuilder<Core.Entities.Crypto> builder)
+        public void Configure(EntityTypeBuilder<Core.Entities.CryptoEntity> builder)
         {
             builder.HasKey(i => i.Id);
 
@@ -17,6 +15,9 @@ namespace Crypto.Infrastructure.Persistence.Configurations
             builder.Property(i => i.Symbol)
                 .HasMaxLength(50)
                 .IsRequired();
+            
+            builder.Property(x => x.Description)
+                .IsRequired(false);
 
             builder.Property(i => i.Name)
                 .HasMaxLength(250)
@@ -30,7 +31,7 @@ namespace Crypto.Infrastructure.Persistence.Configurations
                 .HasMaxLength(250)
                 .IsRequired(false);
 
-            builder.ToTable(TableName);
+            builder.ToTable(DbTables.CryptoTable.Name);
         }
     }
 }

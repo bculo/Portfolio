@@ -206,6 +206,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.IntegrationTests", "te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Shared", "tests\Services\Crypto\Crypto.Shared\Crypto.Shared.csproj", "{2EB8EC07-5449-4862-BC8C-D22E456BBE81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Sync", "tests\Common\Tests.Sync\Tests.Sync.csproj", "{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -468,6 +470,10 @@ Global
 		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EB8EC07-5449-4862-BC8C-D22E456BBE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -561,6 +567,8 @@ Global
 		{689E2BCB-CEC3-4873-86E2-7D9B13150DEA} = {D717FC95-CDFD-4518-B90B-70998B516924}
 		{EA69F45D-011A-4CD2-BD13-6429B9601B8A} = {03394DC0-2427-44C3-A9F2-B37F1B2C9073}
 		{2EB8EC07-5449-4862-BC8C-D22E456BBE81} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
+	
+		{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C} = {71A09ABB-16B0-485F-BDD5-B9D92DBF7589}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

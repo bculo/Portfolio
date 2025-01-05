@@ -7,19 +7,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Crypto.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Outbox_Configuration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "logo",
-                table: "crypto",
-                type: "text",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "text");
-
             migrationBuilder.CreateTable(
                 name: "addcryptoitemstate",
                 columns: table => new
@@ -32,6 +24,25 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_addcryptoitemstate", x => x.correlationid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "crypto",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    symbol = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true),
+                    logo = table.Column<string>(type: "text", nullable: true),
+                    website = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    sourcecode = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    modifiedon = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    createdon = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_crypto", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,6 +116,55 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                     table.PrimaryKey("pk_outboxstate", x => x.outboxid);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "crypto_price",
+                columns: table => new
+                {
+                    time = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    price = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    cryptoentityid = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.ForeignKey(
+                        name: "fk_crypto_price_crypto_cryptoentityid",
+                        column: x => x.cryptoentityid,
+                        principalTable: "crypto",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "visit",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    cryptoid = table.Column<Guid>(type: "uuid", nullable: false),
+                    modifiedon = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    createdon = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_visit", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_visit_crypto_cryptoid",
+                        column: x => x.cryptoid,
+                        principalTable: "crypto",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_crypto_symbol",
+                table: "crypto",
+                column: "symbol",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_crypto_price_cryptoentityid",
+                table: "crypto_price",
+                column: "cryptoentityid");
+
             migrationBuilder.CreateIndex(
                 name: "ix_inboxstate_delivered",
                 table: "inboxstate",
@@ -136,6 +196,11 @@ namespace Crypto.Infrastructure.Persistence.Migrations
                 name: "ix_outboxstate_created",
                 table: "outboxstate",
                 column: "created");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_visit_cryptoid",
+                table: "visit",
+                column: "cryptoid");
         }
 
         /// <inheritdoc />
@@ -143,6 +208,9 @@ namespace Crypto.Infrastructure.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "addcryptoitemstate");
+
+            migrationBuilder.DropTable(
+                name: "crypto_price");
 
             migrationBuilder.DropTable(
                 name: "inboxstate");
@@ -153,15 +221,11 @@ namespace Crypto.Infrastructure.Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "outboxstate");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "logo",
-                table: "crypto",
-                type: "text",
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "text",
-                oldNullable: true);
+            migrationBuilder.DropTable(
+                name: "visit");
+
+            migrationBuilder.DropTable(
+                name: "crypto");
         }
     }
 }

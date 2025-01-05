@@ -8,6 +8,7 @@ public class AzureBlobStorageFixture : IContainerFixture
     private readonly AzuriteContainer _container = new AzuriteBuilder()
         .WithImage("mcr.microsoft.com/azure-storage/azurite")
         .WithName($"Azure.Blob.Storage.{Guid.NewGuid()}")
+        .WithCleanUp(true)
         .Build();
     
     public async Task InitializeAsync()

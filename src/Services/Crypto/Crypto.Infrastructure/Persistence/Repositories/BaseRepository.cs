@@ -8,15 +8,10 @@ using Queryable.Common.Extensions;
 
 namespace Crypto.Infrastructure.Persistence.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> where T : Entity
+    public class BaseRepository<T>(CryptoDbContext dbContext) : IRepository<T> where T : Entity
     {
-        public CryptoDbContext Context { get; }
-        public DbSet<T> Set => Context.Set<T>();
-
-        public BaseRepository(CryptoDbContext dbContext)
-        {
-            Context = dbContext;
-        }
+        private CryptoDbContext Context { get; } = dbContext;
+        protected DbSet<T> Set => Context.Set<T>();
 
         public async Task<List<T>> GetAll(bool track = false, CancellationToken ct = default)
         {
@@ -25,7 +20,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
         
         public async Task<T?> Find(object id, CancellationToken ct = default)
         {
-            return await Set.FindAsync(id, ct);
+            return await Set.FindAsync([id], cancellationToken: ct);
         }
 
         public async Task<T?> First(Expression<Func<T, bool>> predicate,

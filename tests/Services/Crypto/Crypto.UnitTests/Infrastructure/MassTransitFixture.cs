@@ -17,9 +17,9 @@ public class MassTransitFixture : IDisposable
     public MassTransitFixture()
     {
         _scope = new ServiceCollection()
-            .AddScoped<IMediator>(sc => Substitute.For<IMediator>())
-            .AddScoped<IFusionCache>(sc => Substitute.For<IFusionCache>())
-            .AddScoped<IMapper>(sc => Substitute.For<IMapper>())
+            .AddScoped<IMediator>(_ => Substitute.For<IMediator>())
+            .AddScoped<IFusionCache>(_ => Substitute.For<IFusionCache>())
+            .AddScoped<IMapper>(_ => Substitute.For<IMapper>())
             .AddMassTransitTestHarness(x =>
             {
                 x.AddConsumer<PriceUpdatedConsumer>();

@@ -4,19 +4,12 @@ using FluentAssertions;
 
 namespace Crypto.UnitTests.Infrastructure;
 
-public class CryptoVisitedConsumerTests : IClassFixture<MassTransitFixture>
+public class CryptoVisitedConsumerTests(MassTransitFixture fixture) : IClassFixture<MassTransitFixture>
 {
-    private readonly MassTransitFixture _fixture;
-    
-    public CryptoVisitedConsumerTests(MassTransitFixture fixture)
-    {
-        _fixture = fixture;
-    }
-    
     [Fact]
     public async Task ShouldReceiveEvent_WhenPublished()
     {
-        var harness = _fixture.GetTestHarness();
+        var harness = fixture.GetTestHarness();
         await harness.Start();
         
         await harness.Bus.Publish(new Visited

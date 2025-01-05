@@ -8,64 +8,57 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crypto.Infrastructure.Persistence.Repositories
 {
-    public class CryptoPriceRepository : ICryptoPriceRepository
+    public class CryptoPriceRepository(CryptoDbContext context) : ICryptoPriceRepository
     {
-        private readonly CryptoDbContext _context;
-        
-        public CryptoPriceRepository(CryptoDbContext context)
+        public async Task Add(CryptoPriceEntity priceEntity, CancellationToken ct = default)
         {
-            _context = context;
-        }
-
-        public async Task Add(CryptoPrice price, CancellationToken ct = default)
-        {
-            await _context.Database.ExecuteSqlInterpolatedAsync(
-                $"INSERT INTO public.crypto_price(\"time\", price, cryptoid) VALUES ({price.Time}, {price.Price}, {price.CryptoId});",
+            await context.Database.ExecuteSqlInterpolatedAsync(
+                $"INSERT INTO public.crypto_price(\"time\", price, cryptoentityid) VALUES ({priceEntity.Time}, {priceEntity.Price}, {priceEntity.CryptoEntityId});",
                 ct);
         }
         
-        public async Task BulkInsert(List<CryptoPrice> prices, CancellationToken ct = default)
+        public async Task BulkInsert(List<CryptoPriceEntity> prices, CancellationToken ct = default)
         {
-            await _context.BulkInsertAsync(prices, cancellationToken: ct);
+            await context.BulkInsertAsync(prices, cancellationToken: ct);
         }
 
         public async Task<CryptoLastPriceReadModel?> GetLastPrice(Guid id, CancellationToken ct = default)
         {
-            return await _context.Prices.Where(i => i.CryptoId == id)
-                .Include(x => x.Crypto)
+            return await context.Prices.Where(i => i.CryptoEntityId == id)
+                .Include(x => x.CryptoEntity)
                 .OrderByDescending(x => x.Time)
                 .Select(i => new CryptoLastPriceReadModel
                 {
-                    CryptoId = i.CryptoId,
-                    Name = i.Crypto.Name,
-                    Symbol = i.Crypto.Symbol,
-                    Website = i.Crypto.WebSite,
+                    CryptoId = i.CryptoEntityId,
+                    Name = i.CryptoEntity.Name,
+                    Symbol = i.CryptoEntity.Symbol,
+                    Website = i.CryptoEntity.WebSite,
                     LastPrice = i.Price,
-                    SourceCode = i.Crypto.SourceCode
+                    SourceCode = i.CryptoEntity.SourceCode
                 })
                 .FirstOrDefaultAsync(ct);
         }
 
         public async Task<CryptoLastPriceReadModel?> GetLastPrice(string symbol, CancellationToken ct = default)
         {
-            return await _context.Prices.Where(i => i.Crypto.Symbol.ToLower() == symbol.ToLower())
-                .Include(x => x.Crypto)
+            return await context.Prices.Where(i => i.CryptoEntity.Symbol.ToLower() == symbol.ToLower())
+                .Include(x => x.CryptoEntity)
                 .OrderByDescending(x => x.Time)
                 .Select(i => new CryptoLastPriceReadModel
                 {
-                    CryptoId = i.CryptoId,
-                    Name = i.Crypto.Name,
-                    Symbol = i.Crypto.Symbol,
-                    Website = i.Crypto.WebSite,
+                    CryptoId = i.CryptoEntityId,
+                    Name = i.CryptoEntity.Name,
+                    Symbol = i.CryptoEntity.Symbol,
+                    Website = i.CryptoEntity.WebSite,
                     LastPrice = i.Price,
-                    SourceCode = i.Crypto.SourceCode
+                    SourceCode = i.CryptoEntity.SourceCode
                 })
                 .FirstOrDefaultAsync(ct);
         }
 
         public async Task<PageResult<CryptoLastPriceReadModel>> GetPage(CryptoPricePageQuery req, CancellationToken ct = default)
         {
-            var query = _context.CryptoLastPrice.AsQueryable();
+            var query = context.CryptoLastPrice.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(req.Symbol))
             {
@@ -83,7 +76,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
 
         private IQueryable<CryptoTimeFrameReadModel> GetQuery(int notOlderThanMin, int timeBucketMin)
         {
-            return _context.CryptoTimeFrame(notOlderThanMin, timeBucketMin);
+            return context.CryptoTimeFrame(notOlderThanMin, timeBucketMin);
         }
 
         public async Task<List<CryptoTimeFrameReadModel>> GetTimeFrameData(TimeFrameQuery query, 

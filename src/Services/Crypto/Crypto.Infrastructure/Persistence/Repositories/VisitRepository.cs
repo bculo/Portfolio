@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crypto.Infrastructure.Persistence.Repositories
 {
-    public class VisitRepository : BaseRepository<Visit>, IVisitRepository
+    public class VisitRepository : BaseRepository<VisitEntity>, IVisitRepository
     {
         public VisitRepository(CryptoDbContext context) : base(context)
         {

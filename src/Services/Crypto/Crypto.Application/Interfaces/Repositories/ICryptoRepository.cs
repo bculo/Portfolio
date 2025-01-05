@@ -1,6 +1,6 @@
 ﻿namespace Crypto.Application.Interfaces.Repositories
 {
-    public interface ICryptoRepository : IRepository<Core.Entities.Crypto>
+    public interface ICryptoRepository : IRepository<Core.Entities.CryptoEntity>
     {
 
     }

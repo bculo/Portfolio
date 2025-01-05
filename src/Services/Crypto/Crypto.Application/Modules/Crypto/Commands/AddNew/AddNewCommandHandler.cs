@@ -57,19 +57,19 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             await publish.Publish(new EvictRedisListRequest(), ct);
         }
 
-        private CryptoPrice CreateNewCryptoPriceEntity(PriceResponse result, Guid cryptoId)
+        private CryptoPriceEntity CreateNewCryptoPriceEntity(PriceResponse result, Guid cryptoId)
         {
-            return new CryptoPrice
+            return new CryptoPriceEntity
             {
-                CryptoId = cryptoId,
+                CryptoEntityId = cryptoId,
                 Price = result.Price,
                 Time = timeProvider.UtcOffset
             };
         }
 
-        private Core.Entities.Crypto CreateNewCryptoEntity(CryptoInformation info)
+        private Core.Entities.CryptoEntity CreateNewCryptoEntity(CryptoInformation info)
         {
-            return new Core.Entities.Crypto
+            return new Core.Entities.CryptoEntity
             {
                 Id = Guid.NewGuid(),
                 Logo = info.Logo,
