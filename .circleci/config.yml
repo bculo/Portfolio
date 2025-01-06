@@ -8,6 +8,7 @@ jobs:
   build:
     machine:
       image: ubuntu-2204:current
+    working_directory: /tmp
     steps:
     - run:
         name: Install .NET SDK
@@ -18,17 +19,17 @@ jobs:
     - run:
         name: Start docker compose
         command: |
-          cd ./ops/local
+          cd ./tmp/ops/local
           docker compose up -d
     - run:
         name: Restore packages
-        command: dotnet restore PortfolioTracker.sln
+        command: dotnet restore ./tmp/PortfolioTracker.sln
     - run:
         name: Build microservices
-        command: dotnet build PortfolioTracker.sln --no-restore
+        command: dotnet build ./tmp/PortfolioTracker.sln --no-restore
     - run:
         name: Run integration tests
-        command: dotnet test PortfolioTracker.sln --no-build --no-restore --nologo -p:CollectTestOutput=true -p:TestOutputDir=/tmp/TestResults
+        command: dotnet test ./tmp/PortfolioTracker.sln --no-build --no-restore --nologo -p:CollectTestOutput=true -p:TestOutputDir=/tmp/TestResults
     - store_artifacts:
         path: /tmp/TestResults
         destination: TestResults
