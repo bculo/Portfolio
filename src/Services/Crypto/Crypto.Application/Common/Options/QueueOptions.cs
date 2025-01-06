@@ -2,6 +2,7 @@
 {
     public sealed class QueueOptions
     {
+        public string Prefix { get; init; } = default!;
         public string Address { get; init; } = default!;
     }
 }

@@ -5,7 +5,7 @@ orbs:
   1password: onepassword/secrets@1.0.0
 
 jobs:
-  build:
+  build_and_test:
     machine:
       image: ubuntu-2204:current
     steps:
@@ -22,15 +22,26 @@ jobs:
           docker compose up -d
     - run:
         name: Restore packages
-        command: dotnet restore PortfolioTracker.sln
+        command: dotnet restore ./PortfolioTracker.sln
     - run:
         name: Build microservices
-        command: dotnet build PortfolioTracker.sln --no-restore
+        command: dotnet build ./PortfolioTracker.sln --no-restore
     - run:
         name: Run integration tests
-        command: dotnet test PortfolioTracker.sln
+        command: |
+          dotnet test ./PortfolioTracker.sln --no-build --no-restore --nologo --logger "trx;LogFileName=TestResults.trx" --results-directory:"test-results"
+    - run:
+        name: Convert test results
+        command: |
+          dotnet tool install -g trx2junit || true
+          export PATH="$PATH:/home/circleci/.dotnet/tools"
+          trx2junit test-results/TestResults.trx
+    - store_test_results:
+        path: test-results
+    - store_artifacts:
+        path: test-results
 
 workflows:
   build_test:
     jobs:
-    - build
+    - build_and_test
