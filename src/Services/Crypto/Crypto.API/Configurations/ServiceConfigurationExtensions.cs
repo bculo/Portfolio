@@ -58,7 +58,7 @@ namespace Crypto.API.Configurations
             services.AddMassTransit(x =>
             {
                 x.AddDelayedMessageScheduler();
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: "Crypto", false));
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: configuration["QueueOptions:Prefix"], false));
 
                 x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState>()
                     .EntityFrameworkRepository(r =>

@@ -17,13 +17,6 @@ namespace Crypto.IntegrationTests
 {
     public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private readonly IContainerFixture _redisContainer = new RedisFixture();
-        private readonly IContainerFixture _mqContainer = new RabbitMqFixture();
-        private readonly IContainerFixture _sqlFixture = new TimescaleDBFixture();
-
-        private NpgsqlConnection _dbConnection = default!;
-        private Respawner _respawner = default!;
-    
         public HttpClient Client { get; private set; } = default!;
         public WireMockServer MockServer { get; private set; } = default!;
     
@@ -33,10 +26,11 @@ namespace Crypto.IntegrationTests
             {
                 { "CryptoPriceApiOptions:BaseUrl", MockServer.Urls[0] },
                 { "CryptoInfoApiOptions:BaseUrl", MockServer.Urls[0] },
-                { "ConnectionStrings:CryptoDatabase", _sqlFixture.GetConnectionString() },
-                { "QueueOptions:Address", _mqContainer.GetConnectionString() },
-                { "RedisOptions:ConnectionString", _redisContainer.GetConnectionString() },
-                { "RedisOptions:InstanceName", "cryptoredistest" },
+                { "ConnectionStrings:CryptoDatabase", $"Host=localhost;Port=5433;Database=CryptoTst{Guid.NewGuid()};User Id=postgres;Password=florijan;" },
+                { "QueueOptions:Address", "amqp://rabbitmquser:rabbitmqpassword@localhost:5672" },
+                { "QueueOptions:Prefix", $"cryptotst{Guid.NewGuid()}" },
+                { "RedisOptions:ConnectionString", "localhost:6379" },
+                { "RedisOptions:InstanceName", $"cryptotst{Guid.NewGuid()}" },
             }.AsConfiguration();
 
             builder.UseConfiguration(configuration);
@@ -48,13 +42,8 @@ namespace Crypto.IntegrationTests
             });
         }
 
-            public async Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            await Task.WhenAll(
-                _sqlFixture.StartAsync(),
-                _redisContainer.StartAsync(),
-                _mqContainer.StartAsync());
-
             MockServer = WireMockServer.Start();
             Client = CreateClient();
 
@@ -62,30 +51,13 @@ namespace Crypto.IntegrationTests
             var dbContext = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
             await dbContext.Database.MigrateAsync();
             await dbContext.DisposeAsync();
-
-            _dbConnection = new NpgsqlConnection(_sqlFixture.GetConnectionString());
-            await _dbConnection.OpenAsync();
-            _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions()
-            {
-                DbAdapter = DbAdapter.Postgres,
-            });
-        }
-        
-        public async Task ResetDatabaseAsync()
-        {
-            await _respawner.ResetAsync(_dbConnection);
         }
 
-        public new async Task DisposeAsync()
+        public new Task DisposeAsync()
         {
-            await Task.WhenAll(
-                _sqlFixture.StopAsync(),
-                _redisContainer.StopAsync(), 
-                _mqContainer.StopAsync());
-            
             MockServer.Stop();
-
-            await _dbConnection.DisposeAsync();
+            
+            return Task.CompletedTask;
         }    
     }
 }
