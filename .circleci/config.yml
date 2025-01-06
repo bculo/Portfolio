@@ -5,7 +5,7 @@ orbs:
   1password: onepassword/secrets@1.0.0
 
 jobs:
-  build:
+  build_and_test:
     machine:
       image: ubuntu-2204:current
     steps:
@@ -33,7 +33,6 @@ jobs:
     - run:
         name: Convert test results
         command: |
-          ls -l test-results
           dotnet tool install -g trx2junit || true
           export PATH="$PATH:/home/circleci/.dotnet/tools"
           trx2junit test-results/TestResults.trx
@@ -45,4 +44,4 @@ jobs:
 workflows:
   build_test:
     jobs:
-    - build
+    - build_and_test
