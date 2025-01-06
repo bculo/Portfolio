@@ -8,7 +8,6 @@ jobs:
   build:
     machine:
       image: ubuntu-2204:current
-    working_directory: /tmp
     steps:
     - run:
         name: Install .NET SDK
@@ -19,22 +18,29 @@ jobs:
     - run:
         name: Start docker compose
         command: |
-          cd ./tmp/ops/local
+          cd ./ops/local
           docker compose up -d
     - run:
         name: Restore packages
-        command: dotnet restore ./tmp/PortfolioTracker.sln
+        command: dotnet restore ./PortfolioTracker.sln
     - run:
         name: Build microservices
-        command: dotnet build ./tmp/PortfolioTracker.sln --no-restore
+        command: dotnet build ./PortfolioTracker.sln --no-restore
     - run:
         name: Run integration tests
-        command: dotnet test ./tmp/PortfolioTracker.sln --no-build --no-restore --nologo -p:CollectTestOutput=true -p:TestOutputDir=/tmp/TestResults
-    - store_artifacts:
-        path: /tmp/TestResults
-        destination: TestResults
+        command: |
+          dotnet test ./PortfolioTracker.sln --no-build --no-restore --nologo --logger "trx;LogFileName=TestResults.trx" --results-directory:"test-results"
+    - run:
+        name: Convert test results
+        command: |
+          ls -l test-results
+          dotnet tool install -g trx2junit || true
+          export PATH="$PATH:/home/circleci/.dotnet/tools"
+          trx2junit test-results/TestResults.trx
     - store_test_results:
-        path: /tmp/TestResults/
+        path: test-results
+    - store_artifacts:
+        path: test-results
 
 workflows:
   build_test:
