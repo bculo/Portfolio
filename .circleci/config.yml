@@ -28,7 +28,12 @@ jobs:
         command: dotnet build PortfolioTracker.sln --no-restore
     - run:
         name: Run integration tests
-        command: dotnet test PortfolioTracker.sln
+        command: dotnet test PortfolioTracker.sln --no-build --no-restore --nologo -p:CollectTestOutput=true -p:TestOutputDir=/tmp/TestResults
+    - store_artifacts:
+        path: /tmp/TestResults
+        destination: TestResults
+    - store_test_results:
+        path: /tmp/TestResults/
 
 workflows:
   build_test:
