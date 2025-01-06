@@ -6,7 +6,10 @@ services:
   redis:
     image: redis:7.4.1-alpine
     container_name: portfolio.redis
+    hostname: redis
     restart: unless-stopped
+    networks:
+      - portfolio-local
     volumes:
       - ./data/redis/data:/data
     ports:
@@ -20,8 +23,11 @@ services:
 
   postgre:
     image: timescale/timescaledb:latest-pg14
+    hostname: postgre
     container_name: portfolio.postgre
     restart: unless-stopped
+    networks:
+      - portfolio-local
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=florijan
@@ -40,6 +46,9 @@ services:
     image: masstransit/rabbitmq:3.13.1
     container_name: portfolio.rabbitmq
     restart: unless-stopped
+    hostname: rabbitmq
+    networks:
+      - portfolio-local
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmquser
       - RABBITMQ_DEFAULT_PASS=rabbitmqpassword
@@ -58,6 +67,9 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
     container_name: portfolio.keycloak
+    hostname: keycloak
+    networks:
+      - portfolio-local
     ports:
       - 8080:8080
     environment:
@@ -71,3 +83,7 @@ services:
     depends_on:
       postgre:
         condition: service_healthy
+
+networks:
+  portfolio-local:
+    name: portfolio-local
