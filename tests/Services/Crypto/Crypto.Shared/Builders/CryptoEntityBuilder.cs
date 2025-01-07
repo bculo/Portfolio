@@ -14,7 +14,7 @@ public class CryptoEntityBuilder : IObjectBuilder<CryptoEntity>
         .RuleFor(x => x.ModifiedOn, _ => DateTimeOffset.UtcNow)
         .RuleFor(x => x.CreatedOn, _ => DateTimeOffset.UtcNow)
         .Generate();
-
+    
     public CryptoEntity Build() => _entity;
 
     public CryptoEntityBuilder WithName(string name)

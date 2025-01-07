@@ -81,9 +81,12 @@ namespace Crypto.IntegrationTests
             var multiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
             var fusionCache = scope.ServiceProvider.GetRequiredService<IFusionCache>();
             var server = multiplexer.GetServer(_redisConnectionString);
-            await foreach (var item in server.KeysAsync(pattern: $"^{_redisInstanceName}"))
+            await foreach (var item in server.KeysAsync(pattern: $"*{_redisInstanceName}*"))
             {
-                await fusionCache.RemoveAsync(item);
+                var splitter = ":";
+                var keyParts = item.ToString().Split(splitter).ToList();
+                keyParts.RemoveAt(0);
+                await fusionCache.RemoveAsync(string.Join(splitter, keyParts));
             }
         }
     }

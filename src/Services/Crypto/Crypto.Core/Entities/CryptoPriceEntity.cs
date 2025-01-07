@@ -1,6 +1,6 @@
 ﻿namespace Crypto.Core.Entities;
 
-public class CryptoPriceEntity
+public class CryptoPriceEntity : TimeSeriesEntity
 {
     public DateTimeOffset Time { get; init; }
     public decimal Price { get; init; }
