@@ -31,8 +31,7 @@ namespace Crypto.Infrastructure
             using var serviceProvider = services.BuildServiceProvider();
             using var scope = serviceProvider.CreateAsyncScope();
             using var db = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
-
-            db.Database.EnsureCreated();
+            
             db.Database.Migrate();
         }
 
