@@ -58,20 +58,42 @@ namespace Crypto.API.Configurations
             services.AddMassTransit(x =>
             {
                 x.AddDelayedMessageScheduler();
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: configuration["QueueOptions:Prefix"], false));
-
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(prefix: configuration["QueueOptions:Prefix"], false)); 
+                
                 x.AddSagaStateMachine<AddCryptoItemStateMachine, AddCryptoItemState>()
                     .EntityFrameworkRepository(r =>
                     {
                         r.ExistingDbContext<CryptoDbContext>();
                         r.LockStatementProvider = new PostgresLockStatementProvider();
                         r.UsePostgres();
+                    })
+                    .Endpoint(config =>
+                    {
+                        config.Temporary = configuration.GetValue<bool>("QueueOptions:Temporary");
                     });
 
-                x.AddConsumer<AddCryptoItemConsumer>();
-                x.AddConsumer<CryptoVisitedConsumer>();
-                x.AddConsumer<EvictRedisListRequestConsumer>();
-                x.AddConsumer<PriceUpdatedConsumer>();
+                x.AddConsumer<AddCryptoItemConsumer>()
+                    .Endpoint(config =>
+                    {
+                        config.Temporary = configuration.GetValue<bool>("QueueOptions:Temporary");
+                    });
+                
+                x.AddConsumer<CryptoVisitedConsumer>()
+                    .Endpoint(config =>
+                    {
+                        config.Temporary = configuration.GetValue<bool>("QueueOptions:Temporary");
+                    });
+                
+                x.AddConsumer<EvictRedisListRequestConsumer>()
+                    .Endpoint(config =>
+                    {
+                        config.Temporary = configuration.GetValue<bool>("QueueOptions:Temporary");
+                    });
+                x.AddConsumer<PriceUpdatedConsumer>()
+                    .Endpoint(config =>
+                    {
+                        config.Temporary = configuration.GetValue<bool>("QueueOptions:Temporary");
+                    });
 
                 x.UsingRabbitMq((context, config) =>
                 {

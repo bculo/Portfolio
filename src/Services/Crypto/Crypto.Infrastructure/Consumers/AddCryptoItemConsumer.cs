@@ -1,7 +1,9 @@
-﻿using Crypto.Application.Modules.Crypto.Commands.AddNew;
+﻿using Crypto.Application.Common.Options;
+using Crypto.Application.Modules.Crypto.Commands.AddNew;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace Crypto.Infrastructure.Consumers
 {

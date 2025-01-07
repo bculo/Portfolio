@@ -28,9 +28,10 @@ namespace Crypto.IntegrationTests
                 { "CryptoInfoApiOptions:BaseUrl", MockServer.Urls[0] },
                 { "ConnectionStrings:CryptoDatabase", $"Host=localhost;Port=5433;Database=CryptoTst{Guid.NewGuid()};User Id=postgres;Password=florijan;" },
                 { "QueueOptions:Address", "amqp://rabbitmquser:rabbitmqpassword@localhost:5672" },
-                { "QueueOptions:Prefix", $"cryptotst{Guid.NewGuid()}" },
+                { "QueueOptions:Prefix", $"cryptotest{Guid.NewGuid()}" },
+                { "QueueOptions:Temporary", "true" },
                 { "RedisOptions:ConnectionString", "localhost:6379" },
-                { "RedisOptions:InstanceName", $"cryptotst{Guid.NewGuid()}" },
+                { "RedisOptions:InstanceName", $"cryptotest{Guid.NewGuid()}" },
             }.AsConfiguration();
 
             builder.UseConfiguration(configuration);
@@ -53,11 +54,20 @@ namespace Crypto.IntegrationTests
             await dbContext.DisposeAsync();
         }
 
-        public new Task DisposeAsync()
+        public new async Task DisposeAsync()
         {
             MockServer.Stop();
             
-            return Task.CompletedTask;
-        }    
+            await using var scope = Services.CreateAsyncScope();
+
+            await DeleteDatabaseAsync(scope);
+        }
+
+        private async Task DeleteDatabaseAsync(AsyncServiceScope scope)
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
+            await dbContext.Database.EnsureDeletedAsync();
+            await dbContext.DisposeAsync();
+        }
     }
 }
