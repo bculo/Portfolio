@@ -54,10 +54,23 @@ jobs:
         name: "Login to docker hub"
         shell: op run -- /bin/bash
         environment:
-          DOCKER_USER: op://CircleCI/Docker/username
           DOCKER_PASSWORD: op://CircleCI/Docker/password
         command: |
           echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+    - run:
+        name: "Build docker images"
+        working_directory: ops/images
+        command: chmod +x build-images.sh && ./build-images.sh
+    - run:
+        name: "Prepare image tags"
+        working_directory: ops/images
+        command: |
+          docker tag crypto.api "$DOCKER_USER/crypto.api:$CIRCLE_SHA1"
+    - run:
+        name: "Push images"
+        working_directory: ops/images
+        command: |
+          docker push "$DOCKER_USER/crypto.api:$CIRCLE_SHA1"
     - run:
         name: "Logout from docker hub"
         command: |

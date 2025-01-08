@@ -6,4 +6,4 @@ services:
     build:
       context: ../..
       dockerfile: ./src/Services/Crypto/Crypto.API/Dockerfile
-    image: culix77/crypto.api
+    image: crypto.api
