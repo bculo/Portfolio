@@ -51,13 +51,17 @@ jobs:
     - 1password/install-cli:
         version: 2.30.0
     - run:
-        name: "Login to dockerhub"
+        name: "Login to docker hub"
         shell: op run -- /bin/bash
         environment:
           DOCKER_USER: op://CircleCI/Docker/username
           DOCKER_PASSWORD: op://CircleCI/Docker/password
         command: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+    - run:
+        name: "Logout from docker hub"
+        command: |
+          docker logout
 
 workflows:
   build_and_deploy:
