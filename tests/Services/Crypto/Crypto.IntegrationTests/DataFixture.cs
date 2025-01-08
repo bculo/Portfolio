@@ -6,7 +6,7 @@ using Tests.Common.Extensions;
 
 namespace Crypto.IntegrationTests;
 
-public class DataFixture(CryptoDbContext context)
+public class DataFixture(CryptoDbContext context, IUnitOfWork cryptoPriceRepo)
 {
     public async Task<T> Add<T>(T entity) where T : Entity
     {
@@ -19,5 +19,11 @@ public class DataFixture(CryptoDbContext context)
     {
         context.Set<T>().AddRange(entities);
         await context.SaveChangesAsync();
+    }
+
+    public async Task<CryptoPriceEntity> AddPrice(CryptoPriceEntity price)
+    {
+        await cryptoPriceRepo.CryptoPriceRepo.Add(price);
+        return price;
     }
 }

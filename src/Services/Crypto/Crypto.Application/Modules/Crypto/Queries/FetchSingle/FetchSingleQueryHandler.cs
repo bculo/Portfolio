@@ -26,8 +26,11 @@ namespace Crypto.Application.Modules.Crypto.Queries.FetchSingle
                 },
                 CacheKeys.SingleItemKeyOptions(),
                 ct);
-            
-            CryptoCoreException.ThrowIfNull(item, $"Item with symbol {request.Symbol} not found");
+
+            if (item == null)
+            {
+                throw new CryptoCoreNotFoundException($"Item with symbol {request.Symbol} not found");
+            }
             
             await publish.Publish(new Visited
             {

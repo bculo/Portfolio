@@ -6,7 +6,6 @@ project.lock.json
 nupkg/
 
 # Data for persistence storages
-data/*
 ops/local/data/*
 
 # Visual Studio Code

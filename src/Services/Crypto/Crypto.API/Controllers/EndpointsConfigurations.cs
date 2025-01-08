@@ -26,7 +26,7 @@ public static class EndpointsConfigurations
         public const string History = Controller + "/price-history/{cryptoId}";
         public const string Popular = Controller + "/popular";
         
-        public static string BuildSingleUrl(string symbol) => Path.Combine("single", symbol);
+        public static string BuildSingleUrl(string symbol) => Path.Combine(Controller, "single", symbol);
         public static string BuildHistoryUrl(Guid cryptoId) => Path.Combine("single", cryptoId.ToString());
     }
 }

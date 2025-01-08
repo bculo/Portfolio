@@ -1,0 +1,1 @@
+docker tag "$DOCKER_USER/crypto.api" "$DOCKER_USER/crypto.api:$CIRCLE_SHA1"
