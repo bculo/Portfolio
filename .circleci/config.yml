@@ -41,7 +41,33 @@ jobs:
     - store_artifacts:
         path: test-results
 
+  build_docker_images:
+    docker:
+    - image: cimg/base:stable
+    steps:
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - checkout
+    - 1password/install-cli:
+        version: 2.30.0
+    - run:
+        shell: op run -- /bin/bash
+        environment:
+          DOCKER_USER: op://CircleCI/Docker/username
+          DOCKER_PASSWORD: op://CircleCI/Docker/password
+        command: |
+          echo "This value will be masked: $DOCKER_USER"
+          echo "This value will be masked: $DOCKER_PASSWORD"
+
 workflows:
-  build_test:
+  build_and_deploy:
     jobs:
-    - build_and_test
+    # - build_and_test
+    - build_docker_images:
+      filters:
+        branches:
+          only:
+          - release
+      # requires:
+      #   - build_and_test
+
