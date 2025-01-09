@@ -1,2 +1,6 @@
 keycloak_url: http://localhost:8080
-realm_name: PortfolioRealm
+realm_name: Tst
+  
+roles_to_create: 
+  - Admin
+  - User

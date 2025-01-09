@@ -18,25 +18,31 @@
   set_fact:
     access_token: "{{ auth_response.json.access_token }}"
 
-- name: Check if realm exists
+- name: Fetch existing roles in the realm
   uri:
-    url: "{{ keycloak_url }}/admin/realms/{{ realm_name }}"
+    url: "{{ keycloak_url }}/admin/realms/{{ realm_name }}/roles"
     method: GET
     headers:
       Authorization: "Bearer {{ access_token }}"
-    status_code: [200, 404]
-  register: realm_check_response
+    return_content: yes
+    status_code: 200
+  register: existing_roles_response
 
-- name: Create realm if it doesn't exist
+- name: Parse existing roles
+  set_fact:
+    existing_roles: "{{ existing_roles_response.json | map(attribute='name') | list }}"
+
+- name: Create roles if they do not exist
+  loop: "{{ roles_to_create }}"
+  when: item not in existing_roles
   uri:
-    url: "{{ keycloak_url }}/admin/realms"
+    url: "{{ keycloak_url }}/admin/realms/{{ realm_name }}/roles"
     method: POST
     headers:
       Authorization: "Bearer {{ access_token }}"
       Content-Type: "application/json"
-    body:
-      realm: "{{ realm_name }}"
-      enabled: true
-    body_format: json
+    body: >
+      {{
+        { "name": item } | to_json
+      }}
     status_code: 201
-  when: realm_check_response.status == 404
