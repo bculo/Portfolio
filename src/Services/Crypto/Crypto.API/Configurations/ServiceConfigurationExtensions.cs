@@ -1,4 +1,5 @@
-﻿using Crypto.Application;
+﻿using Crypto.API.Handlers;
+using Crypto.Application;
 using Crypto.Application.Common.Options;
 using Crypto.Infrastructure;
 using Crypto.Infrastructure.Consumers;
@@ -24,9 +25,10 @@ namespace Crypto.API.Configurations
             });
             
             services.AddControllers();
-
             services.AddCors();
+            
             services.AddProblemDetails();
+            services.AddExceptionHandler<GlobalExceptionHandler>();
 
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
