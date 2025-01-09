@@ -1,0 +1,48 @@
+- name: Get Keycloak admin access token
+  uri:
+    url: "{{ keycloak_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body:
+      "grant_type=password&\
+        client_id=admin-cli&\
+        username=admin&\
+        password=admin"
+    body_format: form-urlencoded
+    return_content: yes
+  register: auth_response
+  failed_when: auth_response.status != 200
+
+- name: Extract access token
+  set_fact:
+    access_token: "{{ auth_response.json.access_token }}"
+
+- name: Fetch existing roles in the realm
+  uri:
+    url: "{{ keycloak_url }}/admin/realms/{{ realm_name }}/roles"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ access_token }}"
+    return_content: yes
+    status_code: 200
+  register: existing_roles_response
+
+- name: Parse existing roles
+  set_fact:
+    existing_roles: "{{ existing_roles_response.json | map(attribute='name') | list }}"
+
+- name: Create roles if they do not exist
+  loop: "{{ roles_to_create }}"
+  when: item not in existing_roles
+  uri:
+    url: "{{ keycloak_url }}/admin/realms/{{ realm_name }}/roles"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ access_token }}"
+      Content-Type: "application/json"
+    body: >
+      {{
+        { "name": item } | to_json
+      }}
+    status_code: 201

@@ -1,9 +1,6 @@
 using Crypto.API.Configurations;
-using Crypto.API.Middlewares;
 using Hangfire;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
-using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +31,7 @@ if (app.Environment.IsDevelopment())
         .AllowAnyOrigin());
 }
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseExceptionHandler();
 
 app.UseAuthentication();
 app.UseAuthorization();

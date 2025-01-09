@@ -22,7 +22,6 @@ namespace Crypto.Worker.HostedServices
         {
             try
             {
-
                 using var scope = provider.CreateScope();
                 var jobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
                 jobManager.AddOrUpdate<IPriceUpdateJobService>(

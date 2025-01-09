@@ -9,7 +9,7 @@ Crypto.API is application responsible for managing crypto items and prices
 - PostgreSQL / TimeseriesDB
 - Hangfire for recurring background jobs
 
-### Create Crypto.API client for swagger OAuth2 implicit flow
+### Create Crypto.API client for swagger OAuth2 implicit flow (Manual approach)
 
 - visit keycloak admin dashboard (http://localhost:8080). Should be up and running after docker-compose up -d
 - select option 'Clients' from main menu and click "Create client" button
@@ -17,8 +17,6 @@ Crypto.API is application responsible for managing crypto items and prices
 - Enable 'Implicit flow'
 - Set Root/Home page URL. For example http://localhost:{port}/*
 
+### Create Crypto.API client for swagger OAuth2 implicit flow (Automated approach using Ansible)
 
-### Prepare database
-- go to Crypto.Infrastructure project and find migrations
-- execute migrations
-
+- 
