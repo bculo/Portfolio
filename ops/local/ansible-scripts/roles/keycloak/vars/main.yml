@@ -1,6 +1,25 @@
-keycloak_url: http://localhost:8080
-realm_name: Tst
-  
+realm_name: "PortfolioRealm"
+realm_admin_password: "admin"
+keycloak_url: "http://localhost:8080"
+
 roles_to_create: 
-  - Admin
-  - User
+  - "Admin"
+  - "User"
+
+users_to_create:
+  - username: "admin"
+    email: "admin@portfolio.com"
+    first_name: "admin"
+    last_name: "admin"
+    password: "admin"
+  - username: "user"
+    email: "user@portfolio.com"
+    first_name: "user"
+    last_name: "user"
+    password: "user"
+
+roles_assignments:
+  - username: 'admin'
+    role: 'Admin'
+  - username: 'user'
+    role: 'User'

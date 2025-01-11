@@ -1,2 +1,3 @@
-- include_tasks: 001_create_realm.yml
-- include_tasks: 002_create_realm_roles.yml
+#- include_tasks: 001_create_realm.yml
+#- include_tasks: 002_create_realm_roles.yml
+- include_tasks: 003_create_users.yml
