@@ -1,0 +1,19 @@
+- name: Create keycloak clients
+  loop: "{{ clients }}"
+  community.general.keycloak_client:
+    realm: "{{ realm_name }}"
+    auth_realm: "master"
+    auth_keycloak_url: "{{ keycloak_url }}"
+    auth_client_id: "admin-cli"
+    auth_username: "admin"
+    auth_password: "{{ realm_admin_password }}"
+    state: present
+    client_id: "{{ item.name }}"
+    enabled: true
+    public_client: true
+    standard_flow_enabled: "{{ item.standard_flow_enabled }}"
+    implicit_flow_enabled: "{{ item.implicit_flow_enabled }}"
+    redirect_uris:
+      - "{{ item.redirect_uri }}"
+    web_origins:
+      - "{{ item.web_origin }}"

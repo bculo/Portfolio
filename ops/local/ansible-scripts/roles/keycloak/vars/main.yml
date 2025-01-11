@@ -19,7 +19,14 @@ users_to_create:
     password: "user"
 
 roles_assignments:
-  - username: 'admin'
-    role: 'Admin'
-  - username: 'user'
-    role: 'User'
+  - username: "admin"
+    role: "Admin"
+  - username: "user"
+    role: "User"
+    
+clients:
+  - name: "Crypto.API"
+    redirect_uri: "http://localhost:5263/*"
+    web_origin: "http://localhost:5263/"
+    implicit_flow_enabled: true
+    standard_flow_enabled: true
