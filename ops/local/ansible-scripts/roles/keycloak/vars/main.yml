@@ -30,3 +30,5 @@ clients:
     web_origin: "http://localhost:5263/"
     implicit_flow_enabled: true
     standard_flow_enabled: true
+    app_settings_path: "../../../src/Services/Crypto/Crypto.API/appsettings.Development.json"
+    template_name: "crypto.template.json"
