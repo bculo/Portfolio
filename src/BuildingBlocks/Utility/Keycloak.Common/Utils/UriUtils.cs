@@ -12,4 +12,9 @@ public static class UriUtils
 
         return segments.Aggregate(uri, (current, segment) => $"{current.TrimEnd('/')}/{segment.TrimStart('/')}");
     }
+
+    public static string BuildAuthEndpoint(string baseUri, string realm)
+    {
+        return Path.Join(baseUri, "realms", realm, "protocol", "openid-connect", "auth");
+    }
 }

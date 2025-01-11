@@ -64,7 +64,7 @@ public static class ConfigurationExtensions
     
     private static void ConfigureAuthentication(IServiceCollection services, IConfiguration configuration)
     {
-        services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]!);
+        services.UseKeycloakClaimServices(configuration["AuthOptions:ApplicationName"]!);
 
         var authOptions = new AuthOptions();
         configuration.GetSection("AuthOptions").Bind(authOptions);

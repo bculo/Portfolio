@@ -21,8 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
-        options.OAuthRealm(app.Configuration["KeycloakOptions:RealmName"]);
+        options.OAuthClientId(app.Configuration["AuthOptions:ApplicationName"]);
+        options.OAuthRealm(app.Configuration["AuthOptions:RealmName"]);
     });
 
     app.UseCors(x => x

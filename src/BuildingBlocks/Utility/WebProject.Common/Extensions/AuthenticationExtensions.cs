@@ -48,21 +48,21 @@ namespace WebProject.Common.Extensions
         private static Task OnTokenValidationFailDefault(AuthenticationFailedContext context)
         {
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
-            logger?.LogInformation(context.Exception, "Exception occurred: {ExceptionMessage}", context.Exception.Message);
+            logger.LogDebug(context.Exception, "Exception occurred: {ExceptionMessage}", context.Exception.Message);
             return Task.CompletedTask;
         }
 
         private static Task OnTokenValidatedDefault(TokenValidatedContext context)
         {
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
-            logger?.LogInformation("Token validated");
+            logger.LogDebug("Token validated");
             return Task.CompletedTask;
         }
         
         private static Task OnMessageReceivedDefault(MessageReceivedContext context)
         {
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
-            logger?.LogInformation("Message received");
+            logger.LogDebug("Message received");
             return Task.CompletedTask;
         }
     }

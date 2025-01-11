@@ -38,8 +38,10 @@ namespace Trend.gRPC.Extensions
         {
             services.AddScoped<ICurrentUser, UserService>();
 
-            services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakClientCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+            services.UseKeycloakClaimServices(configuration["AuthOptions:ApplicationName"]);
+            services.UseKeycloakClientCredentialFlowService(
+                configuration["AuthOptions:AuthorizationServerUrl"],
+                configuration["AuthOptions:RealmName"]);
 
             var authOptions = new AuthOptions();
             configuration.GetSection("AuthOptions").Bind(authOptions);
