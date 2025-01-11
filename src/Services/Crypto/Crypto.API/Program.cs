@@ -1,7 +1,5 @@
 using Crypto.API.Configurations;
 using Hangfire;
-using Keycloak.Common.Middlewares;
-using Keycloak.Common.Services;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -25,7 +23,6 @@ if (app.Environment.IsDevelopment())
     {
         options.OAuthClientId(app.Configuration["AuthOptions:ApplicationName"]);
         options.OAuthRealm(app.Configuration["AuthOptions:RealmName"]);
-        options.OAuthScopes("openid", "email", "user_roles");
     });
 
     app.UseCors(x => x
@@ -36,8 +33,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 
-
-app.UseHttpRequestContext();
 app.UseAuthentication();
 app.UseAuthorization();
 
