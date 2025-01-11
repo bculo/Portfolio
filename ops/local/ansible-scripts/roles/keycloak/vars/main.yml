@@ -1,6 +1,34 @@
-keycloak_url: http://localhost:8080
-realm_name: Tst
-  
+realm_name: "PortfolioRealm"
+realm_admin_password: "admin"
+keycloak_url: "http://localhost:8080"
+
 roles_to_create: 
-  - Admin
-  - User
+  - "Admin"
+  - "User"
+
+users_to_create:
+  - username: "admin"
+    email: "admin@portfolio.com"
+    first_name: "admin"
+    last_name: "admin"
+    password: "admin"
+  - username: "user"
+    email: "user@portfolio.com"
+    first_name: "user"
+    last_name: "user"
+    password: "user"
+
+roles_assignments:
+  - username: "admin"
+    role: "Admin"
+  - username: "user"
+    role: "User"
+    
+clients:
+  - name: "Crypto.API"
+    redirect_uri: "http://localhost:5263/*"
+    web_origin: "http://localhost:5263/"
+    implicit_flow_enabled: true
+    standard_flow_enabled: true
+    app_settings_path: "../../../src/Services/Crypto/Crypto.API/appsettings.Development.json"
+    template_name: "crypto.template.json"

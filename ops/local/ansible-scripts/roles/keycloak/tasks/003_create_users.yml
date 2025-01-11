@@ -1,0 +1,32 @@
+- name: Create users in Keycloak
+  loop: "{{ users_to_create }}"
+  community.general.keycloak_user:
+    auth_realm: "master"
+    auth_keycloak_url: "{{ keycloak_url }}"
+    auth_password: "{{ realm_admin_password }}"
+    auth_username: "admin"
+    realm: "{{ realm_name }}" 
+    username: "{{ item.username }}"
+    firstName: "{{ item.first_name }}"
+    lastName: "{{ item.last_name }}"
+    email: "{{ item.email }}"
+    enabled: true
+    emailVerified: true
+    credentials:
+      - type: password
+        value: "{{ item.password }}"
+        temporary: false
+
+- name: Assign roles to users
+  loop: "{{ roles_assignments }}"
+  community.general.keycloak_user_rolemapping:
+    realm: "{{ realm_name }}"
+    auth_realm: "master"
+    auth_keycloak_url: "{{ keycloak_url }}"
+    auth_client_id: "admin-cli"
+    auth_username: "admin"
+    auth_password: "{{ realm_admin_password }}"
+    state: present
+    target_username: "{{ item.username }}"
+    roles:
+      - name: "{{ item.role }}"
