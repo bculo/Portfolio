@@ -65,7 +65,7 @@ services:
       start_period: 3s
 
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0
+    image: keycloak/keycloak:26.0
     container_name: portfolio.keycloak
     hostname: keycloak
     networks:
