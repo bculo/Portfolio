@@ -32,7 +32,7 @@ namespace Keycloak.Common.Services
             {
                 new ("client_id", clientId),
                 new ("client_secret", clientSecret),
-                new ("grant_type", KeycloakGrantTypeConstants.CLIENT_CREDENTIALS)
+                new ("grant_type", KeycloakGrantTypeConstants.ClientCredentials)
             };
 
             HttpContent content = new FormUrlEncodedContent(body);

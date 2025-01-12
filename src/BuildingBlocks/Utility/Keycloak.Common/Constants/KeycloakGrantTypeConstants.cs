@@ -2,7 +2,7 @@
 {
     internal static class KeycloakGrantTypeConstants
     {
-        public const string CLIENT_CREDENTIALS = "client_credentials";
-        public const string OWNER_CREDENTIALS = "password";
+        public const string ClientCredentials = "client_credentials";
+        public const string OwnerCredentials = "password";
     }
 }

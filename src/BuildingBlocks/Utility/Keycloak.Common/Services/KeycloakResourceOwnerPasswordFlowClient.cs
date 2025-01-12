@@ -33,7 +33,7 @@ namespace Keycloak.Common.Services
 
             var body = new List<KeyValuePair<string, string>>()
             {
-                new ("grant_type", KeycloakGrantTypeConstants.OWNER_CREDENTIALS),
+                new ("grant_type", KeycloakGrantTypeConstants.OwnerCredentials),
                 new ("client_id", clientId),
                 new ("username", username),
                 new ("password", password)
