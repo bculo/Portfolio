@@ -14,25 +14,28 @@ namespace Keycloak.Common
 {
     public static class KeycloakExtensions
     {
-        public static void UseKeycloakClaimServices(this IServiceCollection services, 
-            string keyCloackApplicationName)
+        public static void UseKeycloakClaimServices(this IServiceCollection services, string appName)
         {
-            ArgumentNullException.ThrowIfNull(keyCloackApplicationName);
+            ArgumentNullException.ThrowIfNull(appName);
             
             services.AddOptions<KeycloakClaimOptions>().Configure(opt =>
             {
-                opt.ApplicationName = keyCloackApplicationName;
+                opt.ApplicationName = appName;
             });
-            
+
             services.AddHttpContextAccessor();
+            services.AddScoped<IHttpRequestContextService, HttpRequestContextService>();
             services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
             services.AddScoped<IAuth0AccessTokenReader, KeycloakUserInfo>();
         }
         
         public static void UseKeycloakClientCredentialFlowService(this IServiceCollection services, 
-            string authorizationServer)
+            string authorizationServerBaseUri, string realm)
         {
-            ArgumentNullException.ThrowIfNull(authorizationServer);
+            ArgumentNullException.ThrowIfNull(authorizationServerBaseUri);
+            ArgumentNullException.ThrowIfNull(realm);
+            
+            var authorizationServer = Path.Join(authorizationServerBaseUri, "realms", realm);
 
             services.AddOptions<KeycloakTokenOptions>().Configure(opt =>
             {
@@ -77,7 +80,7 @@ namespace Keycloak.Common
             ArgumentNullException.ThrowIfNull(authorizationUrl);
             ArgumentNullException.ThrowIfNull(tokenUrl);
             
-            services.UseKeycloakClientCredentialFlowService(tokenUrl);
+            services.UseKeycloakClientCredentialFlowService(tokenUrl, realm);
             
             services.AddOptions<KeycloakAdminApiOptions>().Configure(opt =>
             {

@@ -7,6 +7,7 @@ using Crypto.Infrastructure.Consumers.State;
 using Crypto.Infrastructure.Extensions;
 using Crypto.Infrastructure.Persistence;
 using Keycloak.Common;
+using Keycloak.Common.Utils;
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
 using WebProject.Common.Extensions;
@@ -33,9 +34,10 @@ namespace Crypto.API.Configurations
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
 
-            services.ConfigureSwagger(
-                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
-                configuration["KeycloakOptions:ApplicationName"]);
+            var authEndpoint = UriUtils.BuildAuthEndpoint(
+                configuration["AuthOptions:AuthorizationServerUrl"],
+                configuration["AuthOptions:RealmName"]);
+            services.ConfigureSwagger(authEndpoint);
 
             AddAuthentication(services, configuration);
             AddMessageQueue(services, configuration);
@@ -43,8 +45,10 @@ namespace Crypto.API.Configurations
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
         {
-            services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakClientCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+            services.UseKeycloakClaimServices(configuration["AuthOptions:ApplicationName"]);
+            services.UseKeycloakClientCredentialFlowService(
+                configuration["AuthOptions:AuthorizationServerUrl"],
+                configuration["AuthOptions:RealmName"]);
 
             var authOptions = new AuthOptions();
             configuration.GetSection("AuthOptions").Bind(authOptions);

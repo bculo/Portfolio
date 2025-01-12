@@ -6,16 +6,9 @@ using System.Security.Claims;
 
 namespace Keycloak.Common.Services
 {
-    internal class KeycloakUserInfo : IAuth0AccessTokenReader
+    internal class KeycloakUserInfo(IHttpContextAccessor accessor) : IAuth0AccessTokenReader
     {
-        private readonly IHttpContextAccessor _accessor;
-
-        public ClaimsPrincipal Claims => _accessor.HttpContext?.User;
-
-        public KeycloakUserInfo(IHttpContextAccessor accessor)
-        {
-            _accessor = accessor;
-        }
+        public ClaimsPrincipal Claims => accessor.HttpContext?.User;
 
         public virtual bool IsAuthenticated()
         {
@@ -24,8 +17,8 @@ namespace Keycloak.Common.Services
 
         public virtual Guid GetIdentifier()
         {
-            var guidAsStringMain = Claims?.FindFirst(KeycloakTokenConstants.USERID)?.Value;
-            var guidAsStringBackup = Claims?.FindFirst(KeycloakTokenConstants.USERIDBACKUP)?.Value;
+            var guidAsStringMain = Claims?.FindFirst(KeycloakTokenConstants.Userid)?.Value;
+            var guidAsStringBackup = Claims?.FindFirst(KeycloakTokenConstants.Useridbackup)?.Value;
 
             var guidAsString = guidAsStringMain ?? guidAsStringBackup ?? null;
 
@@ -44,27 +37,27 @@ namespace Keycloak.Common.Services
 
         public virtual string GetFullName()
         {
-            return Claims?.FindFirst(KeycloakTokenConstants.FULLNAME)?.Value;
+            return Claims?.FindFirst(KeycloakTokenConstants.Fullname)?.Value;
         }
 
         public virtual string GetEmail()
         {
-            return Claims?.FindFirst(KeycloakTokenConstants.EMAIL)?.Value;
+            return Claims?.FindFirst(KeycloakTokenConstants.Email)?.Value;
         }
 
         public virtual string GetUserName()
         {
-            return Claims?.FindFirst(KeycloakTokenConstants.USERNAME)?.Value;
+            return Claims?.FindFirst(KeycloakTokenConstants.Username)?.Value;
         }
 
         public virtual string GetIssuer()
         {
-            return Claims?.FindFirst(KeycloakTokenConstants.ISSUER)?.Value;
+            return Claims?.FindFirst(KeycloakTokenConstants.Issuer)?.Value;
         }
 
         public IEnumerable<string> GetRoles()
         {
-            return Claims?.FindAll(KeycloakTokenConstants.ROLE)?.Select(i => i.Value)?.ToList() ?? Enumerable.Empty<string>();
+            return Claims?.FindAll(KeycloakTokenConstants.Role)?.Select(i => i.Value)?.ToList() ?? Enumerable.Empty<string>();
         }
 
         public bool IsInRole(string roleName)
@@ -84,12 +77,12 @@ namespace Keycloak.Common.Services
 
         public string GetClientId()
         {
-            return Claims?.FindFirst(KeycloakTokenConstants.CLIENTID)?.Value;
+            return Claims?.FindFirst(KeycloakTokenConstants.Clientid)?.Value;
         }
 
         public IPAddress GetClientAddress()
         {
-            var ipString = Claims?.FindFirst(KeycloakTokenConstants.CLIENT_ADDRESS)?.Value;
+            var ipString = Claims?.FindFirst(KeycloakTokenConstants.ClientAddress)?.Value;
 
             if (string.IsNullOrEmpty(ipString))
             {

@@ -80,9 +80,7 @@ public static class SwaggerExtensions
         services.ConfigureOptions<ConfigureSwaggerApiVersioningOptions>();
     }
 
-    public static void ConfigureSwagger(this IServiceCollection services,
-        string authorizationUrl, 
-        string applicationName)
+    public static void ConfigureSwagger(this IServiceCollection services, string authorizationUrl)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(opt =>

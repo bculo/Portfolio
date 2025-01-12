@@ -67,9 +67,9 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             };
         }
 
-        private Core.Entities.CryptoEntity CreateNewCryptoEntity(CryptoInformation info)
+        private CryptoEntity CreateNewCryptoEntity(CryptoInformation info)
         {
-            return new Core.Entities.CryptoEntity
+            return new CryptoEntity
             {
                 Id = Guid.NewGuid(),
                 Logo = info.Logo,

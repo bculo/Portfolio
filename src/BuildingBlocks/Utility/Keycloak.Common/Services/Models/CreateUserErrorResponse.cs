@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace Keycloak.Common.Models;
+namespace Keycloak.Common.Services.Models;
 
 public class CreateUserErrorResponse
 {

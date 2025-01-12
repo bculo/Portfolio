@@ -1,16 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Keycloak.Common.Extensions
 {
     internal static class KeycloakHttpResponseMessageExtensions
     {
-        public static async Task<T> HandleResponse<T>(this HttpResponseMessage response, ILogger logger = null)
+        public static async Task<T> HandleResponse<T>(this HttpResponseMessage response, ILogger? logger = null)
         {
             logger?.LogTrace("Response received...");
 
@@ -37,7 +33,7 @@ namespace Keycloak.Common.Extensions
 
             logger?.LogTrace("Parsing json response...");
 
-            return JsonConvert.DeserializeObject<T>(responseJson);
+            return JsonSerializer.Deserialize<T>(responseJson);
         }
     }
 }

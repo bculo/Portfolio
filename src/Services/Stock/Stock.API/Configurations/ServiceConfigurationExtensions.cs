@@ -40,8 +40,8 @@ namespace Stock.API.Configurations
             services.AddControllers();
             services.AddScoped<IStockUser, CurrentUserService>();
             
-            services.ConfigureSwaggerWithApiVersioning(configuration["KeycloakOptions:ApplicationName"],
-                $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
+            services.ConfigureSwaggerWithApiVersioning(configuration["AuthOptions:ApplicationName"],
+                $"{configuration["AuthOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth",
                 configuration.GetValue<int>("ApiVersion:MajorVersion"),
                 configuration.GetValue<int>("ApiVersion:MinorVersion"));
 
@@ -80,8 +80,10 @@ namespace Stock.API.Configurations
         
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
         {
-            services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-            services.UseKeycloakClientCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+            services.UseKeycloakClaimServices(configuration["AuthOptions:ApplicationName"]);
+            services.UseKeycloakClientCredentialFlowService(
+                configuration["AuthOptions:AuthorizationServerUrl"],
+                configuration["AuthOptions:RealmName"]);
 
             var authOptions = new AuthOptions();
             configuration.GetSection("AuthOptions").Bind(authOptions);

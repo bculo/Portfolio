@@ -1,5 +1,6 @@
 using Carter;
 using Keycloak.Common;
+using Keycloak.Common.Utils;
 using Mail.Application;
 using Mail.Application.Consumers;
 using Mail.Infrastructure;
@@ -17,9 +18,10 @@ public static class ServiceConfigurationExtensions
     public static void ConfigureMinimalApiProject(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddCarter();
-        services.ConfigureSwagger(
-            $"{configuration["KeycloakOptions:AuthorizationServerUrl"]}/protocol/openid-connect/auth", 
-            "Mail.API");
+        var authEndpoint = UriUtils.BuildAuthEndpoint(
+            configuration["AuthOptions:AuthorizationServerUrl"],
+            configuration["AuthOptions:RealmName"]);
+        services.ConfigureSwagger(authEndpoint);
         
         ApplicationLayer.AddServices(services, configuration);
         InfrastructureLayer.AddServices(services, configuration);
@@ -47,8 +49,8 @@ public static class ServiceConfigurationExtensions
     
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
     {
-        services.UseKeycloakClaimServices(configuration["KeycloakOptions:ApplicationName"]);
-        // services.UseKeycloakCredentialFlowService(configuration["KeycloakOptions:AuthorizationServerUrl"]);
+        services.UseKeycloakClaimServices(configuration["AuthOptions:ApplicationName"]);
+        // services.UseKeycloakCredentialFlowService(configuration["AuthOptions:AuthorizationServerUrl"]);
 
         var authOptions = new AuthOptions();
         configuration.GetSection("AuthOptions").Bind(authOptions);

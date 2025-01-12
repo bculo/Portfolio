@@ -20,8 +20,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.OAuthClientId(app.Configuration["KeycloakOptions:ApplicationName"]);
-        options.OAuthRealm(app.Configuration["KeycloakOptions:RealmName"]);
+        options.OAuthClientId(app.Configuration["AuthOptions:ApplicationName"]);
+        options.OAuthRealm(app.Configuration["AuthOptions:RealmName"]);
 
         var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)

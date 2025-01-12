@@ -1,9 +1,9 @@
 using System.Net;
 using AutoFixture;
 using Events.Common.User;
-using Keycloak.Common.Models;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
+using Keycloak.Common.Services.Models;
 using MassTransit;
 using Microsoft.Extensions.Options;
 using NSubstitute;

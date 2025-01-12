@@ -1,32 +1,39 @@
 using System.Text.Json.Serialization;
 
-public class UserConsentRepresentation
+namespace Keycloak.Common.Services.Models;
+
+public partial class UserProfileAttributeMetadata
 {
 
-    [JsonPropertyName("clientId")]
+    [JsonPropertyName("name")]
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
-    public string ClientId { get; set; }
+    public string Name { get; set; }
 
-    [JsonPropertyName("grantedClientScopes")]
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
-    public ICollection<string> GrantedClientScopes { get; set; }
-
-    [JsonPropertyName("createdDate")]
+    [JsonPropertyName("displayName")]
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
-    public long CreatedDate { get; set; }
+    public string DisplayName { get; set; }
 
-    [JsonPropertyName("lastUpdatedDate")]
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
-    public long LastUpdatedDate { get; set; }
-
-    [JsonPropertyName("grantedRealmRoles")]
+    [JsonPropertyName("required")]
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
-    public ICollection<string> GrantedRealmRoles { get; set; }
+    public bool Required { get; set; }
+
+    [JsonPropertyName("readOnly")]
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+    public bool ReadOnly { get; set; }
+
+    [JsonPropertyName("annotations")]
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+    public IDictionary<string, object> Annotations { get; set; }
+
+    [JsonPropertyName("validators")]
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]   
+    public IDictionary<string, object> Validators { get; set; }
 
     private IDictionary<string, object> _additionalProperties;
 

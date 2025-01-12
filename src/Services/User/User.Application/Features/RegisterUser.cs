@@ -1,10 +1,10 @@
 using System.Net;
 using Events.Common.User;
 using FluentValidation;
-using Keycloak.Common.Models;
-using Keycloak.Common.Models.Errors;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
+using Keycloak.Common.Services.Models;
+using Keycloak.Common.Services.Models.Errors;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Options;
