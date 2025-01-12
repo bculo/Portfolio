@@ -23,6 +23,7 @@ if (app.Environment.IsDevelopment())
     {
         options.OAuthClientId(app.Configuration["AuthOptions:ApplicationName"]);
         options.OAuthRealm(app.Configuration["AuthOptions:RealmName"]);
+        options.OAuthScopes("openid", "email");
     });
 
     app.UseCors(x => x
