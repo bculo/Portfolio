@@ -14,17 +14,17 @@ namespace Keycloak.Common
 {
     public static class KeycloakExtensions
     {
-        public static void UseKeycloakClaimServices(this IServiceCollection services, 
-            string keyCloackApplicationName)
+        public static void UseKeycloakClaimServices(this IServiceCollection services, string appName)
         {
-            ArgumentNullException.ThrowIfNull(keyCloackApplicationName);
+            ArgumentNullException.ThrowIfNull(appName);
             
             services.AddOptions<KeycloakClaimOptions>().Configure(opt =>
             {
-                opt.ApplicationName = keyCloackApplicationName;
+                opt.ApplicationName = appName;
             });
-            
+
             services.AddHttpContextAccessor();
+            services.AddScoped<IHttpRequestContextService, HttpRequestContextService>();
             services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
             services.AddScoped<IAuth0AccessTokenReader, KeycloakUserInfo>();
         }

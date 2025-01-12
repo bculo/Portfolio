@@ -1,4 +1,4 @@
-namespace Keycloak.Common.Models.Errors;
+namespace Keycloak.Common.Services.Models.Errors;
 
 public class AddNewUserError
 {

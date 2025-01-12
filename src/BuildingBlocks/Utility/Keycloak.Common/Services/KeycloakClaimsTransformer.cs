@@ -1,81 +1,62 @@
-﻿using Keycloak.Common.Options;
+﻿using System.Security.Claims;
+using Keycloak.Common.Extensions;
+using Keycloak.Common.Options;
+using Keycloak.Common.Services.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Keycloak.Common.Services
 {
     /// <summary>
     /// Flatten resource_access because Microsoft identity model doesn't support nested claims
     /// </summary>
-    internal class KeycloakClaimsTransformer : IClaimsTransformation
+    internal class KeycloakClaimsTransformer(
+        IOptions<KeycloakClaimOptions> options,
+        IOptions<KeycloakTokenOptions> optionsToken,
+        ILogger<KeycloakClaimsTransformer> logger,
+        IHttpClientFactory factory,
+        IHttpRequestContextService requestContext)
+        : IClaimsTransformation
     {
-        private readonly KeycloakClaimOptions _options;
-        private readonly ILogger<KeycloakClaimsTransformer> _logger;
+        private readonly KeycloakClaimOptions _options = options.Value;
+        private readonly KeycloakTokenOptions _tokenOptions = optionsToken.Value;
 
-        public KeycloakClaimsTransformer(IOptions<KeycloakClaimOptions> options,
-            ILogger<KeycloakClaimsTransformer> logger)
+        public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            _options = options.Value;
-            _logger = logger;
-        }
-
-        public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
-        {
-            _logger.LogTrace("Method {Method} called", nameof(TransformAsync));
-
-            var claimsIdentity = principal.Identity as ClaimsIdentity;
-
-            if (claimsIdentity == null)
+            if (principal.Identity is not ClaimsIdentity claimsIdentity)
             {
-                _logger.LogWarning("ClaimsIdentity instance is null");
-
-                return Task.FromResult(principal);
+                logger.LogTrace("ClaimsIdentity instance is null");
+                return principal;
             }
 
-            HandleApplicationRoles(claimsIdentity);
-
-            HandleRealmRoles(claimsIdentity);
-
-            return Task.FromResult(principal);
-        }
-
-        private void HandleApplicationRoles(ClaimsIdentity claimsIdentity)
-        {
-            if (!claimsIdentity.IsAuthenticated ||
-                !claimsIdentity.HasClaim((claim) => claim.Type == "resource_access")) return;
-
-            var userAppRoles = claimsIdentity.FindFirst((claim) => claim.Type == "resource_access");
-
-            var content = Newtonsoft.Json.Linq.JObject.Parse(userAppRoles!.Value);
-
-            if (!content.ContainsKey(_options.ApplicationName!)) return;
-
-            foreach (var role in content[_options.ApplicationName]!["roles"]!)
+            if (requestContext.HasJwtToken)
             {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                logger.LogTrace("Calling UserInfo endpoint");
+                await GetUserInfo(claimsIdentity);
             }
+            
+            return principal;
         }
 
-        private void HandleRealmRoles(ClaimsIdentity claimsIdentity)
+        private async Task GetUserInfo(ClaimsIdentity claimsIdentity)
         {
-            if (!claimsIdentity.IsAuthenticated ||
-                !claimsIdentity.HasClaim((claim) => claim.Type == "realm_access")) return;
-            
-            var userRealmRoles = claimsIdentity.FindFirst((claim) => claim.Type == "realm_access");
-            var content = Newtonsoft.Json.Linq.JObject.Parse(userRealmRoles!.Value);
-
-            if (!content.ContainsKey("roles")) return;
-            
-            foreach (var role in content["roles"]!)
+            var client = factory.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", requestContext.Jwt);
+            var userinfoPath = Path.Join(_tokenOptions.AuthorizationServerUrl, "/protocol/openid-connect/userinfo");
+            var response = await client.GetAsync(userinfoPath);
+            response.EnsureSuccessStatusCode();
+            var parsedResponse = await response.HandleResponse<CustomUserInfo>();
+            HandleRealmRoles(parsedResponse, claimsIdentity);
+        }
+        
+        private void HandleRealmRoles(CustomUserInfo info, ClaimsIdentity claimsIdentity)
+        {
+            foreach (var role in info.RealmRoles)
             {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
             }
         }
     }

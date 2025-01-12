@@ -1,8 +1,8 @@
 using Events.Common.User;
 using FluentValidation;
-using Keycloak.Common.Models;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
+using Keycloak.Common.Services.Models;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;

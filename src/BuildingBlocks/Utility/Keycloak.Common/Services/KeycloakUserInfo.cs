@@ -6,16 +6,9 @@ using System.Security.Claims;
 
 namespace Keycloak.Common.Services
 {
-    internal class KeycloakUserInfo : IAuth0AccessTokenReader
+    internal class KeycloakUserInfo(IHttpContextAccessor accessor) : IAuth0AccessTokenReader
     {
-        private readonly IHttpContextAccessor _accessor;
-
-        public ClaimsPrincipal Claims => _accessor.HttpContext?.User;
-
-        public KeycloakUserInfo(IHttpContextAccessor accessor)
-        {
-            _accessor = accessor;
-        }
+        public ClaimsPrincipal Claims => accessor.HttpContext?.User;
 
         public virtual bool IsAuthenticated()
         {

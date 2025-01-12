@@ -1,4 +1,4 @@
-using Keycloak.Common.Models;
+using Keycloak.Common.Services.Models;
 using Refit;
 
 namespace Keycloak.Common.Services;

@@ -9,31 +9,24 @@ using Microsoft.Extensions.Options;
 
 namespace Keycloak.Common.Services
 {
-    internal class KeycloakClientCredentialFlowClient : IAuth0ClientCredentialFlowService
+    internal class KeycloakClientCredentialFlowClient(
+        IHttpClientFactory factory,
+        IOptions<KeycloakTokenOptions> options,
+        ILogger<KeycloakClientCredentialFlowClient> logger)
+        : IAuth0ClientCredentialFlowService
     {
-        private readonly IHttpClientFactory _factory;
-        private readonly KeycloakTokenOptions _options;
-        private readonly ILogger<KeycloakClientCredentialFlowClient> _logger;
-
-        public KeycloakClientCredentialFlowClient(IHttpClientFactory factory, 
-            IOptions<KeycloakTokenOptions> options,
-            ILogger<KeycloakClientCredentialFlowClient> logger)
-        {
-            _factory = factory;
-            _options = options.Value;
-            _logger = logger;
-        }
+        private readonly KeycloakTokenOptions _options = options.Value;
 
         public async Task<TokenClientCredentialResponse> GetToken(string clientId, 
             string clientSecret, 
             IEnumerable<string>? scopes = null)
         {
-            _logger.LogTrace("Method {Method} called", nameof(GetToken));
+            logger.LogTrace("Method {Method} called", nameof(GetToken));
 
             ArgumentNullException.ThrowIfNull(clientId);
             ArgumentNullException.ThrowIfNull(clientSecret);
             
-            var http = _factory.CreateClient();
+            var http = factory.CreateClient();
             
             var body = new List<KeyValuePair<string, string>>()
             {
@@ -44,12 +37,12 @@ namespace Keycloak.Common.Services
 
             HttpContent content = new FormUrlEncodedContent(body);
 
-            _logger.LogTrace("Sending request...");
+            logger.LogTrace("Sending request...");
 
             var uri = UriUtils.JoinUriSegments(_options.AuthorizationServerUrl, "protocol/openid-connect/token");
             var authorizationServerResponse = await http.PostAsync(uri, content);
 
-            return await authorizationServerResponse.HandleResponse<TokenClientCredentialResponse>(_logger);
+            return await authorizationServerResponse.HandleResponse<TokenClientCredentialResponse>(logger);
         }
     }
 }

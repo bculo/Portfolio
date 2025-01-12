@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 
+namespace Keycloak.Common.Services.Models;
+
 public class UserProfileMetadata
 {
 
