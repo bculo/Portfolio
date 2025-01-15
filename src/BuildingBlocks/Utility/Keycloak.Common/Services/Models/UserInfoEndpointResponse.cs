@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Keycloak.Common.Services.Models;
 
-internal class CustomUserInfo
+internal class UserInfoEndpointResponse
 {
     [JsonPropertyName("client_roles")]
     public List<string> ClientRoles { get; set; } // Corresponds to "client_roles"

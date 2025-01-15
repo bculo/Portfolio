@@ -36,9 +36,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 
+app.UseAccessTokenContextMiddleware();
 
-app.UseHttpRequestContext();
 app.UseAuthentication();
+
+app.UseCallerRoleMapperMiddleware();
+
 app.UseAuthorization();
 
 app.UseHangfireDashboard();

@@ -25,7 +25,6 @@ namespace Keycloak.Common
 
             services.AddHttpContextAccessor();
             services.AddScoped<IHttpRequestContextService, HttpRequestContextService>();
-            services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
             services.AddScoped<IAuth0AccessTokenReader, KeycloakUserInfo>();
         }
         
