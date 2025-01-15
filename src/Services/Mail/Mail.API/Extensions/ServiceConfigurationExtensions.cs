@@ -18,7 +18,7 @@ public static class ServiceConfigurationExtensions
     public static void ConfigureMinimalApiProject(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddCarter();
-        var authEndpoint = UriUtils.BuildAuthEndpoint(
+        var authEndpoint = KeycloakUriUtils.BuildAuthEndpoint(
             configuration["AuthOptions:AuthorizationServerUrl"],
             configuration["AuthOptions:RealmName"]);
         services.ConfigureSwagger(authEndpoint);

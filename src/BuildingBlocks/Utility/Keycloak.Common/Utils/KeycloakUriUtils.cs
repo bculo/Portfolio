@@ -1,6 +1,6 @@
 namespace Keycloak.Common.Utils;
 
-public static class UriUtils
+public static class KeycloakUriUtils
 {
     public static string JoinUriSegments(string uri, params string[]? segments)
     {
