@@ -10,16 +10,14 @@ namespace Keycloak.Common.Extensions
         {
             logger?.LogTrace("Response received...");
 
-            if(response is null)
-            {
-                throw new ArgumentNullException(nameof(response));
-            }
+            ArgumentNullException.ThrowIfNull(response);
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorResponse = await response.Content.ReadAsStringAsync();
 
-                logger?.LogWarning("Keycloak request failed with status code {StatusCode}. Reason: {Reason}, Details {Error}",
+                logger?.LogWarning(
+                    "Keycloak request failed with status code {StatusCode}. Reason: {Reason}, Details {Error}",
                     response.StatusCode,
                     response.ReasonPhrase,
                     errorResponse);

@@ -6,12 +6,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
-using Respawn;
 using StackExchange.Redis;
 using Tests.Common.Extensions;
-using Tests.Common.Interfaces.Containers;
-using Tests.Common.Services.Containers;
 using WireMock.Server;
 using ZiggyCreatures.Caching.Fusion;
 
@@ -31,7 +27,10 @@ namespace Crypto.IntegrationTests
             {
                 { "CryptoPriceApiOptions:BaseUrl", MockServer.Urls[0] },
                 { "CryptoInfoApiOptions:BaseUrl", MockServer.Urls[0] },
-                { "ConnectionStrings:CryptoDatabase", $"Host=localhost;Port=5433;Database=CryptoTst{Guid.NewGuid()};User Id=postgres;Password=florijan;" },
+                {
+                    "ConnectionStrings:CryptoDatabase",
+                    $"Host=localhost;Port=5433;Database=CryptoTst{Guid.NewGuid()};User Id=postgres;Password=florijan;"
+                },
                 { "QueueOptions:Address", "amqp://rabbitmquser:rabbitmqpassword@localhost:5672" },
                 { "QueueOptions:Prefix", $"cryptotest{Guid.NewGuid()}" },
                 { "QueueOptions:Temporary", "true" },

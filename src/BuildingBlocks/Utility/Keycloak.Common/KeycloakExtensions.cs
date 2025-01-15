@@ -18,14 +18,8 @@ namespace Keycloak.Common
         {
             ArgumentNullException.ThrowIfNull(appName);
             
-            services.AddOptions<KeycloakClaimOptions>().Configure(opt =>
-            {
-                opt.ApplicationName = appName;
-            });
-
             services.AddHttpContextAccessor();
             services.AddScoped<IHttpRequestContextService, HttpRequestContextService>();
-            services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformer>();
             services.AddScoped<IAuth0AccessTokenReader, KeycloakUserInfo>();
         }
         
@@ -56,13 +50,6 @@ namespace Keycloak.Common
             });
 
             services.AddScoped<IAuth0ResourceOwnerPasswordFlowService, KeycloakResourceOwnerPasswordFlowClient>();
-        }
-
-        public static void RemoveClaimTransformerService(this IServiceCollection services)
-        {
-            var serviceDescriptor = services
-                .FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IClaimsTransformation));
-            services.Remove(serviceDescriptor);
         }
         
         public static void UseKeycloakAdminService(this IServiceCollection services, 

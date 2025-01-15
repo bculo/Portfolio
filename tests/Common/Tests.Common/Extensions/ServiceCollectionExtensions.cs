@@ -11,7 +11,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDefaultFakeAuth(this IServiceCollection services)
     {
-        services.RemoveClaimTransformerService();
         services.AddSingleton<IMockClaimSeeder, MockClaimSeeder>();
         services.AddSingleton<IAuthenticationSchemeProvider, MockJwtSchemeProvider>();
 

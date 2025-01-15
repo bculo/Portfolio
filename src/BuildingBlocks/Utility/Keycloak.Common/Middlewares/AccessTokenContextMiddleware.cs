@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Keycloak.Common.Middlewares;
 
-public class HttpContextRequestMiddleware(RequestDelegate next)
+public class AccessTokenContextMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -19,8 +19,8 @@ public class HttpContextRequestMiddleware(RequestDelegate next)
 /// </summary>
 public static class HttpContextRequestMiddlewareExtensions
 {
-    public static IApplicationBuilder UseHttpRequestContext(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseAccessTokenContextMiddleware(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<HttpContextRequestMiddleware>();
+        return builder.UseMiddleware<AccessTokenContextMiddleware>();
     }
 }

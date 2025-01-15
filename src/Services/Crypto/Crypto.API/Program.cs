@@ -1,13 +1,12 @@
 using Crypto.API.Configurations;
 using Hangfire;
 using Keycloak.Common.Middlewares;
-using Keycloak.Common.Services;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((host, log) =>
+builder.Host.UseSerilog((_, log) =>
 {
     log.MinimumLevel.Information();
     log.WriteTo.Console(theme: AnsiConsoleTheme.Code);
@@ -36,9 +35,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 
+app.UseAccessTokenContextMiddleware();
 
-app.UseHttpRequestContext();
 app.UseAuthentication();
+
+app.UseCallerRoleMapperMiddleware();
+
 app.UseAuthorization();
 
 app.UseHangfireDashboard();

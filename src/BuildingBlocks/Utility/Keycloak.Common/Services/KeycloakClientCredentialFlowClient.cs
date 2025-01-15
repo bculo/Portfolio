@@ -39,7 +39,7 @@ namespace Keycloak.Common.Services
 
             logger.LogTrace("Sending request...");
 
-            var uri = UriUtils.JoinUriSegments(_options.AuthorizationServerUrl, "protocol/openid-connect/token");
+            var uri = KeycloakUriUtils.JoinUriSegments(_options.AuthorizationServerUrl, "protocol/openid-connect/token");
             var authorizationServerResponse = await http.PostAsync(uri, content);
 
             return await authorizationServerResponse.HandleResponse<TokenClientCredentialResponse>(logger);

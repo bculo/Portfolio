@@ -34,7 +34,7 @@ namespace Crypto.API.Configurations
             ApplicationLayer.AddServices(services, configuration);
             InfrastructureLayer.AddServices(services, configuration);
 
-            var authEndpoint = UriUtils.BuildAuthEndpoint(
+            var authEndpoint = KeycloakUriUtils.BuildAuthEndpoint(
                 configuration["AuthOptions:AuthorizationServerUrl"],
                 configuration["AuthOptions:RealmName"]);
             services.ConfigureSwagger(authEndpoint);
