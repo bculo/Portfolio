@@ -1,0 +1,18 @@
+- name: Get public_key property from Keycloak URL
+  uri:
+    url: "{{ keycloak_url }}/realms/{{ realm_name }}"
+    method: GET
+    return_content: yes
+  register: response
+
+- name: Extract public_key from JSON response
+  debug:
+    msg: "The public_key is: {{ response.json.public_key }}"
+
+- name: Prepare App settings for development environment
+  loop: "{{ clients }}"
+  ansible.builtin.template:
+    src: "{{ item.template_name }}"
+    dest: "{{ item.app_settings_path }}"
+  vars:
+    public_keycloak_key: "{{ response.json.public_key }}"

@@ -1,6 +1,6 @@
-realm_name: "PortfolioRealm"
+#realm_name: "PortfolioRealm"
 realm_admin_password: "admin"
-keycloak_url: "http://localhost:8080"
+#keycloak_url: "http://localhost:8080"
 
 roles_to_create: 
   - "Admin"
@@ -23,12 +23,4 @@ roles_assignments:
     role: "Admin"
   - username: "user"
     role: "User"
-    
-clients:
-  - name: "Crypto.API"
-    redirect_uri: "http://localhost:5263/*"
-    web_origin: "http://localhost:5263/"
-    implicit_flow_enabled: true
-    standard_flow_enabled: true
-    app_settings_path: "../../../src/Services/Crypto/Crypto.API/appsettings.Development.json"
-    template_name: "crypto.template.json"
+  
