@@ -6,16 +6,16 @@ using System.Security.Claims;
 
 namespace Keycloak.Common.Services
 {
-    internal class KeycloakUserInfo(IHttpContextAccessor accessor) : IAuth0AccessTokenReader
+    internal sealed class KeycloakUserInfo(IHttpContextAccessor accessor) : IAuth0AccessTokenReader
     {
         public ClaimsPrincipal Claims => accessor.HttpContext?.User;
 
-        public virtual bool IsAuthenticated()
+        public bool IsAuthenticated()
         {
             return Claims?.Identity?.IsAuthenticated ?? false;
         }
 
-        public virtual Guid GetIdentifier()
+        public Guid GetIdentifier()
         {
             var guidAsStringMain = Claims?.FindFirst(KeycloakTokenConstants.Userid)?.Value;
             var guidAsStringBackup = Claims?.FindFirst(KeycloakTokenConstants.Useridbackup)?.Value;
@@ -35,22 +35,22 @@ namespace Keycloak.Common.Services
             return Guid.Empty;
         }
 
-        public virtual string GetFullName()
+        public string GetFullName()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.Fullname)?.Value;
         }
 
-        public virtual string GetEmail()
+        public string GetEmail()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.Email)?.Value;
         }
 
-        public virtual string GetUserName()
+        public string GetUserName()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.Username)?.Value;
         }
 
-        public virtual string GetIssuer()
+        public string GetIssuer()
         {
             return Claims?.FindFirst(KeycloakTokenConstants.Issuer)?.Value;
         }

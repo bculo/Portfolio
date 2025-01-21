@@ -2,7 +2,6 @@
 using Keycloak.Common.Handlers;
 using Keycloak.Common.Options;
 using Keycloak.Common.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Polly;

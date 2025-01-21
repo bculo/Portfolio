@@ -27,7 +27,6 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
     
-    
     [Fact]
     public async Task ShouldReturnStatusNoContent_WhenNewValidSymbolProvided()
     {
