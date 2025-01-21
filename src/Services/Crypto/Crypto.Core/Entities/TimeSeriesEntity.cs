@@ -1,6 +1,3 @@
 namespace Crypto.Core.Entities;
 
-public class TimeSeriesEntity
-{
-    
-}
+public class TimeSeriesEntity;

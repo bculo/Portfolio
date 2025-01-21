@@ -1,0 +1,4 @@
+rabbitmq_container_name: portfolio.rabbitmq
+rabbitmq_vhost_name: portfolio
+rabbitmq_user_name: Crypto.API
+rabbitmq_user_password: password

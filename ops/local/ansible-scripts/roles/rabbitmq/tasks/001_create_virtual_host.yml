@@ -1,0 +1,5 @@
+- name: Create RabbitMQ virtual host inside Docker container
+  ansible.builtin.command: >
+    docker exec {{ rabbitmq_container_name }}
+    rabbitmqctl add_vhost {{ rabbitmq_vhost_name }}
+  ignore_errors: true
