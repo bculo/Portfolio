@@ -7,7 +7,7 @@ namespace Crypto.gRPC.Configurations
 {
     public static class ServiceConfigurationExtensions
     {
-        public static void ConfiguregRPCApplication(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddGrpc();
             services.AddGrpcReflection();

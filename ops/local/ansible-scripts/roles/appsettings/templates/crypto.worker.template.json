@@ -1,0 +1,38 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "CryptoDatabase": "Host=localhost;Port=5433;Database=Crypto;User Id=postgres;Password=florijan;"
+  },
+  "CryptoPriceApiOptions": {
+    "HeaderKey": "authorization",
+    "ApiKey": "Apikey <<SECRET>>",
+    "BaseUrl": "https://min-api.cryptocompare.com/data/",
+    "Currency": "USD",
+    "RetryNumber": 3,
+    "Timeout": 60
+  },
+  "CryptoInfoApiOptions": {
+    "RetryNumber": 3,
+    "Timeout": 60,
+    "HeaderKey": "X-CMC_PRO_API_KEY",
+    "ApiKey": "<<SECRET>>",
+    "BaseUrl": "https://pro-api.coinmarketcap.com/v2/cryptocurrency/"
+  },
+  "QueueOptions": {
+    "Address": "amqp://Crypto.Worker:password@localhost:5672/portfolio"
+  },
+  "IdentifierHasher": {
+    "Salt": "KVO9yy1oO5j",
+    "HashLength": 12
+  },
+  "RedisOptions": {
+    "ConnectionString": "localhost:6379",
+    "InstanceName": "crypto",
+    "ExpirationTime": 5
+  }
+}

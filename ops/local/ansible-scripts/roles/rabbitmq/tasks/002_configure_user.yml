@@ -1,12 +1,14 @@
 - name: Add new RabbitMQ user inside Docker container
+  loop: "{{ users }}"
   ansible.builtin.command: >
     docker exec {{ rabbitmq_container_name }}
-    rabbitmqctl add_user {{ rabbitmq_user_name }} {{ rabbitmq_user_password }}
+    rabbitmqctl add_user {{ item.rabbitmq_user_name }} {{ item.rabbitmq_user_password }}
   ignore_errors: true
 
 - name: Set permissions for user on virtual host inside Docker container
+  loop: "{{ users }}"
   ansible.builtin.command: >
     docker exec {{ rabbitmq_container_name }}
     rabbitmqctl set_permissions -p {{ rabbitmq_vhost_name }}
-    {{ rabbitmq_user_name }} ".*" ".*" ".*"
+    {{ item.rabbitmq_user_name }} ".*" ".*" ".*"
   ignore_errors: true

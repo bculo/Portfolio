@@ -3,7 +3,7 @@ using Crypto.gRPC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.ConfiguregRPCApplication(builder.Configuration);
+builder.Services.ConfigureApplication(builder.Configuration);
 
 var app = builder.Build();
 

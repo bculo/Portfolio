@@ -1,8 +1,7 @@
 clients:
   - name: "Crypto.API"
-    redirect_uri: "http://localhost:5263/*"
-    web_origin: "http://localhost:5263/"
-    implicit_flow_enabled: true
-    standard_flow_enabled: true
     app_settings_path: "../../../src/Services/Crypto/Crypto.API/appsettings.Development.json"
-    template_name: "crypto.template.json"
+    template_name: "crypto.api.template.json"
+  - name: "Crypto.Worker"
+    app_settings_path: "../../../src/Services/Crypto/Crypto.Worker/appsettings.Development.json"
+    template_name: "crypto.worker.template.json"

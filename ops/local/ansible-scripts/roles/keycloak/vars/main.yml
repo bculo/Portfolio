@@ -23,4 +23,10 @@ roles_assignments:
     role: "Admin"
   - username: "user"
     role: "User"
-  
+
+clients:
+  - name: "Crypto.API"
+    redirect_uri: "http://localhost:5263/*"
+    web_origin: "http://localhost:5263/"
+    implicit_flow_enabled: true
+    standard_flow_enabled: true

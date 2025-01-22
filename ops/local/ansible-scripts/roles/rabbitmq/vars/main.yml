@@ -1,4 +1,8 @@
 rabbitmq_container_name: portfolio.rabbitmq
 rabbitmq_vhost_name: portfolio
-rabbitmq_user_name: Crypto.API
-rabbitmq_user_password: password
+
+users:
+  - rabbitmq_user_name: Crypto.API
+    rabbitmq_user_password: password
+  - rabbitmq_user_name: Crypto.Worker
+    rabbitmq_user_password: password
