@@ -6,6 +6,6 @@ namespace Stock.Core.Models.Stock
     {
         public decimal Price { get; set; }
         public int StockId { get; set; }
-        public StockEntity? StockEntity { get; set; }
+        public StockEntity StockEntity { get; set; } = default!;
     }
 }

@@ -54,7 +54,7 @@ public class CreateStockTests : StockControllerBaseTest
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        problem!.Type.Should().Be(StockErrorCodes.STOCK_DUPLICATE);
+        problem!.Type.Should().Be(StockErrorCodes.StockDuplicate);
     }
 
     

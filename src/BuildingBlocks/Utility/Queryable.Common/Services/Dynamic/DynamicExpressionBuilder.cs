@@ -13,7 +13,7 @@ public class DynamicExpressionBuilder<TModel>
         = typeof(string).GetMethod("Contains", new[] { typeof(string) })!;
     
     public DynamicExpressionBuilder<TModel> Add<T>(
-        Expression<Func<TModel, T>> propertySelector, 
+        Expression<Func<TModel, T?>> propertySelector, 
         EqualFilter<T>? filter)
     {
         if (filter is null || filter.Value is null)
@@ -57,7 +57,7 @@ public class DynamicExpressionBuilder<TModel>
     }
     
     public DynamicExpressionBuilder<TModel> Add<T>(
-        Expression<Func<TModel, T>> propertySelector, 
+        Expression<Func<TModel, T?>> propertySelector, 
         GreaterThanFilter<T>? filter) 
         where T : struct
     {
@@ -80,7 +80,7 @@ public class DynamicExpressionBuilder<TModel>
     }
     
     public DynamicExpressionBuilder<TModel> Add<T>(
-        Expression<Func<TModel, T>> propertySelector, 
+        Expression<Func<TModel, T?>> propertySelector, 
         LessThenFilter<T>? filter) 
         where T : struct
     {

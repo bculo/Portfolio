@@ -1,6 +1,3 @@
 namespace Stock.Core.Models.Base;
 
-public interface IQuery
-{
-    
-}
+public interface IQuery;

@@ -1,7 +1,7 @@
 ﻿using Keycloak.Common;
 using Serilog;
-using Stock.API.Common.CachePolicies;
-using Stock.API.Common.Constants;
+using Stock.API.OutputCache.CachePolicies;
+using Stock.API.OutputCache.Constants;
 using Stock.API.Services;
 using Stock.Application;
 using Stock.Application.Common.Constants;

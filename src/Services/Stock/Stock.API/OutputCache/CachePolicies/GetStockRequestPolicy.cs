@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Primitives;
 using Stock.Application.Common.Constants;
 
-namespace Stock.API.Common.CachePolicies;
+namespace Stock.API.OutputCache.CachePolicies;
 
 public class GetStockRequestPolicy : IOutputCachePolicy
 {

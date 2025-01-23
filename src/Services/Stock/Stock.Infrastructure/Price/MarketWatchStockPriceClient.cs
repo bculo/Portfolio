@@ -10,60 +10,47 @@ using Time.Abstract.Contracts;
 
 namespace Stock.Infrastructure.Price
 {
-    public class MarketWatchStockPriceClient : IStockPriceClient
+    public class MarketWatchStockPriceClient(
+        IServiceProvider provider,
+        ILogger<MarketWatchStockPriceClient> logger,
+        IHttpClientFactory factory,
+        IDateTimeProvider timeProvider)
+        : IStockPriceClient
     {
-        private readonly IServiceProvider _provider;
-        private readonly IHttpClientFactory _factory;
-        private readonly IDateTimeProvider _timeProvider;
-        private readonly ILogger<MarketWatchStockPriceClient> _logger;
-
-        public MarketWatchStockPriceClient(IServiceProvider provider,
-            ILogger<MarketWatchStockPriceClient> logger,
-            IHttpClientFactory factory,
-            IDateTimeProvider timeProvider)
-        {
-            _logger = logger;
-            _factory = factory;
-            _provider = provider;
-            _timeProvider = timeProvider;
-        }
-
         public async Task<StockPriceInfo?> GetPrice(string symbol, CancellationToken ct = default)
         {
             ArgumentException.ThrowIfNullOrEmpty(symbol);
 
-            var client = _factory.CreateClient(HttpClientNames.MarketWatch);
+            var client = factory.CreateClient(HttpClientNames.MarketWatch);
             var response = await client.GetAsync($"investing/stock/{symbol}?mod=mw_quote_tab", ct);
             if (!response.IsSuccessStatusCode)
-            {
-                return default;
-            }
-
-            var htmlParser = _provider.GetRequiredService<IHtmlParser>();
+                return null;
+            
+            var htmlParser = provider.GetRequiredService<IHtmlParser>();
             var htmlAsString = await response.Content.ReadAsStringAsync(ct);
             await htmlParser.Initialize(htmlAsString);
 
             var priceSectionNode = await htmlParser.FindFirstElement("//div[@class='intraday__data']/h2/bg-quote");
             if (priceSectionNode is null)
             {
-                _logger.LogWarning("Node for given XPath not found");
-                return default;
+                logger.LogWarning("Node for given XPath not found");
+                return null;
             }
 
             var conversionResult = priceSectionNode.Text.ToNullableDecimal(new CultureInfo("en-US"));
             if (!conversionResult.HasValue)
             {
-                _logger.LogWarning(
+                logger.LogWarning(
                     "Problem occured when parsing string {ValueToParse} to decimal number.",
                     priceSectionNode.Text);
-                return default;
+                return null;
             }
 
             return new StockPriceInfo
             {
                 Price = conversionResult.Value,
                 Symbol = symbol,
-                FetchedTimestamp = _timeProvider.Now
+                FetchedTimestamp = timeProvider.Now
             };
         }
     }

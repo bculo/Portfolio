@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Stock.Core.Models;
 using Stock.Core.Models.Stock;
 
 namespace Stock.Infrastructure.Persistence.Configurations
 {
     public class StockPriceConfiguration : IEntityTypeConfiguration<StockPriceEntity>
     {
+        public static string TableName = "stocks_prices";
+        
         public void Configure(EntityTypeBuilder<StockPriceEntity> builder)
         {
             builder.HasKey(i => i.Id);

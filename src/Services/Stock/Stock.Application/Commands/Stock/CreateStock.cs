@@ -16,7 +16,7 @@ using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Commands.Stock;
 
-public record CreateStock(string Symbol) : IRequest<string>;
+public record CreateStock(string Symbol) : IRequest<Guid>;
 
 public class CreateStockValidator : AbstractValidator<CreateStock>
 {
@@ -29,42 +29,23 @@ public class CreateStockValidator : AbstractValidator<CreateStock>
     }
 }
 
-public class CreateStockHandler : IRequestHandler<CreateStock, string>
+public class CreateStockHandler(
+    IStockPriceClient client,
+    IPublishEndpoint publish,
+    IOutputCacheStore outputCache)
+    : IRequestHandler<CreateStock, Guid>
 {
-    private readonly IStockPriceClient _client;
-    private readonly IPublishEndpoint _publish;
-    private readonly IUnitOfWork _work;
-    private readonly SqidsEncoder<int> _sqids;
-    private readonly IOutputCacheStore _outputCache;
-
-    public CreateStockHandler(IStockPriceClient client,
-        IPublishEndpoint publish,
-        IUnitOfWork work, 
-        SqidsEncoder<int> sqids, 
-        IOutputCacheStore outputCache)
+    public async Task<Guid> Handle(CreateStock request, CancellationToken ct)
     {
-        _work = work;
-        _sqids = sqids;
-        _outputCache = outputCache;
-        _client = client;
-        _publish = publish;
-    }
-
-    public async Task<string> Handle(CreateStock request, CancellationToken ct)
-    {
-        var instance = await _work.StockRepo.First(
+        var instance = await work.StockRepo.First(
             i => i.Symbol.ToLower() == request.Symbol.ToLower(),
             ct: ct);
         if (instance is not null)
-        {
             throw new StockCoreException(StockErrorCodes.Duplicate(request.Symbol));
-        }
 
-        var clientResult = await _client.GetPrice(request.Symbol, ct);
+        var clientResult = await client.GetPrice(request.Symbol, ct);
         if (clientResult is null)
-        {
             throw new StockCoreException(StockErrorCodes.NotSupported(request.Symbol));
-        }
 
         var newItem = new StockEntity
         {
@@ -78,19 +59,19 @@ public class CreateStockHandler : IRequestHandler<CreateStock, string>
                 }
             }
         };
-        await _work.StockRepo.Add(newItem, ct);
+        await work.StockRepo.Add(newItem, ct);
         
-        await _publish.Publish(new NewStockItemAdded
+        await publish.Publish(new NewStockItemAdded
         {
             Created = newItem.CreatedAt,
             Price = clientResult.Price,
             Symbol = newItem.Symbol
         }, ct);
 
-        await _work.Save(ct);
+        await work.Save(ct);
         
-        await _outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
+        await outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
         
-        return _sqids.Encode(newItem.Id);
+        return sqids.Encode(newItem.Id);
     }
 }

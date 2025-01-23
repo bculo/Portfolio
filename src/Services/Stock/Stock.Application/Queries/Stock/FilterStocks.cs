@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Queryable.Common.Extensions;
 using Queryable.Common.Models;
 using Queryable.Common.Services.Dynamic;
 using Sqids;
@@ -20,7 +21,7 @@ public record FilterStocks(
         GreaterThanFilter<decimal>? PriceGreaterThan,
         LessThenFilter<decimal>? PriceLessThan,
         EqualFilter<Status> ActivityStatus,
-        GreaterThanFilter<DateTime>? NotOlderThan,
+        GreaterThanFilter<DateTimeOffset>? NotOlderThan,
         SortBy? SortBy) 
     : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
@@ -64,23 +65,21 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
     }
 }
 
-public class FilterStocksHandler(
-    IUnitOfWork work,
-    SqidsEncoder<int> sqids) : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
+public class FilterStocksHandler(IDataSourceProvider provider) 
+    : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
 {
+    private readonly IQueryable<StockWithPriceTag> _query = provider.GetQuery<StockWithPriceTag>();
+    
     public async Task<PageResultDto<FilterStockResponseItem>> Handle(
         FilterStocks request, 
         CancellationToken ct)
     {
-        var expressions = BuildExpressionTree(request); 
-        
-        var page = await work.StockWithPriceTag.PageMatchAll(
-            expressions,
-            request.SortBy ?? new SortBy(nameof(StockWithPriceTag.Price), SortDirection.Ascending),
-            request.ToPageQuery(),
-            ct: ct);
+        var expressions = BuildExpressionTree(request);
 
-        return page.MapToDto(Projection);
+        var page = await _query.ApplyWhereAll(expressions).ToListAsync(ct);
+
+        throw new NotImplementedException();
+        //return page.MapToDto(Projection);
     }
     
     private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocks request)
@@ -101,10 +100,10 @@ public class FilterStocksHandler(
         return new FilterStockResponseItem
         {
             LastPriceUpdate = item.LastPriceUpdate,
-            Price = item.Price == -1 ? default(double?) : (double)item.Price,
+            Price = item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
-            Id = sqids.Encode(item.StockId),
+            Id = item.StockId,
             Created = item.CreatedAt
         };
     }

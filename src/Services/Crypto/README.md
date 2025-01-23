@@ -13,12 +13,6 @@ Crypto.API is application responsible for managing crypto items and prices
 
 - make sure you are located inside ops/local/ansible-scripts/
 - execute ansible-playbook keycloak_realm_setup.yml
+- execute ansible-playbook rabbitmq_setup.yml
+- execute ansible-playbook appsettings_setup.yml
 
-### Configure keycloak integration for authentication (Manual approach)
-
-- visit keycloak admin dashboard (http://localhost:8080). Should be up and running after docker-compose up -d
-- select option 'Clients' from main menu and click "Create client" button
-- set Client ID to Crypto.API
-- Enable 'Implicit flow'
-- Set Root/Home page URL. For example http://localhost:{port}/*
-- Update appsettings.Development.json with public_key from keycloak

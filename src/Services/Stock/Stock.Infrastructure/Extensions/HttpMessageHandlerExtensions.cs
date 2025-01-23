@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Stock.Infrastructure.Common.Extensions;
+namespace Stock.Infrastructure.Extensions;
 
 public static class HttpMessageHandlerExtensions
 {

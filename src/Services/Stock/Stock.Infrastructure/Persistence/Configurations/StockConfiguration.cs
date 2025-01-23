@@ -6,6 +6,8 @@ namespace Stock.Infrastructure.Persistence.Configurations
 {
     public class StockConfiguration : IEntityTypeConfiguration<StockEntity>
     {
+        public static string TableName = "stocks";
+        
         public void Configure(EntityTypeBuilder<StockEntity> builder)
         {
             builder.HasKey(x => x.Id);

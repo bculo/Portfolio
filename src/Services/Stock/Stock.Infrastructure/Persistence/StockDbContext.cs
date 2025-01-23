@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces.User;
 using Stock.Core.Models.Base;
-using Stock.Core.Models.Stock;
 using Time.Abstract.Contracts;
 
 namespace Stock.Infrastructure.Persistence
@@ -15,16 +14,10 @@ namespace Stock.Infrastructure.Persistence
         IStockUser currentUser)
         : DbContext
     {
-        public virtual DbSet<StockEntity> Stocks => Set<StockEntity>();
-        public virtual DbSet<StockPriceEntity> Prices => Set<StockPriceEntity>();
-        
-        public virtual DbSet<StockWithPriceTag> StockWithPriceTag => Set<StockWithPriceTag>();
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("StockDatabase"));
-            optionsBuilder.UseLowerCaseNamingConvention();
+            optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
@@ -34,11 +27,11 @@ namespace Stock.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
             
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StockDbContext).Assembly);
-            
             modelBuilder.AddInboxStateEntity();
             modelBuilder.AddOutboxMessageEntity();
             modelBuilder.AddOutboxStateEntity();
+            
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(StockDbContext).Assembly);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

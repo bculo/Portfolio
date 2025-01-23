@@ -4,9 +4,9 @@
     {
         public string CreatedBy { get; set; } = default!;
         public string ModifiedBy { get; set; } = default!;
-        public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset ModifiedAt { get; set; }
+        public DateTimeOffset? Deactivated { get; set; }
         public bool IsActive { get; set; }
-        public DateTime? Deactivated { get; set; }
     }
 }

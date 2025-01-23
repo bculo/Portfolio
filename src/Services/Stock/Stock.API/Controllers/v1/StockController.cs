@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Stock.API.Common.Constants;
+using Stock.API.OutputCache.Constants;
 using Stock.Application.Commands.Stock;
 using Stock.Application.Common.Constants;
 using Stock.Application.Common.Models;

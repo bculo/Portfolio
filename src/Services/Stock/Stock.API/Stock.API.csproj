@@ -30,4 +30,9 @@
     <ProjectReference Include="..\Stock.Infrastructure\Stock.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="OutputCache\" />
+  </ItemGroup>
+
 </Project>

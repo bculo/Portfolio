@@ -21,12 +21,10 @@ using Stock.Application.Interfaces.Html;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Repositories;
-using Stock.Infrastructure.Common.Extensions;
+using Stock.Infrastructure.Extensions;
 using Stock.Infrastructure.Html;
 using Stock.Infrastructure.Localization;
 using Stock.Infrastructure.Persistence;
-using Stock.Infrastructure.Persistence.Repositories;
-using Stock.Infrastructure.Persistence.Repositories.Read;
 using Stock.Infrastructure.Price;
 using Time.Common;
 
@@ -50,12 +48,8 @@ namespace Stock.Infrastructure
             AddLocalization(services, configuration);
             AddHangfire(services, configuration);
             
-            services.AddSingleton<QueryInterceptor>();
             services.AddDbContext<StockDbContext>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IStockRepository, StockRepository>();
-            services.AddScoped<IStockPriceRepository, StockPriceRepository>();
-            services.AddScoped<IStockWithPriceTagReadRepository, StockWithPriceTagReadRepository>();
+            services.AddScoped<IDataSourceProvider, DataSourceProvider>();
             
             services.AddScoped<ILocale, LocaleService>();
         }

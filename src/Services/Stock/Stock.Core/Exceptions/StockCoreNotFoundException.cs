@@ -2,13 +2,6 @@
 
 namespace Stock.Core.Exceptions
 {
-    public class StockCoreNotFoundException : StockCoreException
-    {
-        public object[] Args { get; set; }
-        
-        public StockCoreNotFoundException(NotFoundErrorCode errorCode)
-            : base(errorCode.Code, errorCode.Message)
-        {
-        }
-    }
+    public class StockCoreNotFoundException(NotFoundErrorCode errorCode)
+        : StockCoreException(errorCode.Code, errorCode.Message);
 }

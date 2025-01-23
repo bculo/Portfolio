@@ -6,13 +6,11 @@ namespace Stock.API.Services
 {
     public class CurrentUserService(IAuth0AccessTokenReader user) : IStockUser
     {
-        private readonly IAuth0AccessTokenReader _user = user;
-
         public Guid Identifier
         {
             get
             {
-                var userId = _user.GetIdentifier();
+                var userId = user.GetIdentifier();
 
                 if(userId != Guid.Empty)
                 {

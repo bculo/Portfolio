@@ -28,7 +28,7 @@ public class GetStockTests : StockControllerBaseTest
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        problem!.Type.Should().Be(StockErrorCodes.STOCK_NOT_FOUND_BY_ID);
+        problem!.Type.Should().Be(StockErrorCodes.StockNotFoundById);
     }
     
     [Fact]

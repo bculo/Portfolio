@@ -1,9 +1,3 @@
 namespace Stock.Core.Exceptions;
 
-public class StockCoreAuthException : StockCoreException
-{
-    public StockCoreAuthException(string message) 
-        : base("Auth.Error", message)
-    {
-    }
-}
+public class StockCoreAuthException(string message) : StockCoreException("Auth.Error", message);

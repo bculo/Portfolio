@@ -1,4 +1,4 @@
-namespace Stock.API.Common.Constants;
+namespace Stock.API.OutputCache.Constants;
 
 public static class CachePolicies
 {
