@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Queryable.Common.Extensions;
 using Queryable.Common.Models;
 using Queryable.Common.Services.Dynamic;
-using Sqids;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
 using Stock.Application.Interfaces.Localization;
@@ -17,12 +16,12 @@ using Stock.Core.Models.Stock;
 namespace Stock.Application.Queries.Stock;
 
 public record FilterStocks(
-        ContainFilter? Symbol,
-        GreaterThanFilter<decimal>? PriceGreaterThan,
-        LessThenFilter<decimal>? PriceLessThan,
-        EqualFilter<Status> ActivityStatus,
-        GreaterThanFilter<DateTimeOffset>? NotOlderThan,
-        SortBy? SortBy) 
+    ContainFilter? Symbol,
+    GreaterThanFilter<decimal>? PriceGreaterThan,
+    LessThenFilter<decimal>? PriceLessThan,
+    EqualFilter<Status> ActivityStatus,
+    GreaterThanFilter<DateTimeOffset>? NotOlderThan,
+    SortBy? SortBy)
     : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
@@ -68,15 +67,15 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
 public class FilterStocksHandler(IDataSourceProvider provider) 
     : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
 {
-    private readonly IQueryable<StockWithPriceTag> _query = provider.GetQuery<StockWithPriceTag>();
+    private IQueryable<StockWithPriceTag> _query = provider.GetReadOnlySourceQuery<StockWithPriceTag>();
     
-    public async Task<PageResultDto<FilterStockResponseItem>> Handle(
-        FilterStocks request, 
-        CancellationToken ct)
+    public async Task<PageResultDto<FilterStockResponseItem>> Handle(FilterStocks request, CancellationToken ct)
     {
         var expressions = BuildExpressionTree(request);
 
-        var page = await _query.ApplyWhereAll(expressions).ToListAsync(ct);
+        var page = await _query.ApplyWhereAll(expressions)
+            .ApplyOrderBy(request.SortBy)
+            .ToListAsync(ct);
 
         throw new NotImplementedException();
         //return page.MapToDto(Projection);

@@ -2,7 +2,7 @@
 
 namespace Stock.Core.Models.Stock
 {
-    public class StockWithPriceTag : IReadModel
+    public class StockWithPriceTag : ReadOnlySource
     {
         public Guid StockId { get; set; }
         public string Symbol { get; set; } = default!;

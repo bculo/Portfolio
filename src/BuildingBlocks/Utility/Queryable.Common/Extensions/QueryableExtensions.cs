@@ -1,9 +1,8 @@
+using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Queryable.Common.Models;
-using System.Linq.Dynamic.Core;
 
 namespace Queryable.Common.Extensions;
 
@@ -66,6 +65,11 @@ public static class QueryableExtensions
     {
         return source.Skip(skip).Take(take);
     }
+    
+    public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> source, PageQuery query)
+    {
+        return source.ApplyPagination(query.Page, query.Take);
+    }
 
     public static IQueryable<T> ApplyTracking<T>(this IQueryable<T> source, bool tracking) where T : class
     {
@@ -78,18 +82,10 @@ public static class QueryableExtensions
     }
 }
 
-public class ParameterReplaceVisitor : ExpressionVisitor
+public class ParameterReplaceVisitor(ParameterExpression from, ParameterExpression to) : ExpressionVisitor
 {
-    private readonly ParameterExpression _from;
-    private readonly ParameterExpression _to;
-   
-    public ParameterReplaceVisitor(ParameterExpression from, ParameterExpression to)
-    {
-        _from = from;
-        _to = to;
-    }
     protected override Expression VisitParameter(ParameterExpression node)
     {
-        return node == _from ? _to : base.VisitParameter(node);
+        return node == from ? to : base.VisitParameter(node);
     }
 }

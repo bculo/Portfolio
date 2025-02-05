@@ -27,7 +27,7 @@ namespace Stock.Infrastructure.Persistence.Configurations
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.ToTable("stocks");
+            builder.ToTable(TableName);
         }
     }
 }
