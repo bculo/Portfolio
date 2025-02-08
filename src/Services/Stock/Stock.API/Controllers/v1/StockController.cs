@@ -45,7 +45,7 @@ public class StockController(ISender mediator) : ControllerBase
 
     [HttpGet("Filter", Name = "FilterStocks")]
     [OutputCache(PolicyName = CachePolicies.StockGetFilter)]
-    [ProducesResponseType(typeof(PageResultDto<FilterStockResponseItem>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PageResultDto<FilterStockResponseReadModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> FilterStocks([FromQuery] FilterStocks filterListQuery)
     {

@@ -80,6 +80,20 @@ public static class QueryableExtensions
     {
         return splitQuery ? source.AsSplitQuery() : source;
     }
+
+    public static async Task<PaginatedResult<T>> AsPaginatedResult<T>(this IQueryable<T> source, PageQuery query)
+        where T : class
+    {
+        var count = await source.CountAsync();
+        var paginationQuery = source.ApplyPagination(query);
+        var items = await paginationQuery.ToListAsync();
+
+        return new PaginatedResult<T>()
+        {
+            PageItems = items,
+            TotalItemsCount = count,
+        };
+    }
 }
 
 public class ParameterReplaceVisitor(ParameterExpression from, ParameterExpression to) : ExpressionVisitor

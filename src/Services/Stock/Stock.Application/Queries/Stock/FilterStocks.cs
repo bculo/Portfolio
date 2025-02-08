@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Queryable.Common.Extensions;
 using Queryable.Common.Models;
 using Queryable.Common.Services.Dynamic;
@@ -22,7 +21,7 @@ public record FilterStocks(
     EqualFilter<Status> ActivityStatus,
     GreaterThanFilter<DateTimeOffset>? NotOlderThan,
     SortBy? SortBy)
-    : PageRequestDto, IRequest<PageResultDto<FilterStockResponseItem>>;
+    : PageRequestDto, IRequest<PaginatedResult<FilterStockResponseReadModel>>;
 
 public class FilterStocksValidator : AbstractValidator<FilterStocks>
 {
@@ -65,20 +64,19 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
 }
 
 public class FilterStocksHandler(IDataSourceProvider provider) 
-    : IRequestHandler<FilterStocks, PageResultDto<FilterStockResponseItem>>
+    : IRequestHandler<FilterStocks, PaginatedResult<FilterStockResponseReadModel>>
 {
     private IQueryable<StockWithPriceTag> _query = provider.GetReadOnlySourceQuery<StockWithPriceTag>();
     
-    public async Task<PageResultDto<FilterStockResponseItem>> Handle(FilterStocks request, CancellationToken ct)
+    public async Task<PaginatedResult<FilterStockResponseReadModel>> Handle(FilterStocks request, CancellationToken ct)
     {
         var expressions = BuildExpressionTree(request);
 
         var page = await _query.ApplyWhereAll(expressions)
             .ApplyOrderBy(request.SortBy)
-            .ToListAsync(ct);
+            .AsPaginatedResult(request);
 
-        throw new NotImplementedException();
-        //return page.MapToDto(Projection);
+        return page.MapTo(ResponseProjection);
     }
     
     private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocks request)
@@ -94,9 +92,9 @@ public class FilterStocksHandler(IDataSourceProvider provider)
         return builder.Build();
     }
 
-    private FilterStockResponseItem Projection(StockWithPriceTag item)
+    private FilterStockResponseReadModel ResponseProjection(StockWithPriceTag item)
     {
-        return new FilterStockResponseItem
+        return new FilterStockResponseReadModel
         {
             LastPriceUpdate = item.LastPriceUpdate,
             Price = item.Price,
@@ -108,4 +106,4 @@ public class FilterStocksHandler(IDataSourceProvider provider)
     }
 }
 
-public record FilterStockResponseItem : StockPriceResultDto;
+public record FilterStockResponseReadModel : StockPriceResultDto;
