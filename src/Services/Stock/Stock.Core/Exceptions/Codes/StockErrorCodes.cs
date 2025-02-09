@@ -9,7 +9,7 @@ public static class StockErrorCodes
     
     public static NotFoundErrorCode NotFoundBySymbol(string symbol) => 
         new(StockNotFoundBySymbol, $"Stock with symbol {symbol} not found");
-    public static NotFoundErrorCode NotFoundById(string id) => 
+    public static NotFoundErrorCode NotFoundById(Guid id) => 
         new(StockNotFoundById, $"Stock with Id {id} not found");
     public static ErrorCode Duplicate(string symbol) => 
         new(StockDuplicate, $"Stock with symbol {symbol} already exists");

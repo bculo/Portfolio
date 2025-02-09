@@ -30,9 +30,9 @@ public class StockController(ISender mediator) : ControllerBase
     [ProducesResponseType(typeof(GetStockByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetStock([FromRoute] string id)
+    public async Task<IActionResult> GetStock([FromRoute] Guid id)
     {
-        return Ok(await mediator.Send(new GetStockById(id)));
+        return Ok(await mediator.Send(new GetStockByIdQuery(id)));
     }
 
     [HttpGet("All", Name = "GetStocks")]
@@ -45,9 +45,9 @@ public class StockController(ISender mediator) : ControllerBase
 
     [HttpGet("Filter", Name = "FilterStocks")]
     [OutputCache(PolicyName = CachePolicies.StockGetFilter)]
-    [ProducesResponseType(typeof(PageResultDto<FilterStockResponseReadModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PageResultDto<FilterStockResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> FilterStocks([FromQuery] FilterStocks filterListQuery)
+    public async Task<IActionResult> FilterStocks([FromQuery] FilterStocksQuery filterListQuery)
     {
         return Ok(await mediator.Send(filterListQuery));
     }

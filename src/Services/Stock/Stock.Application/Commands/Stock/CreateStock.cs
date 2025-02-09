@@ -25,7 +25,7 @@ public class CreateStockValidator : AbstractValidator<CreateStock>
         RuleFor(i => i.Symbol)
             .NotEmpty()
             .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
-            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
+            .WithMessage(locale.Get(ValidationShared.StockSymbolPattern));
     }
 }
 

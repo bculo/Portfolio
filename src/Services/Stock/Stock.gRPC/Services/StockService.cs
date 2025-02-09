@@ -8,7 +8,7 @@ public class StockService(IMediator mediator) : Stock.StockBase
 {
     public override async Task<StockItemReply> GetById(GetSingleByIdRequest request, ServerCallContext context)
     {
-        var instance = await mediator.Send(new GetStockById(request.Id));
+        var instance = await mediator.Send(new GetStockByIdQuery(request.Id));
 
         return new StockItemReply
         {

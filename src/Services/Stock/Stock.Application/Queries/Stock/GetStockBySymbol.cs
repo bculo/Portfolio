@@ -23,14 +23,13 @@ public class GetStockBySymbolValidator : AbstractValidator<GetStockBySymbol>
     {
         RuleFor(i => i.Symbol)
             .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
-            .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN))
+            .WithMessage(locale.Get(ValidationShared.StockSymbolPattern))
             .NotEmpty();
     }
 }
 
 public class GetStockBySymbolHandler(
-    IUnitOfWork work,
-    SqidsEncoder<int> sqids,
+    IDataSourceProvider queryProvider,
     IFusionCache fusionCache)
     : IRequestHandler<GetStockBySymbol, GetStockBySymbolResponse>
 {

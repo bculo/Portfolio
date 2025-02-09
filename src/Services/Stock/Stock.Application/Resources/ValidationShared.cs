@@ -2,6 +2,6 @@
 {
     public class ValidationShared
     {
-        public const string STOCK_SYMBOL_PATTERN = "Validation.SymbolPatternNotValid";
+        public const string StockSymbolPattern = "Validation.SymbolPatternNotValid";
     }
 }

@@ -14,16 +14,16 @@ using Stock.Core.Models.Stock;
 
 namespace Stock.Application.Queries.Stock;
 
-public record FilterStocks(
+public record FilterStocksQuery(
     ContainFilter? Symbol,
     GreaterThanFilter<decimal>? PriceGreaterThan,
     LessThenFilter<decimal>? PriceLessThan,
     EqualFilter<Status> ActivityStatus,
     GreaterThanFilter<DateTimeOffset>? NotOlderThan,
     SortBy? SortBy)
-    : PageRequestDto, IRequest<PaginatedResult<FilterStockResponseReadModel>>;
+    : PageRequestDto, IRequest<PaginatedResult<FilterStockResponse>>;
 
-public class FilterStocksValidator : AbstractValidator<FilterStocks>
+public class FilterStocksQueryValidator : AbstractValidator<FilterStocksQuery>
 {
     private readonly HashSet<string> _allowedSortProperties =
     [
@@ -31,7 +31,7 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
         nameof(StockWithPriceTag.Price)
     ];
     
-    public FilterStocksValidator(ILocale locale)
+    public FilterStocksQueryValidator(ILocale locale)
     {
         Include(new PageRequestDtoValidator());
 
@@ -39,7 +39,7 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
         {
             RuleFor(i => i.Symbol!.Value)!
                 .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
-                .WithMessage(locale.Get(ValidationShared.STOCK_SYMBOL_PATTERN));
+                .WithMessage(locale.Get(ValidationShared.StockSymbolPattern));
         });
 
         When(i => i.PriceLessThan is not null, () =>
@@ -63,23 +63,23 @@ public class FilterStocksValidator : AbstractValidator<FilterStocks>
     }
 }
 
-public class FilterStocksHandler(IDataSourceProvider provider) 
-    : IRequestHandler<FilterStocks, PaginatedResult<FilterStockResponseReadModel>>
+public class FilterStocksQueryHandler(IDataSourceProvider provider) 
+    : IRequestHandler<FilterStocksQuery, PaginatedResult<FilterStockResponse>>
 {
     private IQueryable<StockWithPriceTag> _query = provider.GetReadOnlySourceQuery<StockWithPriceTag>();
     
-    public async Task<PaginatedResult<FilterStockResponseReadModel>> Handle(FilterStocks request, CancellationToken ct)
+    public async Task<PaginatedResult<FilterStockResponse>> Handle(FilterStocksQuery request, CancellationToken ct)
     {
         var expressions = BuildExpressionTree(request);
 
         var page = await _query.ApplyWhereAll(expressions)
-            .ApplyOrderBy(request.SortBy)
+            .ApplyOrderByColumn(request.SortBy)
             .AsPaginatedResult(request);
 
         return page.MapTo(ResponseProjection);
     }
     
-    private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocks request)
+    private Expression<Func<StockWithPriceTag, bool>>[] BuildExpressionTree(FilterStocksQuery request)
     {
         var builder = DynamicExpressionBuilder<StockWithPriceTag>.Create();
         
@@ -92,9 +92,9 @@ public class FilterStocksHandler(IDataSourceProvider provider)
         return builder.Build();
     }
 
-    private FilterStockResponseReadModel ResponseProjection(StockWithPriceTag item)
+    private FilterStockResponse ResponseProjection(StockWithPriceTag item)
     {
-        return new FilterStockResponseReadModel
+        return new FilterStockResponse
         {
             LastPriceUpdate = item.LastPriceUpdate,
             Price = item.Price,
@@ -106,4 +106,4 @@ public class FilterStocksHandler(IDataSourceProvider provider)
     }
 }
 
-public record FilterStockResponseReadModel : StockPriceResultDto;
+public record FilterStockResponse : StockPriceResultDto;

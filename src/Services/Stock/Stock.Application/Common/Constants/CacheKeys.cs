@@ -9,7 +9,7 @@ public static class CacheKeys
 {
     private const string Prefix = "stock";
     
-    public static string StockItemKey(int id) => $"{Prefix}:{id}";
+    public static string StockItemKey(Guid id) => $"{Prefix}:{id}";
     
     public static string StockItemKey(string symbol) => $"{Prefix}:{symbol}";
 
