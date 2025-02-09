@@ -40,7 +40,7 @@ public class StockController(ISender mediator) : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<GetStocksResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetStocks()
     {
-        return Ok(await mediator.Send(new GetStocks()));
+        return Ok(await mediator.Send(new GetStocksQuery()));
     }
 
     [HttpGet("Filter", Name = "FilterStocks")]

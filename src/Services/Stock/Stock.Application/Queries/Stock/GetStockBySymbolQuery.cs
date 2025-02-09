@@ -1,6 +1,6 @@
 using FluentValidation;
 using MediatR;
-using Sqids;
+using Microsoft.EntityFrameworkCore;
 using Stock.Application.Common.Constants;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Common.Models;
@@ -14,12 +14,12 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Stock.Application.Queries.Stock;
 
-public record GetStockBySymbol(string Symbol) : IRequest<GetStockBySymbolResponse>;
+public record GetStockBySymbolQuery(string Symbol) : IRequest<GetStockBySymbolResponse>;
 
 
-public class GetStockBySymbolValidator : AbstractValidator<GetStockBySymbol>
+public class GetStockBySymbolQueryValidator : AbstractValidator<GetStockBySymbolQuery>
 {
-    public GetStockBySymbolValidator(ILocale locale)
+    public GetStockBySymbolQueryValidator(ILocale locale)
     {
         RuleFor(i => i.Symbol)
             .MatchesStockSymbolWhen(i => !string.IsNullOrEmpty(i.Symbol))
@@ -28,24 +28,23 @@ public class GetStockBySymbolValidator : AbstractValidator<GetStockBySymbol>
     }
 }
 
-public class GetStockBySymbolHandler(
+public class GetStockBySymbolQueryHandler(
     IDataSourceProvider queryProvider,
     IFusionCache fusionCache)
-    : IRequestHandler<GetStockBySymbol, GetStockBySymbolResponse>
+    : IRequestHandler<GetStockBySymbolQuery, GetStockBySymbolResponse>
 {
-    public async Task<GetStockBySymbolResponse> Handle(GetStockBySymbol request, CancellationToken ct)
+    public async Task<GetStockBySymbolResponse> Handle(GetStockBySymbolQuery request, CancellationToken ct)
     {
         var instance = await fusionCache.GetOrSetAsync(
             CacheKeys.StockItemKey(request.Symbol),
-            token => work.StockWithPriceTag.First(i => i.Symbol.ToLower() == request.Symbol.ToLower(), ct: token),
+            token => queryProvider.GetReadOnlySourceQuery<StockWithPriceTag>()
+                .FirstOrDefaultAsync(x => x.Symbol == request.Symbol, token),
             CacheKeys.StockItemKeyOptions(),
             ct
         );
         
         if(instance is null)
-        {
             throw new StockCoreNotFoundException(StockErrorCodes.NotFoundBySymbol(request.Symbol));
-        }
         
         return Map(instance);
     }
@@ -55,10 +54,10 @@ public class GetStockBySymbolHandler(
         return new GetStockBySymbolResponse
         {
             LastPriceUpdate = item.LastPriceUpdate,
-            Price = item.Price == -1 ? default(double?) : (double)item.Price,
+            Price = item.Price,
             Symbol = item.Symbol,
             IsActive = item.IsActive,
-            Id = sqids.Encode(item.StockId),
+            Id = item.StockId,
             Created = item.CreatedAt
         };
     }

@@ -3,9 +3,9 @@ using Tests.Common.Interfaces.Claims.Models;
 
 namespace Stock.API.IntegrationTests.Stock;
 
-public class GetStocksTests : StockControllerBaseTest
+public class GetStocksQueryTests : StockControllerBaseTest
 {
-    public GetStocksTests(StockApiFactory factory) : base(factory)
+    public GetStocksQueryTests(StockApiFactory factory) : base(factory)
     {
     }
     

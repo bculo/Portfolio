@@ -10,7 +10,9 @@ namespace Stock.Infrastructure.Price;
 public class FakePriceClient(IDataSourceProvider dataSourceProvider, IDateTimeProvider provider) : IStockPriceClient
 {
     private readonly Random _random = new();
-    private readonly IQueryable<StockWithPriceTag> _query = dataSourceProvider.GetQuery<StockWithPriceTag>();
+
+    private readonly IQueryable<StockWithPriceTag> _query =
+        dataSourceProvider.GetReadOnlySourceQuery<StockWithPriceTag>();
     
     public async Task<StockPriceInfo?> GetPrice(string symbol, CancellationToken ct = default)
     {

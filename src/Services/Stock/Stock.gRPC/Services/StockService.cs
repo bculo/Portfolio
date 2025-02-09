@@ -20,7 +20,7 @@ public class StockService(IMediator mediator) : Stock.StockBase
 
     public override async Task<StockItemReply> GetBySymbol(GetBySymbolRequest request, ServerCallContext context)
     {
-        var instance = await mediator.Send(new GetStockBySymbol(request.Symbol));
+        var instance = await mediator.Send(new GetStockBySymbolQuery(request.Symbol));
         
         return new StockItemReply
         {
