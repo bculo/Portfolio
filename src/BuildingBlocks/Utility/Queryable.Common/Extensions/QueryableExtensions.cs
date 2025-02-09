@@ -81,6 +81,27 @@ public static class QueryableExtensions
         return splitQuery ? source.AsSplitQuery() : source;
     }
 
+    public static IOrderedQueryable<T> ApplyOrderByColumn<T>(this IQueryable<T> source, SortBy sort)
+        => source.OrderByColumnUsing(sort.PropertyName,
+            sort.Direction == SortDirection.Ascending ? "OrderBy" : "OrderByDescending");
+
+    public static IOrderedQueryable<T> ApplyThenOrderByColum<T>(this IQueryable<T> source, SortBy sort)
+        => source.OrderByColumnUsing(sort.PropertyName,
+            sort.Direction == SortDirection.Ascending ? "ThenBy" : "ThenByDescending");
+
+    private static IOrderedQueryable<T> OrderByColumnUsing<T>(this IQueryable<T> source, string columnPath, string method)
+    {
+        var parameter = Expression.Parameter(typeof(T), "item");
+        var member = columnPath.Split('.')
+            .Aggregate((Expression)parameter, Expression.PropertyOrField);
+        
+        var keySelector = Expression.Lambda(member, parameter);
+        var methodCall = Expression.Call(typeof(System.Linq.Queryable), method, [parameter.Type, member.Type],
+            source.Expression, Expression.Quote(keySelector));
+
+        return (IOrderedQueryable<T>)source.Provider.CreateQuery(methodCall);
+    }
+
     public static async Task<PaginatedResult<T>> AsPaginatedResult<T>(this IQueryable<T> source, PageQuery query)
         where T : class
     {

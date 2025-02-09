@@ -1,10 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cryptography.Common.Utils
 {
@@ -17,7 +12,7 @@ namespace Cryptography.Common.Utils
                 throw new ArgumentNullException(nameof(publicKeyJwt));
             }
 
-            RSA rsa = RSA.Create();
+            var rsa = RSA.Create();
 
             rsa.ImportSubjectPublicKeyInfo(
                 source: Convert.FromBase64String(publicKeyJwt),

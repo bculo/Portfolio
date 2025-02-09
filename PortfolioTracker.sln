@@ -208,6 +208,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Shared", "tests\Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Sync", "tests\Common\Tests.Sync\Tests.Sync.csproj", "{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{699E721B-673F-4613-B032-FC702A4D2E80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -569,6 +571,7 @@ Global
 		{2EB8EC07-5449-4862-BC8C-D22E456BBE81} = {ABC3944F-A5C4-42AF-BAD1-0E6DD8EC456F}
 	
 		{D743FC74-8947-4F84-A69E-DCBBB2E7BF4C} = {71A09ABB-16B0-485F-BDD5-B9D92DBF7589}
+		{699E721B-673F-4613-B032-FC702A4D2E80} = {553312D9-65CE-4927-B2EA-AC6722A661F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {569C5970-592D-41D7-B24A-4B744A3D2CD0}

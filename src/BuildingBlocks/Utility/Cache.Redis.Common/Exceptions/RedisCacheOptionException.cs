@@ -1,9 +1,3 @@
 namespace Cache.Redis.Common.Exceptions;
 
-internal class RedisCacheOptionException : Exception
-{
-    public RedisCacheOptionException(string message) : base(message)
-    {
-        
-    }
-}
+internal class RedisCacheOptionException(string message) : Exception(message);
