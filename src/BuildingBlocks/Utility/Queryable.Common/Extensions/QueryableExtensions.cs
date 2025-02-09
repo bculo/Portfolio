@@ -85,7 +85,7 @@ public static class QueryableExtensions
         => source.OrderByColumnUsing(sort.PropertyName,
             sort.Direction == SortDirection.Ascending ? "OrderBy" : "OrderByDescending");
 
-    public static IOrderedQueryable<T> ApplyThenOrderByColum<T>(this IQueryable<T> source, SortBy sort)
+    public static IOrderedQueryable<T> ApplyThenOrderByColumn<T>(this IQueryable<T> source, SortBy sort)
         => source.OrderByColumnUsing(sort.PropertyName,
             sort.Direction == SortDirection.Ascending ? "ThenBy" : "ThenByDescending");
 
