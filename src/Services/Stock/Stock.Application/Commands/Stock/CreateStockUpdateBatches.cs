@@ -4,8 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stock.Application.Common.Options;
-using Stock.Application.Interfaces.Repositories;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Stock.Application.Commands.Stock;
 
@@ -14,7 +13,6 @@ public record CreateStockUpdateBatches : IRequest<CreateStockUpdateBatchesRespon
 public class CreateStockUpdateBatchesHandler(
     IPublishEndpoint endpoint,
     ILogger<CreateStockUpdateBatchesHandler> logger,
-    IUnitOfWork work,
     IOptionsSnapshot<BatchUpdateOptions> options,
     IDateTimeProvider timeProvider)
     : IRequestHandler<CreateStockUpdateBatches, CreateStockUpdateBatchesResponse>

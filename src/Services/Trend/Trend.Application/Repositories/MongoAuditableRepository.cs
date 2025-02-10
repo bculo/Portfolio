@@ -69,7 +69,7 @@ public class MongoAuditableRepository<TEntity>(
     public async Task ActivateItems(IEnumerable<string> itemIds, CancellationToken token = default)
     {
         var update = Builders<TEntity>.Update.Set(s => s.IsActive, true)
-            .Set(s => s.DeactivationDate, TimeProvider.Now);
+            .Set(s => s.DeactivationDate, TimeProvider.Time);
             
         await Collection.UpdateManyAsync(ClientSession, i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
     }
@@ -77,7 +77,7 @@ public class MongoAuditableRepository<TEntity>(
     public async Task DeactivateItems(IEnumerable<string> itemIds, CancellationToken token = default)
     {
         var update = Builders<TEntity>.Update.Set(s => s.IsActive, false)
-            .Set(s => s.DeactivationDate, TimeProvider.Now);
+            .Set(s => s.DeactivationDate, TimeProvider.Time);
             
         await Collection.UpdateManyAsync(ClientSession, i => itemIds.Contains(i.Id), update, new UpdateOptions(), token);
     }

@@ -9,7 +9,8 @@ namespace Stock.Application.Queries.Stock;
 
 public record GetStocksQuery : IRequest<IEnumerable<GetStocksResponse>>;
 
-public class GetStocksQueryHandler(IDataSourceProvider provider) : IRequestHandler<GetStocksQuery, IEnumerable<GetStocksResponse>>
+public class GetStocksQueryHandler(IDataSourceProvider provider) 
+    : IRequestHandler<GetStocksQuery, IEnumerable<GetStocksResponse>>
 {
     public async Task<IEnumerable<GetStocksResponse>> Handle(GetStocksQuery request, CancellationToken ct)
     {

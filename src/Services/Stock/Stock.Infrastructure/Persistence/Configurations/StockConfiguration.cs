@@ -16,7 +16,7 @@ namespace Stock.Infrastructure.Persistence.Configurations
                 .IsUnique();
 
             builder.Property(i => i.Symbol)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(i => i.CreatedBy)

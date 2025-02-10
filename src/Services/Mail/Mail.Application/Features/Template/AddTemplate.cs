@@ -57,10 +57,10 @@ public static class AddTemplate
                 Template = request.TemplateName,
                 Name = request.TemplateName,
                 Title = request.Title,
-                Created = _time.Now,
+                Created = _time.Time,
                 IsActive = true,
                 ModifiedBy = _tokenReader.GetIdentifier().ToString(),
-                ModificationDate = _time.Now
+                ModificationDate = _time.Time
             }; 
             
             await _repo.AddItem(item, cancellationToken);

@@ -37,12 +37,7 @@ namespace Stock.Infrastructure
             bool isDevEnv = true)
         {
             services.AddUtcTimeProvider();
-            services.AddTransient<IHtmlParser, HtmlParserService>(opt =>
-            {
-                var logger = opt.GetRequiredService<ILogger<HtmlParserService>>();
-                return new HtmlParserService(logger, null);
-            });
-
+            
             AddClients(services, configuration, isDevEnv);
             AddCache(services, configuration);
             AddLocalization(services, configuration);
@@ -50,8 +45,9 @@ namespace Stock.Infrastructure
             
             services.AddDbContext<StockDbContext>();
             services.AddScoped<IDataSourceProvider, DataSourceProvider>();
-            
+            services.AddScoped<IEntityManagerRepository, EntityManagerRepository>();
             services.AddScoped<ILocale, LocaleService>();
+            services.AddScoped<IHtmlParserFactory, HtmlParserFactory>();
         }
 
         public static void AddOpenTelemetry(IServiceCollection services, IConfiguration configuration, string appName)

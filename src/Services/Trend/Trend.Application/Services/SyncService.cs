@@ -158,7 +158,7 @@ namespace Trend.Application.Services
             await publishEndpoint.Publish(new SearchEngineFailure
             {
                 Message = $"Engine {engineName} failure. 0 items synced",
-                Time = timeProvider.Now
+                Time = timeProvider.Time
             }, token);
         }
 

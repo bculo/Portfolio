@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stock.Application.Interfaces.User;
 using Stock.Core.Models.Base;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Stock.Infrastructure.Persistence
 {
@@ -43,11 +43,11 @@ namespace Stock.Infrastructure.Persistence
             {   
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedAt = timeProvider.Now;
+                    entry.Entity.CreatedAt = timeProvider.Time;
                     entry.Entity.CreatedBy = currentUser.Identifier.ToString();
                 }
 
-                entry.Entity.ModifiedAt = timeProvider.Now;
+                entry.Entity.ModifiedAt = timeProvider.Time;
                 entry.Entity.ModifiedBy = currentUser.Identifier.ToString();
             }
 

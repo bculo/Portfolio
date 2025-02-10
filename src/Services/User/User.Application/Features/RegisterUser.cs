@@ -61,7 +61,7 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
     
     private bool IsAdultPerson(DateTime bornOn)
     {
-        if ((_timeProvider.Now.Year - bornOn.Year) < 18)
+        if ((_timeProvider.Time.Year - bornOn.Year) < 18)
         {
             return false;
         }
@@ -100,7 +100,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserDto>
             await _publish.Publish(new NewUserRegistered
             {
                 UserName = request.UserName,
-                Time = _timeProvider.Now
+                Time = _timeProvider.Time
             }, token);
             return;
         }

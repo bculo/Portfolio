@@ -25,7 +25,7 @@ public class RegisterUserHandlerTests
     
     public RegisterUserHandlerTests()
     {
-        _timeProvider.Now.Returns(DateTime.UtcNow);
+        _timeProvider.Time.Returns(DateTime.UtcNow);
         _options = Options.Create(_fixture.Create<KeycloakAdminApiOptions>());
     }
 

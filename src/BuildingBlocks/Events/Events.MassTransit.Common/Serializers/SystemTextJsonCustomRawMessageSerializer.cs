@@ -11,16 +11,10 @@ using MassTransit.Serialization.JsonConverters;
 
 namespace Events.MassTransit.Common.Serializers;
 
-public class SystemTextJsonCustomRawMessageSerializer : RawMessageSerializer, IMessageDeserializer, IMessageSerializer 
+public class SystemTextJsonCustomRawMessageSerializer(RawSerializerOptions options = RawSerializerOptions.Default)
+    : RawMessageSerializer, IMessageDeserializer, IMessageSerializer
 {
     private static readonly ContentType JsonContentType = new("application/json");
-
-    readonly RawSerializerOptions _options;
-
-    public SystemTextJsonCustomRawMessageSerializer(RawSerializerOptions options = RawSerializerOptions.Default)
-    {
-        _options = options;
-    }
 
     public ContentType ContentType => JsonContentType;
 
@@ -44,10 +38,10 @@ public class SystemTextJsonCustomRawMessageSerializer : RawMessageSerializer, IM
 
             var messageTypes = headers.GetMessageTypes();
 
-            var messageContext = new RawMessageContext(headers, destinationAddress, _options);
+            var messageContext = new RawMessageContext(headers, destinationAddress, options);
 
             var serializerContext = new SystemTextJsonRawSerializerContext(SystemTextJsonCustomMessageSerializer.Instance,
-                SystemTextJsonCustomMessageSerializer.Options, ContentType, messageContext, messageTypes, _options, jsonElement);
+                SystemTextJsonCustomMessageSerializer.Options, ContentType, messageContext, messageTypes, options, jsonElement);
 
             return serializerContext;
         }
@@ -69,7 +63,7 @@ public class SystemTextJsonCustomRawMessageSerializer : RawMessageSerializer, IM
     public MessageBody GetMessageBody<T>(SendContext<T> context)
         where T : class
     {
-        if (_options.HasFlag(RawSerializerOptions.AddTransportHeaders))
+        if (options.HasFlag(RawSerializerOptions.AddTransportHeaders))
             SetRawMessageHeaders<T>(context);
 
         return new SystemTextJsonRawMessageBody<T>(context, SystemTextJsonCustomMessageSerializer.Options);
@@ -77,7 +71,7 @@ public class SystemTextJsonCustomRawMessageSerializer : RawMessageSerializer, IM
 }
 
 
-public class SystemTextJsonCustomMessageSerializer :
+public class SystemTextJsonCustomMessageSerializer(ContentType? contentType = null) :
     IMessageDeserializer,
     IMessageSerializer,
     IObjectDeserializer
@@ -107,12 +101,7 @@ public class SystemTextJsonCustomMessageSerializer :
         Options.Converters.Add(new SystemTextJsonConverterFactory());
     }
 
-    public SystemTextJsonCustomMessageSerializer(ContentType? contentType = null)
-    {
-        ContentType = contentType ?? JsonContentType;
-    }
-
-    public ContentType ContentType { get; }
+    public ContentType ContentType { get; } = contentType ?? JsonContentType;
 
     public void Probe(ProbeContext context)
     {

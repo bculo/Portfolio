@@ -7,6 +7,6 @@ namespace Auth0.Abstract.Contracts
         Task<TokenAuthorizationCodeResponse> GetToken(string clientId, 
             string username, 
             string password, 
-            IEnumerable<string>? scopes = default);
+            IEnumerable<string>? scopes = null);
     }
 }

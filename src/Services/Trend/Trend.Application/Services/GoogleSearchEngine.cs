@@ -39,8 +39,8 @@ namespace Trend.Application.Services
             _syncStatus = new SyncStatus
             {
                 Id = ObjectId.GenerateNewId().ToString(),
-                Created = _time.Now,
-                Started = _time.Now,
+                Created = _time.Time,
+                Started = _time.Time,
             };
         }
         
@@ -77,7 +77,7 @@ namespace Trend.Application.Services
 
         private void MarkSyncStatusAsFinished()
         {
-            _syncStatus.Finished = _time.Now;
+            _syncStatus.Finished = _time.Time;
         }
 
         private void AttachSyncWordToSyncStatus()

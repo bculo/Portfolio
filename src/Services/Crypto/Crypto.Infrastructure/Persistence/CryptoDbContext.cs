@@ -71,7 +71,7 @@ namespace Crypto.Infrastructure.Persistence
 
         private void AttachDateTimeToEntities()
         {
-            var currentTime = time.Now;
+            var currentTime = time.Time;
 
             foreach (var item in ChangeTracker.Entries<Entity>())
             {

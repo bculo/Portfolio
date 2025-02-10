@@ -25,7 +25,7 @@ public class EvictAllOutputCacheHandler : IRequestHandler<EvictAllOutputCache>
 
     public async Task Handle(EvictAllOutputCache request, CancellationToken cancellationToken)
     {
-        _logger.LogWarning("Cleaning output cache. Time {Time}", _timeProvider.Now);
+        _logger.LogWarning("Cleaning output cache. Time {Time}", _timeProvider.Time);
         await _outputCache.EvictByTagAsync(CacheTags.All, cancellationToken);
     }
 }

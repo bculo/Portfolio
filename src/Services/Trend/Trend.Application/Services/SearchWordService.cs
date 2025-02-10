@@ -63,7 +63,7 @@ namespace Trend.Application.Services
             var entity = mapper.Map<SearchWord>(instance);
             entity.ImageUrl = GetDefaultSearchWordImageUri(entity.Type);
             entity.IsActive = false;
-            entity.Created = time.Now;
+            entity.Created = time.Time;
             
             await wordRepository.Add(entity, token);
             await cacheStore.EvictByTagAsync(CacheTags.SearchWord, token);

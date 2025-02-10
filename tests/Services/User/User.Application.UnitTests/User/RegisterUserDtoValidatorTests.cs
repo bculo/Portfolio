@@ -15,7 +15,7 @@ public class RegisterUserDtoValidatorTests
 
     public RegisterUserDtoValidatorTests()
     {
-        _mockTimeProvider.Now.Returns(DateTime.UtcNow);
+        _mockTimeProvider.Time.Returns(DateTime.UtcNow);
     }
 
     private RegisterUserDtoValidator GetValidator()

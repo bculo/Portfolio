@@ -62,7 +62,7 @@ public class ChangeStockStatusHandler : IRequestHandler<ChangeStockStatus>
 
         entity.IsActive = !entity.IsActive;
         if (entity.IsActive) entity.Deactivated = null;
-        else entity.Deactivated = _timeProvider.Now;
+        else entity.Deactivated = _timeProvider.Time;
 
         await PublishStatusChangedEvent(entity, ct);
         await _work.Save(ct);

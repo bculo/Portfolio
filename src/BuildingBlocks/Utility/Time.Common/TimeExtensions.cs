@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Time.Abstract.Contracts;
 using Time.Common.Services;
 
 namespace Time.Common;

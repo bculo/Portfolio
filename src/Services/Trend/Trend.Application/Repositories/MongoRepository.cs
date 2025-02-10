@@ -40,13 +40,13 @@ namespace Trend.Application.Repositories
         
         public virtual async Task Add(T entity, CancellationToken token = default)
         {
-            entity.Created = TimeProvider.Now;
+            entity.Created = TimeProvider.Time;
             await Collection.InsertOneAsync(ClientSession, entity, new InsertOneOptions(), token);
         }
 
         public virtual async Task Add(ICollection<T> entities, CancellationToken token = default)
         {
-            var date = TimeProvider.Now;
+            var date = TimeProvider.Time;
             foreach (var entity in entities)
             {
                 entity.Created = date;

@@ -3,7 +3,7 @@ using Stock.Application.Interfaces.Price;
 using Stock.Application.Interfaces.Price.Models;
 using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Models.Stock;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Stock.Infrastructure.Price;
 
@@ -24,7 +24,7 @@ public class FakePriceClient(IDataSourceProvider dataSourceProvider, IDateTimePr
         return new StockPriceInfo
         {
             Symbol = symbol,
-            FetchedTimestamp = provider.Utc,
+            FetchedTimestamp = provider.Time,
             Price = item.Price != null ?  _random.Next(50, 600) : GeneratePriceBasedOnPreviousOne(item)
         };
     }

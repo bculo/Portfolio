@@ -48,7 +48,7 @@ public class SentimentCheckedConsumer : IConsumer<SentimentChecked>
         await context.Publish(new CustomMailSent
         {
             MailId = Guid.NewGuid().ToString(),
-            SentDate = _timeProvider.Now,
+            SentDate = _timeProvider.Time,
             UserId = mailInstance.UserId,
         });
     }
@@ -63,7 +63,7 @@ public class SentimentCheckedConsumer : IConsumer<SentimentChecked>
             Title = customMail.Title,
             Status = Status.Created,
             Body = customMail.Content,
-            Created = _timeProvider.Now,
+            Created = _timeProvider.Time,
             UserId = customMail.UserId,
             Priority = customMail.Score < 1.5f ? Priority.High : Priority.Low,
             Sentiment = customMail.Score < 2.5f ? Sentiment.Negative : Sentiment.Positive

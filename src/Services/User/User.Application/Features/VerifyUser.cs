@@ -65,7 +65,7 @@ public class VerifyUserDtoHandler : IRequestHandler<VerifyUserDto>
         {
             UserName = keycloakUser.Username,
             ExternalId = Guid.Parse(keycloakUser.Id),
-            ApprovedOn = _timeProvider.Now
+            ApprovedOn = _timeProvider.Time
         }, token);
     }
     

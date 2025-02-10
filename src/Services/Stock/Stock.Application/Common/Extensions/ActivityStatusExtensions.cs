@@ -12,7 +12,7 @@ public static class ActivityStatusExtensions
             return null;
         }
 
-        return (status == Status.Active) ? true : false;
+        return status == Status.Active;
     }
 
     public static EqualFilter<bool>? ToEqualFilter(this Status status)
@@ -22,6 +22,7 @@ public static class ActivityStatusExtensions
         {
             return new EqualFilter<bool>(boolValue.Value);
         }
+        
         return null;
     }
 }

@@ -24,8 +24,4 @@
     <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="0.24.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Abstract\Time.Abstract\Time.Abstract.csproj" />
-  </ItemGroup>
-
 </Project>
