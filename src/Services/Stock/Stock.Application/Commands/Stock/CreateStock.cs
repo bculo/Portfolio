@@ -2,9 +2,7 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
-using Microsoft.AspNetCore.OutputCaching;
-using Sqids;
-using Stock.Application.Common.Constants;
+using Microsoft.EntityFrameworkCore;
 using Stock.Application.Common.Extensions;
 using Stock.Application.Interfaces.Localization;
 using Stock.Application.Interfaces.Price;
@@ -31,47 +29,34 @@ public class CreateStockValidator : AbstractValidator<CreateStock>
 
 public class CreateStockHandler(
     IStockPriceClient client,
+    IDataSourceProvider provider,
     IPublishEndpoint publish,
-    IOutputCacheStore outputCache)
+    IEntityManagerRepository managerRepository)
     : IRequestHandler<CreateStock, Guid>
 {
     public async Task<Guid> Handle(CreateStock request, CancellationToken ct)
     {
-        var instance = await work.StockRepo.First(
-            i => i.Symbol.ToLower() == request.Symbol.ToLower(),
-            ct: ct);
+        var instance = await provider.GetQuery<StockEntity>()
+            .SingleOrDefaultAsync(x => x.Symbol.ToLower() == request.Symbol.ToLower(), ct);
+        
         if (instance is not null)
             throw new StockCoreException(StockErrorCodes.Duplicate(request.Symbol));
 
-        var clientResult = await client.GetPrice(request.Symbol, ct);
-        if (clientResult is null)
+        var priceResponse = await client.GetPrice(request.Symbol, ct);
+        if (priceResponse is null)
             throw new StockCoreException(StockErrorCodes.NotSupported(request.Symbol));
 
-        var newItem = new StockEntity
-        {
-            Symbol = request.Symbol,
-            IsActive = true,
-            Prices = new List<StockPriceEntity>()
-            {
-                new()
-                {
-                    Price = clientResult.Price,
-                }
-            }
-        };
-        await work.StockRepo.Add(newItem, ct);
+        var newStockItem = StockEntity.NewWithPrice(request.Symbol, priceResponse.Price);
+        await managerRepository.Add(newStockItem, ct);
         
         await publish.Publish(new NewStockItemAdded
         {
-            Created = newItem.CreatedAt,
-            Price = clientResult.Price,
-            Symbol = newItem.Symbol
+            Created = newStockItem.CreatedAt,
+            Price = priceResponse.Price,
+            Symbol = newStockItem.Symbol
         }, ct);
 
-        await work.Save(ct);
-        
-        await outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
-        
-        return sqids.Encode(newItem.Id);
+        await managerRepository.SaveChanges(ct);
+        return newStockItem.Id;
     }
 }

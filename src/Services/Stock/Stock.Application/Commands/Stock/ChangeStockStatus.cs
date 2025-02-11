@@ -5,12 +5,9 @@ using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Sqids;
 using Stock.Application.Common.Constants;
-using Stock.Application.Common.Extensions;
-using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Exceptions;
 using Stock.Core.Exceptions.Codes;
 using Stock.Core.Models.Stock;
-using Time.Abstract.Contracts;
 
 namespace Stock.Application.Commands.Stock;
 
