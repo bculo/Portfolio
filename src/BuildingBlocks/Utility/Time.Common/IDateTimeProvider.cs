@@ -1,7 +1,7 @@
 namespace Time.Common;
 
-public class IDateTimeProvider
+public interface IDateTimeProvider
 {
-    public DateTime Time { get; }
-    public DateTimeOffset TimeOffset { get; }
+    DateTime Time { get; } 
+    DateTimeOffset TimeOffset { get; }
 }

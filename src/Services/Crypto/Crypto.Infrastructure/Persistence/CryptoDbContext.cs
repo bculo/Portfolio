@@ -5,7 +5,7 @@ using Crypto.Infrastructure.Consumers.State;
 using MassTransit;
 using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
-using Time.Abstract.Contracts;
+using Time.Common;
 using DbFunctions = Crypto.Infrastructure.Persistence.Configurations.DbFunctions;
 
 namespace Crypto.Infrastructure.Persistence

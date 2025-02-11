@@ -5,7 +5,7 @@ using Crypto.Core.Exceptions;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
 {
@@ -34,7 +34,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePrice
              {
                  CryptoEntityId = entity.Id,
                  Price = priceResponse.Price,
-                 Time = timeProvider.UtcOffset
+                 Time = timeProvider.TimeOffset
              };
 
              await work.CryptoPriceRepo.Add(newPriceInstance, ct);

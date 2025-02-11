@@ -1,7 +1,6 @@
 using Crypto.Application.Interfaces.Price;
 using Crypto.Application.Interfaces.Price.Models;
 using Crypto.Application.Interfaces.Repositories;
-using Time.Abstract.Contracts;
 
 namespace Crypto.Infrastructure.Price;
 

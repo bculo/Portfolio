@@ -3,6 +3,6 @@
     internal class UtcDateTimeService : IDateTimeProvider
     {
         public DateTime Time => DateTime.UtcNow;
-        public DateTimeOffset TimeOffset => DateTimeOffset.UtcNow;
+        public new DateTimeOffset TimeOffset => DateTimeOffset.UtcNow;
     }
 }

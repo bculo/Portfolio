@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.SymbolStore;
-using System.Threading.Channels;
-using AutoFilterer.Abstractions;
-using AutoFilterer.Attributes;
+﻿using AutoFilterer.Attributes;
 using AutoFilterer.Enums;
 using AutoFilterer.Extensions;
 using AutoFilterer.Types;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Console.Playground.Mocks;
+using Crypto.Core.Entities;
 using Crypto.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -32,7 +30,7 @@ using var dbContext = new CryptoDbContext(optionsBuilder.Options, mockConnection
 
 
 // Approach 1
-var builder = DynamicExpressionBuilder<Crypto.Core.Entities.VisitEntity>.Create();
+var builder = DynamicExpressionBuilder<VisitEntity>.Create();
 
 var request = new
 {
@@ -51,13 +49,13 @@ var queryFilters = new List<QueryFilter>
     {
         Operation = Operation.Contains,
         Value = "BTC",
-        PropertyName = nameof(Crypto.Core.Entities.CryptoEntity.Symbol)
+        PropertyName = nameof(CryptoEntity.Symbol)
     },
     new QueryFilter
     {
         Operation = Operation.Contains,
         Value = "Bitcoin",
-        PropertyName = nameof(Crypto.Core.Entities.CryptoEntity.Name)
+        PropertyName = nameof(CryptoEntity.Name)
     },
 };
 
@@ -81,11 +79,11 @@ Console.WriteLine("STOP");
 
 public class FilterDto : FilterBase
 {
-    [CompareTo( nameof(Crypto.Core.Entities.CryptoEntity.Symbol))]
+    [CompareTo( nameof(CryptoEntity.Symbol))]
     [StringFilterOptions(StringFilterOption.Contains)]
     public string? Symbol { get; set; }
 
-    [CompareTo(nameof(Crypto.Core.Entities.CryptoEntity.Name))]
+    [CompareTo(nameof(CryptoEntity.Name))]
     [StringFilterOptions(StringFilterOption.Contains)]
     public string? Name { get; set; }
 }

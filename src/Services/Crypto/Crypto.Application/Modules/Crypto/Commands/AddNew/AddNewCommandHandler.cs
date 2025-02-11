@@ -9,7 +9,7 @@ using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Crypto.Application.Modules.Crypto.Commands.AddNew
 {
@@ -63,7 +63,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNew
             {
                 CryptoEntityId = cryptoId,
                 Price = result.Price,
-                Time = timeProvider.UtcOffset
+                Time = timeProvider.TimeOffset
             };
         }
 

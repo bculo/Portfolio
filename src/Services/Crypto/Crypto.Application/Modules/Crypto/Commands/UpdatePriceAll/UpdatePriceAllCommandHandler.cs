@@ -6,7 +6,7 @@ using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 {
@@ -44,7 +44,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
 
         private (List<CryptoPriceEntity> price, List<CryptoPriceUpdated> events) GetInstances(
             List<PriceResponse> priceResponses,
-            Dictionary<string, Core.Entities.CryptoEntity> cryptoDict)
+            Dictionary<string, CryptoEntity> cryptoDict)
         {
             List<CryptoPriceEntity> prices = new();
             List<CryptoPriceUpdated> events = new();
@@ -61,7 +61,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.UpdatePriceAll
                 {
                     CryptoEntityId = crypto.Id,
                     Price = response.Price,
-                    Time = provider.UtcOffset
+                    Time = provider.TimeOffset
                 });
                 
                 events.Add(new CryptoPriceUpdated

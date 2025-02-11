@@ -2,7 +2,7 @@
 using Crypto.Worker.Interfaces;
 using Events.Common.Crypto;
 using MassTransit;
-using Time.Abstract.Contracts;
+using Time.Common;
 
 namespace Crypto.Worker.Jobs
 {
@@ -16,7 +16,7 @@ namespace Crypto.Worker.Jobs
         {
             var @event = new UpdateItemsPrices
             {
-                Time = provider.UtcOffset
+                Time = provider.TimeOffset
             };
             
             await publishEndpoint.Publish(@event);
