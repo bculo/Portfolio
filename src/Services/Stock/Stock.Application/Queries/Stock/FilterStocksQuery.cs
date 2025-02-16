@@ -20,7 +20,7 @@ public record FilterStocksQuery(
     LessThenFilter<decimal>? PriceLessThan,
     EqualFilter<Status> ActivityStatus,
     GreaterThanFilter<DateTimeOffset>? NotOlderThan,
-    SortBy? SortBy)
+    StringSort? SortBy)
     : PageRequestDto, IRequest<PaginatedResult<FilterStockResponse>>;
 
 public class FilterStocksQueryValidator : AbstractValidator<FilterStocksQuery>

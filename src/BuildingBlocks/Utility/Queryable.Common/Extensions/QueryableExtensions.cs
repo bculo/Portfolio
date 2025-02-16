@@ -56,9 +56,9 @@ public static class QueryableExtensions
         return orderBy(source);
     }
     
-    public static IQueryable<T> ApplyOrderBy<T>(this IQueryable<T> source, SortBy sortByInfo)
+    public static IQueryable<T> ApplyOrderBy<T>(this IQueryable<T> source, StringSort stringSortInfo)
     {
-        return source.OrderBy(sortByInfo.ToSortExpression());
+        return source.OrderBy(stringSortInfo.ToSortExpression());
     }
 
     public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> source, int skip, int take)
@@ -81,13 +81,13 @@ public static class QueryableExtensions
         return splitQuery ? source.AsSplitQuery() : source;
     }
 
-    public static IOrderedQueryable<T> ApplyOrderByColumn<T>(this IQueryable<T> source, SortBy sort)
-        => source.OrderByColumnUsing(sort.PropertyName,
-            sort.Direction == SortDirection.Ascending ? "OrderBy" : "OrderByDescending");
+    public static IOrderedQueryable<T> ApplyOrderByColumn<T>(this IQueryable<T> source, StringSort stringSort)
+        => source.OrderByColumnUsing(stringSort.PropertyName,
+            stringSort.Direction == SortDirection.Ascending ? "OrderBy" : "OrderByDescending");
 
-    public static IOrderedQueryable<T> ApplyThenOrderByColumn<T>(this IQueryable<T> source, SortBy sort)
-        => source.OrderByColumnUsing(sort.PropertyName,
-            sort.Direction == SortDirection.Ascending ? "ThenBy" : "ThenByDescending");
+    public static IOrderedQueryable<T> ApplyThenOrderByColumn<T>(this IQueryable<T> source, StringSort stringSort)
+        => source.OrderByColumnUsing(stringSort.PropertyName,
+            stringSort.Direction == SortDirection.Ascending ? "ThenBy" : "ThenByDescending");
 
     private static IOrderedQueryable<T> OrderByColumnUsing<T>(this IQueryable<T> source, string columnPath, string method)
     {

@@ -20,8 +20,8 @@ public class QueryableExtensionsTest
         
         var query = data.AsQueryable();
 
-        query = query.ApplyOrderByColumn(new SortBy("Name", SortDirection.Ascending))
-            .ApplyThenOrderByColumn(new SortBy("Age", SortDirection.Descending));
+        query = query.ApplyOrderByColumn(new StringSort("Name", SortDirection.Ascending))
+            .ApplyThenOrderByColumn(new StringSort("Age", SortDirection.Descending));
         
         var result = query.ToList();
         
