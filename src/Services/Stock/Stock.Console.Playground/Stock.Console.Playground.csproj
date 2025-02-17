@@ -16,4 +16,8 @@
       <PackageReference Include="NSubstitute" Version="5.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Mocks\" />
+    </ItemGroup>
+
 </Project>

@@ -12,7 +12,7 @@ namespace Stock.Worker.Jobs
     {
         public async Task InitializeUpdateProcedure()
         {
-            await mediator.Send(new CreateStockUpdateBatches(), default);
+            await mediator.Send(new PrepareStockUpdateBatches(), default);
         }
     }
 }

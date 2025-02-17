@@ -1,64 +1,63 @@
 using Events.Common.Stock;
 using MassTransit;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stock.Application.Common.Options;
+using Stock.Application.Interfaces.Repositories;
+using Stock.Core.Models.Stock;
 using Time.Common;
 
 namespace Stock.Application.Commands.Stock;
 
-public record CreateStockUpdateBatches : IRequest<CreateStockUpdateBatchesResponse>;
+public record PrepareStockUpdateBatches : IRequest<PrepareStockUpdateBatchesResult>;
 
-public class CreateStockUpdateBatchesHandler(
+public class PrepareStockUpdateBatchesHandler(
+    IDataSourceProvider sourceProvider,
     IPublishEndpoint endpoint,
-    ILogger<CreateStockUpdateBatchesHandler> logger,
+    ILogger<PrepareStockUpdateBatchesHandler> logger,
     IOptionsSnapshot<BatchUpdateOptions> options,
     IDateTimeProvider timeProvider)
-    : IRequestHandler<CreateStockUpdateBatches, CreateStockUpdateBatchesResponse>
+    : IRequestHandler<PrepareStockUpdateBatches, PrepareStockUpdateBatchesResult>
 {
-    private const int TimeDifference = 3;
     private const int DefaultBatchSize = 5;
 
-    public async Task<CreateStockUpdateBatchesResponse> Handle(
-        CreateStockUpdateBatches request, 
+    public async Task<PrepareStockUpdateBatchesResult> Handle(
+        PrepareStockUpdateBatches request, 
         CancellationToken ct)
     {
-        if (!options.Value.IgnoreExchangeActiveTime && !IsUsStockExchangeActive())
-        {
-            logger.LogTrace("US stock exchange is closed");
-            return new CreateStockUpdateBatchesResponse(0);
-        }
+        if (!IsUsStockExchangeActive())
+            return PrepareStockUpdateBatchesResult.Empty();
         
-        var symbols = await GetSymbols();
+        var symbols = await FetchAssetsReadyForUpdate(ct);
         if (!symbols.Any())
-        {
-            logger.LogWarning("Stock symbols not found");
-            return new CreateStockUpdateBatchesResponse(0);
-        }
+            return PrepareStockUpdateBatchesResult.Empty();
 
         var batches = CreateBatches(symbols);
-        logger.LogTrace("Num of batches {NumberOfBatches}, prepared for update", batches.Count);
-
+        
         await PublishBatches(batches, ct);
-        return new CreateStockUpdateBatchesResponse(batches.Count);
+        
+        return PrepareStockUpdateBatchesResult.WithBatches(batches.Count);
     }
 
     private bool IsUsStockExchangeActive()
     {
-        var utcTime = timeProvider.Utc;
-        if (utcTime.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
-        {
+        var utcTime = timeProvider.Time;
+
+        if (!options.Value.IgnoreExchangeActiveTime)
             return false;
-        }
+        
+        if (utcTime.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+            return false;
+        
         var timeOfDayUtc = utcTime.TimeOfDay;
         var usExchangeOpenUtc = new TimeSpan(14, 30, 0);
         var usExchangeCloseUtc = new TimeSpan(21, 0, 0);
         return timeOfDayUtc >= usExchangeOpenUtc && timeOfDayUtc <= usExchangeCloseUtc;
     }
 
-    private async Task PublishBatches(Dictionary<int, List<string>> batches,
-        CancellationToken ct)
+    private async Task PublishBatches(Dictionary<int, List<string>> batches, CancellationToken ct)
     {
         foreach (var (_, symbols) in batches)
         {
@@ -67,8 +66,6 @@ public class CreateStockUpdateBatchesHandler(
                 Symbols = symbols
             }, ct);
         }
-
-        await work.Save(ct);
     }
 
     private Dictionary<int, List<string>> CreateBatches(List<string> symbols)
@@ -94,15 +91,18 @@ public class CreateStockUpdateBatchesHandler(
         return batches;
     }
 
-    private async Task<List<string>> GetSymbols()
+    private async Task<List<string>> FetchAssetsReadyForUpdate(CancellationToken ct)
     {
-        var stockItems = await work.StockRepo.Filter(i => i.IsActive == true);
-        
-        return stockItems
+        return await sourceProvider.GetQuery<StockEntity>()
+            .Where(i => i.IsActive)
             .Select(i => i.Symbol)
-            .ToList();
+            .ToListAsync(ct);
     }
 }
 
-public record CreateStockUpdateBatchesResponse(int NumberOfBatches);
+public record PrepareStockUpdateBatchesResult(int NumberOfBatches)
+{
+    public static PrepareStockUpdateBatchesResult Empty() => new(0);
+    public static PrepareStockUpdateBatchesResult WithBatches(int numberOfBatches) => new(numberOfBatches);
+}
     
