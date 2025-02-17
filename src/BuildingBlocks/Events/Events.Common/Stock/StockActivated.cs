@@ -1,7 +1,3 @@
 namespace Events.Common.Stock;
 
-public class StockActivated
-{
-    public string Symbol { get; set; } = default!;
-    public DateTime Time { get; set; }
-}
+public record StockActivated(string Symbol, DateTimeOffset DateTimeOffset);

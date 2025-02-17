@@ -1,89 +1,49 @@
+using Events.Common;
 using Events.Common.Stock;
-using FluentValidation;
 using MassTransit;
 using MediatR;
-using Microsoft.AspNetCore.OutputCaching;
-using Sqids;
-using Stock.Application.Common.Constants;
+using Microsoft.EntityFrameworkCore;
+using Stock.Application.Interfaces.Repositories;
 using Stock.Core.Exceptions;
 using Stock.Core.Exceptions.Codes;
 using Stock.Core.Models.Stock;
+using Time.Common;
 
 namespace Stock.Application.Commands.Stock;
 
-public record ChangeStockStatus(string Id) : IRequest;
+public record ChangeStockStatus(Guid Id) : IRequest;
 
-public class ChangeStockStatusValidator : AbstractValidator<ChangeStockStatus>
+public class ChangeStockStatusHandler(
+    IDataSourceProvider sourceProvider,
+    IDateTimeProvider timeProvider,
+    IPublishEndpoint publishEndpoint,
+    IEntityManagerRepository managerRepository)
+    : IRequestHandler<ChangeStockStatus>
 {
-    public ChangeStockStatusValidator()
-    {
-        RuleFor(i => i.Id)
-            .NotEmpty();
-    }
-}
-
-public class ChangeStockStatusHandler : IRequestHandler<ChangeStockStatus>
-{
-    private readonly SqidsEncoder<int> _sqids;
-    private readonly IUnitOfWork _work;
-    private readonly IDateTimeProvider _timeProvider;
-    private readonly IOutputCacheStore _outputCache;
-    private readonly IPublishEndpoint _publishEndpoint;
-
-    public ChangeStockStatusHandler(IUnitOfWork work, 
-        SqidsEncoder<int> sqids, 
-        IDateTimeProvider timeProvider, 
-        IOutputCacheStore outputCache, 
-        IPublishEndpoint publishEndpoint)
-    {
-        _work = work;
-        _sqids = sqids;
-        _timeProvider = timeProvider;
-        _outputCache = outputCache;
-        _publishEndpoint = publishEndpoint;
-    }
-    
     public async Task Handle(ChangeStockStatus request, CancellationToken ct)
     {
-        var entityId = _sqids.DecodeSingle(request.Id);
-        if (entityId == default(long))
-        {
+        var entity = await sourceProvider.GetQuery<StockEntity>()
+            .SingleOrDefaultAsync(x => x.Id == request.Id, ct);
+        
+        if(entity == null)
             throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(request.Id));
-        }
 
-        var entity = await _work.StockRepo.Find(entityId, ct);
-        if (entity is null)
-        {
-            throw new StockCoreNotFoundException(StockErrorCodes.NotFoundById(request.Id));
-        }
-
-        entity.IsActive = !entity.IsActive;
-        if (entity.IsActive) entity.Deactivated = null;
-        else entity.Deactivated = _timeProvider.Time;
-
+        entity.ChangeStatus(timeProvider.TimeOffset);
+        
         await PublishStatusChangedEvent(entity, ct);
-        await _work.Save(ct);
-        
-        await _outputCache.EvictByTagAsync(request.Id, ct);
-        await _outputCache.EvictByTagAsync(CacheTags.StockFilter, ct);
+        await managerRepository.SaveChanges(ct);
+    }
+    
+    private Task PublishStatusChangedEvent(StockEntity entity, CancellationToken ct)
+    {
+        var @event = GetEvent(entity);
+        return publishEndpoint.Publish(@event.Message, @event.MessageType, ct);
     }
 
-    private async Task PublishStatusChangedEvent(StockEntity entity, CancellationToken ct)
+    private IntegrationEvent GetEvent(StockEntity entity)
     {
-        if (entity.IsActive)
-        {
-            await _publishEndpoint.Publish(new StockActivated
-            {
-                Time = _timeProvider.Utc,
-                Symbol = entity.Symbol
-            }, ct);
-            return;
-        }
-        
-        await _publishEndpoint.Publish(new StockDeactivated()
-        {
-            Time = _timeProvider.Utc,
-            Symbol = entity.Symbol
-        }, ct);
-    }
+        return entity.IsActive
+            ? IntegrationEvent.From(new StockActivated(entity.Symbol, timeProvider.TimeOffset))
+            : IntegrationEvent.From(new StockDeactivated(entity.Symbol, timeProvider.TimeOffset));
+    } 
 }

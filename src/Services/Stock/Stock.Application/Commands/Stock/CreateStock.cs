@@ -46,7 +46,7 @@ public class CreateStockHandler(
         if (priceResponse is null)
             throw new StockCoreException(StockErrorCodes.NotSupported(request.Symbol));
 
-        var newStockItem = StockEntity.NewWithPrice(request.Symbol, priceResponse.Price);
+        var newStockItem = StockEntity.Create(request.Symbol, priceResponse.Price);
         await managerRepository.Add(newStockItem, ct);
         
         await publish.Publish(new NewStockItemAdded

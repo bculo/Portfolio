@@ -5,31 +5,25 @@ namespace Stock.Core.Models.Stock
     public class StockEntity : AuditableEntity
     {
         private StockEntity() {}
-        
         public string Symbol { get; set; } = default!;
         public ICollection<StockPriceEntity> Prices { get; set; } = [];
-
-        public static StockEntity New(string symbol)
+        
+        public static StockEntity Create(string symbol, decimal price)
         {
-            return new StockEntity
+            var stockEntity = new StockEntity
             {
                 Id = Guid.NewGuid(),
                 Symbol = symbol,
-                IsActive = true
+                IsActive = true,
+                Prices =
+                [
+                    new StockPriceEntity
+                    {
+                        Price = price
+                    }
+                ]
             };
-        }
-        
-        public static StockEntity NewWithPrice(string symbol, decimal price)
-        {
-            var stockEntity = New(symbol);
-            stockEntity.Prices =
-            [
-                new StockPriceEntity
-                {
-                    Price = price
-                }
-            ];
-            
+
             return stockEntity;
         }
     }
