@@ -18,7 +18,7 @@ public static class StringSortExtensions
 
 public static class SortByExtensions
 {
-    public static IOrderedQueryable<TModel> SortBy<TModel, TOption>(this IQueryable<TModel> query,
+    public static IOrderedQueryable<TModel> ApplySortBy<TModel, TOption>(this IQueryable<TModel> query,
         Sort<TOption> selectedSort, SortDefinition<TOption, TModel> sortOptions)
         where TModel : class where TOption : struct, Enum
     {
@@ -29,7 +29,7 @@ public static class SortByExtensions
             : query.OrderByDescending(sortExpression);
     }
     
-    public static IOrderedQueryable<TModel> ThenSortBy<TModel, TOption>(this IOrderedQueryable<TModel> query,
+    public static IOrderedQueryable<TModel> ApplyThenSortBy<TModel, TOption>(this IOrderedQueryable<TModel> query,
         Sort<TOption> selectedSort, SortDefinition<TOption, TModel> sortOptions)
         where TModel : class where TOption : struct, Enum
     {

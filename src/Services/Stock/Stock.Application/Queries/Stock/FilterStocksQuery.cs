@@ -20,17 +20,17 @@ public record FilterStocksQuery(
     LessThenFilter<decimal>? PriceLessThan,
     EqualFilter<Status> ActivityStatus,
     GreaterThanFilter<DateTimeOffset>? NotOlderThan,
-    StringSort? SortBy)
+    Sort<FilterStockSortingOptions> SortBy)
     : PageRequestDto, IRequest<PaginatedResult<FilterStockResponse>>;
+
+public enum FilterStockSortingOptions
+{
+    Symbol,
+    Price
+}
 
 public class FilterStocksQueryValidator : AbstractValidator<FilterStocksQuery>
 {
-    private readonly HashSet<string> _allowedSortProperties =
-    [
-        nameof(StockWithPriceTag.Symbol),
-        nameof(StockWithPriceTag.Price)
-    ];
-    
     public FilterStocksQueryValidator(ILocale locale)
     {
         Include(new PageRequestDtoValidator());
@@ -53,27 +53,26 @@ public class FilterStocksQueryValidator : AbstractValidator<FilterStocksQuery>
             RuleFor(i => i.PriceGreaterThan!.Value)!
                 .GreaterThanOrEqualTo(0m);
         });
-
-        When(i => i.SortBy is not null, () =>
-        {
-            RuleFor(i => i.SortBy!.PropertyName)
-                .Must(x => _allowedSortProperties.Contains(x))
-                .NotEmpty();
-        });
     }
 }
 
 public class FilterStocksQueryHandler(IDataSourceProvider provider) 
     : IRequestHandler<FilterStocksQuery, PaginatedResult<FilterStockResponse>>
 {
-    private IQueryable<StockWithPriceTag> _query = provider.GetReadOnlySourceQuery<StockWithPriceTag>();
+    private static readonly SortDefinition<FilterStockSortingOptions, StockWithPriceTag> SortDefinitions = new()
+    {
+        { FilterStockSortingOptions.Price, x => x.Price },
+        { FilterStockSortingOptions.Symbol, x => x.Symbol },
+    };
+    
+    private readonly IQueryable<StockWithPriceTag> _querySource = provider.GetReadOnlySourceQuery<StockWithPriceTag>();
     
     public async Task<PaginatedResult<FilterStockResponse>> Handle(FilterStocksQuery request, CancellationToken ct)
     {
         var expressions = BuildExpressionTree(request);
 
-        var page = await _query.ApplyWhereAll(expressions)
-            .ApplyOrderByColumn(request.SortBy)
+        var page = await _querySource.ApplyWhereAll(expressions)
+            .ApplySortBy(request.SortBy, SortDefinitions)
             .AsPaginatedResult(request);
 
         return page.MapTo(ResponseProjection);

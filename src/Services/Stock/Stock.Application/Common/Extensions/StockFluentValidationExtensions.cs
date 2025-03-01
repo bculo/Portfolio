@@ -5,7 +5,7 @@ namespace Stock.Application.Common.Extensions;
 
 public static class ValidationRegex
 {
-    public static readonly Regex SymbolRegex = new ("^[a-zA-Z]{1,10}$",
+    public static readonly Regex SymbolRegex = new ("^[a-zA-Z]{1,50}$",
         RegexOptions.IgnoreCase | RegexOptions.Compiled,
         TimeSpan.FromSeconds(1));
 }

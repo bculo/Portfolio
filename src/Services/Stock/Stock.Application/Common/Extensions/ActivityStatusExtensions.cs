@@ -18,11 +18,7 @@ public static class ActivityStatusExtensions
     public static EqualFilter<bool>? ToEqualFilter(this Status status)
     {
         var boolValue = status.ToBoolean();
-        if (boolValue.HasValue)
-        {
-            return new EqualFilter<bool>(boolValue.Value);
-        }
         
-        return null;
+        return boolValue.HasValue ? new EqualFilter<bool>(boolValue.Value) : null;
     }
 }

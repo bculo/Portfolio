@@ -14,7 +14,9 @@ public class GetStocksQueryHandler(IDataSourceProvider provider)
 {
     public async Task<IEnumerable<GetStocksResponse>> Handle(GetStocksQuery request, CancellationToken ct)
     {
-        var stocks = await provider.GetReadOnlySourceQuery<StockWithPriceTag>().ToListAsync(ct);
+        var stocks = await provider.GetReadOnlySourceQuery<StockWithPriceTag>()
+            .ToListAsync(ct);
+        
         return Map(stocks);
     }
 
