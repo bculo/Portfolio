@@ -64,11 +64,6 @@ public class GetStockRequestPolicy : IOutputCachePolicy
     {
         var request = context.HttpContext.Request;
 
-        if (!HttpMethods.IsGet(request.Method))
-        {
-            return false;
-        }
-        
-        return true;
+        return HttpMethods.IsGet(request.Method);
     }
 }

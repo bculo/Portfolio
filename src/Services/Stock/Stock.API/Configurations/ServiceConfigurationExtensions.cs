@@ -1,13 +1,9 @@
 ﻿using Keycloak.Common;
 using Serilog;
-using Stock.API.OutputCache.CachePolicies;
-using Stock.API.OutputCache.Constants;
 using Stock.API.Services;
 using Stock.Application;
-using Stock.Application.Common.Constants;
 using Stock.Application.Interfaces.User;
 using Stock.Infrastructure;
-using WebProject.Common.CachePolicies;
 using WebProject.Common.Extensions;
 using WebProject.Common.Options;
 using WebProject.Common.Rest;
@@ -51,7 +47,6 @@ namespace Stock.API.Configurations
             InfrastructureLayer.AddMessageQueue(services, configuration);
             
             AddAuthentication(services, configuration);
-            AddCachePolicies(services, configuration);
             AddSerilog(builder);
         }
 
@@ -60,21 +55,6 @@ namespace Stock.API.Configurations
             builder.Host.UseSerilog((host, log) =>
             {
                 log.ReadFrom.Configuration(host.Configuration);
-            });
-        }
-        
-        private static void AddCachePolicies(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOutputCache(opt =>
-            {
-                opt.AddBasePolicy(policy => policy.Tag(CacheTags.All));
-
-                opt.AddPolicy(CachePolicies.StockGetFilter, policy => policy.AddPolicy<AuthGetRequestPolicy>()
-                    .Expire(TimeSpan.FromMinutes(30))
-                    .Tag(CacheTags.StockFilter));
-                
-                opt.AddPolicy(CachePolicies.StockGetSingle, policy => policy.AddPolicy<GetStockRequestPolicy>()
-                    .Expire(TimeSpan.FromHours(3)));
             });
         }
         

@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using Stock.API.OutputCache.Constants;
 using Stock.Application.Commands.Stock;
 using Stock.Application.Common.Constants;
 using Stock.Application.Common.Models;
@@ -26,7 +24,6 @@ public class StockController(ISender mediator) : ControllerBase
     }
     
     [HttpGet("Single/{id}", Name = "GetStock")]
-    [OutputCache(PolicyName = CachePolicies.StockGetSingle)]
     [ProducesResponseType(typeof(GetStockByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -36,7 +33,6 @@ public class StockController(ISender mediator) : ControllerBase
     }
 
     [HttpGet("All", Name = "GetStocks")]
-    [OutputCache(PolicyName = CachePolicies.StockGetFilter)]
     [ProducesResponseType(typeof(IEnumerable<GetStocksResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetStocks()
     {
@@ -44,7 +40,6 @@ public class StockController(ISender mediator) : ControllerBase
     }
 
     [HttpGet("Filter", Name = "FilterStocks")]
-    [OutputCache(PolicyName = CachePolicies.StockGetFilter)]
     [ProducesResponseType(typeof(PageResultDto<FilterStockResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> FilterStocks([FromQuery] FilterStocksQuery filterListQuery)
