@@ -60,7 +60,7 @@ public static class SwaggerExtensions
                             Id = JwtBearerDefaults.AuthenticationScheme
                         }
                     },
-                    new string[] {}
+                    []
                 }
             });
 
@@ -80,44 +80,15 @@ public static class SwaggerExtensions
         services.ConfigureOptions<ConfigureSwaggerApiVersioningOptions>();
     }
 
-    public static void ConfigureSwagger(this IServiceCollection services, string authorizationUrl)
+    public static void ConfigureSwaggerDefault(this IServiceCollection services, string authorizationUrl)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(opt =>
         {
-            opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.OAuth2,
-                Flows = new OpenApiOAuthFlows
-                {
-                    Implicit = new OpenApiOAuthFlow
-                    {
-                        AuthorizationUrl = new Uri(authorizationUrl),
-                    }
-                },
-                In = ParameterLocation.Header,
-                Scheme = JwtBearerDefaults.AuthenticationScheme,
-            });
-
-            opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = JwtBearerDefaults.AuthenticationScheme
-                        }
-                    },
-                    new string[] {}
-                }
-            });
+            opt.AddSecurityConfiguration(authorizationUrl);
         });
     }
-
-
-    public static void ConfigureSwaggerAsEndpoints(this IServiceCollection services)
+    public static void ConfigureSwaggerAsEndpoints(this IServiceCollection services, string authorizationUrl)
     {
         services.AddSwaggerGen(c =>
         {
@@ -137,6 +108,39 @@ public static class SwaggerExtensions
             });
             
             c.DocInclusionPredicate((name, api) => true);
+            c.AddSecurityConfiguration(authorizationUrl);
+        });
+    }
+
+    private static void AddSecurityConfiguration(this SwaggerGenOptions options, string authorizationUrl)
+    {
+        options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.OAuth2,
+            Flows = new OpenApiOAuthFlows
+            {
+                Implicit = new OpenApiOAuthFlow
+                {
+                    AuthorizationUrl = new Uri(authorizationUrl),
+                }
+            },
+            In = ParameterLocation.Header,
+            Scheme = JwtBearerDefaults.AuthenticationScheme,
+        });
+
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = JwtBearerDefaults.AuthenticationScheme
+                    }
+                },
+                []
+            }
         });
     }
     

@@ -6,6 +6,7 @@ public static class EndpointsConfigurations
     
     public static class InfoEndpoints
     {
+        public const string GroupTag = "info";
         private const string Controller = ApiUrl + "/info";
 
         public const string AssemblyInfo = Controller + "/assembly-info";
@@ -13,6 +14,7 @@ public static class EndpointsConfigurations
 
     public static class CryptoEndpoints
     {
+        public const string GroupTag = "asset";
         private const string Controller = ApiUrl + "/crypto";
         
         public const string Create = Controller + "/create";

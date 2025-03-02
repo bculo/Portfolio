@@ -21,7 +21,7 @@ public static class ServiceConfigurationExtensions
         var authEndpoint = KeycloakUriUtils.BuildAuthEndpoint(
             configuration["AuthOptions:AuthorizationServerUrl"],
             configuration["AuthOptions:RealmName"]);
-        services.ConfigureSwagger(authEndpoint);
+        services.ConfigureSwaggerDefault(authEndpoint);
         
         ApplicationLayer.AddServices(services, configuration);
         InfrastructureLayer.AddServices(services, configuration);
