@@ -33,7 +33,7 @@ public class UpdatePriceEndpointTests(CryptoApiFactory factory) : BaseCryptoEndp
     {
         //Arrange
         Client.WithRole(UserRole.Admin);
-        var entity = await DataManager.Add(new CryptoEntityBuilder().Build());
+        var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         
         var request = new UpdatePriceCommand() { Symbol = entity.Symbol };
         var response = await Client.PutAsync(EndpointsConfigurations.CryptoEndpoints.UpdatePrice, request.AsHttpContent());

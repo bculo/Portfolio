@@ -7,17 +7,18 @@ namespace WebProject.Common.Extensions
 {
     public static class AuthorizationExtensions
     {
-        public static void ConfigureDefaultAuthorization(this IServiceCollection services)
+        public static void ConfigureDefaultAuthorization(this IServiceCollection services,
+            string defaultSchemaName = JwtBearerDefaults.AuthenticationScheme)
         {
             services.AddAuthorization(opt =>
             {
                 opt.DefaultPolicy = new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .AddAuthenticationSchemes(defaultSchemaName)
                     .RequireAuthenticatedUser()
                     .Build();
                 
                 opt.AddPolicy("AdminPolicy", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .AddAuthenticationSchemes(defaultSchemaName)
                     .RequireAuthenticatedUser()
                     .RequireRole("Admin")
                     .Build());

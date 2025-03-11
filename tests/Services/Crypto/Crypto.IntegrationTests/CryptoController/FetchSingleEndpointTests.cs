@@ -16,7 +16,7 @@ public class FetchSingleEndpointTests(CryptoApiFactory factory)  : BaseCryptoEnd
     public async Task ShouldReturnNotFound_WhenNonExistentSymbolProvided()
     {
         //Arrange
-        Client.WithRole(UserRole.Admin);
+        await Authenticate(UserRole.Admin);
         var symbol = SymbolGenerator.Generate();
     
         //Act
@@ -31,8 +31,8 @@ public class FetchSingleEndpointTests(CryptoApiFactory factory)  : BaseCryptoEnd
     {
         //Arrange
         Client.WithRole(UserRole.Admin);
-        var cryptoEntity = await DataManager.Add(new CryptoEntityBuilder().Build());
-        await DataManager.AddPrice(new CryptoPriceEntityBuilder()
+        var cryptoEntity = await Fixture.Add(new CryptoEntityBuilder().Build());
+        await Fixture.AddPrice(new CryptoPriceEntityBuilder()
             .WithCryptoItemId(cryptoEntity.Id)
             .Build());
         

@@ -33,7 +33,7 @@ public class UpdateInfoEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpo
         //Arrange
         Client.WithRole(UserRole.Admin);
         
-        var entity = await DataManager.Add(new CryptoEntityBuilder().Build());
+        var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         await CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, entity.Symbol);
         
         //Act

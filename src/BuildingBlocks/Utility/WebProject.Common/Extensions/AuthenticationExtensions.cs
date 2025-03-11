@@ -1,4 +1,4 @@
-﻿using Cryptography.Common.Utils;
+﻿using Cryptography.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -11,6 +11,7 @@ namespace WebProject.Common.Extensions
     {
         public static void ConfigureDefaultAuthentication(this IServiceCollection services, 
             AuthOptions options,
+            string authenticationScheme = JwtBearerDefaults.AuthenticationScheme,
             Func<AuthenticationFailedContext, Task>? onTokenValidationFail = null,
             Func<TokenValidatedContext, Task>? onTokenValidated = null,
             Func<MessageReceivedContext, Task>? onMessageReceived = null)
@@ -18,25 +19,20 @@ namespace WebProject.Common.Extensions
             ArgumentNullException.ThrowIfNull(nameof(services));
             ArgumentNullException.ThrowIfNull(nameof(options));
 
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(opt =>
+            services.AddAuthentication()
+            .AddJwtBearer(authenticationScheme, opt =>
             {
                 opt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = options.ValidateAudience,
                     ValidateIssuer = options.ValidateIssuer,
-                    ValidIssuers = new[] { options.ValidIssuer },
+                    ValidIssuers = [options.ValidIssuer],
                     ValidateIssuerSigningKey = options.ValidateIssuerSigningKey,
                     IssuerSigningKey = RsaUtils.ImportSubjectPublicKeyInfo(options.PublicRsaKey),
                     ValidateLifetime = options.ValidateLifetime,
                 };
 
-                opt.Events = new JwtBearerEvents()
+                opt.Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = onTokenValidationFail ?? OnTokenValidationFailDefault,
                     OnTokenValidated = onTokenValidated ?? OnTokenValidatedDefault,

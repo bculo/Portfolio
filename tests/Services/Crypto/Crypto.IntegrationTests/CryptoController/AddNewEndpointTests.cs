@@ -45,7 +45,7 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     {
         Client.WithRole(UserRole.Admin);
         
-        var entity = await DataManager.Add(new CryptoEntityBuilder().Build());
+        var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         
         var request = new AddNewCommand { Symbol = entity.Symbol };
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());

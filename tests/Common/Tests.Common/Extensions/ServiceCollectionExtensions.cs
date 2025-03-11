@@ -13,7 +13,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IMockClaimSeeder, MockClaimSeeder>();
         services.AddSingleton<IAuthenticationSchemeProvider, MockJwtSchemeProvider>();
-
         return services;
     }
 }
