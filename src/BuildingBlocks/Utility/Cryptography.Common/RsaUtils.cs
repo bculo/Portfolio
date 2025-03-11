@@ -15,13 +15,13 @@ public static class RsaUtils
         }
 
         using var rsa = RSA.Create();
-
+        
         rsa.ImportSubjectPublicKeyInfo(
             source: Convert.FromBase64String(publicKeyJwt),
             bytesRead: out _
         );
 
-        var issuerSigningKey = new RsaSecurityKey(rsa);
+        var issuerSigningKey = new RsaSecurityKey(rsa.ExportParameters(false));
 
         return issuerSigningKey;
     }

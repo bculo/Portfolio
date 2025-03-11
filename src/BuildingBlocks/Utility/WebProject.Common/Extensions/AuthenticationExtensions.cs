@@ -19,7 +19,7 @@ namespace WebProject.Common.Extensions
             ArgumentNullException.ThrowIfNull(nameof(services));
             ArgumentNullException.ThrowIfNull(nameof(options));
 
-            services.AddAuthentication()
+            services.AddAuthentication(authenticationScheme)
             .AddJwtBearer(authenticationScheme, opt =>
             {
                 opt.TokenValidationParameters = new TokenValidationParameters
