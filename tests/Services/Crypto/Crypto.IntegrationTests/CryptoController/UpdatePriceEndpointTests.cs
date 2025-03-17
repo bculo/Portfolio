@@ -1,9 +1,6 @@
 using System.Net;
 using Crypto.API.Controllers;
-using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
 using Crypto.Application.Modules.Crypto.Commands.UpdatePrice;
-using Crypto.IntegrationTests.Common;
-using Crypto.IntegrationTests.Helpers;
 using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
 using FluentAssertions;
@@ -17,28 +14,23 @@ public class UpdatePriceEndpointTests(CryptoApiFactory factory) : BaseCryptoEndp
     [Fact]
     public async Task ShouldReturnNotFound_WhenNonExistentSymbolProvided()
     {
-        //Arrange
-        Client.WithRole(UserRole.Admin);
+        await Authenticate(UserRole.Admin);
         var request = new UpdatePriceCommand() { Symbol = SymbolGenerator.Generate() };
-    
-        //Act
-        var response = await Client.PutAsync(EndpointsConfigurations.CryptoEndpoints.UpdatePrice, request.AsHttpContent());
-
-        //Assert
+        
+        var response = await Client.PatchAsync(EndpointsConfigurations.CryptoEndpoints.UpdatePrice, request.AsHttpContent());
+        
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
     
     [Fact]
     public async Task ShouldReturnOk_WhenExistingSymbolProvided()
     {
-        //Arrange
-        Client.WithRole(UserRole.Admin);
+        await Authenticate(UserRole.Admin);
         var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         
-        var request = new UpdatePriceCommand() { Symbol = entity.Symbol };
-        var response = await Client.PutAsync(EndpointsConfigurations.CryptoEndpoints.UpdatePrice, request.AsHttpContent());
+        var request = new UpdatePriceCommand { Symbol = entity.Symbol };
+        var response = await Client.PatchAsync(EndpointsConfigurations.CryptoEndpoints.UpdatePrice, request.AsHttpContent());
 
-        //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 }

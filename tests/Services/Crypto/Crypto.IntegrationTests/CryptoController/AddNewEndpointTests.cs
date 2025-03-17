@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using Crypto.API.Controllers;
 using Crypto.Application.Modules.Crypto.Commands.AddNew;
-using Crypto.IntegrationTests.Common;
 using Crypto.IntegrationTests.Helpers;
 using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
@@ -19,9 +18,9 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     [InlineData("ETHII12!!!!!")]
     public async Task ShouldReturnBadRequest_WhenInvalidSymbolProvided(string symbol)
     {
-        Client.WithRole(UserRole.Admin);
-        var request = new AddNewCommand { Symbol = symbol };
+        await Authenticate(UserRole.Admin);
         
+        var request = new AddNewCommand { Symbol = symbol };
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
         
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -30,20 +29,19 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     [Fact]
     public async Task ShouldReturnStatusNoContent_WhenNewValidSymbolProvided()
     {
-        Client.WithRole(UserRole.Admin);
+        await Authenticate(UserRole.Admin);
         var request = new AddNewCommand { Symbol = SymbolGenerator.Generate() };
 
-        await CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, request.Symbol);
+        CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, request.Symbol);
         
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
-        
-        response.EnsureSuccessStatusCode();
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     [Fact]
     public async Task ShouldReturnBadRequest_WhenExistingSymbolProvided()
     {
-        Client.WithRole(UserRole.Admin);
+        await Authenticate(UserRole.Admin);
         
         var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         

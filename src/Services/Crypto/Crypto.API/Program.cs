@@ -24,7 +24,7 @@ if (app.Environment.IsDevelopment())
     {
         options.OAuthClientId(app.Configuration["AuthOptions:ApplicationName"]);
         options.OAuthRealm(app.Configuration["AuthOptions:RealmName"]);
-        options.OAuthScopes("openid", "email", "user_roles");
+        options.OAuthScopes(app.Configuration["AuthOptions:Scopes"]);
     });
 
     app.UseCors(x => x

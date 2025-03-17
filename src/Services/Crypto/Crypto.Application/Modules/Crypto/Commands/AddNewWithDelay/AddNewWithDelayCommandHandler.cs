@@ -10,8 +10,7 @@ namespace Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay
         IPublishEndpoint publish)
         : IRequestHandler<AddNewWithDelayCommand, Guid>
     {
-        private readonly ILogger<AddNewWithDelayCommandHandler> _logger = logger;
-
+        
         public async Task<Guid> Handle(AddNewWithDelayCommand request, CancellationToken cancellationToken)
         {
             var temporaryId = Guid.NewGuid();

@@ -1,11 +1,14 @@
-﻿using Crypto.Application.Interfaces.Price;
+﻿using Crypto.API.Configurations;
+using Crypto.Application.Interfaces.Price;
 using Crypto.Infrastructure.Persistence;
 using Crypto.Infrastructure.Price;
 using Cryptography.Common;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Tests.Common;
@@ -15,6 +18,7 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.IntegrationTests;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     public HttpClient Client { get; private set; } = default!;
@@ -50,7 +54,10 @@ public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         {
             services.AddScoped<ICryptoPriceService, MockPriceClient>();
             services.AddScoped<TestFixture>();
-            services.AddTestAuthentication();
+
+            services.ConfigureWithConfig(services.AddTestAuthentication);
+            services.ConfigureWithConfig(conf =>
+                services.AddMassTransitTestHarness(ServiceConfigurationExtensions.GetMassTransitConfig(conf)));
         });
     }
 

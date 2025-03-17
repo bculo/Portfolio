@@ -59,8 +59,12 @@ public static class ServiceConfigurationExtensions
     {
         services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
         services.Configure<SagaTimeoutOptions>(configuration.GetSection("SagaTimeoutOptions"));
+        services.AddMassTransit(GetMassTransitConfig(configuration));
+    }
 
-        services.AddMassTransit(x =>
+    public static Action<IBusRegistrationConfigurator> GetMassTransitConfig(IConfiguration configuration)
+    {
+        return x =>
         {
             var isTemporary = configuration.GetValue<bool>("QueueOptions:Temporary");
 
@@ -81,6 +85,6 @@ public static class ServiceConfigurationExtensions
                 config.Host(configuration["QueueOptions:Address"]);
                 config.ConfigureEndpoints(context);
             });
-        });
+        };
     }
 };

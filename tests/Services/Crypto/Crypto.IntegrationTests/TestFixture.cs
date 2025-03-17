@@ -1,13 +1,9 @@
-using AutoFixture;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Core.Entities;
 using Crypto.Infrastructure.Persistence;
-using Tests.Common.Extensions;
-using Tests.Common.Interfaces.Claims.Models;
 
 namespace Crypto.IntegrationTests;
 
-public record TestCallContext(Guid Id, string JwtToken, UserRole Role);
 
 public class TestFixture(CryptoDbContext context, IUnitOfWork cryptoPriceRepo, IServiceProvider provider)
 {

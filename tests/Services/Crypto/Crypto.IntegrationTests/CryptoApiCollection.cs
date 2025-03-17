@@ -1,7 +1,5 @@
-﻿namespace Crypto.IntegrationTests
-{
-    [CollectionDefinition(nameof(CryptoApiCollection), DisableParallelization = false)]
-    public class CryptoApiCollection : ICollectionFixture<CryptoApiFactory>
-    {
-    }
-}
+﻿namespace Crypto.IntegrationTests;
+
+[CollectionDefinition(nameof(CryptoApiCollection), DisableParallelization = false)]
+public class CryptoApiCollection : ICollectionFixture<CryptoApiFactory>;
+
