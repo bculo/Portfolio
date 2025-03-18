@@ -39,7 +39,9 @@ public class CryptoApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
                 "ConnectionStrings:CryptoDatabase",
                 $"Host=localhost;Port=5433;Database=CryptoTst{Guid.NewGuid()};User Id=postgres;Password=florijan;"
             },
-            { "QueueOptions:Address", "amqp://rabbitmquser:rabbitmqpassword@localhost:5672" },
+            { "QueueOptions:Username", "rabbitmqcryptotest" },
+            { "QueueOptions:Password", "rabbitmqcryptotest" },
+            { "QueueOptions:VirtualHost", "test" },
             { "QueueOptions:Prefix", $"cryptotest{Guid.NewGuid()}" },
             { "QueueOptions:Temporary", "true" },
             { "RedisOptions:ConnectionString", _redisConnectionString },

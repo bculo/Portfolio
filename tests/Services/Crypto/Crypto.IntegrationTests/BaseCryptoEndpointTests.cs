@@ -16,12 +16,13 @@ public abstract class BaseCryptoEndpointTests(CryptoApiFactory factory) : IAsync
 
     protected Fixture MockFixture { get;  } = new Fixture().Configure();
 
-    protected TestFixture Fixture { get; private set; } = default!;
-    protected ITestHarness MessageQueue { get; private set; } = default!;
-    protected ITokenGenerator TokenGenerator { get; private set; } = default!;
-    
+    protected TestFixture Fixture { get; private set; } = null!;
+    protected ITestHarness MessageQueue { get; private set; } = null!;
 
-    private IServiceScope _scope = default!;
+    
+    private ITokenGenerator _tokenGenerator = null!;
+
+    private IServiceScope _scope = null!;
 
     public virtual Task DisposeAsync()
     {
@@ -34,15 +35,15 @@ public abstract class BaseCryptoEndpointTests(CryptoApiFactory factory) : IAsync
         _scope = Factory.Services.CreateAsyncScope();
         
         Fixture = _scope.ServiceProvider.GetRequiredService<TestFixture>();
-        TokenGenerator  = _scope.ServiceProvider.GetRequiredService<ITokenGenerator>();
+        _tokenGenerator  = _scope.ServiceProvider.GetRequiredService<ITokenGenerator>();
         MessageQueue = _scope.ServiceProvider.GetTestHarness();
         
         return Task.CompletedTask;
     }
 
-    public async Task Authenticate(UserRole role)
+    protected async Task Authenticate(UserRole role)
     {
-        var token = await TokenGenerator.GenerateToken([new Claim(ClaimTypes.Role, role.ToString())]);
+        var token = await _tokenGenerator.GenerateToken([new Claim(ClaimTypes.Role, role.ToString())]);
         Client.AddJwtToken(token);
     }
 }

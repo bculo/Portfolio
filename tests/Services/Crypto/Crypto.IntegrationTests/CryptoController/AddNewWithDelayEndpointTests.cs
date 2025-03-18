@@ -12,7 +12,7 @@ using Tests.Common.Interfaces.Claims.Models;
 
 namespace Crypto.IntegrationTests.CryptoController;
 
-public class AddNewWithDelayEndpointTest(CryptoApiFactory factory) : BaseCryptoEndpointTests(factory)
+public class AddNewWithDelayEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointTests(factory)
 {
     [Fact]
     public async Task ShouldReturnAccepted_WhenEndpointCalled()

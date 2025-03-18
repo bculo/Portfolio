@@ -9,7 +9,7 @@ public class CryptoGetPriceHistoryEndpoint : CryptoBaseController
     [HttpGet(EndpointsConfigurations.CryptoEndpoints.History)]
     [ProducesResponseType(typeof(List<PriceHistoryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> FetchPriceHistory(Guid cryptoId)
+    public async Task<IActionResult> FetchPriceHistory([FromRoute] Guid cryptoId)
     {
         return Ok(await Mediator.Send(new FetchPriceHistoryQuery { CryptoId = cryptoId }));
     }

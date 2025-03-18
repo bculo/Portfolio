@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Crypto.API.Controllers.Crypto;
 
 [ApiExplorerSettings(GroupName = EndpointsConfigurations.CryptoEndpoints.GroupTag)]
-public class CryptoFetchMostPopular : CryptoBaseController
+public class FetchMostPopular : CryptoBaseController
 {
     [HttpGet(EndpointsConfigurations.CryptoEndpoints.Popular)]
     [ProducesResponseType(typeof(List<GetMostPopularResponse>), StatusCodes.Status200OK)]

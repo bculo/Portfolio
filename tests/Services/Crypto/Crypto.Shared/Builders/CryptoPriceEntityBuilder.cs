@@ -11,7 +11,7 @@ public class CryptoPriceEntityBuilder : IObjectBuilder<CryptoPriceEntity>
     public Guid? CryptoEntityId { get; private set; }
     
     
-    public CryptoPriceEntity Build() => new CryptoPriceEntity
+    public CryptoPriceEntity Build() => new()
     {
         CryptoEntityId = CryptoEntityId ?? throw new ArgumentNullException(nameof(CryptoEntityId)),
         Price = Price,
@@ -21,6 +21,12 @@ public class CryptoPriceEntityBuilder : IObjectBuilder<CryptoPriceEntity>
     public CryptoPriceEntityBuilder WithCryptoItemId(Guid cryptoEntityId)
     {
         CryptoEntityId = cryptoEntityId;
+        return this;
+    }
+
+    public CryptoPriceEntityBuilder WithTimestamp(DateTimeOffset timestamp)
+    {
+        PriceOn = timestamp;
         return this;
     }
 }

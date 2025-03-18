@@ -57,7 +57,6 @@ public static class ServiceConfigurationExtensions
 
     private static void AddMessageQueue(IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<QueueOptions>(configuration.GetSection("QueueOptions"));
         services.Configure<SagaTimeoutOptions>(configuration.GetSection("SagaTimeoutOptions"));
         services.AddMassTransit(GetMassTransitConfig(configuration));
     }
@@ -82,7 +81,11 @@ public static class ServiceConfigurationExtensions
             x.UsingRabbitMq((context, config) =>
             {
                 config.UseDelayedMessageScheduler();
-                config.Host(configuration["QueueOptions:Address"]);
+                config.Host(configuration["QueueOptions:Host"], configuration["QueueOptions:VirtualHost"], h =>
+                {
+                    h.Username(configuration["QueueOptions:Username"]);
+                    h.Password(configuration["QueueOptions:Password"]);
+                });
                 config.ConfigureEndpoints(context);
             });
         };

@@ -13,6 +13,8 @@ public class CryptoEntityBuilder : IObjectBuilder<CryptoEntity>
         .RuleFor(x => x.Description, f => f.Lorem.Sentence())
         .RuleFor(x => x.ModifiedOn, _ => DateTimeOffset.UtcNow)
         .RuleFor(x => x.CreatedOn, _ => DateTimeOffset.UtcNow)
+        .RuleFor(x => x.SourceCode, f => f.Random.Word())
+        .RuleFor(x => x.WebSite, f => f.Internet.Url())
         .Generate();
     
     public CryptoEntity Build() => _entity;
