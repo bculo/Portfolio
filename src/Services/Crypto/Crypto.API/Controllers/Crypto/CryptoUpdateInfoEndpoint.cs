@@ -1,5 +1,5 @@
 using Crypto.Application.Common.Constants;
-using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
+using Crypto.Application.Modules.Crypto.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

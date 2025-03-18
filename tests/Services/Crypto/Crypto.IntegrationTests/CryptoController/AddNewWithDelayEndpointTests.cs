@@ -1,10 +1,8 @@
 using System.Net;
 using Crypto.API.Controllers;
-using Crypto.Application.Modules.Crypto.Commands.AddNew;
-using Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay;
+using Crypto.Application.Modules.Crypto.Commands;
 using Crypto.Infrastructure.Consumers.State;
 using Crypto.Shared.Utilities;
-using Events.Common.Crypto;
 using FluentAssertions;
 using Http.Common.Extensions;
 using Tests.Common.Extensions;
@@ -19,7 +17,7 @@ public class AddNewWithDelayEndpointTests(CryptoApiFactory factory) : BaseCrypto
     {
         await Authenticate(UserRole.Admin);
 
-        var request = new AddNewWithDelayCommand { Symbol = SymbolGenerator.Generate() };
+        var request = new AddNewWithDelayCommand(SymbolGenerator.Generate());
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.CreateWithDelay,
             request.AsHttpContent());
 

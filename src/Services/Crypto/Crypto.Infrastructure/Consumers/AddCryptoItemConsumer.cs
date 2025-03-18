@@ -1,9 +1,7 @@
-﻿using Crypto.Application.Common.Options;
-using Crypto.Application.Modules.Crypto.Commands.AddNew;
+﻿using Crypto.Application.Modules.Crypto.Commands;
 using Events.Common.Crypto;
 using MassTransit;
 using MediatR;
-using Microsoft.Extensions.Options;
 
 namespace Crypto.Infrastructure.Consumers
 {
@@ -11,11 +9,7 @@ namespace Crypto.Infrastructure.Consumers
     {
         public async Task Consume(ConsumeContext<AddItem> context)
         {
-            await mediator.Send(new AddNewCommand
-            {
-                Symbol = context.Message.Symbol,
-                CorrelationId = context.CorrelationId
-            });
+            await mediator.Send(new AddNewCommand(context.Message.Symbol, context.CorrelationId));
         }
     }
 }

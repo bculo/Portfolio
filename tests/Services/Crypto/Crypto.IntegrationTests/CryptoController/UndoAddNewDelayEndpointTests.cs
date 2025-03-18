@@ -1,7 +1,6 @@
 using System.Net;
 using Crypto.API.Controllers;
-using Crypto.Application.Modules.Crypto.Commands.AddNewWithDelay;
-using Crypto.Application.Modules.Crypto.Commands.UndoNewWithDelay;
+using Crypto.Application.Modules.Crypto.Commands;
 using Crypto.Infrastructure.Consumers.State;
 using Crypto.Shared.Utilities;
 using FluentAssertions;
@@ -18,14 +17,14 @@ public class UndoAddNewDelayEndpointTests(CryptoApiFactory factory) : BaseCrypto
     {
         await Authenticate(UserRole.Admin);
 
-        var delayRequest = new AddNewWithDelayCommand { Symbol = SymbolGenerator.Generate() };
+        var delayRequest = new AddNewWithDelayCommand(SymbolGenerator.Generate());
         var delayResponse = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.CreateWithDelay,
             delayRequest.AsHttpContent());
 
         delayResponse.StatusCode.Should().Be(HttpStatusCode.Accepted);
         var correlationId = await delayResponse.ExtractContentFromResponse<Guid>();
         
-        var request = new UndoNewWithDelayCommand { TemporaryId = correlationId };
+        var request = new UndoNewWithDelayCommand(correlationId);
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.UndoDelayCreate,
             request.AsHttpContent());
         
@@ -42,7 +41,7 @@ public class UndoAddNewDelayEndpointTests(CryptoApiFactory factory) : BaseCrypto
     {
         await Authenticate(UserRole.Admin);
         
-        var request = new UndoNewWithDelayCommand { TemporaryId = Guid.NewGuid() };
+        var request = new UndoNewWithDelayCommand(Guid.NewGuid());
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.UndoDelayCreate,
             request.AsHttpContent());
         

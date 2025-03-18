@@ -1,6 +1,6 @@
 using System.Net;
 using Crypto.API.Controllers;
-using Crypto.Application.Modules.Crypto.Commands.UpdateInfo;
+using Crypto.Application.Modules.Crypto.Commands;
 using Crypto.IntegrationTests.Helpers;
 using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
@@ -16,7 +16,7 @@ public class UpdateInfoEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpo
     public async Task ShouldReturnNotFound_WhenNonExistentSymbolProvided()
     {
         await Authenticate(UserRole.Admin);
-        var request = new UpdateInfoCommand { Symbol = SymbolGenerator.Generate() };
+        var request = new UpdateInfoCommand(SymbolGenerator.Generate());
 
         var response = await Client.PatchAsync(EndpointsConfigurations.CryptoEndpoints.UpdateInfo, request.AsHttpContent());
         
@@ -31,7 +31,7 @@ public class UpdateInfoEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpo
         var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, entity.Symbol);
         
-        var request = new UpdateInfoCommand { Symbol = entity.Symbol };
+        var request = new UpdateInfoCommand(entity.Symbol);
         var response = await Client.PatchAsync(EndpointsConfigurations.CryptoEndpoints.UpdateInfo, request.AsHttpContent());
         
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);

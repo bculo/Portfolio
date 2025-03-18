@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Crypto.API.Controllers;
-using Crypto.Application.Modules.Crypto.Commands.AddNew;
+using Crypto.Application.Modules.Crypto.Commands;
 using Crypto.IntegrationTests.Helpers;
 using Crypto.Shared.Builders;
 using Crypto.Shared.Utilities;
@@ -20,7 +20,7 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     {
         await Authenticate(UserRole.Admin);
         
-        var request = new AddNewCommand { Symbol = symbol };
+        var request = new AddNewCommand(symbol, null);
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
         
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -30,7 +30,7 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
     public async Task ShouldReturnStatusNoContent_WhenNewValidSymbolProvided()
     {
         await Authenticate(UserRole.Admin);
-        var request = new AddNewCommand { Symbol = SymbolGenerator.Generate() };
+        var request = new AddNewCommand(SymbolGenerator.Generate(), null);
 
         CoinMarketCapClientFacade.MockValidResponse(Factory.MockServer, MockFixture, request.Symbol);
         
@@ -45,7 +45,7 @@ public class AddNewEndpointTests(CryptoApiFactory factory) : BaseCryptoEndpointT
         
         var entity = await Fixture.Add(new CryptoEntityBuilder().Build());
         
-        var request = new AddNewCommand { Symbol = entity.Symbol };
+        var request = new AddNewCommand(entity.Symbol, null);
         var response = await Client.PostAsync(EndpointsConfigurations.CryptoEndpoints.Create, request.AsHttpContent());
         
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
