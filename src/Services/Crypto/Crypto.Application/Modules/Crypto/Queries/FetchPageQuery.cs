@@ -4,45 +4,30 @@ using Crypto.Application.Common.Models;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Application.Interfaces.Repositories.Models;
 using Crypto.Core.ReadModels;
-using FluentValidation;
 using MediatR;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries;
 
 public record FetchPageQuery(string? Symbol) : PageBaseQuery, IRequest<PageBaseResult<FetchPageResponseDto>>;
+public class FetchPageQueryValidator : PaginationValidator<FetchPageQuery>;
 
-public record FetchPageResponseDto
+public record FetchPageResponseDto(
+    Guid Id,
+    string Symbol,
+    string Name,
+    string Website,
+    string SourceCode,
+    decimal Price)
 {
-    public Guid Id { get; init; }
-    public string Symbol { get; init; } = null!;
-    public string Name { get; init; } = null!;
-    public string Website { get; init; } = null!;
-    public string SourceCode { get; init; } = null!;
-    public decimal Price { get; init; }
-}
-
-public class FetchPageQueryValidator : AbstractValidator<FetchPageQuery>
-{
-    public FetchPageQueryValidator()
-    {
-        RuleFor(i => i.Take).GreaterThan(0);
-        RuleFor(i => i.Page).GreaterThan(0);
-    }
+    public static FetchPageResponseDto From(CryptoLastPriceReadModel item)
+        => new(item.CryptoId, item.Symbol, item.Name, item.Website, item.SourceCode, item.LastPrice);
 }
 
 public class FetchPageQueryMapper : Profile
 {
     public FetchPageQueryMapper()
     {
-        CreateMap<CryptoLastPriceReadModel, FetchPageResponseDto>()
-            .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.CryptoId))
-            .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))
-            .ForMember(dst => dst.SourceCode, opt => opt.MapFrom(src => src.SourceCode))
-            .ForMember(dst => dst.Website, opt => opt.MapFrom(src => src.Website))
-            .ForMember(dst => dst.Price, opt => opt.MapFrom(src => src.LastPrice));
-
         CreateMap<FetchPageQuery, CryptoPricePageQuery>()
             .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page))
             .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
@@ -56,16 +41,18 @@ public class FetchPageQueryHandler(IMapper mapper, IUnitOfWork work, IFusionCach
     public async Task<PageBaseResult<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
     {
         var items = await cache.GetOrSetAsync(CacheKeys.FetchCryptoPageKey(request),
-            async (token) =>
-            {
-                var query = mapper.Map<CryptoPricePageQuery>(request);
-                var repoResult = await work.CryptoPriceRepo.GetPage(query, token);
-                var dtoItems = mapper.Map<List<FetchPageResponseDto>>(repoResult.Items);
-                return new PageBaseResult<FetchPageResponseDto>(repoResult.TotalCount, request.Page, dtoItems);
-            },
+            async (token) => await GetAssets(request, token),
             CacheKeys.FetchCryptoPageKeyOptions(),
             ct);
 
         return items;
+    }
+
+    private async Task<PageBaseResult<FetchPageResponseDto>> GetAssets(FetchPageQuery request, CancellationToken ct)
+    {
+        var query = mapper.Map<CryptoPricePageQuery>(request);
+        var repoResult = await work.CryptoPriceRepo.GetPage(query, ct);
+        var dtoItems = repoResult.Items.Select(FetchPageResponseDto.From).ToList();
+        return new PageBaseResult<FetchPageResponseDto>(repoResult.TotalCount, request.Page, dtoItems);
     }
 }
