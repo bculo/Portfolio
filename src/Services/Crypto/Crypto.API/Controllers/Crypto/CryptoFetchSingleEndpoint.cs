@@ -1,5 +1,4 @@
-using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
-using MediatR;
+using Crypto.Application.Modules.Crypto.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.Crypto;
@@ -13,6 +12,6 @@ public class CryptoFetchSingleEndpoint : CryptoBaseController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> FetchSingle(string symbol)
     {
-        return Ok(await Mediator.Send(new FetchSingleQuery { Symbol = symbol }));
+        return Ok(await Mediator.Send(new FetchSingleQuery(symbol)));
     }
 }

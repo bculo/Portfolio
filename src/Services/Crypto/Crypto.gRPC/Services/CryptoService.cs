@@ -1,4 +1,4 @@
-﻿using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+﻿using Crypto.Application.Modules.Crypto.Queries;
 using Crypto.gRPC.Protos.v1;
 using Grpc.Core;
 using MediatR;
@@ -9,7 +9,7 @@ namespace Crypto.gRPC.Services
     {
         public override async Task<FetchCryptoItemRequestResponse> FetchCryptoItem(FetchCryptoItemRequest request, ServerCallContext context)
         {
-            var result = await mediator.Send(new FetchSingleQuery { Symbol = request.Symbol });
+            var result = await mediator.Send(new FetchSingleQuery(request.Symbol));
 
             return new FetchCryptoItemRequestResponse
             {

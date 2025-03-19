@@ -1,4 +1,4 @@
-using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
+using Crypto.Application.Modules.Crypto.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.Crypto;
@@ -11,6 +11,6 @@ public class CryptoGetPriceHistoryEndpoint : CryptoBaseController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> FetchPriceHistory([FromRoute] Guid cryptoId)
     {
-        return Ok(await Mediator.Send(new FetchPriceHistoryQuery { CryptoId = cryptoId }));
+        return Ok(await Mediator.Send(new FetchPriceHistoryQuery(cryptoId)));
     }
 }

@@ -1,8 +1,7 @@
 using System.Text.Json;
 using Cache.Redis.Common;
 using Cache.Redis.Common.Models;
-using Crypto.Application.Modules.Crypto.Queries.FetchPage;
-using Crypto.Application.Modules.Crypto.Queries.FetchPriceHistory;
+using Crypto.Application.Modules.Crypto.Queries;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Common.Constants;

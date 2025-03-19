@@ -1,6 +1,6 @@
 using System.Net;
 using Crypto.API.Controllers;
-using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
+using Crypto.Application.Modules.Crypto.Queries;
 using Crypto.Shared.Builders;
 using FluentAssertions;
 using Http.Common.Extensions;

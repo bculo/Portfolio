@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Crypto.Application.Common.Constants;
-using Crypto.Application.Modules.Crypto.Queries.FetchSingle;
+using Crypto.Application.Modules.Crypto.Queries;
 using Events.Common.Crypto;
 using MassTransit;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,4 @@
-using Crypto.Application.Modules.Crypto.Queries.GetMostPopular;
+using Crypto.Application.Modules.Crypto.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.Crypto;

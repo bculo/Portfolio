@@ -1,5 +1,5 @@
 using Crypto.Application.Common.Models;
-using Crypto.Application.Modules.Crypto.Queries.FetchPage;
+using Crypto.Application.Modules.Crypto.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.API.Controllers.Crypto;
