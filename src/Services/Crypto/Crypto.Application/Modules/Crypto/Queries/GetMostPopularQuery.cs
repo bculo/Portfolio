@@ -2,8 +2,9 @@
 using Crypto.Application.Common.Extensions;
 using Crypto.Application.Common.Models;
 using Crypto.Application.Interfaces.Repositories;
-using Crypto.Core.ReadModels;
+using Crypto.Core.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries;
@@ -12,13 +13,13 @@ public record GetMostPopularQuery : TakeQuery, IRequest<List<GetMostPopularRespo
 
 public record GetMostPopularResponse(string Symbol, int Count)
 {
-    public static GetMostPopularResponse Mapper(MostPopularReadModel model) => new(model.Symbol, model.Count);
+    public static GetMostPopularResponse Mapper(KeyValuePair<string, int> pair) => new(pair.Key, pair.Value);
 }
 
 public class GetMostPopularQueryValidator : TakeValidator<GetMostPopularQuery>;
 
 public class GetMostPopularQueryHandler(
-    IUnitOfWork work,
+    IDateSourceProvider dataSourceProvider,
     IFusionCache cache)
     : IRequestHandler<GetMostPopularQuery, List<GetMostPopularResponse>>
 {
@@ -34,10 +35,16 @@ public class GetMostPopularQueryHandler(
 
     private async Task<List<GetMostPopularResponse>> GetPopularItems(int take, CancellationToken ct)
     {
-        var response = await work.VisitRepo.GetMostPopular(take, ct);
-        return response.Count == 0
+        var result = await dataSourceProvider.GetForEntity<VisitEntity>()
+            .Include(x => x.Crypto)
+            .GroupBy(i => i.Crypto.Symbol)
+            .OrderByDescending(i => i.Count())
+            .Take(take)
+            .ToDictionaryAsync(x => x.Key, x => x.Count(), ct);
+            
+        return result.Count == 0
             ? []
-            : response.MapTo(GetMostPopularResponse.Mapper);
+            : result.MapTo(GetMostPopularResponse.Mapper);
     }
 }
 

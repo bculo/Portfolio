@@ -38,6 +38,7 @@ namespace Crypto.Infrastructure
         private static void AddPersistenceStorage(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<CryptoDbContext>();
+            services.AddScoped<IDateSourceProvider, DataSourceProvider>();
             services.AddScoped<IConnectionProvider, DbContextConnectionProvider>();
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
