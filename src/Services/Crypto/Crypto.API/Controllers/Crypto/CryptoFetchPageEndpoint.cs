@@ -8,7 +8,7 @@ namespace Crypto.API.Controllers.Crypto;
 public class CryptoFetchPageEndpoint : CryptoBaseController
 {
     [HttpGet(EndpointsConfigurations.CryptoEndpoints.Page)]
-    [ProducesResponseType(typeof(PageBaseResult<FetchPageResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PageResult<FetchPageResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> FetchPage([FromQuery] FetchPageQuery query)
     {

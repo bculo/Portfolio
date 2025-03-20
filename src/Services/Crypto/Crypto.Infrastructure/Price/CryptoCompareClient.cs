@@ -9,81 +9,62 @@ using Newtonsoft.Json;
 
 namespace Crypto.Infrastructure.Price
 {
-    public class CryptoCompareClient(IHttpClientFactory httpClientFactory, IOptions<CryptoPriceApiOptions> options)
+    public class CryptoCompareClient(
+        IHttpClientFactory httpClientFactory, 
+        IOptions<CryptoPriceApiOptions> options)
         : ICryptoPriceService
     {
         private readonly CryptoPriceApiOptions _options = options.Value;
 
-        public async Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
+        public async Task<CryptoAssetPriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
         {
-            ArgumentNullException.ThrowIfNull(symbol);
-
             var client = httpClientFactory.CreateClient(ApiClient.CryptoPrice);
             var response = await client.GetAsync($"price?fsym={symbol.ToUpper()}&tsyms={_options.Currency}", ct);
             var content = await response.ExtractContentFromResponse();
 
-            if(IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
-            {
+            if(IsBadRequest(content))
                 throw new CryptoCoreException("Problem occurred on price fetch");
-            }
 
             var finalContent = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(content);
             if (finalContent is null)
-            {
                 throw new CryptoCoreException("Problem occurred on price fetch");
-            }
             
-            return new PriceResponse
-            {
-                Currency = _options.Currency,
-                Price = finalContent![_options.Currency],
-                Symbol = symbol.ToUpper()
-            };
+            return new CryptoAssetPriceResponse(symbol.ToUpper(), _options.Currency, finalContent[_options.Currency]);
         }
 
-        public async Task<List<PriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
+        public async Task<List<CryptoAssetPriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
         {
-            ArgumentNullException.ThrowIfNull(symbols);
-
             var client = httpClientFactory.CreateClient(ApiClient.CryptoPrice);
+            
             var response = await client.GetAsync(
                 $"pricemulti?fsyms={ConvertSymbolsArrayToString(symbols)}&tsyms={_options.Currency}", 
                 ct);
+            
             var content = await response.ExtractContentFromResponse();
             
-            if (IsBadRequest(content)) //Crypto compare returns status code 200 even if provided symbol incorrect
-            {
-                throw new CryptoCoreException("Problem occurred on price fetch");
-            }
+            if (IsBadRequest(content))
+                throw new CryptoCoreException("Couldn't fetch item price");
 
             var finalContent = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, decimal>>>(content);
             if (finalContent is null)
-            {
-                throw new CryptoCoreException("Problem occurred on price fetch");
-                
-            }
+                throw new CryptoCoreException("Couldn't fetch item price");
             
-            var finalResult = new List<PriceResponse>();
-            foreach(var item in finalContent)
-            {
-                finalResult.Add(new PriceResponse
-                {
-                    Currency = _options.Currency,
-                    Symbol = item.Key,
-                    Price = item.Value[_options.Currency]
-                });
-            }
+            List<CryptoAssetPriceResponse> finalResult = [];
+            finalResult.AddRange(finalContent.Select(item =>
+                new CryptoAssetPriceResponse(item.Key, _options.Currency, item.Value[_options.Currency])));
 
             return finalResult;
         }
 
+        /// <summary>
+        ///  Crypto compare returns status code 200 even if provided symbol incorrect
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         private bool IsBadRequest(string? content)
         {
             if(content is null)
-            {
                 return true;
-            }
-
             return content.Contains("Response") && content.Contains("Error") && content.Contains("Message");
         }
 

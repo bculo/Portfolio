@@ -4,6 +4,6 @@ namespace Crypto.Application.Interfaces.Information
 {
     public interface ICryptoInfoService
     {
-        Task<CryptoInformation> GetInformation(string symbol, CancellationToken ct = default);
+        Task<CryptoInfoDetailsResponse> GetInformation(string symbol, CancellationToken ct = default);
     }
 }

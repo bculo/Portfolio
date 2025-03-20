@@ -1,57 +1,43 @@
-﻿using AutoMapper;
-using Crypto.Application.Common.Constants;
+﻿using Crypto.Application.Common.Constants;
+using Crypto.Application.Common.Extensions;
+using Crypto.Application.Common.Models;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Core.ReadModels;
-using FluentValidation;
 using MediatR;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries;
 
-public record GetMostPopularQuery(int Take) : IRequest<List<GetMostPopularResponse>>;
+public record GetMostPopularQuery : TakeQuery, IRequest<List<GetMostPopularResponse>>;
 
-public record GetMostPopularResponse
+public record GetMostPopularResponse(string Symbol, int Count)
 {
-    public string Symbol { get; init; } = null!;
-    public int Count { get; init; }
+    public static GetMostPopularResponse Mapper(MostPopularReadModel model) => new(model.Symbol, model.Count);
 }
 
-public class GetMostPopularQueryValidator : AbstractValidator<GetMostPopularQuery>
-{
-    public GetMostPopularQueryValidator()
-    {
-        RuleFor(i => i.Take).GreaterThan(0);
-    }
-}
-
-public class GetMostPopularQueryMapper : Profile
-{
-    public GetMostPopularQueryMapper()
-    {
-        CreateMap<MostPopularReadModel, GetMostPopularResponse>();
-    }
-}
+public class GetMostPopularQueryValidator : TakeValidator<GetMostPopularQuery>;
 
 public class GetMostPopularQueryHandler(
     IUnitOfWork work,
-    IMapper mapper,
     IFusionCache cache)
     : IRequestHandler<GetMostPopularQuery, List<GetMostPopularResponse>>
 {
     public async Task<List<GetMostPopularResponse>> Handle(GetMostPopularQuery request, CancellationToken ct)
     {
         var items = await cache.GetOrSetAsync(CacheKeys.MostPopularKey(request.Take),
-            async (token) =>
-            {
-                var response = await work.VisitRepo.GetMostPopular(request.Take, token);
-                return response.Count == 0 
-                    ? []
-                    : mapper.Map<List<GetMostPopularResponse>>(response);
-            },
+            async (token) => await GetPopularItems(request.Take, token),
             CacheKeys.MostPopularKeyOptions(),
             ct);
 
-        return items ?? [];
+        return items;
+    }
+
+    private async Task<List<GetMostPopularResponse>> GetPopularItems(int take, CancellationToken ct)
+    {
+        var response = await work.VisitRepo.GetMostPopular(take, ct);
+        return response.Count == 0
+            ? []
+            : response.MapTo(GetMostPopularResponse.Mapper);
     }
 }
 

@@ -9,7 +9,7 @@ namespace Crypto.gRPC.Services
     {
         public override async Task<FetchCryptoItemRequestResponse> FetchCryptoItem(FetchCryptoItemRequest request, ServerCallContext context)
         {
-            var result = await mediator.Send(new FetchSingleQuery(request.Symbol));
+            var result = await mediator.Send(new FetchSingleQuery { Symbol = request.Symbol });
 
             return new FetchCryptoItemRequestResponse
             {

@@ -14,8 +14,8 @@ public static class CacheKeys
     public static string MostPopularKey(int limitNum) => $"popular:{EvictOnPriceRefresh}:{limitNum}";
     public static string FetchCryptoPageKey(FetchPageQuery query) 
         => $"page:{EvictOnPriceRefresh}:{JsonSerializer.Serialize(query)}";
-    public static string FetchPriceHistoryKey(FetchPriceHistoryQuery query)
-        => $"price:{EvictOnPriceRefresh}:{JsonSerializer.Serialize(query)}";
+    public static string FetchPriceHistoryKey(FetchPriceHistoryRepoQuery repoQuery)
+        => $"price:{EvictOnPriceRefresh}:{JsonSerializer.Serialize(repoQuery)}";
     
     public static Action<FusionCacheEntryOptions> SingleItemKeyOptions(CacheEntrySettings? settings = default)
     {

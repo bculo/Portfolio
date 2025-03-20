@@ -56,7 +56,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(ct);
         }
 
-        public async Task<PageResult<CryptoLastPriceReadModel>> GetPage(CryptoPricePageQuery req, CancellationToken ct = default)
+        public async Task<PageResult<CryptoLastPriceReadModel>> GetPage(CryptoPricePageRepoQuery req, CancellationToken ct = default)
         {
             var query = context.CryptoLastPrice.AsQueryable();
 

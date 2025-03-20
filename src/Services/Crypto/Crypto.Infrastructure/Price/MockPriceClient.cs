@@ -6,35 +6,28 @@ namespace Crypto.Infrastructure.Price;
 
 public class MockPriceClient(IUnitOfWork work) : ICryptoPriceService
 {
-    public async Task<PriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
+    private const decimal DefaultPriceValue = 0.0m;
+    
+    public async Task<CryptoAssetPriceResponse> GetPriceInfo(string symbol, CancellationToken ct = default)
     {
         var item = await work.CryptoPriceRepo.GetLastPrice(symbol, ct);
+        var response = new CryptoAssetPriceResponse(symbol, "USD", item?.LastPrice ?? DefaultPriceValue);
 
-        var price = item?.LastPrice ?? default(decimal);
-        
-        var response = new PriceResponse
+        Random random = new();
+        if (response.Price == DefaultPriceValue)
         {
-            Symbol = symbol,
-        };
-
-        var random = new Random();
-        
-        if (price == default)
-        {
-            response.Price = random.Next(50, 600);
+            response = response with { Price = random.Next(50, 600) };
             return response;
         }
         
-        var minValue = price - (price * 0.003m);
-        var maxValue = price + (price * 0.003m);
-        response.Price = (decimal)random.NextDouble() * (maxValue - minValue) + minValue;
-        
-        return response;
+        var minValue = response.Price - (response.Price * 0.003m);
+        var maxValue = response.Price + (response.Price * 0.003m);
+        return response with { Price = (decimal)random.NextDouble() * (maxValue - minValue) + minValue };
     }
 
-    public async Task<List<PriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
+    public async Task<List<CryptoAssetPriceResponse>> GetPriceInfo(List<string> symbols, CancellationToken ct = default)
     {
-        var finalResult = new List<PriceResponse>();
+        var finalResult = new List<CryptoAssetPriceResponse>();
         foreach(var symbol in symbols)
         {
             finalResult.Add(await GetPriceInfo(symbol, ct));

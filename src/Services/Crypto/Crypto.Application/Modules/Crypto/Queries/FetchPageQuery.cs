@@ -9,8 +9,8 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries;
 
-public record FetchPageQuery(string? Symbol) : PageBaseQuery, IRequest<PageBaseResult<FetchPageResponseDto>>;
-public class FetchPageQueryValidator : PaginationValidator<FetchPageQuery>;
+public record FetchPageQuery(string? Symbol) : PageQuery, IRequest<Common.Models.PageResult<FetchPageResponseDto>>;
+public class FetchPageQueryValidator : PageValidator<FetchPageQuery>;
 
 public record FetchPageResponseDto(
     Guid Id,
@@ -28,7 +28,7 @@ public class FetchPageQueryMapper : Profile
 {
     public FetchPageQueryMapper()
     {
-        CreateMap<FetchPageQuery, CryptoPricePageQuery>()
+        CreateMap<FetchPageQuery, CryptoPricePageRepoQuery>()
             .ForMember(dst => dst.Page, opt => opt.MapFrom(src => src.Page))
             .ForMember(dst => dst.Take, opt => opt.MapFrom(src => src.Take))
             .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol));
@@ -36,9 +36,9 @@ public class FetchPageQueryMapper : Profile
 }
 
 public class FetchPageQueryHandler(IMapper mapper, IUnitOfWork work, IFusionCache cache)
-    : IRequestHandler<FetchPageQuery, PageBaseResult<FetchPageResponseDto>>
+    : IRequestHandler<FetchPageQuery, Common.Models.PageResult<FetchPageResponseDto>>
 {
-    public async Task<PageBaseResult<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
+    public async Task<Common.Models.PageResult<FetchPageResponseDto>> Handle(FetchPageQuery request, CancellationToken ct)
     {
         var items = await cache.GetOrSetAsync(CacheKeys.FetchCryptoPageKey(request),
             async (token) => await GetAssets(request, token),
@@ -48,11 +48,11 @@ public class FetchPageQueryHandler(IMapper mapper, IUnitOfWork work, IFusionCach
         return items;
     }
 
-    private async Task<PageBaseResult<FetchPageResponseDto>> GetAssets(FetchPageQuery request, CancellationToken ct)
+    private async Task<Common.Models.PageResult<FetchPageResponseDto>> GetAssets(FetchPageQuery request, CancellationToken ct)
     {
-        var query = mapper.Map<CryptoPricePageQuery>(request);
+        var query = mapper.Map<CryptoPricePageRepoQuery>(request);
         var repoResult = await work.CryptoPriceRepo.GetPage(query, ct);
         var dtoItems = repoResult.Items.Select(FetchPageResponseDto.From).ToList();
-        return new PageBaseResult<FetchPageResponseDto>(repoResult.TotalCount, request.Page, dtoItems);
+        return new Common.Models.PageResult<FetchPageResponseDto>(repoResult.TotalCount, request.Page, dtoItems);
     }
 }

@@ -53,7 +53,7 @@ public class UpdateInfoCommandHandler(
     }
 
     private async Task UpdateInstance(Core.Entities.CryptoEntity entity, 
-        CryptoInformation infoResponse, 
+        CryptoInfoDetailsResponse infoResponse, 
         CancellationToken ct)
     {
         entity.Description = infoResponse.Description;

@@ -12,6 +12,6 @@ public class CryptoFetchSingleEndpoint : CryptoBaseController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> FetchSingle(string symbol)
     {
-        return Ok(await Mediator.Send(new FetchSingleQuery(symbol)));
+        return Ok(await Mediator.Send(new FetchSingleQuery  { Symbol = symbol }));
     }
 }

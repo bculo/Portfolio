@@ -69,7 +69,7 @@ public class AddNewCommandHandler(
         await publish.Publish(new EvictRedisListRequest(), ct);
     }
 
-    private CryptoPriceEntity CreateNewCryptoPriceEntity(PriceResponse result, Guid cryptoId)
+    private CryptoPriceEntity CreateNewCryptoPriceEntity(CryptoAssetPriceResponse result, Guid cryptoId)
     {
         return new CryptoPriceEntity
         {
@@ -79,7 +79,7 @@ public class AddNewCommandHandler(
         };
     }
 
-    private CryptoEntity CreateNewCryptoEntity(CryptoInformation info)
+    private CryptoEntity CreateNewCryptoEntity(CryptoInfoDetailsResponse info)
     {
         return new CryptoEntity
         {

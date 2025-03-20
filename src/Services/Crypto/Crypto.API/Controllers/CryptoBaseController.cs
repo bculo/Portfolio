@@ -8,5 +8,5 @@ namespace Crypto.API.Controllers;
 [ApiController]
 public class CryptoBaseController : ControllerBase
 {
-    public IMediator Mediator => HttpContext.RequestServices.GetService<IMediator>();
+    protected IMediator Mediator => HttpContext.RequestServices.GetService<IMediator>();
 }

@@ -46,7 +46,7 @@ public class UpdatePriceAllCommandHandler(
     }
 
     private (List<CryptoPriceEntity> price, List<CryptoPriceUpdated> events) GetInstances(
-        List<PriceResponse> priceResponses,
+        List<CryptoAssetPriceResponse> priceResponses,
         Dictionary<string, CryptoEntity> cryptoDict)
     {
         List<CryptoPriceEntity> prices = [];

@@ -45,7 +45,7 @@ namespace Crypto.Application.Interfaces.Repositories
 
         Task<PageResult<T>> Page(Expression<Func<T, bool>> predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            PageQuery pageQuery,
+            PageRepoQuery pageRepoQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
@@ -53,7 +53,7 @@ namespace Crypto.Application.Interfaces.Repositories
         
         Task<PageResult<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            PageQuery pageQuery,
+            PageRepoQuery pageRepoQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
@@ -61,7 +61,7 @@ namespace Crypto.Application.Interfaces.Repositories
         
         Task<PageResult<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            PageQuery pageQuery,
+            PageRepoQuery pageRepoQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,

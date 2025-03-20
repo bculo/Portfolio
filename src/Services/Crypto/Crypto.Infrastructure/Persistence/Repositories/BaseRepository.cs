@@ -102,7 +102,7 @@ namespace Crypto.Infrastructure.Persistence.Repositories
 
         public async Task<PageResult<T>> Page(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            PageQuery pageQuery,
+            PageRepoQuery pageRepoQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
@@ -114,17 +114,17 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
+                .ApplyPagination(pageRepoQuery.Skip, pageRepoQuery.Take)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
 
-            return new PageResult<T>(totalCount, pageQuery.Page, items);
+            return new PageResult<T>(totalCount, pageRepoQuery.Page, items);
         }
 
         public async Task<PageResult<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            PageQuery pageQuery,
+            PageRepoQuery pageRepoQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
@@ -136,17 +136,17 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
+                .ApplyPagination(pageRepoQuery.Skip, pageRepoQuery.Take)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
             
-            return new PageResult<T>(totalCount, pageQuery.Page, items);
+            return new PageResult<T>(totalCount, pageRepoQuery.Page, items);
         }
 
         public async Task<PageResult<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-            PageQuery pageQuery,
+            PageRepoQuery pageRepoQuery,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
             bool track = false,
             bool splitQuery = false,
@@ -158,12 +158,12 @@ namespace Crypto.Infrastructure.Persistence.Repositories
             var items = await query
                 .ApplyInclude(include)
                 .ApplyOrderBy(orderBy)
-                .ApplyPagination(pageQuery.Skip, pageQuery.Take)
+                .ApplyPagination(pageRepoQuery.Skip, pageRepoQuery.Take)
                 .ApplyTracking(track)
                 .ApplySplitQuery(splitQuery)
                 .ToListAsync(ct);
             
-            return new PageResult<T>(totalCount, pageQuery.Page, items);
+            return new PageResult<T>(totalCount, pageRepoQuery.Page, items);
         }
     }
 }

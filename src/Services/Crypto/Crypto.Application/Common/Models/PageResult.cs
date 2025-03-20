@@ -1,7 +1,6 @@
 namespace Crypto.Application.Common.Models;
 
-public class PageBaseResult<T>(long totalCount, int page, List<T> items)
-    where T : class
+public class PageResult<T>(long totalCount, int page, List<T> items) where T : class
 {
     public long TotalCount { get; init; } = totalCount;
     public long FetchCount { get; init; } = items.Count;

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Crypto.Application.Common.Constants;
 using Crypto.Application.Common.Extensions;
+using Crypto.Application.Common.Models;
 using Crypto.Application.Interfaces.Repositories;
 using Crypto.Core.Exceptions;
 using Crypto.Core.ReadModels;
@@ -12,44 +13,22 @@ using ZiggyCreatures.Caching.Fusion;
 
 namespace Crypto.Application.Modules.Crypto.Queries;
 
-public record FetchSingleQuery(string Symbol) : IRequest<FetchSingleResponseDto>;
+public record FetchSingleQuery : SymbolQuery, IRequest<FetchSingleResponseDto>;
 
-public record FetchSingleResponseDto
+public record FetchSingleResponseDto(
+    Guid Id,
+    string Symbol,
+    string Name,
+    decimal Price
+)
 {
-    public Guid Id { get; init; }
-    public string Symbol { get; init; } = null!;
-    public string Name { get; init; } = null!;
-    public decimal Price { get; init; }
+    public static FetchSingleResponseDto Mapper(CryptoLastPriceReadModel m)
+        => new(m.CryptoId, m.Symbol, m.Name, m.LastPrice);
 }
 
-public class FetchSingleQueryValidator : AbstractValidator<FetchSingleQuery>
-{
-    public FetchSingleQueryValidator()
-    {
-        RuleFor(i => i.Symbol).WithSymbolRule();
-    }
-}
-
-public class FetchSingleQueryMapper : Profile
-{
-    public FetchSingleQueryMapper()
-    {
-        CreateMap<CryptoPriceUpdated, FetchSingleResponseDto>()
-            .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))
-            .ForMember(dst => dst.Price, opt => opt.MapFrom(src => src.Price));
-            
-        CreateMap<CryptoLastPriceReadModel, FetchSingleResponseDto>()
-            .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.CryptoId))
-            .ForMember(dst => dst.Symbol, opt => opt.MapFrom(src => src.Symbol))
-            .ForMember(dst => dst.Price, opt => opt.MapFrom(src => src.LastPrice));
-    }
-}
+public class FetchSingleQueryValidator : SymbolQueryValidator<FetchSingleQuery>;
 
 public class FetchSingleQueryHandler(
-    IMapper mapper,
     IUnitOfWork work,
     IPublishEndpoint publish,
     IFusionCache cache)
@@ -58,18 +37,12 @@ public class FetchSingleQueryHandler(
     public async Task<FetchSingleResponseDto> Handle(FetchSingleQuery request, CancellationToken ct)
     {
         var item = await cache.GetOrSetAsync(CacheKeys.SingleItemKey(request.Symbol),
-            async (token) =>
-            {
-                var instance = await work.CryptoPriceRepo.GetLastPrice(request.Symbol, token);
-                return instance is null ? null : mapper.Map<FetchSingleResponseDto>(instance);
-            },
+            async (token) => await GetRecord(request, token),
             CacheKeys.SingleItemKeyOptions(),
             ct);
 
         if (item == null)
-        {
             throw new CryptoCoreNotFoundException($"Item with symbol {request.Symbol} not found");
-        }
             
         await publish.Publish(new Visited
         {
@@ -78,5 +51,13 @@ public class FetchSingleQueryHandler(
         }, ct);
             
         return item;
+    }
+
+    private async Task<FetchSingleResponseDto?> GetRecord(FetchSingleQuery query, CancellationToken ct)
+    {
+        var instance = await work.CryptoPriceRepo.GetLastPrice(query.Symbol, ct);
+        return instance is null 
+            ? null 
+            : FetchSingleResponseDto.Mapper(instance);
     }
 }

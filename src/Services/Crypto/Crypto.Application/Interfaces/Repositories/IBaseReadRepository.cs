@@ -22,28 +22,28 @@ public interface IBaseReadRepository<T> where T : class
 
     Task<PageResult<T>> PageDynamic(List<QueryFilter> filters,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-        PageQuery pageQuery,
+        PageRepoQuery pageRepoQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
     
     Task<PageResult<T>> Page(Expression<Func<T, bool>> predicates,
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-        PageQuery pageQuery,
+        PageRepoQuery pageRepoQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
         
     Task<PageResult<T>> PageMatchAll(Expression<Func<T, bool>>[] predicates, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-        PageQuery pageQuery,
+        PageRepoQuery pageRepoQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);
         
     Task<PageResult<T>> PageMatchAny(Expression<Func<T, bool>>[] predicates, 
         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
-        PageQuery pageQuery,
+        PageRepoQuery pageRepoQuery,
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default,
         bool splitQuery = false,
         CancellationToken ct = default);

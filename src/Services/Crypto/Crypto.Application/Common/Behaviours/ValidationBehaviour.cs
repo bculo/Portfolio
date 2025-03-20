@@ -26,16 +26,13 @@ namespace Crypto.Application.Common.Behaviours
                 .Where(f => f != null)
                 .ToList();
 
-            if (failures.Count != 0)
-            {
-                var errors = failures
-                    .GroupBy(e => e.PropertyName)
-                    .ToDictionary(x => x.Key, y => y.Select(i => i.ErrorMessage).ToArray());
+            if (failures.Count == 0) return await next();
+            
+            var errors = failures
+                .GroupBy(e => e.PropertyName)
+                .ToDictionary(x => x.Key, y => y.Select(i => i.ErrorMessage).ToArray());
 
-                throw new CryptoCoreValidationException(errors);
-            }
-
-            return await next();
+            throw new CryptoCoreValidationException(errors);
         }
     }
 }
